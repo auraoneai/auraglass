@@ -20,6 +20,13 @@ export interface IndexableDocument {
   tags?: string[];
 }
 
+type PineconeIndexSummary = {
+  name?: string;
+  status?: {
+    ready?: boolean;
+  };
+};
+
 export class SemanticSearchService {
   private pinecone: Pinecone;
   private openai: OpenAI;
@@ -44,7 +51,7 @@ export class SemanticSearchService {
 
       const indexes = await this.pinecone.listIndexes();
       const indexExists = indexes.indexes?.some(
-        (idx) => idx.name === this.config.pinecone.indexName
+        (idx: PineconeIndexSummary) => idx.name === this.config.pinecone.indexName
       );
 
       if (!indexExists) {
@@ -81,7 +88,7 @@ export class SemanticSearchService {
     for (let i = 0; i < maxAttempts; i++) {
       const indexes = await this.pinecone.listIndexes();
       const index = indexes.indexes?.find(
-        (idx) => idx.name === this.config.pinecone.indexName
+        (idx: PineconeIndexSummary) => idx.name === this.config.pinecone.indexName
       );
 
       if (index?.status?.ready) {
