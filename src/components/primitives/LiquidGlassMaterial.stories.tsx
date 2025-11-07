@@ -91,9 +91,9 @@ export const Default: Story = {
     interactive: false,
     className: 'w-64 h-40 p-6',
     children: (
-      <div className="glass-glass-glass-text-primary">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Liquid Glass</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">
+      <div className="text-primary">
+        <h3 className="text-lg font-semibold mb-2">Liquid Glass</h3>
+        <p className="text-sm opacity-80">
           Experience Apple-quality liquid glass with physically accurate refraction and environmental adaptation.
         </p>
       </div>
@@ -108,9 +108,9 @@ export const HighIOR: Story = {
     thickness: 20,
     tint: { r: 59, g: 130, b: 246, a: 0.15 },
     children: (
-      <div className="glass-glass-glass-text-primary">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">High IOR Glass</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">
+      <div className="text-primary">
+        <h3 className="text-lg font-semibold mb-2">High IOR Glass</h3>
+        <p className="text-sm opacity-80">
           Enhanced refraction creates dramatic depth and crystal-like appearance.
         </p>
       </div>
@@ -127,9 +127,9 @@ export const UltraClear: Story = {
     variant: 'clear',
     quality: 'ultra',
     children: (
-      <div className="glass-glass-glass-text-primary">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Ultra Clear</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">
+      <div className="text-primary">
+        <h3 className="text-lg font-semibold mb-2">Ultra Clear</h3>
+        <p className="text-sm opacity-80">
           Minimal visual weight with water-like transparency.
         </p>
       </div>
@@ -144,9 +144,9 @@ export const Interactive: Story = {
     thickness: 16,
     tint: { r: 34, g: 197, b: 94, a: 0.12 },
     children: (
-      <div className="glass-glass-glass-text-primary">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Interactive Surface</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">
+      <div className="text-primary">
+        <h3 className="text-lg font-semibold mb-2">Interactive Surface</h3>
+        <p className="text-sm opacity-80">
           Hover and interact to see micro-refraction effects in action.
         </p>
       </div>
@@ -156,7 +156,7 @@ export const Interactive: Story = {
 
 export const QualityComparison: Story = {
   render: () => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 glass-glass-glass-p-6">
+    <div className="grid grid-cols-2 gap-6 p-6">
       {(['ultra', 'high', 'balanced', 'efficient'] as const).map((quality) => (
         <LiquidGlassMaterial
           key={quality}
@@ -167,11 +167,11 @@ export const QualityComparison: Story = {
           quality={quality}
           environmentAdaptation
           motionResponsive
-          className="glass-glass-glass-w-48 glass-glass-glass-h-32 glass-glass-glass-p-4"
+          className="w-48 h-32 p-4"
         >
-          <div className="glass-glass-glass-text-primary">
-            <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-1 glass-glass-glass-capitalize">{quality} Quality</h4>
-            <p className="glass-glass-glass-text-xs opacity-70">
+          <div className="text-primary">
+            <h4 className="font-medium mb-1 capitalize">{quality} Quality</h4>
+            <p className="text-xs opacity-70">
               {quality === 'ultra' && 'Maximum fidelity'}
               {quality === 'high' && 'Balanced performance'}
               {quality === 'balanced' && 'Optimized rendering'}
@@ -186,7 +186,7 @@ export const QualityComparison: Story = {
 
 export const MaterialVariants: Story = {
   render: () => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 glass-glass-glass-p-6">
+    <div className="grid grid-cols-2 gap-6 p-6">
       <LiquidGlassMaterial
         ior={1.45}
         thickness={12}
@@ -195,11 +195,11 @@ export const MaterialVariants: Story = {
         quality="high"
         environmentAdaptation
         motionResponsive
-        className="glass-glass-glass-w-48 glass-glass-glass-h-32 glass-glass-glass-p-4"
+        className="w-48 h-32 p-4"
       >
-        <div className="glass-glass-glass-text-primary">
-          <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-1">Regular Variant</h4>
-          <p className="glass-glass-glass-text-xs opacity-70">
+        <div className="text-primary">
+          <h4 className="font-medium mb-1">Regular Variant</h4>
+          <p className="text-xs opacity-70">
             Standard liquid glass with subtle refraction and depth.
           </p>
         </div>
@@ -213,11 +213,11 @@ export const MaterialVariants: Story = {
         quality="high"
         environmentAdaptation
         motionResponsive
-        className="glass-glass-glass-w-48 glass-glass-glass-h-32 glass-glass-glass-p-4"
+        className="w-48 h-32 p-4"
       >
-        <div className="glass-glass-glass-text-primary">
-          <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-1">Clear Variant</h4>
-          <p className="glass-glass-glass-text-xs opacity-70">
+        <div className="text-primary">
+          <h4 className="font-medium mb-1">Clear Variant</h4>
+          <p className="text-xs opacity-70">
             Ultra-transparent with minimal visual weight.
           </p>
         </div>
@@ -228,7 +228,7 @@ export const MaterialVariants: Story = {
 
 export const ColorfulTints: Story = {
   render: () => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4 glass-glass-glass-p-6">
+    <div className="grid grid-cols-3 gap-4 p-6">
       {[
         { name: 'Blue', tint: { r: 59, g: 130, b: 246, a: 0.12 } },
         { name: 'Green', tint: { r: 34, g: 197, b: 94, a: 0.12 } },
@@ -246,10 +246,10 @@ export const ColorfulTints: Story = {
           quality="high"
           environmentAdaptation
           motionResponsive
-          className="glass-glass-glass-w-32 glass-glass-glass-h-24 glass-glass-glass-p-3"
+          className="w-32 h-24 p-3"
         >
-          <div className="glass-glass-glass-text-primary glass-glass-glass-text-center">
-            <h5 className="glass-glass-glass-text-sm glass-glass-glass-font-medium">{name}</h5>
+          <div className="text-primary text-center">
+            <h5 className="text-sm font-medium">{name}</h5>
           </div>
         </LiquidGlassMaterial>
       ))}
@@ -259,7 +259,7 @@ export const ColorfulTints: Story = {
 
 export const ThicknessVariations: Story = {
   render: () => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 glass-glass-glass-p-6">
+    <div className="grid grid-cols-4 gap-4 p-6">
       {[4, 8, 16, 32].map((thickness) => (
         <LiquidGlassMaterial
           key={thickness}
@@ -270,11 +270,11 @@ export const ThicknessVariations: Story = {
           quality="high"
           environmentAdaptation
           motionResponsive
-          className="glass-glass-glass-w-32 glass-glass-glass-h-24 glass-glass-glass-p-3"
+          className="w-32 h-24 p-3"
         >
-          <div className="glass-glass-glass-text-primary glass-glass-glass-text-center">
-            <h5 className="glass-glass-glass-text-sm glass-glass-glass-font-medium">{thickness}px</h5>
-            <p className="glass-glass-glass-text-xs opacity-70">thickness</p>
+          <div className="text-primary text-center">
+            <h5 className="text-sm font-medium">{thickness}px</h5>
+            <p className="text-xs opacity-70">thickness</p>
           </div>
         </LiquidGlassMaterial>
       ))}
@@ -287,15 +287,15 @@ export const Playground: Story = {
     ...Default.args,
     className: 'w-96 h-64 p-8',
     children: (
-      <div className="glass-glass-glass-text-primary glass-glass-glass-h-full glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-justify-between">
+      <div className="text-primary h-full flex flex-col justify-between">
         <div>
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-mb-3">Liquid Glass Playground</h2>
-          <p className="glass-glass-glass-text-sm opacity-80 glass-glass-glass-mb-4">
+          <h2 className="text-xl font-bold mb-3">Liquid Glass Playground</h2>
+          <p className="text-sm opacity-80 mb-4">
             Adjust the controls in the Storybook panel to experiment with different IOR values, 
             thickness, tints, and quality settings.
           </p>
         </div>
-        <div className="glass-glass-glass-text-xs opacity-60">
+        <div className="text-xs opacity-60">
           <p>🔬 Physics: Real-time IOR calculations</p>
           <p>🌍 Adaptive: Content-aware environmental tinting</p>
           <p>⚡ Performance: GPU-accelerated with CSS fallbacks</p>

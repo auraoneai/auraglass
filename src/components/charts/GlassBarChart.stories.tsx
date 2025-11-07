@@ -71,7 +71,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-8">
+    <div className="flex flex-col gap-8">
       <GlassBarChart {...args} showGrid={true} showDataLabels={true} />
       <GlassBarChart {...args} showGrid={false} showDataLabels={false} showLegend={false} />
     </div>

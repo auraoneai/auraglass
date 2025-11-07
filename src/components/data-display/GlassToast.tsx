@@ -140,25 +140,25 @@ export const GlassToast: React.FC<GlassToastProps> = ({
         switch (type) {
             case 'success':
                 return {
-                    icon: <CheckCircle className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />,
+                    icon: <CheckCircle className="w-5 h-5 text-primary" />,
                     borderColor: 'border-green-400/30',
                     bgColor: 'bg-green-500/10',
                 };
             case 'error':
                 return {
-                    icon: <AlertCircle className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />,
+                    icon: <AlertCircle className="w-5 h-5 text-primary" />,
                     borderColor: 'border-red-400/30',
                     bgColor: 'bg-red-500/10',
                 };
             case 'warning':
                 return {
-                    icon: <AlertTriangle className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />,
+                    icon: <AlertTriangle className="w-5 h-5 text-primary" />,
                     borderColor: 'border-yellow-400/30',
                     bgColor: 'bg-yellow-500/10',
                 };
             default:
                 return {
-                    icon: <Info className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />,
+                    icon: <Info className="w-5 h-5 text-primary" />,
                     borderColor: 'border-blue-400/30',
                     bgColor: 'bg-blue-500/10',
                 };
@@ -195,7 +195,7 @@ export const GlassToast: React.FC<GlassToastProps> = ({
             >
                 {/* Progress bar */}
                 {duration > 0 && (
-                    <div className="glass-glass-glass-absolute top-0 left-0 right-0 glass-glass-glass-h-1 glass-surface-subtle/20 glass-radius-t-lg overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-1 glass-surface-subtle/20 glass-radius-t-lg overflow-hidden">
                         <div
                             className={cn(
                                 'h-full transition-all duration-100 ease-linear',
@@ -206,22 +206,22 @@ export const GlassToast: React.FC<GlassToastProps> = ({
                     </div>
                 )}
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
+                <div className="flex items-start gap-3">
                     {/* Icon */}
-                    <div className="glass-glass-glass-flex-shrink-0 glass-mt-0-5">
+                    <div className="flex-shrink-0 glass-mt-0-5">
                         {icon}
                     </div>
 
                     {/* Content */}
-                    <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+                    <div className="flex-1 min-w-0">
                         {title && (
-                            <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-text-sm leading-tight glass-glass-glass-mb-1">
+                            <h4 className="text-primary font-medium text-sm leading-tight mb-1">
                                 {title}
                             </h4>
                         )}
 
                         {description && (
-                            <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm leading-relaxed">
+                            <p className="text-primary/80 text-sm leading-relaxed">
                                 {description}
                             </p>
                         )}
@@ -240,10 +240,10 @@ export const GlassToast: React.FC<GlassToastProps> = ({
                     {/* Close button */}
                     <GlassButton
                         onClick={handleDismiss}
-                        className="glass-glass-glass-flex-shrink-0 glass-glass-glass-p-1 glass-radius-md hover:glass-surface-subtle/10 transition-colors duration-200"
+                        className="flex-shrink-0 p-1 glass-radius-md hover:glass-surface-subtle/10 transition-colors duration-200"
                         aria-label="Close toast"
                     >
-                        <X className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary/60 hover:glass-glass-glass-text-primary" />
+                        <X className="w-4 h-4 text-primary/60 hover:text-primary" />
                     </GlassButton>
                 </div>
             </OptimizedGlass>

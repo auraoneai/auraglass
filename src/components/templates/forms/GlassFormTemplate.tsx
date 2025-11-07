@@ -242,10 +242,10 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
       return (
         <VStack space="md">
           <HStack space="sm" align="center" justify="between">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+            <span className="text-sm font-medium text-primary">
               Step {currentStep + 1} of {totalSteps}
             </span>
-            <span className="glass-glass-glass-text-sm glass-text-secondary">
+            <span className="text-sm glass-text-secondary">
               {Math.round(getProgress())}% Complete
             </span>
           </HStack>
@@ -257,7 +257,7 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
             showValue={false}
           />
           
-          <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
+          <div className="flex justify-between">
             {steps.map((step, index) => (
               <div
                 key={step.id}
@@ -278,7 +278,7 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
                 )}>
                   {index < currentStep ? '✓' : index + 1}
                 </div>
-                <span className="glass-glass-glass-text-xs glass-glass-glass-text-center max-glass-glass-glass-w-16 glass-glass-glass-truncate">
+                <span className="text-xs text-center max-w-16 truncate">
                   {step.title}
                 </span>
               </div>
@@ -344,7 +344,7 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
         {/* Current step header */}
         {isMultiStep && currentStepData && (
           <VStack space="sm">
-            <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">
+            <h2 className="text-xl font-semibold text-primary">
               {currentStepData.title}
             </h2>
             {currentStepData.description && (
@@ -356,7 +356,7 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
         )}
 
         {/* Form */}
-        <div className="glass-glass-glass-flex-1">
+        <div className="flex-1">
           <GlassFormBuilder
             schema={currentSchema || []}
             values={internalValues}
@@ -382,8 +382,8 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
       switch (layout) {
         case 'centered':
           return (
-            <div className="max-w-2xl glass-glass-glass-mx-auto">
-              <GlassCard variant="default" className="glass-glass-glass-p-8">
+            <div className="max-w-2xl mx-auto">
+              <GlassCard variant="default" className="p-8">
                 {renderFormContent()}
               </GlassCard>
             </div>
@@ -391,9 +391,9 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
 
         case 'sidebar':
           return (
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-12 glass-glass-glass-gap-8">
+            <div className="grid grid-cols-12 gap-8">
               <div className="col-span-8">
-                <GlassCard variant="default" className="glass-glass-glass-p-6">
+                <GlassCard variant="default" className="p-6">
                   {renderFormContent()}
                 </GlassCard>
               </div>
@@ -405,7 +405,7 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
 
         default:
           return (
-            <GlassCard variant="default" className="glass-glass-glass-p-6">
+            <GlassCard variant="default" className="p-6">
               {renderFormContent()}
             </GlassCard>
           );

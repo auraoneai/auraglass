@@ -19,7 +19,7 @@ export function GlassStepper({ steps, active, onChange, className }: GlassSteppe
         const isActive = s.id === active;
         const wasJustActivated = isActive && lastActiveRef.current !== active;
         return (
-          <div key={s.id} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+          <div key={s.id} className="flex items-center gap-3">
             <button
               type="button"
               aria-current={isActive ? 'step' : undefined}
@@ -34,7 +34,7 @@ export function GlassStepper({ steps, active, onChange, className }: GlassSteppe
                 {s.label}
               </span>
             </button>
-            {i < steps.length - 1 && <div className="glass-glass-glass-w-8 glass-glass-glass-h-px glass-surface-subtle/15" />}
+            {i < steps.length - 1 && <div className="w-8 h-px glass-surface-subtle/15" />}
           </div>
         );
       })}

@@ -100,7 +100,7 @@ const ComponentRenderer: React.FC<{
             )}
           >
             {component.children.length === 0 ? (
-              <span className="glass-text-secondary glass-glass-glass-text-sm">Drop components here</span>
+              <span className="glass-text-secondary text-sm">Drop components here</span>
             ) : (
               component.children.map(child => (
                 <ComponentRenderer
@@ -133,7 +133,7 @@ const ComponentRenderer: React.FC<{
             )}
           >
             {component.children.length === 0 ? (
-              <span className="glass-text-secondary glass-glass-glass-text-sm">Add columns here</span>
+              <span className="glass-text-secondary text-sm">Add columns here</span>
             ) : (
               component.children.map(child => (
                 <ComponentRenderer
@@ -166,7 +166,7 @@ const ComponentRenderer: React.FC<{
             )}
           >
             {component.children.length === 0 ? (
-              <span className="glass-text-secondary glass-glass-glass-text-sm">Column content</span>
+              <span className="glass-text-secondary text-sm">Column content</span>
             ) : (
               component.children.map(child => (
                 <ComponentRenderer
@@ -204,7 +204,7 @@ const ComponentRenderer: React.FC<{
                   if (e.key === 'Escape') setIsEditing(null);
                 }}
                 autoFocus
-                className="glass-glass-glass-bg-transparent glass-glass-glass-border-none outline-none glass-glass-glass-w-full"
+                className="bg-transparent border-none outline-none w-full"
               />
             ) : (
               component.props.content
@@ -237,7 +237,7 @@ const ComponentRenderer: React.FC<{
                   if (e.key === 'Escape') setIsEditing(null);
                 }}
                 autoFocus
-                className="glass-glass-glass-bg-transparent glass-glass-glass-border-none outline-none glass-glass-glass-w-full"
+                className="bg-transparent border-none outline-none w-full"
               />
             ) : (
               component.props.content
@@ -314,7 +314,7 @@ const ComponentRenderer: React.FC<{
             )}
           >
             {component.children.length === 0 ? (
-              <span className="glass-text-secondary glass-glass-glass-text-sm">Card content goes here</span>
+              <span className="glass-text-secondary text-sm">Card content goes here</span>
             ) : (
               component.children.map(child => (
                 <ComponentRenderer
@@ -330,7 +330,7 @@ const ComponentRenderer: React.FC<{
 
       default:
         return (
-          <div style={baseStyle} className="glass-glass-glass-p-4 glass-glass-glass-border glass-glass-glass-border-subtle glass-surface-subtle glass-glass-glass-text-primary">
+          <div style={baseStyle} className="p-4 border border-subtle glass-surface-subtle text-primary">
             Unknown component type: {component.type}
           </div>
         );
@@ -353,8 +353,8 @@ const ComponentRenderer: React.FC<{
       
       {/* Selection Overlay */}
       {isSelected && (
-        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none glass-glass-glass-border-2 glass-radius glass-surface-overlay">
-          <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-0 glass-surface-overlay glass-glass-glass-text-primary glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-radius-t glass-glass-glass-font-medium">
+        <div className="absolute inset-0 pointer-events-none border-2 glass-radius glass-surface-overlay">
+          <div className="absolute glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-0 glass-surface-overlay text-primary px-2 py-1 text-xs glass-radius-t font-medium">
             {component.type}
           </div>
         </div>
@@ -362,8 +362,8 @@ const ComponentRenderer: React.FC<{
       
       {/* Hover Overlay */}
       {!isSelected && (
-        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity glass-glass-glass-border-2 glass-glass-glass-border-blue glass-radius glass-surface-subtle bg-opacity-5">
-          <div className="glass-glass-glass-absolute -top-6 left-0 glass-surface-subtle glass-glass-glass-text-primary glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-radius-t glass-glass-glass-font-medium">
+        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity border-2 border-blue glass-radius glass-surface-subtle bg-opacity-5">
+          <div className="absolute -top-6 left-0 glass-surface-subtle text-primary px-2 py-1 text-xs glass-radius-t font-medium">
             {component.type}
           </div>
         </div>
@@ -412,29 +412,29 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
 
   return (
     <div className={cn("flex-1 h-full flex flex-col overflow-hidden", className)}>
-      <Glass className="glass-glass-glass-flex-1 glass-glass-glass-flex glass-glass-glass-flex-col">
+      <Glass className="flex-1 flex flex-col">
         {/* Canvas Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-subtle">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">Canvas</span>
-            <span className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-capitalize">
+        <div className="flex items-center justify-between p-4 border-b border-subtle">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium glass-text-secondary">Canvas</span>
+            <span className="text-xs glass-text-secondary capitalize">
               ({pageState.activeBreakpoint})
             </span>
             {pageState.previewMode && (
-              <span className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-subtle glass-glass-glass-text-primary glass-radius">
+              <span className="px-2 py-1 text-xs glass-surface-subtle text-primary glass-radius">
                 Preview Mode
               </span>
             )}
           </div>
           
-          <div className="glass-glass-glass-text-xs glass-text-secondary">
+          <div className="text-xs glass-text-secondary">
             {pageState.components.length} components
           </div>
         </div>
 
         {/* Canvas Content */}
         <div 
-          className="glass-glass-glass-flex-1 glass-glass-glass-overflow-auto glass-glass-glass-p-6 glass-surface-subtle"
+          className="flex-1 overflow-auto p-6 glass-surface-subtle"
           style={{
             backgroundImage: pageState.showGrid 
               ? 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)'
@@ -443,7 +443,7 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
           }}
         >
           <div 
-            className="glass-glass-glass-mx-auto glass-surface-subtle glass-glass-min-glass-glass-h-full glass-glass-glass-shadow-sm transition-all duration-300"
+            className="mx-auto glass-surface-subtle glass-min-h-full shadow-sm transition-all duration-300"
             style={breakpointStyles[pageState.activeBreakpoint]}
           >
             <div
@@ -458,16 +458,16 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
             >
               {pageState.components.length === 0 ? (
                 // Empty State
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-min-glass-glass-h-96 glass-glass-glass-p-12">
-                  <div className="glass-glass-glass-text-center">
-                    <div className="glass-glass-glass-text-6xl glass-glass-glass-mb-4">🎨</div>
-                    <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+                <div className="flex items-center justify-center glass-min-glass-h-96 p-12">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">🎨</div>
+                    <h3 className="text-lg font-medium glass-text-secondary mb-2">
                       Start Building Your Page
                     </h3>
                     <p className="glass-text-secondary mb-6 max-w-sm">
                       Drag components from the palette on the left to start building your page.
                     </p>
-                    <div className="glass-glass-glass-space-y-2 glass-glass-glass-text-sm glass-text-secondary">
+                    <div className="space-y-2 text-sm glass-text-secondary">
                       <p>💡 Try dragging a Container or Row component first</p>
                       <p>🖱️ Double-click text elements to edit them inline</p>
                       <p>⌨️ Use Ctrl+Z to undo changes</p>
@@ -476,11 +476,11 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
                 </div>
               ) : (
                 // Render Components
-                <div className="glass-glass-glass-p-4 glass-glass-glass-space-y-4">
+                <div className="p-4 space-y-4">
                   {pageState.components
                     .filter(component => !component.parent) // Only root components
                     .map(component => (
-                    <div key={component.id} className="glass-glass-glass-relative">
+                    <div key={component.id} className="relative">
                       <DropZone
                         position="before"
                         isActive={dragOverTarget.id === component.id && dragOverTarget.position === 'before'}
@@ -510,8 +510,8 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
               
               {/* Global Drop Zone Overlay */}
               {dragDropState.isDragging && (
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none">
-                  <div className="glass-glass-glass-h-full glass-glass-glass-w-full glass-glass-glass-border-4 glass-glass-glass-border-dashed glass-glass-glass-border-blue opacity-50 glass-radius-lg" />
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="h-full w-full border-4 border-dashed border-blue opacity-50 glass-radius-lg" />
                 </div>
               )}
             </div>

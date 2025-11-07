@@ -343,14 +343,14 @@ export function GlassLiveCursorPresence({
       </AnimatePresence>
       
       {/* Connection status indicator */}
-      <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+      <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 flex items-center gap-2">
         <div
           className={cn(
             "w-2 h-2 glass-radius-full transition-colors",
             isConnected ? "bg-green-400" : "bg-red-400"
           )}
         />
-        <span className="glass-glass-glass-text-xs glass-text-secondary">
+        <span className="text-xs glass-text-secondary">
           {cursors.size} user{cursors.size !== 1 ? 's' : ''} online
         </span>
       </div>
@@ -380,7 +380,7 @@ function LiveCursorComponent({
       {showTrail && cursor.trail.map((trailPoint, index) => (
         <motion.div
           key={`trail-${cursor.id}-${index}`}
-          className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none"
+          className="absolute pointer-events-none"
           initial={{ opacity: 0, scale: 0 }}
           animate={{
             opacity: (1 - index / cursor.trail.length) * 0.5,
@@ -411,7 +411,7 @@ function LiveCursorComponent({
       
       {/* Main cursor */}
       <motion.div
-        className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none glass-glass-glass-z-50"
+        className="absolute pointer-events-none z-50"
         initial={{ opacity: 0, scale: 0, rotate: 0 }}
         animate={{
           opacity: 1,
@@ -456,7 +456,7 @@ function LiveCursorComponent({
           {/* Typing indicator */}
           {cursor.isTyping && (
             <motion.div
-              className="glass-glass-glass-absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-green glass-radius-full"
+              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 1 }}
             />
@@ -481,7 +481,7 @@ function LiveCursorComponent({
               <img
                 src={cursor.avatar}
                 alt={cursor.name}
-                className="inline-glass-glass-glass-block glass-glass-glass-w-3 glass-glass-glass-h-3 glass-radius-full glass-mr-1"
+                className="inline-block w-3 h-3 glass-radius-full glass-mr-1"
               />
             )}
             {cursor.name}

@@ -212,27 +212,27 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
     const renderTable = () => {
       if (loading) {
         return (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-8">
-            <div className="glass-glass-glass-w-6 glass-glass-glass-h-6 glass-glass-glass-border-2 glass-glass-glass-border-primary glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
+          <div className="flex items-center justify-center py-8">
+            <div className="w-6 h-6 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
           </div>
         );
       }
 
       if ((displayRows?.length || 0) === 0) {
         return (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-8 glass-text-secondary">
+          <div className="flex items-center justify-center py-8 glass-text-secondary">
             No data available
           </div>
         );
       }
 
       return (
-        <div className="glass-glass-glass-overflow-x-auto">
-          <table className="glass-glass-glass-w-full">
+        <div className="overflow-x-auto">
+          <table className="w-full">
             {/* Header */}
             {showHeader && (
               <thead>
-                <tr className="glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/20">
+                <tr className="border-b border-glass-border/20">
                   {showRowNumbers && (
                     <th className={cn(config.header, 'w-12 text-left font-medium glass-text-secondary')}>
                       #
@@ -254,10 +254,10 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
                       style={{ width: column.width }}
                       onClick={(e) => handleSort(column.id)}
                     >
-                      <HStack space="xs" align="center" className="glass-glass-glass-justify-start">
+                      <HStack space="xs" align="center" className="justify-start">
                         <span>{column.header}</span>
                         {(column.sortable || sortable) && (
-                          <div className="glass-glass-glass-flex glass-glass-glass-flex-col">
+                          <div className="flex flex-col">
                             <div className={cn(
                               'w-0 h-0 border-l-[3px] border-r-[3px] border-b-[4px] border-transparent',
                               sortColumn === column.id && sortDirection === 'asc'
@@ -367,12 +367,12 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
               {data?.summary && (
                 <HStack space="sm" align="center">
                   {data?.summary.total && (
-                    <span className="glass-glass-glass-text-sm glass-text-secondary">
+                    <span className="text-sm glass-text-secondary">
                       Total: {data?.summary.total.toLocaleString()}
                     </span>
                   )}
                   {data?.summary.filtered && data?.summary.filtered !== data?.summary.total && (
-                    <span className="glass-glass-glass-text-sm glass-text-secondary">
+                    <span className="text-sm glass-text-secondary">
                       Showing: {data?.summary.filtered.toLocaleString()}
                     </span>
                   )}
@@ -385,14 +385,14 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
               )}
 
               {/* Table */}
-              <div className="glass-glass-glass-flex-1">
+              <div className="flex-1">
                 {renderTable()}
               </div>
 
               {/* Footer */}
               {(data?.rows?.length || 0) > maxRows && (
                 <HStack space="sm" align="center" justify="center">
-                  <span className="glass-glass-glass-text-xs glass-text-secondary">
+                  <span className="text-xs glass-text-secondary">
                     Showing {maxRows} of {data?.rows?.length || 0} rows
                   </span>
                   <GlassButton variant="ghost" size="xs">

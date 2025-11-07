@@ -934,18 +934,18 @@ export const GlassTabBar = forwardRef<TabBarRef, GlassTabBarProps & AnimationPro
       {/* Selector indicator */}
       {variant !== 'default' && (
         <div
-          className="glass-glass-glass-absolute transition-all duration-300 ease-out will-change-transform glass-glass-glass-pointer-events-none glass-radius-lg glass-surface-subtle glass-glass-glass-border-subtle"
+          className="absolute transition-all duration-300 ease-out will-change-transform pointer-events-none glass-radius-lg glass-surface-subtle border-subtle"
         >
           {/* Specular sheen */}
-          <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none glass-radius-lg glass-overlay-specular" />
+          <div className="absolute inset-0 pointer-events-none glass-radius-lg glass-overlay-specular" />
         </div>
       )}
       
       {/* Magnetic trail effect */}
       {animationStyle === 'spring' && !finalDisableAnimation && (
-        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none glass-radius-lg glass-glass-glass-opacity-30">
+        <div className="absolute inset-0 pointer-events-none glass-radius-lg opacity-30">
           <div
-            className="glass-glass-glass-absolute glass-radius-full glass-surface-blue/20 transition-all duration-500 ease-out"
+            className="absolute glass-radius-full glass-surface-blue/20 transition-all duration-500 ease-out"
             style={{
               left: `${tabMagneticData.closestTabIndex !== null ? tabMagneticData.closestTabIndex * 60 : 0}px`,
               width: '60px',

@@ -232,7 +232,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
             {layer.content}
             
             {debug && (
-              <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 glass-surface-dark/20 glass-glass-glass-backdrop-blur-sm glass-glass-glass-p-2 glass-radius-sm glass-glass-glass-text-xs glass-glass-glass-text-primary/90">
+              <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 glass-surface-dark/20 backdrop-blur-sm p-2 glass-radius-sm text-xs text-primary/90">
                 Layer {index + 1} | Depth: {layer.depth}
               </div>
             )}
@@ -244,7 +244,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
       {/* Interactive indicator */}
       {interactive && !prefersReducedMotion && (
         <motion.div
-          className="glass-glass-glass-absolute bottom-4 right-4 glass-glass-glass-text-primary/60 glass-glass-glass-text-xs glass-surface-dark/20 glass-glass-glass-backdrop-blur-sm glass-glass-glass-p-2 glass-radius-md"
+          className="absolute bottom-4 right-4 text-primary/60 text-xs glass-surface-dark/20 backdrop-blur-sm p-2 glass-radius-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0.5 }}
           role="status"

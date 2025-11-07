@@ -99,13 +99,13 @@ const NotificationDemo = ({ position }: { position: any }) => {
   };
 
   return (
-    <div className="glass-glass-glass-gap-4">
-      <div className="glass-glass-glass-text-center mb-6">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Notification Center Demo</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">Click the buttons below to trigger different types of notifications.</p>
+    <div className="gap-4">
+      <div className="text-center mb-6">
+        <h3 className="text-lg font-semibold mb-2">Notification Center Demo</h3>
+        <p className="text-sm opacity-80">Click the buttons below to trigger different types of notifications.</p>
       </div>
 
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-3 max-w-md glass-glass-glass-mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-md mx-auto">
         <GlassButton onClick={showSuccess} variant="success" size="sm">
           Success
         </GlassButton>
@@ -142,15 +142,15 @@ export const Default: Story = {
 export const Positions: Story = {
   render: (args) => (
     <div className="space-y-8">
-      <div className="glass-glass-glass-text-center">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Notification Positions</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">Try different positions for the notification center.</p>
+      <div className="text-center">
+        <h3 className="text-lg font-semibold mb-2">Notification Positions</h3>
+        <p className="text-sm opacity-80">Try different positions for the notification center.</p>
       </div>
 
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {(['top-right', 'top-left', 'bottom-right', 'bottom-left', 'top-center', 'bottom-center'] as const).map((position) => (
-          <div key={position} className="glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-p-4">
-            <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-3 glass-glass-glass-capitalize glass-glass-glass-text-center">{position.replace('-', ' ')}</h4>
+          <div key={position} className="border border-white/20 glass-radius-lg p-4">
+            <h4 className="text-sm font-medium mb-3 capitalize text-center">{position.replace('-', ' ')}</h4>
             <GlassNotificationProvider>
               <NotificationDemo position={position} />
               <GlassNotificationCenter position={position} />
@@ -203,9 +203,9 @@ export const NotificationTypes: Story = {
     }, []);
 
     return (
-      <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold">Notification Types</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">All notification types are displayed above.</p>
+      <div className="text-center gap-4">
+        <h3 className="text-lg font-semibold">Notification Types</h3>
+        <p className="text-sm opacity-80">All notification types are displayed above.</p>
         <GlassNotificationCenter {...args} />
       </div>
     );
@@ -231,9 +231,9 @@ export const WithActions: Story = {
     };
 
     return (
-      <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Notifications with Actions</h3>
-        <p className="glass-glass-glass-text-sm opacity-80 glass-glass-glass-mb-4">Click the button to see a notification with an action button.</p>
+      <div className="text-center gap-4">
+        <h3 className="text-lg font-semibold mb-2">Notifications with Actions</h3>
+        <p className="text-sm opacity-80 mb-4">Click the button to see a notification with an action button.</p>
         <GlassButton onClick={showActionNotification}>Show Action Notification</GlassButton>
         <GlassNotificationCenter {...args} />
       </div>
@@ -270,9 +270,9 @@ export const BulkNotifications: Story = {
     };
 
     return (
-      <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Bulk Notifications</h3>
-        <p className="glass-glass-glass-text-sm opacity-80 glass-glass-glass-mb-4">Test how the system handles multiple notifications.</p>
+      <div className="text-center gap-4">
+        <h3 className="text-lg font-semibold mb-2">Bulk Notifications</h3>
+        <p className="text-sm opacity-80 mb-4">Test how the system handles multiple notifications.</p>
         <GlassButton onClick={showBulkNotifications}>Show 6 Notifications</GlassButton>
         <GlassNotificationCenter {...args} />
       </div>
@@ -284,9 +284,9 @@ export const BulkNotifications: Story = {
 export const CustomStyling: Story = {
   render: (args) => (
     <GlassNotificationProvider>
-      <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-2">Custom Styled Notifications</h3>
-        <p className="glass-glass-glass-text-sm opacity-80 glass-glass-glass-mb-4">Notifications with custom glass morphism styling.</p>
+      <div className="text-center gap-4">
+        <h3 className="text-lg font-semibold mb-2">Custom Styled Notifications</h3>
+        <p className="text-sm opacity-80 mb-4">Notifications with custom glass morphism styling.</p>
         <GlassNotificationCenter
           {...args}
           className="custom-notification-center"

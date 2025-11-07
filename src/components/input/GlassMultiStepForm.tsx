@@ -294,43 +294,43 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
     return (
         <FormContext.Provider value={contextValue}>
-            <Motion preset="fadeIn" className="glass-glass-glass-w-full max-w-4xl glass-glass-glass-mx-auto">
+            <Motion preset="fadeIn" className="w-full max-w-4xl mx-auto">
                 <GlassCard className={cn('overflow-hidden', className)} {...props}>
                     {/* Header */}
                     <CardHeader className="pb-6">
                         {title && (
-                            <CardTitle className="glass-glass-glass-text-primary glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-glass-glass-text-center">
+                            <CardTitle className="text-primary text-2xl font-semibold text-center">
                                 {title}
                             </CardTitle>
                         )}
 
                         {description && (
-                            <p className="glass-glass-glass-text-primary/70 glass-glass-glass-text-center glass-mt-2">{description}</p>
+                            <p className="text-primary/70 text-center glass-mt-2">{description}</p>
                         )}
 
                         {/* Progress Indicator */}
                         {showProgress && (
                             <div className="mt-6">
-                                <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center glass-glass-glass-mb-2">
-                                    <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-sm text-primary/60">
                                         Step {currentStep + 1} of {steps.length}
                                     </span>
-                                    <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+                                    <span className="text-sm text-primary/60">
                                         {Math.round(getProgressPercentage())}% Complete
                                     </span>
                                 </div>
 
                                 {/* Progress Bar */}
-                                <div className="glass-glass-glass-w-full glass-surface-subtle/10 glass-radius-full glass-glass-glass-h-2 overflow-hidden">
+                                <div className="w-full glass-surface-subtle/10 glass-radius-full h-2 overflow-hidden">
                                     <Motion
                                         preset="slideRight"
-                                        className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full"
+                                        className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full"
                                         style={{ width: `${getProgressPercentage()}%` }}
                                     />
                                 </div>
 
                                 {/* Step Indicators */}
-                                <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-mt-4">
+                                <div className="flex justify-between glass-mt-4">
                                     {steps.map((step, index) => {
                                         const isCompleted = isStepCompleted(index);
                                         const isCurrent = index === currentStep;
@@ -355,15 +355,15 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                                                     hasError && 'border-red-500 bg-red-500/20'
                                                 )}>
                                                     {isCompleted && isValid ? (
-                                                        <Check className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
+                                                        <Check className="w-5 h-5" />
                                                     ) : step.icon ? (
-                                                        <span className="glass-glass-glass-w-5 glass-glass-glass-h-5">{step.icon}</span>
+                                                        <span className="w-5 h-5">{step.icon}</span>
                                                     ) : (
-                                                        <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">{index + 1}</span>
+                                                        <span className="text-sm font-medium">{index + 1}</span>
                                                     )}
                                                 </div>
 
-                                                <div className="glass-glass-glass-text-center glass-mt-2">
+                                                <div className="text-center glass-mt-2">
                                                     <p className={cn(
                                                         'glass-text-xs font-medium transition-colors duration-200',
                                                         isCurrent ? 'glass-text-primary' : 'glass-text-primary/60'
@@ -371,7 +371,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                                                         {step.title}
                                                     </p>
                                                     {step.description && (
-                                                        <p className="glass-glass-glass-text-xs glass-glass-glass-text-primary/50 glass-mt-1 max-glass-glass-glass-w-20 glass-glass-glass-truncate">
+                                                        <p className="text-xs text-primary/50 glass-mt-1 max-w-20 truncate">
                                                             {step.description}
                                                         </p>
                                                     )}
@@ -404,11 +404,11 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                                             <div>
                                                 {/* Step Header */}
                                                 <div className="mb-6">
-                                                    <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">
+                                                    <h3 className="text-xl font-semibold text-primary mb-2">
                                                         {step.title}
                                                     </h3>
                                                     {step.description && (
-                                                        <p className="glass-glass-glass-text-primary/70">{step.description}</p>
+                                                        <p className="text-primary/70">{step.description}</p>
                                                     )}
                                                 </div>
 
@@ -421,10 +421,10 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
                                                 {/* Validation Error */}
                                                 {validationErrors[index] && (
-                                                    <div className="glass-mt-4 glass-glass-glass-p-3 glass-surface-red/20 glass-glass-glass-border glass-glass-glass-border-red/30 glass-radius-lg">
-                                                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                                                            <AlertCircle className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary" />
-                                                            <span className="glass-text-secondary glass-glass-glass-text-sm">
+                                                    <div className="glass-mt-4 p-3 glass-surface-red/20 border border-red/30 glass-radius-lg">
+                                                        <div className="flex items-center gap-2">
+                                                            <AlertCircle className="w-4 h-4 text-primary" />
+                                                            <span className="glass-text-secondary text-sm">
                                                                 {validationErrors[index]}
                                                             </span>
                                                         </div>
@@ -439,16 +439,16 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
                         {/* Navigation */}
                         {showNavigation && (
-                            <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center mt-8 pt-6 glass-glass-glass-border-t glass-glass-glass-border-white/10">
-                                <div className="glass-glass-glass-flex glass-glass-glass-gap-3">
+                            <div className="flex justify-between items-center mt-8 pt-6 border-t border-white/10">
+                                <div className="flex gap-3">
                                     {currentStep > 0 && (
                                         <GlassButton
                                             variant="outline"
                                             onClick={prevStep}
                                             disabled={loading}
-                                            className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2"
+                                            className="flex items-center gap-2"
                                         >
-                                            <ChevronLeft className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                            <ChevronLeft className="w-4 h-4" />
                                             Previous
                                         </GlassButton>
                                     )}
@@ -464,7 +464,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                                     )}
                                 </div>
 
-                                <div className="glass-glass-glass-flex glass-glass-glass-gap-3">
+                                <div className="flex gap-3">
                                     {allowSkip && steps[currentStep].optional && (
                                         <GlassButton
                                             variant="outline"
@@ -480,26 +480,26 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                                             variant="primary"
                                             onClick={nextStep}
                                             disabled={loading || isSubmitting}
-                                            className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2"
+                                            className="flex items-center gap-2"
                                         >
                                             Next
-                                            <ChevronRight className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                            <ChevronRight className="w-4 h-4" />
                                         </GlassButton>
                                     ) : (
                                         <GlassButton
                                             variant="primary"
                                             onClick={handleSubmit}
                                             disabled={loading || isSubmitting}
-                                            className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-min-glass-glass-w-24"
+                                            className="flex items-center gap-2 glass-min-w-24"
                                         >
                                             {isSubmitting ? (
                                                 <>
-                                                    <Loader2 className="glass-glass-glass-w-4 glass-glass-glass-h-4 animate-spin" />
+                                                    <Loader2 className="w-4 h-4 animate-spin" />
                                                     Submitting...
                                                 </>
                                             ) : (
                                                 <>
-                                                    <CheckCircle className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                                    <CheckCircle className="w-4 h-4" />
                                                     {submitButtonText}
                                                 </>
                                             )}
@@ -511,20 +511,20 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
                         {/* Summary */}
                         {showSummary && (
-                            <div className="mt-6 glass-glass-glass-p-4 glass-surface-subtle/5 glass-radius-lg">
-                                <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-3">Form Summary</h4>
-                                <div className="glass-glass-glass-gap-2">
+                            <div className="mt-6 p-4 glass-surface-subtle/5 glass-radius-lg">
+                                <h4 className="text-sm font-medium text-primary mb-3">Form Summary</h4>
+                                <div className="gap-2">
                                     {steps.map((step, index) => {
                                         const isCompleted = isStepCompleted(index);
                                         const hasData = formData[step.id];
 
                                         return (
-                                            <div key={step.id} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                                            <div key={step.id} className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
                                                     {isCompleted ? (
-                                                        <CheckCircle className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary" />
+                                                        <CheckCircle className="w-4 h-4 text-primary" />
                                                     ) : (
-                                                        <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-radius-full glass-glass-glass-border-2 glass-glass-glass-border-white/30" />
+                                                        <div className="w-4 h-4 glass-radius-full border-2 border-white/30" />
                                                     )}
                                                     <span className={cn(
                                                         'glass-text-sm',
@@ -571,10 +571,10 @@ export const GlassFormStep: React.FC<GlassFormStepProps> = ({
             {(title || description) && (
                 <div className="mb-6">
                     {title && (
-                        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">{title}</h3>
+                        <h3 className="text-lg font-semibold text-primary mb-2">{title}</h3>
                     )}
                     {description && (
-                        <p className="glass-glass-glass-text-primary/70">{description}</p>
+                        <p className="text-primary/70">{description}</p>
                     )}
                 </div>
             )}

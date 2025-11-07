@@ -34,7 +34,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <DynamicAtmosphere {...args} type="subtle" />
       <DynamicAtmosphere {...args} type="nebula" />
       <DynamicAtmosphere {...args} type="aurora" />

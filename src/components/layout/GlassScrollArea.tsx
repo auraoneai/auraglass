@@ -235,7 +235,7 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
                     {/* Content */}
                     <div
                         ref={contentRef}
-                        className="glass-glass-glass-relative"
+                        className="relative"
                         style={getOverflowStyle()}
                         onScroll={handleScroll}
                     >

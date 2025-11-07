@@ -636,14 +636,14 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             >
             {/* Header */}
             {(header || title || description || showCloseButton) && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/10 glass-glass-glass-flex-shrink-0">
-                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+              <div className="flex items-start justify-between p-6 border-b border-glass-border/10 flex-shrink-0">
+                <div className="flex-1 min-w-0">
                   {header || (
                     <>
                       {title && (
                         <h2
                           id="drawer-title"
-                          className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-1"
+                          className="text-lg font-semibold text-primary mb-1"
                         >
                           {title}
                         </h2>
@@ -651,7 +651,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                       {description && (
                         <p
                           id="drawer-description"
-                          className="glass-glass-glass-text-sm text-muted-foreground"
+                          className="text-sm text-muted-foreground"
                         >
                           {description}
                         </p>
@@ -666,7 +666,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                     iconOnly
                     onClick={handleClose}
                     aria-label="Close drawer"
-                    className="glass-glass-glass-flex-shrink-0 glass-ml-4"
+                    className="flex-shrink-0 glass-ml-4"
                   >
                     ×
                   </GlassButton>
@@ -681,7 +681,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
 
             {/* Footer */}
             {footer && (
-              <div className="glass-glass-glass-p-6 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/10 glass-glass-glass-flex-shrink-0">
+              <div className="p-6 border-t border-glass-border/10 flex-shrink-0">
                 {footer}
               </div>
             )}
@@ -713,14 +713,14 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             >
             {/* Header */}
             {(header || title || description || showCloseButton) && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/10 glass-glass-glass-flex-shrink-0">
-                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+              <div className="flex items-start justify-between p-6 border-b border-glass-border/10 flex-shrink-0">
+                <div className="flex-1 min-w-0">
                   {header || (
                     <>
                       {title && (
                         <h2
                           id="drawer-title"
-                          className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-1"
+                          className="text-lg font-semibold text-primary mb-1"
                         >
                           {title}
                         </h2>
@@ -728,7 +728,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                       {description && (
                         <p
                           id="drawer-description"
-                          className="glass-glass-glass-text-sm glass-text-secondary"
+                          className="text-sm glass-text-secondary"
                         >
                           {description}
                         </p>
@@ -749,7 +749,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                     aria-label="Close drawer"
                     data-consciousness-close="true"
                   >
-                    <X className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                    <X className="w-4 h-4" />
                   </GlassButton>
                 )}
               </div>
@@ -803,10 +803,10 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                 
                 {/* Drawer Insights Display */}
                 {predictive && drawerInsights && (
-                  <div className="glass-mt-4 glass-glass-glass-p-3 glass-surface-primary/10 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-primary/20 glass-glass-glass-text-xs">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                      <span className="glass-glass-glass-text-primary">Drawer Insights</span>
-                      <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                  <div className="glass-mt-4 p-3 glass-surface-primary/10 glass-radius-lg border border-primary/20 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-primary">Drawer Insights</span>
+                      <div className="flex gap-2">
                         <span className={cn(
                           "glass-px-2 glass-py-1 glass-radius-md",
                           drawerInsights.urgency === 'high' ? 'bg-red-500/20 text-red-300' :
@@ -816,11 +816,11 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                           {drawerInsights.urgency} urgency
                         </span>
                         {drawerInsights.userStress > 0.7 && (
-                          <span className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-primary/20 glass-text-secondary">
+                          <span className="px-2 py-1 glass-radius-md glass-surface-primary/20 glass-text-secondary">
                             high stress
                           </span>
                         )}
-                        <span className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-blue/20 glass-text-secondary">
+                        <span className="px-2 py-1 glass-radius-md glass-surface-blue/20 glass-text-secondary">
                           {position} drawer
                         </span>
                       </div>
@@ -832,7 +832,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
 
             {/* Footer */}
             {footer && (
-              <div className="glass-glass-glass-p-6 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/10 glass-glass-glass-flex-shrink-0">
+              <div className="p-6 border-t border-glass-border/10 flex-shrink-0">
                 {footer}
               </div>
             )}

@@ -68,21 +68,21 @@ const CollaborationDemo: React.FC<{
 
   return (
     <CollaborationProvider roomId={roomId} enableRealTime={true}>
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-white glass-gradient-primary glass-glass-glass-relative">
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-white glass-gradient-primary relative">
         {/* Header */}
-        <div className="glass-glass-glass-relative glass-glass-glass-z-10 glass-glass-glass-p-8">
-          <div className="max-w-4xl glass-glass-glass-mx-auto">
-            <h1 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-text-secondary glass-glass-glass-mb-4">
+        <div className="relative z-10 p-8">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold glass-text-secondary mb-4">
               Real-Time Collaboration Demo
             </h1>
-            <p className="glass-glass-glass-text-lg glass-text-secondary mb-8">
+            <p className="text-lg glass-text-secondary mb-8">
               Experience the future of collaborative work with live cursors, comments, and real-time activity tracking.
             </p>
 
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Interactive Content Area */}
-              <Glass className="glass-glass-glass-relative glass-glass-glass-p-8 glass-min-glass-glass-h-96">
-                <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">
+              <Glass className="relative p-8 glass-min-h-96">
+                <h2 className="text-2xl font-semibold glass-text-secondary mb-4">
                   Interactive Workspace
                 </h2>
                 <p className="glass-text-secondary mb-6">
@@ -91,17 +91,17 @@ const CollaborationDemo: React.FC<{
 
                 {/* Sample content to interact with */}
                 <div className="space-y-6">
-                  <div className="glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                    <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">Project Overview</h3>
-                    <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm">
+                  <div className="p-4 glass-surface-subtle glass-radius-lg">
+                    <h3 className="font-semibold text-primary mb-2">Project Overview</h3>
+                    <p className="text-primary text-sm">
                       This is a sample content area where you can add comments and see other users' cursors.
                       Try double-clicking on different parts of this text to leave comments.
                     </p>
                   </div>
 
-                  <div className="glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                    <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">Features Implemented</h3>
-                    <ul className="glass-glass-glass-text-primary glass-glass-glass-text-sm space-y-1">
+                  <div className="p-4 glass-surface-subtle glass-radius-lg">
+                    <h3 className="font-semibold text-primary mb-2">Features Implemented</h3>
+                    <ul className="text-primary text-sm space-y-1">
                       <li>• Real-time cursor tracking</li>
                       <li>• Collaborative commenting system</li>
                       <li>• User presence indicators</li>
@@ -110,9 +110,9 @@ const CollaborationDemo: React.FC<{
                     </ul>
                   </div>
 
-                  <div className="glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                    <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">Try It Out</h3>
-                    <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm">
+                  <div className="p-4 glass-surface-subtle glass-radius-lg">
+                    <h3 className="font-semibold text-primary mb-2">Try It Out</h3>
+                    <p className="text-primary text-sm">
                       Watch as simulated users join the session and move their cursors around.
                       You can interact with their comments and see live activity updates.
                     </p>
@@ -122,7 +122,7 @@ const CollaborationDemo: React.FC<{
                 {/* Collaboration layers */}
                 {showComments && (
                   <GlassCollaborativeComments 
-                    className="glass-glass-glass-absolute glass-glass-glass-inset-0"
+                    className="absolute inset-0"
                     allowComments={true}
                   />
                 )}
@@ -130,68 +130,68 @@ const CollaborationDemo: React.FC<{
 
               {/* Features Overview */}
               <div className="space-y-6">
-                <Glass className="glass-glass-glass-p-6">
-                  <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">🚀 Collaboration Features</h3>
-                  <div className="glass-glass-glass-space-y-4">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
-                      <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-surface-subtle glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-sm">
+                <Glass className="p-6">
+                  <h3 className="text-xl font-semibold glass-text-secondary mb-4">🚀 Collaboration Features</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 glass-surface-subtle text-primary glass-radius-full flex items-center justify-center text-sm">
                         👆
                       </div>
                       <div>
-                        <h4 className="glass-glass-glass-font-medium glass-text-secondary">Live Cursors</h4>
-                        <p className="glass-glass-glass-text-sm glass-text-secondary">See where other users are working in real-time</p>
+                        <h4 className="font-medium glass-text-secondary">Live Cursors</h4>
+                        <p className="text-sm glass-text-secondary">See where other users are working in real-time</p>
                       </div>
                     </div>
                     
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
-                      <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-surface-subtle glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-sm">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 glass-surface-subtle text-primary glass-radius-full flex items-center justify-center text-sm">
                         💬
                       </div>
                       <div>
-                        <h4 className="glass-glass-glass-font-medium glass-text-secondary">Smart Comments</h4>
-                        <p className="glass-glass-glass-text-sm glass-text-secondary">Add contextual comments with replies and resolution</p>
+                        <h4 className="font-medium glass-text-secondary">Smart Comments</h4>
+                        <p className="text-sm glass-text-secondary">Add contextual comments with replies and resolution</p>
                       </div>
                     </div>
                     
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
-                      <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-surface-subtle glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-sm">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 glass-surface-subtle text-primary glass-radius-full flex items-center justify-center text-sm">
                         👥
                       </div>
                       <div>
-                        <h4 className="glass-glass-glass-font-medium glass-text-secondary">User Presence</h4>
-                        <p className="glass-glass-glass-text-sm glass-text-secondary">See who's online and their activity status</p>
+                        <h4 className="font-medium glass-text-secondary">User Presence</h4>
+                        <p className="text-sm glass-text-secondary">See who's online and their activity status</p>
                       </div>
                     </div>
                     
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
-                      <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-surface-subtle glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-sm">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 glass-surface-subtle text-primary glass-radius-full flex items-center justify-center text-sm">
                         📊
                       </div>
                       <div>
-                        <h4 className="glass-glass-glass-font-medium glass-text-secondary">Activity Feed</h4>
-                        <p className="glass-glass-glass-text-sm glass-text-secondary">Track all collaboration events and changes</p>
+                        <h4 className="font-medium glass-text-secondary">Activity Feed</h4>
+                        <p className="text-sm glass-text-secondary">Track all collaboration events and changes</p>
                       </div>
                     </div>
                   </div>
                 </Glass>
 
-                <Glass className="glass-glass-glass-p-6">
-                  <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">💡 How to Use</h3>
-                  <div className="glass-glass-glass-space-y-3 glass-glass-glass-text-sm glass-text-secondary">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <span className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-blue glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs">1</span>
+                <Glass className="p-6">
+                  <h3 className="text-xl font-semibold glass-text-secondary mb-4">💡 How to Use</h3>
+                  <div className="space-y-3 text-sm glass-text-secondary">
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 glass-surface-blue text-primary glass-radius-full flex items-center justify-center text-xs">1</span>
                       <span>Move your cursor around to see live tracking</span>
                     </div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <span className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-primary glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs">2</span>
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 glass-surface-primary text-primary glass-radius-full flex items-center justify-center text-xs">2</span>
                       <span>Double-click anywhere to add a comment</span>
                     </div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <span className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-green glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs">3</span>
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 glass-surface-green text-primary glass-radius-full flex items-center justify-center text-xs">3</span>
                       <span>Click comment dots to view and reply</span>
                     </div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <span className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-primary glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs">4</span>
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 glass-surface-primary text-primary glass-radius-full flex items-center justify-center text-xs">4</span>
                       <span>Watch the collaboration dashboard for activity</span>
                     </div>
                   </div>
@@ -303,10 +303,10 @@ export const MultipleUsers: Story = {
     ];
 
     return (
-      <div className="glass-glass-glass-space-y-4">
-        <div className="glass-surface-subtle glass-glass-glass-p-4 glass-radius-lg">
-          <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">Switch User Perspective</h3>
-          <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+      <div className="space-y-4">
+        <div className="glass-surface-subtle p-4 glass-radius-lg">
+          <h3 className="font-semibold text-primary mb-2">Switch User Perspective</h3>
+          <div className="flex gap-2">
             {demoUsers.map(user => (
               <button
                 key={user.id}
@@ -348,41 +348,41 @@ export const CollaborationShowcase: Story = {
     return (
       <div className="space-y-8">
         {/* Header */}
-        <div className="glass-glass-glass-text-center glass-glass-glass-py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
-          <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-text-secondary glass-glass-glass-mb-4">🤝 Real-Time Collaboration System</h1>
-          <p className="glass-glass-glass-text-lg glass-text-secondary max-w-3xl glass-glass-glass-mx-auto leading-relaxed">
+        <div className="text-center py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
+          <h1 className="text-3xl font-bold glass-text-secondary mb-4">🤝 Real-Time Collaboration System</h1>
+          <p className="text-lg glass-text-secondary max-w-3xl mx-auto leading-relaxed">
             Experience the next generation of collaborative interfaces with live cursors, 
             contextual comments, user presence, and real-time activity tracking.
           </p>
           
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6 mt-8 max-w-4xl glass-glass-glass-mx-auto">
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-blue glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-blue text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 👆
               </div>
-              <h3 className="glass-glass-glass-font-semibold">Live Cursors</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">See exactly where other users are working</p>
+              <h3 className="font-semibold">Live Cursors</h3>
+              <p className="text-sm glass-text-secondary mt-1">See exactly where other users are working</p>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-primary glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-primary text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 💬
               </div>
-              <h3 className="glass-glass-glass-font-semibold">Smart Comments</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Contextual discussions with replies and resolution</p>
+              <h3 className="font-semibold">Smart Comments</h3>
+              <p className="text-sm glass-text-secondary mt-1">Contextual discussions with replies and resolution</p>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-green glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-green text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 👥
               </div>
-              <h3 className="glass-glass-glass-font-semibold">User Presence</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Real-time online status and activity indicators</p>
+              <h3 className="font-semibold">User Presence</h3>
+              <p className="text-sm glass-text-secondary mt-1">Real-time online status and activity indicators</p>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-primary glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-primary text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 📊
               </div>
-              <h3 className="glass-glass-glass-font-semibold">Activity Feed</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Complete history of all collaboration events</p>
+              <h3 className="font-semibold">Activity Feed</h3>
+              <p className="text-sm glass-text-secondary mt-1">Complete history of all collaboration events</p>
             </div>
           </div>
         </div>
@@ -394,11 +394,11 @@ export const CollaborationShowcase: Story = {
           showDashboard={true}
         />
 
-        <div className="glass-surface-subtle glass-glass-glass-border-l-4 glass-glass-glass-border-yellow glass-glass-glass-p-6 glass-radius-r-lg">
-          <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">🚀 Advanced Collaboration Features</h3>
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 glass-glass-glass-text-sm glass-glass-glass-text-primary">
+        <div className="glass-surface-subtle border-l-4 border-yellow p-6 glass-radius-r-lg">
+          <h3 className="font-semibold text-primary mb-2">🚀 Advanced Collaboration Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-primary">
             <div>
-              <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-2">Real-Time Features:</h4>
+              <h4 className="font-medium mb-2">Real-Time Features:</h4>
               <ul className="space-y-1">
                 <li>• Live cursor tracking with user identification</li>
                 <li>• Instant comment synchronization</li>
@@ -408,7 +408,7 @@ export const CollaborationShowcase: Story = {
               </ul>
             </div>
             <div>
-              <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-2">Collaboration Tools:</h4>
+              <h4 className="font-medium mb-2">Collaboration Tools:</h4>
               <ul className="space-y-1">
                 <li>• Contextual commenting system</li>
                 <li>• Comment replies and resolution</li>
@@ -420,12 +420,12 @@ export const CollaborationShowcase: Story = {
           </div>
         </div>
 
-        <div className="glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-text-primary glass-glass-glass-p-8 glass-radius-xl">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-mb-4">🎯 Perfect for Modern Applications</h2>
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+        <div className="glass-gradient-primary glass-gradient-primary glass-gradient-primary text-primary p-8 glass-radius-xl">
+          <h2 className="text-2xl font-bold mb-4">🎯 Perfect for Modern Applications</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="glass-glass-glass-font-semibold glass-glass-glass-mb-2">Document Editing</h3>
-              <ul className="glass-glass-glass-text-sm space-y-1 glass-glass-glass-opacity-90">
+              <h3 className="font-semibold mb-2">Document Editing</h3>
+              <ul className="text-sm space-y-1 opacity-90">
                 <li>• Google Docs-style collaboration</li>
                 <li>• Real-time text editing</li>
                 <li>• Comment threads</li>
@@ -433,8 +433,8 @@ export const CollaborationShowcase: Story = {
               </ul>
             </div>
             <div>
-              <h3 className="glass-glass-glass-font-semibold glass-glass-glass-mb-2">Design Tools</h3>
-              <ul className="glass-glass-glass-text-sm space-y-1 glass-glass-glass-opacity-90">
+              <h3 className="font-semibold mb-2">Design Tools</h3>
+              <ul className="text-sm space-y-1 opacity-90">
                 <li>• Figma-like cursor tracking</li>
                 <li>• Live design feedback</li>
                 <li>• Collaborative annotations</li>
@@ -442,8 +442,8 @@ export const CollaborationShowcase: Story = {
               </ul>
             </div>
             <div>
-              <h3 className="glass-glass-glass-font-semibold glass-glass-glass-mb-2">Project Management</h3>
-              <ul className="glass-glass-glass-text-sm space-y-1 glass-glass-glass-opacity-90">
+              <h3 className="font-semibold mb-2">Project Management</h3>
+              <ul className="text-sm space-y-1 opacity-90">
                 <li>• Team activity monitoring</li>
                 <li>• Real-time discussions</li>
                 <li>• Progress tracking</li>

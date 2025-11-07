@@ -202,11 +202,11 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
       >
         <div
           ref={containerRef}
-          className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center"
+          className="absolute inset-0 flex items-center justify-center"
         >
           {/* Center Button */}
           <motion.button
-            className="glass-glass-glass-relative z-20 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-surface glass-radius-full glass-glass-glass-border glass-glass-glass-border-white/20 backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 transition-colors"
+            className="relative z-20 flex items-center justify-center glass-surface glass-radius-full border border-white/20 backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 transition-colors"
             style={{
               width: itemSize + 8,
               height: itemSize + 8
@@ -220,11 +220,11 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
           >
             {centerElement || (
               <motion.div
-                className="glass-glass-glass-w-6 glass-glass-glass-h-6 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-justify-center"
+                className="w-6 h-6 flex flex-col items-center justify-center"
                 animate={{ rotate: isOpen ? 45 : 0 }}
               >
-                <div className="glass-glass-glass-w-4 glass-glass-glass-h-0-5 glass-surface-subtle/70 glass-glass-glass-mb-1" />
-                <div className="glass-glass-glass-w-4 glass-glass-glass-h-0-5 glass-surface-subtle/70" />
+                <div className="w-4 h-0-5 glass-surface-subtle/70 mb-1" />
+                <div className="w-4 h-0-5 glass-surface-subtle/70" />
               </motion.div>
             )}
           </motion.button>
@@ -232,7 +232,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
           {/* Orbital Items */}
           <div
             id={`${menuId}-items`}
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-pointer-events-none"
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
             role="group"
           >
             <AnimatePresence>
@@ -244,7 +244,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                 return (
                   <motion.div
                     key={item.id}
-                    className="glass-glass-glass-absolute pointer-events-auto"
+                    className="absolute pointer-events-auto"
                     custom={index}
                     variants={getItemVariants()}
                     initial="hidden"
@@ -279,13 +279,13 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                       title={item.shortcut ? `${item.label} (${item.shortcut})` : item.label}
                     >
                       {item.icon && (
-                        <div className="glass-glass-glass-text-lg">
+                        <div className="text-lg">
                           {item.icon}
                         </div>
                       )}
                       
                       {item.shortcut && (
-                        <div className="glass-glass-glass-absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-surface-dark/50 glass-glass-glass-text-primary/70 glass-glass-glass-text-xs glass-glass-glass-px-1 glass-glass-glass-py-0.5 glass-radius text-[10px] glass-glass-glass-backdrop-blur-sm">
+                        <div className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-surface-dark/50 text-primary/70 text-xs px-1 py-0.5 glass-radius text-[10px] backdrop-blur-sm">
                           {item.shortcut}
                         </div>
                       )}
@@ -294,7 +294,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                       <AnimatePresence>
                         {isHovered && !prefersReducedMotion && (
                           <motion.div
-                            className="glass-glass-glass-absolute top-full mt-2 glass-surface-dark/80 glass-glass-glass-text-primary glass-glass-glass-text-xs glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius glass-glass-glass-backdrop-blur-sm whitespace-nowrap"
+                            className="absolute top-full mt-2 glass-surface-dark/80 text-primary text-xs px-2 py-1 glass-radius backdrop-blur-sm whitespace-nowrap"
                             initial={{ opacity: 0, y: -5 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -5 }}
@@ -315,7 +315,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
           <AnimatePresence>
             {isOpen && (
               <motion.div
-                className="glass-glass-glass-absolute glass-glass-glass-border glass-glass-glass-border-white/10 glass-radius-full glass-glass-glass-pointer-events-none"
+                className="absolute border border-white/10 glass-radius-full pointer-events-none"
                 style={{
                   width: radius * 2,
                   height: radius * 2
@@ -334,7 +334,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
         </div>
 
         {/* Status Display */}
-        <div className="glass-glass-glass-absolute bottom-2 right-2 glass-glass-glass-text-xs glass-glass-glass-text-primary/60">
+        <div className="absolute bottom-2 right-2 text-xs text-primary/60">
           {items.length} items
         </div>
       </OptimizedGlass>

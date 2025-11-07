@@ -555,13 +555,13 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       >
         <Motion
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-relative glass-glass-glass-w-full glass-glass-glass-h-full"
+          className="relative w-full h-full"
         >
           {/* Camera Feed */}
           {background === 'camera' && enableCamera && (
             <video
               ref={videoRef}
-              className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-w-full glass-glass-glass-h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               autoPlay
               muted
               playsInline
@@ -571,17 +571,17 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
           {/* AR Canvas */}
           <canvas
             ref={canvasRef}
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-w-full glass-glass-glass-h-full glass-glass-glass-cursor-pointer"
+            className="absolute inset-0 w-full h-full cursor-pointer"
             onClick={handleCanvasClick}
           />
 
           {/* Loading State */}
           {isLoading && (
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
               {loadingComponent || (
-                <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-4">
-                  <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-glass-glass-border-4 glass-glass-glass-border-primary glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
-                  <div className="glass-glass-glass-text-sm glass-text-secondary">Initializing AR...</div>
+                <div className="flex flex-col items-center gap-4">
+                  <div className="w-12 h-12 border-4 border-primary border-t-transparent glass-radius-full animate-spin" />
+                  <div className="text-sm glass-text-secondary">Initializing AR...</div>
                 </div>
               )}
             </div>
@@ -589,11 +589,11 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
 
           {/* Error State */}
           {hasError && (
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
               {errorComponent || (
-                <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-text-center">
-                  <div className="glass-glass-glass-text-4xl">🔴</div>
-                  <div className="glass-glass-glass-text-sm glass-text-secondary">
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <div className="text-4xl">🔴</div>
+                  <div className="text-sm glass-text-secondary">
                     AR initialization failed
                   </div>
                 </div>
@@ -603,21 +603,21 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
 
           {/* Controls Overlay */}
           {controlsOverlay && (
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none">
               {controlsOverlay}
             </div>
           )}
 
           {/* Default Controls */}
           {!isLoading && !hasError && (
-            <div className="glass-glass-glass-absolute bottom-4 left-1/2 transform -translate-x-1/2">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
               <OptimizedGlass
                 elevation="level3"
                 intensity="strong"
                 depth={2}
                 tint="neutral"
                 border="subtle"
-                className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+                className="flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
               >
                 <button
                   onClick={isTracking ? endARSession : startARSession}
@@ -632,13 +632,13 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                 </button>
 
                 {xrSupported && (
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1 glass-glass-glass-text-xs glass-glass-glass-text-primary">
-                    <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full" />
+                  <div className="flex items-center gap-1 text-xs text-primary">
+                    <div className="w-2 h-2 glass-surface-green glass-radius-full" />
                     <span>XR Ready</span>
                   </div>
                 )}
 
-                <div className="glass-glass-glass-text-xs glass-text-secondary">
+                <div className="text-xs glass-text-secondary">
                   Objects: {objects.filter(o => o.visible).length}
                 </div>
               </OptimizedGlass>
@@ -656,16 +656,16 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className="glass-glass-glass-absolute top-4 right-4 glass-glass-glass-p-4 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20 max-w-xs"
+                className="absolute top-4 right-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20 max-w-xs"
               >
                 {(() => {
                   const object = objects.find(o => o.id === selectedObject);
                   if (!object) return null;
 
                   return (
-                    <div className="glass-glass-glass-gap-2">
-                      <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary">{object.name}</h3>
-                      <div className="glass-glass-glass-text-xs glass-glass-glass-gap-1 glass-text-secondary">
+                    <div className="gap-2">
+                      <h3 className="font-semibold text-primary">{object.name}</h3>
+                      <div className="text-xs gap-1 glass-text-secondary">
                         <div>Position: ({object.position.x.toFixed(1)}, {object.position.y.toFixed(1)}, {object.position.z.toFixed(1)})</div>
                         <div>Scale: {object.scale.x.toFixed(2)}</div>
                         <div>Opacity: {(object.opacity * 100).toFixed(0)}%</div>
@@ -675,7 +675,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                       </div>
                       <button
                         onClick={() => setSelectedObject(null)}
-                        className="glass-glass-glass-text-xs glass-text-secondary hover:glass-glass-glass-text-primary transition-colors"
+                        className="text-xs glass-text-secondary hover:text-primary transition-colors"
                       >
                         Close ×
                       </button>
@@ -688,16 +688,16 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
 
           {/* Tracking Status */}
           {!isLoading && !hasError && (
-            <div className="glass-glass-glass-absolute top-4 left-4">
+            <div className="absolute top-4 left-4">
               <OptimizedGlass
                 elevation="level2"
                 intensity="medium"
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className="glass-glass-glass-px-3 glass-glass-glass-py-2 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+                className="px-3 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
               >
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-text-xs">
+                <div className="flex items-center gap-2 text-xs">
                   <div className={cn(
                     'w-2 h-2 glass-radius-full',
                     isTracking ? 'bg-green-500 animate-pulse' : 'bg-gray-500'

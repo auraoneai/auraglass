@@ -301,13 +301,13 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
     if (loading) {
         return (
             <GlassCard className={cn('glass-p-6', className)}>
-                <div className="animate-pulse glass-glass-glass-gap-4">
-                    <div className="glass-glass-glass-h-6 glass-surface-subtle/20 glass-radius-md glass-glass-glass-w-48"></div>
-                    <div className="glass-glass-glass-h-64 glass-surface-subtle/10 glass-radius-md"></div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-gap-4">
-                        <div className="glass-glass-glass-h-4 glass-surface-subtle/20 glass-radius-md glass-glass-glass-w-20"></div>
-                        <div className="glass-glass-glass-h-4 glass-surface-subtle/20 glass-radius-md glass-glass-glass-w-20"></div>
-                        <div className="glass-glass-glass-h-4 glass-surface-subtle/20 glass-radius-md glass-glass-glass-w-20"></div>
+                <div className="animate-pulse gap-4">
+                    <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
+                    <div className="h-64 glass-surface-subtle/10 glass-radius-md"></div>
+                    <div className="flex justify-center gap-4">
+                        <div className="h-4 glass-surface-subtle/20 glass-radius-md w-20"></div>
+                        <div className="h-4 glass-surface-subtle/20 glass-radius-md w-20"></div>
+                        <div className="h-4 glass-surface-subtle/20 glass-radius-md w-20"></div>
                     </div>
                 </div>
             </GlassCard>
@@ -315,18 +315,18 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
     }
 
     return (
-        <Motion preset="fadeIn" className="glass-glass-glass-w-full">
+        <Motion preset="fadeIn" className="w-full">
             <GlassCard className={cn('overflow-hidden', className)} {...props}>
                 {title && (
                     <CardHeader>
-                        <CardTitle className="glass-glass-glass-text-primary glass-glass-glass-text-lg glass-glass-glass-font-semibold">
+                        <CardTitle className="text-primary text-lg font-semibold">
                             {title}
                         </CardTitle>
                     </CardHeader>
                 )}
 
-                <CardContent className="glass-glass-glass-p-4">
-                    <div className="glass-glass-glass-relative glass-chart">
+                <CardContent className="p-4">
+                    <div className="relative glass-chart">
                         <svg width={width} height={height} className="overflow-visible">
                             {/* Grid lines */}
                             {showGrid && (
@@ -341,7 +341,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                             y2={label.y - 4}
                                             stroke="currentColor"
                                             strokeWidth="1"
-                                            className="glass-glass-glass-text-primary/30"
+                                            className="text-primary/30"
                                         />
                                     ))}
                                     {/* Vertical grid lines */}
@@ -354,7 +354,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                             y2={height - padding.bottom}
                                             stroke="currentColor"
                                             strokeWidth="1"
-                                            className="glass-glass-glass-text-primary/30"
+                                            className="text-primary/30"
                                         />
                                     ))}
                                 </g>
@@ -366,7 +366,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     key={`${s.id}-area`}
                                     preset="fadeIn"
                                     delay={seriesIndex * 200}
-                                    className="glass-glass-glass-relative"
+                                    className="relative"
                                 >
                                     <defs>
                                         <linearGradient id={`area-gradient-${s.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
@@ -393,7 +393,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     key={`${s.id}-line`}
                                     preset="slideUp"
                                     delay={seriesIndex * 100 + 300}
-                                    className="glass-glass-glass-relative"
+                                    className="relative"
                                 >
                                     {/* Line */}
                                     <path
@@ -401,7 +401,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                         fill="none"
                                         stroke={s.color}
                                         strokeWidth={s.strokeWidth || 2}
-                                        className="drop-glass-glass-glass-shadow-sm"
+                                        className="drop-shadow-sm"
                                         style={{
                                             animation: `drawLine ${animationDuration}ms ease-out ${seriesIndex * 100 + 300}ms both`,
                                             opacity: hoveredSeriesId && hoveredSeriesId !== s.id ? 0.35 : 1,
@@ -418,7 +418,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                             fill={s.color}
                                             stroke="rgba(255, 255, 255, 0.8)"
                                             strokeWidth="2"
-                                            className="glass-glass-glass-cursor-pointer hover:r-6 transition-all duration-200"
+                                            className="cursor-pointer hover:r-6 transition-all duration-200"
                                             role="button"
                                             tabIndex={0}
                                             aria-label={`Data point ${pointIndex + 1} of ${s.name}: ${formatXValue(point.x)}, ${formatYValue(point.originalY || point.y)}`}
@@ -441,7 +441,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
 
                             {/* Crosshair */}
                             {hoveredPoint && (
-                                <g className="glass-glass-glass-pointer-events-none">
+                                <g className="pointer-events-none">
                                     <line
                                         x1={hoveredPoint.x}
                                         y1={padding.top}
@@ -472,7 +472,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                 y2={height - padding.bottom}
                                 stroke="currentColor"
                                 strokeWidth="1"
-                                className="glass-glass-glass-text-primary/50"
+                                className="text-primary/50"
                             />
 
                             {/* Y-axis */}
@@ -483,7 +483,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                 y2={height - padding.bottom}
                                 stroke="currentColor"
                                 strokeWidth="1"
-                                className="glass-glass-glass-text-primary/50"
+                                className="text-primary/50"
                             />
 
                             {/* Axis labels */}
@@ -493,7 +493,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     x={label.x}
                                     y={label.y}
                                     textAnchor="middle"
-                                    className="glass-glass-glass-text-xs fill-white/70"
+                                    className="text-xs fill-white/70"
                                     style={{ fontSize: '0.625rem' }}
                                 >
                                     {label.label}
@@ -506,7 +506,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     x={label.x}
                                     y={label.y}
                                     textAnchor="end"
-                                    className="glass-glass-glass-text-xs fill-white/70"
+                                    className="text-xs fill-white/70"
                                     style={{ fontSize: '0.625rem' }}
                                 >
                                     {label.label}
@@ -519,7 +519,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     x={width / 2}
                                     y={height - 10}
                                     textAnchor="middle"
-                                    className="glass-glass-glass-text-sm fill-white/80 glass-glass-glass-font-medium"
+                                    className="text-sm fill-white/80 font-medium"
                                 >
                                     {xAxisLabel}
                                 </text>
@@ -531,7 +531,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     y={height / 2}
                                     textAnchor="middle"
                                     transform={`rotate(-90, 15, ${height / 2})`}
-                                    className="glass-glass-glass-text-sm fill-white/80 glass-glass-glass-font-medium"
+                                    className="text-sm fill-white/80 font-medium"
                                 >
                                     {yAxisLabel}
                                 </text>
@@ -540,7 +540,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
 
                         {/* Tooltip */}
                         {hoveredPoint && (
-                            <Motion preset="fadeIn" className="glass-glass-glass-absolute glass-glass-glass-z-10">
+                            <Motion preset="fadeIn" className="absolute z-10">
                                 <div
                                     role="tooltip"
                                     aria-live="polite"
@@ -551,15 +551,15 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                         transform: hoveredPoint.x > width / 2 ? 'translateX(-100%)' : 'none'
                                     }}
                                 >
-                                    <div className="glass-glass-glass-text-primary glass-glass-glass-text-sm glass-glass-glass-gap-2">
-                                        <div className="glass-glass-glass-font-medium">
+                                    <div className="text-primary text-sm gap-2">
+                                        <div className="font-medium">
                                             {processedData.scaledSeries[0]?.points[hoveredPoint.index] &&
                                                 formatXValue(processedData.scaledSeries[0].points[hoveredPoint.index].x)}
                                         </div>
                                         {processedData.scaledSeries.map((s, index) => (
-                                            <div key={s.id} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                                                <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-radius-md" style={{ backgroundColor: s.color }} />
-                                                <span className="glass-glass-glass-text-primary/80">{s.name}: {formatYValue(hoveredPoint.values?.[index] || 0)}</span>
+                                            <div key={s.id} className="flex items-center gap-2">
+                                                <div className="w-3 h-3 glass-radius-md" style={{ backgroundColor: s.color }} />
+                                                <span className="text-primary/80">{s.name}: {formatYValue(hoveredPoint.values?.[index] || 0)}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -570,7 +570,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
 
                     {/* Legend */}
                     {showLegend && (processedData.scaledSeries?.length || 0) > 0 && (
-                        <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-justify-center glass-glass-glass-gap-4 mt-6">
+                        <div className="flex flex-wrap justify-center gap-4 mt-6">
                             {processedData.scaledSeries.map((s) => (
                                 <div
                                     key={s.id}
@@ -580,8 +580,8 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                     onMouseEnter={() => setHoveredSeriesId(s.id)}
                                     onMouseLeave={() => setHoveredSeriesId(null)}
                                 >
-                                    <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-radius-md" style={{ backgroundColor: s.color }} />
-                                    <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/80">{s.name}</span>
+                                    <div className="w-3 h-3 glass-radius-md" style={{ backgroundColor: s.color }} />
+                                    <span className="text-sm text-primary/80">{s.name}</span>
                                 </div>
                             ))}
                         </div>

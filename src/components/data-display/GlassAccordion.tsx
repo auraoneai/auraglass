@@ -332,9 +332,9 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
                 data-accordion-trigger={item?.id}
                 role="tab"
               >
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+                <div className="flex items-center gap-3">
                   {item?.icon && (
-                    <span className="glass-glass-glass-flex-shrink-0 glass-text-secondary">
+                    <span className="flex-shrink-0 glass-text-secondary">
                       {item?.icon}
                     </span>
                   )}

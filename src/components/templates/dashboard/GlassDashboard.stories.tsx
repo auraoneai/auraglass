@@ -103,7 +103,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-glass-glass-w-full glass-glass-glass-h-screen">
+    <div className="w-full h-screen">
       <GlassDashboard {...args} />
     </div>
   ),

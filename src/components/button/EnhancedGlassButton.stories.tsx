@@ -269,7 +269,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="space-x-4 glass-glass-glass-flex glass-glass-glass-items-center">
+    <div className="space-x-4 flex items-center">
       <EnhancedGlassButton size="xs">XS</EnhancedGlassButton>
       <EnhancedGlassButton size="sm">Small</EnhancedGlassButton>
       <EnhancedGlassButton size="md">Medium</EnhancedGlassButton>

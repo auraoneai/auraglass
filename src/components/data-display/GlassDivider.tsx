@@ -274,7 +274,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {...props}
         >
           {startDecorator && (
-            <div className="glass-glass-glass-flex-shrink-0 mr-3">
+            <div className="flex-shrink-0 mr-3">
               {startDecorator}
             </div>
           )}
@@ -288,7 +288,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {!label && renderDividerLine('full')}
           
           {endDecorator && (
-            <div className="glass-glass-glass-flex-shrink-0 ml-3">
+            <div className="flex-shrink-0 ml-3">
               {endDecorator}
             </div>
           )}
@@ -312,7 +312,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {...props}
         >
           {startDecorator && (
-            <div className="glass-glass-glass-flex-shrink-0 glass-glass-glass-mb-3">
+            <div className="flex-shrink-0 mb-3">
               {startDecorator}
             </div>
           )}
@@ -326,7 +326,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {!label && renderDividerLine('full')}
           
           {endDecorator && (
-            <div className="glass-glass-glass-flex-shrink-0 mt-3">
+            <div className="flex-shrink-0 mt-3">
               {endDecorator}
             </div>
           )}

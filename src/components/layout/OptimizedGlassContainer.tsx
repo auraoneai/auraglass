@@ -210,9 +210,9 @@ export const OptimizedGlassContainer = forwardRef<HTMLDivElement, OptimizedGlass
       };
 
       return (
-        <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 glass-glass-glass-z-50 glass-surface-dark/50 glass-glass-glass-text-primary glass-glass-glass-p-2 glass-radius-md glass-glass-glass-text-xs font-mono">
+        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 z-50 glass-surface-dark/50 text-primary p-2 glass-radius-md text-xs font-mono">
           <div>FPS: <span className={getIndicatorColor()}>{Math.round(currentFps)}</span></div>
-          <div>Level: <span className="glass-glass-glass-text-primary">{optimizationLevel}</span></div>
+          <div>Level: <span className="text-primary">{optimizationLevel}</span></div>
           <div>Score: <span className={getIndicatorColor()}>{(performanceScore * 100).toFixed(0)}%</span></div>
         </div>
       );

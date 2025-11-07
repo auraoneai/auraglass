@@ -164,29 +164,29 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
     }, {} as Record<string, ChatMessage[]>);
 
     return (
-        <Motion preset="fadeIn" className="glass-glass-glass-w-full glass-glass-glass-h-full">
+        <Motion preset="fadeIn" className="w-full h-full">
             <GlassCard className={cn('flex flex-col h-full overflow-hidden', className)} {...props}>
                 {/* Search header */}
                 {enableSearch && showSearch && (
-                    <div className="glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-white/10">
+                    <div className="p-4 border-b border-white/10">
                         <input
                             type="text"
                             placeholder="Search messages..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="glass-glass-glass-w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-glass-glass-px-4 glass-glass-glass-py-2 glass-glass-glass-text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
+                            className="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg px-4 py-2 text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
                         />
                     </div>
                 )}
 
                 {/* Messages */}
-                <CardContent className="glass-glass-glass-flex-1 glass-glass-glass-overflow-y-auto glass-glass-glass-p-4" spacing="lg">
+                <CardContent className="flex-1 overflow-y-auto p-4" spacing="lg">
                     {Object.entries(groupedMessages).map(([date, dateMessages]) => (
                         <div key={date}>
                             {/* Date separator */}
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-my-6">
-                                <div className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-surface-subtle/10 glass-radius-full">
-                                    <span className="glass-glass-glass-text-primary/60 glass-glass-glass-text-xs">
+                            <div className="flex items-center justify-center my-6">
+                                <div className="px-3 py-1 glass-surface-subtle/10 glass-radius-full">
+                                    <span className="text-primary/60 text-xs">
                                         {new Date(date).toLocaleDateString()}
                                     </span>
                                 </div>
@@ -217,16 +217,16 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                             )}>
                                                 {/* Avatar */}
                                                 {showAvatars && (
-                                                    <div className="glass-glass-glass-flex-shrink-0">
-                                                        <div className="glass-glass-glass-w-10 glass-glass-glass-h-10 glass-radius-full glass-surface-subtle/20 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                                                    <div className="flex-shrink-0">
+                                                        <div className="w-10 h-10 glass-radius-full glass-surface-subtle/20 flex items-center justify-center">
                                                             {message.sender.avatar ? (
                                                                 <img
                                                                     src={message.sender.avatar}
                                                                     alt={message.sender.name}
-                                                                    className="glass-glass-glass-w-full glass-glass-glass-h-full glass-radius-full object-cover"
+                                                                    className="w-full h-full glass-radius-full object-cover"
                                                                 />
                                                             ) : (
-                                                                <span className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">
+                                                                <span className="text-primary/80 text-sm font-medium">
                                                                     {message.sender.name.charAt(0).toUpperCase()}
                                                                 </span>
                                                             )}
@@ -235,10 +235,10 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                 )}
 
                                                 {/* Message content */}
-                                                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+                                                <div className="flex-1 min-w-0">
                                                     {/* Header */}
-                                                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-1">
-                                                        <span className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-text-sm">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <span className="text-primary font-medium text-sm">
                                                             {message.sender.name}
                                                         </span>
 
@@ -252,19 +252,19 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                         )}
 
                                                         {showTimestamps && (
-                                                            <span className="glass-glass-glass-text-primary/60 glass-glass-glass-text-xs glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                                                <Clock className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                            <span className="text-primary/60 text-xs flex items-center gap-1">
+                                                                <Clock className="w-3 h-3" />
                                                                 {formatTimestamp(message.timestamp)}
                                                             </span>
                                                         )}
 
                                                         {message.edited && (
-                                                            <span className="glass-glass-glass-text-primary/50 glass-glass-glass-text-xs">(edited)</span>
+                                                            <span className="text-primary/50 text-xs">(edited)</span>
                                                         )}
                                                     </div>
 
                                                     {/* Message text */}
-                                                    <div className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm leading-relaxed">
+                                                    <div className="text-primary/90 text-sm leading-relaxed">
                                                         {message.content}
                                                     </div>
 
@@ -274,29 +274,29 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                             {message.attachments.map((attachment, attIndex) => (
                                                                 <div
                                                                     key={attIndex}
-                                                                    className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-p-3 glass-surface-dark/20 glass-radius-lg hover:glass-surface-dark/30 transition-colors glass-glass-glass-cursor-pointer glass-glass-glass-border glass-glass-glass-border-white/10 hover:glass-glass-glass-border-white/20"
+                                                                    className="flex items-center gap-3 p-3 glass-surface-dark/20 glass-radius-lg hover:glass-surface-dark/30 transition-colors cursor-pointer border border-white/10 hover:border-white/20"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation();
                                                                         handleAttachmentDownload({ url: attachment.url, name: attachment.name });
                                                                     }}
                                                                 >
-                                                                    <div className="glass-glass-glass-flex-shrink-0">
-                                                                        {attachment.type === 'image' && <ImageIcon className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />}
-                                                                        {attachment.type === 'video' && <Video className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />}
-                                                                        {attachment.type === 'file' && <File className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />}
+                                                                    <div className="flex-shrink-0">
+                                                                        {attachment.type === 'image' && <ImageIcon className="w-5 h-5 text-primary" />}
+                                                                        {attachment.type === 'video' && <Video className="w-5 h-5 text-primary" />}
+                                                                        {attachment.type === 'file' && <File className="w-5 h-5 text-primary" />}
                                                                     </div>
 
-                                                                    <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-                                                                        <p className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm glass-glass-glass-truncate">{attachment.name}</p>
+                                                                    <div className="flex-1 min-w-0">
+                                                                        <p className="text-primary/90 text-sm truncate">{attachment.name}</p>
                                                                         {attachment.size && (
-                                                                            <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-xs">
+                                                                            <p className="text-primary/60 text-xs">
                                                                                 {(attachment.size / 1024 / 1024).toFixed(1)} MB
                                                                             </p>
                                                                         )}
                                                                     </div>
 
-                                                                    <GlassButton variant="ghost" size="sm" className="glass-glass-glass-p-1">
-                                                                        <Download className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                                                    <GlassButton variant="ghost" size="sm" className="p-1">
+                                                                        <Download className="w-4 h-4" />
                                                                     </GlassButton>
                                                                 </div>
                                                             ))}
@@ -305,7 +305,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
 
                                                     {/* Reactions */}
                                                     {message.reactions && message.reactions.length > 0 && (
-                                                        <div className="glass-glass-glass-flex glass-glass-glass-gap-1 glass-mt-2">
+                                                        <div className="flex gap-1 glass-mt-2">
                                                             {message.reactions.map((reaction, reactionIndex) => (
                                                                 <GlassButton
                                                                     key={reactionIndex}
@@ -315,7 +315,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                                         e.stopPropagation();
                                                                         handleReaction(message.id, reaction.emoji);
                                                                     }}
-                                                                    className="glass-glass-glass-h-6 glass-glass-glass-px-2 glass-glass-glass-text-xs glass-surface-subtle/10"
+                                                                    className="h-6 px-2 text-xs glass-surface-subtle/10"
                                                                 >
                                                                     {reaction.emoji} {reaction.count}
                                                                 </GlassButton>
@@ -325,8 +325,8 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                 </div>
 
                                                 {/* Message actions */}
-                                                <div className="glass-glass-glass-flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-1">
+                                                <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <div className="flex flex-col gap-1">
                                                         {enableReactions && (
                                                             <GlassButton
                                                                 variant="ghost"
@@ -335,9 +335,9 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                                     e.stopPropagation();
                                                                     handleReaction(message.id, '👍');
                                                                 }}
-                                                                className="glass-glass-glass-p-1"
+                                                                className="p-1"
                                                             >
-                                                                <Heart className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                                <Heart className="w-3 h-3" />
                                                             </GlassButton>
                                                         )}
 
@@ -349,9 +349,9 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                                     e.stopPropagation();
                                                                     handleReply(message.id);
                                                                 }}
-                                                                className="glass-glass-glass-p-1"
+                                                                className="p-1"
                                                             >
-                                                                <Reply className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                                <Reply className="w-3 h-3" />
                                                             </GlassButton>
                                                         )}
 
@@ -359,22 +359,22 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={(e) => e.stopPropagation()}
-                                                            className="glass-glass-glass-p-1"
+                                                            className="p-1"
                                                         >
-                                                            <MoreHorizontal className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                            <MoreHorizontal className="w-3 h-3" />
                                                         </GlassButton>
                                                     </div>
                                                 </div>
 
                                                 {/* Message status */}
                                                 {showMessageStatus && isCurrentUser && (
-                                                    <div className="glass-glass-glass-flex-shrink-0 glass-ml-2">
+                                                    <div className="flex-shrink-0 glass-ml-2">
                                                         {message.type === 'system' ? (
-                                                            <AlertCircle className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary" />
+                                                            <AlertCircle className="w-4 h-4 text-primary" />
                                                         ) : (
-                                                            <div className="glass-glass-glass-flex">
-                                                                <Check className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-glass-glass-text-primary/60" />
-                                                                <CheckCheck className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-glass-glass-text-primary -glass-ml-1" />
+                                                            <div className="flex">
+                                                                <Check className="w-3 h-3 text-primary/60" />
+                                                                <CheckCheck className="w-3 h-3 text-primary -glass-ml-1" />
                                                             </div>
                                                         )}
                                                     </div>
@@ -392,12 +392,12 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
 
                 {/* Search toggle */}
                 {enableSearch && (
-                    <div className="glass-glass-glass-p-4 glass-glass-glass-border-t glass-glass-glass-border-white/10">
+                    <div className="p-4 border-t border-white/10">
                         <GlassButton
                             variant="ghost"
                             size="sm"
                             onClick={() => setShowSearch(!showSearch)}
-                            className="glass-glass-glass-w-full"
+                            className="w-full"
                         >
                             {showSearch ? 'Hide Search' : 'Search Messages'}
                         </GlassButton>

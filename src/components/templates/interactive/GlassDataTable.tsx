@@ -94,8 +94,8 @@ export function GlassDataTable<T extends Record<string, any>>({
       {Array.from({ length: loadingRows }).map((_, index) => (
         <tr key={`loading-${index}`} className="animate-pulse">
           {columns.map((column, colIndex) => (
-            <td key={`loading-${index}-${colIndex}`} className="glass-glass-glass-p-4">
-              <div className="glass-glass-glass-h-4 glass-surface-subtle glass-radius"></div>
+            <td key={`loading-${index}-${colIndex}`} className="p-4">
+              <div className="h-4 glass-surface-subtle glass-radius"></div>
             </td>
           ))}
         </tr>
@@ -105,14 +105,14 @@ export function GlassDataTable<T extends Record<string, any>>({
 
   const renderEmptyState = () => (
     <tr>
-      <td colSpan={columns.length} className="glass-glass-glass-p-12 glass-glass-glass-text-center">
-        <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-4 glass-text-secondary">
-          <div className="glass-glass-glass-text-6xl opacity-50">📭</div>
-          <div className="glass-glass-glass-font-medium">{emptyMessage}</div>
+      <td colSpan={columns.length} className="p-12 text-center">
+        <div className="flex flex-col items-center gap-4 glass-text-secondary">
+          <div className="text-6xl opacity-50">📭</div>
+          <div className="font-medium">{emptyMessage}</div>
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-primary/10 hover:glass-surface-primary/20 glass-radius-lg glass-glass-glass-text-primary glass-glass-glass-text-sm glass-glass-glass-font-medium transition-colors"
+              className="px-4 py-2 glass-surface-primary/10 hover:glass-surface-primary/20 glass-radius-lg text-primary text-sm font-medium transition-colors"
             >
               Clear Search
             </button>
@@ -126,16 +126,16 @@ export function GlassDataTable<T extends Record<string, any>>({
     if (!paginated || totalPages <= 1) return null;
 
     return (
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-4 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border">
-        <div className="glass-glass-glass-text-sm glass-text-secondary">
+      <div className="flex items-center justify-between p-4 border-t border-glass-border">
+        <div className="text-sm glass-text-secondary">
           Showing {startIndex + 1} to {Math.min(startIndex + pageSize, processedData.length)} of {processedData.length} results
         </div>
         
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1 glass-radius-md border border-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Previous
           </button>
@@ -161,7 +161,7 @@ export function GlassDataTable<T extends Record<string, any>>({
           <button
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
-            className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1 glass-radius-md border border-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Next
           </button>
@@ -174,8 +174,8 @@ export function GlassDataTable<T extends Record<string, any>>({
     <Glass className={cn('glass-radius-xl overflow-hidden', className)} {...props}>
       {/* Header with search */}
       {searchable && (
-        <div className="glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border">
-          <div className="glass-glass-glass-relative">
+        <div className="p-4 border-b border-glass-border">
+          <div className="relative">
             <input
               type="text"
               placeholder="Search..."
@@ -184,9 +184,9 @@ export function GlassDataTable<T extends Record<string, any>>({
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="glass-glass-glass-w-full glass-glass-glass-px-4 glass-glass-glass-py-2 glass-pl-10 bg-background glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+              className="w-full px-4 py-2 glass-pl-10 bg-background border border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
             />
-            <div className="glass-glass-glass-absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
               🔍
             </div>
           </div>
@@ -194,8 +194,8 @@ export function GlassDataTable<T extends Record<string, any>>({
       )}
 
       {/* Table */}
-      <div className="glass-glass-glass-overflow-x-auto">
-        <table className="glass-glass-glass-w-full">
+      <div className="overflow-x-auto">
+        <table className="w-full">
           <thead className="glass-surface-subtle">
             <tr>
               {columns.map((column) => (
@@ -208,10 +208,10 @@ export function GlassDataTable<T extends Record<string, any>>({
                   )}
                   onClick={() => handleSort(column.key)}
                 >
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                  <div className="flex items-center gap-2">
                     {column.label}
                     {column.sortable && (
-                      <div className="glass-glass-glass-flex glass-glass-glass-flex-col">
+                      <div className="flex flex-col">
                         <div className={cn(
                           'text-xs transition-colors',
                           sortColumn === column.key && sortDirection === 'asc'
@@ -241,10 +241,10 @@ export function GlassDataTable<T extends Record<string, any>>({
                 paginatedData.map((item, index) => (
                   <tr
                     key={index}
-                    className="hover:glass-surface-subtle transition-colors glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border last:glass-glass-glass-border-b-0"
+                    className="hover:glass-surface-subtle transition-colors border-b border-glass-border last:border-b-0"
                   >
                     {columns.map((column) => (
-                      <td key={String(column.key)} className="glass-glass-glass-px-4 glass-glass-glass-py-3 glass-glass-glass-text-sm">
+                      <td key={String(column.key)} className="px-4 py-3 text-sm">
                         {column.render
                           ? column.render(item[column.key], item)
                           : String(item[column.key])

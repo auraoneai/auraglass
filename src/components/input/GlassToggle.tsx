@@ -240,7 +240,7 @@ export const GlassToggle = React.forwardRef<HTMLButtonElement, GlassToggleProps>
         return (
             <Motion
                 {...getAnimationProps()}
-                className="inline-glass-glass-glass-block"
+                className="inline-block"
             >
                 <OptimizedGlass
                     intent="neutral"
@@ -271,26 +271,26 @@ export const GlassToggle = React.forwardRef<HTMLButtonElement, GlassToggleProps>
                 >
                     {/* Content */}
                     {leftIcon && (
-                        <span className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                        <span className="flex items-center justify-center">
                             {leftIcon}
                         </span>
                     )}
 
                     {children && (
-                        <span className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                        <span className="flex items-center justify-center">
                             {children}
                         </span>
                     )}
 
                     {rightIcon && (
-                        <span className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                        <span className="flex items-center justify-center">
                             {rightIcon}
                         </span>
                     )}
 
                     {/* Active indicator for ghost variant */}
                     {variant === 'ghost' && pressed && (
-                        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-surface-subtle/10 glass-radius-lg animate-pulse" />
+                        <div className="absolute inset-0 glass-surface-subtle/10 glass-radius-lg animate-pulse" />
                     )}
                 </OptimizedGlass>
             </Motion>

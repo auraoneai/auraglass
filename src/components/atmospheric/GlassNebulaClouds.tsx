@@ -643,14 +643,14 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-nebula-controls glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+          className="glass-nebula-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Type:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Type:</label>
             <select
               value={nebulaType}
               onChange={(e) => {}}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-overlay glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
               <option value="emission">Emission</option>
               <option value="reflection">Reflection</option>
@@ -660,8 +660,8 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
             </select>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Density:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Density:</label>
             <input
               type="range"
               min="0.1"
@@ -669,12 +669,12 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               step="0.1"
               value={density}
               onChange={(e) => {}}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Temperature:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Temperature:</label>
             <input
               type="range"
               min="10"
@@ -682,13 +682,13 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               step="1000"
               value={temperature}
               onChange={(e) => {}}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
-            <span className="glass-glass-glass-text-xs">{(temperature / 1000).toFixed(1)}K K</span>
+            <span className="text-xs">{(temperature / 1000).toFixed(1)}K K</span>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Time Scale:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Time Scale:</label>
             <input
               type="range"
               min="0.1"
@@ -696,12 +696,12 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               step="0.1"
               value={timeScale}
               onChange={(e) => {}}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showStarClusters}
@@ -710,7 +710,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               />
               Stars
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showCosmicDust}
@@ -719,7 +719,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               />
               Dust
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showEmissionLines}
@@ -728,7 +728,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               />
               Emission
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showMagneticField}
@@ -759,16 +759,16 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 glass-glass-glass-p-4"
+          className="flex flex-col gap-4 p-4"
         >
           {renderControls()}
           
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}
               height={height}
-              className="glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20 glass-radius-md glass-surface-dark"
+              className="border border-glass-border/20 glass-radius-md glass-surface-dark"
               style={{ width, height }}
             />
           </div>

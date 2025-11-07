@@ -17,7 +17,7 @@ import { useKeyboardNavigation } from '../../utils/a11yHooks';
 
 // Helper components
 const Badge = ({ children }: { children: React.ReactNode }) => (
-  <span className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center min-w-[18px] h-[18px] glass-glass-glass-px-1.5 glass-glass-glass-text-xs glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-surface-blue glass-radius-full">
+  <span className="glass-inline-flex items-center justify-center min-w-[18px] h-[18px] px-1.5 text-xs font-semibold text-primary glass-surface-blue glass-radius-full">
     {children}
   </span>
 );
@@ -512,7 +512,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
           {/* Active indicator */}
           {!prefersReducedMotion && (
             <div
-              className="glass-glass-glass-absolute glass-surface-blue glass-radius-sm z-0 glass-glass-glass-pointer-events-none transition-all duration-300 ease-out"
+              className="absolute glass-surface-blue glass-radius-sm z-0 pointer-events-none transition-all duration-300 ease-out"
               style={{
                 left: `${indicatorStyle.left}px`,
                 top: `${indicatorStyle.top}px`,
@@ -542,7 +542,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
 
         {/* Actions container */}
         {actions && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+          <div className="flex items-center gap-3">
             {actions}
           </div>
         )}

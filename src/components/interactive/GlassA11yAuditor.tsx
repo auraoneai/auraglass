@@ -319,27 +319,27 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
       <div 
         ref={ref}
         id={componentId}
-        className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-h-full"
+        className="flex flex-col h-full"
         role="application"
         aria-label="Accessibility auditing tool"
         aria-describedby={`${componentId}-description`}
         {...props}
       >
-        <div id={`${componentId}-description`} className="glass-glass-glass-sr-only">
+        <div id={`${componentId}-description`} className="sr-only">
           Accessibility audit tool for analyzing and improving web accessibility
         </div>
       {/* Audit Controls */}
       <OptimizedGlass
-        className="glass-glass-glass-p-4 glass-glass-glass-mb-4"
+        className="p-4 mb-4"
         intensity="medium"
         elevation="level1"
       >
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4">
-          <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary">Accessibility Audit</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-primary">Accessibility Audit</h3>
           <button
             onClick={runAudit}
             disabled={isAuditing}
-            className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label={isAuditing ? 'Auditing accessibility issues' : 'Run accessibility audit'}
           >
             {isAuditing ? 'Auditing...' : 'Run Audit'}
@@ -348,45 +348,45 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
 
         {/* Score Display */}
         {auditResult && (
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
-            <div className="glass-glass-glass-text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center">
               <div className={`glass-text-2xl font-bold ${getScoreColor(auditResult.score)}`}>
                 {auditResult.score}
               </div>
-              <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary/70">Score</div>
+              <div className="text-sm text-primary/70">Score</div>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">
                 {auditResult.summary.errors}
               </div>
-              <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary/70">Errors</div>
+              <div className="text-sm text-primary/70">Errors</div>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">
                 {auditResult.summary.warnings}
               </div>
-              <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary/70">Warnings</div>
+              <div className="text-sm text-primary/70">Warnings</div>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">
                 {auditResult.summary.info}
               </div>
-              <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary/70">Info</div>
+              <div className="text-sm text-primary/70">Info</div>
             </div>
           </div>
         )}
       </OptimizedGlass>
 
-      <div className="glass-glass-glass-flex glass-glass-glass-flex-1 glass-glass-glass-gap-4">
+      <div className="flex flex-1 gap-4">
         {/* Issues List */}
         <OptimizedGlass
-          className="glass-glass-glass-flex-1 glass-glass-glass-p-4"
+          className="flex-1 p-4"
           blur="medium"
           elevation={'level1'}
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4">
-            <h4 className="text-md glass-glass-glass-font-semibold glass-glass-glass-text-primary">Issues</h4>
-            <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-md font-semibold text-primary">Issues</h4>
+            <div className="flex gap-2">
               {(['all', 'error', 'warning', 'info'] as const).map(type => (
                 <button
                   key={type}
@@ -403,7 +403,7 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
             </div>
           </div>
 
-          <div className="glass-glass-glass-gap-2 max-glass-glass-glass-h-96 glass-glass-glass-overflow-y-auto">
+          <div className="gap-2 max-h-96 overflow-y-auto">
             {filteredIssues.map(issue => (
               <button
                 key={issue.id}
@@ -412,15 +412,15 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
                   getIssueTypeColor(issue.type)
                 } ${selectedIssue?.id === issue.id ? 'ring-2 ring-white/50' : ''}`}
               >
-                <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between">
-                  <div className="glass-glass-glass-flex-1">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-1">
-                      <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">{issue.rule}</span>
-                      <span className="glass-glass-glass-text-xs opacity-70">WCAG {issue.wcag}</span>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-medium">{issue.rule}</span>
+                      <span className="text-xs opacity-70">WCAG {issue.wcag}</span>
                     </div>
-                    <p className="glass-glass-glass-text-sm glass-glass-glass-opacity-90">{issue.message}</p>
+                    <p className="text-sm opacity-90">{issue.message}</p>
                     {issue.element && (
-                      <code className="glass-glass-glass-text-xs opacity-70 glass-surface-dark/20 glass-glass-glass-px-1 glass-glass-glass-py-0.5 glass-radius-md glass-mt-1 inline-glass-glass-glass-block">
+                      <code className="text-xs opacity-70 glass-surface-dark/20 px-1 py-0.5 glass-radius-md glass-mt-1 inline-block">
                         {issue.element}
                       </code>
                     )}
@@ -430,7 +430,7 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
             ))}
 
             {filteredIssues.length === 0 && (
-              <div className="glass-glass-glass-text-center glass-glass-glass-py-8 glass-glass-glass-text-primary/50">
+              <div className="text-center py-8 text-primary/50">
                 {auditResult ? 'No issues found!' : 'Run audit to check accessibility'}
               </div>
             )}
@@ -440,46 +440,46 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
         {/* Issue Details */}
         {selectedIssue && (
           <OptimizedGlass
-            className="glass-glass-glass-w-80 glass-glass-glass-p-4"
+            className="w-80 p-4"
             blur="medium"
             elevation={'level1'}
           >
-            <h4 className="text-md glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-4">Issue Details</h4>
+            <h4 className="text-md font-semibold text-primary mb-4">Issue Details</h4>
 
-            <div className="glass-glass-glass-gap-4">
+            <div className="gap-4">
               <div>
-                <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Rule</label>
-                <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">{selectedIssue.rule}</div>
+                <label className="block text-sm text-primary/70 mb-1">Rule</label>
+                <div className="text-sm font-medium text-primary">{selectedIssue.rule}</div>
               </div>
 
               <div>
-                <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Type</label>
+                <label className="block text-sm text-primary/70 mb-1">Type</label>
                 <span className={`glass-px-2 glass-py-1 glass-text-xs glass-radius-md capitalize ${getIssueTypeColor(selectedIssue.type)}`}>
                   {selectedIssue.type}
                 </span>
               </div>
 
               <div>
-                <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">WCAG Guideline</label>
-                <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">{selectedIssue.wcag}</div>
+                <label className="block text-sm text-primary/70 mb-1">WCAG Guideline</label>
+                <div className="text-sm text-primary">{selectedIssue.wcag}</div>
               </div>
 
               <div>
-                <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Message</label>
-                <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary">{selectedIssue.message}</p>
+                <label className="block text-sm text-primary/70 mb-1">Message</label>
+                <p className="text-sm text-primary">{selectedIssue.message}</p>
               </div>
 
               {selectedIssue.suggestion && (
                 <div>
-                  <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Suggestion</label>
-                  <p className="glass-glass-glass-text-sm glass-text-secondary">{selectedIssue.suggestion}</p>
+                  <label className="block text-sm text-primary/70 mb-1">Suggestion</label>
+                  <p className="text-sm glass-text-secondary">{selectedIssue.suggestion}</p>
                 </div>
               )}
 
               {selectedIssue.code && (
                 <div>
-                  <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Element Code</label>
-                  <pre className="glass-glass-glass-text-xs glass-surface-dark/20 glass-glass-glass-p-2 glass-radius-md glass-glass-glass-overflow-x-auto">
+                  <label className="block text-sm text-primary/70 mb-1">Element Code</label>
+                  <pre className="text-xs glass-surface-dark/20 p-2 glass-radius-md overflow-x-auto">
                     <code>{selectedIssue.code}</code>
                   </pre>
                 </div>

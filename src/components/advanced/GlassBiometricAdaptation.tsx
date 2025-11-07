@@ -705,7 +705,7 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
     >
       <OptimizedGlass>
         {/* Screen reader description */}
-      <span id={descriptionId} className="glass-glass-glass-sr-only">
+      <span id={descriptionId} className="sr-only">
         Biometric adaptation interface responding to stress level {Math.round(currentStressLevel * 100)}%.
         {adaptationType !== 'all' ? ` Adaptation type: ${adaptationType}` : ' All adaptations active.'}
       </span>
@@ -779,7 +779,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
       {...restProps}
     >
       <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
-        <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary dark:glass-text-secondary">Biometrics</h3>
+        <h3 className="text-sm font-medium glass-text-secondary dark:glass-text-secondary">Biometrics</h3>
         <button
           onClick={() => setShowDetails(!showDetails)}
           className="glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus"
@@ -793,7 +793,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
       {/* Current status */}
       <div className="glass-gap-2">
         <div className="glass-flex glass-items-center glass-justify-between">
-          <span className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary">Stress Level</span>
+          <span className="text-xs glass-text-secondary dark:glass-text-secondary">Stress Level</span>
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-w-16 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden">
               <motion.div
@@ -807,7 +807,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
                 transition={{ duration: 0.5 }}
               />
             </div>
-            <span className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className="text-xs glass-text-secondary dark:glass-text-secondary">
               {(currentStressLevel * 100).toFixed(0)}%
             </span>
           </div>
@@ -815,8 +815,8 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
 
         {latestReading?.heartRate && (
           <div className="glass-flex glass-items-center glass-justify-between">
-            <span className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary">Heart Rate</span>
-            <span className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className="text-xs glass-text-secondary dark:glass-text-secondary">Heart Rate</span>
+            <span className="text-xs glass-text-secondary dark:glass-text-secondary">
               {latestReading.heartRate} bpm
             </span>
           </div>
@@ -828,7 +828,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
         {showDetails && (
           <motion.div
             id={`${dashboardId}-details`}
-            className="glass-mt-4 pt-4 glass-glass-glass-border-t glass-glass-glass-border-white/10 glass-glass-glass-gap-3"
+            className="glass-mt-4 pt-4 border-t border-white/10 gap-3"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -870,14 +870,14 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
             {/* Current adaptations */}
             {engine && (
               <div>
-                <div className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary glass-glass-glass-mb-2">Active Adaptations</div>
-                <div className="glass-glass-glass-gap-1">
+                <div className="text-xs glass-text-secondary dark:glass-text-secondary mb-2">Active Adaptations</div>
+                <div className="gap-1">
                   {['color', 'motion', 'layout', 'audio'].map(type => {
                     const adaptation = engine.getCurrentAdaptation(type);
                     return adaptation ? (
-                      <div key={type} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-text-xs">
-                        <span className="glass-text-secondary dark:glass-text-secondary glass-glass-glass-capitalize">{type}</span>
-                        <span className="glass-text-secondary dark:glass-text-secondary glass-glass-glass-capitalize">{adaptation.type}</span>
+                      <div key={type} className="flex items-center justify-between text-xs">
+                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">{type}</span>
+                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">{adaptation.type}</span>
                       </div>
                     ) : null;
                   })}
@@ -888,11 +888,11 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
             {/* Readings info */}
             {latestReading && (
               <div>
-                <div className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary glass-glass-glass-mb-1">Last Reading</div>
-                <div className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                <div className="text-xs glass-text-secondary dark:glass-text-secondary mb-1">Last Reading</div>
+                <div className="text-xs glass-text-secondary dark:glass-text-secondary">
                   {new Date(latestReading.timestamp).toLocaleTimeString()}
                 </div>
-                <div className="glass-glass-glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                <div className="text-xs glass-text-secondary dark:glass-text-secondary">
                   Confidence: {(latestReading.confidence * 100).toFixed(0)}%
                 </div>
               </div>

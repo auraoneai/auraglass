@@ -97,7 +97,7 @@ const sampleEvents = [
 
 export const Default: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-w-full max-w-4xl">
+    <div className="w-full max-w-4xl">
       <GlassCalendar {...args} />
     </div>
   ),
@@ -108,17 +108,17 @@ export const Default: Story = {
 
 export const Views: Story = {
   render: (args) => (
-    <div className="space-y-8 glass-glass-glass-w-full max-w-4xl">
+    <div className="space-y-8 w-full max-w-4xl">
       <div>
-        <h4 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-4 glass-glass-glass-text-primary">Month View</h4>
+        <h4 className="text-lg font-semibold mb-4 text-primary">Month View</h4>
         <GlassCalendar {...args} view="month" />
       </div>
       <div>
-        <h4 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-4 glass-glass-glass-text-primary">Week View</h4>
+        <h4 className="text-lg font-semibold mb-4 text-primary">Week View</h4>
         <GlassCalendar {...args} view="week" />
       </div>
       <div>
-        <h4 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-4 glass-glass-glass-text-primary">Day View</h4>
+        <h4 className="text-lg font-semibold mb-4 text-primary">Day View</h4>
         <GlassCalendar {...args} view="day" />
       </div>
     </div>
@@ -130,7 +130,7 @@ export const Views: Story = {
 
 export const WithEvents: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-w-full max-w-4xl">
+    <div className="w-full max-w-4xl">
       <GlassCalendar {...args} />
     </div>
   ),
@@ -142,7 +142,7 @@ export const WithEvents: Story = {
 
 export const WithoutWeekends: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-w-full max-w-4xl">
+    <div className="w-full max-w-4xl">
       <GlassCalendar {...args} />
     </div>
   ),
@@ -154,7 +154,7 @@ export const WithoutWeekends: Story = {
 
 export const Loading: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-w-full max-w-4xl">
+    <div className="w-full max-w-4xl">
       <GlassCalendar {...args} />
     </div>
   ),
@@ -165,7 +165,7 @@ export const Loading: Story = {
 
 export const CustomDate: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-w-full max-w-4xl">
+    <div className="w-full max-w-4xl">
       <GlassCalendar {...args} />
     </div>
   ),

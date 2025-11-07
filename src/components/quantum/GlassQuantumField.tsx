@@ -685,14 +685,14 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-quantum-controls glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+          className="glass-quantum-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Type:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Type:</label>
             <select
               value={simulationType}
               onChange={(e) => {}}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-overlay glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
               <option value="particle">Particle</option>
               <option value="wave">Wave</option>
@@ -701,8 +701,8 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
             </select>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Coherence:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Coherence:</label>
             <input
               type="range"
               min="0"
@@ -710,12 +710,12 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               step="0.1"
               value={coherence}
               onChange={(e) => {}}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Entanglement:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Entanglement:</label>
             <input
               type="range"
               min="0"
@@ -723,12 +723,12 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               step="0.1"
               value={entanglementStrength}
               onChange={(e) => {}}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Temperature:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Temperature:</label>
             <input
               type="range"
               min="0"
@@ -736,12 +736,12 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               step="0.1"
               value={temperature}
               onChange={(e) => {}}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showWaveFunctions}
@@ -750,7 +750,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               />
               Waves
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showProbabilityClouds}
@@ -759,7 +759,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               />
               Probability
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showEntanglement}
@@ -768,7 +768,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               />
               Entanglement
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={timeEvolution}
@@ -781,7 +781,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
           <button
             onClick={() => initializeParticles()}
-            className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-glass-glass-text-primary"
+            className="px-3 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
           >
             Reset
           </button>
@@ -806,11 +806,11 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 glass-glass-glass-p-4"
+          className="flex flex-col gap-4 p-4"
         >
           {renderControls()}
           
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}

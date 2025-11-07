@@ -164,7 +164,7 @@ export function TouchOptimizedGlass({
         {ripples.map((ripple) => (
           <motion.div
             key={ripple.id}
-            className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
               left: ripple.x - 20,
               top: ripple.y - 20,
@@ -186,7 +186,7 @@ export function TouchOptimizedGlass({
         <AnimatePresence>
           {isPressed && (
             <motion.div
-              className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none"
+              className="absolute inset-0 pointer-events-none"
               style={{
                 background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
                 borderRadius: 'inherit'
@@ -402,7 +402,7 @@ export function TouchRippleEffects({
         {ripples.map((ripple) => (
           <motion.div
             key={ripple.id}
-            className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none glass-radius-full"
+            className="absolute pointer-events-none glass-radius-full"
             style={{
               left: ripple.x - 20,
               top: ripple.y - 20,
@@ -489,12 +489,12 @@ export function MobileGlassBottomSheet({
             onDragEnd={handleDragEnd}
           >
             {/* Handle */}
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-py-3">
+            <div className="flex justify-center py-3">
               <div className={cn("glass-w-12 glass-h-1.5 glass-surface-secondary glass-radius-full")} />
             </div>
 
             {/* Content */}
-            <div className="glass-glass-glass-px-6 pb-6 glass-glass-glass-overflow-y-auto max-glass-glass-glass-h-full">
+            <div className="px-6 pb-6 overflow-y-auto max-h-full">
               {children}
             </div>
           </motion.div>

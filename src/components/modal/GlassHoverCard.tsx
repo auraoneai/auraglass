@@ -282,7 +282,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(({
     }, [open]);
 
     return (
-        <div className="glass-glass-glass-relative inline-glass-glass-glass-block">
+        <div className="relative inline-block">
             <div
                 ref={triggerRef}
                 className={triggerClassName}
@@ -296,7 +296,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(({
                 <Motion
                     preset="fadeIn"
                     duration={shouldAnimate ? 200 : 0}
-                    className="glass-glass-glass-fixed z-[9999]"
+                    className="fixed z-[9999]"
                     style={{
                         left: position.x,
                         top: position.y,
@@ -330,19 +330,19 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(({
                             performanceMode="medium"
                             liftOnHover
                             hoverSheen
-                            className="backdrop-blur-md glass-surface-dark/20 glass-glass-glass-border glass-glass-glass-border-white/20 glass-glass-glass-shadow-2xl glass-radial-reveal"
+                            className="backdrop-blur-md glass-surface-dark/20 border border-white/20 shadow-2xl glass-radial-reveal"
                         >
-                            <div className="glass-glass-glass-p-4">
+                            <div className="p-4">
                                 {/* Header with title and description */}
                                 {(title || description) && (
-                                    <div className="glass-glass-glass-mb-2">
+                                    <div className="mb-2">
                                         {title && (
-                                            <h3 id={titleId} className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-text-sm glass-glass-glass-mb-1">
+                                            <h3 id={titleId} className="font-medium text-primary text-sm mb-1">
                                                 {title}
                                             </h3>
                                         )}
                                         {description && (
-                                            <p id={descriptionId} className="glass-glass-glass-text-xs glass-text-secondary">
+                                            <p id={descriptionId} className="text-xs glass-text-secondary">
                                                 {description}
                                             </p>
                                         )}

@@ -67,25 +67,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const renderCompactCard = () => (
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-p-3 hover:glass-surface-subtle glass-radius-lg transition-colors">
+    <div className="flex items-center gap-3 p-3 hover:glass-surface-subtle glass-radius-lg transition-colors">
       <img
         src={imageError ? 'https://via.placeholder.com/60x60?text=No+Image' : (product.thumbnail || product.images[0])}
         alt={product.name}
-        className="glass-glass-glass-w-12 glass-glass-glass-h-12 object-cover glass-radius"
+        className="w-12 h-12 object-cover glass-radius"
         onError={() => setImageError(true)}
       />
       
-      <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-        <h3 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-text-sm glass-glass-glass-truncate">
+      <div className="flex-1 min-w-0">
+        <h3 className="font-medium glass-text-secondary text-sm truncate">
           {product.name}
         </h3>
         {showPrice && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 mt-1">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-sm font-medium glass-text-secondary">
               ${product.price.toFixed(2)}
             </span>
             {product.originalPrice && product.originalPrice > product.price && (
-              <span className="glass-glass-glass-text-xs glass-text-secondary line-through">
+              <span className="text-xs glass-text-secondary line-through">
                 ${product.originalPrice.toFixed(2)}
               </span>
             )}
@@ -94,13 +94,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
       
       {showQuickActions && (
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
+        <div className="flex items-center gap-1">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onAddToWishlist(product.id);
             }}
-            className="glass-glass-glass-p-1 glass-text-secondary hover:glass-glass-glass-text-primary transition-colors"
+            className="p-1 glass-text-secondary hover:text-primary transition-colors"
             title="Add to wishlist"
           >
             ♡
@@ -110,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               e.stopPropagation();
               onAddToCart(product.id);
             }}
-            className="glass-glass-glass-p-1 glass-text-secondary hover:glass-glass-glass-text-primary transition-colors"
+            className="p-1 glass-text-secondary hover:text-primary transition-colors"
             title="Add to cart"
           >
             🛒
@@ -121,17 +121,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 
   const renderListCard = () => (
-    <div className="glass-glass-glass-flex glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg hover:glass-glass-glass-shadow-md transition-all">
+    <div className="flex gap-4 p-4 border border-subtle glass-radius-lg hover:shadow-md transition-all">
       <img
         src={imageError ? 'https://via.placeholder.com/120x120?text=No+Image' : (product.thumbnail || product.images[0])}
         alt={product.name}
-        className="glass-glass-glass-w-20 glass-glass-glass-h-20 object-cover glass-radius"
+        className="w-20 h-20 object-cover glass-radius"
         onError={() => setImageError(true)}
       />
       
-      <div className="glass-glass-glass-flex-1">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-mb-2">
-          <h3 className="glass-glass-glass-font-medium glass-text-secondary line-clamp-2">
+      <div className="flex-1">
+        <div className="flex items-start justify-between mb-2">
+          <h3 className="font-medium glass-text-secondary line-clamp-2">
             {product.name}
           </h3>
           <div className={cn("text-xs px-2 py-1 rounded-full", getReasonColor(reason))}>
@@ -139,19 +139,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
         
-        <p className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-mb-3 line-clamp-2">
+        <p className="text-sm glass-text-secondary mb-3 line-clamp-2">
           {explanation}
         </p>
         
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             {showPrice && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                <span className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary">
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-semibold glass-text-secondary">
                   ${product.price.toFixed(2)}
                 </span>
                 {product.originalPrice && product.originalPrice > product.price && (
-                  <span className="glass-glass-glass-text-sm glass-text-secondary line-through">
+                  <span className="text-sm glass-text-secondary line-through">
                     ${product.originalPrice.toFixed(2)}
                   </span>
                 )}
@@ -159,9 +159,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             )}
             
             {showRating && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                <span className="glass-glass-glass-text-primary">★</span>
-                <span className="glass-glass-glass-text-sm glass-text-secondary">
+              <div className="flex items-center gap-1">
+                <span className="text-primary">★</span>
+                <span className="text-sm glass-text-secondary">
                   {product.rating.toFixed(1)} ({product.reviewCount})
                 </span>
               </div>
@@ -169,13 +169,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
           
           {showQuickActions && (
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+            <div className="flex items-center gap-2">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   onAddToWishlist(product.id);
                 }}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-glass-glass-text-sm glass-text-secondary hover:glass-glass-glass-text-primary transition-colors"
+                className="px-3 py-1 text-sm glass-text-secondary hover:text-primary transition-colors"
               >
                 ♡ Wishlist
               </button>
@@ -184,7 +184,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   e.stopPropagation();
                   onAddToCart(product.id);
                 }}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-surface-blue glass-glass-glass-text-primary glass-glass-glass-text-sm glass-radius hover:glass-surface-blue transition-colors"
+                className="px-3 py-1 glass-surface-blue text-primary text-sm glass-radius hover:glass-surface-blue transition-colors"
               >
                 Add to Cart
               </button>
@@ -193,15 +193,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
         
         {/* Confidence Indicator */}
-        <div className="mt-2 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-          <span className="glass-glass-glass-text-xs glass-text-secondary">Match confidence:</span>
-          <div className="glass-glass-glass-flex-1 glass-surface-subtle glass-radius-full glass-glass-glass-h-1">
+        <div className="mt-2 flex items-center gap-2">
+          <span className="text-xs glass-text-secondary">Match confidence:</span>
+          <div className="flex-1 glass-surface-subtle glass-radius-full h-1">
             <div 
-              className="glass-surface-blue glass-glass-glass-h-1 glass-radius-full transition-all"
+              className="glass-surface-blue h-1 glass-radius-full transition-all"
               style={{ width: `${confidence * 100}%` }}
             />
           </div>
-          <span className="glass-glass-glass-text-xs glass-text-secondary">{Math.round(confidence * 100)}%</span>
+          <span className="text-xs glass-text-secondary">{Math.round(confidence * 100)}%</span>
         </div>
       </div>
     </div>
@@ -209,40 +209,40 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const renderGridCard = () => (
     <div
-      className="group glass-glass-glass-relative glass-surface-subtle glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg overflow-hidden hover:glass-glass-glass-shadow-lg transition-all duration-300"
+      className="group relative glass-surface-subtle border border-subtle glass-radius-lg overflow-hidden hover:shadow-lg transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <div className="glass-glass-glass-relative aspect-square overflow-hidden">
+      <div className="relative aspect-square overflow-hidden">
         <img
           src={imageError ? 'https://via.placeholder.com/300x300?text=No+Image' : (product.thumbnail || product.images[0])}
           alt={product.name}
-          className="glass-glass-glass-w-full glass-glass-glass-h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={() => setImageError(true)}
         />
         
         {/* Badges */}
-        <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-1">
+        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 flex flex-col gap-1">
           {product.isOnSale && (
-            <span className="glass-surface-red glass-glass-glass-text-primary glass-glass-glass-text-xs glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">
+            <span className="glass-surface-red text-primary text-xs px-2 py-1 glass-radius">
               SALE
             </span>
           )}
           {product.isNew && (
-            <span className="glass-surface-green glass-glass-glass-text-primary glass-glass-glass-text-xs glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">
+            <span className="glass-surface-green text-primary text-xs px-2 py-1 glass-radius">
               NEW
             </span>
           )}
           {product.isBestseller && (
-            <span className="glass-surface-yellow glass-glass-glass-text-primary glass-glass-glass-text-xs glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">
+            <span className="glass-surface-yellow text-primary text-xs px-2 py-1 glass-radius">
               BESTSELLER
             </span>
           )}
         </div>
         
         {/* Recommendation Reason */}
-        <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
+        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
           <div className={cn("text-xs px-2 py-1 rounded-full", getReasonColor(reason))}>
             {getReasonIcon(reason)}
           </div>
@@ -259,7 +259,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 e.stopPropagation();
                 onAddToWishlist(product.id);
               }}
-              className="glass-glass-glass-p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:glass-glass-glass-text-primary transition-colors"
+              className="p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors"
               title="Add to wishlist"
             >
               ♡
@@ -269,7 +269,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 e.stopPropagation();
                 onAddToCart(product.id);
               }}
-              className="glass-glass-glass-p-2 glass-surface-blue glass-glass-glass-text-primary glass-radius-full hover:glass-surface-blue transition-colors"
+              className="p-2 glass-surface-blue text-primary glass-radius-full hover:glass-surface-blue transition-colors"
               title="Add to cart"
             >
               🛒
@@ -279,37 +279,37 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
       
       {/* Product Info */}
-      <div className="glass-glass-glass-p-4">
-        <h3 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2 line-clamp-2">
+      <div className="p-4">
+        <h3 className="font-medium glass-text-secondary mb-2 line-clamp-2">
           {product.name}
         </h3>
         
         {product.brand && (
-          <p className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-mb-2">{product.brand}</p>
+          <p className="text-sm glass-text-secondary mb-2">{product.brand}</p>
         )}
         
         {showRating && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1 glass-glass-glass-mb-3">
-            <div className="glass-glass-glass-flex glass-glass-glass-text-primary">
+          <div className="flex items-center gap-1 mb-3">
+            <div className="flex text-primary">
               {Array.from({ length: 5 }, (_, i) => (
                 <span key={i} className={i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}>
                   ★
                 </span>
               ))}
             </div>
-            <span className="glass-glass-glass-text-sm glass-text-secondary">
+            <span className="text-sm glass-text-secondary">
               ({product.reviewCount})
             </span>
           </div>
         )}
         
         {showPrice && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-3">
-            <span className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg font-semibold glass-text-secondary">
               ${product.price.toFixed(2)}
             </span>
             {product.originalPrice && product.originalPrice > product.price && (
-              <span className="glass-glass-glass-text-sm glass-text-secondary line-through">
+              <span className="text-sm glass-text-secondary line-through">
                 ${product.originalPrice.toFixed(2)}
               </span>
             )}
@@ -317,18 +317,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
         
         {/* Reason Explanation */}
-        <p className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-mb-3">{explanation}</p>
+        <p className="text-xs glass-text-secondary mb-3">{explanation}</p>
         
         {/* Confidence Bar */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-          <span className="glass-glass-glass-text-xs glass-text-secondary">Match:</span>
-          <div className="glass-glass-glass-flex-1 glass-surface-subtle glass-radius-full glass-glass-glass-h-1">
+        <div className="flex items-center gap-2">
+          <span className="text-xs glass-text-secondary">Match:</span>
+          <div className="flex-1 glass-surface-subtle glass-radius-full h-1">
             <div 
-              className="glass-surface-blue glass-glass-glass-h-1 glass-radius-full"
+              className="glass-surface-blue h-1 glass-radius-full"
               style={{ width: `${confidence * 100}%` }}
             />
           </div>
-          <span className="glass-glass-glass-text-xs glass-text-secondary">{Math.round(confidence * 100)}%</span>
+          <span className="text-xs glass-text-secondary">{Math.round(confidence * 100)}%</span>
         </div>
       </div>
     </div>
@@ -337,7 +337,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div
       onClick={() => onProductClick?.(product)}
-      className="glass-glass-glass-cursor-pointer"
+      className="cursor-pointer"
     >
       {variant === 'compact' && renderCompactCard()}
       {variant === 'list' && renderListCard()}
@@ -429,8 +429,8 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
   if (loading) {
     return (
       <Glass className={cn("p-6", className)}>
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-12">
-          <div className="animate-spin glass-radius-full glass-glass-glass-h-12 glass-glass-glass-w-12 glass-glass-glass-border-4 glass-glass-glass-border-blue glass-glass-glass-border-t-transparent"></div>
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin glass-radius-full h-12 w-12 border-4 border-blue border-t-transparent"></div>
         </div>
       </Glass>
     );
@@ -439,9 +439,9 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
   if (currentRecommendations.length === 0) {
     return (
       <Glass className={cn("p-6", className)}>
-        <div className="glass-glass-glass-text-center glass-glass-glass-py-12">
-          <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">🤖</div>
-          <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">🤖</div>
+          <h3 className="text-lg font-medium glass-text-secondary mb-2">
             No recommendations available
           </h3>
           <p className="glass-text-secondary">
@@ -455,9 +455,9 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
   return (
     <Glass className={cn("p-6", className)}>
       {/* Header */}
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between mb-6">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-text-secondary">
+          <h2 className="text-xl font-semibold glass-text-secondary">
             {title}
           </h2>
           {subtitle && (
@@ -466,19 +466,19 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
         </div>
         
         {variant === 'carousel' && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={prevSlide}
-              className="glass-glass-glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+              className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
             >
               ←
             </button>
-            <span className="glass-glass-glass-text-sm glass-text-secondary">
+            <span className="text-sm glass-text-secondary">
               {currentIndex + 1} / {Math.ceil(currentRecommendations.length / getItemsPerView())}
             </span>
             <button
               onClick={nextSlide}
-              className="glass-glass-glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+              className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
             >
               →
             </button>
@@ -495,7 +495,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
       )}>
         {variant === 'carousel' ? (
           <div
-            className="glass-glass-glass-flex transition-transform duration-300"
+            className="flex transition-transform duration-300"
             style={{
               transform: `translateX(-${currentIndex * 100}%)`,
               width: `${Math.ceil(currentRecommendations.length / getItemsPerView()) * 100}%`
@@ -504,7 +504,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
             {Array.from({ length: Math.ceil(currentRecommendations.length / getItemsPerView()) }, (_, slideIndex) => (
               <div
                 key={slideIndex}
-                className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6 glass-glass-glass-w-full glass-glass-glass-flex-shrink-0"
+                className="grid grid-cols-4 gap-6 w-full flex-shrink-0"
               >
                 {currentRecommendations
                   .slice(slideIndex * getItemsPerView(), (slideIndex + 1) * getItemsPerView())
@@ -542,17 +542,17 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
       </div>
 
       {/* AI Insights */}
-      <div className="mt-6 glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
-          <div className="glass-glass-glass-text-2xl">🤖</div>
+      <div className="mt-6 p-4 glass-surface-subtle glass-radius-lg">
+        <div className="flex items-start gap-3">
+          <div className="text-2xl">🤖</div>
           <div>
-            <h3 className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-1">AI Insights</h3>
-            <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+            <h3 className="font-medium text-primary mb-1">AI Insights</h3>
+            <p className="text-sm text-primary">
               These recommendations are personalized based on your browsing history, 
               purchase patterns, and preferences similar to users like you. 
               Our AI analyzes {currentRecommendations.length} factors to suggest the best products for you.
             </p>
-            <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-2 mt-3">
+            <div className="flex flex-wrap gap-2 mt-3">
               {Array.from(new Set(currentRecommendations.map(r => r.reason))).map(reason => (
                 <span
                   key={reason}

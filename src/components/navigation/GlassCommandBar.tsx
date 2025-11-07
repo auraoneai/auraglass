@@ -70,11 +70,11 @@ export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
               it.disabled && 'opacity-50 cursor-not-allowed'
             )}
           >
-            <span className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+            <span className="glass-inline-flex items-center gap-2">
               {it.icon}
               {it.label}
               {it.shortcut && (
-                <kbd className="glass-ml-1 glass-glass-glass-text-xs glass-glass-glass-px-1 glass-glass-glass-py-0.5 glass-radius-md glass-surface-subtle/10 glass-glass-glass-border glass-glass-glass-border-white/15">{it.shortcut}</kbd>
+                <kbd className="glass-ml-1 text-xs px-1 py-0.5 glass-radius-md glass-surface-subtle/10 border border-white/15">{it.shortcut}</kbd>
               )}
             </span>
           </button>

@@ -20,7 +20,7 @@ const CategoryIcon: React.FC<{ category: ComponentDefinition['category'] }> = ({
     advanced: '⚡'
   };
   
-  return <span className="glass-glass-glass-text-lg">{icons[category]}</span>;
+  return <span className="text-lg">{icons[category]}</span>;
 };
 
 const ComponentItem: React.FC<{
@@ -51,16 +51,16 @@ const ComponentItem: React.FC<{
       )}
       title={`Drag to add ${component.name}`}
     >
-      <div className="glass-glass-glass-text-2xl">{component.icon}</div>
-      <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-        <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-truncate">
+      <div className="text-2xl">{component.icon}</div>
+      <div className="flex-1 min-glass-w-0">
+        <div className="text-sm font-medium glass-text-secondary truncate">
           {component.name}
         </div>
-        <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-capitalize">
+        <div className="text-xs glass-text-secondary capitalize">
           {component.category}
         </div>
       </div>
-      <div className="glass-glass-glass-text-xs glass-text-secondary">⋯</div>
+      <div className="text-xs glass-text-secondary">⋯</div>
     </div>
   );
 };
@@ -80,17 +80,17 @@ const CategorySection: React.FC<{
   };
 
   return (
-    <div className="glass-glass-glass-mb-4">
+    <div className="mb-4">
       <button
         onClick={onToggle}
-        className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-w-full glass-glass-glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors"
+        className="flex items-center justify-between w-full p-2 glass-radius-lg hover:glass-surface-subtle transition-colors"
       >
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+        <div className="flex items-center gap-2">
           <CategoryIcon category={category} />
-          <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">
+          <span className="text-sm font-medium glass-text-secondary">
             {categoryNames[category]}
           </span>
-          <span className="glass-glass-glass-text-xs glass-text-secondary">
+          <span className="text-xs glass-text-secondary">
             ({components.length})
           </span>
         </div>
@@ -103,7 +103,7 @@ const CategorySection: React.FC<{
       </button>
       
       {isExpanded && (
-        <div className="mt-2 glass-glass-glass-space-y-2 pl-4">
+        <div className="mt-2 space-y-2 pl-4">
           {components.map(component => (
             <ComponentItem
               key={component.id}
@@ -159,13 +159,13 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
   if (collapsed) {
     return (
       <div className={cn("w-12", className)}>
-        <Glass className="glass-glass-glass-h-full">
+        <Glass className="h-full">
           <button
             onClick={onToggleCollapse}
-            className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-w-full glass-glass-glass-h-12 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors"
             title="Expand Component Palette"
           >
-            <div className="glass-glass-glass-text-lg">📦</div>
+            <div className="text-lg">📦</div>
           </button>
         </Glass>
       </div>
@@ -174,13 +174,13 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
 
   return (
     <div className={cn("w-80 h-full flex flex-col", className)}>
-      <Glass className="glass-glass-glass-h-full glass-glass-glass-flex glass-glass-glass-flex-col">
+      <Glass className="h-full flex flex-col">
         {/* Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-subtle">
-          <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary">Components</h2>
+        <div className="flex items-center justify-between p-4 border-b border-subtle">
+          <h2 className="text-lg font-semibold glass-text-secondary">Components</h2>
           <button
             onClick={onToggleCollapse}
-            className="glass-glass-glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
             title="Collapse Palette"
           >
             ◀
@@ -188,22 +188,22 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
         </div>
 
         {/* Search */}
-        <div className="glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-subtle">
-          <div className="glass-glass-glass-relative">
+        <div className="p-4 border-b border-subtle">
+          <div className="relative">
             <input
               type="text"
               placeholder="Search components..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 pl-10 glass-glass-glass-text-sm glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 pl-10 text-sm border border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <div className="glass-glass-glass-absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-text-secondary">
+            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-text-secondary">
               🔍
             </div>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="glass-glass-glass-absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary"
+                className="absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary"
               >
                 ✕
               </button>
@@ -212,11 +212,11 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
         </div>
 
         {/* Components */}
-        <div className="glass-glass-glass-flex-1 glass-glass-glass-overflow-y-auto glass-glass-glass-p-4">
+        <div className="flex-1 overflow-y-auto p-4">
           {searchQuery && filteredComponents ? (
             // Search Results
-            <div className="glass-glass-glass-space-y-2">
-              <div className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-mb-3">
+            <div className="space-y-2">
+              <div className="text-sm glass-text-secondary mb-3">
                 {filteredComponents.length} components found
               </div>
               {filteredComponents.map(component => (
@@ -227,10 +227,10 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
                 />
               ))}
               {filteredComponents.length === 0 && (
-                <div className="glass-glass-glass-text-center glass-glass-glass-py-8 glass-text-secondary">
-                  <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">🔍</div>
+                <div className="text-center py-8 glass-text-secondary">
+                  <div className="text-2xl mb-2">🔍</div>
                   <p>No components found</p>
-                  <p className="glass-glass-glass-text-xs">Try a different search term</p>
+                  <p className="text-xs">Try a different search term</p>
                 </div>
               )}
             </div>
@@ -251,8 +251,8 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="glass-glass-glass-p-4 glass-glass-glass-border-t glass-glass-glass-border-subtle glass-surface-subtle">
-          <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-text-center">
+        <div className="p-4 border-t border-subtle glass-surface-subtle">
+          <div className="text-xs glass-text-secondary text-center">
             💡 Drag components onto the canvas to add them
           </div>
         </div>

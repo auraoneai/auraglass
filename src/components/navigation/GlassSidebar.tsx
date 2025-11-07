@@ -243,9 +243,9 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
             {/* Background tints removed to respect global layout color */}
             {/* Header */}
             {(header || logo) && (
-              <div className="glass-glass-glass-flex-shrink-0 glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/20">
+              <div className="flex-shrink-0 p-4 border-b border-glass-border/20">
                 {header || (
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-w-full">
+                  <div className="flex items-center justify-center w-full">
                     {logo && (
                       <div className={cn(
                         "flex items-center glass-gap-3 transition-all duration-300",
@@ -261,7 +261,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
 
             {/* User Info */}
             {userInfo && !isCollapsed && (
-              <div className="glass-glass-glass-flex-shrink-0 glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/10">
+              <div className="flex-shrink-0 p-4 border-b border-glass-border/10">
                 {userInfo}
               </div>
             )}
@@ -276,7 +276,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
 
             {/* Footer */}
             {footer && (
-              <div className="glass-glass-glass-flex-shrink-0 glass-glass-glass-p-4 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/20">
+              <div className="flex-shrink-0 p-4 border-t border-glass-border/20">
                 {footer}
               </div>
             )}
@@ -299,7 +299,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
           return createPortal(
             // Seam overlay: narrow, full-height, click-through slice at the exact sidebar edge
             <div
-              className="glass-glass-glass-fixed top-0 glass-glass-glass-h-screen z-[2147483647]"
+              className="fixed top-0 h-screen z-[2147483647]"
               style={{ left: Math.max(0, centerX - 24), width: 48, pointerEvents: 'auto' }}
             >
               <button
@@ -317,9 +317,9 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
                 aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
                 {isCollapsed ? (
-                  <ChevronRight className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary drop-glass-glass-glass-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" strokeWidth={3} />
+                  <ChevronRight className="w-5 h-5 text-primary drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" strokeWidth={3} />
                 ) : (
-                  <ChevronLeft className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary drop-glass-glass-glass-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" strokeWidth={3} />
+                  <ChevronLeft className="w-5 h-5 text-primary drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" strokeWidth={3} />
                 )}
               </button>
             </div>,
@@ -330,7 +330,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
         {/* Overlay backdrop */}
         {variant === 'overlay' && open && (
           <div
-            className="glass-glass-glass-fixed glass-glass-glass-inset-0 glass-surface-dark/50 z-40"
+            className="fixed inset-0 glass-surface-dark/50 z-40"
             onClick={(e) => onOpenChange?.(false)}
           />
         )}
@@ -406,7 +406,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
     >
       {/* Icon */}
       {item?.icon && (
-        <span className="glass-glass-glass-flex-shrink-0 glass-glass-glass-w-6 glass-glass-glass-h-6 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-lg">
+        <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-lg">
           {React.cloneElement(item?.icon as React.ReactElement, {
             className: cn(
               (item?.icon as React.ReactElement).props?.className,
@@ -419,7 +419,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
       {/* Label and badge */}
       {!collapsed && (
         <>
-          <span className="glass-glass-glass-flex-1 glass-glass-glass-text-left whitespace-nowrap glass-glass-glass-truncate leading-5">{item?.label}</span>
+          <span className="flex-1 text-left whitespace-nowrap truncate leading-5">{item?.label}</span>
 
           {item?.badge && (
             <span
@@ -481,7 +481,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
           preset="slideDown"
           className="glass-mt-1"
         >
-          <div className="glass-ml-2 pl-4 glass-glass-glass-border-l glass-glass-glass-border-glass-glass-glass-border/20">
+          <div className="glass-ml-2 pl-4 border-l border-glass-border/20">
             <SidebarNavigation items={item?.children!} level={level + 1} />
           </div>
         </Motion>
@@ -511,20 +511,20 @@ export function SidebarBrand({ logo, title, subtitle, href, onClick, className }
       collapsed && 'justify-center'
     )}>
       {logo && (
-        <div className="glass-glass-glass-flex-shrink-0 glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
           {logo}
         </div>
       )}
 
       {!collapsed && (title || subtitle) && (
-        <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+        <div className="flex-1 min-glass-w-0">
           {title && (
-            <h1 className="glass-glass-glass-text-lg glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-truncate">
+            <h1 className="text-lg font-bold text-primary truncate">
               {title}
             </h1>
           )}
           {subtitle && (
-            <p className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-truncate">
+            <p className="text-xs glass-text-secondary truncate">
               {subtitle}
             </p>
           )}
@@ -583,16 +583,16 @@ export function SidebarUserInfo({
   if (collapsed) {
     return (
       <div className={cn('flex justify-center', className)}>
-        <div className="glass-glass-glass-relative">
+        <div className="relative">
           {avatar ? (
             <img
               src={avatar}
               alt={name}
-              className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-radius-full object-cover"
+              className="w-8 h-8 glass-radius-full object-cover"
             />
           ) : (
-            <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-radius-full glass-surface-primary/20 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-              <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">{name.charAt(0)}</span>
+            <div className="w-8 h-8 glass-radius-full glass-surface-primary/20 flex items-center justify-center">
+              <span className="text-sm font-medium">{name.charAt(0)}</span>
             </div>
           )}
 
@@ -613,17 +613,17 @@ export function SidebarUserInfo({
   }
 
   const Content = () => (
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
-      <div className="glass-glass-glass-relative glass-glass-glass-flex-shrink-0">
+    <div className="flex items-center gap-3">
+      <div className="relative flex-shrink-0">
         {avatar ? (
           <img
             src={avatar}
             alt={name}
-            className="glass-glass-glass-w-10 glass-glass-glass-h-10 glass-radius-full object-cover"
+            className="w-10 h-10 glass-radius-full object-cover"
           />
         ) : (
-          <div className="glass-glass-glass-w-10 glass-glass-glass-h-10 glass-radius-full glass-surface-primary/20 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-            <span className="glass-glass-glass-text-lg glass-glass-glass-font-medium">{name.charAt(0)}</span>
+          <div className="w-10 h-10 glass-radius-full glass-surface-primary/20 flex items-center justify-center">
+            <span className="text-lg font-medium">{name.charAt(0)}</span>
           </div>
         )}
 
@@ -640,15 +640,15 @@ export function SidebarUserInfo({
         )}
       </div>
 
-      <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-        <p className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-truncate">{name}</p>
+      <div className="flex-1 min-glass-w-0">
+        <p className="text-sm font-medium text-primary truncate">{name}</p>
         {email && (
-          <p className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-truncate">{email}</p>
+          <p className="text-xs glass-text-secondary truncate">{email}</p>
         )}
       </div>
 
       {actions && (
-        <div className="glass-glass-glass-flex-shrink-0">
+        <div className="flex-shrink-0">
           {actions}
         </div>
       )}

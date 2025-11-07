@@ -193,10 +193,10 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
     const defaultWidgetRenderers = {
       metric: ({ widget }: { widget: DashboardWidget }) => (
         <VStack space="md">
-          <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+          <div className="text-2xl font-bold text-primary">
             {widget.data?.value || '0'}
           </div>
-          <div className="glass-glass-glass-text-sm glass-text-secondary">
+          <div className="text-sm glass-text-secondary">
             {widget.data?.label || 'Metric'}
           </div>
           {widget.data?.change && (
@@ -211,10 +211,10 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
       ),
       chart: ({ widget }: { widget: DashboardWidget }) => (
         <VStack space="md">
-          <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+          <div className="text-sm font-medium text-primary">
             {widget.data?.title || 'Chart'}
           </div>
-          <div className="glass-glass-glass-h-32 glass-surface-subtle glass-radius-md glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+          <div className="h-32 glass-surface-subtle glass-radius-md flex items-center justify-center">
             <span className="glass-text-secondary">
               {widget.data?.chartType ? `${widget.data?.chartType} Chart` : 'Chart Widget'}
             </span>
@@ -223,13 +223,13 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
       ),
       table: ({ widget }: { widget: DashboardWidget }) => (
         <VStack space="md">
-          <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+          <div className="text-sm font-medium text-primary">
             {widget.data?.title || 'Table'}
           </div>
           <div className="glass-auto-gap glass-auto-gap-sm">
             {(widget.data?.rows || []).slice(0, 3).map((row: any, index: number) => (
-              <div key={index} className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-sm">
-                <span className="glass-glass-glass-text-primary">{row.name}</span>
+              <div key={index} className="flex justify-between text-sm">
+                <span className="text-primary">{row.name}</span>
                 <span className="glass-text-secondary">{row.value}</span>
               </div>
             ))}
@@ -237,7 +237,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
         </VStack>
       ),
       text: ({ widget }: { widget: DashboardWidget }) => (
-        <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+        <div className="text-sm text-primary">
           {widget.data?.content || widget.data?.title || 'Text Widget'}
         </div>
       ),
@@ -251,7 +251,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
 
       if (!WidgetRenderer) {
         return (
-          <div className="glass-glass-glass-h-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-text-secondary">
+          <div className="h-full flex items-center justify-center glass-text-secondary">
             Unknown widget type: {widget.type}
           </div>
         );
@@ -265,7 +265,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
       if (!editMode || (availableWidgets?.length || 0) === 0) return null;
 
       return (
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-2 glass-glass-glass-p-2">
+        <div className="grid grid-cols-2 gap-2 p-2">
           {availableWidgets.map((widgetType) => (
             <GlassButton
               key={widgetType.type}
@@ -273,7 +273,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
               size="sm"
               leftIcon={widgetType.icon}
               onClick={(e) => handleAddWidget(widgetType.type)}
-              className="glass-glass-glass-justify-start"
+              className="justify-start"
             >
               {widgetType.title}
             </GlassButton>
@@ -284,8 +284,8 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
 
     if (loading) {
       return (
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-64">
-          <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-border-2 glass-glass-glass-border-primary glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
+        <div className="flex items-center justify-center h-64">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
         </div>
       );
     }
@@ -320,9 +320,9 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
         {/* Add widget section */}
         {editMode && (availableWidgets?.length || 0) > 0 && (
           <Motion preset="slideDown">
-            <Glass className="glass-glass-glass-p-4 glass-radius-lg">
+            <Glass className="p-4 glass-radius-lg">
               <VStack space="sm">
-                <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">Add Widget</h3>
+                <h3 className="text-sm font-medium text-primary">Add Widget</h3>
                 {renderAddWidgetMenu()}
               </VStack>
             </Glass>
@@ -333,7 +333,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
         <GlassGrid
           cols={layout.cols as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}
           gap={layout.gap}
-          className="glass-min-glass-glass-h-96"
+          className="glass-min-h-96"
         >
           {layout.widgets.map((widget) => (
             <GlassGridItem
@@ -357,8 +357,8 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                 )}
               >
                 {/* Widget header */}
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4">
-                  <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-truncate">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-medium text-primary truncate">
                     {widget.title}
                   </h3>
                   {editMode && (
@@ -386,7 +386,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                 </div>
 
                 {/* Widget content */}
-                <div className="glass-glass-glass-flex-1">
+                <div className="flex-1">
                   {renderWidget(widget)}
                 </div>
               </GlassCard>
@@ -410,11 +410,11 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                     key={`drop-zone-${x}-${y}`}
                     colSpan={1}
                     rowSpan={1}
-                    className="glass-min-glass-glass-h-24"
+                    className="glass-min-h-24"
                     style={{ gridColumnStart: x + 1, gridRowStart: y + 1 }}
                   >
                     <div
-                      className="glass-glass-glass-h-full glass-glass-glass-border-2 glass-glass-glass-border-dashed glass-glass-glass-border-primary/30 glass-radius-lg glass-surface-primary/5 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center transition-colors hover:glass-glass-glass-border-primary/50 hover:glass-surface-primary/10"
+                      className="h-full border-2 border-dashed border-primary/30 glass-radius-lg glass-surface-primary/5 flex items-center justify-center transition-colors hover:border-primary/50 hover:glass-surface-primary/10"
                       onDragOver={(e) => {
                         e.preventDefault();
                         setDragOverPosition({ x, y });
@@ -424,7 +424,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                         handleDrop({ x, y });
                       }}
                     >
-                      <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60">Drop here</span>
+                      <span className="text-xs text-primary/60">Drop here</span>
                     </div>
                   </GlassGridItem>
                 );

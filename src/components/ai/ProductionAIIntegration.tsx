@@ -247,9 +247,9 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
 
   if (!isInitialized) {
     return (
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-p-8">
-        <div className="glass-glass-glass-text-center">
-          <div className="animate-spin glass-radius-full glass-glass-glass-h-12 glass-glass-glass-w-12 glass-glass-glass-border-b-2 glass-glass-glass-border-blue glass-glass-glass-mx-auto glass-glass-glass-mb-4"></div>
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="animate-spin glass-radius-full h-12 w-12 border-b-2 border-blue mx-auto mb-4"></div>
           <p className="glass-text-secondary">Initializing AI services...</p>
         </div>
       </div>
@@ -257,20 +257,20 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
   }
 
   return (
-    <div className="production-ai-integration glass-glass-glass-p-6">
+    <div className="production-ai-integration p-6">
       {error && (
-        <div className="glass-surface-subtle glass-glass-glass-border glass-glass-glass-border-red-200 glass-glass-glass-text-primary glass-glass-glass-px-4 glass-glass-glass-py-3 glass-radius glass-glass-glass-mb-4">
+        <div className="glass-surface-subtle border border-red-200 text-primary px-4 py-3 glass-radius mb-4">
           {error}
         </div>
       )}
 
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
-        <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-mb-4">Smart Form Builder</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-4">Smart Form Builder</h2>
           <input
             type="text"
             placeholder="Describe your form (e.g., 'user registration')"
-            className="glass-glass-glass-w-full glass-glass-glass-px-4 glass-glass-glass-py-2 glass-glass-glass-border glass-radius glass-glass-glass-mb-4"
+            className="w-full px-4 py-2 border glass-radius mb-4"
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 generateSmartForm((e.target as HTMLInputElement).value);
@@ -278,13 +278,13 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
             }}
           />
           {formFields.length > 0 && (
-            <div className="glass-glass-glass-space-y-2">
+            <div className="space-y-2">
               {formFields.map((field, idx) => (
-                <div key={idx} className="glass-glass-glass-p-3 glass-surface-subtle glass-radius">
-                  <span className="glass-glass-glass-font-medium">{field.label}</span>
-                  <span className="glass-glass-glass-text-sm glass-text-secondary ml-2">({field.fieldType})</span>
+                <div key={idx} className="p-3 glass-surface-subtle glass-radius">
+                  <span className="font-medium">{field.label}</span>
+                  <span className="text-sm glass-text-secondary ml-2">({field.fieldType})</span>
                   {field.required && (
-                    <span className="glass-glass-glass-text-primary ml-1">*</span>
+                    <span className="text-primary ml-1">*</span>
                   )}
                 </div>
               ))}
@@ -292,12 +292,12 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-mb-4">Semantic Search</h2>
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-4">Semantic Search</h2>
           <input
             type="text"
             placeholder="Search anything..."
-            className="glass-glass-glass-w-full glass-glass-glass-px-4 glass-glass-glass-py-2 glass-glass-glass-border glass-radius glass-glass-glass-mb-4"
+            className="w-full px-4 py-2 border glass-radius mb-4"
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 performSemanticSearch((e.target as HTMLInputElement).value);
@@ -305,30 +305,30 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
             }}
           />
           {searchResults.length > 0 && (
-            <div className="glass-glass-glass-space-y-2 glass-max-glass-glass-glass-h-64 glass-glass-glass-overflow-y-auto">
+            <div className="space-y-2 glass-max-h-64 overflow-y-auto">
               {searchResults.map((result, idx) => (
-                <div key={idx} className="glass-glass-glass-p-3 glass-surface-subtle glass-radius">
-                  <div className="glass-glass-glass-font-medium">{result.content.substring(0, 100)}...</div>
-                  <div className="glass-glass-glass-text-sm glass-text-secondary">Score: {result.score.toFixed(3)}</div>
+                <div key={idx} className="p-3 glass-surface-subtle glass-radius">
+                  <div className="font-medium">{result.content.substring(0, 100)}...</div>
+                  <div className="text-sm glass-text-secondary">Score: {result.score.toFixed(3)}</div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-mb-4">Image Analysis</h2>
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-4">Image Analysis</h2>
           <input
             type="file"
             accept="image/*"
-            className="glass-glass-glass-mb-4"
+            className="mb-4"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) analyzeImage(file);
             }}
           />
           {imageAnalysis && (
-            <div className="glass-glass-glass-space-y-2 glass-glass-glass-text-sm">
+            <div className="space-y-2 text-sm">
               <div>Faces detected: {imageAnalysis.faces?.length || 0}</div>
               <div>Objects detected: {imageAnalysis.objects?.length || 0}</div>
               <div>Text extracted: {imageAnalysis.text?.text?.substring(0, 50) || 'None'}...</div>
@@ -337,13 +337,13 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-mb-4">Collaboration</h2>
-          <div className="glass-glass-glass-mb-4">
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-4">Collaboration</h2>
+          <div className="mb-4">
             <input
               type="text"
               placeholder="Room ID"
-              className="glass-glass-glass-w-full glass-glass-glass-px-4 glass-glass-glass-py-2 glass-glass-glass-border glass-radius glass-glass-glass-mb-2"
+              className="w-full px-4 py-2 border glass-radius mb-2"
               id="roomId"
             />
             <button
@@ -351,18 +351,18 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
                 const input = document.getElementById('roomId') as HTMLInputElement;
                 if (input?.value) joinCollaborationRoom(input.value);
               }}
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue glass-glass-glass-text-primary glass-radius hover:glass-surface-blue"
+              className="px-4 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue"
             >
               Join Room
             </button>
           </div>
           {collaborators.length > 0 && (
             <div className="space-y-1">
-              <div className="glass-glass-glass-font-medium">Active Collaborators:</div>
+              <div className="font-medium">Active Collaborators:</div>
               {collaborators.map((collab, idx) => (
-                <div key={idx} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                  <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full"></div>
-                  <span className="glass-glass-glass-text-sm">{collab.userName}</span>
+                <div key={idx} className="flex items-center gap-2">
+                  <div className="w-2 h-2 glass-surface-green glass-radius-full"></div>
+                  <span className="text-sm">{collab.userName}</span>
                 </div>
               ))}
             </div>
@@ -371,9 +371,9 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       </div>
 
       {loading && (
-        <div className="glass-glass-glass-fixed glass-glass-glass-inset-0 glass-surface-dark glass-opacity-50 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-z-50">
-          <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-p-6">
-            <div className="animate-spin glass-radius-full glass-glass-glass-h-12 glass-glass-glass-w-12 glass-glass-glass-border-b-2 glass-glass-glass-border-blue glass-glass-glass-mx-auto"></div>
+        <div className="fixed inset-0 glass-surface-dark glass-opacity-50 flex items-center justify-center z-50">
+          <div className="glass-surface-subtle glass-radius-lg p-6">
+            <div className="animate-spin glass-radius-full h-12 w-12 border-b-2 border-blue mx-auto"></div>
             <p className="mt-4">Processing...</p>
           </div>
         </div>

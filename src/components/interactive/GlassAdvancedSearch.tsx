@@ -250,14 +250,14 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
     // Get result type icon
     const getResultTypeIcon = useCallback((type: SearchResult['type']) => {
         switch (type) {
-            case 'document': return <FileText className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            case 'image': return <ImageIcon className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            case 'video': return <Video className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            case 'audio': return <Mic className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            case 'user': return <Users className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            case 'location': return <MapPin className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            case 'tag': return <Tag className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
-            default: return <FileText className="glass-glass-glass-w-4 glass-glass-glass-h-4" />;
+            case 'document': return <FileText className="w-4 h-4" />;
+            case 'image': return <ImageIcon className="w-4 h-4" />;
+            case 'video': return <Video className="w-4 h-4" />;
+            case 'audio': return <Mic className="w-4 h-4" />;
+            case 'user': return <Users className="w-4 h-4" />;
+            case 'location': return <MapPin className="w-4 h-4" />;
+            case 'tag': return <Tag className="w-4 h-4" />;
+            default: return <FileText className="w-4 h-4" />;
         }
     }, []);
 
@@ -278,7 +278,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
     return (
         <Motion 
             preset="fadeIn"
-            className="glass-glass-glass-w-full"
+            className="w-full"
         >
             <GlassCard 
                 ref={ref}
@@ -289,26 +289,26 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                 aria-describedby={`${componentId}-description`}
                 {...props}
             >
-                <div id={`${componentId}-description`} className="glass-glass-glass-sr-only">
+                <div id={`${componentId}-description`} className="sr-only">
                     Advanced search interface with filters, suggestions, and result management
                 </div>
                 <CardHeader className="pb-3">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                        <CardTitle className="glass-glass-glass-text-primary glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                            <Search className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="text-primary text-lg font-semibold flex items-center gap-2">
+                            <Search className="w-5 h-5" />
                             Advanced Search
                         </CardTitle>
 
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                        <div className="flex items-center gap-2">
                             {enableSavedSearches && (
                                 <GlassButton
                                     variant="ghost"
                                     size="sm"
                                     onClick={handleSaveSearch}
                                     disabled={!query.trim()}
-                                    className="glass-glass-glass-p-2"
+                                    className="p-2"
                                 >
-                                    <Save className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                    <Save className="w-4 h-4" />
                                 </GlassButton>
                             )}
 
@@ -316,11 +316,11 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                 variant="ghost"
                                 size="sm"
                                 onClick={(e) => setShowFilters(!showFilters)}
-                                className="glass-glass-glass-p-2 glass-glass-glass-relative"
+                                className="p-2 relative"
                             >
-                                <Filter className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                <Filter className="w-4 h-4" />
                                 {activeFilterCount > 0 && (
-                                    <span className="glass-glass-glass-absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-primary glass-glass-glass-text-primary glass-glass-glass-text-xs glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                                    <span className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-5 h-5 glass-surface-primary text-primary text-xs glass-radius-full flex items-center justify-center">
                                         {activeFilterCount}
                                     </span>
                                 )}
@@ -331,16 +331,16 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
 
                 <CardContent className="pt-0 glass-auto-gap glass-auto-gap-lg">
                     {/* Search Input */}
-                    <div className="glass-glass-glass-relative">
-                        <div className="glass-glass-glass-relative">
-                            <Search className="glass-glass-glass-absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-glass-glass-text-primary/60 glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                    <div className="relative">
+                        <div className="relative">
+                            <Search className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 text-primary/60 w-4 h-4" />
                             <input
                                 ref={inputRef}
                                 type="text"
                                 value={query}
                                 onChange={handleSearchInput}
                                 placeholder={placeholder}
-                                className="glass-glass-glass-w-full pl-10 pr-4 glass-glass-glass-py-3 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-lg glass-glass-glass-text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
+                                className="w-full pl-10 pr-4 py-3 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-lg text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
                             />
                             {query && (
                                 <GlassButton
@@ -350,39 +350,39 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                         setQuery('');
                                         setShowSuggestions(false);
                                     }}
-                                    className="glass-glass-glass-absolute right-2 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-glass-glass-p-1"
+                                    className="absolute right-2 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 p-1"
                                 >
-                                    <X className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                    <X className="w-4 h-4" />
                                 </GlassButton>
                             )}
                         </div>
 
                         {/* Search Suggestions */}
                         {showSuggestions && suggestions.length > 0 && (
-                            <Motion preset="slideDown" className="glass-glass-glass-absolute top-full left-0 right-0 glass-mt-2 glass-glass-glass-z-10">
+                            <Motion preset="slideDown" className="absolute top-full left-0 right-0 glass-mt-2 z-10">
                                 <div
                                     ref={suggestionsRef}
-                                    className="glass-surface-dark/80 backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-shadow-xl glass-max-glass-glass-glass-h-64 glass-glass-glass-overflow-y-auto"
+                                    className="glass-surface-dark/80 backdrop-blur-md border border-white/20 glass-radius-lg shadow-xl glass-max-h-64 overflow-y-auto"
                                 >
                                     {suggestions.map((suggestion) => (
                                         <button
                                             key={suggestion.id}
                                             onClick={(e) => handleSuggestionClick(suggestion)}
-                                            className="glass-glass-glass-w-full glass-glass-glass-text-left glass-glass-glass-px-4 glass-glass-glass-py-3 hover:glass-surface-subtle/10 transition-colors glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 first:glass-radius-t-lg last:glass-radius-b-lg"
+                                            className="w-full text-left px-4 py-3 hover:glass-surface-subtle/10 transition-colors flex items-center gap-3 first:glass-radius-t-lg last:glass-radius-b-lg"
                                         >
                                             {suggestion.icon && (
-                                                <span className="glass-glass-glass-text-primary/60">{suggestion.icon}</span>
+                                                <span className="text-primary/60">{suggestion.icon}</span>
                                             )}
-                                            <div className="glass-glass-glass-flex-1">
-                                                <span className="glass-glass-glass-text-primary">{suggestion.text}</span>
+                                            <div className="flex-1">
+                                                <span className="text-primary">{suggestion.text}</span>
                                                 {suggestion.category && (
-                                                    <span className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm glass-ml-2">
+                                                    <span className="text-primary/60 text-sm glass-ml-2">
                                                         in {suggestion.category}
                                                     </span>
                                                 )}
                                             </div>
                                             {suggestion.count && (
-                                                <span className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
+                                                <span className="text-primary/60 text-sm">
                                                     {suggestion.count}
                                                 </span>
                                             )}
@@ -395,7 +395,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
 
                     {/* Active Filters */}
                     {activeFilterCount > 0 && (
-                        <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-2">
+                        <div className="flex flex-wrap gap-2">
                             {Object.entries(activeFilters).map(([filterId, value]) => {
                                 if (!value || value === '' || (Array.isArray(value) && value.length === 0)) return null;
 
@@ -406,18 +406,18 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                     <GlassBadge
                                         key={filterId}
                                         variant="secondary"
-                                        className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2"
+                                        className="flex items-center gap-2"
                                     >
-                                        <span className="glass-glass-glass-text-sm">
+                                        <span className="text-sm">
                                             {filter?.label}: {displayValue}
                                         </span>
                                         <GlassButton
                                             variant="ghost"
                                             size="sm"
                                             onClick={(e) => handleFilterChange(filterId, null)}
-                                            className="glass-glass-glass-p-0 h-auto"
+                                            className="p-0 h-auto"
                                         >
-                                            <X className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                            <X className="w-3 h-3" />
                                         </GlassButton>
                                     </GlassBadge>
                                 );
@@ -427,7 +427,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleClearFilters}
-                                className="glass-glass-glass-text-sm"
+                                className="text-sm"
                             >
                                 Clear all
                             </GlassButton>
@@ -436,11 +436,11 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
 
                     {/* Advanced Filters Panel */}
                     {showFilters && enableAdvancedFilters && (
-                        <Motion preset="slideDown" className="glass-auto-gap glass-auto-gap-lg glass-glass-glass-p-4 glass-surface-subtle/5 glass-radius-lg">
-                            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4">
+                        <Motion preset="slideDown" className="glass-auto-gap glass-auto-gap-lg p-4 glass-surface-subtle/5 glass-radius-lg">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {filters.map((filter) => (
                                     <div key={filter.id} className="glass-auto-gap glass-auto-gap-sm">
-                                        <label className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">
+                                        <label className="text-primary/80 text-sm font-medium">
                                             {filter.label}
                                         </label>
 
@@ -450,7 +450,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                                 value={activeFilters[filter.id] || ''}
                                                 onChange={(e) => handleFilterChange(filter.id, e.target.value)}
                                                 placeholder={filter.placeholder}
-                                className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md glass-glass-glass-text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
+                                className="w-full px-3 py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
                                             />
                                         )}
 
@@ -458,7 +458,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                             <select
                                                 value={activeFilters[filter.id] || ''}
                                                 onChange={(e) => handleFilterChange(filter.id, e.target.value)}
-                                className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md glass-glass-glass-text-primary focus:outline-none focus:ring-white/30"
+                                className="w-full px-3 py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md text-primary focus:outline-none focus:ring-white/30"
                                             >
                                                 <option value="">All</option>
                                                 {filter.options?.map(option => (
@@ -474,7 +474,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                                 type="date"
                                                 value={activeFilters[filter.id] || ''}
                                                 onChange={(e) => handleFilterChange(filter.id, e.target.value)}
-                                className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md glass-glass-glass-text-primary focus:outline-none focus:ring-white/30"
+                                className="w-full px-3 py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md text-primary focus:outline-none focus:ring-white/30"
                                             />
                                         )}
                                     </div>
@@ -486,11 +486,11 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                     {/* Search History */}
                     {enableHistory && searchHistory.length > 0 && !query && (
                         <div className="glass-auto-gap glass-auto-gap-sm">
-                            <h4 className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                                <History className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                            <h4 className="text-primary/80 text-sm font-medium flex items-center gap-2">
+                                <History className="w-4 h-4" />
                                 Recent Searches
                             </h4>
-                            <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-2">
+                            <div className="flex flex-wrap gap-2">
                                 {searchHistory.slice(0, 5).map((search, index) => (
                                     <GlassButton
                                         key={index}
@@ -500,7 +500,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                             setQuery(search);
                                             onSearch?.(search, activeFilters);
                                         }}
-                                        className="glass-glass-glass-text-sm"
+                                        className="text-sm"
                                     >
                                         {search}
                                     </GlassButton>
@@ -511,20 +511,20 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
 
                     {/* Results Header */}
                     {query && (
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
                                 {showStats && (
-                                    <span className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+                                    <span className="text-primary/80 text-sm">
                                         {loading ? 'Searching...' : `${results.length} results`}
                                     </span>
                                 )}
 
-                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                                    <span className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">Sort:</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-primary/80 text-sm">Sort:</span>
                                     <select
                                         value={sortBy}
                                         onChange={(e) => setSortBy(e.target.value as any)}
-                                        className="glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-sm glass-glass-glass-text-primary focus:outline-none"
+                                        className="glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md px-2 py-1 text-sm text-primary focus:outline-none"
                                     >
                                         <option value="relevance">Relevance</option>
                                         <option value="date">Date</option>
@@ -535,30 +535,30 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                         variant="ghost"
                                         size="sm"
                                         onClick={(e) => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                                        className="glass-glass-glass-p-1"
+                                        className="p-1"
                                     >
-                                        {sortOrder === 'asc' ? <SortAsc className="glass-glass-glass-w-4 glass-glass-glass-h-4" /> : <SortDesc className="glass-glass-glass-w-4 glass-glass-glass-h-4" />}
+                                        {sortOrder === 'asc' ? <SortAsc className="w-4 h-4" /> : <SortDesc className="w-4 h-4" />}
                                     </GlassButton>
                                 </div>
                             </div>
 
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                            <div className="flex items-center gap-2">
                                 <GlassButton
                                     variant={viewMode === 'list' ? 'primary' : 'ghost'}
                                     size="sm"
                                     onClick={(e) => setViewMode('list')}
-                                    className="glass-glass-glass-p-2"
+                                    className="p-2"
                                 >
-                                    <List className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                    <List className="w-4 h-4" />
                                 </GlassButton>
 
                                 <GlassButton
                                     variant={viewMode === 'grid' ? 'primary' : 'ghost'}
                                     size="sm"
                                     onClick={(e) => setViewMode('grid')}
-                                    className="glass-glass-glass-p-2"
+                                    className="p-2"
                                 >
-                                    <Grid3X3 className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                    <Grid3X3 className="w-4 h-4" />
                                 </GlassButton>
                             </div>
                         </div>
@@ -568,13 +568,13 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                     {query && (
                         <div className="glass-auto-gap glass-auto-gap-md">
                             {loading ? (
-                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-12">
-                                    <div className="animate-spin glass-radius-full glass-glass-glass-h-8 glass-glass-glass-w-8 glass-glass-glass-border-2 glass-glass-glass-border-white/20 glass-glass-glass-border-t-white/60"></div>
+                                <div className="flex items-center justify-center py-12">
+                                    <div className="animate-spin glass-radius-full h-8 w-8 border-2 border-white/20 border-t-white/60"></div>
                                 </div>
                             ) : results.length === 0 ? (
-                                <div className="glass-glass-glass-text-center glass-glass-glass-py-12">
-                                    <Search className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-glass-glass-text-primary/40 glass-glass-glass-mx-auto glass-glass-glass-mb-4" />
-                                    <p className="glass-glass-glass-text-primary/60">No results found for "{query}"</p>
+                                <div className="text-center py-12">
+                                    <Search className="w-12 h-12 text-primary/40 mx-auto mb-4" />
+                                    <p className="text-primary/60">No results found for "{query}"</p>
                                 </div>
                             ) : (
                                 <div className={cn(
@@ -592,40 +592,40 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                             )}
                                             onClick={(e) => handleResultClick(result)}
                                         >
-                                            <div className="glass-glass-glass-flex glass-glass-glass-gap-3">
+                                            <div className="flex gap-3">
                                                 {/* Thumbnail */}
                                                 {result.thumbnail && (
-                                                    <div className="glass-glass-glass-flex-shrink-0">
+                                                    <div className="flex-shrink-0">
                                                         <img
                                                             src={result.thumbnail}
                                                             alt={result.title}
-                                                            className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-radius-md object-cover"
+                                                            className="w-12 h-12 glass-radius-md object-cover"
                                                         />
                                                     </div>
                                                 )}
 
                                                 {/* Content */}
-                                                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-                                                    <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-gap-2">
-                                                        <div className="glass-glass-glass-flex-1">
-                                                            <h3 className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-truncate">
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-start justify-between gap-2">
+                                                        <div className="flex-1">
+                                                            <h3 className="text-primary font-medium truncate">
                                                                 {result.title}
                                                             </h3>
                                                             {result.description && (
-                                                                <p className="glass-glass-glass-text-primary/70 glass-glass-glass-text-sm glass-mt-1 line-clamp-2">
+                                                                <p className="text-primary/70 text-sm glass-mt-1 line-clamp-2">
                                                                     {result.description}
                                                                 </p>
                                                             )}
 
                                                             {/* Metadata */}
-                                                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-mt-2 glass-glass-glass-text-xs glass-glass-glass-text-primary/60">
-                                                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
+                                                            <div className="flex items-center gap-3 glass-mt-2 text-xs text-primary/60">
+                                                                <div className="flex items-center gap-1">
                                                                     {getResultTypeIcon(result.type)}
-                                                                    <span className="glass-glass-glass-capitalize">{result.type}</span>
+                                                                    <span className="capitalize">{result.type}</span>
                                                                 </div>
 
-                                                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                                                    <Clock className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                                <div className="flex items-center gap-1">
+                                                                    <Clock className="w-3 h-3" />
                                                                     {result.updatedAt.toLocaleDateString()}
                                                                 </div>
 
@@ -636,7 +636,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                                         </div>
 
                                                         {/* Actions */}
-                                                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
+                                                        <div className="flex items-center gap-1">
                                                             <GlassButton
                                                                 variant="ghost"
                                                                 size="sm"
@@ -644,18 +644,18 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                                                     e.stopPropagation();
                                                                     // Handle favorite
                                                                 }}
-                                                                className="glass-glass-glass-p-1"
+                                                                className="p-1"
                                                             >
-                                                                <Star className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                                <Star className="w-3 h-3" />
                                                             </GlassButton>
 
                                                             <GlassButton
                                                                 variant="ghost"
                                                                 size="sm"
                                                                 onClick={(e) => e.stopPropagation()}
-                                                                className="glass-glass-glass-p-1"
+                                                                className="p-1"
                                                             >
-                                                                <MoreHorizontal className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                                <MoreHorizontal className="w-3 h-3" />
                                                             </GlassButton>
                                                         </div>
                                                     </div>

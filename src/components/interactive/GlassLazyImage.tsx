@@ -238,19 +238,19 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
     // Default loading component
     const defaultLoadingComponent = (
-        <Motion preset="fadeIn" className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-px-3 glass-glass-glass-py-2 glass-surface-dark/50 backdrop-blur-md glass-radius-full">
-                <Loader2 className="glass-glass-glass-w-4 glass-glass-glass-h-4 animate-spin glass-glass-glass-text-primary/80" />
-                <span className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">Loading...</span>
+        <Motion preset="fadeIn" className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-center gap-2 px-3 py-2 glass-surface-dark/50 backdrop-blur-md glass-radius-full">
+                <Loader2 className="w-4 h-4 animate-spin text-primary/80" />
+                <span className="text-primary/80 text-sm">Loading...</span>
             </div>
         </Motion>
     );
 
     // Default error component
     const defaultErrorComponent = (
-        <Motion preset="fadeIn" className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-justify-center glass-surface-dark/20">
-            <AlertCircle className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-text-primary glass-glass-glass-mb-2" />
-            <span className="glass-glass-glass-text-primary glass-glass-glass-text-sm">Failed to load image</span>
+        <Motion preset="fadeIn" className="absolute inset-0 flex flex-col items-center justify-center glass-surface-dark/20">
+            <AlertCircle className="w-8 h-8 text-primary mb-2" />
+            <span className="text-primary text-sm">Failed to load image</span>
         </Motion>
     );
 
@@ -272,7 +272,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
             {/* Placeholder/Loading State */}
             {(!isLoaded || !isInView) && (
                 <div
-                    className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-surface-subtle/10 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center"
+                    className="absolute inset-0 glass-surface-subtle/10 flex items-center justify-center"
                     style={{
                         filter: blur ? `blur(${blurIntensity}px)` : 'none'
                     }}
@@ -281,11 +281,11 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                         <img
                             src={placeholder}
                             alt="Loading..."
-                            className="glass-glass-glass-w-full glass-glass-glass-h-full object-cover"
+                            className="w-full h-full object-cover"
                         />
                     ) : (
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-w-full glass-glass-glass-h-full">
-                            <ImageIcon className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-text-primary/40" />
+                        <div className="flex items-center justify-center w-full h-full">
+                            <ImageIcon className="w-8 h-8 text-primary/40" />
                         </div>
                     )}
                 </div>
@@ -321,46 +321,46 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
             {/* Loading Overlay */}
             {!isLoaded && !isError && isInView && (
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0">
+                <div className="absolute inset-0">
                     {loadingComponent || defaultLoadingComponent}
                 </div>
             )}
 
             {/* Error Overlay */}
             {isError && (
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0">
+                <div className="absolute inset-0">
                     {errorComponent || defaultErrorComponent}
                 </div>
             )}
 
             {/* Image Info Overlay */}
             {(title || showStats) && (
-                <div className="glass-glass-glass-absolute bottom-0 left-0 right-0 glass-glass-glass-p-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute bottom-0 left-0 right-0 p-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity">
                     {title && (
-                        <h3 className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-text-sm glass-glass-glass-mb-1 glass-glass-glass-truncate">
+                        <h3 className="text-primary font-medium text-sm mb-1 truncate">
                             {title}
                         </h3>
                     )}
 
                     {showStats && stats && (
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-text-primary/80 glass-glass-glass-text-xs">
+                        <div className="flex items-center gap-3 text-primary/80 text-xs">
                             {stats.views && (
-                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                    <Eye className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                <div className="flex items-center gap-1">
+                                    <Eye className="w-3 h-3" />
                                     <span>{stats.views}</span>
                                 </div>
                             )}
 
                             {stats.likes && (
-                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                    <Heart className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                <div className="flex items-center gap-1">
+                                    <Heart className="w-3 h-3" />
                                     <span>{stats.likes}</span>
                                 </div>
                             )}
 
                             {stats.downloads && (
-                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                    <Download className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                <div className="flex items-center gap-1">
+                                    <Download className="w-3 h-3" />
                                     <span>{stats.downloads}</span>
                                 </div>
                             )}
@@ -371,22 +371,22 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
             {/* Actions Menu */}
             {enableActions && (
-                <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="glass-glass-glass-relative">
+                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="relative">
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setShowActionsMenu(!showActionsMenu);
                             }}
-                            className="glass-glass-glass-p-2 glass-surface-dark/50 backdrop-blur-md glass-radius-full hover:glass-surface-dark/70 transition-colors"
+                            className="p-2 glass-surface-dark/50 backdrop-blur-md glass-radius-full hover:glass-surface-dark/70 transition-colors"
                         >
-                            <span className="glass-glass-glass-text-primary glass-glass-glass-text-lg">⋯</span>
+                            <span className="text-primary text-lg">⋯</span>
                         </button>
 
                         {/* Actions Dropdown */}
                         {showActionsMenu && (
-                            <Motion preset="slideDown" className="glass-glass-glass-absolute top-full right-0 glass-mt-2">
-                                <div className="glass-surface-dark/80 backdrop-blur-md glass-radius-lg glass-glass-glass-shadow-xl glass-glass-glass-border glass-glass-glass-border-white/20 glass-min-glass-glass-w-32">
+                            <Motion preset="slideDown" className="absolute top-full right-0 glass-mt-2">
+                                <div className="glass-surface-dark/80 backdrop-blur-md glass-radius-lg shadow-xl border border-white/20 glass-min-w-32">
                                     {enableZoom && (
                                         <button
                                             onClick={(e) => {
@@ -394,10 +394,10 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                                                 handleZoom();
                                                 setShowActionsMenu(false);
                                             }}
-                                            className="glass-glass-glass-w-full glass-glass-glass-text-left glass-glass-glass-px-4 glass-glass-glass-py-3 glass-glass-glass-text-primary/90 hover:glass-surface-subtle/10 transition-colors glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 first:glass-radius-t-lg"
+                                            className="w-full text-left px-4 py-3 text-primary/90 hover:glass-surface-subtle/10 transition-colors flex items-center gap-3 first:glass-radius-t-lg"
                                         >
-                                            <ZoomIn className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
-                                            <span className="glass-glass-glass-text-sm">Zoom</span>
+                                            <ZoomIn className="w-4 h-4" />
+                                            <span className="text-sm">Zoom</span>
                                         </button>
                                     )}
 
@@ -407,10 +407,10 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                                             handleDownload();
                                             setShowActionsMenu(false);
                                         }}
-                                        className="glass-glass-glass-w-full glass-glass-glass-text-left glass-glass-glass-px-4 glass-glass-glass-py-3 glass-glass-glass-text-primary/90 hover:glass-surface-subtle/10 transition-colors glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3"
+                                        className="w-full text-left px-4 py-3 text-primary/90 hover:glass-surface-subtle/10 transition-colors flex items-center gap-3"
                                     >
-                                        <Download className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
-                                        <span className="glass-glass-glass-text-sm">Download</span>
+                                        <Download className="w-4 h-4" />
+                                        <span className="text-sm">Download</span>
                                     </button>
 
                                     <button
@@ -419,10 +419,10 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                                             handleShare();
                                             setShowActionsMenu(false);
                                         }}
-                                        className="glass-glass-glass-w-full glass-glass-glass-text-left glass-glass-glass-px-4 glass-glass-glass-py-3 glass-glass-glass-text-primary/90 hover:glass-surface-subtle/10 transition-colors glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 last:glass-radius-b-lg"
+                                        className="w-full text-left px-4 py-3 text-primary/90 hover:glass-surface-subtle/10 transition-colors flex items-center gap-3 last:glass-radius-b-lg"
                                     >
-                                        <Share2 className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
-                                        <span className="glass-glass-glass-text-sm">Share</span>
+                                        <Share2 className="w-4 h-4" />
+                                        <span className="text-sm">Share</span>
                                     </button>
                                 </div>
                             </Motion>
@@ -433,7 +433,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
             {/* Image Dimensions Info (dev mode) */}
             {process.env.NODE_ENV === 'development' && imageDimensions.width > 0 && (
-                <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-surface-dark/50 backdrop-blur-md glass-radius-md glass-glass-glass-text-primary/60 glass-glass-glass-text-xs">
+                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 px-2 py-1 glass-surface-dark/50 backdrop-blur-md glass-radius-md text-primary/60 text-xs">
                     {imageDimensions.width} × {imageDimensions.height}
                 </div>
             )}

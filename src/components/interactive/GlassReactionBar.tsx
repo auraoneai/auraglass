@@ -10,11 +10,11 @@ export interface GlassReactionBarProps { reactions: Reaction[]; onReact?: (key:s
 export function GlassReactionBar({ reactions, onReact, className }: GlassReactionBarProps) {
   return (
     <div className={className}>
-      <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+      <div className="flex gap-2">
         {reactions.map(r => (
           <GlassButton key={r.key} variant="ghost" size="sm" onClick={(e) =>onReact?.(r.key)}>
             <span className="glass-mr-1">{r.label}</span>
-            <span className="glass-glass-glass-text-primary/70">{r.count}</span>
+            <span className="text-primary/70">{r.count}</span>
           </GlassButton>
         ))}
       </div>

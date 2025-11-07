@@ -253,34 +253,34 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
     const currentGradient = generateGradient();
 
     return (
-        <Motion preset="fadeIn" className="glass-glass-glass-w-full">
+        <Motion preset="fadeIn" className="w-full">
             <GlassCard className={cn('overflow-hidden', className)} {...props}>
                 <CardHeader className="pb-3">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                        <CardTitle className="glass-glass-glass-text-primary glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                            <Palette className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="text-primary text-lg font-semibold flex items-center gap-2">
+                            <Palette className="w-5 h-5" />
                             Gradient Picker
                         </CardTitle>
 
-                        <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                        <div className="flex gap-2">
                             <GlassButton
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleRandomGradient}
-                                className="glass-glass-glass-p-2"
+                                className="p-2"
                                 title="Random Gradient"
                             >
-                                <Shuffle className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                <Shuffle className="w-4 h-4" />
                             </GlassButton>
 
                             <GlassButton
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleCopyGradient}
-                                className="glass-glass-glass-p-2"
+                                className="p-2"
                                 title="Copy Gradient"
                             >
-                                {copied ? <Check className="glass-glass-glass-w-4 glass-glass-glass-h-4" /> : <Copy className="glass-glass-glass-w-4 glass-glass-glass-h-4" />}
+                                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                             </GlassButton>
                         </div>
                     </div>
@@ -290,12 +290,12 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     {/* Current Gradient Preview */}
                     <div className="glass-auto-gap glass-auto-gap-md">
                         <div
-                            className="glass-glass-glass-w-full glass-glass-glass-h-32 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/20"
+                            className="w-full h-32 glass-radius-lg border border-white/20"
                             style={{ background: currentGradient }}
                         />
 
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                            <code className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60 glass-surface-subtle/10 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md font-mono glass-glass-glass-truncate glass-glass-glass-flex-1 glass-mr-2">
+                        <div className="flex items-center justify-between">
+                            <code className="text-xs text-primary/60 glass-surface-subtle/10 px-2 py-1 glass-radius-md font-mono truncate flex-1 glass-mr-2">
                                 {currentGradient}
                             </code>
 
@@ -303,10 +303,10 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleReset}
-                                className="glass-glass-glass-p-2"
+                                className="p-2"
                                 title="Reset"
                             >
-                                <RotateCcw className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                <RotateCcw className="w-4 h-4" />
                             </GlassButton>
                         </div>
                     </div>
@@ -314,15 +314,15 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     {/* Gradient Type Selector */}
                     {showTypeSelector && (
                         <div className="glass-auto-gap glass-auto-gap-md">
-                            <h4 className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Type</h4>
-                            <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                            <h4 className="text-primary/80 text-sm font-medium">Type</h4>
+                            <div className="flex gap-2">
                                 {(['linear', 'radial', 'conic'] as const).map((type) => (
                                     <GlassButton
                                         key={type}
                                         variant={selectedType === type ? "primary" : "ghost"}
                                         size="sm"
                                         onClick={(e) => setSelectedType(type)}
-                                        className="glass-glass-glass-capitalize"
+                                        className="capitalize"
                                     >
                                         {type}
                                     </GlassButton>
@@ -334,14 +334,14 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     {/* Angle Control for Linear */}
                     {showAngleControl && selectedType === 'linear' && (
                         <div className="glass-auto-gap glass-auto-gap-md">
-                            <h4 className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Angle: {angle}°</h4>
+                            <h4 className="text-primary/80 text-sm font-medium">Angle: {angle}°</h4>
                             <input
                                 type="range"
                                 min="0"
                                 max="360"
                                 value={angle}
                                 onChange={(e) => setAngle(Number(e.target.value))}
-                                className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-lg appearance-none glass-glass-glass-cursor-pointer"
+                                className="w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
                             />
                         </div>
                     )}
@@ -349,16 +349,16 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     {/* Color Stops Editor */}
                     {showStopsEditor && enableCustom && (
                         <div className="glass-auto-gap glass-auto-gap-md">
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                                <h4 className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Color Stops</h4>
+                            <div className="flex items-center justify-between">
+                                <h4 className="text-primary/80 text-sm font-medium">Color Stops</h4>
                                 {stops.length < maxStops && (
                                     <GlassButton
                                         variant="ghost"
                                         size="sm"
                                         onClick={handleAddStop}
-                                        className="glass-glass-glass-p-1"
+                                        className="p-1"
                                     >
-                                        <Upload className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                        <Upload className="w-4 h-4" />
                                     </GlassButton>
                                 )}
                             </div>
@@ -380,19 +380,19 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                             type="color"
                                             value={stop.color}
                                             onChange={(e) => handleStopChange(index, { color: e.target.value })}
-                                            className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-radius-md glass-glass-glass-border glass-glass-glass-border-white/20 glass-glass-glass-cursor-pointer"
+                                            className="w-8 h-8 glass-radius-md border border-white/20 cursor-pointer"
                                         />
 
-                                        <div className="glass-glass-glass-flex-1">
+                                        <div className="flex-1">
                                             <input
                                                 type="range"
                                                 min="0"
                                                 max="100"
                                                 value={stop.position}
                                                 onChange={(e) => handleStopChange(index, { position: Number(e.target.value) })}
-                                                className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-lg appearance-none glass-glass-glass-cursor-pointer"
+                                                className="w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
                                             />
-                                            <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60 glass-mt-1">
+                                            <div className="text-xs text-primary/60 glass-mt-1">
                                                 Position: {stop.position}%
                                             </div>
                                         </div>
@@ -402,9 +402,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={(e) => handleRemoveStop(index)}
-                                                className="glass-glass-glass-p-1 glass-glass-glass-text-primary hover:glass-text-secondary"
+                                                className="p-1 text-primary hover:glass-text-secondary"
                                             >
-                                                <Download className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                                <Download className="w-4 h-4" />
                                             </GlassButton>
                                         )}
                                     </div>
@@ -416,23 +416,23 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     {/* Presets */}
                     {allPresets.length > 0 && (
                         <div className="glass-auto-gap glass-auto-gap-md">
-                            <h4 className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Presets</h4>
-                            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-3">
+                            <h4 className="text-primary/80 text-sm font-medium">Presets</h4>
+                            <div className="grid grid-cols-2 gap-3">
                                 {allPresets.map((preset) => (
                                     <div
                                         key={preset.id}
-                                        className="glass-glass-glass-cursor-pointer group"
+                                        className="cursor-pointer group"
                                         onClick={(e) => handlePresetSelect(preset)}
                                     >
                                         <div
-                                            className="glass-glass-glass-w-full glass-glass-glass-h-16 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/20 group-hover:glass-glass-glass-border-white/40 transition-all"
+                                            className="w-full h-16 glass-radius-lg border border-white/20 group-hover:border-white/40 transition-all"
                                             style={{
                                                 background: preset.stops.length > 0
                                                     ? `${preset.type}-gradient(${preset.angle || 0}deg, ${preset.stops.map(s => `${s.color} ${s.position}%`).join(', ')})`
                                                     : 'transparent'
                                             }}
                                         />
-                                        <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-xs glass-mt-2 glass-glass-glass-text-center group-hover:glass-glass-glass-text-primary transition-colors">
+                                        <p className="text-primary/80 text-xs glass-mt-2 text-center group-hover:text-primary transition-colors">
                                             {preset.name}
                                         </p>
                                     </div>

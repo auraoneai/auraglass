@@ -121,42 +121,42 @@ function AchievementSystemDemo() {
   const recentNotifications = notifications.slice(-3);
 
   return (
-    <div className="glass-min-glass-glass-h-screen glass-glass-glass-p-8 space-y-8">
+    <div className="glass-min-h-screen p-8 space-y-8">
       {/* Header */}
-      <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-        <h1 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+      <div className="text-center gap-4">
+        <h1 className="text-4xl font-bold text-primary">
           🎮 Glass Achievement System
         </h1>
-        <p className="glass-glass-glass-text-lg glass-text-secondary">
+        <p className="text-lg glass-text-secondary">
           Gamified engagement with progressive rewards and achievements
         </p>
         
         {/* Progress Overview */}
-        <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-items-center space-x-6">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-surface-secondary glass-radius-full glass-glass-glass-px-4 glass-glass-glass-py-2">
-            <span className="glass-glass-glass-text-lg">⭐</span>
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+        <div className="flex justify-center items-center space-x-6">
+          <div className="flex items-center gap-2 glass-surface-secondary glass-radius-full px-4 py-2">
+            <span className="text-lg">⭐</span>
+            <span className="text-sm text-primary">
               Level {progress?.level || 1}
             </span>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-surface-secondary glass-radius-full glass-glass-glass-px-4 glass-glass-glass-py-2">
-            <span className="glass-glass-glass-text-lg">✨</span>
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+          <div className="flex items-center gap-2 glass-surface-secondary glass-radius-full px-4 py-2">
+            <span className="text-lg">✨</span>
+            <span className="text-sm text-primary">
               {progress?.totalXP || 0} XP
             </span>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-surface-secondary glass-radius-full glass-glass-glass-px-4 glass-glass-glass-py-2">
-            <span className="glass-glass-glass-text-lg">🏆</span>
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+          <div className="flex items-center gap-2 glass-surface-secondary glass-radius-full px-4 py-2">
+            <span className="text-lg">🏆</span>
+            <span className="text-sm text-primary">
               {unlockedCount}/{totalAchievements} Achievements
             </span>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-surface-secondary glass-radius-full glass-glass-glass-px-4 glass-glass-glass-py-2">
-            <span className="glass-glass-glass-text-lg">🔥</span>
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+          <div className="flex items-center gap-2 glass-surface-secondary glass-radius-full px-4 py-2">
+            <span className="text-lg">🔥</span>
+            <span className="text-sm text-primary">
               {progress?.streak || 0} Day Streak
             </span>
           </div>
@@ -164,14 +164,14 @@ function AchievementSystemDemo() {
 
         {/* XP Progress Bar */}
         {progress && (
-          <div className="max-w-md glass-glass-glass-mx-auto glass-glass-glass-gap-2">
-            <div className="glass-surface-secondary glass-radius-lg glass-glass-glass-h-3 overflow-hidden">
+          <div className="max-w-md mx-auto gap-2">
+            <div className="glass-surface-secondary glass-radius-lg h-3 overflow-hidden">
               <div 
-                className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-all duration-500"
+                className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-all duration-500"
                 style={{ width: `${(progress.currentXP / progress.xpToNextLevel) * 100}%` }}
               />
             </div>
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-xs glass-text-tertiary">
+            <div className="flex justify-between text-xs glass-text-tertiary">
               <span>{progress.currentXP} XP</span>
               <span>{progress.xpToNextLevel} XP to Level {progress.level + 1}</span>
             </div>
@@ -179,17 +179,17 @@ function AchievementSystemDemo() {
         )}
 
         {/* Controls */}
-        <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-gap-4">
+        <div className="flex justify-center gap-4">
           <button
             onClick={() => setShowDashboard(!showDashboard)}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-px-4 glass-glass-glass-py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
           >
             {showDashboard ? '📊 Hide Dashboard' : '📊 Show Dashboard'}
           </button>
           
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-px-4 glass-glass-glass-py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
           >
             {showNotifications ? '🔔 Hide Notifications' : '🔔 Show Notifications'}
           </button>
@@ -198,16 +198,16 @@ function AchievementSystemDemo() {
 
       {/* Interactive Achievement Triggers */}
       <div className="space-y-6">
-        <div className="glass-glass-glass-text-center">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-2">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-primary mb-2">
             🎯 Achievement Triggers
           </h2>
-          <p className="glass-glass-glass-text-sm glass-text-secondary">
+          <p className="text-sm glass-text-secondary">
             Interact with elements below to unlock achievements
           </p>
         </div>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { id: 'tap-button', icon: '🫳', label: 'Glass Tap', description: 'Click to earn interaction XP' },
             { id: 'hover-zone', icon: '👻', label: 'Hover Zone', description: 'Hover to build ethereal skills' },
@@ -220,22 +220,22 @@ function AchievementSystemDemo() {
           ].map((item) => (
             <button
               key={item.id}
-              className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-6 glass-glass-glass-text-center glass-glass-glass-gap-4 
-                         hover:glass-elev-3 transition-all duration-300 glass-glass-glass-cursor-pointer group"
+              className="glass-surface-primary glass-elev-2 glass-radius-lg p-6 text-center gap-4 
+                         hover:glass-elev-3 transition-all duration-300 cursor-pointer group"
               onClick={() => handleInteraction('click', item.id)}
               onMouseEnter={() => handleInteraction('hover', item.id)}
               onDoubleClick={() => handleInteraction('special', item.id)}
             >
-              <div className="glass-glass-glass-text-3xl group-hover:scale-110 transition-transform duration-300">
+              <div className="text-3xl group-hover:scale-110 transition-transform duration-300">
                 {item.icon}
               </div>
-              <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary">
+              <h3 className="text-lg font-medium text-primary">
                 {item.label}
               </h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary">
+              <p className="text-sm glass-text-secondary">
                 {item.description}
               </p>
-              <div className="glass-glass-glass-text-xs glass-text-tertiary">
+              <div className="text-xs glass-text-tertiary">
                 {item.id === 'combo-trigger' ? `Combo: ${comboCount}` : 'Click to interact'}
               </div>
             </button>
@@ -243,21 +243,21 @@ function AchievementSystemDemo() {
         </div>
         
         {/* Special Actions */}
-        <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-          <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-medium glass-glass-glass-text-primary">
+        <div className="text-center gap-4">
+          <h3 className="text-xl font-medium text-primary">
             🎨 Special Actions
           </h3>
-          <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-gap-4">
+          <div className="flex justify-center gap-4">
             <button
               onClick={() => handleInteraction('customize')}
-              className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-glass-glass-px-6 glass-glass-glass-py-3 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
             >
               🎨 Customize Theme
             </button>
             
             <button
               onClick={() => recordAction('collaborate', { users: ['demo-user'] })}
-              className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-glass-glass-px-6 glass-glass-glass-py-3 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
             >
               🤝 Collaborate
             </button>
@@ -269,7 +269,7 @@ function AchievementSystemDemo() {
                   setTimeout(() => handleInteraction('click', 'combo-sequence'), i * 100);
                 }
               }}
-              className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-glass-glass-px-6 glass-glass-glass-py-3 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
             >
               ⚡ Trigger Combo
             </button>
@@ -278,46 +278,46 @@ function AchievementSystemDemo() {
       </div>
 
       {/* Current Stats */}
-      <div className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-6">
-        <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-4">
+      <div className="glass-surface-primary glass-elev-1 glass-radius-lg p-6">
+        <h3 className="text-xl font-medium text-primary mb-4">
           📈 Session Statistics
         </h3>
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
-          <div className="glass-glass-glass-text-center glass-surface-secondary glass-radius-md glass-glass-glass-p-4">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">{actionCount}</div>
-            <div className="glass-glass-glass-text-sm glass-text-secondary">Actions</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="text-center glass-surface-secondary glass-radius-md p-4">
+            <div className="text-2xl font-bold text-primary">{actionCount}</div>
+            <div className="text-sm glass-text-secondary">Actions</div>
           </div>
-          <div className="glass-glass-glass-text-center glass-surface-secondary glass-radius-md glass-glass-glass-p-4">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">{progress?.stats.totalInteractions || 0}</div>
-            <div className="glass-glass-glass-text-sm glass-text-secondary">Total Interactions</div>
+          <div className="text-center glass-surface-secondary glass-radius-md p-4">
+            <div className="text-2xl font-bold text-primary">{progress?.stats.totalInteractions || 0}</div>
+            <div className="text-sm glass-text-secondary">Total Interactions</div>
           </div>
-          <div className="glass-glass-glass-text-center glass-surface-secondary glass-radius-md glass-glass-glass-p-4">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">{progress?.stats.componentsExplored.length || 0}</div>
-            <div className="glass-glass-glass-text-sm glass-text-secondary">Components</div>
+          <div className="text-center glass-surface-secondary glass-radius-md p-4">
+            <div className="text-2xl font-bold text-primary">{progress?.stats.componentsExplored.length || 0}</div>
+            <div className="text-sm glass-text-secondary">Components</div>
           </div>
-          <div className="glass-glass-glass-text-center glass-surface-secondary glass-radius-md glass-glass-glass-p-4">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">{Math.max(comboCount, progress?.stats.highestStreak || 0)}</div>
-            <div className="glass-glass-glass-text-sm glass-text-secondary">Best Combo</div>
+          <div className="text-center glass-surface-secondary glass-radius-md p-4">
+            <div className="text-2xl font-bold text-primary">{Math.max(comboCount, progress?.stats.highestStreak || 0)}</div>
+            <div className="text-sm glass-text-secondary">Best Combo</div>
           </div>
         </div>
       </div>
 
       {/* Recent Notifications Preview */}
       {recentNotifications.length > 0 && (
-        <div className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-6">
-          <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-4">
+        <div className="glass-surface-primary glass-elev-1 glass-radius-lg p-6">
+          <h3 className="text-xl font-medium text-primary mb-4">
             🔔 Recent Achievements
           </h3>
-          <div className="glass-glass-glass-gap-3">
+          <div className="gap-3">
             {recentNotifications.map((notification, index) => (
               <div 
                 key={`recent-${index}`}
-                className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4 glass-surface-secondary glass-radius-md glass-glass-glass-p-3"
+                className="flex items-center gap-4 glass-surface-secondary glass-radius-md p-3"
               >
-                <div className="glass-glass-glass-text-2xl">{notification.achievement.icon}</div>
-                <div className="glass-glass-glass-flex-1">
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                    <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+                <div className="text-2xl">{notification.achievement.icon}</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-primary">
                       {notification.achievement.title}
                     </span>
                     <span className={`glass-px-2 glass-py-1 glass-text-xs glass-radius-full capitalize
@@ -328,7 +328,7 @@ function AchievementSystemDemo() {
                       {notification.achievement.rarity}
                     </span>
                   </div>
-                  <div className="glass-glass-glass-text-xs glass-text-secondary">
+                  <div className="text-xs glass-text-secondary">
                     +{notification.achievement.xp} XP • {new Date(notification.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
@@ -339,32 +339,32 @@ function AchievementSystemDemo() {
       )}
 
       {/* Achievement Guide */}
-      <div className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-6">
-        <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-4">
+      <div className="glass-surface-primary glass-elev-1 glass-radius-lg p-6">
+        <h3 className="text-xl font-medium text-primary mb-4">
           📚 Achievement Guide
         </h3>
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
-          <div className="glass-glass-glass-gap-3">
-            <h4 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary">Quick Achievements</h4>
-            <ul className="glass-glass-glass-gap-1 glass-glass-glass-text-sm glass-text-secondary">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="gap-3">
+            <h4 className="text-lg font-medium text-primary">Quick Achievements</h4>
+            <ul className="gap-1 text-sm glass-text-secondary">
               <li>• Click any element (Glass Toucher)</li>
               <li>• Hover over elements (Ethereal Navigator)</li>
               <li>• Customize themes (Glass Artisan)</li>
               <li>• Explore different components</li>
             </ul>
           </div>
-          <div className="glass-glass-glass-gap-3">
-            <h4 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary">Advanced Achievements</h4>
-            <ul className="glass-glass-glass-gap-1 glass-glass-glass-text-sm glass-text-secondary">
+          <div className="gap-3">
+            <h4 className="text-lg font-medium text-primary">Advanced Achievements</h4>
+            <ul className="gap-1 text-sm glass-text-secondary">
               <li>• Build combo streaks (Glass Virtuoso)</li>
               <li>• Use components for extended time</li>
               <li>• Collaborate with other users</li>
               <li>• Maintain daily streaks</li>
             </ul>
           </div>
-          <div className="glass-glass-glass-gap-3">
-            <h4 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary">Hidden Achievements</h4>
-            <ul className="glass-glass-glass-gap-1 glass-glass-glass-text-sm glass-text-secondary">
+          <div className="gap-3">
+            <h4 className="text-lg font-medium text-primary">Hidden Achievements</h4>
+            <ul className="gap-1 text-sm glass-text-secondary">
               <li>• Double-click elements (Secret Keeper)</li>
               <li>• Use components at night (Night Owl)</li>
               <li>• Rapid interaction patterns</li>
@@ -399,36 +399,36 @@ export const Interactive: Story = {
 export const CasualMode: Story = {
   render: (args) => (
     <GlassAchievementProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-glass-glass-p-8 space-y-8">
-        <div className="glass-glass-glass-text-center">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">
+      <div className="glass-min-h-screen p-8 space-y-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-primary mb-4">
             Casual Achievement Mode
           </h2>
-          <p className="glass-glass-glass-text-sm glass-text-secondary mb-6">
+          <p className="text-sm glass-text-secondary mb-6">
             Relaxed progression with standard XP rates and 3-second notifications
           </p>
         </div>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {['Action 1', 'Action 2', 'Action 3', 'Action 4'].map((action, i) => {
             const { trackClick } = useAchievementTracker();
             return (
               <button
                 key={action}
-                className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-6 glass-glass-glass-text-center hover:glass-elev-3 transition-all duration-300"
+                className="glass-surface-primary glass-elev-2 glass-radius-lg p-6 text-center hover:glass-elev-3 transition-all duration-300"
                 onClick={() => trackClick(`casual-action-${i}`)}
               >
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">🎮</div>
-                <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">{action}</div>
-                <div className="glass-glass-glass-text-xs glass-text-secondary">Casual XP</div>
+                <div className="text-2xl mb-2">🎮</div>
+                <div className="text-sm text-primary">{action}</div>
+                <div className="text-xs glass-text-secondary">Casual XP</div>
               </button>
             );
           })}
         </div>
         
-        <div className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Casual Settings</h3>
-          <div className="glass-glass-glass-gap-1 glass-glass-glass-text-sm glass-text-secondary">
+        <div className="glass-surface-primary glass-elev-1 glass-radius-lg p-6 text-center">
+          <h3 className="text-lg font-medium text-primary mb-2">Casual Settings</h3>
+          <div className="gap-1 text-sm glass-text-secondary">
             <div>• Normal XP rates (1x multiplier)</div>
             <div>• Standard notification duration (3 seconds)</div>
             <div>• Progress tracking enabled</div>
@@ -455,35 +455,35 @@ export const CasualMode: Story = {
 export const HardcoreMode: Story = {
   render: (args) => (
     <GlassAchievementProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-glass-glass-p-8 space-y-8">
-        <div className="glass-glass-glass-text-center">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">
+      <div className="glass-min-h-screen p-8 space-y-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-primary mb-4">
             Hardcore Achievement Mode
           </h2>
-          <p className="glass-glass-glass-text-sm glass-text-secondary mb-6">
+          <p className="text-sm glass-text-secondary mb-6">
             Challenging progression with reduced XP rates and hidden achievements
           </p>
         </div>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {['Elite Challenge', 'Master Quest', 'Legendary Trial'].map((challenge, i) => {
             const { trackClick, recordAction } = useAchievementTracker();
             return (
               <button
                 key={challenge}
-                className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-8 glass-glass-glass-text-center hover:glass-elev-3 transition-all duration-300
-                          glass-glass-glass-border-2 glass-glass-glass-border-red/30 hover:glass-glass-glass-border-red/50"
+                className="glass-surface-primary glass-elev-2 glass-radius-lg p-8 text-center hover:glass-elev-3 transition-all duration-300
+                          border-2 border-red/30 hover:border-red/50"
                 onClick={() => {
                   trackClick(`hardcore-challenge-${i}`);
                   recordAction('hardcore_action', { challenge, difficulty: 'extreme' });
                 }}
               >
-                <div className="glass-glass-glass-text-3xl glass-glass-glass-mb-4">⚔️</div>
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">{challenge}</h3>
-                <p className="glass-glass-glass-text-sm glass-text-secondary">
+                <div className="text-3xl mb-4">⚔️</div>
+                <h3 className="text-lg font-medium text-primary mb-2">{challenge}</h3>
+                <p className="text-sm glass-text-secondary">
                   High difficulty challenge with reduced XP rewards
                 </p>
-                <div className="glass-glass-glass-text-xs glass-text-tertiary glass-mt-2">
+                <div className="text-xs glass-text-tertiary glass-mt-2">
                   XP Multiplier: 0.5x
                 </div>
               </button>
@@ -491,12 +491,12 @@ export const HardcoreMode: Story = {
           })}
         </div>
         
-        <div className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-6">
-          <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-4">Hardcore Features</h3>
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+        <div className="glass-surface-primary glass-elev-1 glass-radius-lg p-6">
+          <h3 className="text-lg font-medium text-primary mb-4">Hardcore Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Challenges</h4>
-              <ul className="glass-glass-glass-gap-1 glass-glass-glass-text-xs glass-text-secondary">
+              <h4 className="text-sm font-medium text-primary mb-2">Challenges</h4>
+              <ul className="gap-1 text-xs glass-text-secondary">
                 <li>• 50% reduced XP gain</li>
                 <li>• Hidden achievement requirements</li>
                 <li>• Longer notification duration (5 seconds)</li>
@@ -504,8 +504,8 @@ export const HardcoreMode: Story = {
               </ul>
             </div>
             <div>
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Rewards</h4>
-              <ul className="glass-glass-glass-gap-1 glass-glass-glass-text-xs glass-text-secondary">
+              <h4 className="text-sm font-medium text-primary mb-2">Rewards</h4>
+              <ul className="gap-1 text-xs glass-text-secondary">
                 <li>• Exclusive hardcore achievements</li>
                 <li>• Special visual effects</li>
                 <li>• Enhanced progression tracking</li>
@@ -534,35 +534,35 @@ export const HardcoreMode: Story = {
 export const MinimalMode: Story = {
   render: (args) => (
     <GlassAchievementProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-glass-glass-p-8 space-y-8">
-        <div className="glass-glass-glass-text-center">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">
+      <div className="glass-min-h-screen p-8 space-y-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-primary mb-4">
             Minimal Achievement Mode
           </h2>
-          <p className="glass-glass-glass-text-sm glass-text-secondary mb-6">
+          <p className="text-sm glass-text-secondary mb-6">
             Quiet mode with minimal notifications and hidden progress tracking
           </p>
         </div>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {['Simple Action', 'Quiet Task', 'Minimal Interaction', 'Basic Function', 'Clean Action', 'Pure Task'].map((action, i) => {
             const { trackClick } = useAchievementTracker();
             return (
               <button
                 key={action}
-                className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-4 glass-glass-glass-text-center hover:glass-elev-2 transition-all duration-300"
+                className="glass-surface-primary glass-elev-1 glass-radius-lg p-4 text-center hover:glass-elev-2 transition-all duration-300"
                 onClick={() => trackClick(`minimal-${i}`)}
               >
-                <div className="glass-glass-glass-text-lg glass-glass-glass-mb-2">⚪</div>
-                <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">{action}</div>
+                <div className="text-lg mb-2">⚪</div>
+                <div className="text-sm text-primary">{action}</div>
               </button>
             );
           })}
         </div>
         
-        <div className="glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Minimal Settings</h3>
-          <div className="glass-glass-glass-gap-1 glass-glass-glass-text-sm glass-text-secondary">
+        <div className="glass-surface-primary glass-elev-1 glass-radius-lg p-6 text-center">
+          <h3 className="text-lg font-medium text-primary mb-2">Minimal Settings</h3>
+          <div className="gap-1 text-sm glass-text-secondary">
             <div>• Quiet mode notifications (2 seconds)</div>
             <div>• Progress tracking hidden</div>
             <div>• Minimal visual feedback</div>
@@ -590,31 +590,31 @@ export const MinimalMode: Story = {
 export const NotificationsOnly: Story = {
   render: (args) => (
     <GlassAchievementProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-glass-glass-p-8 space-y-8">
-        <div className="glass-glass-glass-text-center">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">
+      <div className="glass-min-h-screen p-8 space-y-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-primary mb-4">
             Achievement Notifications Demo
           </h2>
-          <p className="glass-glass-glass-text-sm glass-text-secondary mb-6">
+          <p className="text-sm glass-text-secondary mb-6">
             Trigger actions to see achievement notifications
           </p>
         </div>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 md:glass-glass-glass-glass-glass-grid-cols-6 glass-glass-glass-gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
           {Array.from({ length: 12 }, (_, i) => {
             const { trackClick, trackHover, recordAction } = useAchievementTracker();
             return (
               <button
                 key={i}
                 className="aspect-square glass-surface-primary glass-elev-2 glass-radius-lg 
-                          hover:glass-elev-3 transition-all duration-300 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center"
+                          hover:glass-elev-3 transition-all duration-300 flex items-center justify-center"
                 onClick={() => {
                   trackClick(`notification-trigger-${i}`);
                   if (i % 3 === 0) recordAction('special_trigger', { index: i });
                 }}
                 onMouseEnter={() => trackHover(`notification-hover-${i}`)}
               >
-                <div className="glass-glass-glass-text-xl">
+                <div className="text-xl">
                   {i % 4 === 0 ? '🎯' : i % 4 === 1 ? '🌟' : i % 4 === 2 ? '💎' : '🏆'}
                 </div>
               </button>
@@ -622,8 +622,8 @@ export const NotificationsOnly: Story = {
           })}
         </div>
         
-        <div className="glass-glass-glass-text-center glass-surface-primary glass-elev-1 glass-radius-lg glass-glass-glass-p-4">
-          <p className="glass-glass-glass-text-sm glass-text-secondary">
+        <div className="text-center glass-surface-primary glass-elev-1 glass-radius-lg p-4">
+          <p className="text-sm glass-text-secondary">
             Click and hover over the buttons above to trigger achievement notifications in the top-right corner
           </p>
         </div>
@@ -647,26 +647,26 @@ export const NotificationsOnly: Story = {
 export const DashboardOnly: Story = {
   render: (args) => (
     <GlassAchievementProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-glass-glass-p-8">
-        <div className="glass-glass-glass-text-center glass-glass-glass-gap-4 mb-8">
-          <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+      <div className="glass-min-h-screen p-8">
+        <div className="text-center gap-4 mb-8">
+          <h2 className="text-2xl font-bold text-primary">
             Achievement Dashboard
           </h2>
-          <p className="glass-glass-glass-text-sm glass-text-secondary">
+          <p className="text-sm glass-text-secondary">
             Track your progress, achievements, and statistics
           </p>
         </div>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {Array.from({ length: 16 }, (_, i) => {
             const { trackClick } = useAchievementTracker();
             return (
               <button
                 key={i}
-                className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-3 hover:glass-elev-3 transition-all duration-300"
+                className="glass-surface-primary glass-elev-2 glass-radius-lg p-3 hover:glass-elev-3 transition-all duration-300"
                 onClick={() => trackClick(`dashboard-test-${i}`)}
               >
-                <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">Test {i + 1}</div>
+                <div className="text-sm text-primary">Test {i + 1}</div>
               </button>
             );
           })}

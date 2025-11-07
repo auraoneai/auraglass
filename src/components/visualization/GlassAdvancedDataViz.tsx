@@ -457,7 +457,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               fill={seriesColors[series.id]}
               stroke="white"
               strokeWidth={2}
-              className="glass-glass-glass-cursor-pointer hover:r-6 transition-all"
+              className="cursor-pointer hover:r-6 transition-all"
               onClick={() => handleDataPointClick(point, series)}
             />
           ))}
@@ -485,7 +485,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               width={barGroupWidth * 0.8}
               height={height}
               fill={seriesColors[series.id]}
-              className="glass-glass-glass-cursor-pointer hover:opacity-80 transition-all"
+              className="cursor-pointer hover:opacity-80 transition-all"
               onClick={() => handleDataPointClick(point, series)}
             />
           );
@@ -539,7 +539,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 x={x}
                 y={chartDimensions.chartHeight + 20}
                 textAnchor="middle"
-                className="glass-glass-glass-text-xs fill-gray-600"
+                className="text-xs fill-gray-600"
               >
                 {formatValue(value)}
               </text>
@@ -566,7 +566,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 x={-10}
                 y={y + 4}
                 textAnchor="end"
-                className="glass-glass-glass-text-xs fill-gray-600"
+                className="text-xs fill-gray-600"
               >
                 {formatValue(value)}
               </text>
@@ -580,7 +580,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             x={chartDimensions.chartWidth / 2}
             y={chartDimensions.chartHeight + 45}
             textAnchor="middle"
-            className="glass-glass-glass-text-sm glass-glass-glass-font-medium fill-gray-700"
+            className="text-sm font-medium fill-gray-700"
           >
             {xAxisLabel}
           </text>
@@ -591,7 +591,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             x={-40}
             y={chartDimensions.chartHeight / 2}
             textAnchor="middle"
-            className="glass-glass-glass-text-sm glass-glass-glass-font-medium fill-gray-700"
+            className="text-sm font-medium fill-gray-700"
             transform={`rotate(-90, -40, ${chartDimensions.chartHeight / 2})`}
           >
             {yAxisLabel}
@@ -603,34 +603,34 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
-      <Glass className="glass-glass-glass-p-6">
+      <Glass className="p-6">
         {/* Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between mb-6">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            {title && <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-text-secondary">{title}</h2>}
+            {title && <h2 className="text-xl font-semibold glass-text-secondary">{title}</h2>}
             {subtitle && <p className="glass-text-secondary mt-1">{subtitle}</p>}
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+          <div className="flex items-center gap-2">
             {enableZoom && (
               <button
                 onClick={resetZoom}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle transition-colors"
+                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle transition-colors"
               >
                 Reset Zoom
               </button>
             )}
             
-            <div className="glass-glass-glass-flex glass-glass-glass-border glass-glass-glass-border-subtle glass-radius overflow-hidden">
+            <div className="flex border border-subtle glass-radius overflow-hidden">
               <button
                 onClick={() => exportChart('csv')}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-glass-glass-border-r glass-glass-glass-border-subtle"
+                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle border-r border-subtle"
               >
                 CSV
               </button>
               <button
                 onClick={() => exportChart('json')}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle"
+                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle"
               >
                 JSON
               </button>
@@ -640,18 +640,18 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* Drill-down breadcrumbs */}
         {enableDrillDown && appliedFilters.length > 0 && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-4 glass-glass-glass-text-sm glass-text-secondary">
+          <div className="flex items-center gap-2 mb-4 text-sm glass-text-secondary">
             <span>📊</span>
             <span>Filtered by:</span>
             {appliedFilters.map((filter, index) => (
               <span
                 key={index}
-                className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-surface-subtle glass-glass-glass-text-primary glass-radius glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1"
+                className="px-2 py-1 glass-surface-subtle text-primary glass-radius flex items-center gap-1"
               >
                 {filter.field}: {filter.value}
                 <button
                   onClick={() => setAppliedFilters(prev => prev.filter((_, i) => i !== index))}
-                  className="glass-glass-glass-text-primary hover:glass-glass-glass-text-primary ml-1"
+                  className="text-primary hover:text-primary ml-1"
                 >
                   ✕
                 </button>
@@ -661,7 +661,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         )}
 
         {/* Chart */}
-        <div className="glass-glass-glass-relative">
+        <div className="relative">
           <svg
             ref={svgRef}
             width={width}
@@ -677,7 +677,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 handleZoom(e.deltaY, centerX, centerY);
               }
             }}
-            className="glass-glass-glass-border glass-glass-glass-border-subtle glass-radius"
+            className="border border-subtle glass-radius"
           >
             <g transform={`translate(${chartDimensions.margin.left}, ${chartDimensions.margin.top})`}>
               {renderAxes()}
@@ -698,7 +698,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* Legend */}
         {showLegend && (
-          <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-items-center glass-glass-glass-gap-4 mt-4 pt-4 glass-glass-glass-border-t glass-glass-glass-border-subtle">
+          <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-subtle">
             {processedData.map(series => (
               <button
                 key={series.id}
@@ -709,7 +709,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 )}
               >
                 <div
-                  className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-radius-full"
+                  className="w-3 h-3 glass-radius-full"
                   style={{ backgroundColor: seriesColors[series.id] }}
                 />
                 <span>{series.name}</span>
@@ -722,7 +722,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className="glass-glass-glass-fixed glass-glass-glass-z-50 glass-glass-glass-px-3 glass-glass-glass-py-2 glass-surface-subtle glass-glass-glass-text-primary glass-glass-glass-text-sm glass-radius glass-glass-glass-shadow-lg glass-glass-glass-pointer-events-none"
+          className="fixed z-50 px-3 py-2 glass-surface-subtle text-primary text-sm glass-radius shadow-lg pointer-events-none"
           style={{
             left: tooltip.x + 10,
             top: tooltip.y - 10,

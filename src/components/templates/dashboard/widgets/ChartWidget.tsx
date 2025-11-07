@@ -130,13 +130,13 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Simple bar chart renderer
     const renderBarChart = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-text-secondary">No data available</div>;
+        return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
       }
 
       const maxValue = Math.max(...data.dataPoints.map(d => d.value));
       
       return (
-        <div className="glass-glass-glass-flex glass-glass-glass-items-end glass-glass-glass-justify-between glass-glass-glass-gap-2 glass-glass-glass-h-full">
+        <div className="flex items-end justify-between gap-2 h-full">
           {data?.dataPoints.map((point, index) => {
             const height = (point.value / maxValue) * 100;
             const color = point.color || colors[index % (colors?.length || 0)];
@@ -146,10 +146,10 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                 key={point.label}
                 preset="slideUp"
                 delay={index * 100}
-                className="glass-glass-glass-flex-1 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-2"
+                className="flex-1 flex flex-col items-center gap-2"
               >
                 <div
-                  className="glass-glass-glass-w-full glass-radius-t transition-all duration-300 hover:opacity-80 glass-glass-glass-cursor-pointer"
+                  className="w-full glass-radius-t transition-all duration-300 hover:opacity-80 cursor-pointer"
                   style={{
                     height: `${height}%`,
                     backgroundColor: color,
@@ -157,7 +157,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   }}
                   title={`${point.label}: ${point.value}`}
                 />
-                <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-text-center glass-glass-glass-truncate glass-glass-glass-w-full">
+                <div className="text-xs glass-text-secondary text-center truncate w-full">
                   {point.label}
                 </div>
               </Motion>
@@ -170,7 +170,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Simple line chart renderer
     const renderLineChart = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-text-secondary">No data available</div>;
+        return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
       }
 
       const maxValue = Math.max(...data.dataPoints.map(d => d.value));
@@ -181,8 +181,8 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       }).join(' ');
 
       return (
-        <div className="glass-glass-glass-relative glass-glass-glass-h-full glass-glass-glass-w-full">
-          <svg className="glass-glass-glass-w-full glass-glass-glass-h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <div className="relative h-full w-full">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             {/* Grid lines */}
             {showGrid && (
               <g>
@@ -206,7 +206,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
               fill="none"
               stroke={colors?.[0] || '#3B82F6'}
               strokeWidth="2"
-              className="drop-glass-glass-glass-shadow-sm"
+              className="drop-shadow-sm"
             />
             
             {/* Data points */}
@@ -221,16 +221,16 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   cy={y}
                   r="2"
                   fill={colors?.[0] || '#3B82F6'}
-                  className="hover:r-3 transition-all glass-glass-glass-cursor-pointer"
+                  className="hover:r-3 transition-all cursor-pointer"
                 />
               );
             })}
           </svg>
           
           {/* Labels */}
-          <div className="glass-glass-glass-absolute bottom-0 left-0 right-0 glass-glass-glass-flex glass-glass-glass-justify-between">
+          <div className="absolute bottom-0 left-0 right-0 flex justify-between">
             {data?.dataPoints.map((point, index) => (
-              <div key={index} className="glass-glass-glass-text-xs glass-glass-glass-text-primary/80">
+              <div key={index} className="text-xs text-primary/80">
                 {point.label}
               </div>
             ))}
@@ -242,15 +242,15 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Simple pie chart renderer
     const renderPieChart = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-text-secondary">No data available</div>;
+        return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
       }
 
       const total = data.dataPoints.reduce((sum, d) => sum + d.value, 0);
       let cumulative = 0;
       
       return (
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full">
-          <div className="glass-glass-glass-relative">
+        <div className="flex items-center justify-center h-full">
+          <div className="relative">
             <svg width="120" height="120" viewBox="0 0 120 120">
               {data?.dataPoints.map((point, index) => {
                 const percentage = point.value / total;
@@ -287,7 +287,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                     key={index}
                     d={pathData}
                     fill={color}
-                    className="hover:opacity-80 transition-opacity glass-glass-glass-cursor-pointer"
+                    className="hover:opacity-80 transition-opacity cursor-pointer"
                   />
                 );
               })}
@@ -300,7 +300,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Sparkline renderer
     const renderSparkline = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-text-secondary glass-glass-glass-text-xs">No data</div>;
+        return <div className="flex items-center justify-center h-full glass-text-secondary text-xs">No data</div>;
       }
 
       const maxValue = Math.max(...data.dataPoints.map(d => d.value));
@@ -311,13 +311,13 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       }).join(' ');
 
       return (
-        <svg className="glass-glass-glass-w-full glass-glass-glass-h-8" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg className="w-full h-8" viewBox="0 0 100 100" preserveAspectRatio="none">
           <polyline
             points={points}
             fill="none"
             stroke={colors?.[0] || '#3B82F6'}
             strokeWidth="3"
-            className="drop-glass-glass-glass-shadow-sm"
+            className="drop-shadow-sm"
           />
         </svg>
       );
@@ -326,14 +326,14 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     const renderChartContent = () => {
       if (loading) {
         return (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full">
-            <div className="glass-glass-glass-w-6 glass-glass-glass-h-6 glass-glass-glass-border-2 glass-glass-glass-border-primary glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
+          <div className="flex items-center justify-center h-full">
+            <div className="w-6 h-6 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
           </div>
         );
       }
 
       if (!data) {
-        return <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-text-secondary">No chart data provided</div>;
+        return <div className="flex items-center justify-center h-full glass-text-secondary">No chart data provided</div>;
       }
 
       if (renderChart) {
@@ -358,16 +358,16 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       if (!showLegend || type === 'sparkline' || !data?.dataPoints || data.dataPoints.length === 0) return null;
 
       return (
-        <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-2">
+        <div className="flex flex-wrap gap-2">
           {data.dataPoints.map((point, index) => {
             const color = point.color || colors[index % (colors?.length || 0)];
             return (
-              <div key={index} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
+              <div key={index} className="flex items-center gap-1">
                 <div
-                  className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-radius-sm"
+                  className="w-3 h-3 glass-radius-sm"
                   style={{ backgroundColor: color }}
                 />
-                <span className="glass-glass-glass-text-xs glass-text-secondary">
+                <span className="text-xs glass-text-secondary">
                   {point.label}
                 </span>
               </div>
@@ -383,7 +383,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
         className={cn('w-full h-full glass-radius-lg', config.padding, className)}
         {...props}
       >
-        <VStack space="md" className="glass-glass-glass-h-full">
+        <VStack space="md" className="h-full">
           {/* Header */}
           <HStack space="sm" align="center" justify="between">
             <VStack space="xs">
@@ -398,7 +398,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
             </VStack>
             
             {actions && (
-              <div className="glass-glass-glass-flex-shrink-0">
+              <div className="flex-shrink-0">
                 {actions}
               </div>
             )}
@@ -408,7 +408,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           {data?.summary && variant !== 'minimal' && (
             <HStack space="sm" align="center">
               {data?.summary.total && (
-                <div className="glass-glass-glass-text-lg glass-glass-glass-font-bold glass-glass-glass-text-primary">
+                <div className="text-lg font-bold text-primary">
                   {data?.summary.total.toLocaleString()}
                 </div>
               )}

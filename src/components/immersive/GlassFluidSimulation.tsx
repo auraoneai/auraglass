@@ -582,29 +582,29 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-fluid-controls glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+          className="glass-fluid-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setIsRunning(!isRunning)}
-              className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-glass-glass-text-primary"
+              className="px-3 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
             >
               {isRunning ? 'Pause' : 'Play'}
             </button>
             <button
               onClick={initializeParticles}
-              className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
+              className="px-3 py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
             >
               Reset
             </button>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Preset:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Preset:</label>
             <select
               value={currentPreset}
               onChange={(e) => setCurrentPreset(e.target.value as any)}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-overlay glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
               {Object.keys(fluidPresets).map(preset => (
                 <option key={preset} value={preset}>
@@ -614,29 +614,29 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
             </select>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => addForce({ x: width/2, y: height/2, strength: 10, type: 'push', radius: 50 })}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-red/20 hover:glass-surface-red/30 glass-glass-glass-text-primary glass-glass-glass-text-sm"
+              className="px-2 py-1 glass-radius-md glass-surface-red/20 hover:glass-surface-red/30 text-primary text-sm"
             >
               Add Push
             </button>
             <button
               onClick={() => addForce({ x: width/2, y: height/2, strength: 10, type: 'pull', radius: 50 })}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-blue/20 hover:glass-surface-blue/30 glass-glass-glass-text-primary glass-glass-glass-text-sm"
+              className="px-2 py-1 glass-radius-md glass-surface-blue/20 hover:glass-surface-blue/30 text-primary text-sm"
             >
               Add Pull
             </button>
             <button
               onClick={() => addForce({ x: width/2, y: height/2, strength: 10, type: 'vortex', radius: 100 })}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-glass-glass-text-primary glass-glass-glass-text-sm"
+              className="px-2 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary text-sm"
             >
               Add Vortex
             </button>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showTrails}
@@ -645,7 +645,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
               />
               Trails
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={debug}
@@ -676,11 +676,11 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 glass-glass-glass-p-4"
+          className="flex flex-col gap-4 p-4"
         >
           {renderControls()}
           
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}

@@ -541,12 +541,12 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
       >
         <Motion
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-relative glass-glass-glass-w-full glass-glass-glass-h-full"
+          className="relative w-full h-full"
         >
           {/* Canvas */}
           <canvas
             ref={canvasRef}
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-w-full glass-glass-glass-h-full"
+            className="absolute inset-0 w-full h-full"
             style={{
               filter: effects.bloom ? 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.3))' : undefined,
             }}
@@ -554,11 +554,11 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
 
           {/* React Particles (for custom rendering) */}
           {renderParticle && (
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none">
               {particles.map(particle => (
                 <div
                   key={particle.id}
-                  className="glass-glass-glass-absolute pointer-events-auto glass-glass-glass-cursor-pointer"
+                  className="absolute pointer-events-auto cursor-pointer"
                   style={{
                     left: particle.x - particle.size / 2,
                     top: particle.y - particle.size / 2,
@@ -574,29 +574,29 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
           )}
 
           {/* Controls */}
-          <div className="glass-glass-glass-absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
             <OptimizedGlass
               elevation="level3"
               intensity="strong"
               depth={2}
               tint="neutral"
               border="subtle"
-              className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
             >
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="glass-glass-glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all"
+                className="p-2 glass-radius-md hover:glass-surface-overlay transition-all"
                 title={isPlaying ? 'Pause' : 'Play'}
               >
                 {isPlaying ? '⏸' : '▶'}
               </button>
 
-              <div className="glass-glass-glass-text-xs glass-text-secondary">
+              <div className="text-xs glass-text-secondary">
                 Particles: {particleCount}
               </div>
 
               {debug && (
-                <div className="glass-glass-glass-text-xs glass-text-secondary">
+                <div className="text-xs glass-text-secondary">
                   FPS: {frameRate}
                 </div>
               )}
@@ -606,7 +606,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
           {/* Mouse force indicator */}
           {interactive && mouseForce && (
             <div
-              className="glass-glass-glass-absolute glass-radius-full glass-glass-glass-border glass-glass-glass-border-primary/30 glass-glass-glass-pointer-events-none"
+              className="absolute glass-radius-full border border-primary/30 pointer-events-none"
               style={{
                 left: mousePosition.x - mouseForce.radius,
                 top: mousePosition.y - mouseForce.radius,

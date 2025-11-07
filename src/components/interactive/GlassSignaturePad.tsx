@@ -329,10 +329,10 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
       >
         <Motion
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-p-4 glass-glass-glass-gap-4"
+          className="p-4 gap-4"
         >
           {/* Canvas container */}
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}
@@ -355,7 +355,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
             {/* Instructions */}
             <div
               id={`${signaturePadId}-instructions`}
-              className="glass-glass-glass-sr-only"
+              className="sr-only"
             >
               Use your mouse or finger to draw your signature. Press clear to start over.
             </div>
@@ -363,8 +363,8 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
 
           {/* Action buttons */}
           {(showClearButton || showSaveButton) && (
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center">
-              <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
                 {showClearButton && (
                   <button
                     onClick={clear}
@@ -382,7 +382,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
                       depth={1}
                       tint="neutral"
                       border="subtle"
-                      className="glass-glass-glass-w-full glass-glass-glass-h-full"
+                      className="w-full h-full"
                     >
                       Clear
                     </OptimizedGlass>
@@ -390,7 +390,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
                 )}
               </div>
 
-              <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+              <div className="flex gap-2">
                 {showSaveButton && (
                   <button
                     onClick={save}
@@ -408,7 +408,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
                       depth={1}
                       tint="primary"
                       border="subtle"
-                      className="glass-glass-glass-w-full glass-glass-glass-h-full"
+                      className="w-full h-full"
                     >
                       Save
                     </OptimizedGlass>
@@ -419,14 +419,14 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
           )}
 
           {/* Status indicator */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-text-sm glass-text-secondary">
+          <div className="flex items-center justify-between text-sm glass-text-secondary">
             <span>
               {isEmpty ? 'No signature' : 'Signature captured'}
             </span>
             
             {isDrawing && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-primary glass-radius-full animate-pulse" />
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 glass-surface-primary glass-radius-full animate-pulse" />
                 <span>Drawing...</span>
               </div>
             )}

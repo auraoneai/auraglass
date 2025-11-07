@@ -557,7 +557,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           depth={2}
           tint="neutral"
           border="subtle"
-          className="glass-glass-glass-absolute bottom-4 left-1/2 transform -translate-x-1/2 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
         >
           {controls.autoRotate && (
             <button
@@ -588,7 +588,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           {controls.fullscreen && (
             <button
               onClick={toggleFullscreen}
-              className="glass-glass-glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all"
+              className="p-2 glass-radius-md hover:glass-surface-overlay transition-all"
               title="Fullscreen"
             >
               {isFullscreen ? '🗗' : '🗖'}
@@ -604,14 +604,14 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
                   mediaElement.pause();
                 }
               }}
-              className="glass-glass-glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all"
+              className="p-2 glass-radius-md hover:glass-surface-overlay transition-all"
               title={mediaElement.paused ? "Play" : "Pause"}
             >
               {mediaElement.paused ? '▶' : '⏸'}
             </button>
           )}
 
-          <div className="glass-glass-glass-text-xs glass-text-secondary">
+          <div className="text-xs glass-text-secondary">
             {Math.round(currentView.yaw ?? 0)}° / {Math.round(currentView.pitch ?? 0)}° / {Math.round(currentView.fov ?? 75)}°
           </div>
         </OptimizedGlass>
@@ -635,11 +635,11 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
       >
         <Motion
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-relative glass-glass-glass-w-full glass-glass-glass-h-full"
+          className="relative w-full h-full"
         >
           <div
             ref={containerRef}
-            className="glass-glass-glass-relative glass-glass-glass-w-full glass-glass-glass-h-full cursor-move"
+            className="relative w-full h-full cursor-move"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -648,11 +648,11 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           >
             {/* Loading State */}
             {isLoading && (
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+              <div className="absolute inset-0 flex items-center justify-center">
                 {loadingComponent || (
-                  <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-4">
-                    <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-glass-glass-border-4 glass-glass-glass-border-primary glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
-                    <div className="glass-glass-glass-text-sm glass-text-secondary">Loading 360° media...</div>
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-4 border-primary border-t-transparent glass-radius-full animate-spin" />
+                    <div className="text-sm glass-text-secondary">Loading 360° media...</div>
                   </div>
                 )}
               </div>
@@ -660,11 +660,11 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
 
             {/* Error State */}
             {hasError && (
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+              <div className="absolute inset-0 flex items-center justify-center">
                 {errorComponent || (
-                  <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-text-center">
-                    <div className="glass-glass-glass-text-4xl">❌</div>
-                    <div className="glass-glass-glass-text-sm glass-text-secondary">
+                  <div className="flex flex-col items-center gap-4 text-center">
+                    <div className="text-4xl">❌</div>
+                    <div className="text-sm glass-text-secondary">
                       Failed to load 360° media
                     </div>
                   </div>
@@ -676,7 +676,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
             {!isLoading && !hasError && (
               <canvas
                 ref={canvasRef}
-                className="glass-glass-glass-w-full glass-glass-glass-h-full"
+                className="w-full h-full"
                 onClick={handleCanvasClick}
                 style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
               />
@@ -684,7 +684,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
 
             {/* Overlay */}
             {overlay && (
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none">
+              <div className="absolute inset-0 pointer-events-none">
                 {overlay}
               </div>
             )}
@@ -700,9 +700,9 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className="glass-glass-glass-absolute top-4 left-4 glass-glass-glass-p-3 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+                className="absolute top-4 left-4 p-3 glass-radius-lg backdrop-blur-md border border-glass-border/20"
               >
-                <div className="glass-glass-glass-text-xs font-mono glass-glass-glass-gap-1">
+                <div className="text-xs font-mono gap-1">
                   <div>Yaw: {(currentView.yaw ?? 0).toFixed(1)}°</div>
                   <div>Pitch: {(currentView.pitch ?? 0).toFixed(1)}°</div>
                   <div>FOV: {(currentView.fov ?? 75).toFixed(1)}°</div>
@@ -717,7 +717,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
             {/* Controls Toggle */}
             <button
               onClick={() => setShowControls(!showControls)}
-              className="glass-glass-glass-absolute top-4 right-4 glass-glass-glass-p-2 glass-radius-full glass-surface-overlay hover:glass-surface-overlay transition-all"
+              className="absolute top-4 right-4 p-2 glass-radius-full glass-surface-overlay hover:glass-surface-overlay transition-all"
               title="Toggle Controls"
             >
               {showControls ? '🎛' : '⚙'}

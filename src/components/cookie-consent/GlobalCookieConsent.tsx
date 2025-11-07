@@ -437,7 +437,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
                 onCheckedChange={() => handleToggleCategory(category.id, category.required)}
                 disabled={category.required}
               />
-              <Typography variant="span" className="glass-glass-glass-font-semibold">
+              <Typography variant="span" className="font-semibold">
                 {category.name} {category.required && <em>(Required)</em>}
               </Typography>
             </CategoryHeader>
@@ -478,7 +478,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
           {...rest}
         >
           <Box>
-            <Typography variant="h6" className="glass-glass-glass-mb-2 glass-glass-glass-font-semibold">
+            <Typography variant="h6" className="mb-2 font-semibold">
               {title}
             </Typography>
 

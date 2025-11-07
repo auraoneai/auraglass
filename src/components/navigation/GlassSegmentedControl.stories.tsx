@@ -60,17 +60,17 @@ export const Default: Story = {
 
 export const DifferentSizes: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-gap-4">
+    <div className="gap-4">
       <div>
-        <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-semibold glass-glass-glass-mb-2">Small</h3>
+        <h3 className="text-sm font-semibold mb-2">Small</h3>
         <GlassSegmentedControl {...args} size="sm" />
       </div>
       <div>
-        <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-semibold glass-glass-glass-mb-2">Medium</h3>
+        <h3 className="text-sm font-semibold mb-2">Medium</h3>
         <GlassSegmentedControl {...args} size="md" />
       </div>
       <div>
-        <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-semibold glass-glass-glass-mb-2">Large</h3>
+        <h3 className="text-sm font-semibold mb-2">Large</h3>
         <GlassSegmentedControl {...args} size="lg" />
       </div>
     </div>

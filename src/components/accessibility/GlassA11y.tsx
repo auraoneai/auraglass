@@ -70,7 +70,7 @@ export function GlassA11y({
     {
       id: 'contrast',
       title: 'High Contrast & Visual',
-      icon: <Contrast className="glass-glass-glass-w-5 glass-glass-glass-h-5" />,
+      icon: <Contrast className="w-5 h-5" />,
       description: 'Adjust contrast levels and visual accessibility settings',
       component: () => <GlassHighContrast config={config} updateConfig={setConfig} isHighContrast={isHighContrast} />,
       isExpanded: false
@@ -78,7 +78,7 @@ export function GlassA11y({
     {
       id: 'motion',
       title: 'Motion & Animation',
-      icon: <Move className="glass-glass-glass-w-5 glass-glass-glass-h-5" />,
+      icon: <Move className="w-5 h-5" />,
       description: 'Control motion and animation preferences',
       component: () => <GlassMotionControls config={config} updateConfig={setConfig} isMotionReduced={isMotionReduced} />,
       isExpanded: false
@@ -86,7 +86,7 @@ export function GlassA11y({
     {
       id: 'screen-reader',
       title: 'Screen Reader',
-      icon: <Volume2 className="glass-glass-glass-w-5 glass-glass-glass-h-5" />,
+      icon: <Volume2 className="w-5 h-5" />,
       description: 'Enhanced screen reader support and descriptions',
       component: () => <GlassScreenReader config={config} updateConfig={setConfig} />,
       isExpanded: false
@@ -94,7 +94,7 @@ export function GlassA11y({
     {
       id: 'keyboard',
       title: 'Keyboard Navigation',
-      icon: <Keyboard className="glass-glass-glass-w-5 glass-glass-glass-h-5" />,
+      icon: <Keyboard className="w-5 h-5" />,
       description: 'Enhanced keyboard navigation and focus indicators',
       component: () => <GlassKeyboardNav config={config} updateConfig={setConfig} />,
       isExpanded: false
@@ -247,7 +247,7 @@ export function GlassA11y({
         aria-label="Toggle accessibility controls"
         title="Accessibility Settings"
       >
-        <Accessibility className="glass-glass-glass-w-6 glass-glass-glass-h-6" />
+        <Accessibility className="w-6 h-6" />
       </motion.button>
 
       {/* Main Panel */}
@@ -270,13 +270,13 @@ export function GlassA11y({
             )}
           >
             {/* Header */}
-            <div className="glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border-white/10">
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4">
-                <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                  <Settings className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
+            <div className="p-6 border-b border-white/10">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold flex items-center gap-2">
+                  <Settings className="w-5 h-5" />
                   Accessibility Controls
                 </h2>
-                <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                <div className="flex gap-2">
                   <button
                     onClick={() => {/* Detect system preferences */}}
                     className={`
@@ -288,7 +288,7 @@ export function GlassA11y({
                     `}
                     title="Detect system preferences"
                   >
-                    <Monitor className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                    <Monitor className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setConfig({
@@ -310,13 +310,13 @@ export function GlassA11y({
                     `}
                     title="Reset to defaults"
                   >
-                    <RotateCcw className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                    <RotateCcw className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
               {/* Quick Settings */}
-              <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {quickSettings.map(setting => (
                   <motion.button
                     key={setting.id}
@@ -338,9 +338,9 @@ export function GlassA11y({
                       }
                     `}
                   >
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                      {setting.active && <Check className="glass-glass-glass-w-3 glass-glass-glass-h-3" />}
-                      <span className="glass-glass-glass-truncate">{setting.label}</span>
+                    <div className="flex items-center gap-1">
+                      {setting.active && <Check className="w-3 h-3" />}
+                      <span className="truncate">{setting.label}</span>
                     </div>
                   </motion.button>
                 ))}
@@ -348,9 +348,9 @@ export function GlassA11y({
             </div>
 
             {/* Content */}
-            <div className="glass-glass-glass-flex-1 glass-glass-glass-overflow-y-auto">
+            <div className="flex-1 overflow-y-auto">
               {/* Tab Navigation */}
-              <div className="glass-glass-glass-flex glass-glass-glass-border-b glass-glass-glass-border-white/10">
+              <div className="flex border-b border-white/10">
                 <button
                   onClick={() => setActiveTab('overview')}
                   className={`
@@ -395,10 +395,10 @@ export function GlassA11y({
               </div>
 
               {/* Tab Content */}
-              <div className="glass-glass-glass-p-6">
+              <div className="p-6">
                 {activeTab === 'overview' && (
-                  <div className="glass-glass-glass-space-y-4">
-                    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4 glass-glass-glass-text-sm">
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
                       <div className={`
                         p-3 rounded-lg border
                         ${isHighContrast
@@ -406,7 +406,7 @@ export function GlassA11y({
                           : 'bg-white/5 border-white/10'
                         }
                       `}>
-                        <div className="glass-glass-glass-font-medium glass-glass-glass-mb-1">Contrast</div>
+                        <div className="font-medium mb-1">Contrast</div>
                         <div className={`capitalize ${isHighContrast ? 'text-white/80' : 'text-gray-600'}`}>
                           {config.contrastLevel}
                         </div>
@@ -418,7 +418,7 @@ export function GlassA11y({
                           : 'bg-white/5 border-white/10'
                         }
                       `}>
-                        <div className="glass-glass-glass-font-medium glass-glass-glass-mb-1">Motion</div>
+                        <div className="font-medium mb-1">Motion</div>
                         <div className={`capitalize ${isHighContrast ? 'text-white/80' : 'text-gray-600'}`}>
                           {config.motionPreference}
                         </div>
@@ -430,7 +430,7 @@ export function GlassA11y({
                           : 'bg-white/5 border-white/10'
                         }
                       `}>
-                        <div className="glass-glass-glass-font-medium glass-glass-glass-mb-1">Text Scale</div>
+                        <div className="font-medium mb-1">Text Scale</div>
                         <div className={`${isHighContrast ? 'text-white/80' : 'text-gray-600'}`}>
                           {Math.round(config.fontSizeMultiplier * 100)}%
                         </div>
@@ -442,7 +442,7 @@ export function GlassA11y({
                           : 'bg-white/5 border-white/10'
                         }
                       `}>
-                        <div className="glass-glass-glass-font-medium glass-glass-glass-mb-1">Color Vision</div>
+                        <div className="font-medium mb-1">Color Vision</div>
                         <div className={`capitalize ${isHighContrast ? 'text-white/80' : 'text-gray-600'}`}>
                           {config.colorBlindnessType === 'none' ? 'Normal' : config.colorBlindnessType}
                         </div>
@@ -456,11 +456,11 @@ export function GlassA11y({
                         : 'bg-blue-50/50 text-blue-800'
                       }
                     `}>
-                      <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
-                        <Info className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-mt-0-5 glass-glass-glass-flex-shrink-0" />
+                      <div className="flex items-start gap-3">
+                        <Info className="w-5 h-5 glass-mt-0-5 flex-shrink-0" />
                         <div>
-                          <p className="glass-glass-glass-font-medium glass-glass-glass-mb-1">WCAG 2.1 AAA Compliant</p>
-                          <p className="glass-glass-glass-text-sm glass-glass-glass-opacity-90">
+                          <p className="font-medium mb-1">WCAG 2.1 AAA Compliant</p>
+                          <p className="text-sm opacity-90">
                             This interface meets the highest accessibility standards and adapts to your needs.
                           </p>
                         </div>
@@ -470,11 +470,11 @@ export function GlassA11y({
                 )}
 
                 {activeTab === 'sections' && (
-                  <div className="glass-glass-glass-space-y-3">
+                  <div className="space-y-3">
                     {sections.map(section => {
                       const Component = section.component;
                       return (
-                        <div key={section.id} className="glass-glass-glass-border glass-glass-glass-border-white/10 glass-radius-lg">
+                        <div key={section.id} className="border border-white/10 glass-radius-lg">
                           <button
                             onClick={() => toggleSection(section.id)}
                             className={`
@@ -485,20 +485,20 @@ export function GlassA11y({
                               }
                             `}
                           >
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
                                 {section.icon}
                                 <div>
-                                  <div className="glass-glass-glass-font-medium">{section.title}</div>
+                                  <div className="font-medium">{section.title}</div>
                                   <div className={`text-sm ${isHighContrast ? 'text-white/70' : 'text-gray-500'}`}>
                                     {section.description}
                                   </div>
                                 </div>
                               </div>
                               {section.isExpanded ? (
-                                <ChevronUp className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
+                                <ChevronUp className="w-5 h-5" />
                               ) : (
-                                <ChevronDown className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
+                                <ChevronDown className="w-5 h-5" />
                               )}
                             </div>
                           </button>
@@ -510,9 +510,9 @@ export function GlassA11y({
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: isMotionReduced ? 0.1 : 0.3 }}
-                                className="glass-glass-glass-border-t glass-glass-glass-border-white/10"
+                                className="border-t border-white/10"
                               >
-                                <div className="glass-glass-glass-p-4">
+                                <div className="p-4">
                                   <Component />
                                 </div>
                               </motion.div>
@@ -525,9 +525,9 @@ export function GlassA11y({
                 )}
 
                 {activeTab === 'testing' && enableTesting && (
-                  <div className="glass-glass-glass-space-y-4">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                      <h3 className="glass-glass-glass-font-medium">Accessibility Tests</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium">Accessibility Tests</h3>
                       <motion.button
                         onClick={runAccessibilityTests}
                         disabled={isRunningTests}
@@ -542,15 +542,15 @@ export function GlassA11y({
                           }
                         `}
                       >
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                          <TestTube className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                        <div className="flex items-center gap-2">
+                          <TestTube className="w-4 h-4" />
                           {isRunningTests ? 'Running...' : 'Run Tests'}
                         </div>
                       </motion.button>
                     </div>
 
                     {testResults.length > 0 && (
-                      <div className="glass-glass-glass-space-y-3">
+                      <div className="space-y-3">
                         {testResults.map((result, index) => (
                           <div
                             key={index}
@@ -564,9 +564,9 @@ export function GlassA11y({
                               }
                             `}
                           >
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-1">
-                              <span className="glass-glass-glass-font-medium">{result.test}</span>
-                              <span className="glass-glass-glass-text-sm">{result.score}%</span>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-medium">{result.test}</span>
+                              <span className="text-sm">{result.score}%</span>
                             </div>
                             <p className={`text-sm ${isHighContrast ? 'text-white/70' : 'text-gray-600'}`}>
                               {result.details}
@@ -584,7 +584,7 @@ export function GlassA11y({
       </AnimatePresence>
 
       {/* Keyboard shortcut hint */}
-      <div className="glass-glass-glass-sr-only" role="region" aria-live="polite">
+      <div className="sr-only" role="region" aria-live="polite">
         Press Alt+A to open accessibility controls
       </div>
     </div>
@@ -594,11 +594,11 @@ export function GlassA11y({
 // Sub-components for accessibility sections
 function GlassHighContrast({ config, updateConfig, isHighContrast }: any) {
   return (
-    <div className="glass-glass-glass-space-y-4">
-      <h4 className="glass-glass-glass-font-medium">High Contrast Settings</h4>
-      <div className="glass-glass-glass-space-y-3">
+    <div className="space-y-4">
+      <h4 className="font-medium">High Contrast Settings</h4>
+      <div className="space-y-3">
         <div>
-          <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Contrast Level</label>
+          <label className="block text-sm font-medium mb-2">Contrast Level</label>
           <select
             value={config.contrastLevel}
             onChange={(e) => updateConfig({ ...config, contrastLevel: e.target.value })}
@@ -609,7 +609,7 @@ function GlassHighContrast({ config, updateConfig, isHighContrast }: any) {
             <option value="maximum">Maximum Contrast</option>
           </select>
         </div>
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <span>Reduce Transparency</span>
           <button
             onClick={() => updateConfig({ ...config, reduceTransparency: !config.reduceTransparency })}
@@ -625,11 +625,11 @@ function GlassHighContrast({ config, updateConfig, isHighContrast }: any) {
 
 function GlassMotionControls({ config, updateConfig, isMotionReduced }: any) {
   return (
-    <div className="glass-glass-glass-space-y-4">
-      <h4 className="glass-glass-glass-font-medium">Motion & Animation</h4>
-      <div className="glass-glass-glass-space-y-3">
+    <div className="space-y-4">
+      <h4 className="font-medium">Motion & Animation</h4>
+      <div className="space-y-3">
         <div>
-          <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Motion Preference</label>
+          <label className="block text-sm font-medium mb-2">Motion Preference</label>
           <select
             value={config.motionPreference}
             onChange={(e) => updateConfig({ ...config, motionPreference: e.target.value })}
@@ -640,7 +640,7 @@ function GlassMotionControls({ config, updateConfig, isMotionReduced }: any) {
             <option value="none">No Motion</option>
           </select>
         </div>
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <span>Enable Hover Effects</span>
           <button
             onClick={() => updateConfig({ ...config, enableHoverEffects: !config.enableHoverEffects })}
@@ -656,10 +656,10 @@ function GlassMotionControls({ config, updateConfig, isMotionReduced }: any) {
 
 function GlassScreenReader({ config, updateConfig }: any) {
   return (
-    <div className="glass-glass-glass-space-y-4">
-      <h4 className="glass-glass-glass-font-medium">Screen Reader Support</h4>
-      <div className="glass-glass-glass-space-y-3">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+    <div className="space-y-4">
+      <h4 className="font-medium">Screen Reader Support</h4>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
           <span>Provide Long Descriptions</span>
           <button
             onClick={() => updateConfig({ ...config, provideLongDescriptions: !config.provideLongDescriptions })}
@@ -668,7 +668,7 @@ function GlassScreenReader({ config, updateConfig }: any) {
             <div className={`w-5 h-5 bg-white rounded-full transition-transform ${config.provideLongDescriptions ? 'translate-x-6' : 'translate-x-0.5'}`} />
           </button>
         </div>
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <span>Announce State Changes</span>
           <button
             onClick={() => updateConfig({ ...config, announceStateChanges: !config.announceStateChanges })}
@@ -684,10 +684,10 @@ function GlassScreenReader({ config, updateConfig }: any) {
 
 function GlassKeyboardNav({ config, updateConfig }: any) {
   return (
-    <div className="glass-glass-glass-space-y-4">
-      <h4 className="glass-glass-glass-font-medium">Keyboard Navigation</h4>
-      <div className="glass-glass-glass-space-y-3">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+    <div className="space-y-4">
+      <h4 className="font-medium">Keyboard Navigation</h4>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
           <span>Enhanced Keyboard Navigation</span>
           <button
             onClick={() => updateConfig({ ...config, enhanceKeyboardNavigation: !config.enhanceKeyboardNavigation })}
@@ -696,7 +696,7 @@ function GlassKeyboardNav({ config, updateConfig }: any) {
             <div className={`w-5 h-5 bg-white rounded-full transition-transform ${config.enhanceKeyboardNavigation ? 'translate-x-6' : 'translate-x-0.5'}`} />
           </button>
         </div>
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <span>Skip Links</span>
           <button
             onClick={() => updateConfig({ ...config, showSkipLinks: !config.showSkipLinks })}

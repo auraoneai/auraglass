@@ -36,7 +36,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <GlassCarousel {...args}>
         Default
       </GlassCarousel>

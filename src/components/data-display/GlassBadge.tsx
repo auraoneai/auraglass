@@ -235,7 +235,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
             aria-label="Remove badge"
           >
             <svg
-              className="glass-glass-glass-w-2.5 glass-glass-glass-h-2.5"
+              className="w-2.5 h-2.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

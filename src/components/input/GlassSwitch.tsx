@@ -316,14 +316,14 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
     return (
       <div className={containerClass}>
         {(labelPosition === 'left' || labelPosition === 'right') && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center">
+          <div className="flex items-center">
             {switchElement}
           </div>
         )}
 
         {(labelPosition === 'top' || labelPosition === 'bottom') && switchElement}
 
-        <div className="glass-glass-glass-gap-1">
+        <div className="gap-1">
           {labelElement}
           {descriptionElement}
           {errorElement}

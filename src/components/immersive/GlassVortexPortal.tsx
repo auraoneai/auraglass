@@ -590,9 +590,9 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-portal-controls glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+          className="glass-portal-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => {
                 setPortalActive(!portalActive);
@@ -616,18 +616,18 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
                 initializeDistortions();
                 play('success');
               }}
-              className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
+              className="px-3 py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
             >
               Reset
             </button>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Type:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Type:</label>
             <select
               value={type}
               onChange={(e) => {}}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-overlay glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
               <option value="dimensional">Dimensional</option>
               <option value="energy">Energy</option>
@@ -637,12 +637,12 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
             </select>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Color:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Color:</label>
             <select
               value={colorScheme}
               onChange={(e) => {}}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-overlay glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
               <option value="blue">Blue</option>
               <option value="purple">Purple</option>
@@ -653,8 +653,8 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
             </select>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Intensity:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Intensity:</label>
             <input
               type="range"
               min="0"
@@ -662,13 +662,13 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
               step="0.1"
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
-            <span className="glass-glass-glass-text-sm min-w-[3ch]">{(currentIntensity * 100).toFixed(0)}%</span>
+            <span className="text-sm min-w-[3ch]">{(currentIntensity * 100).toFixed(0)}%</span>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={pulsing}
@@ -677,7 +677,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
               />
               Pulse
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={showDistortion}
@@ -686,7 +686,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
               />
               Distortion
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={debug}
@@ -717,11 +717,11 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 glass-glass-glass-p-4"
+          className="flex flex-col gap-4 p-4"
         >
           {renderControls()}
           
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}

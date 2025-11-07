@@ -460,7 +460,7 @@ export function GlassWebGLShader({
     <div className={cn("relative overflow-hidden", className)} style={{ backgroundColor }}>
       <canvas
         ref={canvasRef}
-        className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-w-full glass-glass-glass-h-full"
+        className="absolute inset-0 w-full h-full"
         width={800}
         height={600}
       />

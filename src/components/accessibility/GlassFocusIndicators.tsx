@@ -405,13 +405,13 @@ export function KeyboardShortcutsHelper() {
     <AnimatePresence>
       {showHelp && (
         <motion.div
-          className="glass-glass-glass-fixed bottom-4 right-4 glass-glass-glass-z-50 max-w-sm"
+          className="fixed bottom-4 right-4 z-50 max-w-sm"
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
         >
           <div className={cn("glass-foundation-complete glass-surface-overlay glass-border-subtle glass-radius-xl glass-p-4 glass-shadow-2xl")}>
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-3">
+            <div className="flex items-center justify-between mb-3">
               <h3 className={cn("glass-font-semibold glass-text-primary")}>Keyboard Shortcuts</h3>
               <button
                 onClick={() => setShowHelp(false)}
@@ -421,9 +421,9 @@ export function KeyboardShortcutsHelper() {
               </button>
             </div>
 
-            <div className="glass-glass-glass-space-y-2">
+            <div className="space-y-2">
               {shortcuts.map((shortcut) => (
-                <div key={shortcut.key} className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center glass-glass-glass-text-sm">
+                <div key={shortcut.key} className="flex justify-between items-center text-sm">
                   <kbd className={cn("glass-px-2 glass-py-1 glass-surface-secondary glass-border-subtle glass-radius glass-text-primary glass-font-mono glass-text-xs")}>
                     {shortcut.key}
                   </kbd>

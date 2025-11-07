@@ -191,7 +191,7 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {isLoading && (
           <motion.div
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-z-50"
+            className="absolute inset-0 flex items-center justify-center z-50"
             style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -207,7 +207,7 @@ export default function BrandColorIntegration({
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
               />
-              <span className="glass-glass-glass-text-sm">Loading brand colors...</span>
+              <span className="text-sm">Loading brand colors...</span>
             </motion.div>
           </motion.div>
         )}
@@ -217,7 +217,7 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {entityColors && !isLoading && (
           <motion.div
-            className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 glass-glass-glass-z-10"
+            className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 z-10"
             initial={{ opacity: 0, scale: 0, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0, y: -10 }}
@@ -228,7 +228,7 @@ export default function BrandColorIntegration({
               style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
             >
               <div
-                className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-radius-full"
+                className="w-2 h-2 glass-radius-full"
                 style={{ backgroundColor: entityColors.primaryColor }}
               />
               <span>Brand</span>
@@ -241,7 +241,7 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {colorTransition && entityColors && (
           <motion.div
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             style={{
               background: `radial-gradient(circle at center, ${entityColors.primaryColor}20 0%, transparent 70%)`,
               borderRadius: 'inherit'
@@ -336,7 +336,7 @@ export function BrandGlassButton({
 
       {/* Brand color pulse effect */}
       <motion.div
-        className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-radius-lg glass-glass-glass-pointer-events-none"
+        className="absolute inset-0 glass-radius-lg pointer-events-none"
         style={{
           background: `radial-gradient(circle at center, var(--brand-${variant}, rgba(59, 130, 246, 0.2)) 0%, transparent 70%)`
         }}

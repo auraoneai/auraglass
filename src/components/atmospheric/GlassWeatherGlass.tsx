@@ -620,10 +620,10 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-weather-controls glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-radius-lg backdrop-blur-md glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+          className="glass-weather-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Weather:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Weather:</label>
             <select
               value={currentWeather.type}
               onChange={(e) => {
@@ -631,7 +631,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
                 setCurrentWeather(newWeather);
                 onWeatherChange?.(newWeather);
               }}
-              className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-overlay glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
               <option value="clear">Clear</option>
               <option value="sunny">Sunny</option>
@@ -644,8 +644,8 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
             </select>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Intensity:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Intensity:</label>
             <input
               type="range"
               min="0"
@@ -656,12 +656,12 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
                 const newWeather = { ...currentWeather, intensity: parseFloat(e.target.value) };
                 setCurrentWeather(newWeather);
               }}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">Temp:</label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Temp:</label>
             <input
               type="range"
               min="-20"
@@ -671,13 +671,13 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
                 const newWeather = { ...currentWeather, temperature: parseInt(e.target.value) };
                 setCurrentWeather(newWeather);
               }}
-              className="glass-glass-glass-w-20"
+              className="w-20"
             />
-            <span className="glass-glass-glass-text-sm min-w-[3ch]">{currentWeather.temperature}°C</span>
+            <span className="text-sm min-w-[3ch]">{currentWeather.temperature}°C</span>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-            <label className="glass-glass-glass-text-sm">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={autoUpdate}
@@ -686,7 +686,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
               />
               Auto Update
             </label>
-            <label className="glass-glass-glass-text-sm">
+            <label className="text-sm">
               <input
                 type="checkbox"
                 checked={weatherResponsive}
@@ -722,16 +722,16 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 glass-glass-glass-p-4"
+          className="flex flex-col gap-4 p-4"
         >
           {renderControls()}
           
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}
               height={height}
-              className="glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20 glass-radius-md"
+              className="border border-glass-border/20 glass-radius-md"
               style={{ width, height }}
             />
           </div>

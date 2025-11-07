@@ -374,7 +374,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     const incrementButton = renderButton(
       'increment',
       incrementContent || (
-        <svg className="glass-glass-glass-w-4 glass-glass-glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
         </svg>
       ),
@@ -385,7 +385,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     const decrementButton = renderButton(
       'decrement',
       decrementContent || (
-        <svg className="glass-glass-glass-w-4 glass-glass-glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
         </svg>
       ),

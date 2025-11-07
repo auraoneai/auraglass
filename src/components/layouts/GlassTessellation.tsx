@@ -335,9 +335,9 @@ export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationPro
             y="0"
             width={effectiveSize}
             height={effectiveSize}
-            className="glass-glass-glass-pointer-events-none"
+            className="pointer-events-none"
           >
-            <div className="glass-glass-glass-w-full glass-glass-glass-h-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs glass-glass-glass-text-primary/90">
+            <div className="w-full h-full flex items-center justify-center text-xs text-primary/90">
               {tile.content}
             </div>
           </foreignObject>
@@ -401,10 +401,10 @@ export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationPro
         id={tessellationId}
         {...props}
       >
-        <div ref={containerRef} className="glass-glass-glass-absolute glass-glass-glass-inset-0">
+        <div ref={containerRef} className="absolute inset-0">
           {/* Grid overlay */}
           {showGrid && (
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none">
               <svg width={containerWidth} height={containerHeight}>
                 <defs>
                   <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -417,7 +417,7 @@ export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationPro
           )}
 
           {/* Tessellation tiles */}
-          <svg width={containerWidth} height={containerHeight} className="glass-glass-glass-absolute glass-glass-glass-inset-0">
+          <svg width={containerWidth} height={containerHeight} className="absolute inset-0">
             <AnimatePresence>
               {tiles.map((tile, index) => {
                 const position = tilePositions.get(tile.id)
@@ -454,26 +454,26 @@ export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationPro
         </div>
 
         {/* Info panel */}
-        <div className="glass-glass-glass-absolute bottom-4 left-4 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-1 glass-glass-glass-text-xs glass-glass-glass-text-primary/70">
-          <div className="glass-surface-dark/20 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius glass-glass-glass-backdrop-blur-sm">
+        <div className="absolute bottom-4 left-4 flex flex-col gap-1 text-xs text-primary/70">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
             Pattern: {tessellationType}
           </div>
-          <div className="glass-surface-dark/20 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius glass-glass-glass-backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
             Tiles: {tiles.length}
           </div>
-          <div className="glass-surface-dark/20 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius glass-glass-glass-backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
             Size: {tileSize}px
           </div>
           {morphPattern && (
-            <div className="glass-surface-dark/20 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius glass-glass-glass-backdrop-blur-sm">
+            <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
               Morph: {Math.round(morphPhase * 100)}%
             </div>
           )}
         </div>
 
         {/* Legend */}
-        <div className="glass-glass-glass-absolute top-4 right-4 glass-glass-glass-text-xs glass-glass-glass-text-primary/70">
-          <div className="glass-surface-dark/20 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius glass-glass-glass-backdrop-blur-sm">
+        <div className="absolute top-4 right-4 text-xs text-primary/70">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
             {tessellationType.charAt(0).toUpperCase() + tessellationType.slice(1)} Tessellation
           </div>
         </div>

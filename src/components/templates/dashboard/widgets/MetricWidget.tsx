@@ -242,12 +242,12 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                 </div>
                 
                 {showTarget && data?.target && (
-                  <div className="glass-glass-glass-w-full">
-                    <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-mb-1">
+                  <div className="w-full">
+                    <div className="flex justify-between text-xs glass-text-secondary mb-1">
                       <span>Progress</span>
                       <span>{Math.round(getTargetProgress())}%</span>
                     </div>
-                    <div className="glass-glass-glass-w-full glass-surface-subtle glass-radius-full glass-glass-glass-h-2">
+                    <div className="w-full glass-surface-subtle glass-radius-full h-2">
                       <Motion
                         className={cn(
                           'h-full glass-radius-full transition-all duration-500',
@@ -269,7 +269,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                     </div>
                   )}
                   {data?.changeLabel && (
-                    <div className="glass-glass-glass-text-xs glass-text-secondary">
+                    <div className="text-xs glass-text-secondary">
                       {data?.changeLabel}
                     </div>
                   )}
@@ -277,7 +277,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
               )}
 
               {data?.description && (
-                <div className="glass-glass-glass-text-xs glass-text-secondary">
+                <div className="text-xs glass-text-secondary">
                   {data?.description}
                 </div>
               )}
@@ -291,7 +291,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                 <div className={cn('font-bold glass-text-lg', colors.value)}>
                   {formatValue(data?.value)}{data?.unit}
                 </div>
-                <div className="glass-glass-glass-text-xs glass-text-secondary">
+                <div className="text-xs glass-text-secondary">
                   {data?.label || 'Metric'}
                 </div>
               </VStack>
@@ -328,7 +328,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                     <span>{data?.change > 0 ? '+' : ''}{data?.change}%</span>
                   </div>
                   {data?.changeLabel && (
-                    <div className="glass-glass-glass-text-sm glass-text-secondary">
+                    <div className="text-sm glass-text-secondary">
                       {data?.changeLabel}
                     </div>
                   )}
