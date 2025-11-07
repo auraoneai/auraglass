@@ -53,11 +53,11 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
         await collaborationService.current.connect();
 
         collaborationService.current.on('user-joined', (user) => {
-          setCollaborators(prev => [...prev, user]);
+          setCollaborators((prev: any) => [...prev, user]);
         });
 
         collaborationService.current.on('user-left', (userId) => {
-          setCollaborators(prev => prev.filter(c => c.userId !== userId));
+          setCollaborators((prev: any) => prev.filter((c: any) => c.userId !== userId));
         });
       }
 

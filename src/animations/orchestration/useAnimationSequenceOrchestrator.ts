@@ -59,7 +59,7 @@ export function useAnimationSequence(
     progress: 0,
     elapsed: 0,
     totalDuration: parallel
-      ? Math.max(...steps.map(s => s.duration + (s.delay || 0)))
+      ? Math.max(...steps.map((s: any) => s.duration + (s.delay || 0)))
       : steps.reduce((total, step) => total + step.duration + (step.delay || 0), 0),
   });
 
@@ -71,7 +71,7 @@ export function useAnimationSequence(
 
   // Calculate total duration
   const totalDuration = parallel
-    ? Math.max(...steps.map(s => s.duration + (s.delay || 0)))
+    ? Math.max(...steps.map((s: any) => s.duration + (s.delay || 0)))
     : steps.reduce((total, step) => total + step.duration + (step.delay || 0), 0);
 
   const applyStepTransform = useCallback((step: OrchestratedAnimationStep, progress: number = 1) => {
@@ -187,21 +187,21 @@ export function useAnimationSequence(
         }
       });
 
-      setState(prev => ({
+      setState((prev: any) => ({
         ...prev,
         progress: maxProgress,
         elapsed,
       }));
 
       if (allCompleted) {
-        setState(prev => ({ ...prev, isPlaying: false, progress: 1 }));
+        setState((prev: any) => ({ ...prev, isPlaying: false, progress: 1 }));
 
         if (loop) {
           // Restart animation
           startTimeRef.current = 0;
           stepStartTimesRef.current = new Array(steps.length).fill(0);
           completedStepsRef.current.clear();
-          setState(prev => ({
+          setState((prev: any) => ({
             ...prev,
             isPlaying: true,
             currentStep: 0,
@@ -255,7 +255,7 @@ export function useAnimationSequence(
 
       // Update state
       const overallProgress = elapsed / totalDuration;
-      setState(prev => ({
+      setState((prev: any) => ({
         ...prev,
         currentStep: currentStepIndex,
         progress: overallProgress,
@@ -264,7 +264,7 @@ export function useAnimationSequence(
 
       if (elapsed >= totalDuration) {
         // Animation complete
-        setState(prev => ({
+        setState((prev: any) => ({
           ...prev,
           isPlaying: false,
           progress: 1,
@@ -279,7 +279,7 @@ export function useAnimationSequence(
           startTimeRef.current = 0;
           stepStartTimesRef.current = new Array(steps.length).fill(0);
           completedStepsRef.current.clear();
-          setState(prev => ({
+          setState((prev: any) => ({
             ...prev,
             isPlaying: true,
             currentStep: 0,
@@ -309,7 +309,7 @@ export function useAnimationSequence(
   const play = useCallback(() => {
     if (state.isPlaying) return;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       isPlaying: true,
       isPaused: false,
@@ -324,7 +324,7 @@ export function useAnimationSequence(
   const pause = useCallback(() => {
     if (!state.isPlaying) return;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       isPaused: true,
     }));
@@ -345,7 +345,7 @@ export function useAnimationSequence(
     stepStartTimesRef.current = new Array(steps.length).fill(0);
     completedStepsRef.current = new Set();
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       isPlaying: false,
       isPaused: false,
@@ -364,7 +364,7 @@ export function useAnimationSequence(
     const seekTime = progress * totalDuration;
     startTimeRef.current = Date.now() - seekTime / speed;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       progress,
       elapsed: seekTime,
@@ -409,7 +409,7 @@ export function useAnimationSequence(
 function easeValue(progress: number, easing: string): number {
   // Simple easing function parser
   const [type, ...params] = easing.split('(');
-  const values = params.join('(').replace(')', '').split(',').map(v => parseFloat(v.trim()));
+  const values = params.join('(').replace(')', '').split(',').map((v: any) => parseFloat(v.trim()));
 
   switch (type) {
     case 'ease-in':

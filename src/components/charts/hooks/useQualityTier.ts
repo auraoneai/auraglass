@@ -201,7 +201,7 @@ export function useAdaptiveQuality(
 
       // Adjust quality based on performance
       if (avgRenderTime > targetFrameTime * 2 && currentTier !== 'low') {
-        setCurrentTier(prev => {
+        setCurrentTier((prev: any) => {
           const newTier = prev === 'ultra' ? 'high' :
                          prev === 'high' ? 'medium' :
                          prev === 'medium' ? 'low' : 'low';
@@ -211,7 +211,7 @@ export function useAdaptiveQuality(
           return newTier;
         });
       } else if (avgRenderTime < targetFrameTime * 0.8 && currentTier !== 'ultra') {
-        setCurrentTier(prev => {
+        setCurrentTier((prev: any) => {
           const newTier = prev === 'low' ? 'medium' :
                          prev === 'medium' ? 'high' :
                          prev === 'high' ? 'ultra' : 'ultra';

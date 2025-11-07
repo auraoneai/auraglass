@@ -189,10 +189,10 @@ export function HoudiniGlassProvider({
   useEffect(() => {
     if (performanceModeState) {
       // Disable expensive effects in performance mode
-      const reducedEffects = enabledEffectsState.filter(effect =>
+      const reducedEffects = enabledEffectsState.filter((effect: any) =>
         !['caustics', 'refraction'].includes(effect)
       );
-      setEnabledEffectsState(prev => {
+      setEnabledEffectsState((prev: any) => {
         const sameLength = prev.length === reducedEffects.length;
         const sameOrder = sameLength && prev.every((v, i) => v === reducedEffects[i]);
         return sameOrder ? prev : reducedEffects;
@@ -207,7 +207,7 @@ export function HoudiniGlassProvider({
       }
     } else {
       // Restore full effects
-      setEnabledEffectsState(prev => {
+      setEnabledEffectsState((prev: any) => {
         const next = enabledEffects;
         const sameLength = prev.length === next.length;
         const sameOrder = sameLength && prev.every((v, i) => v === next[i]);
@@ -247,7 +247,7 @@ export function HoudiniGlassProvider({
   ]);
 
   const updateGlobalProperty = useCallback((property: string, value: string) => {
-    setGlobalProperties(prev => ({ ...prev, [property]: value }));
+    setGlobalProperties((prev: any) => ({ ...prev, [property]: value }));
 
     if (hasPropertyAPI) {
       document.documentElement.style.setProperty(property, value);
@@ -259,9 +259,9 @@ export function HoudiniGlassProvider({
   }, [hasPropertyAPI, debugModeState]);
 
   const toggleEffect = useCallback((effect: string) => {
-    setEnabledEffectsState(prev => {
+    setEnabledEffectsState((prev: any) => {
       const newEffects = prev.includes(effect)
-        ? prev.filter(e => e !== effect)
+        ? prev.filter((e: any) => e !== effect)
         : [...prev, effect];
 
       if (debugModeState) {

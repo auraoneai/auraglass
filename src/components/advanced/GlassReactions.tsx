@@ -162,7 +162,7 @@ export function GlassReactions({
       } : undefined,
     };
     
-    setLocalReactions(prev => [...prev, reaction]);
+    setLocalReactions((prev: any) => [...prev, reaction]);
     
     // Play sound
     if (enableSounds && reactionType?.sound) {
@@ -179,7 +179,7 @@ export function GlassReactions({
     // Auto expire
     if (autoExpire > 0) {
       setTimeout(() => {
-        setLocalReactions(prev => prev.filter(r => r.id !== reaction.id));
+        setLocalReactions((prev: any) => prev.filter((r: any) => r.id !== reaction.id));
         onReactionExpire?.(reaction.id);
       }, autoExpire);
     }
@@ -225,7 +225,7 @@ export function GlassReactions({
       {/* Reactions overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <AnimatePresence>
-          {allReactions.map(reaction => (
+          {allReactions.map((reaction: any) => (
             <ReactionComponent
               key={reaction.id}
               reaction={reaction}
@@ -489,13 +489,13 @@ export function useGlassReactions() {
       intensity,
     };
     
-    setReactions(prev => [...prev, reaction]);
+    setReactions((prev: any) => [...prev, reaction]);
     
     return reaction;
   }, []);
   
   const removeReaction = useCallback((id: string) => {
-    setReactions(prev => prev.filter(r => r.id !== id));
+    setReactions((prev: any) => prev.filter((r: any) => r.id !== id));
   }, []);
   
   const clearReactions = useCallback(() => {

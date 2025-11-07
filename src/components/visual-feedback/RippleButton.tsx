@@ -174,11 +174,11 @@ function RippleButtonComponent(
     const duration = getRippleDuration(rippleSpeed);
     
     // Start ripple animation
-    setRipples(prev => [...prev, { id, x, y }]);
+    setRipples((prev: any) => [...prev, { id, x, y }]);
 
     // Schedule ripple removal after animation duration
     setTimeout(() => {
-      setRipples(prev => prev.filter(r => r.id !== id));
+      setRipples((prev: any) => prev.filter((r: any) => r.id !== id));
     }, duration);
 
     // Call the original onMouseDown handler if provided
@@ -223,7 +223,7 @@ function RippleButtonComponent(
       </Button>
 
       {/* Render ripples */}
-      {!prefersReducedMotion && ripples.map(ripple => (
+      {!prefersReducedMotion && ripples.map((ripple: any) => (
         <Ripple
           key={ripple.id}
           style={{

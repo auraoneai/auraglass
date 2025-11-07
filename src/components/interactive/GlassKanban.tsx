@@ -170,12 +170,12 @@ export function GlassKanban({
         const generateWorkflowSuggestions = async () => {
             try {
                 const boardContext = {
-                    columns: columns.map(col => ({
+                    columns: columns.map((col: any) => ({
                         id: col.id,
                         title: col.title,
                         cardCount: col.cards.length,
                         limit: col.limit,
-                        cards: col.cards.map(card => ({
+                        cards: col.cards.map((card: any) => ({
                             id: card.id,
                             title: card.title,
                             priority: card.priority,
@@ -232,7 +232,7 @@ export function GlassKanban({
     // Enhanced card click handler
     const handleCardClick = useCallback((cardId: string, columnId: string) => {
         // Update interaction counts
-        setCardInteractionCounts(prev => ({
+        setCardInteractionCounts((prev: any) => ({
             ...prev,
             [cardId]: (prev[cardId] || 0) + 1
         }));
@@ -274,7 +274,7 @@ export function GlassKanban({
     // Enhanced column click handler
     const handleColumnClick = useCallback((columnId: string) => {
         // Update interaction counts
-        setColumnInteractionCounts(prev => ({
+        setColumnInteractionCounts((prev: any) => ({
             ...prev,
             [columnId]: (prev[columnId] || 0) + 1
         }));

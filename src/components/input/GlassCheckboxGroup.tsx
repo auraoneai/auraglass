@@ -386,7 +386,7 @@ export const GlassCheckboxGroup = forwardRef<HTMLDivElement, GlassCheckboxGroupP
           // Don't allow fewer selections than minimum
           return;
         }
-        newValue = currentValue.filter(v => v !== itemValue);
+        newValue = currentValue.filter((v: any) => v !== itemValue);
       }
       
       if (value === undefined) {

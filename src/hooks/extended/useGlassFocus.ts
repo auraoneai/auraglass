@@ -90,7 +90,7 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
       focusOriginRef.current = 'programmatic';
     }
 
-    setFocusState(prev => ({
+    setFocusState((prev: any) => ({
       ...prev,
       isFocused: true,
       isKeyboardFocused: focusOriginRef.current === 'keyboard',
@@ -111,7 +111,7 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
   const handleBlur = useCallback((event: FocusEvent) => {
     const target = event.target as HTMLElement;
 
-    setFocusState(prev => ({
+    setFocusState((prev: any) => ({
       ...prev,
       isFocused: false,
       isKeyboardFocused: false,

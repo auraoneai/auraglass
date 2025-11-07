@@ -164,10 +164,10 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
     // Animation loop
     useEffect(() => {
       const animate = () => {
-        setAnimationTime(prev => prev + 0.016); // ~60fps
+        setAnimationTime((prev: any) => prev + 0.016); // ~60fps
 
         if (autoRotate) {
-          setCurrentProjection(prev => ({
+          setCurrentProjection((prev: any) => ({
             ...prev,
             angle: (prev.angle + rotationSpeed * 0.5) % 360
           }));
@@ -616,7 +616,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
                 className="flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
               >
                 <button
-                  onClick={() => setCurrentProjection(prev => ({ ...prev, angle: (prev.angle + 90) % 360 }))}
+                  onClick={() => setCurrentProjection((prev: any) => ({ ...prev, angle: (prev.angle + 90) % 360 }))}
                   className="p-1 glass-radius-md hover:glass-surface-overlay transition-all"
                   title="Rotate"
                   style={{ color: colors.primary }}
@@ -625,7 +625,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
                 </button>
                 
                 <button
-                  onClick={() => setCurrentProjection(prev => ({ ...prev, distance: prev.distance === 100 ? 150 : 100 }))}
+                  onClick={() => setCurrentProjection((prev: any) => ({ ...prev, distance: prev.distance === 100 ? 150 : 100 }))}
                   className="p-1 glass-radius-md hover:glass-surface-overlay transition-all"
                   title="Zoom"
                   style={{ color: colors.primary }}

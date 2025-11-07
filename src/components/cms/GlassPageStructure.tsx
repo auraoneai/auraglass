@@ -157,7 +157,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
       {/* Children */}
       {hasChildren && isExpanded && (
         <div>
-          {component.children.map(child => (
+          {component.children.map((child: any) => (
             <TreeItem
               key={child.id}
               component={child}
@@ -196,7 +196,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   const selectedComponent = getSelectedComponent();
 
   const toggleExpanded = (id: string) => {
-    setExpandedItems(prev => {
+    setExpandedItems((prev: any) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -210,7 +210,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   const expandAll = () => {
     const allIds = new Set<string>();
     const addIds = (components: PageComponent[]) => {
-      components.forEach(component => {
+      components.forEach((component: any) => {
         allIds.add(component.id);
         addIds(component.children);
       });
@@ -260,7 +260,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
 
   // Filter components based on search
   const filteredComponents = searchQuery
-    ? pageState.components.filter(component => {
+    ? pageState.components.filter((component: any) => {
         const searchInComponent = (comp: PageComponent): boolean => {
           const definition = componentLibrary.find(def => def.type === comp.type);
           const name = definition?.name || comp.type;
@@ -394,8 +394,8 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
           ) : (
             <div className="space-y-1">
               {filteredComponents
-                .filter(component => !component.parent) // Only show root components
-                .map(component => (
+                .filter((component: any) => !component.parent) // Only show root components
+                .map((component: any) => (
                   <TreeItem
                     key={component.id}
                     component={component}
@@ -420,7 +420,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             </div>
             <div className="flex justify-between">
               <span>Root Components:</span>
-              <span>{pageState.components.filter(c => !c.parent).length}</span>
+              <span>{pageState.components.filter((c: any) => !c.parent).length}</span>
             </div>
             <div className="flex justify-between">
               <span>Selected:</span>

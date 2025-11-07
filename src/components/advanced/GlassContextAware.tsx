@@ -168,7 +168,7 @@ export function GlassContextAware({
       };
       
       getBatteryLevel().then(batteryLevel => {
-        setEnvironmentContext(prev => ({
+        setEnvironmentContext((prev: any) => ({
           ...prev,
           lightLevel,
           batteryLevel,
@@ -232,7 +232,7 @@ export function GlassContextAware({
       // Detect task type based on interaction patterns
       const taskType = detectTaskType(interactionCount, sessionDuration);
       
-      setUsageContext(prev => ({
+      setUsageContext((prev: any) => ({
         ...prev,
         interactionIntensity: intensity,
         sessionDuration,
@@ -243,12 +243,12 @@ export function GlassContextAware({
     
     // Track various interaction events
     const events = ['click', 'keydown', 'scroll', 'mousemove', 'touchstart'];
-    events.forEach(event => {
+    events.forEach((event: any) => {
       document.addEventListener(event, trackInteraction);
     });
     
     return () => {
-      events.forEach(event => {
+      events.forEach((event: any) => {
         document.removeEventListener(event, trackInteraction);
       });
     };

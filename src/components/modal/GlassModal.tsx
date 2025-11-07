@@ -316,7 +316,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         if (open) {
             const openTime = Date.now();
             setModalFocusTime(openTime);
-            setInteractionCount(prev => prev + 1);
+            setInteractionCount((prev: any) => prev + 1);
 
             // Record modal opening interaction
             if (consciousness && interactionRecorder) {
@@ -361,7 +361,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
             }
 
             // Update content engagement
-            setContentEngagement(prev => ({
+            setContentEngagement((prev: any) => ({
                 ...prev,
                 timeSpent
             }));
@@ -790,7 +790,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                     const scrollElement = e.target as HTMLElement;
                     const scrollDepth = scrollElement.scrollTop / (scrollElement.scrollHeight - scrollElement.clientHeight) || 0;
                     
-                    setContentEngagement(prev => ({
+                    setContentEngagement((prev: any) => ({
                       ...prev,
                       scrollDepth: Math.max(prev.scrollDepth, scrollDepth),
                       interactions: prev.interactions + 1
@@ -805,7 +805,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 }}
                 onClick={(e) => {
                   if (consciousness && interactionRecorder) {
-                    setContentEngagement(prev => ({
+                    setContentEngagement((prev: any) => ({
                       ...prev,
                       interactions: prev.interactions + 1
                     }));

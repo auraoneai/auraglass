@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react';
 import { motion, PanInfo } from 'framer-motion'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -149,7 +150,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
 
       // Apply search filter
       if (searchQuery.trim()) {
-        processed = processed.filter(item => {
+        processed = processed.filter((item: any) => {
           const searchText = searchQuery.toLowerCase()
           return (
             item.id.toLowerCase().includes(searchText) ||
@@ -161,7 +162,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
 
       // Apply category filter
       if (activeFilter && activeFilter !== 'all') {
-        processed = processed.filter(item => item.category === activeFilter)
+        processed = processed.filter((item: any) => item.category === activeFilter)
       }
 
       // Sort items
@@ -249,7 +250,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
       
       setLayoutItems(newLayoutItems)
       const computedHeight = newLayoutItems.length
-        ? Math.max(...newLayoutItems.map(item => item.y + item.computedHeight)) + masonryConfig.gap
+        ? Math.max(...newLayoutItems.map((item: any) => item.y + item.computedHeight)) + masonryConfig.gap
         : 0;
       setContainerDimensions({
         width: containerWidth,
@@ -263,7 +264,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
         const viewportHeight = container.offsetHeight
         const buffer = viewportHeight * 0.5
 
-        const visible = newLayoutItems.filter(item => {
+        const visible = newLayoutItems.filter((item: any) => {
           const itemTop = item.y
           const itemBottom = item.y + item.computedHeight
           return itemBottom >= scrollTop - buffer && itemTop <= scrollTop + viewportHeight + buffer
@@ -368,7 +369,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
     }, [enableDragReorder, draggedItem, items, onItemsReorder, play])
 
     // Get unique categories for filtering
-    const categories = Array.from(new Set(items.map(item => item.category).filter(Boolean)))
+    const categories = Array.from(new Set(items.map((item: any) => item.category).filter(Boolean)))
 
     const FilterControls = () => (
       <div className="flex flex-wrap items-center gap-4 mb-6">
@@ -396,7 +397,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
               className="p-2 glass-surface-subtle/10 border border-white/20 glass-radius text-primary/90 text-sm"
             >
               <option value="">All</option>
-              {categories.map(category => (
+              {categories.map((category: any) => (
                 <option key={category} value={category}>
                   {category}
                 </option>
@@ -409,7 +410,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
           <span className="text-sm text-primary/70">Sort:</span>
           <select
             value={currentSort.by}
-            onChange={(e) => setCurrentSort(prev => ({ ...prev, by: e.target.value as any }))}
+            onChange={(e) => setCurrentSort((prev: any) => ({ ...prev, by: e.target.value as any }))}
             className="p-2 glass-surface-subtle/10 border border-white/20 glass-radius text-primary/90 text-sm"
           >
             <option value="id">ID</option>
@@ -419,7 +420,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
           </select>
           
           <button
-            onClick={() => setCurrentSort(prev => ({ 
+            onClick={() => setCurrentSort((prev: any) => ({ 
               ...prev, 
               order: prev.order === 'asc' ? 'desc' : 'asc' 
             }))}
@@ -433,7 +434,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
 
     const StatsPanel = () => {
       const processedItems = processItems(items)
-      const totalHeight = Math.max(...layoutItems.map(item => item.y + item.computedHeight))
+      const totalHeight = Math.max(...layoutItems.map((item: any) => item.y + item.computedHeight))
       const avgHeight = layoutItems.length > 0 ? totalHeight / layoutItems.length : 0
 
       return (

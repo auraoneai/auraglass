@@ -11,7 +11,7 @@ export function GlassReactionBar({ reactions, onReact, className }: GlassReactio
   return (
     <div className={className}>
       <div className="flex gap-2">
-        {reactions.map(r => (
+        {reactions.map((r: any) => (
           <GlassButton key={r.key} variant="ghost" size="sm" onClick={(e) =>onReact?.(r.key)}>
             <span className="glass-mr-1">{r.label}</span>
             <span className="text-primary/70">{r.count}</span>

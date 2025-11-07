@@ -70,14 +70,14 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
     
     if (now - lastFrameTime.current >= 1000) {
       const fps = Math.round((frameCount.current * 1000) / (now - lastFrameTime.current));
-      setMetrics(prev => ({ ...prev, fps }));
+      setMetrics((prev: any) => ({ ...prev, fps }));
       
       frameCount.current = 0;
       lastFrameTime.current = now;
       
       // Alert on low FPS
       if (fps < 30) {
-        setAlerts(prev => [...prev, `Low FPS detected: ${fps}`]);
+        setAlerts((prev: any) => [...prev, `Low FPS detected: ${fps}`]);
       }
     }
     
@@ -91,11 +91,11 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
     if ('memory' in performance) {
       const memory = (performance as any).memory;
       const memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024);
-      setMetrics(prev => ({ ...prev, memoryUsage }));
+      setMetrics((prev: any) => ({ ...prev, memoryUsage }));
       
       // Alert on high memory usage
       if (memoryUsage > 100) {
-        setAlerts(prev => [...prev, `High memory usage: ${memoryUsage}MB`]);
+        setAlerts((prev: any) => [...prev, `High memory usage: ${memoryUsage}MB`]);
       }
     }
   }, []);
@@ -103,11 +103,11 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
   // DOM elements count
   const measureDOMComplexity = useCallback(() => {
     const domElements = document.querySelectorAll('*').length;
-    setMetrics(prev => ({ ...prev, domElements }));
+    setMetrics((prev: any) => ({ ...prev, domElements }));
     
     // Alert on DOM complexity
     if (domElements > 2000) {
-      setAlerts(prev => [...prev, `High DOM complexity: ${domElements} elements`]);
+      setAlerts((prev: any) => [...prev, `High DOM complexity: ${domElements} elements`]);
     }
   }, []);
 
@@ -126,7 +126,7 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
           clsValue += (entry as any).value;
         }
       }
-      setMetrics(prev => ({ ...prev, cls: clsValue }));
+      setMetrics((prev: any) => ({ ...prev, cls: clsValue }));
     });
 
     try {
@@ -139,7 +139,7 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
     const lcpObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
-      setMetrics(prev => ({ ...prev, lcp: lastEntry.startTime }));
+      setMetrics((prev: any) => ({ ...prev, lcp: lastEntry.startTime }));
     });
 
     try {
@@ -160,7 +160,7 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
     try {
       await fetch('/favicon.ico', { method: 'HEAD' });
       const latency = performance.now() - start;
-      setMetrics(prev => ({ ...prev, networkLatency: Math.round(latency) }));
+      setMetrics((prev: any) => ({ ...prev, networkLatency: Math.round(latency) }));
     } catch (e) {
       // Network request failed
     }

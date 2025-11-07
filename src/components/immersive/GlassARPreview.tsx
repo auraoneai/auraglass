@@ -221,7 +221,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
 
         return () => {
           if (cameraStream) {
-            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream.getTracks().forEach((track: any) => track.stop());
           }
         };
       }
@@ -277,7 +277,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       }
 
       // Render objects (simplified 3D to 2D projection)
-      objects.forEach(object => {
+      objects.forEach((object: any) => {
         if (!object.visible) return;
 
         const screenPos = project3DToScreen(
@@ -295,7 +295,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       });
 
       // Render markers
-      markers.forEach(marker => {
+      markers.forEach((marker: any) => {
         if (foundMarkers.has(marker.id)) {
           renderMarker(ctx, marker);
         }
@@ -521,11 +521,11 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
           
           if (Math.random() > 0.7) {
             if (!wasFound) {
-              setFoundMarkers(prev => new Set([...prev, randomMarker.id]));
+              setFoundMarkers((prev: any) => new Set([...prev, randomMarker.id]));
               onMarkerFound?.(randomMarker);
             }
           } else if (wasFound && Math.random() > 0.8) {
-            setFoundMarkers(prev => {
+            setFoundMarkers((prev: any) => {
               const newSet = new Set(prev);
               newSet.delete(randomMarker.id);
               return newSet;
@@ -639,7 +639,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                 )}
 
                 <div className="text-xs glass-text-secondary">
-                  Objects: {objects.filter(o => o.visible).length}
+                  Objects: {objects.filter((o: any) => o.visible).length}
                 </div>
               </OptimizedGlass>
             </div>

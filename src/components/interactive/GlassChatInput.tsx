@@ -230,7 +230,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
     const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
 
-        files.forEach(file => {
+        files.forEach((file: any) => {
             if (file.size > maxFileSize) {
                 console.warn(`File ${file.name} is too large`);
                 return;
@@ -250,12 +250,12 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                 const reader = new FileReader();
                 reader.onload = () => {
                     attachment.preview = reader.result as string;
-                    setAttachments(prev => [...prev, attachment]);
+                    setAttachments((prev: any) => [...prev, attachment]);
                     onAttachmentAdd?.(attachment);
                 };
                 reader.readAsDataURL(file);
             } else {
-                setAttachments(prev => [...prev, attachment]);
+                setAttachments((prev: any) => [...prev, attachment]);
                 onAttachmentAdd?.(attachment);
             }
         });
@@ -265,7 +265,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
 
     // Remove attachment
     const handleRemoveAttachment = useCallback((attachmentId: string) => {
-        setAttachments(prev => prev.filter(att => att.id !== attachmentId));
+        setAttachments((prev: any) => prev.filter((att: any) => att.id !== attachmentId));
         onAttachmentRemove?.(attachmentId);
     }, [onAttachmentRemove]);
 
@@ -289,7 +289,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
             setIsRecording(true);
 
             recordingIntervalRef.current = setInterval(() => {
-                setRecordingTime(prev => prev + 1);
+                setRecordingTime((prev: any) => prev + 1);
             }, 1000);
         }
     }, [isRecording, onVoiceRecording]);
@@ -303,7 +303,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
 
     // Handle emoji selection
     const handleEmojiSelect = useCallback((emoji: string) => {
-        setMessage(prev => prev + emoji);
+        setMessage((prev: any) => prev + emoji);
         setShowEmojiPicker(false);
     }, []);
 

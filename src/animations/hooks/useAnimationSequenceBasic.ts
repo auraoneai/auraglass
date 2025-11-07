@@ -151,7 +151,7 @@ export function useAnimationSequence(
 
     if (totalElapsed >= totalDuration) {
       // Animation complete
-      setState(prev => ({
+      setState((prev: any) => ({
         ...prev,
         isPlaying: false,
         progress: 1,
@@ -169,7 +169,7 @@ export function useAnimationSequence(
         pausedTimeRef.current = 0;
         currentStepRef.current = 0;
         stepStartTimeRef.current = 0;
-        setState(prev => ({
+        setState((prev: any) => ({
           ...prev,
           isPlaying: true,
           currentStep: 0,
@@ -227,7 +227,7 @@ export function useAnimationSequence(
 
     // Update state
     const overallProgress = totalElapsed / totalDuration;
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       currentStep: currentStepIndex,
       progress: overallProgress,
@@ -248,7 +248,7 @@ export function useAnimationSequence(
   const play = useCallback(() => {
     if (state.isPlaying) return;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       isPlaying: true,
       isPaused: false,
@@ -261,7 +261,7 @@ export function useAnimationSequence(
   const pause = useCallback(() => {
     if (!state.isPlaying) return;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       isPaused: true,
     }));
@@ -285,7 +285,7 @@ export function useAnimationSequence(
     currentStepRef.current = 0;
     stepStartTimeRef.current = 0;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       isPlaying: false,
       isPaused: false,
@@ -304,7 +304,7 @@ export function useAnimationSequence(
     const seekTime = progress * totalDuration;
     pausedTimeRef.current = seekTime;
 
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       progress,
       elapsed: seekTime,
@@ -375,7 +375,7 @@ export function useAnimationSequence(
 function easeValue(progress: number, easing: string): number {
   // Simple easing function parser
   const [type, ...params] = easing.split('(');
-  const values = params.join('(').replace(')', '').split(',').map(v => parseFloat(v.trim()));
+  const values = params.join('(').replace(')', '').split(',').map((v: any) => parseFloat(v.trim()));
 
   switch (type) {
     case 'ease-in':

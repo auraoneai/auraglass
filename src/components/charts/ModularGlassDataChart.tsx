@@ -295,7 +295,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
   
   const animate = React.useCallback((key: string, from: number, to: number, duration: number = 500) => {
     setIsAnimating(true);
-    setAnimationValues(prev => ({ ...prev, [key]: from }));
+    setAnimationValues((prev: any) => ({ ...prev, [key]: from }));
     
     if (enablePhysicsAnimation) {
       // Use spring physics animation
@@ -310,7 +310,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         };
         
         const currentValue = from + (to - from) * easeSpring(progress);
-        setAnimationValues(prev => ({ ...prev, [key]: currentValue }));
+        setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
         
         if (progress < 1) {
           requestAnimationFrame(animateFrame);
@@ -328,7 +328,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       const interval = setInterval(() => {
         currentStep++;
         const currentValue = from + stepValue * currentStep;
-        setAnimationValues(prev => ({ ...prev, [key]: currentValue }));
+        setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
         
         if (currentStep >= steps) {
           clearInterval(interval);
@@ -775,7 +775,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
                 className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10"
                 data-insights-panel="true"
               >
-                <strong>💡 KPI Insights:</strong> {chartInsights.slice(0, 2).map(insight => insight.title || insight.message).join(', ')}
+                <strong>💡 KPI Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
                 {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
               </div>
             )}
@@ -860,7 +860,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
               className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10"
               data-insights-panel="true"
             >
-              <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map(insight => insight.title || insight.message).join(', ')}
+              <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
               {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
             </div>
           )}

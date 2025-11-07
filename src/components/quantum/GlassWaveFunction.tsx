@@ -95,7 +95,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        setCurrentTime(prev => prev + 0.1 * animationSpeed * timeScale)
+        setCurrentTime((prev: any) => prev + 0.1 * animationSpeed * timeScale)
       }, 16)
       return () => clearInterval(interval)
     }, [realTimeMode, animationSpeed, timeScale])
@@ -105,7 +105,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       const points = Math.floor(width / resolution)
       const newWaveData: Record<string, number[]> = {}
       
-      waveEquations.forEach(wave => {
+      waveEquations.forEach((wave: any) => {
         const k = 2 * Math.PI / wave.wavelength
         const data: number[] = []
         
@@ -203,7 +203,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       // Interference pattern
       if (showInterference && waveEquations.length > 1) {
         const interferenceData: number[] = []
-        const dataLength = Math.min(...Object.values(waveData).map(d => d.length))
+        const dataLength = Math.min(...Object.values(waveData).map((d: any) => d.length))
         
         for (let i = 0; i < dataLength; i++) {
           const sum = Object.values(waveData).reduce((total, data) => total + (data[i] || 0), 0)
@@ -353,7 +353,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       })
 
       if (closestWave) {
-        setSelectedWave(prev => prev === closestWave ? null : closestWave)
+        setSelectedWave((prev: any) => prev === closestWave ? null : closestWave)
         onWaveInteraction?.(closestWave, { x, y })
       }
     }
@@ -448,7 +448,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
           <h4 className={cn("glass-text-sm glass-font-semibold glass-text-primary")}>Wave Parameters</h4>
           
           <div className={cn("glass-grid glass-gap-2")}>
-            {waveEquations.map(wave => (
+            {waveEquations.map((wave: any) => (
               <motion.div
                 key={wave.id}
                 className={cn(
@@ -457,7 +457,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
                     ? "glass-border-primary glass-surface-subtle" 
                     : "glass-border-muted hover:glass-border-primary"
                 )}
-                onClick={() => setSelectedWave(prev => prev === wave.id ? null : wave.id)}
+                onClick={() => setSelectedWave((prev: any) => prev === wave.id ? null : wave.id)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

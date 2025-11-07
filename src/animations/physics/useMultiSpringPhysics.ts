@@ -53,7 +53,7 @@ export function useMultiSpring(
 
   // Initialize spring state
   useEffect(() => {
-    Object.keys(initialValues).forEach(key => {
+    Object.keys(initialValues).forEach((key: any) => {
       if (!springStateRef.current[key]) {
         springStateRef.current[key] = {
           current: initialValues[key],
@@ -70,7 +70,7 @@ export function useMultiSpring(
     let hasAnimatingValues = false;
     const newValues: Record<string, number> = {};
 
-    Object.keys(springStateRef.current).forEach(key => {
+    Object.keys(springStateRef.current).forEach((key: any) => {
       const spring = springStateRef.current[key];
       
       if (!spring.isAnimating) {
@@ -132,7 +132,7 @@ export function useMultiSpring(
 
   // Start animation to new targets
   const start = useCallback((targets: Record<string, number>) => {
-    Object.keys(targets).forEach(key => {
+    Object.keys(targets).forEach((key: any) => {
       const targetValue = targets[key];
       
       if (!springStateRef.current[key]) {
@@ -176,7 +176,7 @@ export function useMultiSpring(
       animationRef.current = undefined;
     }
 
-    Object.keys(springStateRef.current).forEach(key => {
+    Object.keys(springStateRef.current).forEach((key: any) => {
       const spring = springStateRef.current[key];
       spring.target = spring.current;
       spring.velocity = 0;
@@ -188,7 +188,7 @@ export function useMultiSpring(
 
   // Set immediate value without animation
   const set = useCallback((newValues: Record<string, number>) => {
-    Object.keys(newValues).forEach(key => {
+    Object.keys(newValues).forEach((key: any) => {
       if (!springStateRef.current[key]) {
         springStateRef.current[key] = {
           current: newValues[key],
@@ -205,7 +205,7 @@ export function useMultiSpring(
       }
     });
 
-    setValues(prev => ({ ...prev, ...newValues }));
+    setValues((prev: any) => ({ ...prev, ...newValues }));
     onFrame?.({ ...values, ...newValues });
   }, [values, onFrame]);
 

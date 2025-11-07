@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
@@ -250,7 +251,7 @@ export function GlassFocusIndicators() {
     const handleFocusTrap = () => {
       const modals = document.querySelectorAll('[role="dialog"], [aria-modal="true"], .modal, .overlay');
 
-      modals.forEach(modal => {
+      modals.forEach((modal: any) => {
         const focusableElements = modal.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]), [role="button"], [role="link"]'
         );
@@ -345,7 +346,7 @@ export function LandmarkAnnouncer() {
       const landmarks = document.querySelectorAll('[role="banner"], [role="navigation"], [role="main"], [role="contentinfo"], header, nav, main, footer');
 
       if (landmarks.length > 0 && (window as any).announceToScreenReader) {
-        const landmarksList = Array.from(landmarks).map(el => {
+        const landmarksList = Array.from(landmarks).map((el: any) => {
           const role = el.getAttribute('role') || el.tagName.toLowerCase();
           const label = el.getAttribute('aria-label') || el.getAttribute('aria-labelledby') || '';
           return label ? `${role}: ${label}` : role;

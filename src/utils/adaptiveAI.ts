@@ -292,7 +292,7 @@ export class AdaptiveAIEngine {
    */
   private predictNextAction(analysis: any): string {
     // Markov chain-like prediction based on recent actions
-    const recentActions = this.userBehavior.clicks.slice(-5).map(c => c.element);
+    const recentActions = this.userBehavior.clicks.slice(-5).map((c: any) => c.element);
     
     if (recentActions.length === 0) return 'explore';
     
@@ -387,7 +387,7 @@ export class AdaptiveAIEngine {
    */
   private updateConfiguration(predictions: Prediction) {
     // Gradually update configuration using exponential moving average
-    Object.keys(predictions.optimizations).forEach(key => {
+    Object.keys(predictions.optimizations).forEach((key: any) => {
       const currentValue = this.adaptiveConfig[key as keyof AdaptiveConfig];
       const predictedValue = predictions.optimizations[key as keyof AdaptiveConfig];
       

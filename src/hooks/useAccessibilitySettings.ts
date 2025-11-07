@@ -80,14 +80,14 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
       if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ' || e.key.startsWith('Arrow')) {
         keyboardUsed = true;
         keyboardDetectionRef.current = true;
-        setSettings(prev => ({ ...prev, keyboardNavigation: true }));
+        setSettings((prev: any) => ({ ...prev, keyboardNavigation: true }));
       }
     };
 
     const handleMouseDown = () => {
       if (keyboardUsed) {
         keyboardDetectionRef.current = false;
-        setSettings(prev => ({ ...prev, keyboardNavigation: false }));
+        setSettings((prev: any) => ({ ...prev, keyboardNavigation: false }));
       }
     };
 
@@ -129,7 +129,7 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
     key: K,
     value: AccessibilitySettings[K]
   ) => {
-    setSettings(prev => {
+    setSettings((prev: any) => {
       const newSettings = { ...prev, [key]: value };
       saveSettings(newSettings);
       return newSettings;
@@ -220,7 +220,7 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
             }
           });
 
-          setSettings(prev => {
+          setSettings((prev: any) => {
             const newSettings = { ...prev, ...updates };
             saveSettings(newSettings);
             return newSettings;
@@ -233,7 +233,7 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
           colorSchemeQuery,
         ];
 
-        mediaQueries.forEach(mq => {
+        mediaQueries.forEach((mq: any) => {
           mq.addEventListener('change', updateFromMediaQuery);
         });
 
@@ -244,7 +244,7 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
 
         // Cleanup function
         return () => {
-          mediaQueries.forEach(mq => {
+          mediaQueries.forEach((mq: any) => {
             mq.removeEventListener('change', updateFromMediaQuery);
           });
           cleanupKeyboardDetection();

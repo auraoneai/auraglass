@@ -303,7 +303,7 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
               height={dimensions.height}
             >
               <path
-                d={`M ${spiralPoints.map(p => `${p.x},${p.y}`).join(' L ')}`}
+                d={`M ${spiralPoints.map((p: any) => `${p.x},${p.y}`).join(' L ')}`}
                 stroke="rgba(255, 215, 0, 0.3)"
                 strokeWidth="2"
                 fill="none"

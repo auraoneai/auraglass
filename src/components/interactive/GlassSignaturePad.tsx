@@ -185,7 +185,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
       
       setLastVelocity(filteredVelocity);
       setLastWidth(smoothWidth);
-      setPoints(prev => [...prev, point]);
+      setPoints((prev: any) => [...prev, point]);
       setIsEmpty(false);
     }, [points, lastVelocity, lastWidth, defaultOptions.penColor, defaultOptions.velocityFilterWeight, calculateStrokeWidth]);
 

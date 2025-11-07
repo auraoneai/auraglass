@@ -124,7 +124,7 @@ export class CollaborationService extends EventEmitter {
 
     this.socket.on('room-state', (state: CollaborationRoom) => {
       this.currentRoom = state.roomId;
-      state.participants.forEach(p => this.presenceMap.set(p.userId, p));
+      state.participants.forEach((p: any) => this.presenceMap.set(p.userId, p));
       this.emit('room-synced', state);
     });
 

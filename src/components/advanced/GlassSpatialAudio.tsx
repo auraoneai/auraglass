@@ -702,7 +702,7 @@ export function GlassSpatialVisualizer({
 
         {/* Audio sources */}
         <AnimatePresence>
-          {sources.map(source => {
+          {sources.map((source: any) => {
             // Convert 3D position to 2D screen position
             const screenX = (source.position.x + 1) * 50; // -1 to 1 -> 0 to 100%
             const screenY = (1 - source.position.y) * 50; // -1 to 1 -> 100 to 0%

@@ -236,7 +236,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
         {...props}
       >
         <HStack space="none" className="w-full">
-          {items.map(item => renderNavigationItem(item))}
+          {items.map((item: any) => renderNavigationItem(item))}
         </HStack>
       </OptimizedGlass>
     );

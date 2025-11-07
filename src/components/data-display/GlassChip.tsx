@@ -361,7 +361,7 @@ export const GlassChipGroup = forwardRef<HTMLDivElement, GlassChipGroupProps>(
         if (selected) {
           newSelected = [...currentSelected, value];
         } else {
-          newSelected = currentSelected.filter(v => v !== value);
+          newSelected = currentSelected.filter((v: any) => v !== value);
         }
       } else {
         return; // No selection mode

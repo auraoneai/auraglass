@@ -254,7 +254,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
       const animate = () => {
         render();
         if (isAutoRotating) {
-          setCurrentView(prev => ({
+          setCurrentView((prev: any) => ({
             ...prev,
             yaw: ((prev.yaw ?? 0) + autoRotateSpeed / 60) % 360
           }));
@@ -518,7 +518,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           const yaw = alpha - lastGyroscopeRef.current.alpha;
           const pitch = beta - lastGyroscopeRef.current.beta;
 
-          setCurrentView(prev => ({
+          setCurrentView((prev: any) => ({
             ...prev,
             yaw: (prev.yaw ?? 0) + yaw * 0.1,
             pitch: Math.max(-90, Math.min(90, (prev.pitch ?? 0) + pitch * 0.1)),

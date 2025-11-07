@@ -160,7 +160,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   }>({ visible: false, x: 0, y: 0, content: '' });
 
   const [selectedSeries, setSelectedSeries] = useState<string[]>(
-    data.map(s => s.id)
+    data.map((s: any) => s.id)
   );
 
   const [zoomLevel, setZoomLevel] = useState({ x: [0, 1], y: [0, 1] });
@@ -175,9 +175,9 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
   // Filter and process data
   const processedData = useMemo(() => {
-    return data.map(series => ({
+    return data.map((series: any) => ({
       ...series,
-      data: series.data.filter(point => {
+      data: series.data.filter((point: any) => {
         return appliedFilters.every(filter => {
           const fieldValue = point.metadata?.[filter.field] ?? point.y;
           
@@ -197,7 +197,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
           }
         });
       })
-    })).filter(series => selectedSeries.includes(series.id));
+    })).filter((series: any) => selectedSeries.includes(series.id));
   }, [data, appliedFilters, selectedSeries]);
 
   // Calculate chart dimensions and scales
@@ -218,7 +218,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     let xMin = Infinity, xMax = -Infinity;
     let yMin = Infinity, yMax = -Infinity;
 
-    allPoints.forEach(point => {
+    allPoints.forEach((point: any) => {
       const xVal = typeof point.x === 'number' ? point.x : new Date(point.x).getTime();
       xMin = Math.min(xMin, xVal);
       xMax = Math.max(xMax, xVal);
@@ -277,8 +277,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     let nearestSeries: ChartSeries | null = null;
     let minDistance = Infinity;
 
-    processedData.forEach(series => {
-      series.data.forEach(point => {
+    processedData.forEach((series: any) => {
+      series.data.forEach((point: any) => {
         const pointX = scaleValue(
           typeof point.x === 'number' ? point.x : new Date(point.x).getTime(),
           chartDimensions.xDomain,
@@ -310,7 +310,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         content: `${s.name}: ${formatValue(p.y)} (${formatValue(p.x)})`
       });
     } else {
-      setTooltip(prev => ({ ...prev, visible: false }));
+      setTooltip((prev: any) => ({ ...prev, visible: false }));
     }
   }, [showTooltip, processedData, chartDimensions]);
 
@@ -325,8 +325,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         value: point.metadata?.[nextLevel.dataKey] || point.category
       };
       
-      setAppliedFilters(prev => [...prev, newFilter]);
-      setCurrentDrillLevel(prev => prev + 1);
+      setAppliedFilters((prev: any) => [...prev, newFilter]);
+      setCurrentDrillLevel((prev: any) => prev + 1);
       onDrillDown?.(nextLevel, [...appliedFilters, newFilter]);
     }
   }, [onDataPointClick, enableDrillDown, currentDrillLevel, drillDownLevels, appliedFilters, onDrillDown]);
@@ -362,18 +362,18 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   }, []);
 
   const toggleSeries = useCallback((seriesId: string) => {
-    setSelectedSeries(prev => 
+    setSelectedSeries((prev: any) => 
       prev.includes(seriesId) 
-        ? prev.filter(id => id !== seriesId)
+        ? prev.filter((id: any) => id !== seriesId)
         : [...prev, seriesId]
     );
   }, []);
 
   const exportChart = useCallback((format: 'png' | 'svg' | 'csv' | 'json') => {
     if (format === 'csv' || format === 'json') {
-      const exportData = processedData.map(series => ({
+      const exportData = processedData.map((series: any) => ({
         series: series.name,
-        data: series.data.map(point => ({
+        data: series.data.map((point: any) => ({
           x: point.x,
           y: point.y,
           category: point.category,
@@ -403,7 +403,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   const convertToCSV = (data: any[]): string => {
     const rows: string[] = ['Series,X,Y,Category,Label'];
     
-    data.forEach(series => {
+    data.forEach((series: any) => {
       series.data.forEach((point: any) => {
         rows.push(`${series.series},${point.x},${point.y},${point.category || ''},${point.label || ''}`);
       });
@@ -413,8 +413,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   };
 
   const renderLineChart = () => {
-    return processedData.map(series => {
-      const points = series.data.map(point => ({
+    return processedData.map((series: any) => {
+      const points = series.data.map((point: any) => ({
         x: scaleValue(
           typeof point.x === 'number' ? point.x : new Date(point.x).getTime(),
           chartDimensions.xDomain,
@@ -650,7 +650,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               >
                 {filter.field}: {filter.value}
                 <button
-                  onClick={() => setAppliedFilters(prev => prev.filter((_, i) => i !== index))}
+                  onClick={() => setAppliedFilters((prev: any) => prev.filter((_, i) => i !== index))}
                   className="text-primary hover:text-primary ml-1"
                 >
                   ✕
@@ -667,7 +667,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             width={width}
             height={height}
             onMouseMove={handleMouseMove}
-            onMouseLeave={() => setTooltip(prev => ({ ...prev, visible: false }))}
+            onMouseLeave={() => setTooltip((prev: any) => ({ ...prev, visible: false }))}
             onWheel={(e) => {
               e.preventDefault();
               const rect = svgRef.current?.getBoundingClientRect();
@@ -699,7 +699,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         {/* Legend */}
         {showLegend && (
           <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-subtle">
-            {processedData.map(series => (
+            {processedData.map((series: any) => (
               <button
                 key={series.id}
                 onClick={() => toggleSeries(series.id)}

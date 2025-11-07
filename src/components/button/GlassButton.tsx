@@ -348,7 +348,7 @@ export const GlassButton = forwardRef(function GlassButton(
     const handleInteraction = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled || loading) return;
 
-      setClickCount(prev => prev + 1);
+      setClickCount((prev: any) => prev + 1);
 
       // Record interaction for predictive learning
       if (interactionRecorder) {

@@ -166,7 +166,7 @@ const CommentBubble: React.FC<{
         {/* Replies */}
         {showReplies && comment.replies && comment.replies.length > 0 && (
           <div className="ml-4 space-y-2">
-            {comment.replies.map(reply => {
+            {comment.replies.map((reply: any) => {
               const replyUser = user; // In real app, would look up by reply.userId
               return (
                 <Glass key={reply.id} className="p-2 glass-surface-subtle">
@@ -345,7 +345,7 @@ export const GlassCollaborativeComments: React.FC<CollaborativeCommentsProps> = 
   const groupedComments = React.useMemo(() => {
     const groups: { [key: string]: CollaborationComment[] } = {};
     
-    comments.forEach(comment => {
+    comments.forEach((comment: any) => {
       const key = `${Math.floor(comment.position.x / 50)}-${Math.floor(comment.position.y / 50)}`;
       if (!groups[key]) groups[key] = [];
       groups[key].push(comment);
@@ -387,13 +387,13 @@ export const GlassCollaborativeComments: React.FC<CollaborativeCommentsProps> = 
       {selectedComment && (
         <>
           {comments
-            .filter(comment => 
+            .filter((comment: any) => 
               groupedComments.find(group => 
                 group.some(c => c.id === selectedComment) && 
                 group.includes(comment)
               )
             )
-            .map(comment => {
+            .map((comment: any) => {
               const user = users.find(u => u.id === comment.userId) || currentUser;
               
               return (

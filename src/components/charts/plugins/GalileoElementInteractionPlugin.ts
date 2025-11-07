@@ -256,7 +256,7 @@ function createRipple(chart: any, x: number, y: number) {
 }
 
 function drawRipples(ctx: CanvasRenderingContext2D, ripples: any[]) {
-  ripples.forEach(ripple => {
+  ripples.forEach((ripple: any) => {
     ctx.save();
     ctx.globalAlpha = ripple.opacity;
     ctx.strokeStyle = ripple.color;

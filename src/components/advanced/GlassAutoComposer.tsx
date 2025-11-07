@@ -558,7 +558,7 @@ class LayoutOptimizer {
         break;
       case 'spacing':
         const scale = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
-        Object.keys(mutatedTokens.spacing).forEach(key => {
+        Object.keys(mutatedTokens.spacing).forEach((key: any) => {
           const value = parseFloat(mutatedTokens.spacing[key]);
           mutatedTokens.spacing[key] = `${value * scale}rem`;
         });
@@ -725,7 +725,7 @@ export function GlassAutoComposerProvider({
     if (!generatorRef.current) throw new Error('Generator not initialized');
     
     const layout = await generatorRef.current.generateLayout(prompt);
-    setCurrentLayouts(prev => [...prev, layout]);
+    setCurrentLayouts((prev: any) => [...prev, layout]);
     return layout;
   }, []);
 
@@ -733,7 +733,7 @@ export function GlassAutoComposerProvider({
     if (!optimizerRef.current) throw new Error('Optimizer not initialized');
     
     const optimized = await optimizerRef.current.optimizeLayout(layout, feedback);
-    setCurrentLayouts(prev => [...prev, optimized]);
+    setCurrentLayouts((prev: any) => [...prev, optimized]);
     return optimized;
   }, []);
 

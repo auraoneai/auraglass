@@ -150,7 +150,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
         if (!query) return items;
 
         const lowerQuery = query.toLowerCase();
-        return items.filter(item => {
+        return items.filter((item: any) => {
             const searchableText = [
                 item?.label,
                 item?.description,
@@ -174,7 +174,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
         if (!groupBy) return { '': filteredItems };
 
         const groups: Record<string, CommandItem[]> = {};
-        filteredItems.forEach(item => {
+        filteredItems.forEach((item: any) => {
             const group = groupBy(item);
               if (!groups[group]) groups[group] = [];
             groups[group].push(item);
@@ -190,11 +190,11 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
         switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
-                setSelectedIndex(prev => (prev + 1) % totalItems);
+                setSelectedIndex((prev: any) => (prev + 1) % totalItems);
                 break;
             case 'ArrowUp':
                 e.preventDefault();
-                setSelectedIndex(prev => (prev - 1 + totalItems) % totalItems);
+                setSelectedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);
                 break;
             case 'Enter':
                 e.preventDefault();

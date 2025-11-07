@@ -262,7 +262,7 @@ export class GlassSoundDesign {
   playChord(frequencies: number[], duration: number = 200, volume: number = 0.3) {
     if (!this.enabled || !this.audioContext) return;
     
-    frequencies.forEach(freq => {
+    frequencies.forEach((freq: any) => {
       this.playGlassSound('tap', {
         frequency: freq,
         duration,
@@ -455,7 +455,7 @@ export class GlassSoundDesign {
    */
   destroy() {
     // Stop all oscillators
-    this.oscillators.forEach(osc => {
+    this.oscillators.forEach((osc: any) => {
       try {
         osc.stop();
         osc.disconnect();
@@ -463,7 +463,7 @@ export class GlassSoundDesign {
     });
     
     // Disconnect all gain nodes
-    this.gainNodes.forEach(gain => {
+    this.gainNodes.forEach((gain: any) => {
       try {
         gain.disconnect();
       } catch {}

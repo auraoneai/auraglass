@@ -118,7 +118,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
     positionedNodes.push(positionedNode);
 
     // Process children
-    node.children?.forEach(child => {
+    node.children?.forEach((child: any) => {
       positionedNodes.push(...calculatePositions(child, level + 1, node.id));
     });
 
@@ -277,7 +277,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
     };
 
     // Add connections from custom connections array
-    connections.forEach(conn => {
+    connections.forEach((conn: any) => {
       const fromNode = positionedNodes.find(n => n.id === conn.from);
       const toNode = positionedNodes.find(n => n.id === conn.to);
       if (fromNode && toNode) {
@@ -287,7 +287,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
     // Add default parent-child connections
     const addParentChildConnections = (node: PositionedNode) => {
-      node.children?.forEach(child => {
+      node.children?.forEach((child: any) => {
         const childNode = positionedNodes.find(n => n.id === child.id);
         if (childNode) {
           addConnection(node, childNode);
@@ -302,7 +302,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
   // Render nodes
   const renderNodes = () => {
-    return positionedNodes.map(node => {
+    return positionedNodes.map((node: any) => {
       const isSelected = selectedNode === node.id;
       const isEditing = editingNode === node.id;
       const isDragged = draggedNode === node.id;
@@ -424,7 +424,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       {showMinimap && (
         <div className="absolute bottom-4 right-4 z-10 w-32 h-24 glass-surface-dark/20 glass-radius-md border border-white/20">
           <svg className="w-full h-full" viewBox="0 0 320 240">
-            {positionedNodes.map(node => (
+            {positionedNodes.map((node: any) => (
               <circle
                 key={`mini-${node.id}`}
                 cx={(node.position.x + 160) / 3}
@@ -519,7 +519,7 @@ export const useMindMap = (initialData: MindMapNode) => {
     const deleteNodeRecursive = (node: MindMapNode): MindMapNode => {
       return {
         ...node,
-        children: node.children?.filter(child => {
+        children: node.children?.filter((child: any) => {
           if (child.id === nodeId) return false;
           return true;
         }).map(deleteNodeRecursive),

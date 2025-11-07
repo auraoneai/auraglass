@@ -269,8 +269,8 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
         setCurrentIntensity(0);
         setCurrentRadius(0);
         const interval = setInterval(() => {
-          setCurrentIntensity(prev => Math.min(intensity, prev + 0.02));
-          setCurrentRadius(prev => Math.min(radius, prev + 3));
+          setCurrentIntensity((prev: any) => Math.min(intensity, prev + 0.02));
+          setCurrentRadius((prev: any) => Math.min(radius, prev + 3));
         }, 16);
         
         setTimeout(() => {
@@ -283,8 +283,8 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
       
       if (closing) {
         const interval = setInterval(() => {
-          setCurrentIntensity(prev => Math.max(0, prev - 0.02));
-          setCurrentRadius(prev => Math.max(0, prev - 3));
+          setCurrentIntensity((prev: any) => Math.max(0, prev - 0.02));
+          setCurrentRadius((prev: any) => Math.max(0, prev - 3));
         }, 16);
         
         setTimeout(() => {
@@ -300,7 +300,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
     // Update rings animation
     const updateRings = useCallback((deltaTime: number) => {
       setRings(prevRings => 
-        prevRings.map(ring => ({
+        prevRings.map((ring: any) => ({
           ...ring,
           rotation: ring.rotation + ring.speed * deltaTime * timeScale * (portalActive ? 1 : 0.1),
           opacity: ring.opacity * currentIntensity,
@@ -312,7 +312,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
     // Update particles
     const updateParticles = useCallback((deltaTime: number) => {
       setParticles(prevParticles => 
-        prevParticles.map(particle => {
+        prevParticles.map((particle: any) => {
           const centerX = width / 2;
           const centerY = height / 2;
           
@@ -342,7 +342,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
             opacity: particle.opacity * currentIntensity,
             lifetime: particle.lifetime - deltaTime
           };
-        }).filter(p => p.lifetime > 0)
+        }).filter((p: any) => p.lifetime > 0)
       );
       
       // Add new particles if needed
@@ -372,7 +372,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
           });
         }
         
-        setParticles(prev => [...prev, ...newParticles]);
+        setParticles((prev: any) => [...prev, ...newParticles]);
       }
     }, [width, height, radius, timeScale, portalActive, currentIntensity, particles.length, particleCount, rotationSpeed, colorScheme]);
 
@@ -393,7 +393,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
       
       // Apply distortion effects
       if (showDistortion && portalActive) {
-        distortions.forEach(distortion => {
+        distortions.forEach((distortion: any) => {
           const distortionRadius = 50 * distortion.intensity;
           const gradient = ctx.createRadialGradient(
             distortion.x, distortion.y, 0,
@@ -458,7 +458,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
       });
       
       // Draw particles
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         if (particle.opacity < 0.01) return;
         
         const particleGradient = ctx.createRadialGradient(
@@ -528,7 +528,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
       }
       
       const deltaTime = 0.016; // 60fps
-      setAnimationTime(prev => prev + deltaTime);
+      setAnimationTime((prev: any) => prev + deltaTime);
       
       updateRings(deltaTime);
       updateParticles(deltaTime);

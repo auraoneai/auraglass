@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react';
 import { motion } from 'framer-motion'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -370,7 +371,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
 
     const renderParticles = (ctx: CanvasRenderingContext2D, data: Uint8Array, colors: string[], beat: number) => {
       // Update existing particles
-      particles.current = particles.current.filter(particle => {
+      particles.current = particles.current.filter((particle: any) => {
         particle.x += particle.vx
         particle.y += particle.vy
         particle.life -= 0.01
@@ -400,7 +401,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
       }
       
       // Render particles
-      particles.current.forEach(particle => {
+      particles.current.forEach((particle: any) => {
         ctx.save()
         ctx.globalAlpha = particle.life
         ctx.fillStyle = particle.color
@@ -556,7 +557,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
             value={audioConfig.volume}
             onChange={(e) => {
               const volume = parseFloat(e.target.value)
-              setAudioConfig(prev => ({ ...prev, volume }))
+              setAudioConfig((prev: any) => ({ ...prev, volume }))
               if (audioRef.current) {
                 audioRef.current.volume = volume
               }
@@ -658,7 +659,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
                 <label className="block text-xs text-primary/70 mb-1">Mode</label>
                 <select
                   value={visualConfig.mode}
-                  onChange={(e) => setVisualConfig(prev => ({ 
+                  onChange={(e) => setVisualConfig((prev: any) => ({ 
                     ...prev, 
                     mode: e.target.value as any 
                   }))}
@@ -677,7 +678,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
                 <label className="block text-xs text-primary/70 mb-1">Color Scheme</label>
                 <select
                   value={visualConfig.colorScheme}
-                  onChange={(e) => setVisualConfig(prev => ({ 
+                  onChange={(e) => setVisualConfig((prev: any) => ({ 
                     ...prev, 
                     colorScheme: e.target.value as any 
                   }))}
@@ -702,7 +703,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
                   max="3.0"
                   step="0.1"
                   value={visualConfig.sensitivity}
-                  onChange={(e) => setVisualConfig(prev => ({ 
+                  onChange={(e) => setVisualConfig((prev: any) => ({ 
                     ...prev, 
                     sensitivity: parseFloat(e.target.value) 
                   }))}
@@ -728,7 +729,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
                   value={audioConfig.smoothing}
                   onChange={(e) => {
                     const smoothing = parseFloat(e.target.value)
-                    setAudioConfig(prev => ({ ...prev, smoothing }))
+                    setAudioConfig((prev: any) => ({ ...prev, smoothing }))
                     if (analyserRef.current) {
                       analyserRef.current.smoothingTimeConstant = smoothing
                     }
@@ -741,7 +742,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
                 <label className="block text-xs text-primary/70 mb-1">FFT Size</label>
                 <select
                   value={audioConfig.fftSize}
-                  onChange={(e) => setAudioConfig(prev => ({ 
+                  onChange={(e) => setAudioConfig((prev: any) => ({ 
                     ...prev, 
                     fftSize: parseInt(e.target.value) 
                   }))}

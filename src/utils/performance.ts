@@ -100,7 +100,7 @@ class GlassPerformanceMonitor {
       const elements = document.querySelectorAll('[class*="glass-blur"]');
       let totalCost = 0;
       
-      elements.forEach(el => {
+      elements.forEach((el: any) => {
         const rect = el.getBoundingClientRect();
         const area = rect.width * rect.height;
         const blurAmount = this.getBlurAmount(el);
@@ -432,7 +432,7 @@ export function lazyLoadGlass(threshold = 0.1) {
   
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
           const element = entry.target as HTMLElement;
           
@@ -449,7 +449,7 @@ export function lazyLoadGlass(threshold = 0.1) {
   );
   
   // Observe all lazy glass elements
-  document.querySelectorAll('[data-lazy-glass]').forEach(el => {
+  document.querySelectorAll('[data-lazy-glass]').forEach((el: any) => {
     const element = el as HTMLElement;
     element.style.opacity = '0';
     element.style.transform = 'translateY(20px)';

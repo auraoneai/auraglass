@@ -166,7 +166,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
 
       // Find empty position
       const usedPositions = new Set(
-        layout.widgets.map(w => `${w.position.x},${w.position.y}`)
+        layout.widgets.map((w: any) => `${w.position.x},${w.position.y}`)
       );
 
       let position = { x: 0, y: 0 };

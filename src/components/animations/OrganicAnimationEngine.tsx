@@ -360,7 +360,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     if (activeSequences.size >= optimizeForPerformance.maxSequences) return;
     if (optimizeForPerformance.skipComplexAnimations && ['crystallize', 'dissolve', 'flow'].includes(sequence.pattern)) return;
 
-    setActiveSequences(prev => new Set([...prev, sequence.id]));
+    setActiveSequences((prev: any) => new Set([...prev, sequence.id]));
     onAnimationStart?.(sequence.id);
 
     try {
@@ -402,7 +402,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     } catch (error) {
       console.warn('Animation sequence failed:', error);
     } finally {
-      setActiveSequences(prev => {
+      setActiveSequences((prev: any) => {
         const next = new Set(prev);
         next.delete(sequence.id);
         return next;
@@ -424,8 +424,8 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   // Auto-trigger sequences
   useEffect(() => {
     sequences
-      .filter(seq => seq.trigger === 'auto')
-      .forEach(sequence => {
+      .filter((seq: any) => seq.trigger === 'auto')
+      .forEach((sequence: any) => {
         const delay = sequence.delay || 0;
         setTimeout(() => executeSequence(sequence), delay);
       });
@@ -435,7 +435,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   const handleHover = useCallback(() => {
     if (!enableMicroInteractions) return;
     
-    const hoverSequences = sequences.filter(seq => seq.trigger === 'hover');
+    const hoverSequences = sequences.filter((seq: any) => seq.trigger === 'hover');
     hoverSequences.forEach(executeSequence);
     
     // Physics-based hover effect
@@ -455,7 +455,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   const handleClick = useCallback((event: React.MouseEvent) => {
     if (!enableMicroInteractions) return;
 
-    const clickSequences = sequences.filter(seq => seq.trigger === 'click');
+    const clickSequences = sequences.filter((seq: any) => seq.trigger === 'click');
     clickSequences.forEach(executeSequence);
 
     // Physics-based click effect
@@ -489,7 +489,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   const handleFocus = useCallback(() => {
     if (!enableMicroInteractions) return;
     
-    const focusSequences = sequences.filter(seq => seq.trigger === 'focus');
+    const focusSequences = sequences.filter((seq: any) => seq.trigger === 'focus');
     focusSequences.forEach(executeSequence);
   }, [enableMicroInteractions, sequences, executeSequence]);
 
@@ -498,7 +498,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     const handleScroll = () => {
       if (!enableMicroInteractions) return;
       
-      const scrollSequences = sequences.filter(seq => seq.trigger === 'scroll');
+      const scrollSequences = sequences.filter((seq: any) => seq.trigger === 'scroll');
       scrollSequences.forEach(executeSequence);
     };
 

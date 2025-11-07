@@ -270,8 +270,8 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
 
       // Always include required categories
       cookieCategories
-        .filter(category => category.required)
-        .forEach(category => {
+        .filter((category: any) => category.required)
+        .forEach((category: any) => {
           if (!categories.includes(category.id)) {
             categories.push(category.id);
           }
@@ -322,7 +322,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
 
       setSelectedCategories(prevSelected => {
         const newSelected = prevSelected.includes(categoryId)
-          ? prevSelected.filter(id => id !== categoryId)
+          ? prevSelected.filter((id: any) => id !== categoryId)
           : [...prevSelected, categoryId];
 
         if (onCategoryChange) {
@@ -334,7 +334,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
     };
 
     const handleAcceptAll = () => {
-      const allCategoryIds = cookieCategories.map(category => category.id);
+      const allCategoryIds = cookieCategories.map((category: any) => category.id);
       setCookie('cookie-consent', 'accepted', cookieExpiration);
       setCookie('cookie-categories', JSON.stringify(allCategoryIds), cookieExpiration);
       setVisible(false);
@@ -347,8 +347,8 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
     const handleDeclineAll = () => {
       // Only include required categories when declining all
       const requiredCategoryIds = cookieCategories
-        .filter(category => category.required)
-        .map(category => category.id);
+        .filter((category: any) => category.required)
+        .map((category: any) => category.id);
 
       setCookie('cookie-consent', 'declined', cookieExpiration);
       setCookie('cookie-categories', JSON.stringify(requiredCategoryIds), cookieExpiration);
@@ -429,7 +429,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
     // Create the categories section
     const renderCategories = () => (
       <CategoryContainer>
-        {cookieCategories.map(category => (
+        {cookieCategories.map((category: any) => (
           <CategoryItem key={category.id}>
             <CategoryHeader>
               <Checkbox

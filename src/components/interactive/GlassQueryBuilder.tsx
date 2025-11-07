@@ -36,7 +36,7 @@ export function GlassQueryBuilder({ fields, value, onChange, className }: GlassQ
             <GlassSelectValue placeholder="Field" />
           </GlassSelectTrigger>
           <GlassSelectContent>
-            {fields.map(f => <GlassSelectItem key={f.id} value={f.id}>{f.label}</GlassSelectItem>)}
+            {fields.map((f: any) => <GlassSelectItem key={f.id} value={f.id}>{f.label}</GlassSelectItem>)}
           </GlassSelectContent>
         </GlassSelect>
         <GlassSelect value={rule.op} onValueChange={(v) => { rule.op = v; update(value); }}>
@@ -44,7 +44,7 @@ export function GlassQueryBuilder({ fields, value, onChange, className }: GlassQ
             <GlassSelectValue placeholder="Op" />
           </GlassSelectTrigger>
           <GlassSelectContent>
-            {['=','!=','>','>=','<','<=','contains'].map(op => (
+            {['=','!=','>','>=','<','<=','contains'].map((op: any) => (
               <GlassSelectItem key={op} value={op}>{op}</GlassSelectItem>
             ))}
           </GlassSelectContent>
@@ -63,7 +63,7 @@ export function GlassQueryBuilder({ fields, value, onChange, className }: GlassQ
             </GlassSelectTrigger>
             <GlassSelectContent>
               <GlassSelectItem value="__clear__">—</GlassSelectItem>
-              {field.options?.map(o => <GlassSelectItem key={o.value} value={o.value}>{o.label}</GlassSelectItem>)}
+              {field.options?.map((o: any) => <GlassSelectItem key={o.value} value={o.value}>{o.label}</GlassSelectItem>)}
             </GlassSelectContent>
           </GlassSelect>
         ) : (

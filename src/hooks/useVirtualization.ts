@@ -187,7 +187,7 @@ export function useVirtualization<T>(
     if (!element) return;
 
     const rect = element.getBoundingClientRect();
-    setMeasuredSizes(prev => new Map(prev.set(index, {
+    setMeasuredSizes((prev: any) => new Map(prev.set(index, {
       width: rect.width,
       height: rect.height,
     })));
@@ -418,7 +418,7 @@ export function useInfiniteVirtualization<T>(
       
       try {
         const newItems = await loadMore();
-        setAllItems(prev => [...prev, ...newItems]);
+        setAllItems((prev: any) => [...prev, ...newItems]);
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
           console.error('Failed to load more items:', error);

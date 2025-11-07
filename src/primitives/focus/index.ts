@@ -85,7 +85,7 @@ export function getFocusableElements(
     container.querySelectorAll<HTMLElement>(selector || defaultSelector)
   );
   
-  return elements.filter(el => {
+  return elements.filter((el: any) => {
     const style = window.getComputedStyle(el);
     return (
       style.display !== 'none' &&

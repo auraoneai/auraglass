@@ -100,7 +100,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
     // Type validation
     if (accept) {
-      const acceptedTypes = accept.split(',').map(type => type.trim());
+      const acceptedTypes = accept.split(',').map((type: any) => type.trim());
       const isValidType = acceptedTypes.some(type => {
         if (type.startsWith('.')) {
           return file.name.toLowerCase().endsWith(type.toLowerCase());
@@ -132,7 +132,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
     const validFiles: UploadedFile[] = [];
     const invalidFiles: string[] = [];
 
-    fileArray.forEach(file => {
+    fileArray.forEach((file: any) => {
       const error = validateFile(file);
       if (error) {
         invalidFiles.push(`${file.name}: ${error}`);
@@ -160,8 +160,8 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         uploadFiles(validFiles);
       } else {
         // Mark as completed if no upload handler
-        const completedFiles = validFiles.map(f => ({ ...f, status: 'completed' as const, progress: 100 }));
-        setFiles(prev => prev.map(f => completedFiles.find(cf => cf.id === f.id) || f));
+        const completedFiles = validFiles.map((f: any) => ({ ...f, status: 'completed' as const, progress: 100 }));
+        setFiles((prev: any) => prev.map((f: any) => completedFiles.find(cf => cf.id === f.id) || f));
       }
     }
   }, [files, maxFiles, validateFile, onChange, onUpload, uploadUrl]);
@@ -221,12 +221,12 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
   // Update file progress
   const updateFileProgress = (id: string, progress: number) => {
-    setFiles(prev => prev.map(f => f.id === id ? { ...f, progress } : f));
+    setFiles((prev: any) => prev.map((f: any) => f.id === id ? { ...f, progress } : f));
   };
 
   // Update file status
   const updateFileStatus = (id: string, status: UploadedFile['status'], progress?: number, error?: string) => {
-    setFiles(prev => prev.map(f => 
+    setFiles((prev: any) => prev.map((f: any) => 
       f.id === id 
         ? { ...f, status, progress: progress ?? f.progress, error }
         : f
@@ -235,7 +235,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
   // Remove file
   const removeFile = (id: string) => {
-    const updatedFiles = files.filter(f => f.id !== id);
+    const updatedFiles = files.filter((f: any) => f.id !== id);
     setFiles(updatedFiles);
     onChange?.(updatedFiles);
   };

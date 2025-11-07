@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { cn } from '@/lib/utils';
 
 import { motion } from 'framer-motion'
@@ -296,7 +297,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
         }
       }
 
-      setGeneratedImages(prev => [...newImages, ...prev].slice(0, 12))
+      setGeneratedImages((prev: any) => [...newImages, ...prev].slice(0, 12))
       
       // Add to history
       const historyEntry = {
@@ -306,7 +307,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
         settings: { ...settings },
         timestamp: Date.now()
       }
-      setGenerationHistory(prev => [historyEntry, ...prev].slice(0, 20))
+      setGenerationHistory((prev: any) => [historyEntry, ...prev].slice(0, 20))
 
       setIsGenerating(false)
       play('success')
@@ -357,7 +358,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
                     `}>
                       {suggestion.category}
                     </span>
-                    {suggestion.tags.slice(0, 2).map(tag => (
+                    {suggestion.tags.slice(0, 2).map((tag: any) => (
                       <span key={tag} className="px-1.5 py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius text-xs">
                         {tag}
                       </span>
@@ -380,7 +381,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
             <label className="block text-xs text-primary/70 mb-2">Model</label>
             <select
               value={settings.model}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 model: e.target.value as any 
               }))}
@@ -397,13 +398,13 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
             <label className="block text-xs text-primary/70 mb-2">Style</label>
             <select
               value={settings.style}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 style: e.target.value 
               }))}
               className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary/90 text-sm"
             >
-              {stylePresets.map(style => (
+              {stylePresets.map((style: any) => (
                 <option key={style} value={style}>
                   {style.charAt(0).toUpperCase() + style.slice(1)}
                 </option>
@@ -415,7 +416,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
             <label className="block text-xs text-primary/70 mb-2">Resolution</label>
             <select
               value={settings.resolution}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 resolution: e.target.value as any 
               }))}
@@ -437,7 +438,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
               min="1"
               max="4"
               value={settings.iterations}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 iterations: parseInt(e.target.value) 
               }))}
@@ -454,7 +455,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
               min="10"
               max="50"
               value={settings.steps}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 steps: parseInt(e.target.value) 
               }))}
@@ -472,7 +473,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
               max="20"
               step="0.5"
               value={settings.guidance}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 guidance: parseFloat(e.target.value) 
               }))}

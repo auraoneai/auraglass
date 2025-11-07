@@ -223,7 +223,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
       if (!showTicks) return [];
       
       if (Array.isArray(ticks)) {
-        return ticks.filter(tick => tick >= min && tick <= max);
+        return ticks.filter((tick: any) => tick >= min && tick <= max);
       }
       
       const tickCount = typeof ticks === 'number' ? ticks : Math.max(2, Math.min(10, (max - min) / step + 1));
@@ -315,7 +315,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
       
       if (isRange) {
         // Find closest thumb
-        const distances = valueArray.map(val => Math.abs(val - newValue));
+        const distances = valueArray.map((val: any) => Math.abs(val - newValue));
         const closestIndex = distances.indexOf(Math.min(...distances));
         
         const newValues = [...valueArray];

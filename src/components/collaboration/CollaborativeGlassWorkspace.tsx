@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
     ClipboardPaste,
     Copy,
@@ -476,7 +477,7 @@ function WorkspaceHeader({
           </button>
           {showLayoutMenu && (
             <div className="absolute top-full left-0 mt-2 p-2 bg-slate-800 border border-white/20 glass-radius shadow-lg z-50">
-              {['split', 'tabs', 'canvas-focused', 'editor-focused'].map(layout => (
+              {['split', 'tabs', 'canvas-focused', 'editor-focused'].map((layout: any) => (
                 <button
                   key={layout}
                   onClick={() => {

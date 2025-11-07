@@ -357,7 +357,7 @@ export class VisionService {
         return 'No description available';
       }
 
-      const labelDescriptions = topLabels.map(l => l.description).join(', ');
+      const labelDescriptions = topLabels.map((l: any) => l.description).join(', ');
       return `This image contains: ${labelDescriptions}`;
     } catch (error) {
       return this.errorHandler.handleWithFallback(
@@ -410,7 +410,7 @@ export class VisionService {
     if (!pages || pages.length === 0) return 0;
 
     const confidences: number[] = [];
-    pages.forEach(page => {
+    pages.forEach((page: any) => {
       page.blocks?.forEach((block: any) => {
         if (block.confidence) confidences.push(block.confidence);
       });

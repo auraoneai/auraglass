@@ -58,7 +58,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
 
   // Group examples by category
   useEffect(() => {
-    const uniqueCategories = Array.from(new Set(examples.map(ex => ex.category)));
+    const uniqueCategories = Array.from(new Set(examples.map((ex: any) => ex.category)));
     setCategories(uniqueCategories);
   }, [examples]);
 
@@ -96,7 +96,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
 
   // Handle prop change
   const handlePropChange = useCallback((propName: string, value: any) => {
-    setComponentProps(prev => ({
+    setComponentProps((prev: any) => ({
       ...prev,
       [propName]: value,
     }));
@@ -111,7 +111,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
   // Filter examples by category
   const filteredExamples = selectedCategory === 'all'
     ? examples
-    : examples.filter(ex => ex.category === selectedCategory);
+    : examples.filter((ex: any) => ex.category === selectedCategory);
 
   const currentExample = examples.find(ex => ex.id === selectedExample);
 
@@ -128,7 +128,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
         {propKeys.length === 0 ? (
           <p className="text-sm text-primary/50">No editable props available</p>
         ) : (
-          propKeys.map(propName => {
+          propKeys.map((propName: any) => {
             const value = componentProps[propName];
             const valueType = typeof value;
 
@@ -209,7 +209,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
             className="px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-md text-primary focus:outline-none focus:border-white/40"
           >
             <option value="all">All Categories</option>
-            {categories.map(category => (
+            {categories.map((category: any) => (
               <option key={category} value={category}>
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </option>
@@ -224,7 +224,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
           <h3 className="text-sm font-semibold text-primary mb-4">Components</h3>
 
           <div className="gap-2">
-            {filteredExamples.map(example => (
+            {filteredExamples.map((example: any) => (
               <button
                 key={example.id}
                 onClick={(e) => setSelectedExample(example.id)}
@@ -286,7 +286,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
             )}
 
             {/* Custom Tabs */}
-            {customTabs.map(tab => (
+            {customTabs.map((tab: any) => (
               <button
                 key={tab.id}
                 onClick={(e) => setActiveTab(tab.id)}
@@ -367,7 +367,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
             )}
 
             {/* Custom Tab Content */}
-            {customTabs.map(tab =>
+            {customTabs.map((tab: any) =>
               activeTab === tab.id ? (
                 <div key={tab.id} className="h-full p-6 overflow-auto">
                   {tab.content}
@@ -389,7 +389,7 @@ export const usePlaygroundExample = (
   const [props, setProps] = useState(defaultProps);
 
   const updateProp = useCallback((propName: string, value: any) => {
-    setProps(prev => ({
+    setProps((prev: any) => ({
       ...prev,
       [propName]: value,
     }));

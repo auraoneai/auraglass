@@ -354,7 +354,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Navigate months
     const navigateMonth = (direction: 'prev' | 'next') => {
-      setCurrentMonth(prev => {
+      setCurrentMonth((prev: any) => {
         const newMonth = new Date(prev);
         newMonth.setMonth(prev.getMonth() + (direction === 'next' ? 1 : -1));
         return newMonth;
@@ -454,7 +454,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                     onChange={(e) => setCurrentMonth(new Date(parseInt(e.target.value), currentMonth.getMonth(), 1))}
                     className="bg-transparent border border-glass-border/20 glass-radius-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary/20"
                   >
-                    {Array.from({ length: 201 }, (_, i) => 1900 + i).map(year => (
+                    {Array.from({ length: 201 }, (_, i) => 1900 + i).map((year: any) => (
                       <option key={year} value={year}>
                         {year}
                       </option>
@@ -474,7 +474,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
               {/* Day Headers */}
               <div className="grid grid-cols-7 gap-1 mb-2">
                 {showWeekNumbers && <div className="text-xs glass-text-secondary p-2 text-center">Wk</div>}
-                {dayNames.map(day => (
+                {dayNames.map((day: any) => (
                   <div key={day} className="text-xs glass-text-secondary p-2 text-center font-medium">
                     {day}
                   </div>
@@ -491,7 +491,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                         {weekIndex + 1}
                       </div>
                     )}
-                    {calendarDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map(date => {
+                    {calendarDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date: any) => {
                       const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
                       const isSelected = isDateSelected(date);
                       const isDisabled = isDateDisabled(date);

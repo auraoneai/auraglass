@@ -188,7 +188,7 @@ export const GlassKanbanBoard = forwardRef<HTMLDivElement, GlassKanbanBoardProps
       if (!dragState.isDragging) return;
 
       e.preventDefault();
-      setDragState(prev => ({
+      setDragState((prev: any) => ({
         ...prev,
         dragOverColumn: columnId,
       }));
@@ -417,7 +417,7 @@ export const GlassKanbanBoard = forwardRef<HTMLDivElement, GlassKanbanBoardProps
 
     // Handle column scroll
     const handleColumnScroll = useCallback((columnId: string, scrollTop: number) => {
-      setScrollPositions(prev => ({
+      setScrollPositions((prev: any) => ({
         ...prev,
         [columnId]: scrollTop,
       }));

@@ -230,10 +230,10 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
       const h = smoothingRadius;
       const h2 = h * h;
       
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         let density = 0;
         
-        particles.forEach(neighbor => {
+        particles.forEach((neighbor: any) => {
           const dx = particle.x - neighbor.x;
           const dy = particle.y - neighbor.y;
           const distance2 = dx * dx + dy * dy;
@@ -254,11 +254,11 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
     const calculateForces = useCallback((particles: FluidParticle[]) => {
       const h = smoothingRadius;
       
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         let fx = 0, fy = 0;
         
         // Pressure and viscosity forces
-        particles.forEach(neighbor => {
+        particles.forEach((neighbor: any) => {
           if (particle.id === neighbor.id) return;
           
           const dx = particle.x - neighbor.x;
@@ -281,7 +281,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
         });
         
         // Apply external forces
-        currentForces.forEach(force => {
+        currentForces.forEach((force: any) => {
           const dx = particle.x - force.x;
           const dy = particle.y - force.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -344,7 +344,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
 
     // Update particle positions
     const updatePositions = useCallback((particles: FluidParticle[]) => {
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         // Update position
         particle.x += particle.vx * timeStep;
         particle.y += particle.vy * timeStep;
@@ -393,7 +393,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
         particleHistory.forEach((historyParticles, historyIndex) => {
           const alpha = (historyIndex / particleHistory.length) * 0.3;
           
-          historyParticles.forEach(particle => {
+          historyParticles.forEach((particle: any) => {
             ctx.globalAlpha = alpha;
             ctx.fillStyle = `rgba(${particle.color[0]}, ${particle.color[1]}, ${particle.color[2]}, ${alpha})`;
             ctx.beginPath();
@@ -405,7 +405,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
       
       // Draw particles
       ctx.globalAlpha = 1;
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         const size = Math.max(2, particle.density / restDensity * 4);
         
         // Create gradient
@@ -423,7 +423,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
       });
       
       // Draw forces
-      currentForces.forEach(force => {
+      currentForces.forEach((force: any) => {
         ctx.strokeStyle = force.type === 'push' ? 'red' : 
                          force.type === 'pull' ? 'blue' : 
                          force.type === 'vortex' ? 'purple' : 'green';
@@ -553,7 +553,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
         id: `force-${Date.now()}-${Math.random()}`
       };
       
-      setCurrentForces(prev => {
+      setCurrentForces((prev: any) => {
         const updated = [...prev, newForce];
         onForceChangeRef.current?.(updated);
         return updated;
@@ -563,8 +563,8 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
 
     // Remove force
     const removeForce = useCallback((forceId: string) => {
-      setCurrentForces(prev => {
-        const updated = prev.filter(f => f.id !== forceId);
+      setCurrentForces((prev: any) => {
+        const updated = prev.filter((f: any) => f.id !== forceId);
         onForceChangeRef.current?.(updated);
         return updated;
       });
@@ -606,7 +606,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
               onChange={(e) => setCurrentPreset(e.target.value as any)}
               className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
             >
-              {Object.keys(fluidPresets).map(preset => (
+              {Object.keys(fluidPresets).map((preset: any) => (
                 <option key={preset} value={preset}>
                   {preset.charAt(0).toUpperCase() + preset.slice(1)}
                 </option>

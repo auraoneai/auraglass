@@ -170,7 +170,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
 
       // Normalize values
       const range = maxValue - minValue || 1;
-      cells = cells.map(cell => ({
+      cells = cells.map((cell: any) => ({
         ...cell,
         normalizedValue: (cell.value - minValue) / range
       }));
@@ -180,8 +180,8 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
 
     // Get grid dimensions
     const gridDimensions = useMemo(() => {
-      const maxRow = Math.max(...processedData.cells.map(c => c.row)) + 1;
-      const maxCol = Math.max(...processedData.cells.map(c => c.col)) + 1;
+      const maxRow = Math.max(...processedData.cells.map((c: any) => c.row)) + 1;
+      const maxCol = Math.max(...processedData.cells.map((c: any) => c.col)) + 1;
       return { rows: maxRow, cols: maxCol };
     }, [processedData.cells]);
 
@@ -232,7 +232,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         if (event.ctrlKey || event.metaKey) {
           // Multi-select
           newSelection = isSelected
-            ? selectedCells.filter(c => !(c.row === cell.row && c.col === cell.col))
+            ? selectedCells.filter((c: any) => !(c.row === cell.row && c.col === cell.col))
             : [...selectedCells, cellId];
         } else {
           // Single select
@@ -421,7 +421,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         .fill(null)
         .map(() => Array(gridDimensions.cols).fill(null));
       
-      processedData.cells.forEach(cell => {
+      processedData.cells.forEach((cell: any) => {
         if (cell.row < gridDimensions.rows && cell.col < gridDimensions.cols) {
           matrix[cell.row][cell.col] = cell;
         }

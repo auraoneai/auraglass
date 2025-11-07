@@ -294,7 +294,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
 
     // Navigate months
     const navigateMonth = (direction: 'prev' | 'next') => {
-        setCurrentMonth(prev => {
+        setCurrentMonth((prev: any) => {
             const newDate = new Date(prev);
             if (direction === 'prev') {
                 newDate.setMonth(newDate.getMonth() - 1);

@@ -228,7 +228,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
       const selected = new Set<string>();
       const { x, y, width, height } = selectionBox;
 
-      drawingData.forEach(item => {
+      drawingData.forEach((item: any) => {
         if ('points' in item) {
           // Check if path intersects with selection box
           const intersects = item?.points.some(point =>
@@ -310,7 +310,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
 
   // Draw all elements
   const drawElements = useCallback((ctx: CanvasRenderingContext2D, elements: Array<DrawingPath | DrawingShape>) => {
-    elements.forEach(element => {
+    elements.forEach((element: any) => {
       ctx.globalAlpha = element.opacity;
 
       if ('points' in element) {
@@ -375,7 +375,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
 
   // Draw selection highlights
   const drawSelection = useCallback((ctx: CanvasRenderingContext2D) => {
-    selectedElements.forEach(elementId => {
+    selectedElements.forEach((elementId: any) => {
       const element = drawingData.find(item => item?.id === elementId);
       if (!element) return;
 
@@ -478,7 +478,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
 
   // Delete selected elements
   const deleteSelected = () => {
-    const newData = drawingData.filter(item => !selectedElements.has(item?.id));
+    const newData = drawingData.filter((item: any) => !selectedElements.has(item?.id));
     updateDrawingData(newData);
     setSelectedElements(new Set());
   };
@@ -505,7 +505,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
         <div className={cn('glass-flex glass-flex-wrap glass-items-center glass-gap-2 glass-p-4 glass-border-b glass-border-white-10')}>
           {/* Tools */}
           <div className={cn('glass-flex glass-gap-1')}>
-            {enabledTools.map(tool => (
+            {enabledTools.map((tool: any) => (
               <button
                 key={tool}
                 onClick={(e) => handleToolChange(tool)}

@@ -403,7 +403,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   const addImage = useCallback(async (file: File): Promise<ImageFile> => {
     const imageFile = await createImageFromFile(file);
     
-    setImages(prev => [...prev, imageFile]);
+    setImages((prev: any) => [...prev, imageFile]);
     
     // Auto-optimize if enabled
     if (autoOptimize) {
@@ -426,7 +426,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
           imageFiles.push(imageFile);
           
           // Update progress
-          setUploadProgresses(prev => [...prev, {
+          setUploadProgresses((prev: any) => [...prev, {
             imageId: imageFile.id,
             progress: 100,
             status: 'completed'
@@ -437,12 +437,12 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       }
     }
     
-    setImages(prev => [...prev, ...imageFiles]);
+    setImages((prev: any) => [...prev, ...imageFiles]);
     return imageFiles;
   }, [createImageFromFile]);
 
   const removeImage = useCallback((id: string) => {
-    setImages(prev => {
+    setImages((prev: any) => {
       const image = prev.find(img => img.id === id);
       if (image) {
         URL.revokeObjectURL(image.url);
@@ -450,10 +450,10 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
           URL.revokeObjectURL(image.thumbnailUrl);
         }
       }
-      return prev.filter(img => img.id !== id);
+      return prev.filter((img: any) => img.id !== id);
     });
     
-    setUploadProgresses(prev => prev.filter(p => p.imageId !== id));
+    setUploadProgresses((prev: any) => prev.filter((p: any) => p.imageId !== id));
   }, []);
 
   const getImage = useCallback((id: string) => {
@@ -461,7 +461,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, [images]);
 
   const updateImage = useCallback((id: string, updates: Partial<ImageFile>) => {
-    setImages(prev => prev.map(img => 
+    setImages((prev: any) => prev.map((img: any) => 
       img.id === id ? { ...img, ...updates } : img
     ));
   }, []);
@@ -471,7 +471,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
     if (!image) throw new Error('Image not found');
 
     // Update progress
-    setUploadProgresses(prev => [...prev, {
+    setUploadProgresses((prev: any) => [...prev, {
       imageId,
       progress: 0,
       status: 'processing',
@@ -484,7 +484,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       // Simulate optimization progress
       for (let progress = 10; progress <= 90; progress += 20) {
         await new Promise(resolve => setTimeout(resolve, 200));
-        setUploadProgresses(prev => prev.map(p => 
+        setUploadProgresses((prev: any) => prev.map((p: any) => 
           p.imageId === imageId ? { ...p, progress } : p
         ));
       }
@@ -511,17 +511,17 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
         ]
       };
 
-      setImages(prev => prev.map(img => 
+      setImages((prev: any) => prev.map((img: any) => 
         img.id === imageId ? optimizedImage : img
       ));
 
-      setUploadProgresses(prev => prev.map(p => 
+      setUploadProgresses((prev: any) => prev.map((p: any) => 
         p.imageId === imageId ? { ...p, progress: 100, status: 'completed', message: 'Optimization complete!' } : p
       ));
 
       return optimizedImage;
     } catch (error) {
-      setUploadProgresses(prev => prev.map(p => 
+      setUploadProgresses((prev: any) => prev.map((p: any) => 
         p.imageId === imageId ? { ...p, status: 'error', message: 'Optimization failed' } : p
       ));
       throw error;
@@ -579,7 +579,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       }
     };
 
-    setImages(prev => prev.map(img => 
+    setImages((prev: any) => prev.map((img: any) => 
       img.id === imageId ? updatedImage : img
     ));
 
@@ -608,7 +608,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       editHistory: [...image.editHistory, editOperation]
     };
 
-    setImages(prev => prev.map(img => 
+    setImages((prev: any) => prev.map((img: any) => 
       img.id === imageId ? croppedImage : img
     ));
 
@@ -648,7 +648,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       editHistory: [...image.editHistory, editOperation]
     };
 
-    setImages(prev => prev.map(img => 
+    setImages((prev: any) => prev.map((img: any) => 
       img.id === imageId ? resizedImage : img
     ));
 
@@ -673,7 +673,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       editHistory: [...image.editHistory, editOperation]
     };
 
-    setImages(prev => prev.map(img => 
+    setImages((prev: any) => prev.map((img: any) => 
       img.id === imageId ? watermarkedImage : img
     ));
 
@@ -699,7 +699,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
       editHistory: [...image.editHistory, editOperation]
     };
 
-    setImages(prev => prev.map(img => 
+    setImages((prev: any) => prev.map((img: any) => 
       img.id === imageId ? processedImage : img
     ));
 
@@ -785,7 +785,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, [getImage, applyFilter]);
 
   const getOptimizationStats = useCallback(() => {
-    const processedImages = images.filter(img => img.metadata.compressionRatio);
+    const processedImages = images.filter((img: any) => img.metadata.compressionRatio);
     const totalOriginalSize = processedImages.reduce((sum, img) => sum + img.size, 0);
     const totalOptimizedSize = processedImages.reduce((sum, img) => 
       sum + (img.size * (1 - (img.metadata.compressionRatio || 0))), 0
@@ -802,7 +802,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, [images]);
 
   const clearProgress = useCallback((imageId: string) => {
-    setUploadProgresses(prev => prev.filter(p => p.imageId !== imageId));
+    setUploadProgresses((prev: any) => prev.filter((p: any) => p.imageId !== imageId));
   }, []);
 
   // Placeholder implementations for other methods

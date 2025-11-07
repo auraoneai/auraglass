@@ -86,7 +86,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        setCurrentCoherence(prev => {
+        setCurrentCoherence((prev: any) => {
           const noise = (Math.random() - 0.5) * 0.1
           const decay = prev * (1 - decoherenceRate)
           const newCoherence = Math.max(0, Math.min(1, decay + noise))
@@ -103,13 +103,13 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           return newCoherence
         })
 
-        setCurrentPhase(prev => {
+        setCurrentPhase((prev: any) => {
           const newPhase = (prev + 0.1 * animationSpeed) % (2 * Math.PI)
           onPhaseChange?.(newPhase)
           return newPhase
         })
 
-        setAnimationTime(prev => prev + 0.1 * animationSpeed)
+        setAnimationTime((prev: any) => prev + 0.1 * animationSpeed)
       }, 100)
 
       return () => clearInterval(interval)
@@ -128,7 +128,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           entanglementStrength
         }
 
-        setCoherenceHistory(prev => 
+        setCoherenceHistory((prev: any) => 
           [...prev.slice(-49), newDataPoint] // Keep last 50 points
         )
       }
@@ -173,7 +173,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
 
           {/* Primary wave */}
           <path
-            d={`M ${waveData.map(p => `${p.x} ${p.y1}`).join(' L ')}`}
+            d={`M ${waveData.map((p: any) => `${p.x} ${p.y1}`).join(' L ')}`}
             fill="none"
             stroke={getPhaseColor(currentPhase)}
             strokeWidth="2"
@@ -183,7 +183,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           {/* Entangled wave */}
           {entanglementStrength > 0 && (
             <path
-              d={`M ${waveData.map(p => `${p.x} ${p.y2}`).join(' L ')}`}
+              d={`M ${waveData.map((p: any) => `${p.x} ${p.y2}`).join(' L ')}`}
               fill="none"
               stroke="#FF9FF3"
               strokeWidth="1.5"
@@ -195,7 +195,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           {/* Combined interference pattern */}
           {entanglementStrength > 0.3 && (
             <path
-              d={`M ${waveData.map(p => `${p.x} ${p.combined}`).join(' L ')}`}
+              d={`M ${waveData.map((p: any) => `${p.x} ${p.combined}`).join(' L ')}`}
               fill="none"
               stroke="#FFFFFF"
               strokeWidth="1"
@@ -243,7 +243,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           />
           
           {/* Phase markers */}
-          {[0, 90, 180, 270].map(angle => (
+          {[0, 90, 180, 270].map((angle: any) => (
             <g key={angle}>
               <line
                 x1={48 + Math.cos((angle * Math.PI) / 180) * 35}

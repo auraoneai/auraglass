@@ -172,7 +172,7 @@ export function HoudiniGlassCard({
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            {['frost', 'caustics', 'border', 'refraction'].map(effect => (
+            {['frost', 'caustics', 'border', 'refraction'].map((effect: any) => (
               <button
                 key={effect}
                 onClick={() => toggleEffect(effect)}
@@ -219,7 +219,7 @@ export function HoudiniGlassCard({
       {/* Status indicators */}
       {showControls && (
         <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 flex gap-1">
-          {appliedEffects.map(effect => (
+          {appliedEffects.map((effect: any) => (
             <div
               key={effect}
               className="w-2 h-2 glass-radius-full glass-surface-blue opacity-60"
@@ -264,9 +264,9 @@ export function HoudiniGlassShowcase() {
   ];
 
   const toggleEffect = (effectId: string) => {
-    setSelectedEffects(prev =>
+    setSelectedEffects((prev: any) =>
       prev.includes(effectId)
-        ? prev.filter(id => id !== effectId)
+        ? prev.filter((id: any) => id !== effectId)
         : [...prev, effectId]
     );
   };
@@ -319,7 +319,7 @@ export function HoudiniGlassShowcase() {
         showControls={true}
       >
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-          {presets.map(preset => (
+          {presets.map((preset: any) => (
             <button
               key={preset.id}
               onClick={() => setSelectedPreset(preset.id)}
@@ -347,7 +347,7 @@ export function HoudiniGlassShowcase() {
         showControls={true}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {availableEffects.map(effect => (
+          {availableEffects.map((effect: any) => (
             <button
               key={effect.id}
               onClick={() => toggleEffect(effect.id)}

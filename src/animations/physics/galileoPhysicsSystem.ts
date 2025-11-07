@@ -146,7 +146,7 @@ export class GalileoPhysicsSystem {
   }
 
   private updateForces(deltaTime: number): void {
-    this.world.bodies.forEach(body => {
+    this.world.bodies.forEach((body: any) => {
       if (body.fixed) return;
 
       // Reset acceleration
@@ -158,7 +158,7 @@ export class GalileoPhysicsSystem {
       body.acceleration.y += this.world.gravity.y;
 
       // Apply custom forces
-      body.forces = body.forces.filter(force => {
+      body.forces = body.forces.filter((force: any) => {
         body.acceleration.x += force.x / body.mass;
         body.acceleration.y += force.y / body.mass;
 
@@ -183,7 +183,7 @@ export class GalileoPhysicsSystem {
   }
 
   private integrateMotion(deltaTime: number): void {
-    this.world.bodies.forEach(body => {
+    this.world.bodies.forEach((body: any) => {
       if (body.fixed) return;
 
       // Verlet integration for better stability
@@ -213,7 +213,7 @@ export class GalileoPhysicsSystem {
     }
 
     // Resolve collisions
-    collisions.forEach(collision => {
+    collisions.forEach((collision: any) => {
       this.resolveCollision(collision);
     });
   }
@@ -300,7 +300,7 @@ export class GalileoPhysicsSystem {
   }
 
   private applyConstraints(): void {
-    this.world.bodies.forEach(body => {
+    this.world.bodies.forEach((body: any) => {
       if (body.fixed) return;
 
       // Boundary constraints
@@ -494,7 +494,7 @@ export const physicsUtils = {
     force: number,
     radius: number
   ): void => {
-    bodies.forEach(body => {
+    bodies.forEach((body: any) => {
       const dx = body.position.x - center.x;
       const dy = body.position.y - center.y;
       const distance = Math.sqrt(dx * dx + dy * dy);

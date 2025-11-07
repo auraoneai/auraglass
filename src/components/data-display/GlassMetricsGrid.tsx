@@ -164,7 +164,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
       // Apply search
       if (internalSearchQuery.trim()) {
         const query = internalSearchQuery.toLowerCase();
-        result = result.filter(metric =>
+        result = result.filter((metric: any) =>
           metric.title.toLowerCase().includes(query) ||
           metric.description?.toLowerCase().includes(query) ||
           metric.category?.toLowerCase().includes(query)
@@ -174,17 +174,17 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
       // Apply filters
       if (filters) {
         if (filters.categories && filters.categories.length > 0) {
-          result = result.filter(metric => 
+          result = result.filter((metric: any) => 
             metric.category && filters.categories!.includes(metric.category)
           );
         }
         if (filters.priorities && filters.priorities.length > 0) {
-          result = result.filter(metric => 
+          result = result.filter((metric: any) => 
             metric.priority && filters.priorities!.includes(metric.priority)
           );
         }
         if (filters.statuses && filters.statuses.length > 0) {
-          result = result.filter(metric => 
+          result = result.filter((metric: any) => 
             metric.status && filters.statuses!.includes(metric.status)
           );
         }

@@ -252,7 +252,7 @@ const ShippingCalculator: React.FC<{
   return (
     <div className="space-y-3">
       <h3 className="font-medium glass-text-secondary">Shipping Options</h3>
-      {shippingOptions.map(option => {
+      {shippingOptions.map((option: any) => {
         const isFree = option.price === 0 || (option.id === 'standard' && cartSubtotal >= 50);
         const price = isFree ? 0 : option.price;
         
@@ -401,7 +401,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   const handleSaveForLater = useCallback((itemId: string) => {
     const item = cart.find(cartItem => cartItem.id === itemId);
     if (item) {
-      setSavedItems(prev => [...prev, item]);
+      setSavedItems((prev: any) => [...prev, item]);
       removeFromCart(itemId);
     }
   }, [cart, removeFromCart]);
@@ -470,7 +470,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto">
           <div className="max-h-96 overflow-y-auto">
-            {cart.slice(0, maxItems).map(item => (
+            {cart.slice(0, maxItems).map((item: any) => (
               <CartItemCard
                 key={item.id}
                 item={item}
@@ -496,12 +496,12 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
                 Saved for Later ({savedItems.length})
               </h3>
               <div className="space-y-2">
-                {savedItems.map(item => (
+                {savedItems.map((item: any) => (
                   <CartItemCard
                     key={item.id}
                     item={item}
                     onUpdateQuantity={() => {}}
-                    onRemove={(id) => setSavedItems(prev => prev.filter(item => item.id !== id))}
+                    onRemove={(id) => setSavedItems((prev: any) => prev.filter((item: any) => item.id !== id))}
                     onMoveToWishlist={handleMoveToWishlist}
                     onSaveForLater={() => {}}
                     compact

@@ -88,7 +88,7 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       const fps = Math.round((frameCountRef.current * 1000) / deltaTime);
       const frameTime = deltaTime / frameCountRef.current;
 
-      setMetrics(prev => ({
+      setMetrics((prev: any) => ({
         ...prev,
         fps,
         frameTime,
@@ -124,7 +124,7 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       qualityRef.current = newQuality;
       finalOptions.onQualityChange(newQuality);
 
-      setMetrics(prev => ({
+      setMetrics((prev: any) => ({
         ...prev,
         quality: newQuality,
       }));
@@ -153,7 +153,7 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       if (monitorMetrics) {
         const recommendations = monitorRef.current?.getOptimizationSuggestions() || [];
 
-        setMetrics(prev => ({
+        setMetrics((prev: any) => ({
           ...prev,
           memoryUsage: monitorMetrics.memoryUsage,
           renderTime: monitorMetrics.frameTime,
@@ -323,7 +323,7 @@ export function useProgressiveEnhancement(
   }>
 ) {
   const enabledFeatures = useMemo(() => {
-    return features.filter(feature =>
+    return features.filter((feature: any) =>
       performance.metrics.fps >= feature.minFPS
     );
   }, [features, performance.metrics.fps]);

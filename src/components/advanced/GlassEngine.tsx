@@ -119,7 +119,7 @@ export const GlassEngineProvider: React.FC<{
   });
 
   const updateConfig = useCallback((newConfig: Partial<GlassEngineConfig>) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       ...newConfig,
       opacity: { ...prev.opacity, ...(newConfig.opacity || {}) },
@@ -152,7 +152,7 @@ export const GlassEngineProvider: React.FC<{
   const adaptToEnvironment = useCallback((conditions: EnvironmentalConditions) => {
     // Use functional update to avoid closing over `config` and to keep
     // this callback stable. Also avoid mutating nested state.
-    setConfig(prev => {
+    setConfig((prev: any) => {
       // If none of the environment reactions are enabled, no change.
       if (!prev.environment.weatherReactive && !prev.environment.timeReactive && !prev.environment.temperatureReactive) {
         return prev;
@@ -468,7 +468,7 @@ export const EnvironmentalGlass: React.FC<{
   useEffect(() => {
     if (timeSync) {
       const updateTime = () => {
-        setConditions(prev => ({
+        setConditions((prev: any) => ({
           ...prev,
           timeOfDay: new Date().getHours()
         }));

@@ -37,7 +37,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
     };
 
     const interceptConsole = (type: string) => (message: any, ...args: any[]) => {
-      setConsoleLogs(prev => [...prev.slice(-99), { // Keep last 100 logs
+      setConsoleLogs((prev: any) => [...prev.slice(-99), { // Keep last 100 logs
         type,
         message: typeof message === 'string' ? message : JSON.stringify(message),
         timestamp: Date.now(),

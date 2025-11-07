@@ -222,7 +222,7 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
       try {
         const newRecents = [
           item,
-          ...recentCommands.filter(cmd => cmd.id !== item?.id)
+          ...recentCommands.filter((cmd: any) => cmd.id !== item?.id)
         ].slice(0, maxRecents);
 
         setRecentCommands(newRecents);
@@ -236,8 +236,8 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
     const allItems = useMemo(() => {
       const flatItems = [...items];
 
-      groups.forEach(group => {
-        flatItems.push(...group.items.map(item => ({
+      groups.forEach((group: any) => {
+        flatItems.push(...group.items.map((item: any) => ({
           ...item,
           category: item?.category || group.label,
         })));
@@ -274,12 +274,12 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
 
       // Apply search filter
       if (search) {
-        result = result.filter(item =>
+        result = result.filter((item: any) =>
           filter ? filter(item, search) : defaultFilter(item, search)
         );
       } else if (enableRecents && (recentCommands?.length || 0) > 0) {
         // Show recent commands when no search
-        result = recentCommands.filter(recent =>
+        result = recentCommands.filter((recent: any) =>
           allItems.some(item => item?.id === recent.id)
         );
       }
@@ -350,14 +350,14 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
 
         case 'ArrowDown':
           e.preventDefault();
-          setSelectedIndex(prev =>
+          setSelectedIndex((prev: any) =>
             prev < (filteredItems?.length || 0) - 1 ? prev + 1 : prev
           );
           break;
 
         case 'ArrowUp':
           e.preventDefault();
-          setSelectedIndex(prev => prev > 0 ? prev - 1 : prev);
+          setSelectedIndex((prev: any) => prev > 0 ? prev - 1 : prev);
           break;
 
         case 'Enter':

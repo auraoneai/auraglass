@@ -175,7 +175,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
 
       setInternalErrors(errors);
       const isValid = Object.keys(errors).length === 0;
-      setStepValidation(prev => ({ ...prev, [stepIndex]: isValid }));
+      setStepValidation((prev: any) => ({ ...prev, [stepIndex]: isValid }));
 
       return isValid;
     }, [steps, onStepValidate]);
@@ -187,7 +187,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
       const isValid = await handleStepValidation(currentStep, internalValues);
 
       if (isValid) {
-        setCompletedSteps(prev => new Set([...prev, currentStep]));
+        setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
         onStepChange?.(currentStep + 1);
       }
     }, [currentStep, isLastStep, handleStepValidation, internalValues, onStepChange]);

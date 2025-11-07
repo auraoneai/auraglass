@@ -66,7 +66,7 @@ export const GlassNotificationProvider: React.FC<{ children: React.ReactNode }> 
       id,
     };
 
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotifications((prev: any) => [newNotification, ...prev]);
 
     // Auto-remove non-persistent notifications
     if (!newNotification.persistent) {
@@ -78,7 +78,7 @@ export const GlassNotificationProvider: React.FC<{ children: React.ReactNode }> 
   };
 
   const removeNotification = (id: string) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
+    setNotifications((prev: any) => prev.filter((notification: any) => notification.id !== id));
   };
 
   const clearAll = () => {

@@ -86,7 +86,7 @@ class QuantumOptimizer {
     // Initialize quantum state as probability amplitudes
     const state = Array.from({ length: dimensions }, () => Math.random() - 0.5);
     const norm = Math.sqrt(state.reduce((sum, val) => sum + val * val, 0));
-    this.quantumStates.set(systemId, state.map(val => val / norm));
+    this.quantumStates.set(systemId, state.map((val: any) => val / norm));
   }
 
   entangleSystems(system1: string, system2: string, strength: number): void {
@@ -108,7 +108,7 @@ class QuantumOptimizer {
     if (!state) return 0;
 
     // Collapse quantum state to measured value
-    const probabilities = state.map(amplitude => amplitude * amplitude);
+    const probabilities = state.map((amplitude: any) => amplitude * amplitude);
     const random = Math.random();
     let cumulative = 0;
     
@@ -145,7 +145,7 @@ class QuantumOptimizer {
   }
 
   private applyMatrix(matrix: number[][], state: number[]): number[] {
-    return matrix.map(row => 
+    return matrix.map((row: any) => 
       row.reduce((sum, val, idx) => sum + val * state[idx], 0)
     );
   }
@@ -279,7 +279,7 @@ class GlassMetaEngineCore {
       'EmotionalIntelligenceEngine', 'SpatialComputingEngine', 'AIPersonalizationEngine'
     ];
 
-    glassSystems.forEach(system => {
+    glassSystems.forEach((system: any) => {
       this.quantumOptimizer.createQuantumState(system, 8);
       this.systemHealth.set(system, {
         systemId: system,
@@ -391,7 +391,7 @@ class GlassMetaEngineCore {
     if (!health || health.healthScore > 0.8) return;
 
     // Generate optimization based on identified issues
-    health.issues.forEach(issue => {
+    health.issues.forEach((issue: any) => {
       const optimization = this.createOptimization(systemId, issue);
       if (optimization) {
         this.optimizations.push(optimization);
@@ -557,8 +557,8 @@ class GlassMetaEngineCore {
     if (!metrics1 || !metrics2 || metrics1.length < 10 || metrics2.length < 10) return 0;
     
     // Simple correlation calculation
-    const perf1 = metrics1.map(m => m.performanceMetrics.renderTime);
-    const perf2 = metrics2.map(m => m.performanceMetrics.renderTime);
+    const perf1 = metrics1.map((m: any) => m.performanceMetrics.renderTime);
+    const perf2 = metrics2.map((m: any) => m.performanceMetrics.renderTime);
     
     const mean1 = perf1.reduce((sum, val) => sum + val, 0) / perf1.length;
     const mean2 = perf2.reduce((sum, val) => sum + val, 0) / perf2.length;
@@ -580,9 +580,9 @@ class GlassMetaEngineCore {
   }
 
   private applyOptimizations(): void {
-    const autoApplyable = this.optimizations.filter(opt => opt.autoApplyable && opt.confidence > 0.8);
+    const autoApplyable = this.optimizations.filter((opt: any) => opt.autoApplyable && opt.confidence > 0.8);
     
-    autoApplyable.forEach(optimization => {
+    autoApplyable.forEach((optimization: any) => {
       // Simulate applying optimization
       console.log(`Auto-applying optimization: ${optimization.description} for ${optimization.targetSystem}`);
       
@@ -590,14 +590,14 @@ class GlassMetaEngineCore {
       const health = this.systemHealth.get(optimization.targetSystem);
       if (health) {
         health.healthScore = Math.min(1.0, health.healthScore + optimization.impact * 0.1);
-        health.issues = health.issues.filter(issue => 
+        health.issues = health.issues.filter((issue: any) => 
           issue.type !== optimization.optimizationType || !issue.autoFixable
         );
       }
     });
     
     // Remove applied optimizations
-    this.optimizations = this.optimizations.filter(opt => !autoApplyable.includes(opt));
+    this.optimizations = this.optimizations.filter((opt: any) => !autoApplyable.includes(opt));
   }
 
   private generateEvolutions(): void {
@@ -619,10 +619,10 @@ class GlassMetaEngineCore {
   private monitorSystemHealth(): void {
     this.systemHealth.forEach((health, systemId) => {
       // Auto-heal critical issues
-      const criticalIssues = health.issues.filter(issue => issue.severity === 'critical');
+      const criticalIssues = health.issues.filter((issue: any) => issue.severity === 'critical');
       
       if (criticalIssues.length > 0) {
-        criticalIssues.forEach(issue => {
+        criticalIssues.forEach((issue: any) => {
           if (issue.autoFixable) {
             // Apply emergency healing
             console.log(`Emergency healing applied to ${systemId} for ${issue.type}`);
@@ -651,7 +651,7 @@ class GlassMetaEngineCore {
   }
 
   getQuantumStates(): Array<{ system: string; coherence: number }> {
-    return Array.from(this.systemHealth.keys()).map(system => ({
+    return Array.from(this.systemHealth.keys()).map((system: any) => ({
       system,
       coherence: this.quantumOptimizer.observe(system)
     }));
@@ -704,8 +704,8 @@ export function GlassMetaEngineProvider({
         setSystemHealth(newHealth);
         
         // Trigger callbacks
-        newOptimizations.forEach(opt => onOptimization?.(opt));
-        newEvolutions.forEach(evo => onEvolution?.(evo));
+        newOptimizations.forEach((opt: any) => onOptimization?.(opt));
+        newEvolutions.forEach((evo: any) => onEvolution?.(evo));
       }
     }, 1000);
     
@@ -770,7 +770,7 @@ export function GlassMetaDashboard({
   }, [engine, showQuantumStates]);
 
   const topOptimizations = optimizations.slice(0, maxOptimizations);
-  const criticalEvolutions = evolutions.filter(evo => evo.confidence > 0.8);
+  const criticalEvolutions = evolutions.filter((evo: any) => evo.confidence > 0.8);
 
   return (
     <div className={cn("fixed bottom-4 right-4 z-50", className)}>
@@ -889,7 +889,7 @@ export function GlassMetaDashboard({
                   Quantum Coherence
                 </h4>
                 <div className="grid grid-cols-2 gap-2">
-                  {quantumStates.map(state => (
+                  {quantumStates.map((state: any) => (
                     <div
                       key={state.system}
                       className="p-2 glass-surface-secondary glass-radius-sm"
@@ -922,7 +922,7 @@ export function GlassMetaDashboard({
                 <h4 className="text-sm font-medium glass-text-secondary uppercase tracking-wide">
                   Active Optimizations
                 </h4>
-                {topOptimizations.map(optimization => (
+                {topOptimizations.map((optimization: any) => (
                   <motion.div
                     key={optimization.id}
                     className="p-3 glass-surface-secondary glass-radius-md"
@@ -969,7 +969,7 @@ export function GlassMetaDashboard({
                 <h4 className="text-sm font-medium glass-text-secondary uppercase tracking-wide">
                   System Evolutions
                 </h4>
-                {criticalEvolutions.slice(0, 3).map(evolution => (
+                {criticalEvolutions.slice(0, 3).map((evolution: any) => (
                   <motion.div
                     key={evolution.id}
                     className="p-3 glass-surface-secondary glass-radius-md"

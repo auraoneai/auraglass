@@ -434,12 +434,12 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
       let svg = `<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">`;
       svg += `<rect width="100%" height="100%" fill="${backgroundColor}"/>`;
       
-      layers.forEach(layer => {
+      layers.forEach((layer: any) => {
         if (!layer.visible) return;
         
         svg += `<g opacity="${layer.opacity}">`;
         
-        layer.elements.forEach(element => {
+        layer.elements.forEach((element: any) => {
           switch (element.type) {
             case 'circle':
               svg += `<circle cx="${element.x}" cy="${element.y}" r="${element.width/2}" 
@@ -507,7 +507,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
         ctx.save();
         ctx.globalAlpha = layer.opacity;
 
-        layer.elements.forEach(element => {
+        layer.elements.forEach((element: any) => {
           ctx.save();
           ctx.translate(element.x, element.y);
           ctx.rotate(element.rotation * Math.PI / 180);
@@ -638,7 +638,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
           {/* Tools */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Tool:</span>
-            {(['circle', 'square', 'triangle', 'line'] as const).map(tool => (
+            {(['circle', 'square', 'triangle', 'line'] as const).map((tool: any) => (
               <button
                 key={tool}
                 onClick={() => setCurrentTool(tool)}
@@ -786,7 +786,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
         >
           <div className="text-sm font-medium mb-3">Templates</div>
           <div className="space-y-2">
-            {allTemplates.map(template => (
+            {allTemplates.map((template: any) => (
               <button
                 key={template.id}
                 onClick={() => applyTemplate(template)}

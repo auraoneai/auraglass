@@ -158,7 +158,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
                 { key: 'filters', label: 'Filters', icon: '🎨' },
                 { key: 'ai', label: 'AI', icon: '🤖' },
                 { key: 'templates', label: 'Templates', icon: '📐' }
-              ].map(tab => (
+              ].map((tab: any) => (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key as any)}
@@ -323,7 +323,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
                   <h4 className="font-medium mb-3">Templates</h4>
                   
                   <div className="grid grid-cols-2 gap-3">
-                    {templates.map(template => (
+                    {templates.map((template: any) => (
                       <button
                         key={template.id}
                         onClick={() => handleTemplateApply(template.id)}
@@ -422,7 +422,7 @@ export const GlassIntelligentImageUploader: React.FC<IntelligentImageUploaderPro
   }, []);
 
   const handleFiles = useCallback(async (files: FileList) => {
-    const validFiles = Array.from(files).filter(file => {
+    const validFiles = Array.from(files).filter((file: any) => {
       if (!acceptedFormats.includes(file.type)) {
         console.warn(`File ${file.name} has unsupported format`);
         return false;
@@ -438,7 +438,7 @@ export const GlassIntelligentImageUploader: React.FC<IntelligentImageUploaderPro
 
     const filesToProcess = validFiles.slice(0, maxFiles - images.length);
     const fileList = new DataTransfer();
-    filesToProcess.forEach(file => fileList.items.add(file));
+    filesToProcess.forEach((file: any) => fileList.items.add(file));
 
     try {
       const uploadedImages = await addImages(fileList.files);
@@ -566,7 +566,7 @@ export const GlassIntelligentImageUploader: React.FC<IntelligentImageUploaderPro
         {uploadProgresses.length > 0 && (
           <div className="space-y-3">
             <h3 className="font-medium glass-text-secondary">Processing Images</h3>
-            {uploadProgresses.map(progress => (
+            {uploadProgresses.map((progress: any) => (
               <div key={progress.imageId} className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>{progress.message || 'Processing...'}</span>
@@ -606,7 +606,7 @@ export const GlassIntelligentImageUploader: React.FC<IntelligentImageUploaderPro
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {images.map(image => (
+              {images.map((image: any) => (
                 <div key={image.id} className="group relative">
                   <div className="aspect-square glass-surface-subtle glass-radius-lg overflow-hidden">
                     <img

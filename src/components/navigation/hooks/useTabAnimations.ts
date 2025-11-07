@@ -17,7 +17,7 @@ const useTabAnimations = (initialIndex = 0) => {
   });
 
   const animateToTab = useCallback((index: number, position: number, width: number) => {
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       activeIndex: index,
       isAnimating: true,
@@ -27,7 +27,7 @@ const useTabAnimations = (initialIndex = 0) => {
 
     // Simulate animation end
     setTimeout(() => {
-      setState(prev => ({
+      setState((prev: any) => ({
         ...prev,
         isAnimating: false,
       }));
@@ -35,7 +35,7 @@ const useTabAnimations = (initialIndex = 0) => {
   }, []);
 
   const setActiveTab = useCallback((index: number) => {
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       activeIndex: index,
     }));

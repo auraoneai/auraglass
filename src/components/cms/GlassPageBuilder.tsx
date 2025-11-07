@@ -139,7 +139,7 @@ const Toolbar: React.FC = () => {
           { key: 'desktop', icon: '🖥️', label: 'Desktop' },
           { key: 'tablet', icon: '📱', label: 'Tablet' },
           { key: 'mobile', icon: '📱', label: 'Mobile' }
-        ].map(breakpoint => (
+        ].map((breakpoint: any) => (
           <button
             key={breakpoint.key}
             onClick={() => setActiveBreakpoint(breakpoint.key as any)}

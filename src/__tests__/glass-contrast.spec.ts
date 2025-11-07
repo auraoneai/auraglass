@@ -11,7 +11,7 @@ import { createGlassStyle } from '../core/mixins/glassMixins';
 
 // WCAG contrast ratio calculation
 function getLuminance(rgb: [number, number, number]): number {
-  const [r, g, b] = rgb.map(c => {
+  const [r, g, b] = rgb.map((c: any) => {
     c = c / 255;
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
@@ -67,9 +67,9 @@ describe('Glass Contrast Test Suite', () => {
     const intents = ['neutral', 'primary', 'success', 'warning', 'danger', 'info'] as const;
     const elevations = ['level1', 'level2', 'level3', 'level4'] as const;
     
-    intents.forEach(intent => {
+    intents.forEach((intent: any) => {
       describe(`${intent} intent surfaces`, () => {
-        elevations.forEach(elevation => {
+        elevations.forEach((elevation: any) => {
           it(`should meet WCAG AA contrast (4.5:1) for ${intent}-${elevation}`, () => {
             const surface = AURA_GLASS.surfaces[intent][elevation];
             expect(surface).toBeDefined();
@@ -239,7 +239,7 @@ describe('Glass Contrast Test Suite', () => {
 
     it('should validate border contrast', () => {
       const intents = ['neutral', 'primary', 'success', 'warning', 'danger', 'info'] as const;
-      intents.forEach(intent => {
+      intents.forEach((intent: any) => {
         const surface = AURA_GLASS.surfaces[intent].level2;
         expect(surface.border).toBeDefined();
         expect(surface.border.color).toBeTruthy();
@@ -254,8 +254,8 @@ describe('Glass Contrast Test Suite', () => {
       const intents = ['neutral', 'primary', 'success', 'warning', 'danger', 'info'] as const;
       const elevations = ['level1', 'level2', 'level3', 'level4'] as const;
       
-      intents.forEach(intent => {
-        elevations.forEach(elevation => {
+      intents.forEach((intent: any) => {
+        elevations.forEach((elevation: any) => {
           const surface = AURA_GLASS.surfaces[intent][elevation];
           const [r, g, b, alpha] = parseRGBA(surface.surface.base);
           
@@ -279,9 +279,9 @@ export function testAllGlassCombinations(): void {
   
   const results: any[] = [];
   
-  intents.forEach(intent => {
-    elevations.forEach(elevation => {
-      tiers.forEach(tier => {
+  intents.forEach((intent: any) => {
+    elevations.forEach((elevation: any) => {
+      tiers.forEach((tier: any) => {
         try {
           const styles = createGlassStyle({ intent, elevation, tier });
           const surface = AURA_GLASS.surfaces[intent][elevation];

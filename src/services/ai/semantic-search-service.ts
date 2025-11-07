@@ -254,7 +254,7 @@ export class SemanticSearchService {
       filter?: Record<string, any>;
     } = {}
   ): Promise<SearchResult[]> {
-    const keywords = query.toLowerCase().split(/\s+/).filter(k => k.length > 2);
+    const keywords = query.toLowerCase().split(/\s+/).filter((k: any) => k.length > 2);
 
     if (!this.index) {
       return [];
@@ -267,7 +267,7 @@ export class SemanticSearchService {
         includeMetadata: true,
         filter: {
           ...options.filter,
-          $or: keywords.map(keyword => ({
+          $or: keywords.map((keyword: any) => ({
             content: { $contains: keyword },
           })),
         },
@@ -295,7 +295,7 @@ export class SemanticSearchService {
     const lowerContent = content.toLowerCase();
     let score = 0;
 
-    keywords.forEach(keyword => {
+    keywords.forEach((keyword: any) => {
       const occurrences = (lowerContent.match(new RegExp(keyword, 'g')) || []).length;
       score += occurrences * (1 / keywords.length);
     });
@@ -325,7 +325,7 @@ export class SemanticSearchService {
     const sentences = content.split(/[.!?]+/);
     const highlights: string[] = [];
 
-    sentences.forEach(sentence => {
+    sentences.forEach((sentence: any) => {
       const lowerSentence = sentence.toLowerCase();
       const hasMatch = words.some(word => lowerSentence.includes(word));
 

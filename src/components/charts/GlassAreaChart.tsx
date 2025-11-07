@@ -147,8 +147,8 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
         // Find min/max values across all series
         const allPoints = series.flatMap(s => s.data);
         const allXAreNumeric = allPoints.every(p => typeof p.x === 'number');
-        const xValues = allPoints.map(p => (typeof p.x === 'number' ? p.x : 0));
-        const yValues = allPoints.map(p => p.y);
+        const xValues = allPoints.map((p: any) => (typeof p.x === 'number' ? p.x : 0));
+        const yValues = allPoints.map((p: any) => p.y);
 
         const xMin = Math.min(...xValues);
         const xMax = Math.max(...xValues);
@@ -161,10 +161,10 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
 
         if (stacked && series.length > 1) {
             // Create stacked data by accumulating values at each x point
-            const xPoints = new Set(allPoints.map(p => p.x));
-            stackedData = Array.from(xPoints).map(x => {
+            const xPoints = new Set(allPoints.map((p: any) => p.x));
+            stackedData = Array.from(xPoints).map((x: any) => {
                 let cumulativeY = 0;
-                return series.map(s => {
+                return series.map((s: any) => {
                     const point = s.data?.find(p => p.x === x);
                     const y = point ? point.y : 0;
                     cumulativeY += y;
@@ -179,12 +179,12 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
 
             // Calculate new min/max for stacked chart
             yMin = 0;
-            yMax = Math.max(...stackedData!.flat().map(p => p.y));
+            yMax = Math.max(...stackedData!.flat().map((p: any) => p.y));
 
             // Transform series data for stacked display
             stackedSeries = series.map((s, index) => ({
                 ...s,
-                data: stackedData!.map(stackPoint => ({
+                data: stackedData!.map((stackPoint: any) => ({
                     x: stackPoint[index].x,
                     y: stackPoint[index].y,
                     label: s.data?.find(p => p.x === stackPoint[index].x)?.label
@@ -199,7 +199,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
         const yMaxPadded = yMax + yPadding;
 
         // Scale functions with guards against divide-by-zero/NaN
-        const maxPoints = Math.max(...series.map(s => s.data?.length || 0), 1);
+        const maxPoints = Math.max(...series.map((s: any) => s.data?.length || 0), 1);
         const useOrdinalX = !allXAreNumeric || xMax === xMin;
         const scaleXBy = (x: number, idx: number) => {
             if (chartWidth <= 0) return 0;
@@ -227,7 +227,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                     scaledY: Number.isFinite(sy) ? sy : padding.top + chartHeight,
                     originalY: stacked && stackedData ? (stackedData.find(sd => sd[seriesIndex].x === point.x)?.[seriesIndex].originalY || point.y) : point.y
                 };
-            }).filter(p => Number.isFinite(p.scaledX) && Number.isFinite(p.scaledY));
+            }).filter((p: any) => Number.isFinite(p.scaledX) && Number.isFinite(p.scaledY));
 
             // Generate area path
             let areaPath = '';
@@ -262,7 +262,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
             label: formatXValue(point.x)
         }));
 
-        const yLabels = [0, 0.25, 0.5, 0.75, 1].map(ratio => {
+        const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {
             const value = yMinPadded + (yMaxPadded - yMinPadded) * ratio;
             return {
                 x: padding.left - 10,
@@ -276,7 +276,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
 
     // Generate path for line
     const generatePath = (points: any[]) => {
-        const valid = (points || []).filter(p => Number.isFinite(p?.scaledX) && Number.isFinite(p?.scaledY));
+        const valid = (points || []).filter((p: any) => Number.isFinite(p?.scaledX) && Number.isFinite(p?.scaledY));
         if (valid.length === 0) return '';
         let path = `M ${valid[0].scaledX} ${valid[0].scaledY}`;
         for (let i = 1; i < valid.length; i++) {
@@ -288,7 +288,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
     // Handle point hover
     const handlePointHover = (seriesId: string, pointIndex: number, x: number, y: number, _event: React.MouseEvent) => {
         if (showTooltips) {
-            const values = processedData.scaledSeries.map(s => s.points[pointIndex]?.originalY || 0);
+            const values = processedData.scaledSeries.map((s: any) => s.points[pointIndex]?.originalY || 0);
             setHoveredPoint({ seriesId, index: pointIndex, x, y, values });
         }
     };

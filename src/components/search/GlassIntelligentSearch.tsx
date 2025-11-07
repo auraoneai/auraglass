@@ -75,19 +75,19 @@ const analyzeQuery = (query: string): {
   
   // Date entities
   const dateMatches = query.match(/(\d{4}|\d{1,2}\/\d{1,2}\/\d{4}|today|yesterday|last week|this month)/gi);
-  dateMatches?.forEach(match => {
+  dateMatches?.forEach((match: any) => {
     entities.push({ type: 'date', value: match });
   });
 
   // Number entities
   const numberMatches = query.match(/\b\d+(?:\.\d+)?\b/g);
-  numberMatches?.forEach(match => {
+  numberMatches?.forEach((match: any) => {
     entities.push({ type: 'number', value: match });
   });
 
   // Category entities (simplified)
   const categories = ['product', 'service', 'article', 'document', 'image', 'video', 'user', 'project'];
-  categories.forEach(category => {
+  categories.forEach((category: any) => {
     if (lowercaseQuery.includes(category)) {
       entities.push({ type: 'category', value: category });
     }
@@ -109,7 +109,7 @@ const analyzeQuery = (query: string): {
   const keywords = query
     .toLowerCase()
     .split(/\s+/)
-    .filter(word => word.length > 2 && !stopWords.includes(word))
+    .filter((word: any) => word.length > 2 && !stopWords.includes(word))
     .filter((word, index, arr) => arr.indexOf(word) === index); // Remove duplicates
 
   return { intent, entities, sentiment, keywords };
@@ -127,10 +127,10 @@ const performIntelligentSearch = (
   }
 
   const analysis = enableNLP ? analyzeQuery(query) : null;
-  const searchTerms = query.toLowerCase().split(/\s+/).filter(term => term.length > 0);
+  const searchTerms = query.toLowerCase().split(/\s+/).filter((term: any) => term.length > 0);
 
   return data
-    .map(item => {
+    .map((item: any) => {
       let score = 0;
 
       // Text matching with different weights
@@ -143,7 +143,7 @@ const performIntelligentSearch = (
       }, 0);
 
       const tagMatch = searchTerms.reduce((acc, term) => {
-        return acc + item.tags.filter(tag => tag.toLowerCase().includes(term)).length * 0.7;
+        return acc + item.tags.filter((tag: any) => tag.toLowerCase().includes(term)).length * 0.7;
       }, 0);
 
       score = titleMatch * 3 + descriptionMatch + tagMatch;
@@ -156,14 +156,14 @@ const performIntelligentSearch = (
         }
         
         // Entity matching
-        analysis.entities.forEach(entity => {
+        analysis.entities.forEach((entity: any) => {
           if (entity.type === 'category' && item.category.toLowerCase().includes(entity.value)) {
             score += 1;
           }
         });
 
         // Keyword density bonus
-        const keywordMatches = analysis.keywords.filter(keyword => 
+        const keywordMatches = analysis.keywords.filter((keyword: any) => 
           item.title.toLowerCase().includes(keyword) || 
           item.description.toLowerCase().includes(keyword)
         ).length;
@@ -211,7 +211,7 @@ const performIntelligentSearch = (
       // Generate highlights
       const highlights: { title?: string[]; description?: string[] } = {};
       if (score > 0) {
-        searchTerms.forEach(term => {
+        searchTerms.forEach((term: any) => {
           if (item.title.toLowerCase().includes(term)) {
             if (!highlights.title) highlights.title = [];
             highlights.title.push(term);
@@ -229,7 +229,7 @@ const performIntelligentSearch = (
         highlights
       };
     })
-    .filter(item => item.score > 0)
+    .filter((item: any) => item.score > 0)
     .sort((a, b) => b.score - a.score);
 };
 
@@ -244,9 +244,9 @@ const generateSuggestions = (
 
   // Recent searches
   recentSearches
-    .filter(search => search.toLowerCase().includes(lowercaseQuery))
+    .filter((search: any) => search.toLowerCase().includes(lowercaseQuery))
     .slice(0, 3)
-    .forEach(search => {
+    .forEach((search: any) => {
       suggestions.push({
         text: search,
         type: 'query'
@@ -254,12 +254,12 @@ const generateSuggestions = (
     });
 
   // Category suggestions
-  const categories = [...new Set(data.map(item => item.category))];
+  const categories = [...new Set(data.map((item: any) => item.category))];
   categories
-    .filter(category => category.toLowerCase().includes(lowercaseQuery))
+    .filter((category: any) => category.toLowerCase().includes(lowercaseQuery))
     .slice(0, 3)
-    .forEach(category => {
-      const count = data.filter(item => item.category === category).length;
+    .forEach((category: any) => {
+      const count = data.filter((item: any) => item.category === category).length;
       suggestions.push({
         text: category,
         type: 'category',
@@ -321,7 +321,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
   // Generate available filters from data
   const availableFilters = useMemo((): SearchFilter[] => {
-    const categories = [...new Set(data.map(item => item.category))];
+    const categories = [...new Set(data.map((item: any) => item.category))];
     const allTags = data.flatMap(item => item.tags);
     const tagCounts = allTags.reduce((acc, tag) => {
       acc[tag] = (acc[tag] || 0) + 1;
@@ -338,10 +338,10 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         id: 'category',
         name: 'Category',
         type: 'multiselect',
-        options: categories.map(cat => ({ 
+        options: categories.map((cat: any) => ({ 
           value: cat, 
           label: cat, 
-          count: data.filter(item => item.category === cat).length 
+          count: data.filter((item: any) => item.category === cat).length 
         }))
       },
       {
@@ -404,12 +404,12 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     if (suggestion.type === 'query') {
       setQuery(suggestion.text);
     } else if (suggestion.type === 'category') {
-      setFilters(prev => ({
+      setFilters((prev: any) => ({
         ...prev,
         category: [...(prev.category || []), suggestion.text]
       }));
     } else if (suggestion.type === 'tag') {
-      setFilters(prev => ({
+      setFilters((prev: any) => ({
         ...prev,
         tags: [...(prev.tags || []), suggestion.text]
       }));
@@ -420,13 +420,13 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
   const handleSearchSubmit = () => {
     if (query.trim() && !recentSearches.includes(query.trim())) {
-      setRecentSearches(prev => [query.trim(), ...prev.slice(0, 9)]);
+      setRecentSearches((prev: any) => [query.trim(), ...prev.slice(0, 9)]);
     }
     setShowSuggestionsList(false);
   };
 
   const handleFilterChange = (filterId: string, value: any) => {
-    setFilters(prev => ({
+    setFilters((prev: any) => ({
       ...prev,
       [filterId]: value
     }));
@@ -469,7 +469,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     if (!highlights.length) return text;
     
     let highlightedText = text;
-    highlights.forEach(term => {
+    highlights.forEach((term: any) => {
       const regex = new RegExp(`(${term})`, 'gi');
       highlightedText = highlightedText.replace(regex, '<mark class="bg-yellow-200 px-1 rounded">$1</mark>');
     });
@@ -632,7 +632,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
           </div>
           
           <div className="grid glass-grid-cols-1 md:glass-grid-cols-3 gap-4">
-            {availableFilters.map(filter => (
+            {availableFilters.map((filter: any) => (
               <div key={filter.id}>
                 <label className="block text-sm font-medium glass-text-secondary mb-2">
                   {filter.name}
@@ -640,7 +640,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                 
                 {filter.type === 'multiselect' && (
                   <div className="space-y-2 max-h-32 overflow-y-auto">
-                    {filter.options?.map(option => (
+                    {filter.options?.map((option: any) => (
                       <label key={option.value} className="flex items-center gap-2 text-sm">
                         <input
                           type="checkbox"
@@ -701,7 +701,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         ) : null}
 
         <div className="space-y-4">
-          {results.map(result => (
+          {results.map((result: any) => (
             <Glass
               key={result.id}
               className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
@@ -732,7 +732,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                   
                   {result.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1">
-                      {result.tags.slice(0, 5).map(tag => (
+                      {result.tags.slice(0, 5).map((tag: any) => (
                         <span
                           key={tag}
                           className="px-2 py-1 text-xs glass-surface-subtle text-primary glass-radius"

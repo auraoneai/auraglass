@@ -443,7 +443,7 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
       } else if (selectionMode === 'multiple') {
         let newSelection: string[];
         if (currentSelectedIds.includes(nodeId)) {
-          newSelection = currentSelectedIds.filter(id => id !== nodeId);
+          newSelection = currentSelectedIds.filter((id: any) => id !== nodeId);
         } else {
           newSelection = [...currentSelectedIds, nodeId];
         }
@@ -470,7 +470,7 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
       let newExpandedIds: string[];
       
       if (currentExpandedIds.includes(nodeId)) {
-        newExpandedIds = currentExpandedIds.filter(id => id !== nodeId);
+        newExpandedIds = currentExpandedIds.filter((id: any) => id !== nodeId);
       } else {
         newExpandedIds = [...currentExpandedIds, nodeId];
       }

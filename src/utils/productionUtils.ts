@@ -154,7 +154,7 @@ export const features = {
 
 export const memory = {
   cleanup: (refs: React.RefObject<any>[]): void => {
-    refs.forEach(ref => {
+    refs.forEach((ref: any) => {
       if (ref.current) {
         (ref as React.MutableRefObject<any>).current = null;
       }
@@ -260,7 +260,7 @@ export const data = {
     keys: K[]
   ): Omit<T, K> => {
     const result = { ...obj };
-    keys.forEach(key => delete result[key]);
+    keys.forEach((key: any) => delete result[key]);
     return result;
   },
 
@@ -269,7 +269,7 @@ export const data = {
     keys: K[]
   ): Pick<T, K> => {
     const result = {} as Pick<T, K>;
-    keys.forEach(key => {
+    keys.forEach((key: any) => {
       if (key in obj) {
         result[key] = obj[key];
       }

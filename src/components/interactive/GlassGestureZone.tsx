@@ -226,10 +226,10 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
     const normalizePoints = useCallback((points: GesturePoint[]): Array<{ x: number; y: number }> => {
       if (points.length === 0) return [];
 
-      const minX = Math.min(...points.map(p => p.x));
-      const maxX = Math.max(...points.map(p => p.x));
-      const minY = Math.min(...points.map(p => p.y));
-      const maxY = Math.max(...points.map(p => p.y));
+      const minX = Math.min(...points.map((p: any) => p.x));
+      const maxX = Math.max(...points.map((p: any) => p.x));
+      const minY = Math.min(...points.map((p: any) => p.y));
+      const maxY = Math.max(...points.map((p: any) => p.y));
 
       const centerX = (minX + maxX) / 2;
       const centerY = (minY + maxY) / 2;
@@ -237,7 +237,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
       const scaleY = Math.max(1, (maxY - minY) / 2);
       const scale = Math.max(scaleX, scaleY);
 
-      return points.map(point => ({
+      return points.map((point: any) => ({
         x: (point.x - centerX) / scale,
         y: (point.y - centerY) / scale
       }));
@@ -310,12 +310,12 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
           id: `gesture-${Date.now()}`
         };
 
-        setRecognizedGestures(prev => [...prev.slice(-9), recognizedGesture]);
+        setRecognizedGestures((prev: any) => [...prev.slice(-9), recognizedGesture]);
         onGestureRecognized?.(recognizedGesture);
         
         // Add feedback
         if (showFeedback) {
-          setFeedbackGestures(prev => [...prev, { gesture: recognizedGesture, opacity: 1 }]);
+          setFeedbackGestures((prev: any) => [...prev, { gesture: recognizedGesture, opacity: 1 }]);
         }
         
         play('success');
@@ -383,8 +383,8 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
         id: `stroke-${pointerId}-${Date.now()}`
       };
 
-      setCurrentStrokes(prev => new Map(prev.set(pointerId, newStroke)));
-      setActivePoints(prev => [...prev, point]);
+      setCurrentStrokes((prev: any) => new Map(prev.set(pointerId, newStroke)));
+      setActivePoints((prev: any) => [...prev, point]);
       
       onGestureStart?.(point);
       play('tap');
@@ -406,11 +406,11 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
         ...calculateStrokeProperties([...currentStroke.points, point])
       };
 
-      setCurrentStrokes(prev => new Map(prev.set(pointerId, updatedStroke)));
+      setCurrentStrokes((prev: any) => new Map(prev.set(pointerId, updatedStroke)));
       
       // Add to trail
       if (showTrail) {
-        setTrailPoints(prev => [...prev, { 
+        setTrailPoints((prev: any) => [...prev, { 
           point, 
           opacity: 1, 
           size: Math.min(8, Math.max(2, (point.pressure || 1) * 6))
@@ -434,14 +434,14 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
         ...calculateStrokeProperties(stroke.points)
       };
 
-      setCurrentStrokes(prev => {
+      setCurrentStrokes((prev: any) => {
         const newMap = new Map(prev);
         newMap.delete(pointerId);
         return newMap;
       });
       
-      setCompletedStrokes(prev => [...prev.slice(-19), finalStroke]);
-      setActivePoints(prev => prev.filter(p => p.id !== stroke.points[stroke.points.length - 1]?.id));
+      setCompletedStrokes((prev: any) => [...prev.slice(-19), finalStroke]);
+      setActivePoints((prev: any) => prev.filter((p: any) => p.id !== stroke.points[stroke.points.length - 1]?.id));
       
       // Recognize gesture after a short delay
       setTimeout(() => {
@@ -458,7 +458,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
       
       if (multiTouch && activeCount >= 2) {
         setIsMultiTouchActive(true);
-        const points = Array.from(currentStrokes.values()).map(stroke => 
+        const points = Array.from(currentStrokes.values()).map((stroke: any) => 
           stroke.points[stroke.points.length - 1]
         );
         onMultiTouch?.(points);
@@ -472,11 +472,11 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
       if (!showTrail) return;
 
       const interval = setInterval(() => {
-        setTrailPoints(prev => 
-          prev.map(item => ({
+        setTrailPoints((prev: any) => 
+          prev.map((item: any) => ({
             ...item,
             opacity: Math.max(0, item.opacity - 0.02)
-          })).filter(item => item.opacity > 0)
+          })).filter((item: any) => item.opacity > 0)
         );
       }, 16);
 
@@ -488,11 +488,11 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
       if (!showFeedback) return;
 
       const interval = setInterval(() => {
-        setFeedbackGestures(prev => 
-          prev.map(item => ({
+        setFeedbackGestures((prev: any) => 
+          prev.map((item: any) => ({
             ...item,
             opacity: Math.max(0, item.opacity - 0.01)
-          })).filter(item => item.opacity > 0)
+          })).filter((item: any) => item.opacity > 0)
         );
       }, 16);
 
@@ -530,7 +530,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
-      currentStrokes.forEach(stroke => {
+      currentStrokes.forEach((stroke: any) => {
         if (stroke.points.length < 2) return;
 
         ctx.beginPath();
@@ -545,7 +545,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
 
       // Draw multi-touch indicators
       if (isMultiTouchActive) {
-        activePoints.forEach(point => {
+        activePoints.forEach((point: any) => {
           ctx.strokeStyle = '#FF6B6B';
           ctx.lineWidth = 3;
           ctx.beginPath();
@@ -750,7 +750,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
             <div className="p-4 glass-surface-overlay glass-radius-md">
               <div className="text-sm font-medium mb-2">Recent Gestures:</div>
               <div className="space-y-1">
-                {recognizedGestures.slice(-5).map(gesture => (
+                {recognizedGestures.slice(-5).map((gesture: any) => (
                   <div key={gesture.id} className="text-xs p-2 glass-surface-primary/10 glass-radius-sm">
                     <span className="font-medium">{gesture.type.replace('_', ' ')}</span>
                     <span className="glass-text-secondary glass-ml-2">

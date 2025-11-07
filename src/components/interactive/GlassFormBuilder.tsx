@@ -181,7 +181,7 @@ export const GlassFormBuilder = forwardRef<HTMLFormElement, GlassFormBuilderProp
     const [internalValues, setInternalValues] = useState<FormValue>(values);
     const [internalErrors, setInternalErrors] = useState<FormError>(errors);
     const [expandedSections, setExpandedSections] = useState<Set<string>>(
-      new Set(schema?.filter(section => section && section.defaultExpanded !== false).map(s => s?.id).filter(Boolean) || [])
+      new Set(schema?.filter((section: any) => section && section.defaultExpanded !== false).map((s: any) => s?.id).filter(Boolean) || [])
     );
     const [autoSaveTimer, setAutoSaveTimer] = useState<NodeJS.Timeout>();
 
@@ -200,7 +200,7 @@ export const GlassFormBuilder = forwardRef<HTMLFormElement, GlassFormBuilderProp
 
     // Get all fields for progress calculation
     const allFields = schema?.flatMap(section => section?.fields || []).filter(Boolean) || [];
-    const filledFields = allFields.filter(field => {
+    const filledFields = allFields.filter((field: any) => {
       if (!field || !field.id) return false;
       const value = internalValues[field.id];
       return value !== undefined && value !== '' && value !== null;
@@ -420,7 +420,7 @@ export const GlassFormBuilder = forwardRef<HTMLFormElement, GlassFormBuilderProp
 
       // Validate all fields
       const newErrors: FormError = {};
-      allFields.forEach(field => {
+      allFields.forEach((field: any) => {
         if (field && field.id && shouldShowField(field)) {
           const value = internalValues[field.id];
           const error = validateField(field, value);
@@ -493,7 +493,7 @@ export const GlassFormBuilder = forwardRef<HTMLFormElement, GlassFormBuilderProp
 
         {/* Form sections */}
         <div className={variantClasses[variant]}>
-          {schema && schema.length > 0 ? schema.filter(section => section && section.id && section.fields && section.fields.length > 0).map((section) => (
+          {schema && schema.length > 0 ? schema.filter((section: any) => section && section.id && section.fields && section.fields.length > 0).map((section) => (
             <Motion key={section.id} preset="slideDown">
               <GlassCard variant="default" className="p-6">
                 {/* Section header */}
@@ -533,7 +533,7 @@ export const GlassFormBuilder = forwardRef<HTMLFormElement, GlassFormBuilderProp
                 {(!section.collapsible || expandedSections.has(section.id)) && (
                   <div className="grid grid-cols-12 gap-4">
                     {section.fields
-                      ?.filter(field => field && field.id && shouldShowField(field))
+                      ?.filter((field: any) => field && field.id && shouldShowField(field))
                       ?.sort((a, b) => (a?.layout?.order || 0) - (b?.layout?.order || 0))
                       ?.map((field) => (
                         <div

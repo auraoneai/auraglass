@@ -61,7 +61,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
 
     const errorId = generateErrorId();
 
-    setErrorState(prev => {
+    setErrorState((prev: any) => {
       const newErrorState = {
         hasError: true,
         error,
@@ -112,7 +112,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
 
   // Retry with incremented counter
   const retry = useCallback(() => {
-    setErrorState(prev => {
+    setErrorState((prev: any) => {
       if (prev.retryCount >= maxRetries) {
         return prev; // Don't retry if max retries reached
       }

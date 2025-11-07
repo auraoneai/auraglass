@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 
@@ -60,7 +61,7 @@ export function AccessibilityProvider({
       const saved = localStorage.getItem(storageKey);
       if (saved) {
         const parsedSettings = JSON.parse(saved);
-        setSettings(prev => ({ ...prev, ...parsedSettings }));
+        setSettings((prev: any) => ({ ...prev, ...parsedSettings }));
       }
     } catch (error) {
       console.warn('Failed to load accessibility settings:', error);
@@ -117,7 +118,7 @@ export function AccessibilityProvider({
 
   // Update settings
   const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {
-    setSettings(prev => ({ ...prev, ...newSettings }));
+    setSettings((prev: any) => ({ ...prev, ...newSettings }));
   };
 
   // Reset to defaults

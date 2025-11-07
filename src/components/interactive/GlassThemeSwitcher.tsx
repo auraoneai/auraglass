@@ -107,7 +107,7 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
 
     // Handle custom color change
     const handleCustomColorChange = useCallback((colorKey: string, value: string) => {
-        setCustomColors(prev => ({
+        setCustomColors((prev: any) => ({
             ...prev,
             [colorKey]: value
         }));

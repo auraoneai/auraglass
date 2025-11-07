@@ -117,7 +117,7 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
   const toggleNode = useCallback(
     (event: React.SyntheticEvent, nodeId: string) => {
       const newExpanded = expanded!.includes(nodeId)
-        ? expanded!.filter(id => id !== nodeId)
+        ? expanded!.filter((id: any) => id !== nodeId)
         : [...expanded!, nodeId];
 
       if (!isExpandedControlled) {
@@ -138,7 +138,7 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
 
       if (multiSelect) {
         newSelected = selected!.includes(nodeId)
-          ? selected!.filter(id => id !== nodeId)
+          ? selected!.filter((id: any) => id !== nodeId)
           : [...selected!, nodeId];
       } else {
         newSelected = [nodeId];

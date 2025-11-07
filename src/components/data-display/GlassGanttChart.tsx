@@ -147,8 +147,8 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
     // Calculate date range
     const dateRange = useMemo(() => {
       const taskDates = tasks.flatMap(task => [task.startDate, task.endDate]);
-      const minDate = startDate || new Date(Math.min(...taskDates.map(d => d.getTime())));
-      const maxDate = endDate || new Date(Math.max(...taskDates.map(d => d.getTime())));
+      const minDate = startDate || new Date(Math.min(...taskDates.map((d: any) => d.getTime())));
+      const maxDate = endDate || new Date(Math.max(...taskDates.map((d: any) => d.getTime())));
       
       // Add some padding
       const paddedStart = new Date(minDate);
@@ -310,12 +310,12 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
     const organizedTasks = useMemo(() => {
       if (!showHierarchy) return tasks;
 
-      const taskMap = new Map(tasks.map(task => [task.id, task]));
+      const taskMap = new Map(tasks.map((task: any) => [task.id, task]));
       const roots: GanttTask[] = [];
       const children = new Map<string, GanttTask[]>();
 
       // Build hierarchy
-      tasks.forEach(task => {
+      tasks.forEach((task: any) => {
         if (task.parent) {
           const parentChildren = children.get(task.parent) || [];
           parentChildren.push(task);
@@ -328,7 +328,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
       // Flatten with hierarchy
       const flattened: GanttTask[] = [];
       const addTasksRecursively = (taskList: GanttTask[], level = 0) => {
-        taskList.forEach(task => {
+        taskList.forEach((task: any) => {
           flattened.push({ ...task, customData: { ...task.customData, level } });
           const taskChildren = children.get(task.id);
           if (taskChildren) {
@@ -671,8 +671,8 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
                 })}
 
                 {/* Dependencies */}
-                {viewOptions.showDependencies && organizedTasks.map(task => 
-                  task.dependencies?.map(depId => {
+                {viewOptions.showDependencies && organizedTasks.map((task: any) => 
+                  task.dependencies?.map((depId: any) => {
                     const depTask = organizedTasks.find(t => t.id === depId);
                     if (!depTask) return null;
 

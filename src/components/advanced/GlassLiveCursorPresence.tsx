@@ -110,7 +110,7 @@ export function GlassLiveCursorPresence({
         if (reconnectAttempts < 5) {
           const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 10000);
           setTimeout(connect, delay);
-          setReconnectAttempts(prev => prev + 1);
+          setReconnectAttempts((prev: any) => prev + 1);
         }
       };
       
@@ -130,7 +130,7 @@ export function GlassLiveCursorPresence({
     switch (message.type) {
       case 'user:join':
         if (message.user.id !== currentUser.id) {
-          setCursors(prev => {
+          setCursors((prev: any) => {
             const newCursors = new Map(prev);
             newCursors.set(message.user.id, {
               ...message.user,
@@ -146,7 +146,7 @@ export function GlassLiveCursorPresence({
         break;
         
       case 'user:leave':
-        setCursors(prev => {
+        setCursors((prev: any) => {
           const newCursors = new Map(prev);
           newCursors.delete(message.userId);
           return newCursors;
@@ -156,7 +156,7 @@ export function GlassLiveCursorPresence({
         
       case 'cursor:move':
         if (message.userId !== currentUser.id) {
-          setCursors(prev => {
+          setCursors((prev: any) => {
             const newCursors = new Map(prev);
             const existingCursor = newCursors.get(message.userId);
             
@@ -195,7 +195,7 @@ export function GlassLiveCursorPresence({
         break;
         
       case 'user:typing':
-        setCursors(prev => {
+        setCursors((prev: any) => {
           const newCursors = new Map(prev);
           const cursor = newCursors.get(message.userId);
           if (cursor) {
@@ -212,7 +212,7 @@ export function GlassLiveCursorPresence({
         // Initial room state with all users
         message.users.forEach((user: CursorUser) => {
           if (user.id !== currentUser.id) {
-            setCursors(prev => {
+            setCursors((prev: any) => {
               const newCursors = new Map(prev);
               newCursors.set(user.id, {
                 ...user,
@@ -275,7 +275,7 @@ export function GlassLiveCursorPresence({
   useEffect(() => {
     const interval = setInterval(() => {
       const now = Date.now();
-      setCursors(prev => {
+      setCursors((prev: any) => {
         const newCursors = new Map(prev);
         let hasChanges = false;
         
@@ -327,7 +327,7 @@ export function GlassLiveCursorPresence({
       
       {/* Live cursors */}
       <AnimatePresence>
-        {Array.from(cursors.values()).map(cursor => (
+        {Array.from(cursors.values()).map((cursor: any) => (
           cursor.isVisible && (
             <LiveCursorComponent
               key={cursor.id}

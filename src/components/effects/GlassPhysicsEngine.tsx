@@ -122,7 +122,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
   // Update particle physics
   const updateParticles = useCallback((particles: Particle[]) => {
     return particles
-      .map(particle => {
+      .map((particle: any) => {
         // Apply gravity and friction
         particle.vy += physicsConfig.gravity;
         particle.vx *= physicsConfig.friction;
@@ -153,7 +153,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
         
         return particle;
       })
-      .filter(particle => particle.life > 0);
+      .filter((particle: any) => particle.life > 0);
   }, [physicsConfig]);
 
   // Render particles to canvas
@@ -167,7 +167,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // Render particles
-    particles.forEach(particle => {
+    particles.forEach((particle: any) => {
       ctx.save();
       
       // Set particle properties

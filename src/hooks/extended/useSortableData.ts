@@ -242,7 +242,7 @@ export function useSearchableSortableData<T>(
 
     const query = caseSensitive ? debouncedQuery : debouncedQuery.toLowerCase();
 
-    return data?.filter(item => {
+    return data?.filter((item: any) => {
       return searchFields.some(field => {
         const value = String((item as any)[field] || '').trim();
         const normalizedValue = caseSensitive ? value : value.toLowerCase();
@@ -389,7 +389,7 @@ export const sortUtils = {
     const groups = new Map<any, T[]>();
 
     // Group items
-    items.forEach(item => {
+    items.forEach((item: any) => {
       const groupKey = item?.[groupBy];
       if (!groups.has(groupKey)) {
         groups.set(groupKey, []);
@@ -398,7 +398,7 @@ export const sortUtils = {
     });
 
     // Sort within each group
-    groups.forEach(group => {
+    groups.forEach((group: any) => {
       group.sort((a, b) => {
         const aValue = a[sortBy];
         const bValue = b?.[sortBy];

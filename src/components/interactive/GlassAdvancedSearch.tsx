@@ -176,7 +176,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                 onSearch?.(value, activeFilters);
                 // Add to history
                 if (enableHistory && !searchHistory.includes(value)) {
-                    setSearchHistory(prev => [value, ...prev.slice(0, 9)]);
+                    setSearchHistory((prev: any) => [value, ...prev.slice(0, 9)]);
                 }
             }
         }, 300);
@@ -213,7 +213,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
         const name = prompt('Enter a name for this search:');
         if (name && query.trim()) {
             const search = { name, query, filters: activeFilters };
-            setSavedSearches(prev => [search, ...prev]);
+            setSavedSearches((prev: any) => [search, ...prev]);
             onSaveSearch?.(name, query, activeFilters);
         }
     }, [query, activeFilters, onSaveSearch]);
@@ -233,7 +233,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
             case 'select':
             case 'multiselect':
                 if (Array.isArray(value)) {
-                    return value.map(v => filter.options?.find(o => o.value === v)?.label || v).join(', ');
+                    return value.map((v: any) => filter.options?.find(o => o.value === v)?.label || v).join(', ');
                 }
                 return filter.options?.find(o => o.value === value)?.label || value;
             case 'date':
@@ -271,7 +271,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
     }, []);
 
     // Active filter count
-    const activeFilterCount = Object.values(activeFilters).filter(v =>
+    const activeFilterCount = Object.values(activeFilters).filter((v: any) =>
         v !== null && v !== undefined && v !== '' && (!Array.isArray(v) || v.length > 0)
     ).length;
 
@@ -461,7 +461,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                 className="w-full px-3 py-2 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-md text-primary focus:outline-none focus:ring-white/30"
                                             >
                                                 <option value="">All</option>
-                                                {filter.options?.map(option => (
+                                                {filter.options?.map((option: any) => (
                                                     <option key={option.value} value={option.value}>
                                                         {option.label}
                                                     </option>

@@ -260,7 +260,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
     // Update quantum particles
     const updateParticles = useCallback((deltaTime: number) => {
       setParticles(prevParticles => {
-        const updated = prevParticles.map(particle => {
+        const updated = prevParticles.map((particle: any) => {
           // Wave function evolution (Schrödinger equation approximation)
           const energyTerm = particle.frequency * deltaTime * planckScale;
           const newPhase = particle.phase + energyTerm;
@@ -318,7 +318,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
         // Update entanglement correlations
         const entanglementPairs = new Map<string, QuantumParticle[]>();
-        updated.forEach(particle => {
+        updated.forEach((particle: any) => {
           if (particle.entangled && particle.entanglementId) {
             if (!entanglementPairs.has(particle.entanglementId)) {
               entanglementPairs.set(particle.entanglementId, []);
@@ -346,14 +346,14 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
     // Update quantum field
     const updateQuantumField = useCallback((deltaTime: number) => {
       setQuantumField(prevField => {
-        const updatedNodes = prevField.nodes.map(node => {
+        const updatedNodes = prevField.nodes.map((node: any) => {
           // Field fluctuations
           const fieldFluctuation = (Math.random() - 0.5) * 0.1 * energyLevel;
           const newFieldStrength = Math.max(0, node.fieldStrength + fieldFluctuation);
           
           // Probability density calculation
           let totalProbability = 0;
-          particles.forEach(particle => {
+          particles.forEach((particle: any) => {
             const distance = Math.sqrt(
               (particle.x - node.x) ** 2 + 
               (particle.y - node.y) ** 2
@@ -379,7 +379,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
     // Update quantum state
     const updateQuantumState = useCallback(() => {
-      const entangledCount = particles.filter(p => p.entangled).length;
+      const entangledCount = particles.filter((p: any) => p.entangled).length;
       const totalCoherence = particles.reduce((sum, p) => sum + p.amplitude, 0) / particles.length;
       const avgUncertainty = particles.reduce((sum, p) => sum + p.uncertainty.position, 0) / particles.length;
 
@@ -401,17 +401,17 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
     // Perform quantum measurement
     const performMeasurement = useCallback((x: number, y: number) => {
       const measurementRadius = 50;
-      const measuredParticles = particles.filter(particle => {
+      const measuredParticles = particles.filter((particle: any) => {
         const distance = Math.sqrt((particle.x - x) ** 2 + (particle.y - y) ** 2);
         return distance < measurementRadius;
       });
 
       if (measuredParticles.length > 0) {
-        setMeasurementEvents(prev => [...prev, { x, y, time: Date.now() }]);
+        setMeasurementEvents((prev: any) => [...prev, { x, y, time: Date.now() }]);
         
         // Collapse wave functions
         setParticles(prevParticles => 
-          prevParticles.map(particle => {
+          prevParticles.map((particle: any) => {
             if (measuredParticles.includes(particle)) {
               const measurementResult = {
                 position: { x: particle.x, y: particle.y },
@@ -439,8 +439,8 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
     // Clear expired measurement events
     useEffect(() => {
       const interval = setInterval(() => {
-        setMeasurementEvents(prev => 
-          prev.filter(event => Date.now() - event.time < 2000)
+        setMeasurementEvents((prev: any) => 
+          prev.filter((event: any) => Date.now() - event.time < 2000)
         );
       }, 100);
 
@@ -461,7 +461,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
       // Draw quantum field background
       if (simulationType === 'field') {
-        quantumField.nodes.forEach(node => {
+        quantumField.nodes.forEach((node: any) => {
           if (node.probability > 0.1) {
             const alpha = node.probability * 0.3;
             ctx.fillStyle = `rgba(100, 150, 255, ${alpha})`;
@@ -472,7 +472,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
       // Draw probability clouds
       if (showProbabilityClouds) {
-        particles.forEach(particle => {
+        particles.forEach((particle: any) => {
           const cloudRadius = particle.uncertainty.position * 40;
           const gradient = ctx.createRadialGradient(
             particle.x, particle.y, 0,
@@ -492,7 +492,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
       // Draw wave functions
       if (showWaveFunctions) {
-        particles.forEach(particle => {
+        particles.forEach((particle: any) => {
           const waveRadius = particle.amplitude * 30;
           const phaseColor = Math.floor((particle.phase / (Math.PI * 2)) * 360);
           
@@ -539,7 +539,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
       // Draw particles
       ctx.globalAlpha = 1;
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         // Particle core
         const coreRadius = 3;
         const spinColor = particle.spin > 0 ? 'rgb(255, 100, 100)' : 'rgb(100, 100, 255)';
@@ -560,7 +560,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       // Draw entanglement connections
       if (showEntanglement) {
         const entanglementPairs = new Map<string, QuantumParticle[]>();
-        particles.forEach(particle => {
+        particles.forEach((particle: any) => {
           if (particle.entangled && particle.entanglementId) {
             if (!entanglementPairs.has(particle.entanglementId)) {
               entanglementPairs.set(particle.entanglementId, []);
@@ -569,7 +569,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           }
         });
 
-        entanglementPairs.forEach(entangledParticles => {
+        entanglementPairs.forEach((entangledParticles: any) => {
           if (entangledParticles.length === 2) {
             const [p1, p2] = entangledParticles;
             
@@ -588,7 +588,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       }
 
       // Draw measurement events
-      measurementEvents.forEach(event => {
+      measurementEvents.forEach((event: any) => {
         const age = (Date.now() - event.time) / 2000;
         const alpha = Math.max(0, 1 - age);
         const radius = 30 + age * 20;
@@ -643,7 +643,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
       const animate = (currentTime: number) => {
         const deltaTime = 16; // 60fps
-        setAnimationTime(prev => prev + deltaTime);
+        setAnimationTime((prev: any) => prev + deltaTime);
         
         if (timeEvolution) {
           updateParticles(deltaTime);

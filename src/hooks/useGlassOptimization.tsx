@@ -214,7 +214,7 @@ export function useGlassOptimization(
         const batch = animations.slice(i, i + batchSize);
         
         setTimeout(() => {
-          batch.forEach(animation => {
+          batch.forEach((animation: any) => {
             try {
               animation();
             } catch (error) {
@@ -231,14 +231,14 @@ export function useGlassOptimization(
   // Throttled animation executor
   const executeAnimation = useCallback((animationFn: () => void) => {
     if (!throttleAnimations || activeAnimations < maxConcurrentAnimations) {
-      setActiveAnimations(prev => prev + 1);
+      setActiveAnimations((prev: any) => prev + 1);
       
       try {
         animationFn();
       } finally {
         // Decrement counter after animation completes
         setTimeout(() => {
-          setActiveAnimations(prev => Math.max(0, prev - 1));
+          setActiveAnimations((prev: any) => Math.max(0, prev - 1));
         }, 300); // Assume average animation duration
       }
     } else {

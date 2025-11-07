@@ -112,7 +112,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
             if (node.type !== 'folder' || !node.canExpand) return;
 
             const newExpanded = localExpandedNodes.includes(node.id)
-                ? localExpandedNodes.filter(id => id !== node.id)
+                ? localExpandedNodes.filter((id: any) => id !== node.id)
                 : [...localExpandedNodes, node.id];
 
             setLocalExpandedNodes(newExpanded);

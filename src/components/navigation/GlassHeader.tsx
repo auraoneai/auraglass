@@ -235,8 +235,8 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
       const updatePredictiveSearch = () => {
         const predictions = predictiveEngine.predictions;
         const searchPredictions = predictions
-          .filter(p => p.type === 'suggest' && p.metadata?.searchQuery)
-          .map(p => p.metadata.searchQuery)
+          .filter((p: any) => p.type === 'suggest' && p.metadata?.searchQuery)
+          .map((p: any) => p.metadata.searchQuery)
           .slice(0, 5);
         
         setPredictiveSearchSuggestions(searchPredictions);
@@ -255,7 +255,7 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
     const trackNavigation = useCallback((navItem: string) => {
       if (!predictive) return;
 
-      setNavigationUsage(prev => ({
+      setNavigationUsage((prev: any) => ({
         ...prev,
         [navItem]: (prev[navItem] || 0) + 1,
       }));

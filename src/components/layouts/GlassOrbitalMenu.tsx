@@ -79,7 +79,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
     useEffect(() => {
       if (autoRotate && isOpen && !prefersReducedMotion) {
         const animate = () => {
-          setRotation(prev => (prev + rotationSpeed) % 360)
+          setRotation((prev: any) => (prev + rotationSpeed) % 360)
           rotationValue.set(rotation)
           animationRef.current = requestAnimationFrame(animate)
         }

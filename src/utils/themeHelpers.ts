@@ -283,7 +283,7 @@ export const validateTheme = (theme: Partial<GlassTheme>): string[] => {
       'primary', 'background', 'text'
     ];
 
-    requiredColors.forEach(color => {
+    requiredColors.forEach((color: any) => {
       if (!theme.colors![color]) {
         errors.push(`Theme colors must include ${color}`);
       }

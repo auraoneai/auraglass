@@ -257,7 +257,7 @@ export class DynamicThemeEngine {
     else if (h < 300) { r = x; g = 0; b = c; }
     else { r = c; g = 0; b = x; }
     
-    return '#' + [r, g, b].map(v => {
+    return '#' + [r, g, b].map((v: any) => {
       const hex = Math.round((v + m) * 255).toString(16);
       return hex.length === 1 ? '0' + hex : hex;
     }).join('');

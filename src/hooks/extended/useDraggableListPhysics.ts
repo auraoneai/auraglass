@@ -102,7 +102,7 @@ export function useDraggableListPhysics(
 
       if (finalOptions.multiSelect && (draggedItems?.length || 0) > 1) {
         // Handle multi-item drag
-        const draggedIndices = draggedItems.map(item =>
+        const draggedIndices = draggedItems.map((item: any) =>
           items.findIndex(i => i.id === item?.id)
         ).sort((a, b) => a - b);
 
@@ -163,7 +163,7 @@ export function useDraggableListPhysics(
     // Handle multi-select
     let draggedItems = [item];
     if (finalOptions.multiSelect && (selectedItems?.length || 0) > 1 && selectedItems.includes(item?.id)) {
-      draggedItems = items.filter(item => selectedItems.includes(item?.id));
+      draggedItems = items.filter((item: any) => selectedItems.includes(item?.id));
     }
 
     setDragState({
@@ -204,7 +204,7 @@ export function useDraggableListPhysics(
       return;
     }
 
-    setDragState(prev => ({
+    setDragState((prev: any) => ({
       ...prev,
       dragOffset: { x: deltaX, y: deltaY },
     }));
@@ -240,7 +240,7 @@ export function useDraggableListPhysics(
       }
 
       if (hoverIndex !== -1 && hoverIndex !== dragState.hoverIndex) {
-        setDragState(prev => ({
+        setDragState((prev: any) => ({
           ...prev,
           hoverIndex,
         }));
@@ -260,7 +260,7 @@ export function useDraggableListPhysics(
 
     // Validate drop
     const draggedItems = finalOptions.multiSelect && (selectedItems?.length || 0) > 1
-      ? items.filter(item => selectedItems.includes(item?.id))
+      ? items.filter((item: any) => selectedItems.includes(item?.id))
       : [dragState.draggedItem!];
 
     const isValidDrop = finalOptions.validateDrop(
@@ -295,9 +295,9 @@ export function useDraggableListPhysics(
   const toggleItemSelection = useCallback((itemId: string) => {
     if (!finalOptions.multiSelect) return;
 
-    setSelectedItems(prev => {
+    setSelectedItems((prev: any) => {
       if (prev.includes(itemId)) {
-        return prev.filter(id => id !== itemId);
+        return prev.filter((id: any) => id !== itemId);
       } else {
         return [...prev, itemId];
       }
@@ -315,7 +315,7 @@ export function useDraggableListPhysics(
     const minIndex = Math.min(startIndex, endIndex);
     const maxIndex = Math.max(startIndex, endIndex);
 
-    const rangeIds = items.slice(minIndex, maxIndex + 1).map(item => item?.id);
+    const rangeIds = items.slice(minIndex, maxIndex + 1).map((item: any) => item?.id);
     setSelectedItems(rangeIds);
   }, [items, finalOptions.multiSelect]);
 
@@ -452,10 +452,10 @@ export function useItemTransitions(
   }, [transitionType, direction, duration, stagger, easing, animatingItems]);
 
   const animateItem = useCallback((itemId: string) => {
-    setAnimatingItems(prev => new Set(prev).add(itemId));
+    setAnimatingItems((prev: any) => new Set(prev).add(itemId));
 
     setTimeout(() => {
-      setAnimatingItems(prev => {
+      setAnimatingItems((prev: any) => {
         const next = new Set(prev);
         next.delete(itemId);
         return next;

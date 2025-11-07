@@ -168,7 +168,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
         twinklePhase: Math.random() * Math.PI * 2
       }));
 
-      setStarField(prev => ({ ...prev, stars }));
+      setStarField((prev: any) => ({ ...prev, stars }));
     }, [width, height]);
 
     // Generate aurora layers
@@ -202,8 +202,8 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       }
       
       setAuroraLayers(layers);
-      setActiveColors(colors.map(c => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));
-      onAuroraChange?.(currentIntensity, colors.map(c => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));
+      setActiveColors(colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));
+      onAuroraChange?.(currentIntensity, colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));
     }, [colorPreset, layerCount, width, height, waveComplexity, currentIntensity, onAuroraChange]);
 
     // Generate solar wind particles
@@ -241,7 +241,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
     // Update aurora layers
     const updateAuroraLayers = useCallback((deltaTime: number) => {
       setAuroraLayers(prevLayers => 
-        prevLayers.map(layer => ({
+        prevLayers.map((layer: any) => ({
           ...layer,
           waveOffset: layer.waveOffset + layer.waveSpeed * deltaTime * animationSpeed,
           opacity: Math.max(0, layer.opacity + (Math.random() - 0.5) * 0.02 * geomagneticActivity),
@@ -257,13 +257,13 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
     // Update solar wind particles
     const updateSolarWindParticles = useCallback((deltaTime: number) => {
       setSolarWindParticles(prevParticles => {
-        const updated = prevParticles.map(particle => ({
+        const updated = prevParticles.map((particle: any) => ({
           ...particle,
           x: particle.x + particle.vx * deltaTime * animationSpeed,
           y: particle.y + particle.vy * deltaTime * animationSpeed,
           lifetime: particle.lifetime - deltaTime,
           opacity: Math.max(0, particle.opacity - deltaTime * 0.0005)
-        })).filter(particle => 
+        })).filter((particle: any) => 
           particle.lifetime > 0 && 
           particle.x > -50 && particle.x < width + 50 &&
           particle.y < height + 50
@@ -294,7 +294,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
     // Update shooting stars
     const updateShootingStars = useCallback((deltaTime: number) => {
       setStarField(prevField => {
-        const updatedShootingStars = prevField.shootingStars.map(star => ({
+        const updatedShootingStars = prevField.shootingStars.map((star: any) => ({
           ...star,
           x: star.x + star.vx * deltaTime * animationSpeed,
           y: star.y + star.vy * deltaTime * animationSpeed,
@@ -306,7 +306,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
               opacity: t.opacity * 0.95
             }))
           ].slice(0, 10)
-        })).filter(star => star.lifetime > 0 && star.x < width + 100);
+        })).filter((star: any) => star.lifetime > 0 && star.x < width + 100);
 
         // Occasionally add new shooting stars
         if (Math.random() < 0.001 * animationSpeed) {
@@ -341,7 +341,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           // Adjust parameters based on event
           switch (eventType) {
             case 'flare':
-              setCurrentIntensity(prev => Math.min(1, prev + 0.3));
+              setCurrentIntensity((prev: any) => Math.min(1, prev + 0.3));
               break;
             case 'wind':
               // Handled in particle updates
@@ -383,7 +383,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
       // Draw stars
       if (showStars && isDarkTime) {
-        starField.stars.forEach(star => {
+        starField.stars.forEach((star: any) => {
           const twinkle = Math.sin(animationTime * 0.003 + star.twinklePhase) * 0.3 + 0.7;
           ctx.globalAlpha = star.brightness * twinkle;
           ctx.fillStyle = 'white';
@@ -393,7 +393,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
         });
 
         // Draw shooting stars
-        starField.shootingStars.forEach(star => {
+        starField.shootingStars.forEach((star: any) => {
           star.trail.forEach((point, index) => {
             ctx.globalAlpha = point.opacity * (1 - index * 0.1);
             ctx.fillStyle = 'white';
@@ -419,7 +419,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
       // Draw aurora layers
       ctx.globalAlpha = 1;
-      auroraLayers.forEach(layer => {
+      auroraLayers.forEach((layer: any) => {
         if (layer.opacity < 0.01) return;
 
         // Create gradient for aurora band
@@ -475,7 +475,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
       // Draw solar wind particles
       if (showSolarWind) {
-        solarWindParticles.forEach(particle => {
+        solarWindParticles.forEach((particle: any) => {
           ctx.globalAlpha = particle.opacity;
           ctx.fillStyle = `rgb(${particle.color[0]}, ${particle.color[1]}, ${particle.color[2]})`;
           
@@ -519,7 +519,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
       const animate = (currentTime: number) => {
         const deltaTime = 16; // 60fps
-        setAnimationTime(prev => prev + deltaTime);
+        setAnimationTime((prev: any) => prev + deltaTime);
         
         updateAuroraLayers(deltaTime);
         updateSolarWindParticles(deltaTime);

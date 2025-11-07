@@ -72,7 +72,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
 
     const animate = () => {
       setParticles(prevParticles =>
-        prevParticles.map(particle => ({
+        prevParticles.map((particle: any) => ({
           ...particle,
           x: (particle.x + particle.velocity.x + 100) % 100,
           y: (particle.y + particle.velocity.y + 100) % 100,
@@ -123,7 +123,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
       />
 
       {/* Floating particles */}
-      {particles.map(particle => (
+      {particles.map((particle: any) => (
         <div
           key={particle.id}
           style={{

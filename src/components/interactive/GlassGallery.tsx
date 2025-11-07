@@ -141,7 +141,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                 newSelected.add(image.id);
             }
             setSelectedImages(newSelected);
-            onSelectionChange?.(images.filter(img => newSelected.has(img.id)));
+            onSelectionChange?.(images.filter((img: any) => newSelected.has(img.id)));
         } else if (enableLightbox) {
             setLightboxIndex(index);
         }
@@ -163,12 +163,12 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
     }, [lightboxIndex, images.length]);
 
     // Filter images by category
-    const filteredImages = images.filter(image =>
+    const filteredImages = images.filter((image: any) =>
         filterCategory === 'all' || image.category === filterCategory
     );
 
     // Get unique categories
-    const categories = Array.from(new Set(images.map(img => img.category).filter(Boolean)));
+    const categories = Array.from(new Set(images.map((img: any) => img.category).filter(Boolean)));
 
     // Grid Layout
     const renderGridLayout = () => (
@@ -472,7 +472,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
 
                     {/* Image */}
                     <GlassImageViewer
-                        images={images.map(img => ({
+                        images={images.map((img: any) => ({
                             src: img.src,
                             alt: img.alt,
                             title: img.title
@@ -518,7 +518,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                                 className="bg-glass-fill ring-1 ring-white/10 glass-radius-md px-3 py-1 text-sm text-primary focus:outline-none focus:ring-white/30"
                             >
                                 <option value="all">All Categories</option>
-                                {categories.map(category => (
+                                {categories.map((category: any) => (
                                     <option key={category} value={category}>
                                         {category}
                                     </option>

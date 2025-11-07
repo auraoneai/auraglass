@@ -146,7 +146,7 @@ export class ChartAnimationUtils {
 
     const startTime = Date.now() + delay;
     const easeFn = easingFunctions?.[easing];
-    const animatedSeries = series.map(s => ({ ...s, data: [...s.data] }));
+    const animatedSeries = series.map((s: any) => ({ ...s, data: [...s.data] }));
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -205,7 +205,7 @@ export class ChartAnimationUtils {
 
     const startTime = Date.now() + delay;
     const easeFn = easingFunctions?.[easing];
-    const morphedSeries = toSeries.map(s => ({ ...s, data: [...s.data] }));
+    const morphedSeries = toSeries.map((s: any) => ({ ...s, data: [...s.data] }));
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -274,7 +274,7 @@ export class ChartAnimationUtils {
     };
 
     const effectConfig = effects?.[effect];
-    const animatedSeries = series.map(s => ({ ...s, data: [...s.data] }));
+    const animatedSeries = series.map((s: any) => ({ ...s, data: [...s.data] }));
 
     return this.animateSeries(
       series,
@@ -326,7 +326,7 @@ export class ChartAnimationUtils {
     };
 
     const effectConfig = effects?.[effect];
-    const animatedSeries = series.map(s => ({ ...s, data: [...s.data] }));
+    const animatedSeries = series.map((s: any) => ({ ...s, data: [...s.data] }));
 
     return this.animateSeries(
       series,
@@ -427,7 +427,7 @@ export class ChartAnimationUtils {
     const easeFn = easingFunctions?.[easing];
 
     const startTime = Date.now();
-    const animatedSeries = to.map(s => ({ ...s, data: [...s.data] }));
+    const animatedSeries = to.map((s: any) => ({ ...s, data: [...s.data] }));
 
     const animate = () => {
       const elapsed = Date.now() - startTime;

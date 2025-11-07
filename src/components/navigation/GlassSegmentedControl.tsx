@@ -60,7 +60,7 @@ export const GlassSegmentedControl = forwardRef<HTMLDivElement, GlassSegmentedCo
         className
       )}
     >
-      {items.map(it => (
+      {items.map((it: any) => (
         <GlassButton
           key={it.id}
           variant={it.id === value ? 'primary' : 'secondary'}

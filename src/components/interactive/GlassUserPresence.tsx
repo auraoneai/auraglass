@@ -202,7 +202,7 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
 
     // Filter and sort users
     const processedUsers = users
-        .filter(user => user.status !== 'invisible' || user.id === currentUser?.id)
+        .filter((user: any) => user.status !== 'invisible' || user.id === currentUser?.id)
         .sort((a, b) => {
             // Sort by status priority
             const statusOrder: Record<UserPresence['status'], number> = {
@@ -222,7 +222,7 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
         });
 
     const displayUsers = showAllUsers || !maxUsers ? processedUsers : processedUsers.slice(0, maxUsers);
-    const onlineCount = users.filter(user => user.status === 'online').length;
+    const onlineCount = users.filter((user: any) => user.status === 'online').length;
 
     // Group users by status
     const groupedUsers = processedUsers.reduce((groups, user) => {

@@ -247,7 +247,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
         }
 
         if (finalTranscript) {
-          setTranscript(prev => {
+          setTranscript((prev: any) => {
             const newTranscript = (prev + finalTranscript).slice(-maxTranscriptLength);
             onTranscriptChange?.(newTranscript);
             return newTranscript;
@@ -351,7 +351,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
       const normalizedText = text.toLowerCase().trim();
 
-      commands.forEach(cmd => {
+      commands.forEach((cmd: any) => {
         const normalizedPhrase = cmd.phrase.toLowerCase();
         let match = false;
 
@@ -359,7 +359,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           // Simple fuzzy matching - check if most words match
           const textWords = normalizedText.split(' ');
           const phraseWords = normalizedPhrase.split(' ');
-          const matchCount = phraseWords.filter(word => 
+          const matchCount = phraseWords.filter((word: any) => 
             textWords.some(textWord => textWord.includes(word) || word.includes(textWord))
           ).length;
           
@@ -377,7 +377,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
             id: `command-${Date.now()}`
           };
 
-          setRecognizedCommands(prev => [...prev.slice(-9), command]);
+          setRecognizedCommands((prev: any) => [...prev.slice(-9), command]);
           onCommand?.(command);
           play('success');
         }
@@ -448,7 +448,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
         }
         
         if (micStreamRef.current) {
-          micStreamRef.current.getTracks().forEach(track => track.stop());
+          micStreamRef.current.getTracks().forEach((track: any) => track.stop());
         }
         
         if (audioContextRef.current) {
@@ -767,7 +767,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
             <div className="p-4 glass-surface-overlay glass-radius-md">
               <div className="text-sm font-medium mb-2">Recent Commands:</div>
               <div className="space-y-1">
-                {recognizedCommands.slice(-5).map(command => (
+                {recognizedCommands.slice(-5).map((command: any) => (
                   <div key={command.id} className="text-xs p-2 glass-surface-primary/10 glass-radius-sm">
                     <span className="font-medium">{command.phrase}</span>
                     <span className="glass-text-secondary glass-ml-2">

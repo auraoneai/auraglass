@@ -126,7 +126,7 @@ export function useEnhancedPerformance(options: {
   const optimizeForDevice = useCallback(() => {
     const config = getAdaptivePerformanceConfig();
     
-    setState(prev => ({
+    setState((prev: any) => ({
       ...prev,
       performanceMode: config.mode || 'balanced',
       isOptimized: true,
@@ -153,7 +153,7 @@ export function useEnhancedPerformance(options: {
   useEffect(() => {
     const initialize = async () => {
       try {
-        setState(prev => ({ ...prev, isLoading: true, error: null }));
+        setState((prev: any) => ({ ...prev, isLoading: true, error: null }));
 
         // Start frame rate monitoring
         if (enableMetrics) {
@@ -170,7 +170,7 @@ export function useEnhancedPerformance(options: {
           const intervalId = setInterval(async () => {
             const metrics = await collectMetrics();
             if (metrics) {
-              setState(prev => {
+              setState((prev: any) => {
                 const newState = { ...prev, metrics };
                 onPerformanceChange?.(newState);
                 return newState;
@@ -185,14 +185,14 @@ export function useEnhancedPerformance(options: {
         // Initial metrics collection
         const initialMetrics = await collectMetrics();
         
-        setState(prev => ({
+        setState((prev: any) => ({
           ...prev,
           metrics: initialMetrics,
           isLoading: false,
         }));
 
       } catch (error) {
-        setState(prev => ({
+        setState((prev: any) => ({
           ...prev,
           error: error instanceof Error ? error.message : 'Performance initialization failed',
           isLoading: false,

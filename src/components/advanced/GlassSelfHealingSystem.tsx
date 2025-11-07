@@ -106,7 +106,7 @@ class VisualAnomalyDetector {
     ];
     
     let hash = 0;
-    importantProps.forEach(prop => {
+    importantProps.forEach((prop: any) => {
       const value = styles.getPropertyValue(prop);
       for (let i = 0; i < value.length; i++) {
         hash = ((hash << 5) - hash) + value.charCodeAt(i);
@@ -361,7 +361,7 @@ class AccessibilityAnomalyDetector {
     // Simple RGB extraction (works for rgb() and rgba() formats)
     const match = color.match(/rgba?\(([^)]+)\)/);
     if (match) {
-      const values = match[1].split(',').map(v => parseInt(v.trim()));
+      const values = match[1].split(',').map((v: any) => parseInt(v.trim()));
       return [values[0] || 0, values[1] || 0, values[2] || 0];
     }
     return [0, 0, 0]; // Fallback
@@ -414,7 +414,7 @@ class AccessibilityAnomalyDetector {
       // Large number of focusable elements might need focus management
       let hasFocusManagement = false;
       
-      focusableElements.forEach(el => {
+      focusableElements.forEach((el: any) => {
         if (el.getAttribute('aria-describedby') || el.getAttribute('aria-controls')) {
           hasFocusManagement = true;
         }
@@ -487,7 +487,7 @@ class PerformanceAnomalyDetector {
     }
 
     // Check for rendering spikes
-    const recentSpikes = renderTimes.filter(time => time > avgRenderTime * 2);
+    const recentSpikes = renderTimes.filter((time: any) => time > avgRenderTime * 2);
     if (recentSpikes.length > renderTimes.length * 0.1) {
       issues.push({
         id: `render-spikes-${Date.now()}`,
@@ -671,7 +671,7 @@ class SelfHealingSystem {
     health.recoveryAttempts++;
 
     // Find applicable healing strategies
-    const applicableStrategies = this.healingStrategies.filter(strategy =>
+    const applicableStrategies = this.healingStrategies.filter((strategy: any) =>
       health.issues.some(issue => strategy.conditions(issue))
     );
 
@@ -682,7 +682,7 @@ class SelfHealingSystem {
 
     for (const strategy of applicableStrategies) {
       try {
-        const actions = strategy.actions.map(action => ({
+        const actions = strategy.actions.map((action: any) => ({
           ...action,
           targetComponent: componentId,
         }));
@@ -997,7 +997,7 @@ export function GlassSelfHealingDashboard({
   useEffect(() => {
     const updateHealth = () => {
       const health = getAllHealth();
-      setAllHealth(showOnlyUnhealthy ? health.filter(h => h.status !== 'healthy') : health);
+      setAllHealth(showOnlyUnhealthy ? health.filter((h: any) => h.status !== 'healthy') : health);
     };
 
     updateHealth();
@@ -1005,9 +1005,9 @@ export function GlassSelfHealingDashboard({
     return () => clearInterval(interval);
   }, [getAllHealth, showOnlyUnhealthy]);
 
-  const criticalCount = allHealth.filter(h => h.status === 'critical').length;
-  const warningCount = allHealth.filter(h => h.status === 'warning').length;
-  const healingCount = allHealth.filter(h => h.status === 'healing').length;
+  const criticalCount = allHealth.filter((h: any) => h.status === 'critical').length;
+  const warningCount = allHealth.filter((h: any) => h.status === 'warning').length;
+  const healingCount = allHealth.filter((h: any) => h.status === 'healing').length;
 
   return (
     <div className={cn("fixed top-4 left-4 z-50", className)}>
@@ -1056,7 +1056,7 @@ export function GlassSelfHealingDashboard({
               </button>
             </div>
 
-            {allHealth.map(health => (
+            {allHealth.map((health: any) => (
               <motion.div
                 key={health.componentId}
                 className="p-3 glass-surface-secondary glass-radius-md"

@@ -210,7 +210,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
       // Apply search
       if (searchQuery && !onSearchChange) {
-        result = result.filter(item =>
+        result = result.filter((item: any) =>
           columns.some(column => {
             const value = column.accessorFn
               ? column.accessorFn(item)
@@ -224,7 +224,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
       // Apply filters
       if (Object.keys(activeFilters).length > 0 && !onFiltersChange) {
-        result = result.filter(item => {
+        result = result.filter((item: any) => {
           return Object.entries(activeFilters).every(([filterId, filterValue]) => {
             const filter = filters.find(f => f.id === filterId);
             if (!filter || !filterValue) return true;
@@ -267,7 +267,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
     // Handle bulk actions
     const handleBulkAction = (action: ListAction) => {
-      const selectedData = data?.filter(item => selectedItems.includes(item?.id));
+      const selectedData = data?.filter((item: any) => selectedItems.includes(item?.id));
       action.onClick(selectedData);
     };
 
@@ -365,7 +365,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     // Render actions bar
     const renderActionsBar = () => {
       const hasSelectedItems = (selectedItems?.length || 0) > 0;
-      const availableActions = actions.filter(action => 
+      const availableActions = actions.filter((action: any) => 
         !action.requiresSelection || hasSelectedItems
       );
 
@@ -473,7 +473,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                       onChange={(e) => {
                         const newSelection = e.target.checked
                           ? [...selectedItems, item?.id]
-                          : selectedItems.filter(id => id !== item?.id);
+                          : selectedItems.filter((id: any) => id !== item?.id);
                         handleSelectionChange(newSelection);
                       }}
                       onClick={(e) => e.stopPropagation()}

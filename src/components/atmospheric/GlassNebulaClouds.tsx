@@ -362,10 +362,10 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
     // Update nebula layers
     const updateNebulaLayers = useCallback((deltaTime: number) => {
       setNebulaLayers(prevLayers =>
-        prevLayers.map(layer => ({
+        prevLayers.map((layer: any) => ({
           ...layer,
           rotation: layer.rotation + layer.rotationSpeed * deltaTime * animationSpeed * timeScale,
-          points: layer.points.map(point => ({
+          points: layer.points.map((point: any) => ({
             ...point,
             x: point.x + Math.sin(animationTime * 0.0001 + point.y * 0.01) * layer.turbulence * 0.1,
             y: point.y + Math.cos(animationTime * 0.0001 + point.x * 0.01) * layer.turbulence * 0.1,
@@ -378,15 +378,15 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
     // Update cosmic dust
     const updateCosmicDust = useCallback((deltaTime: number) => {
       setCosmicDust(prevDust =>
-        prevDust.map(dustCloud => ({
+        prevDust.map((dustCloud: any) => ({
           ...dustCloud,
-          particles: dustCloud.particles.map(particle => ({
+          particles: dustCloud.particles.map((particle: any) => ({
             ...particle,
             x: particle.x + particle.vx * deltaTime * animationSpeed,
             y: particle.y + particle.vy * deltaTime * animationSpeed,
             lifetime: particle.lifetime - deltaTime,
             opacity: Math.max(0, particle.opacity - deltaTime * 0.00005)
-          })).filter(particle => 
+          })).filter((particle: any) => 
             particle.lifetime > 0 && 
             particle.x > -50 && particle.x < width + 50 &&
             particle.y > -50 && particle.y < height + 50
@@ -398,7 +398,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
     // Nebula evolution simulation
     useEffect(() => {
       const evolutionInterval = setInterval(() => {
-        setNebulaAge(prev => {
+        setNebulaAge((prev: any) => {
           const newAge = prev + timeScale * 0.1;
           
           // Determine evolution phase
@@ -461,8 +461,8 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
       }
 
       // Draw cosmic dust
-      cosmicDust.forEach(dustCloud => {
-        dustCloud.particles.forEach(particle => {
+      cosmicDust.forEach((dustCloud: any) => {
+        dustCloud.particles.forEach((particle: any) => {
           if (particle.opacity < 0.01) return;
           
           ctx.globalAlpha = particle.opacity;
@@ -483,7 +483,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
         ctx.translate(-width / 2, -height / 2);
 
         // Create nebula texture
-        layer.points.forEach(point => {
+        layer.points.forEach((point: any) => {
           const adjustedDensity = point.density * density;
           if (adjustedDensity < 0.1) return;
 
@@ -550,8 +550,8 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
       }
 
       // Draw star clusters
-      starClusters.forEach(cluster => {
-        cluster.stars.forEach(star => {
+      starClusters.forEach((cluster: any) => {
+        cluster.stars.forEach((star: any) => {
           const twinkle = Math.sin(animationTime * 0.005 + star.twinklePhase) * 0.3 + 0.7;
           ctx.globalAlpha = star.brightness * twinkle;
           
@@ -605,7 +605,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
 
       const animate = (currentTime: number) => {
         const deltaTime = 16; // 60fps
-        setAnimationTime(prev => prev + deltaTime);
+        setAnimationTime((prev: any) => prev + deltaTime);
         
         updateNebulaLayers(deltaTime);
         updateCosmicDust(deltaTime);

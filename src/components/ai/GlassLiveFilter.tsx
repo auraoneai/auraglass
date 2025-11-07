@@ -223,7 +223,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         imageData.height
       )
 
-      filters.forEach(filter => {
+      filters.forEach((filter: any) => {
         const params = filterParameters[filter.id] || filter.parameters || {}
         
         switch (filter.id) {
@@ -562,7 +562,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     }, [activeFilters, enableRealTimeProcessing, originalImageUrl])
 
     const processImageData = (imageData: ImageData, ctx: CanvasRenderingContext2D) => {
-      const activeFilterObjects = availableFilters.filter(f => activeFilters.includes(f.id))
+      const activeFilterObjects = availableFilters.filter((f: any) => activeFilters.includes(f.id))
       
       if (activeFilterObjects.length === 0) {
         ctx.putImageData(imageData, 0, 0)
@@ -589,10 +589,10 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         return
       }
       
-      setActiveFilters(prev => [...prev, filterId])
+      setActiveFilters((prev: any) => [...prev, filterId])
       const filter = availableFilters.find(f => f.id === filterId)
       if (filter) {
-        setFilterParameters(prev => ({
+        setFilterParameters((prev: any) => ({
           ...prev,
           [filterId]: { ...filter.parameters }
         }))
@@ -602,8 +602,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     }, [activeFilters, maxFilters, availableFilters, onFilterApply, play])
 
     const removeFilter = useCallback((filterId: string) => {
-      setActiveFilters(prev => prev.filter(id => id !== filterId))
-      setFilterParameters(prev => {
+      setActiveFilters((prev: any) => prev.filter((id: any) => id !== filterId))
+      setFilterParameters((prev: any) => {
         const { [filterId]: removed, ...rest } = prev
         return rest
       })
@@ -611,7 +611,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     }, [play])
 
     const updateFilterParameter = useCallback((filterId: string, paramName: string, value: any) => {
-      setFilterParameters(prev => ({
+      setFilterParameters((prev: any) => ({
         ...prev,
         [filterId]: {
           ...prev[filterId],
@@ -869,7 +869,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                   <label className="block text-xs text-primary/70 mb-1">Quality</label>
                   <select
                     value={settings.quality}
-                    onChange={(e) => setSettings(prev => ({ 
+                    onChange={(e) => setSettings((prev: any) => ({ 
                       ...prev, 
                       quality: e.target.value as any 
                     }))}
@@ -891,7 +891,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                     min="1"
                     max="60"
                     value={settings.fps}
-                    onChange={(e) => setSettings(prev => ({ 
+                    onChange={(e) => setSettings((prev: any) => ({ 
                       ...prev, 
                       fps: parseInt(e.target.value) 
                     }))}
@@ -905,7 +905,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                   <input
                     type="checkbox"
                     checked={settings.enableGPU}
-                    onChange={(e) => setSettings(prev => ({ 
+                    onChange={(e) => setSettings((prev: any) => ({ 
                       ...prev, 
                       enableGPU: e.target.checked 
                     }))}

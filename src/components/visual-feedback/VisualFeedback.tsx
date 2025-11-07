@@ -198,7 +198,7 @@ function VisualFeedbackComponent(
 
     // Remove ripple after animation completes
     setTimeout(() => {
-      setRipples(prevRipples => prevRipples.filter(r => r.id !== id));
+      setRipples(prevRipples => prevRipples.filter((r: any) => r.id !== id));
     }, duration);
   };
 
@@ -240,7 +240,7 @@ function VisualFeedbackComponent(
 
       {/* Render ripples */}
       {effect === 'ripple' &&
-        ripples.map(ripple => (
+        ripples.map((ripple: any) => (
           <Ripple
             key={ripple.id}
             $size={ripple.size}

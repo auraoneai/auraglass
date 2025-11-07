@@ -271,7 +271,7 @@ export class SmartColorExtraction {
       // Assign pixels to nearest centroid
       const clusters: Array<Array<{r: number, g: number, b: number}>> = Array.from({ length: k }, () => []);
       
-      pixels.forEach(pixel => {
+      pixels.forEach((pixel: any) => {
         let minDistance = Infinity;
         let closestCentroid = 0;
         
@@ -287,7 +287,7 @@ export class SmartColorExtraction {
       });
       
       // Update centroids
-      const newCentroids = clusters.map(cluster => {
+      const newCentroids = clusters.map((cluster: any) => {
         if (cluster.length === 0) return centroids[0]; // Fallback
         
         const sum = cluster.reduce(
@@ -320,13 +320,13 @@ export class SmartColorExtraction {
     // Convert to ExtractedColor format
     return centroids.map((centroid, i) => {
       const clusterSize = pixels.length > 0 ? 
-        pixels.filter(pixel => {
-          const distances = centroids.map(c => this.colorDistance(pixel, c));
+        pixels.filter((pixel: any) => {
+          const distances = centroids.map((c: any) => this.colorDistance(pixel, c));
           return distances.indexOf(Math.min(...distances)) === i;
         }).length : 0;
       
       return this.rgbToExtractedColor(centroid, clusterSize / pixels.length);
-    }).filter(color => color.weight > 0.01);
+    }).filter((color: any) => color.weight > 0.01);
   }
   
   /**
@@ -338,7 +338,7 @@ export class SmartColorExtraction {
     // Group similar colors and count occurrences
     const colorMap = new Map<string, {color: {r: number, g: number, b: number}, count: number}>();
     
-    pixels.forEach(pixel => {
+    pixels.forEach((pixel: any) => {
       // Quantize to reduce precision
       const key = `${Math.floor(pixel.r / 8) * 8}-${Math.floor(pixel.g / 8) * 8}-${Math.floor(pixel.b / 8) * 8}`;
       if (colorMap.has(key)) {
@@ -668,7 +668,7 @@ export class SmartColorExtraction {
   private generateAccessibilityColors(colors: ExtractedColor[], ensure: boolean) {
     const textOnLight = colors.find(c => c.contrast >= 4.5) || colors[0];
     const textOnDark = colors.find(c => this.getContrastRatio(c.rgb, { r: 0, g: 0, b: 0 }) >= 4.5) || colors[0];
-    const backgrounds = colors.filter(c => c.hsl.l > 85 || c.hsl.l < 15);
+    const backgrounds = colors.filter((c: any) => c.hsl.l > 85 || c.hsl.l < 15);
     
     return {
       textOnLight,
@@ -692,7 +692,7 @@ export class SmartColorExtraction {
       'textShadow',
     ];
     
-    colorProperties.forEach(prop => {
+    colorProperties.forEach((prop: any) => {
       const value = styles.getPropertyValue(prop);
       const extractedColors = this.parseColorValues(value);
       colors.push(...extractedColors);
@@ -752,7 +752,7 @@ export class SmartColorExtraction {
   private mergeColors(colors: ExtractedColor[]): ExtractedColor[] {
     const merged = new Map<string, ExtractedColor>();
     
-    colors.forEach(color => {
+    colors.forEach((color: any) => {
       // Group by similar colors (quantized hex)
       const key = this.quantizeHex(color.hex);
       

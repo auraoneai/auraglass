@@ -383,7 +383,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   const saveToHistory = useCallback(() => {
-    setPageState(prev => {
+    setPageState((prev: any) => {
       const newHistory = prev.history.slice(0, prev.historyIndex + 1);
       newHistory.push([...prev.components]);
       return {
@@ -410,7 +410,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   const onDragOver = useCallback((targetId: string, position: 'before' | 'after' | 'inside') => {
-    setDragDropState(prev => ({
+    setDragDropState((prev: any) => ({
       ...prev,
       dropTarget: targetId,
       dropPosition: position
@@ -442,7 +442,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       order: 0
     };
 
-    setPageState(prev => {
+    setPageState((prev: any) => {
       const components = [...prev.components];
       
       if (targetId && position) {
@@ -479,9 +479,9 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [generateId, saveToHistory]);
 
   const updateComponent = useCallback((id: string, props: Partial<Record<string, any>>) => {
-    setPageState(prev => {
+    setPageState((prev: any) => {
       const updateInArray = (components: PageComponent[]): PageComponent[] => {
-        return components.map(component => {
+        return components.map((component: any) => {
           if (component.id === id) {
             return { ...component, props: { ...component.props, ...props } };
           }
@@ -500,9 +500,9 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   const deleteComponent = useCallback((id: string) => {
-    setPageState(prev => {
+    setPageState((prev: any) => {
       const removeFromArray = (components: PageComponent[]): PageComponent[] => {
-        return components.filter(component => {
+        return components.filter((component: any) => {
           if (component.id === id) return false;
           component.children = removeFromArray(component.children);
           return true;
@@ -519,7 +519,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [saveToHistory]);
 
   const duplicateComponent = useCallback((id: string) => {
-    setPageState(prev => {
+    setPageState((prev: any) => {
       const findComponent = (components: PageComponent[]): PageComponent | null => {
         for (const component of components) {
           if (component.id === id) return component;
@@ -555,7 +555,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [saveToHistory]);
 
   const selectComponent = useCallback((id?: string) => {
-    setPageState(prev => ({
+    setPageState((prev: any) => ({
       ...prev,
       selectedComponent: id
     }));
@@ -590,7 +590,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [pageState.components]);
 
   const undo = useCallback(() => {
-    setPageState(prev => {
+    setPageState((prev: any) => {
       if (prev.historyIndex > 0) {
         return {
           ...prev,
@@ -603,7 +603,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   const redo = useCallback(() => {
-    setPageState(prev => {
+    setPageState((prev: any) => {
       if (prev.historyIndex < prev.history.length - 1) {
         return {
           ...prev,
@@ -621,7 +621,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const copyComponent = useCallback((id: string) => {
     const component = getComponentById(id);
     if (component) {
-      setPageState(prev => ({ ...prev, clipboardComponent: component }));
+      setPageState((prev: any) => ({ ...prev, clipboardComponent: component }));
     }
   }, [getComponentById]);
 
@@ -641,7 +641,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [pageState.clipboardComponent, addComponent]);
 
   const clearPage = useCallback(() => {
-    setPageState(prev => ({
+    setPageState((prev: any) => ({
       ...prev,
       components: [],
       selectedComponent: undefined
@@ -659,7 +659,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const importPage = useCallback((data: any) => {
     if (data.components) {
-      setPageState(prev => ({
+      setPageState((prev: any) => ({
         ...prev,
         components: data.components,
         selectedComponent: undefined
@@ -669,19 +669,19 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [saveToHistory]);
 
   const togglePreviewMode = useCallback(() => {
-    setPageState(prev => ({ ...prev, previewMode: !prev.previewMode }));
+    setPageState((prev: any) => ({ ...prev, previewMode: !prev.previewMode }));
   }, []);
 
   const setActiveBreakpoint = useCallback((breakpoint: 'desktop' | 'tablet' | 'mobile') => {
-    setPageState(prev => ({ ...prev, activeBreakpoint: breakpoint }));
+    setPageState((prev: any) => ({ ...prev, activeBreakpoint: breakpoint }));
   }, []);
 
   const toggleGrid = useCallback(() => {
-    setPageState(prev => ({ ...prev, showGrid: !prev.showGrid }));
+    setPageState((prev: any) => ({ ...prev, showGrid: !prev.showGrid }));
   }, []);
 
   const toggleSnapToGrid = useCallback(() => {
-    setPageState(prev => ({ ...prev, snapToGrid: !prev.snapToGrid }));
+    setPageState((prev: any) => ({ ...prev, snapToGrid: !prev.snapToGrid }));
   }, []);
 
   const value: DragDropContextValue = {

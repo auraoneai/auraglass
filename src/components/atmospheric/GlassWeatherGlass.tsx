@@ -342,7 +342,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
     // Update particles
     const updateParticles = useCallback((deltaTime: number) => {
       setParticles(prevParticles => {
-        const updated = prevParticles.map(particle => {
+        const updated = prevParticles.map((particle: any) => {
           const windInfluence = currentWeather.windSpeed * windStrength * 0.01;
           const windX = Math.cos(currentWeather.windDirection * Math.PI / 180) * windInfluence;
           const windY = Math.sin(currentWeather.windDirection * Math.PI / 180) * windInfluence;
@@ -354,7 +354,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
             rotation: particle.rotation + particle.rotationSpeed * deltaTime * animationSpeed,
             lifetime: particle.lifetime - deltaTime
           };
-        }).filter(particle => 
+        }).filter((particle: any) => 
           particle.lifetime > 0 && 
           particle.x > -50 && particle.x < width + 50 && 
           particle.y > -50 && particle.y < height + 50
@@ -369,10 +369,10 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
     // Update atmospheric effects
     const updateAtmosphericEffects = useCallback((deltaTime: number) => {
       setAtmosphericEffects(prevEffects => {
-        const updated = prevEffects.map(effect => ({
+        const updated = prevEffects.map((effect: any) => ({
           ...effect,
           duration: effect.duration - deltaTime
-        })).filter(effect => effect.duration > 0);
+        })).filter((effect: any) => effect.duration > 0);
 
         // Add new effects
         const newEffects = generateAtmosphericEffects();
@@ -396,7 +396,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
       ctx.fillRect(0, 0, width, height);
 
       // Draw atmospheric effects
-      atmosphericEffects.forEach(effect => {
+      atmosphericEffects.forEach((effect: any) => {
         ctx.save();
         ctx.globalAlpha = effect.intensity * (effect.duration / 5000);
         
@@ -448,7 +448,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
       });
 
       // Draw particles
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         ctx.save();
         ctx.globalAlpha = particle.opacity;
         ctx.translate(particle.x, particle.y);
@@ -557,7 +557,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
 
       const animate = () => {
         const deltaTime = 16; // 60fps
-        setAnimationTime(prev => prev + deltaTime);
+        setAnimationTime((prev: any) => prev + deltaTime);
 
         updateParticlesRef.current(deltaTime);
         updateAtmosphericEffectsRef.current(deltaTime);

@@ -969,7 +969,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       let newSelectedDatasets = [...selectedDatasets];
 
       if (newSelectedDatasets.includes(index)) {
-        newSelectedDatasets = newSelectedDatasets.filter(i => i !== index);
+        newSelectedDatasets = newSelectedDatasets.filter((i: any) => i !== index);
       } else {
         newSelectedDatasets.push(index);
       }
@@ -1041,7 +1041,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
         const physicsOptions = getElementPhysicsOptions(dataPoint, datasetIndex, dataIndex, chartType);
         if (physicsOptions?.clickEffect) {
           const key = `${datasetIndex}_${dataIndex}`;
-          setElementAnimationTargets(prev => 
+          setElementAnimationTargets((prev: any) => 
             new Map(prev).set(key, { 
               ...prev.get(key),
               targetScale: physicsOptions.clickEffect?.scale ?? 1, 
@@ -1118,7 +1118,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
           if (!dataPoint) return;
           const physicsOptions = getElementPhysicsOptions(dataPoint, datasetIndex, dataIndex, chartType);
           if (physicsOptions?.hoverEffect) {
-            setElementAnimationTargets(prev => 
+            setElementAnimationTargets((prev: any) => 
               new Map(prev).set(currentHoveredKey!, { // Use non-null assertion as key is set
                 ...prev.get(currentHoveredKey!), 
                 targetScale: physicsOptions.hoverEffect?.scale ?? 1,
@@ -1166,7 +1166,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     // Reset animation targets for previously hovered element if it's different
     // Only reset if physics hover effects are enabled
     if (interaction.physicsHoverEffects && previousHoveredKey && previousHoveredKey !== currentHoveredKey) {
-         setElementAnimationTargets(prev => 
+         setElementAnimationTargets((prev: any) => 
             new Map(prev).set(previousHoveredKey, { 
               ...prev.get(previousHoveredKey),
               targetScale: 1, 
@@ -1189,7 +1189,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     // Reset all hover targets on leave ONLY if physics effects are enabled
     if (interaction.physicsHoverEffects) {
         let resetOccurred = false;
-        setElementAnimationTargets(prev => {
+        setElementAnimationTargets((prev: any) => {
             const next = new Map(prev);
             for (const key of next.keys()) {
                 const current = next.get(key);

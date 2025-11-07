@@ -244,7 +244,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         if (open) {
             const openTime = Date.now();
             setDrawerFocusTime(openTime);
-            setInteractionCount(prev => prev + 1);
+            setInteractionCount((prev: any) => prev + 1);
 
             // Record drawer opening interaction
             if (consciousness && interactionRecorder) {
@@ -293,7 +293,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             }
 
             // Update content engagement
-            setContentEngagement(prev => ({
+            setContentEngagement((prev: any) => ({
                 ...prev,
                 timeSpent
             }));
@@ -774,7 +774,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                     const scrollElement = e.target as HTMLElement;
                     const scrollDepth = scrollElement.scrollTop / (scrollElement.scrollHeight - scrollElement.clientHeight) || 0;
                     
-                    setContentEngagement(prev => ({
+                    setContentEngagement((prev: any) => ({
                       ...prev,
                       scrollDepth: Math.max(prev.scrollDepth, scrollDepth),
                       interactions: prev.interactions + 1
@@ -790,7 +790,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                 }}
                 onClick={(e) => {
                   if (consciousness && interactionRecorder) {
-                    setContentEngagement(prev => ({
+                    setContentEngagement((prev: any) => ({
                       ...prev,
                       interactions: prev.interactions + 1
                     }));
@@ -965,7 +965,7 @@ export const useDrawer = (defaultOpen = false) => {
 
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
-  const toggleDrawer = () => setOpen(prev => !prev);
+  const toggleDrawer = () => setOpen((prev: any) => !prev);
 
   return {
     open,

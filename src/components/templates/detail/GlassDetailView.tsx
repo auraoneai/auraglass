@@ -147,7 +147,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     ref
   ) => {
     const [expandedSections, setExpandedSections] = useState<Set<string>>(
-      new Set(sections.filter(s => s.defaultExpanded !== false).map(s => s.id))
+      new Set(sections.filter((s: any) => s.defaultExpanded !== false).map((s: any) => s.id))
     );
     const [currentTab, setCurrentTab] = useState(activeTab || tabs[0]?.id);
 
@@ -459,7 +459,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
         case 'accordion':
           return (
             <VStack space="md">
-              {sections.map(section => ({
+              {sections.map((section: any) => ({
                 ...section,
                 collapsible: true,
               })).map(renderSection)}

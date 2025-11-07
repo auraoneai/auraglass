@@ -164,7 +164,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
         // Group by X value (for grouped bars)
         const groupedData = new Map<string | number, Array<{ seriesId: string; seriesIndex: number; data: BarDataPoint; index: number }>>();
 
-        allDataPoints.forEach(point => {
+        allDataPoints.forEach((point: any) => {
             const key = point.data?.x;
             if (!groupedData.has(key)) {
                 groupedData.set(key, []);
@@ -173,7 +173,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
         });
 
         // Find min/max values
-        const allYValues = allDataPoints.map(p => p.data?.y);
+        const allYValues = allDataPoints.map((p: any) => p.data?.y);
         const yMin = Math.min(...allYValues);
         const yMax = Math.max(...allYValues);
 
@@ -282,7 +282,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
         });
 
         // Generate Y axis labels
-        const yLabels = [0, 0.25, 0.5, 0.75, 1].map(ratio => {
+        const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {
             const value = yMinPadded + (yMaxPadded - yMinPadded) * ratio;
             if (orientation === 'vertical') {
                 return {

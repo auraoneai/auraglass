@@ -122,7 +122,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
 
         if (item?.children && item?.children.length > 0) {
             // Toggle submenu
-            setOpenMenus(prev => {
+            setOpenMenus((prev: any) => {
                 const newSet = new Set(prev);
                 if (newSet.has(item?.id)) {
                     newSet.delete(item?.id);
@@ -188,7 +188,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
                         isHovered={hoveredItem === item?.id}
                         hasSubmenuOpen={openMenus.has(item?.id)}
                         onClick={handleItemClick}
-                        onOpenSubmenu={(item) => setOpenMenus(prev => new Set([...prev, item?.id]))}
+                        onOpenSubmenu={(item) => setOpenMenus((prev: any) => new Set([...prev, item?.id]))}
                         onCloseSubmenu={() => setOpenMenus(new Set())}
                         size={size}
                     />

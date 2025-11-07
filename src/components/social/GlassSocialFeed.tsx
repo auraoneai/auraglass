@@ -103,7 +103,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
       if (!realTimeUpdates) return
 
       const interval = setInterval(() => {
-        setSimulatedPosts(prev => prev.map(post => ({
+        setSimulatedPosts((prev: any) => prev.map((post: any) => ({
           ...post,
           likes: post.likes + (Math.random() < 0.3 ? Math.floor(Math.random() * 3) : 0),
           comments: post.comments + (Math.random() < 0.2 ? 1 : 0),
@@ -121,10 +121,10 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
       switch (filterBy) {
         case 'following':
           // In a real app, this would filter by followed users
-          filtered = filtered.filter(post => post.author.verified)
+          filtered = filtered.filter((post: any) => post.author.verified)
           break
         case 'liked':
-          filtered = filtered.filter(post => likedPosts.has(post.id))
+          filtered = filtered.filter((post: any) => likedPosts.has(post.id))
           break
       }
 
@@ -168,7 +168,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     }
 
     const handleLike = (postId: string) => {
-      setLikedPosts(prev => {
+      setLikedPosts((prev: any) => {
         const newSet = new Set(prev)
         if (newSet.has(postId)) {
           newSet.delete(postId)
@@ -181,12 +181,12 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     }
 
     const handleShare = (postId: string) => {
-      setSharedPosts(prev => new Set(prev).add(postId))
+      setSharedPosts((prev: any) => new Set(prev).add(postId))
       onShare?.(postId)
     }
 
     const handlePostExpand = (postId: string) => {
-      setExpandedPosts(prev => {
+      setExpandedPosts((prev: any) => {
         const newSet = new Set(prev)
         if (newSet.has(postId)) {
           newSet.delete(postId)
@@ -312,7 +312,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
             {/* Tags */}
             {showTags && post.tags && post.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-2">
-                {post.tags.map(tag => (
+                {post.tags.map((tag: any) => (
                   <span
                     key={tag}
                     className={`

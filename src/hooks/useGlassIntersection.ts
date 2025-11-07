@@ -118,7 +118,7 @@ export function useGlassIntersection(
         console.warn('Failed to create IntersectionObserver:', error);
       }
       // Fallback: assume element is visible
-      setState(prev => ({
+      setState((prev: any) => ({
         ...prev,
         isIntersecting: true,
         hasIntersected: true,
@@ -315,7 +315,7 @@ export function useProgressiveLoading<T>(
       await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    setLoadedCount(prev => Math.min(items.length, prev + adaptiveBatchSize));
+    setLoadedCount((prev: any) => Math.min(items.length, prev + adaptiveBatchSize));
     setIsLoading(false);
   }, [isLoading, loadedCount, items.length, delay, adaptiveBatchSize]);
 

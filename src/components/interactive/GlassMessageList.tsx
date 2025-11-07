@@ -147,7 +147,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
 
     // Filter messages based on search
     const filteredMessages = searchQuery
-        ? messages.filter(message =>
+        ? messages.filter((message: any) =>
             message.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
             message.sender.name.toLowerCase().includes(searchQuery.toLowerCase())
         )

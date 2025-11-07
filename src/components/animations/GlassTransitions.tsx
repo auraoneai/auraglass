@@ -385,9 +385,9 @@ export function GlassAccordion({
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => {
+    setOpenItems((prev: any) => {
       if (prev.includes(id)) {
-        return prev.filter(item => item !== id);
+        return prev.filter((item: any) => item !== id);
       } else {
         return allowMultiple ? [...prev, id] : [id];
       }

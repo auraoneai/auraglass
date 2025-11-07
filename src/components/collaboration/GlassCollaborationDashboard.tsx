@@ -189,9 +189,9 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
     'bottom-right': 'bottom-4 right-4'
   };
 
-  const activeUsers = users.filter(user => Date.now() - user.lastActive < 300000); // Active within 5 minutes
+  const activeUsers = users.filter((user: any) => Date.now() - user.lastActive < 300000); // Active within 5 minutes
   const recentActivities = activities.slice(0, 20);
-  const unresolvedComments = comments.filter(c => !c.resolved);
+  const unresolvedComments = comments.filter((c: any) => !c.resolved);
 
   return (
     <div className={cn("fixed z-40", positionClasses[position], className)}>
@@ -203,7 +203,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
             className="flex items-center gap-3 hover:glass-surface-subtle glass-radius p-2 transition-colors"
           >
             <div className="flex -space-x-2">
-              {activeUsers.slice(0, 3).map(user => (
+              {activeUsers.slice(0, 3).map((user: any) => (
                 <UserAvatar key={user.id} user={user} size="sm" />
               ))}
               {activeUsers.length > 3 && (
@@ -327,7 +327,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
           <div className="glass-max-h-64 overflow-y-auto">
             {activeTab === 'users' && showUserList && (
               <div className="p-4 space-y-3">
-                {activeUsers.map(user => {
+                {activeUsers.map((user: any) => {
                   const isCurrentUser = user.id === currentUser?.id;
                   const isActive = Date.now() - user.lastActive < 60000;
                   
@@ -374,7 +374,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
 
             {activeTab === 'activity' && showActivityFeed && (
               <div className="p-4 space-y-1">
-                {recentActivities.map(activity => {
+                {recentActivities.map((activity: any) => {
                   const user = users.find(u => u.id === activity.userId);
                   return (
                     <ActivityItem

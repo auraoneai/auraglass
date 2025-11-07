@@ -63,7 +63,7 @@ export const EnhancementShowcase: React.FC = () => {
   const handleAdvancedInteraction = useCallback((type: string, data: any) => {
     console.log('Advanced Interaction:', type, data);
     
-    setDemoState(prev => ({
+    setDemoState((prev: any) => ({
       ...prev,
       interactionCount: prev.interactionCount + 1,
       emotionDetected: type === 'emotion-detected' ? data : prev.emotionDetected,
@@ -124,7 +124,7 @@ export const EnhancementShowcase: React.FC = () => {
       ],
       component: (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-6">
-          {['ripple', 'shatter', 'bend', 'melt', 'freeze', 'vibrate'].map(effect => (
+          {['ripple', 'shatter', 'bend', 'melt', 'freeze', 'vibrate'].map((effect: any) => (
             <GlassPhysicsEngine
               key={effect}
               interaction={effect as any}

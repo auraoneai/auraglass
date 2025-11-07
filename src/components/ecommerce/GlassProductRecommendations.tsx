@@ -386,7 +386,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
       
       // Filter by recommendation type
       if (recommendationType !== 'all') {
-        recs = recs.filter(rec => rec.reason === recommendationType);
+        recs = recs.filter((rec: any) => rec.reason === recommendationType);
       }
       
       setCurrentRecommendations(recs.slice(0, maxItems));
@@ -407,13 +407,13 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
   }, [addToWishlist]);
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex(prev => 
+    setCurrentIndex((prev: any) => 
       prev + 1 >= Math.ceil(currentRecommendations.length / getItemsPerView()) ? 0 : prev + 1
     );
   }, [currentRecommendations.length]);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex(prev => 
+    setCurrentIndex((prev: any) => 
       prev - 1 < 0 ? Math.ceil(currentRecommendations.length / getItemsPerView()) - 1 : prev - 1
     );
   }, [currentRecommendations.length]);
@@ -508,7 +508,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
               >
                 {currentRecommendations
                   .slice(slideIndex * getItemsPerView(), (slideIndex + 1) * getItemsPerView())
-                  .map(recommendation => (
+                  .map((recommendation: any) => (
                     <ProductCard
                       key={recommendation.productId}
                       recommendation={recommendation}
@@ -525,7 +525,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
             ))}
           </div>
         ) : (
-          currentRecommendations.map(recommendation => (
+          currentRecommendations.map((recommendation: any) => (
             <ProductCard
               key={recommendation.productId}
               recommendation={recommendation}
@@ -553,7 +553,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
               Our AI analyzes {currentRecommendations.length} factors to suggest the best products for you.
             </p>
             <div className="flex flex-wrap gap-2 mt-3">
-              {Array.from(new Set(currentRecommendations.map(r => r.reason))).map(reason => (
+              {Array.from(new Set(currentRecommendations.map((r: any) => r.reason))).map((reason: any) => (
                 <span
                   key={reason}
                   className={cn("text-xs px-2 py-1 rounded-full", getReasonColor(reason))}

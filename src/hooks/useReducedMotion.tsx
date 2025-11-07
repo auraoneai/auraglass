@@ -4,6 +4,7 @@
  * WCAG 2.1 Success Criterion 2.3.3 (AAA)
  */
 
+import React from 'react';
 import { useEffect, useState } from 'react';
 
 /**

@@ -163,7 +163,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
     // Update form data for a specific step
     const updateFormData = useCallback((stepId: string, data: any) => {
-        setFormData(prev => ({
+        setFormData((prev: any) => ({
             ...prev,
             [stepId]: data
         }));
@@ -176,18 +176,18 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
         try {
             const isValid = await step.validation(formData[step.id] || {});
-            setStepValidations(prev => ({
+            setStepValidations((prev: any) => ({
                 ...prev,
                 [stepIndex]: isValid
             }));
 
             if (!isValid && step.validationMessage) {
-                setValidationErrors(prev => ({
+                setValidationErrors((prev: any) => ({
                     ...prev,
                     [stepIndex]: step.validationMessage!
                 }));
             } else {
-                setValidationErrors(prev => {
+                setValidationErrors((prev: any) => {
                     const newErrors = { ...prev };
                     delete newErrors[stepIndex];
                     return newErrors;
@@ -226,11 +226,11 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
         if (!isValid && !allowSkip) return;
 
         if (currentStep < steps.length - 1) {
-            setStepCompletions(prev => ({
+            setStepCompletions((prev: any) => ({
                 ...prev,
                 [currentStep]: true
             }));
-            setCurrentStep(prev => prev + 1);
+            setCurrentStep((prev: any) => prev + 1);
             onStepChange?.(currentStep + 1, formData);
         }
     }, [currentStep, steps.length, isStepValid, allowSkip, onStepChange, formData]);
@@ -238,7 +238,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
     // Go to previous step
     const prevStep = useCallback(() => {
         if (currentStep > 0) {
-            setCurrentStep(prev => prev + -1);
+            setCurrentStep((prev: any) => prev + -1);
             onStepChange?.(currentStep - 1, formData);
         }
     }, [currentStep, onStepChange, formData]);

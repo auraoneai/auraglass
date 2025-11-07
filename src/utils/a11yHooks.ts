@@ -82,7 +82,7 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const itemRefs = useRef<Map<string, HTMLElement>>(new Map());
 
-  const enabledItems = items.filter(item => !item.disabled);
+  const enabledItems = items.filter((item: any) => !item.disabled);
 
   const focusItem = useCallback((index: number) => {
     if (index < 0 || index >= enabledItems.length) return;
@@ -211,7 +211,7 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
   }, []);
 
   const selectItem = useCallback((id: string, multiSelect = false) => {
-    setSelectedIds(prev => {
+    setSelectedIds((prev: any) => {
       const newSelection = new Set(multiSelect ? prev : []);
       
       if (newSelection.has(id)) {
@@ -251,7 +251,7 @@ export function useExpandableNavigation() {
   }, [expandedIds]);
 
   const toggleExpanded = useCallback((id: string) => {
-    setExpandedIds(prev => {
+    setExpandedIds((prev: any) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -263,11 +263,11 @@ export function useExpandableNavigation() {
   }, []);
 
   const expandItem = useCallback((id: string) => {
-    setExpandedIds(prev => new Set([...prev, id]));
+    setExpandedIds((prev: any) => new Set([...prev, id]));
   }, []);
 
   const collapseItem = useCallback((id: string) => {
-    setExpandedIds(prev => {
+    setExpandedIds((prev: any) => {
       const newSet = new Set(prev);
       newSet.delete(id);
       return newSet;
@@ -574,7 +574,7 @@ export function useValidationA11y(options: UseValidationA11yOptions) {
 
   // Announce new errors
   useEffect(() => {
-    const newErrors = errors.filter(error => !prevErrorsRef.current.includes(error));
+    const newErrors = errors.filter((error: any) => !prevErrorsRef.current.includes(error));
     if (newErrors.length > 0) {
       announce(`Validation errors: ${newErrors.join(', ')}`, 'assertive');
     }
@@ -583,7 +583,7 @@ export function useValidationA11y(options: UseValidationA11yOptions) {
 
   // Announce new warnings
   useEffect(() => {
-    const newWarnings = warnings.filter(warning => !prevWarningsRef.current.includes(warning));
+    const newWarnings = warnings.filter((warning: any) => !prevWarningsRef.current.includes(warning));
     if (newWarnings.length > 0) {
       announce(`Validation warnings: ${newWarnings.join(', ')}`, 'polite');
     }

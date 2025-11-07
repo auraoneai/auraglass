@@ -388,7 +388,7 @@ export const animationTestUtils = {
 
     return {
       flush: () => {
-        callbacks.forEach(callback => callback(performance.now()));
+        callbacks.forEach((callback: any) => callback(performance.now()));
         callbacks.clear();
       },
       clear: () => callbacks.clear(),
@@ -427,7 +427,7 @@ export const animationTestUtils = {
     await new Promise(resolve => setTimeout(resolve, duration + 100));
 
     const averageFrameTime = frameTimes.reduce((sum, time) => sum + time, 0) / frameTimes.length;
-    const droppedFrames = frameTimes.filter(time => time > 16.67).length; // > 60fps
+    const droppedFrames = frameTimes.filter((time: any) => time > 16.67).length; // > 60fps
     
     return {
       averageFrameTime,

@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react';
 import { motion } from 'framer-motion'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -154,7 +155,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
     const initializePhysics = useCallback(() => {
       if (!enablePhysics) return
 
-      const physics = layoutIslands.map(island => ({
+      const physics = layoutIslands.map((island: any) => ({
         ...island,
         vx: 0,
         vy: 0,
@@ -170,7 +171,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
       if (!enablePhysics || physicsIslands.length === 0) return
 
       setPhysicsIslands(prevIslands => {
-        const newIslands = prevIslands.map(island => ({ ...island }))
+        const newIslands = prevIslands.map((island: any) => ({ ...island }))
 
         // Apply forces between islands
         for (let i = 0; i < newIslands.length; i++) {
@@ -273,7 +274,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
       ctx.scale(currentZoom, currentZoom)
       ctx.translate(viewportOffset.x, viewportOffset.y)
 
-      connections.forEach(connection => {
+      connections.forEach((connection: any) => {
         const fromIsland = layoutIslands.find(i => i.id === connection.from)
         const toIsland = layoutIslands.find(i => i.id === connection.to)
 
@@ -361,7 +362,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
       const newX = (e.clientX - dragOffset.x) / currentZoom
       const newY = (e.clientY - dragOffset.y) / currentZoom
 
-      setLayoutIslands(prev => prev.map(island => 
+      setLayoutIslands((prev: any) => prev.map((island: any) => 
         island.id === selectedIsland 
           ? { ...island, x: newX, y: newY }
           : island
@@ -369,7 +370,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
 
       // Update physics island if physics is enabled
       if (enablePhysics) {
-        setPhysicsIslands(prev => prev.map(island => 
+        setPhysicsIslands((prev: any) => prev.map((island: any) => 
           island.id === selectedIsland 
             ? { ...island, x: newX, y: newY, vx: 0, vy: 0 }
             : island
@@ -451,7 +452,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
             className="relative glass-surface-dark/30 glass-radius"
             style={{ width: minimapWidth, height: minimapHeight }}
           >
-            {layoutIslands.map(island => (
+            {layoutIslands.map((island: any) => (
               <div
                 key={`mini-${island.id}`}
                 className={`absolute rounded ${
@@ -501,7 +502,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
           className="p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 border border-white/20 glass-radius-lg text-primary transition-colors"
           whileHover={shouldAnimate ? { scale: 1.05 } : {}}
           whileTap={shouldAnimate ? { scale: 0.95 } : {}}
-          onClick={() => setCurrentZoom(prev => Math.min(3, prev * 1.2))}
+          onClick={() => setCurrentZoom((prev: any) => Math.min(3, prev * 1.2))}
         >
           🔍+
         </motion.button>
@@ -510,7 +511,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
           className="p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 border border-white/20 glass-radius-lg text-primary transition-colors"
           whileHover={shouldAnimate ? { scale: 1.05 } : {}}
           whileTap={shouldAnimate ? { scale: 0.95 } : {}}
-          onClick={() => setCurrentZoom(prev => Math.max(0.2, prev / 1.2))}
+          onClick={() => setCurrentZoom((prev: any) => Math.max(0.2, prev / 1.2))}
         >
           🔍-
         </motion.button>
@@ -634,7 +635,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
-                      setLayoutIslands(prev => prev.map(i => 
+                      setLayoutIslands((prev: any) => prev.map((i: any) => 
                         i.id === island.id 
                           ? { ...i, minimized: !i.minimized }
                           : i

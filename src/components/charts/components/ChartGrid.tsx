@@ -94,7 +94,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
       {/* Main grid */}
       <g>
         {/* Horizontal lines */}
-        {horizontalLines.map(line => (
+        {horizontalLines.map((line: any) => (
           <line
             key={line.key}
             x1="0%"
@@ -109,7 +109,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
         ))}
 
         {/* Vertical lines */}
-        {verticalLines.map(line => (
+        {verticalLines.map((line: any) => (
           <line
             key={line.key}
             x1={`${line.x}%`}

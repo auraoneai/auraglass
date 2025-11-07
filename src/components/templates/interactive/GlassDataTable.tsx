@@ -47,7 +47,7 @@ export function GlassDataTable<T extends Record<string, any>>({
 
     // Search
     if (searchTerm) {
-      result = result.filter(item =>
+      result = result.filter((item: any) =>
         columns.some(col => 
           col.filterable !== false && 
           String(item[col.key]).toLowerCase().includes(searchTerm.toLowerCase())
