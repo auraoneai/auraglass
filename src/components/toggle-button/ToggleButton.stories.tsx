@@ -95,7 +95,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <ToggleButton {...args} variant="default">
         Default
       </ToggleButton>
@@ -114,7 +114,7 @@ export const Variants: Story = {
 
 export const Colors: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <ToggleButton {...args} color="primary">
         Primary
       </ToggleButton>
@@ -139,7 +139,7 @@ export const Colors: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
+    <div className="flex items-center gap-4">
       <ToggleButton {...args} size="sm">
         Small
       </ToggleButton>
@@ -155,17 +155,17 @@ export const Sizes: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <ToggleButton {...args}>
-        <ThumbsUp className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-mr-2" />
+        <ThumbsUp className="w-4 h-4 glass-mr-2" />
         Like
       </ToggleButton>
       <ToggleButton {...args}>
-        <Star className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-mr-2" />
+        <Star className="w-4 h-4 glass-mr-2" />
         Favorite
       </ToggleButton>
       <ToggleButton {...args}>
-        <Heart className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-mr-2" />
+        <Heart className="w-4 h-4 glass-mr-2" />
         Love
       </ToggleButton>
     </div>
@@ -181,7 +181,7 @@ export const Selected: Story = {
 
 export const GlassVariants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <ToggleButton {...args} glassVariant="frosted">
         Frosted
       </ToggleButton>

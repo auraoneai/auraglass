@@ -56,13 +56,13 @@ export const CardGallery: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8">
-        <div className="max-w-6xl glass-glass-glass-mx-auto">
-          <h1 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-center mb-12">
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl font-bold text-primary text-center mb-12">
             Houdini Glass Card Gallery
           </h1>
 
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <HoudiniGlassCard
               title="Standard Glass"
               description="Clean, balanced glass effect"
@@ -71,9 +71,9 @@ export const CardGallery: Story = {
               showControls={true}
               interactive={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">✨</div>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">✨</div>
+                <p className="text-primary/80 text-sm">
                   Standard glass with subtle frost effect and smooth interactions.
                 </p>
               </div>
@@ -87,9 +87,9 @@ export const CardGallery: Story = {
               showControls={true}
               interactive={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">❄️</div>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">❄️</div>
+                <p className="text-primary/80 text-sm">
                   Frosted glass with dynamic caustics and enhanced blur.
                 </p>
               </div>
@@ -103,9 +103,9 @@ export const CardGallery: Story = {
               showControls={true}
               interactive={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">💎</div>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">💎</div>
+                <p className="text-primary/80 text-sm">
                   Crystal clear glass with minimal blur and elegant borders.
                 </p>
               </div>
@@ -119,9 +119,9 @@ export const CardGallery: Story = {
               showControls={true}
               interactive={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">🔮</div>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">🔮</div>
+                <p className="text-primary/80 text-sm">
                   Heavy glass with maximum blur, multiple effects, and rich depth.
                 </p>
               </div>
@@ -135,9 +135,9 @@ export const CardGallery: Story = {
               showControls={true}
               interactive={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">🌟</div>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">🌟</div>
+                <p className="text-primary/80 text-sm">
                   Minimal glass with subtle effects and clean aesthetics.
                 </p>
               </div>
@@ -151,9 +151,9 @@ export const CardGallery: Story = {
               showControls={true}
               interactive={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">⚡</div>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">⚡</div>
+                <p className="text-primary/80 text-sm">
                   Performance-optimized glass with reduced effects for smooth rendering.
                 </p>
               </div>
@@ -174,13 +174,13 @@ export const PerformanceMode: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-blue-900 glass-gradient-primary glass-glass-glass-p-8">
-        <div className="max-w-4xl glass-glass-glass-mx-auto">
-          <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-center mb-8">
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-blue-900 glass-gradient-primary p-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold text-primary text-center mb-8">
             Performance Optimized Glass
           </h1>
 
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <HoudiniGlassCard
               title="Optimized Card"
               description="Performance-optimized effects"
@@ -188,12 +188,12 @@ export const PerformanceMode: Story = {
               effects={['frost']}
               showControls={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">🚀 Fast Rendering</h3>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-mb-4">
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-primary mb-2">🚀 Fast Rendering</h3>
+                <p className="text-primary/80 text-sm mb-4">
                   Reduced effects for maximum performance while maintaining visual appeal.
                 </p>
-                <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary glass-surface-green/10 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">
+                <div className="text-xs text-primary glass-surface-green/10 px-2 py-1 glass-radius">
                   Performance Mode Active
                 </div>
               </div>
@@ -206,20 +206,20 @@ export const PerformanceMode: Story = {
               effects={['border']}
               showControls={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">📊 Performance Stats</h3>
-                <div className="glass-glass-glass-space-y-2 glass-glass-glass-text-sm">
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/60">FPS:</span>
-                    <span className="glass-glass-glass-text-primary">60</span>
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-primary mb-2">📊 Performance Stats</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-primary/60">FPS:</span>
+                    <span className="text-primary">60</span>
                   </div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/60">Memory:</span>
-                    <span className="glass-glass-glass-text-primary">Low</span>
+                  <div className="flex justify-between">
+                    <span className="text-primary/60">Memory:</span>
+                    <span className="text-primary">Low</span>
                   </div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/60">Effects:</span>
-                    <span className="glass-glass-glass-text-primary">Optimized</span>
+                  <div className="flex justify-between">
+                    <span className="text-primary/60">Effects:</span>
+                    <span className="text-primary">Optimized</span>
                   </div>
                 </div>
               </div>
@@ -245,13 +245,13 @@ export const CustomProperties: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8">
-        <div className="max-w-4xl glass-glass-glass-mx-auto">
-          <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-center mb-8">
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold text-primary text-center mb-8">
             Custom Glass Properties
           </h1>
 
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <HoudiniGlassCard
               title="Custom Colors"
               description="Deep pink glass theme"
@@ -264,10 +264,10 @@ export const CustomProperties: Story = {
                 '--glass-blur': '30px'
               }}
             >
-              <div className="glass-glass-glass-p-4">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">🌸</div>
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">Custom Theme</h3>
-                <p className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">
+              <div className="p-4">
+                <div className="text-4xl mb-4">🌸</div>
+                <h3 className="text-lg font-semibold text-primary mb-2">Custom Theme</h3>
+                <p className="text-primary/80 text-sm">
                   Custom CSS properties allow for completely personalized glass effects.
                 </p>
               </div>
@@ -280,9 +280,9 @@ export const CustomProperties: Story = {
               effects={['border']}
               showControls={true}
             >
-              <div className="glass-glass-glass-p-4">
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">🎨 Active Properties</h3>
-                <div className="space-y-1 glass-glass-glass-text-xs glass-glass-glass-text-primary/70">
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-primary mb-2">🎨 Active Properties</h3>
+                <div className="space-y-1 text-xs text-primary/70">
                   <div>--glass-background: rgba(255, 20, 147, 0.1)</div>
                   <div>--glass-border: rgba(255, 20, 147, 0.3)</div>
                   <div>--glass-blur: 25px</div>

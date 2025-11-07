@@ -50,7 +50,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
         {(variant === "primary" || variant === "secondary") && (
           <div
             aria-hidden
-            className="glass-glass-glass-pointer-events-none glass-glass-glass-absolute glass-glass-glass-inset-0"
+            className="pointer-events-none absolute inset-0"
             style={{
               borderRadius: 'inherit',
               padding: '1px',
@@ -67,7 +67,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
         {variant === "primary" && (
           <div
             aria-hidden
-            className="glass-glass-glass-pointer-events-none glass-glass-glass-absolute glass-glass-glass-inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200"
+            className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200"
             style={{
               borderRadius: 'inherit',
               background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
@@ -75,7 +75,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
           />
         )}
 
-        <span className="glass-glass-glass-relative glass-glass-glass-z-10 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-text-primary group-hover:text-indigo-50">{children}</span>
+        <span className="relative z-10 flex items-center gap-2 text-primary group-hover:text-indigo-50">{children}</span>
       </a>
     );
   }

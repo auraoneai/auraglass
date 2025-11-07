@@ -406,11 +406,11 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
             rightIcon={
               <GlassButton
                 type="button"
-                className="glass-glass-glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
+                className="p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
                 onClick={(e) => setIsOpen(!isOpen)}
                 disabled={disabled}
               >
-                <svg className="glass-glass-glass-w-4 glass-glass-glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </GlassButton>
@@ -422,12 +422,12 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
         {/* Calendar Popup */}
         {isOpen && (
-          <Motion className="glass-glass-glass-absolute top-full left-0 glass-glass-glass-z-50 glass-mt-2">
+          <Motion className="absolute top-full left-0 z-50 glass-mt-2">
             <Glass
-              className="glass-glass-glass-w-80 glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20 glass-glass-glass-p-4 glass-radius-lg"
+              className="w-80 border border-glass-border/20 p-4 glass-radius-lg"
             >
               {/* Calendar Header */}
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <IconButton
                   icon="‹"
                   variant="ghost"
@@ -436,11 +436,11 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                   aria-label="Previous month"
                 />
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                <div className="flex items-center gap-2">
                   <select
                     value={currentMonth.getMonth()}
                     onChange={(e) => setCurrentMonth(new Date(currentMonth.getFullYear(), parseInt(e.target.value), 1))}
-                    className="glass-glass-glass-bg-transparent glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20 glass-radius-md glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-sm focus:ring-2 focus:ring-primary/20"
+                    className="bg-transparent border border-glass-border/20 glass-radius-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary/20"
                   >
                     {monthNames.map((month, index) => (
                       <option key={month} value={index}>
@@ -452,7 +452,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                   <select
                     value={currentMonth.getFullYear()}
                     onChange={(e) => setCurrentMonth(new Date(parseInt(e.target.value), currentMonth.getMonth(), 1))}
-                    className="glass-glass-glass-bg-transparent glass-glass-glass-border glass-glass-glass-border-glass-glass-glass-border/20 glass-radius-md glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-sm focus:ring-2 focus:ring-primary/20"
+                    className="bg-transparent border border-glass-border/20 glass-radius-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary/20"
                   >
                     {Array.from({ length: 201 }, (_, i) => 1900 + i).map(year => (
                       <option key={year} value={year}>
@@ -472,21 +472,21 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
               </div>
 
               {/* Day Headers */}
-              <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-7 glass-glass-glass-gap-1 glass-glass-glass-mb-2">
-                {showWeekNumbers && <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-p-2 glass-glass-glass-text-center">Wk</div>}
+              <div className="grid grid-cols-7 gap-1 mb-2">
+                {showWeekNumbers && <div className="text-xs glass-text-secondary p-2 text-center">Wk</div>}
                 {dayNames.map(day => (
-                  <div key={day} className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-p-2 glass-glass-glass-text-center glass-glass-glass-font-medium">
+                  <div key={day} className="text-xs glass-text-secondary p-2 text-center font-medium">
                     {day}
                   </div>
                 ))}
               </div>
 
               {/* Calendar Grid */}
-              <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-7 glass-glass-glass-gap-1">
+              <div className="grid grid-cols-7 gap-1">
                 {Array.from({ length: 6 }, (_, weekIndex) => (
                   <React.Fragment key={weekIndex}>
                     {showWeekNumbers && (
-                      <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-p-2 glass-glass-glass-text-center">
+                      <div className="text-xs glass-text-secondary p-2 text-center">
                         {/* Week number calculation would go here */}
                         {weekIndex + 1}
                       </div>
@@ -519,7 +519,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                         >
                           {renderDate ? renderDate(date, isSelected, isDisabled) : date.getDate()}
                           {isToday && !isSelected && (
-                            <div className="glass-glass-glass-absolute bottom-1 left-1/2 transform -translate-x-1/2 glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-primary glass-radius-full" />
+                            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 glass-surface-primary glass-radius-full" />
                           )}
                         </GlassButton>
                       );
@@ -530,7 +530,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
               {/* Footer Actions */}
               {(showTodayButton || showClearButton) && (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-mt-4 pt-4 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/20">
+                <div className="flex items-center justify-between glass-mt-4 pt-4 border-t border-glass-border/20">
                   {showTodayButton && (
                     <GlassButton
                       variant="ghost"

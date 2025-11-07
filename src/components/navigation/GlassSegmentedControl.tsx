@@ -75,7 +75,7 @@ export const GlassSegmentedControl = forwardRef<HTMLDivElement, GlassSegmentedCo
           onClick={(e) => !it.disabled && onChange(it.id)}
           aria-pressed={it.id === value}
         >
-          {it.icon && <span className="glass-mr-2 glass-inline-glass-glass-glass-flex">{it.icon}</span>}
+          {it.icon && <span className="glass-mr-2 glass-inline-flex">{it.icon}</span>}
           {!condensed && it.label}
         </GlassButton>
       ))}

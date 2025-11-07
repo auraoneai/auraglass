@@ -88,7 +88,7 @@ export const EnhancementShowcase: React.FC = () => {
         'AI Personalization'
       ],
       component: (
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6 glass-glass-glass-p-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 p-8">
           <PhysicsGlassButton onAdvancedInteraction={handleAdvancedInteraction}>
             Physics Glass
           </PhysicsGlassButton>
@@ -123,15 +123,15 @@ export const EnhancementShowcase: React.FC = () => {
         'Vibration Feedback'
       ],
       component: (
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4 glass-glass-glass-p-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-6">
           {['ripple', 'shatter', 'bend', 'melt', 'freeze', 'vibrate'].map(effect => (
             <GlassPhysicsEngine
               key={effect}
               interaction={effect as any}
               intensity={1.2}
-              className="glass-glass-glass-p-4 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/20"
+              className="p-4 glass-surface-subtle/10 backdrop-blur-sm glass-radius-lg border border-white/20"
             >
-              <button className="glass-glass-glass-w-full glass-glass-glass-h-16 glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-capitalize">
+              <button className="w-full h-16 text-primary font-medium capitalize">
                 {effect} Effect
               </button>
             </GlassPhysicsEngine>
@@ -152,8 +152,8 @@ export const EnhancementShowcase: React.FC = () => {
         'Real-Time Environmental Data'
       ],
       component: (
-        <div className="space-y-6 glass-glass-glass-p-6">
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
+        <div className="space-y-6 p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { context: { timeOfDay: 'dawn' }, label: 'Dawn Glass' },
               { context: { timeOfDay: 'morning' }, label: 'Morning Glass' },
@@ -163,16 +163,16 @@ export const EnhancementShowcase: React.FC = () => {
               <GlassMorphingEngine
                 key={label}
                 environmentalContext={context as any}
-                className="glass-glass-glass-p-4 glass-glass-glass-h-20 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg"
+                className="p-4 h-20 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg"
               >
-                <div className="glass-glass-glass-text-primary glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-center">
+                <div className="text-primary text-sm font-medium text-center">
                   {label}
                 </div>
               </GlassMorphingEngine>
             ))}
           </div>
           
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               { activity: 'focused', content: 'text' },
               { activity: 'browsing', content: 'media' },
@@ -182,11 +182,11 @@ export const EnhancementShowcase: React.FC = () => {
                 key={`${activity}-${content}`}
                 userActivity={activity as any}
                 contentType={content as any}
-                className="glass-glass-glass-p-6 glass-glass-glass-h-24 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/30"
+                className="p-6 h-24 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg border border-white/30"
               >
-                <div className="glass-glass-glass-text-primary glass-glass-glass-text-center">
-                  <div className="glass-glass-glass-font-medium glass-glass-glass-capitalize">{activity}</div>
-                  <div className="glass-glass-glass-text-sm opacity-70 glass-glass-glass-capitalize">{content} Content</div>
+                <div className="text-primary text-center">
+                  <div className="font-medium capitalize">{activity}</div>
+                  <div className="text-sm opacity-70 capitalize">{content} Content</div>
                 </div>
               </GlassMorphingEngine>
             ))}
@@ -207,24 +207,24 @@ export const EnhancementShowcase: React.FC = () => {
         'Real-Time 3D Transformations'
       ],
       component: (
-        <div className="space-y-6 glass-glass-glass-p-6">
+        <div className="space-y-6 p-6">
           <Glass3DEngine
             enableParallax={true}
             enableDepthOfField={true}
             enableHolographic={true}
             enableDistortion={true}
             maxDepthLayers={6}
-            className="glass-glass-glass-h-64 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl"
+            className="h-64 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl"
           >
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full">
-              <div className="glass-glass-glass-text-primary glass-glass-glass-text-center">
-                <h3 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-mb-2">3D Glass Portal</h3>
-                <p className="glass-glass-glass-text-primary/70">Move your mouse for 3D interaction</p>
-                <div className="glass-mt-4 glass-glass-glass-gap-4">
-                  <button className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+            <div className="flex items-center justify-center h-full">
+              <div className="text-primary text-center">
+                <h3 className="text-2xl font-bold mb-2">3D Glass Portal</h3>
+                <p className="text-primary/70">Move your mouse for 3D interaction</p>
+                <div className="glass-mt-4 gap-4">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
                     Interact
                   </button>
-                  <button className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
                     Experience
                   </button>
                 </div>
@@ -232,14 +232,14 @@ export const EnhancementShowcase: React.FC = () => {
             </div>
           </Glass3DEngine>
           
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4">
+          <div className="grid grid-cols-3 gap-4">
             {Array.from({ length: 3 }, (_, i) => (
               <Glass3DEngine
                 key={i}
                 layers={[{ depth: i, parallaxFactor: i * 0.2 }]}
-                className="glass-glass-glass-h-32 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg"
+                className="h-32 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg"
               >
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-glass-glass-text-primary">
+                <div className="flex items-center justify-center h-full text-primary">
                   Layer {i + 1}
                 </div>
               </Glass3DEngine>
@@ -261,8 +261,8 @@ export const EnhancementShowcase: React.FC = () => {
         'Micro-Interaction Responses'
       ],
       component: (
-        <div className="space-y-6 glass-glass-glass-p-6">
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
+        <div className="space-y-6 p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { pattern: 'gentle', emotion: 'calm' },
               { pattern: 'energetic', emotion: 'excited' },
@@ -273,11 +273,11 @@ export const EnhancementShowcase: React.FC = () => {
                 key={pattern}
                 sequences={(window as any).COMMON_SEQUENCES?.[pattern] || []}
                 emotionalContext={emotion as any}
-                className="glass-glass-glass-h-24 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center"
+                className="h-24 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg flex items-center justify-center"
               >
-                <div className="glass-glass-glass-text-primary glass-glass-glass-text-center">
-                  <div className="glass-glass-glass-font-medium glass-glass-glass-capitalize">{pattern}</div>
-                  <div className="glass-glass-glass-text-sm opacity-70">{emotion}</div>
+                <div className="text-primary text-center">
+                  <div className="font-medium capitalize">{pattern}</div>
+                  <div className="text-sm opacity-70">{emotion}</div>
                 </div>
               </OrganicAnimationEngine>
             ))}
@@ -298,61 +298,61 @@ export const EnhancementShowcase: React.FC = () => {
         'Smart Recommendations'
       ],
       component: (
-        <div className="space-y-6 glass-glass-glass-p-6">
+        <div className="space-y-6 p-6">
           {/* Current Status */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
-            <div className="glass-glass-glass-p-4 glass-surface-subtle/10 glass-radius-lg">
-              <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-mb-3">Emotional State</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 glass-surface-subtle/10 glass-radius-lg">
+              <h4 className="text-primary font-medium mb-3">Emotional State</h4>
               {currentEmotion ? (
-                <div className="glass-glass-glass-gap-2">
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Primary:</span>
-                    <span className="glass-glass-glass-text-primary glass-glass-glass-capitalize">{currentEmotion.primary}</span>
+                <div className="gap-2">
+                  <div className="flex justify-between">
+                    <span className="text-primary/70">Primary:</span>
+                    <span className="text-primary capitalize">{currentEmotion.primary}</span>
                   </div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Intensity:</span>
-                    <span className="glass-glass-glass-text-primary">{(currentEmotion.intensity * 100).toFixed(0)}%</span>
+                  <div className="flex justify-between">
+                    <span className="text-primary/70">Intensity:</span>
+                    <span className="text-primary">{(currentEmotion.intensity * 100).toFixed(0)}%</span>
                   </div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Confidence:</span>
-                    <span className="glass-glass-glass-text-primary">{(currentEmotion.confidence * 100).toFixed(0)}%</span>
+                  <div className="flex justify-between">
+                    <span className="text-primary/70">Confidence:</span>
+                    <span className="text-primary">{(currentEmotion.confidence * 100).toFixed(0)}%</span>
                   </div>
                 </div>
               ) : (
-                <p className="glass-glass-glass-text-primary/70">Analyzing emotions...</p>
+                <p className="text-primary/70">Analyzing emotions...</p>
               )}
             </div>
             
-            <div className="glass-glass-glass-p-4 glass-surface-subtle/10 glass-radius-lg">
-              <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-mb-3">AI Profile</h4>
+            <div className="p-4 glass-surface-subtle/10 glass-radius-lg">
+              <h4 className="text-primary font-medium mb-3">AI Profile</h4>
               {profile ? (
-                <div className="glass-glass-glass-gap-2">
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Confidence:</span>
-                    <span className="glass-glass-glass-text-primary">{(profile.confidence * 100).toFixed(0)}%</span>
+                <div className="gap-2">
+                  <div className="flex justify-between">
+                    <span className="text-primary/70">Confidence:</span>
+                    <span className="text-primary">{(profile.confidence * 100).toFixed(0)}%</span>
                   </div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Interactions:</span>
-                    <span className="glass-glass-glass-text-primary">{demoState.interactionCount}</span>
+                  <div className="flex justify-between">
+                    <span className="text-primary/70">Interactions:</span>
+                    <span className="text-primary">{demoState.interactionCount}</span>
                   </div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Theme:</span>
-                    <span className="glass-glass-glass-text-primary glass-glass-glass-capitalize">{profile.uiPreferences.colorScheme}</span>
+                  <div className="flex justify-between">
+                    <span className="text-primary/70">Theme:</span>
+                    <span className="text-primary capitalize">{profile.uiPreferences.colorScheme}</span>
                   </div>
                 </div>
               ) : (
-                <p className="glass-glass-glass-text-primary/70">Building profile...</p>
+                <p className="text-primary/70">Building profile...</p>
               )}
             </div>
           </div>
           
           {/* Interactive Demo */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Array.from({ length: 4 }, (_, i) => (
               <SmartAdaptiveButton
                 key={i}
                 onAdvancedInteraction={handleAdvancedInteraction}
-                className="glass-glass-glass-h-16"
+                className="h-16"
               >
                 Smart Button {i + 1}
               </SmartAdaptiveButton>
@@ -361,13 +361,13 @@ export const EnhancementShowcase: React.FC = () => {
           
           {/* Recent Predictions */}
           {demoState.predictions.length > 0 && (
-            <div className="glass-glass-glass-p-4 glass-surface-subtle/10 glass-radius-lg">
-              <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-mb-3">Behavioral Predictions</h4>
-              <div className="glass-glass-glass-gap-2">
+            <div className="p-4 glass-surface-subtle/10 glass-radius-lg">
+              <h4 className="text-primary font-medium mb-3">Behavioral Predictions</h4>
+              <div className="gap-2">
                 {demoState.predictions.slice(0, 3).map((prediction, i) => (
-                  <div key={i} className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-sm">
-                    <span className="glass-glass-glass-text-primary/70">{prediction.action}</span>
-                    <span className="glass-glass-glass-text-primary">{(prediction.probability * 100).toFixed(0)}%</span>
+                  <div key={i} className="flex justify-between text-sm">
+                    <span className="text-primary/70">{prediction.action}</span>
+                    <span className="text-primary">{(prediction.probability * 100).toFixed(0)}%</span>
                   </div>
                 ))}
               </div>
@@ -389,23 +389,23 @@ export const EnhancementShowcase: React.FC = () => {
         'Cross-Platform Compatibility'
       ],
       component: (
-        <div className="space-y-6 glass-glass-glass-p-6">
+        <div className="space-y-6 p-6">
           <SpatialComputingEngine
             enableGestures={true}
             enableAnchoring={true}
             gestureTypes={['tap', 'pinch', 'grab', 'swipe']}
-            className="glass-glass-glass-h-48 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl"
+            className="h-48 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl"
             onGesture={(gesture) => console.log('Gesture detected:', gesture)}
           >
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full">
-              <div className="glass-glass-glass-text-primary glass-glass-glass-text-center">
-                <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-mb-2">Spatial Interface</h3>
-                <p className="glass-glass-glass-text-primary/70 glass-glass-glass-mb-4">Touch, pinch, or gesture to interact</p>
-                <div className="glass-glass-glass-gap-4">
-                  <button className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+            <div className="flex items-center justify-center h-full">
+              <div className="text-primary text-center">
+                <h3 className="text-xl font-bold mb-2">Spatial Interface</h3>
+                <p className="text-primary/70 mb-4">Touch, pinch, or gesture to interact</p>
+                <div className="gap-4">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
                     Tap Gesture
                   </button>
-                  <button className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
                     Pinch Gesture
                   </button>
                 </div>
@@ -413,7 +413,7 @@ export const EnhancementShowcase: React.FC = () => {
             </div>
           </SpatialComputingEngine>
           
-          <div className="glass-glass-glass-text-center glass-glass-glass-text-primary/70 glass-glass-glass-text-sm">
+          <div className="text-center text-primary/70 text-sm">
             * Spatial computing features require compatible hardware for full functionality
           </div>
         </div>
@@ -432,14 +432,14 @@ export const EnhancementShowcase: React.FC = () => {
         'Future-Ready Architecture'
       ],
       component: (
-        <div className="space-y-8 glass-glass-glass-p-6">
+        <div className="space-y-8 p-6">
           {/* Ultimate Demo Component */}
           <Glass3DEngine
             enableParallax={true}
             enableDepthOfField={true}
             enableHolographic={true}
             maxDepthLayers={8}
-            className="glass-glass-glass-relative h-80 glass-gradient-primary glass-gradient-primary via-purple/30 glass-gradient-primary glass-radius-2xl overflow-hidden"
+            className="relative h-80 glass-gradient-primary glass-gradient-primary via-purple/30 glass-gradient-primary glass-radius-2xl overflow-hidden"
           >
             <GlassMorphingEngine
               enableRealTimeAdaptation={true}
@@ -457,15 +457,15 @@ export const EnhancementShowcase: React.FC = () => {
                   emotionalContext={(currentEmotion?.primary as any) || 'calm'}
                   enableMicroInteractions={true}
                 >
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full">
-                    <div className="glass-glass-glass-text-primary glass-glass-glass-text-center space-y-6">
-                      <h2 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold">Ultimate Glass Experience</h2>
-                      <p className="glass-glass-glass-text-primary/80 max-w-md glass-glass-glass-mx-auto">
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-primary text-center space-y-6">
+                      <h2 className="text-3xl font-bold">Ultimate Glass Experience</h2>
+                      <p className="text-primary/80 max-w-md mx-auto">
                         Every enhancement system active: Physics, Morphing, 3D, Organic Motion, 
                         Emotional Intelligence, and AI Personalization working in perfect harmony.
                       </p>
                       
-                      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4 mt-8">
+                      <div className="grid grid-cols-2 gap-4 mt-8">
                         <UltraEnhancedButton 
                           onAdvancedInteraction={handleAdvancedInteraction}
                           className="glass-surface-subtle/20 hover:glass-surface-subtle/30"
@@ -487,19 +487,19 @@ export const EnhancementShowcase: React.FC = () => {
           </Glass3DEngine>
           
           {/* System Status */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { name: 'Physics Engine', status: 'Active', color: 'green' },
               { name: 'Morphing System', status: 'Adapting', color: 'blue' },
               { name: '3D Renderer', status: 'Rendering', color: 'purple' },
               { name: 'AI Intelligence', status: 'Learning', color: 'orange' },
             ].map(({ name, status, color }) => (
-              <div key={name} className="glass-glass-glass-p-3 glass-surface-subtle/10 glass-radius-lg">
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                  <span className="glass-glass-glass-text-primary glass-glass-glass-text-sm glass-glass-glass-font-medium">{name}</span>
+              <div key={name} className="p-3 glass-surface-subtle/10 glass-radius-lg">
+                <div className="flex items-center justify-between">
+                  <span className="text-primary text-sm font-medium">{name}</span>
                   <div className={`w-2 h-2 glass-radius-full bg-${color}-400 animate-pulse`} />
                 </div>
-                <div className="glass-glass-glass-text-primary/70 glass-glass-glass-text-xs glass-mt-1">{status}</div>
+                <div className="text-primary/70 text-xs glass-mt-1">{status}</div>
               </div>
             ))}
           </div>
@@ -509,22 +509,22 @@ export const EnhancementShowcase: React.FC = () => {
   ];
 
   return (
-    <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary">
+    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary">
       {/* Header */}
-      <div className="glass-surface-subtle/5 backdrop-blur-lg glass-glass-glass-border-b glass-glass-glass-border-white/10">
-        <div className="max-w-7xl glass-glass-glass-mx-auto glass-glass-glass-px-4 sm:glass-glass-glass-px-6 lg:glass-glass-glass-px-8">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-h-16">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
-              <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg" />
-              <h1 className="glass-glass-glass-text-primary glass-glass-glass-text-xl glass-glass-glass-font-bold">AuraGlass Enhancement Showcase</h1>
+      <div className="glass-surface-subtle/5 backdrop-blur-lg border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-4">
+              <div className="w-8 h-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg" />
+              <h1 className="text-primary text-xl font-bold">AuraGlass Enhancement Showcase</h1>
             </div>
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
-              <div className="glass-glass-glass-text-primary/70 glass-glass-glass-text-sm">
+            <div className="flex items-center gap-4">
+              <div className="text-primary/70 text-sm">
                 Interactions: {demoState.interactionCount}
               </div>
               <button
                 onClick={() => setIsFullDemo(!isFullDemo)}
-                className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-glass-glass-text-primary glass-radius-lg transition-colors"
+                className="px-4 py-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 text-primary glass-radius-lg transition-colors"
               >
                 {isFullDemo ? 'Exit Full Demo' : 'Full Demo Mode'}
               </button>
@@ -534,9 +534,9 @@ export const EnhancementShowcase: React.FC = () => {
       </div>
 
       {/* Navigation */}
-      <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm">
-        <div className="max-w-7xl glass-glass-glass-mx-auto glass-glass-glass-px-4 sm:glass-glass-glass-px-6 lg:glass-glass-glass-px-8">
-          <nav className="glass-glass-glass-flex space-x-8 glass-glass-glass-overflow-x-auto glass-glass-glass-py-4">
+      <div className="glass-surface-subtle/5 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex space-x-8 overflow-x-auto py-4">
             {showcaseSections.map((section) => (
               <button
                 key={section.id}
@@ -555,7 +555,7 @@ export const EnhancementShowcase: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl glass-glass-glass-mx-auto glass-glass-glass-px-4 sm:glass-glass-glass-px-6 lg:glass-glass-glass-px-8 glass-glass-glass-py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <AnimatePresence mode="wait">
           {showcaseSections.map((section) => (
             activeSection === section.id && (
@@ -568,18 +568,18 @@ export const EnhancementShowcase: React.FC = () => {
                 className="space-y-8"
               >
                 {/* Section Header */}
-                <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-                  <h2 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-glass-glass-text-primary">{section.title}</h2>
-                  <p className="glass-glass-glass-text-xl glass-glass-glass-text-primary/70 max-w-3xl glass-glass-glass-mx-auto">
+                <div className="text-center gap-4">
+                  <h2 className="text-4xl font-bold text-primary">{section.title}</h2>
+                  <p className="text-xl text-primary/70 max-w-3xl mx-auto">
                     {section.description}
                   </p>
                   
                   {/* Features List */}
-                  <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-justify-center glass-glass-glass-gap-2 mt-6">
+                  <div className="flex flex-wrap justify-center gap-2 mt-6">
                     {section.features.map((feature) => (
                       <span
                         key={feature}
-                        className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-surface-subtle/10 glass-glass-glass-text-primary/90 glass-glass-glass-text-sm glass-radius-full"
+                        className="px-3 py-1 glass-surface-subtle/10 text-primary/90 text-sm glass-radius-full"
                       >
                         {feature}
                       </span>
@@ -588,7 +588,7 @@ export const EnhancementShowcase: React.FC = () => {
                 </div>
 
                 {/* Section Component */}
-                <div className="glass-surface-subtle/5 backdrop-blur-lg glass-radius-2xl glass-glass-glass-border glass-glass-glass-border-white/10 overflow-hidden">
+                <div className="glass-surface-subtle/5 backdrop-blur-lg glass-radius-2xl border border-white/10 overflow-hidden">
                   {section.component}
                 </div>
               </motion.div>
@@ -598,13 +598,13 @@ export const EnhancementShowcase: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="glass-surface-subtle/5 backdrop-blur-lg glass-glass-glass-border-t glass-glass-glass-border-white/10 glass-mt-16">
-        <div className="max-w-7xl glass-glass-glass-mx-auto glass-glass-glass-px-4 sm:glass-glass-glass-px-6 lg:glass-glass-glass-px-8 glass-glass-glass-py-8">
-          <div className="glass-glass-glass-text-center glass-glass-glass-text-primary/60">
-            <p className="glass-glass-glass-text-lg glass-glass-glass-mb-2">
+      <div className="glass-surface-subtle/5 backdrop-blur-lg border-t border-white/10 glass-mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center text-primary/60">
+            <p className="text-lg mb-2">
               Experience the future of glassmorphism with consciousness interface technology
             </p>
-            <p className="glass-glass-glass-text-sm">
+            <p className="text-sm">
               Built with React, Framer Motion, and advanced AI/ML systems
             </p>
           </div>

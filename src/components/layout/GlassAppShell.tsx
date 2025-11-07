@@ -279,7 +279,7 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
         {sidebarElement}
 
         {/* Main content area */}
-        <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-flex-1 overflow-hidden">
+        <div className="flex flex-col flex-1 overflow-hidden">
           {/* Header */}
           {headerElement}
 
@@ -296,7 +296,7 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
             )}
           >
             {loading && loadingComponent ? (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full">
+              <div className="flex items-center justify-center h-full">
                 {loadingComponent}
               </div>
             ) : (
@@ -315,7 +315,7 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
                 {pageTransition && shouldRespectMotion ? (
                   <Motion
                     preset="fadeIn"
-                    className="glass-glass-glass-h-full"
+                    className="h-full"
                   >
                     {children}
                   </Motion>
@@ -382,19 +382,19 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
       >
         {/* Breadcrumb */}
         {breadcrumb && (
-          <div className="glass-glass-glass-text-sm glass-text-secondary">
+          <div className="text-sm glass-text-secondary">
             {Array.isArray(breadcrumb) ? (
               <nav aria-label="Breadcrumb">
-                <ol className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                <ol className="flex items-center gap-2">
                   {breadcrumb.map((item, index) => {
                     const isLast = index === breadcrumb.length - 1;
                     return (
-                      <li key={index} className="glass-glass-glass-flex glass-glass-glass-items-center">
-                        {index > 0 && <span className="glass-glass-glass-mx-2">/</span>}
+                      <li key={index} className="flex items-center">
+                        {index > 0 && <span className="mx-2">/</span>}
                         {item?.href && !isLast ? (
                           <a
                             href={item?.href}
-                            className="hover:glass-glass-glass-text-primary transition-colors"
+                            className="hover:text-primary transition-colors"
                           >
                             {item?.label}
                           </a>
@@ -419,8 +419,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
           'flex glass-gap-4',
           variant === 'centered' ? 'flex-col items-center' : 'flex-col sm:flex-row sm:items-center sm:justify-between'
         )}>
-          <div className="glass-glass-glass-gap-2">
-            <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+          <div className="gap-2">
+            <h1 className="text-3xl font-bold text-primary">
               {title}
             </h1>
             {description && (
@@ -435,7 +435,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
 
           {/* Actions */}
           {actions && (
-            <div className="glass-glass-glass-flex-shrink-0">
+            <div className="flex-shrink-0">
               {actions}
             </div>
           )}
@@ -472,15 +472,15 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
     const shouldRespectMotion = respectMotionPreference && !prefersReducedMotion;
 
     const content = (
-      <VStack space="lg" className="glass-glass-glass-w-full">
+      <VStack space="lg" className="w-full">
         {/* Section header */}
         {(title || description || actions) && (
-          <div className="glass-glass-glass-flex glass-glass-glass-flex-col sm:glass-glass-glass-flex-row sm:glass-glass-glass-items-center sm:glass-glass-glass-justify-between glass-glass-glass-gap-4">
-            <div className="glass-glass-glass-gap-1">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="gap-1">
               {title && (
                 <h2 
                   id={`${id || sectionId}-title`}
-                  className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary"
+                  className="text-xl font-semibold text-primary"
                 >
                   {title}
                 </h2>
@@ -493,7 +493,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
             </div>
 
             {actions && (
-              <div className="glass-glass-glass-flex-shrink-0">
+              <div className="flex-shrink-0">
                 {actions}
               </div>
             )}
@@ -501,7 +501,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
         )}
 
         {/* Section content */}
-        <div className="glass-glass-glass-w-full">
+        <div className="w-full">
           {children}
         </div>
       </VStack>

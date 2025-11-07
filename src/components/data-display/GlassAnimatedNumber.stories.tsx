@@ -74,32 +74,32 @@ export const Default: Story = {
 
 export const WithPrefixSuffix: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 max-w-4xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedNumber {...args} value={42.5} prefix="$" suffix="K" decimals={1} />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Revenue</p>
+          <p className="text-sm opacity-80 glass-mt-2">Revenue</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedNumber {...args} value={9876543} suffix=" views" separator={true} />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Total Views</p>
+          <p className="text-sm opacity-80 glass-mt-2">Total Views</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedNumber {...args} value={89.7} suffix="%" decimals={1} />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Completion Rate</p>
+          <p className="text-sm opacity-80 glass-mt-2">Completion Rate</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedNumber {...args} value={156} prefix="Level " />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Current Level</p>
+          <p className="text-sm opacity-80 glass-mt-2">Current Level</p>
         </div>
       </GlassCard>
     </div>
@@ -109,24 +109,24 @@ export const WithPrefixSuffix: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6 max-w-6xl">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl">
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-4">Count Variant</h4>
+        <div className="p-6 text-center">
+          <h4 className="text-sm font-medium mb-4">Count Variant</h4>
           <GlassAnimatedNumber {...args} variant="count" value={54321} />
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-4">Scale Variant</h4>
+        <div className="p-6 text-center">
+          <h4 className="text-sm font-medium mb-4">Scale Variant</h4>
           <GlassAnimatedNumber {...args} variant="scale" value={54321} />
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-4">Glow Variant</h4>
+        <div className="p-6 text-center">
+          <h4 className="text-sm font-medium mb-4">Glow Variant</h4>
           <GlassAnimatedNumber {...args} variant="glow" value={54321} />
         </div>
       </GlassCard>
@@ -137,25 +137,25 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center space-y-6">
-      <div className="glass-glass-glass-text-center">
+    <div className="flex flex-col items-center space-y-6">
+      <div className="text-center">
         <GlassAnimatedNumber {...args} size="sm" value={1234} />
-        <p className="glass-glass-glass-text-xs opacity-80 glass-mt-1">Small</p>
+        <p className="text-xs opacity-80 glass-mt-1">Small</p>
       </div>
 
-      <div className="glass-glass-glass-text-center">
+      <div className="text-center">
         <GlassAnimatedNumber {...args} size="md" value={56789} />
-        <p className="glass-glass-glass-text-xs opacity-80 glass-mt-1">Medium</p>
+        <p className="text-xs opacity-80 glass-mt-1">Medium</p>
       </div>
 
-      <div className="glass-glass-glass-text-center">
+      <div className="text-center">
         <GlassAnimatedNumber {...args} size="lg" value={123456} />
-        <p className="glass-glass-glass-text-xs opacity-80 glass-mt-1">Large</p>
+        <p className="text-xs opacity-80 glass-mt-1">Large</p>
       </div>
 
-      <div className="glass-glass-glass-text-center">
+      <div className="text-center">
         <GlassAnimatedNumber {...args} size="xl" value={987654} />
-        <p className="glass-glass-glass-text-xs opacity-80 glass-mt-1">Extra Large</p>
+        <p className="text-xs opacity-80 glass-mt-1">Extra Large</p>
       </div>
     </div>
   ),
@@ -182,17 +182,17 @@ export const InteractiveDemo: Story = {
 
     return (
       <GlassCard>
-        <div className="glass-glass-glass-p-8 glass-glass-glass-text-center space-y-6">
+        <div className="p-8 text-center space-y-6">
           <div>
             <GlassAnimatedNumber
               {...args}
               value={currentValue}
               className={isAnimating ? 'animate-pulse' : ''}
             />
-            <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Current Value</p>
+            <p className="text-sm opacity-80 glass-mt-2">Current Value</p>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-gap-3">
+          <div className="flex justify-center gap-3">
             <GlassButton onClick={handleRandomValue} disabled={isAnimating}>
               Random Value
             </GlassButton>
@@ -201,7 +201,7 @@ export const InteractiveDemo: Story = {
             </GlassButton>
           </div>
 
-          <div className="glass-glass-glass-text-xs opacity-60">
+          <div className="text-xs opacity-60">
             Click buttons to see the number animate to new values
           </div>
         </div>
@@ -213,20 +213,20 @@ export const InteractiveDemo: Story = {
 
 export const AnimatedCounter: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 max-w-4xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-4">Simple Counter</h4>
+        <div className="p-6 text-center">
+          <h4 className="text-sm font-medium mb-4">Simple Counter</h4>
           <GlassAnimatedCounter value={42} />
-          <p className="glass-glass-glass-text-xs opacity-80 glass-mt-2">Items in cart</p>
+          <p className="text-xs opacity-80 glass-mt-2">Items in cart</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-4">Score Counter</h4>
+        <div className="p-6 text-center">
+          <h4 className="text-sm font-medium mb-4">Score Counter</h4>
           <GlassAnimatedCounter value={15420} />
-          <p className="glass-glass-glass-text-xs opacity-80 glass-mt-2">Total score</p>
+          <p className="text-xs opacity-80 glass-mt-2">Total score</p>
         </div>
       </GlassCard>
     </div>
@@ -236,9 +236,9 @@ export const AnimatedCounter: Story = {
 
 export const AnimatedStat: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6 max-w-6xl">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl">
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedStat
             value={2847}
             label="Active Users"
@@ -247,7 +247,7 @@ export const AnimatedStat: Story = {
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedStat
             value={95.2}
             label="Uptime"
@@ -256,7 +256,7 @@ export const AnimatedStat: Story = {
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
+        <div className="p-6 text-center">
           <GlassAnimatedStat
             value={1247}
             label="Revenue"
@@ -270,36 +270,36 @@ export const AnimatedStat: Story = {
 
 export const DashboardExample: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6 max-w-7xl">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl">
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">📊</div>
+        <div className="p-6 text-center">
+          <div className="text-2xl mb-2">📊</div>
           <GlassAnimatedNumber {...args} value={15420} size="xl" />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Total Views</p>
+          <p className="text-sm opacity-80 glass-mt-2">Total Views</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">👥</div>
+        <div className="p-6 text-center">
+          <div className="text-2xl mb-2">👥</div>
           <GlassAnimatedNumber {...args} value={2847} size="xl" />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Active Users</p>
+          <p className="text-sm opacity-80 glass-mt-2">Active Users</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">💰</div>
+        <div className="p-6 text-center">
+          <div className="text-2xl mb-2">💰</div>
           <GlassAnimatedNumber {...args} value={89456} prefix="$" separator={true} size="xl" />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Revenue</p>
+          <p className="text-sm opacity-80 glass-mt-2">Revenue</p>
         </div>
       </GlassCard>
 
       <GlassCard>
-        <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-          <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">⚡</div>
+        <div className="p-6 text-center">
+          <div className="text-2xl mb-2">⚡</div>
           <GlassAnimatedNumber {...args} value={99.7} suffix="%" decimals={1} size="xl" />
-          <p className="glass-glass-glass-text-sm opacity-80 glass-mt-2">Uptime</p>
+          <p className="text-sm opacity-80 glass-mt-2">Uptime</p>
         </div>
       </GlassCard>
     </div>

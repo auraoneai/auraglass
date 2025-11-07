@@ -521,7 +521,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((
       duration={0.3}
       animateOnMount={isVisible}
       animateOnHover={!disabled}
-      className="inline-glass-glass-glass-block"
+      className="inline-block"
     >
       {variant === 'glass' ? (
         <OptimizedGlass
@@ -551,11 +551,11 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((
           {...a11yProps}
           {...rest}
         >
-          <span className="glass-glass-glass-relative glass-glass-glass-z-10">
+          <span className="relative z-10">
             {children}
           </span>
           {description && (
-            <span id={descriptionId} className="glass-glass-glass-sr-only">
+            <span id={descriptionId} className="sr-only">
               {description}
             </span>
           )}
@@ -585,7 +585,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((
         >
           {children}
           {description && (
-            <span id={descriptionId} className="glass-glass-glass-sr-only">
+            <span id={descriptionId} className="sr-only">
               {description}
             </span>
           )}

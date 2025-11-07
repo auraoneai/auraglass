@@ -145,11 +145,11 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
           {...props}
         >
             <nav aria-label="Breadcrumb" id={navId}>
-                <ol className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                <ol className="flex items-center gap-2">
                     {itemsToRender.map((item, index) => (
-                        <li key={index} className="glass-glass-glass-flex glass-glass-glass-items-center">
+                        <li key={index} className="flex items-center">
                             {index > 0 && (
-                                <span className="glass-glass-glass-mx-2 glass-glass-glass-text-primary/40" aria-hidden="true">
+                                <span className="mx-2 text-primary/40" aria-hidden="true">
                                     {separator}
                                 </span>
                             )}

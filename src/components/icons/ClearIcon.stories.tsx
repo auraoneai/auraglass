@@ -47,7 +47,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
+    <div className="flex items-center gap-4">
       <ClearIcon {...args} size={16} />
       <ClearIcon {...args} size={24} />
       <ClearIcon {...args} size={32} />

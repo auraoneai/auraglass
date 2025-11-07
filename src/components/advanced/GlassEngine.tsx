@@ -516,14 +516,14 @@ export const GlassEngineDemo: React.FC = () => {
   const { config, updateConfig, createGlassStyle } = useGlassEngine();
 
   return (
-    <div className="space-y-6 glass-glass-glass-p-6">
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4">
+    <div className="space-y-6 p-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {/* Different texture types */}
         {(['smooth', 'frosted', 'rippled', 'crystalline'] as const).map((texture) => (
           <AdaptiveGlass
             key={texture}
             textureOverride={texture}
-            className="glass-glass-glass-p-4 glass-glass-glass-text-center"
+            className="p-4 text-center"
           >
             <h3 className={cn("glass-text-primary glass-font-medium glass-capitalize glass-mb-2")}>{texture}</h3>
             <p className={cn("glass-text-secondary glass-text-sm")}>Glass texture variation</p>
@@ -531,31 +531,31 @@ export const GlassEngineDemo: React.FC = () => {
         ))}
       </div>
 
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Opacity Engine */}
-        <GlassOpacityEngine trigger="hover" className="glass-glass-glass-p-4">
+        <GlassOpacityEngine trigger="hover" className="p-4">
           <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>Dynamic Opacity</h3>
           <p className={cn("glass-text-secondary glass-text-sm")}>Hover to see opacity change</p>
         </GlassOpacityEngine>
 
         {/* Color Tinting */}
-        <GlassColorTinting contentAware className="glass-glass-glass-p-4">
+        <GlassColorTinting contentAware className="p-4">
           <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>Content-Aware Tinting</h3>
           <p className={cn("glass-text-secondary glass-text-sm")}>Adapts to content colors</p>
         </GlassColorTinting>
 
         {/* Environmental */}
-        <EnvironmentalGlass timeSync className="glass-glass-glass-p-4">
+        <EnvironmentalGlass timeSync className="p-4">
           <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>Environmental</h3>
           <p className={cn("glass-text-secondary glass-text-sm")}>Reacts to time and weather</p>
         </EnvironmentalGlass>
       </div>
 
       {/* Controls */}
-      <div className="glass-glass-glass-p-4" style={createGlassStyle('base')}>
+      <div className="p-4" style={createGlassStyle('base')}>
         <h3 className={cn("glass-text-primary glass-font-medium glass-mb-4")}>Glass Engine Controls</h3>
 
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className={cn("glass-display-block glass-text-secondary glass-text-sm glass-mb-2")}>Base Opacity</label>
             <input
@@ -567,7 +567,7 @@ export const GlassEngineDemo: React.FC = () => {
               onChange={(e) => updateConfig({
                 opacity: { ...config.opacity, base: parseFloat(e.target.value) }
               })}
-              className="glass-glass-glass-w-full"
+              className="w-full"
             />
           </div>
 
@@ -581,14 +581,14 @@ export const GlassEngineDemo: React.FC = () => {
               onChange={(e) => updateConfig({
                 blur: { ...config.blur, base: parseInt(e.target.value) }
               })}
-              className="glass-glass-glass-w-full"
+              className="w-full"
             />
           </div>
         </div>
 
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between mt-4">
+        <div className="flex items-center justify-between mt-4">
           <span className={cn("glass-text-secondary")}>Environmental Reactions</span>
-          <label className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+          <label className="flex items-center space-x-2">
             <input
               type="checkbox"
               checked={config.environment.weatherReactive}

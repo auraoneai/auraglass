@@ -147,7 +147,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
       >
         {/* Left/Top Pane */}
         <div 
-          className="glass-glass-glass-min-glass-glass-w-0 glass-glass-glass-min-glass-glass-h-0 glass-glass-glass-overflow-auto"
+          className="min-w-0 min-h-0 overflow-auto"
           aria-label={direction === 'horizontal' ? 'Left pane' : 'Top pane'}
         >
           {left}
@@ -178,7 +178,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
         
         {/* Right/Bottom Pane */}
         <div 
-          className="glass-glass-glass-min-glass-glass-w-0 glass-glass-glass-min-glass-glass-h-0 glass-glass-glass-overflow-auto"
+          className="min-w-0 min-h-0 overflow-auto"
           aria-label={direction === 'horizontal' ? 'Right pane' : 'Bottom pane'}
         >
           {right}

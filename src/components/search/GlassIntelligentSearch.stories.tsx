@@ -223,41 +223,41 @@ export const SearchShowcase: Story = {
     return (
       <div className="space-y-8">
         {/* Header */}
-        <div className="glass-glass-glass-text-center glass-glass-glass-py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
-          <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-text-secondary glass-glass-glass-mb-4">🔍 Intelligent Search System</h1>
-          <p className="glass-glass-glass-text-lg glass-text-secondary max-w-3xl glass-glass-glass-mx-auto leading-relaxed">
+        <div className="text-center py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
+          <h1 className="text-3xl font-bold glass-text-secondary mb-4">🔍 Intelligent Search System</h1>
+          <p className="text-lg glass-text-secondary max-w-3xl mx-auto leading-relaxed">
             Experience the future of search with natural language processing, intelligent filters, 
             voice recognition, and smart suggestions powered by advanced algorithms.
           </p>
           
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6 mt-8 max-w-4xl glass-glass-glass-mx-auto">
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-blue glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+          <div className="grid glass-grid-cols-1 md:glass-grid-cols-4 gap-6 mt-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-blue text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 🧠
               </div>
-              <h3 className="glass-glass-glass-font-semibold">NLP Processing</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Understand natural language queries with intent recognition</p>
+              <h3 className="font-semibold">NLP Processing</h3>
+              <p className="text-sm glass-text-secondary mt-1">Understand natural language queries with intent recognition</p>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-green glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-green text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 🎤
               </div>
-              <h3 className="glass-glass-glass-font-semibold">Voice Search</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Speech-to-text search with real-time recognition</p>
+              <h3 className="font-semibold">Voice Search</h3>
+              <p className="text-sm glass-text-secondary mt-1">Speech-to-text search with real-time recognition</p>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-primary glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-primary text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 🔧
               </div>
-              <h3 className="glass-glass-glass-font-semibold">Smart Filters</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Dynamic filters that adapt to your content</p>
+              <h3 className="font-semibold">Smart Filters</h3>
+              <p className="text-sm glass-text-secondary mt-1">Dynamic filters that adapt to your content</p>
             </div>
-            <div className="glass-glass-glass-text-center">
-              <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-surface-primary glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mx-auto glass-glass-glass-mb-3">
+            <div className="text-center">
+              <div className="w-12 h-12 glass-surface-primary text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
                 ✨
               </div>
-              <h3 className="glass-glass-glass-font-semibold">Auto-suggestions</h3>
-              <p className="glass-glass-glass-text-sm glass-text-secondary mt-1">Intelligent suggestions based on content and history</p>
+              <h3 className="font-semibold">Auto-suggestions</h3>
+              <p className="text-sm glass-text-secondary mt-1">Intelligent suggestions based on content and history</p>
             </div>
           </div>
         </div>
@@ -274,11 +274,11 @@ export const SearchShowcase: Story = {
           maxResults={12}
         />
 
-        <div className="glass-surface-subtle glass-glass-glass-border-l-4 glass-glass-glass-border-yellow glass-glass-glass-p-6 glass-radius-r-lg">
-          <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">🧪 Try These Advanced Search Examples</h3>
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4 glass-glass-glass-text-sm glass-glass-glass-text-primary">
+        <div className="glass-surface-subtle border-l-4 border-yellow p-6 glass-radius-r-lg">
+          <h3 className="font-semibold text-primary mb-2">🧪 Try These Advanced Search Examples</h3>
+          <div className="grid glass-grid-cols-1 md:glass-grid-cols-2 gap-4 text-sm text-primary">
             <div>
-              <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-2">Natural Language Queries:</h4>
+              <h4 className="font-medium mb-2">Natural Language Queries:</h4>
               <ul className="space-y-1">
                 <li>• "Find the best React tutorials"</li>
                 <li>• "Show me guides about performance"</li>
@@ -288,7 +288,7 @@ export const SearchShowcase: Story = {
               </ul>
             </div>
             <div>
-              <h4 className="glass-glass-glass-font-medium glass-glass-glass-mb-2">Smart Features to Try:</h4>
+              <h4 className="font-medium mb-2">Smart Features to Try:</h4>
               <ul className="space-y-1">
                 <li>• Use voice search with the microphone button</li>
                 <li>• Watch auto-suggestions as you type</li>
@@ -339,10 +339,10 @@ export const LargeDataset: Story = {
     });
 
     return (
-      <div className="glass-glass-glass-space-y-4">
-        <div className="glass-surface-subtle glass-glass-glass-p-4 glass-radius-lg">
-          <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">Performance Test Dataset</h3>
-          <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm">
+      <div className="space-y-4">
+        <div className="glass-surface-subtle p-4 glass-radius-lg">
+          <h3 className="font-semibold text-primary mb-2">Performance Test Dataset</h3>
+          <p className="text-primary text-sm">
             This demo uses {largeDataset.length} items to test search performance with larger datasets. 
             Try searching for technology names, topics, or categories to see how the intelligent search handles scale.
           </p>

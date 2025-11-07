@@ -66,7 +66,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassInput {...args} variant="default" placeholder="Default variant" />
       <GlassInput {...args} variant="filled" placeholder="Filled variant" />
       <GlassInput {...args} variant="outlined" placeholder="Outlined variant" />
@@ -77,7 +77,7 @@ export const Variants: Story = {
 
 export const States: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassInput {...args} state="default" placeholder="Default state" />
       <GlassInput {...args} state="success" placeholder="Success state" />
       <GlassInput {...args} state="warning" placeholder="Warning state" />
@@ -88,7 +88,7 @@ export const States: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassInput {...args} size="sm" placeholder="Small size" />
       <GlassInput {...args} size="md" placeholder="Medium size" />
       <GlassInput {...args} size="lg" placeholder="Large size" />
@@ -98,7 +98,7 @@ export const Sizes: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassInput {...args} leftIcon="🔍" placeholder="With left icon" />
       <GlassInput {...args} rightIcon="✨" placeholder="With right icon" />
       <GlassInput {...args} leftIcon="👤" rightIcon="✓" placeholder="With both icons" />
@@ -112,14 +112,14 @@ export const Controlled: Story = {
     const ControlledInput = () => {
       const [value, setValue] = useState('Hello');
       return (
-        <div className="max-w-md glass-glass-glass-space-y-3">
+        <div className="max-w-md space-y-3">
           <GlassInput
             {...args}
             value={value}
             onChange={(e) => setValue((e.target as HTMLInputElement).value)}
             placeholder={args.placeholder ?? 'Controlled input'}
           />
-          <div className="glass-glass-glass-text-sm glass-text-secondary">
+          <div className="text-sm glass-text-secondary">
             Current value: <code>{JSON.stringify(value)}</code>
           </div>
         </div>

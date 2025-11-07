@@ -161,7 +161,7 @@ export const MotionAwareGlass = forwardRef<HTMLDivElement, MotionAwareGlassProps
 
         {/* Screen reader information for motion preference */}
         {prefersReducedMotion && (
-          <span className="glass-glass-glass-sr-only">
+          <span className="sr-only">
             Motion reduced for accessibility
           </span>
         )}

@@ -116,14 +116,14 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
           border="subtle"
           animation="none"
           performanceMode="medium"
-           className="glass-glass-glass-p-6">
+           className="p-6">
         <div className="glass-auto-gap glass-auto-gap-lg">
           {/* Header */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
+          <div className="flex items-center gap-4">
             {avatar && (
               <div className={cn('glass-radius-full', baseClasses, avatarSizes[avatarSize])} style={getSkeletonStyle()} />
             )}
-            <div className="glass-auto-gap glass-auto-gap-sm glass-glass-glass-flex-1">
+            <div className="glass-auto-gap glass-auto-gap-sm flex-1">
               <div className={cn(baseClasses, 'h-5 w-3/4')} style={getSkeletonStyle()} />
               <div className={cn(baseClasses, 'h-4 w-1/2')} style={getSkeletonStyle()} />
             </div>
@@ -141,7 +141,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
           </div>
           
           {/* Actions */}
-          <div className="glass-glass-glass-flex glass-glass-glass-gap-3 pt-2">
+          <div className="flex gap-3 pt-2">
             <div className={cn(baseClasses, 'h-9 w-20 glass-radius-lg')} style={getSkeletonStyle()} />
             <div className={cn(baseClasses, 'h-9 w-16 glass-radius-lg')} style={getSkeletonStyle()} />
           </div>
@@ -152,9 +152,9 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
     const renderListSkeleton = () => (
       <div className="glass-auto-gap glass-auto-gap-md">
         {Array.from({ length: rows }, (_, index) => (
-          <div key={index} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4 glass-glass-glass-p-3">
+          <div key={index} className="flex items-center gap-4 p-3">
             <div className={cn('glass-radius-full', baseClasses, 'w-10 h-10')} style={getSkeletonStyle()} />
-            <div className="glass-auto-gap glass-auto-gap-sm glass-glass-glass-flex-1">
+            <div className="glass-auto-gap glass-auto-gap-sm flex-1">
               <div className={cn(baseClasses, 'h-4 w-3/4')} style={getSkeletonStyle()} />
               <div className={cn(baseClasses, 'h-3 w-1/2')} style={getSkeletonStyle()} />
             </div>
@@ -167,7 +167,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
     const renderTableSkeleton = () => (
       <div className="glass-auto-gap glass-auto-gap-sm">
         {/* Header */}
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-white/10">
+        <div className="grid grid-cols-4 gap-4 p-4 border-b border-white/10">
           {Array.from({ length: 4 }, (_, index) => (
             <div key={index} className={cn(baseClasses, 'h-4 w-16')} style={getSkeletonStyle()} />
           ))}
@@ -175,7 +175,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
         
         {/* Rows */}
         {Array.from({ length: rows }, (_, rowIndex) => (
-          <div key={rowIndex} className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 glass-glass-glass-p-4">
+          <div key={rowIndex} className="grid grid-cols-4 gap-4 p-4">
             {Array.from({ length: 4 }, (_, colIndex) => (
               <div key={colIndex} className={cn(baseClasses, 'h-4')} style={getSkeletonStyle()} />
             ))}
@@ -193,7 +193,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
           </div>
         ))}
         
-        <div className="glass-glass-glass-flex glass-glass-glass-gap-3 pt-4">
+        <div className="flex gap-3 pt-4">
           <div className={cn(baseClasses, 'h-10 w-24 glass-radius-lg')} style={getSkeletonStyle()} />
           <div className={cn(baseClasses, 'h-10 w-20 glass-radius-lg')} style={getSkeletonStyle()} />
         </div>
@@ -201,7 +201,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
     );
 
     const renderDashboardSkeleton = () => (
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array.from({ length: rows }, (_, index) => (
           <OptimizedGlass
           elevation={'level1'}
@@ -211,9 +211,9 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
           border="subtle"
           animation="none"
           performanceMode="medium"
-          key={index}  className="glass-glass-glass-p-6">
+          key={index}  className="p-6">
             <div className="glass-auto-gap glass-auto-gap-lg">
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+              <div className="flex items-center justify-between">
                 <div className={cn(baseClasses, 'h-5 w-24')} style={getSkeletonStyle()} />
                 <div className={cn(baseClasses, 'h-6 w-6 glass-radius-md')} style={getSkeletonStyle()} />
               </div>
@@ -263,14 +263,14 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
           aria-label={ariaLabel || 'Loading content'}
           aria-busy="true"
           aria-live="polite"
-          className="glass-glass-glass-relative"
+          className="relative"
           {...props}
         >
           {renderSkeleton()}
           
           {/* Premium Shimmer overlay */}
           {shouldShimmer && (
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 -skew-x-12 glass-gradient-primary glass-gradient-primary via-blue-300/10 glass-gradient-primary animate-shimmer" />
+            <div className="absolute inset-0 -skew-x-12 glass-gradient-primary glass-gradient-primary via-blue-300/10 glass-gradient-primary animate-shimmer" />
           )}
         </div>
       </Motion>

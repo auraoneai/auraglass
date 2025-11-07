@@ -276,7 +276,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
           isNegative && 'text-red-600',
           direction === 'neutral' && 'glass-text-secondary'
         )}>
-          <span className="glass-glass-glass-text-base">
+          <span className="text-base">
             {isPositive ? '↗' : isNegative ? '↘' : '→'}
           </span>
           <span>{percentage.toFixed(1)}%</span>
@@ -302,9 +302,9 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
         .join(' ');
 
       return (
-        <div className="glass-glass-glass-relative glass-glass-glass-w-full glass-glass-glass-h-8 glass-mt-2">
+        <div className="relative w-full h-8 glass-mt-2">
           <svg
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-w-full glass-glass-glass-h-full"
+            className="absolute inset-0 w-full h-full"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
           >
@@ -312,7 +312,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
               <polygon
                 points={`0,100 ${points} 100,100`}
                 fill="currentColor"
-                className="glass-glass-glass-opacity-10"
+                className="opacity-10"
                 style={{ color: spark.color || 'currentColor' }}
               />
             )}
@@ -400,12 +400,12 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
           )}
 
           {/* Header */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-mb-2">
-            <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-1">
+          <div className="flex items-start justify-between mb-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
                 {metric.icon && (
                   <div
-                    className="glass-glass-glass-flex-shrink-0"
+                    className="flex-shrink-0"
                     style={{ color: metric.color || 'currentColor' }}
                   >
                     {metric.icon}
@@ -431,16 +431,16 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
 
           {/* Progress to Target */}
           {metric.value.target && (
-            <div className="glass-glass-glass-mb-2">
-              <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-mb-1">
+            <div className="mb-2">
+              <div className="flex justify-between text-xs glass-text-secondary mb-1">
                 <span>Target: {formatValue({ ...metric.value, current: metric.value.target })}</span>
                 <span>
                   {((metric.value.current / metric.value.target) * 100).toFixed(0)}%
                 </span>
               </div>
-              <div className="glass-glass-glass-w-full glass-surface-overlay glass-radius-full glass-glass-glass-h-2">
+              <div className="w-full glass-surface-overlay glass-radius-full h-2">
                 <div
-                  className="glass-surface-primary glass-glass-glass-h-2 glass-radius-full transition-all duration-500"
+                  className="glass-surface-primary h-2 glass-radius-full transition-all duration-500"
                   style={{
                     width: `${Math.min((metric.value.current / metric.value.target) * 100, 100)}%`
                   }}
@@ -464,8 +464,8 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
 
           {/* Category Badge */}
           {metric.category && (
-            <div className="glass-glass-glass-absolute bottom-2 right-2">
-              <span className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-overlay glass-text-secondary glass-radius-full">
+            <div className="absolute bottom-2 right-2">
+              <span className="px-2 py-1 text-xs glass-surface-overlay glass-text-secondary glass-radius-full">
                 {metric.category}
               </span>
             </div>
@@ -530,12 +530,12 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
       >
         <Motion
           preset={!prefersReducedMotion && respectMotionPreference && animated ? "fadeIn" : "none"}
-          className="glass-glass-glass-p-6"
+          className="p-6"
         >
           {/* Header */}
           {(searchable || exportable || autoRefresh) && (
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between mb-6">
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
                 {searchable && (
                   <OptimizedGlass
                     elevation="level2"
@@ -543,7 +543,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
                     depth={1}
                     tint="neutral"
                     border="subtle"
-                    className="glass-glass-glass-relative"
+                    className="relative"
                   >
                     <input
                       type="text"
@@ -556,14 +556,14 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
                         'glass-text-sm'
                       )}
                     />
-                    <div className="glass-glass-glass-absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+                    <div className="absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
                       🔍
                     </div>
                   </OptimizedGlass>
                 )}
               </div>
 
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+              <div className="flex items-center gap-2">
                 {autoRefresh && (
                   <GlassButton
                     onClick={handleRefresh}
@@ -603,10 +603,10 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
 
           {/* Metrics Grid */}
           {filteredMetrics.length === 0 ? (
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-64 glass-glass-glass-text-center">
+            <div className="flex items-center justify-center h-64 text-center">
               <div>
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4">📊</div>
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">No Metrics Found</h3>
+                <div className="text-4xl mb-4">📊</div>
+                <h3 className="text-lg font-semibold text-primary mb-2">No Metrics Found</h3>
                 <p className="glass-text-secondary">
                   {internalSearchQuery ? 'Try adjusting your search query' : 'No metrics to display'}
                 </p>
@@ -614,7 +614,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
             </div>
           ) : (
             <div
-              className="glass-glass-glass-grid"
+              className="grid"
               style={gridStyle}
             >
               {filteredMetrics.map((metric, index) => (

@@ -58,34 +58,34 @@ export const Default: Story = {
   args: {
     title: 'Default Card',
     description: 'A basic glass card link with default styling.',
-    icon: <Zap className="glass-glass-glass-w-6 glass-glass-glass-h-6" />,
+    icon: <Zap className="w-6 h-6" />,
   },
 };
 
 export const GlassVariants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 max-w-2xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Frosted</h4>
+        <h4 className="text-sm font-medium mb-2">Frosted</h4>
         <GlassCardLink {...args} glassVariant="frosted" title="Frosted Variant" />
       </div>
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Clear</h4>
+        <h4 className="text-sm font-medium mb-2">Clear</h4>
         <GlassCardLink {...args} glassVariant="clear" title="Clear Variant" />
       </div>
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Tinted</h4>
+        <h4 className="text-sm font-medium mb-2">Tinted</h4>
         <GlassCardLink {...args} glassVariant="tinted" title="Tinted Variant" />
       </div>
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Luminous</h4>
+        <h4 className="text-sm font-medium mb-2">Luminous</h4>
         <GlassCardLink {...args} glassVariant="luminous" title="Luminous Variant" />
       </div>
     </div>
   ),
   args: {
     description: 'Different glass variants for various visual effects.',
-    icon: <Star className="glass-glass-glass-w-6 glass-glass-glass-h-6" />,
+    icon: <Star className="w-6 h-6" />,
   },
 };
 
@@ -94,10 +94,10 @@ export const WithChildren: Story = {
     title: 'Custom Content',
     description: 'This card uses custom children instead of the default layout.',
     children: (
-      <div className="glass-glass-glass-p-6 glass-glass-glass-text-center">
-        <Heart className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-glass-glass-mx-auto glass-glass-glass-mb-4 glass-glass-glass-text-primary" />
-        <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-mb-2">Custom Card Content</h3>
-        <p className="glass-glass-glass-text-sm opacity-80">You can render completely custom content inside the card.</p>
+      <div className="p-6 text-center">
+        <Heart className="w-12 h-12 mx-auto mb-4 text-primary" />
+        <h3 className="text-xl font-semibold mb-2">Custom Card Content</h3>
+        <p className="text-sm opacity-80">You can render completely custom content inside the card.</p>
       </div>
     ),
   },
@@ -110,13 +110,13 @@ export const InteractiveDemo: Story = {
         {...args}
         title="Hover Effects Demo"
         description="Move your mouse over this card to see the 3D transform effects and glow animations."
-        icon={<Zap className="glass-glass-glass-w-8 glass-glass-glass-h-8" />}
+        icon={<Zap className="w-8 h-8" />}
         buttonText="Try It Out"
       />
 
-      <div className="glass-glass-glass-text-sm glass-text-secondary dark:glass-text-secondary">
+      <div className="text-sm glass-text-secondary dark:glass-text-secondary">
         <p>This component features:</p>
-        <ul className="list-disc list-inside glass-mt-2 glass-glass-glass-gap-1">
+        <ul className="list-disc list-inside glass-mt-2 gap-1">
           <li>Physics-based hover animations</li>
           <li>3D transform effects</li>
           <li>Dynamic glow and lighting</li>

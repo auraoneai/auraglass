@@ -189,11 +189,11 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
       const itemContent = (
         <>
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-            <div className="glass-glass-glass-flex-shrink-0 glass-glass-glass-text-lg">
+          <div className="flex items-center gap-3 flex-1 min-glass-w-0">
+            <div className="flex-shrink-0 text-lg">
               {item?.icon}
             </div>
-            <span className="glass-glass-glass-font-medium glass-glass-glass-truncate">
+            <span className="font-medium truncate">
               {item?.label}
             </span>
             {item?.badge && (
@@ -207,7 +207,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
             )}
           </div>
           {hasChildren && (
-            <div className="glass-glass-glass-flex-shrink-0 glass-ml-2">
+            <div className="flex-shrink-0 glass-ml-2">
               <div className={cn(
                 'transition-transform duration-200',
                 isExpanded && 'rotate-90'
@@ -254,8 +254,8 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
         <div key={section.id}>
           {/* Section header */}
           {section.label && (
-            <div className="glass-glass-glass-px-4 glass-glass-glass-py-2">
-              <h3 className="glass-glass-glass-text-xs glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-uppercase tracking-wide">
+            <div className="px-4 py-2">
+              <h3 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
                 {section.label}
               </h3>
             </div>
@@ -293,7 +293,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
         {showBackdrop && open && (
           <Motion
             preset="fadeIn"
-            className="glass-glass-glass-fixed glass-glass-glass-inset-0 glass-surface-dark/50 backdrop-blur-md z-[100]"
+            className="fixed inset-0 glass-surface-dark/50 backdrop-blur-md z-[100]"
             onClick={handleBackdropClick}
           />
         )}
@@ -318,15 +318,15 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           {...props}
         >
           {/* Header */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/20">
-            <HStack space="sm" align="center" className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+          <div className="flex items-center justify-between p-4 border-b border-glass-border/20">
+            <HStack space="sm" align="center" className="flex-1 min-glass-w-0">
               {logo && (
-                <div className="glass-glass-glass-flex-shrink-0">
+                <div className="flex-shrink-0">
                   {logo}
                 </div>
               )}
               {title && (
-                <h1 className="glass-glass-glass-font-bold glass-glass-glass-text-lg glass-glass-glass-text-primary glass-glass-glass-truncate">
+                <h1 className="font-bold text-lg text-primary truncate">
                   {title}
                 </h1>
               )}
@@ -342,7 +342,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           </div>
 
           {/* Navigation content */}
-          <nav className="glass-glass-glass-flex-1 glass-glass-glass-p-4 glass-glass-glass-overflow-y-auto">
+          <nav className="flex-1 p-4 overflow-y-auto">
             <VStack space="lg">
               {navigation.map(section => renderSection(section))}
               {children}
@@ -351,7 +351,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
           {/* Footer */}
           {footer && (
-            <div className="glass-glass-glass-p-4 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/20">
+            <div className="p-4 border-t border-glass-border/20">
               {footer}
             </div>
           )}

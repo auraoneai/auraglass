@@ -123,14 +123,14 @@ class AILayoutGenerator {
 
   private loadTemplateLibrary(): void {
     this.templateLibrary.set('card', `
-      <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-6">
+      <div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
         {children}
       </div>
     `);
 
     this.templateLibrary.set('button', `
       <motion.button
-        className="glass-surface-secondary glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-md glass-glass-glass-text-primary"
+        className="glass-surface-secondary px-4 py-2 glass-radius-md text-primary"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -140,7 +140,7 @@ class AILayoutGenerator {
 
     this.templateLibrary.set('input', `
       <input
-        className="glass-surface-secondary glass-glass-glass-border glass-radius-md glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-text-primary"
+        className="glass-surface-secondary border glass-radius-md px-3 py-2 text-primary"
         placeholder={placeholder}
       />
     `);
@@ -190,48 +190,48 @@ class AILayoutGenerator {
 
   private generateDashboardLayout(prompt: UIPrompt): string {
     return `
-<div className="glass-min-glass-glass-h-screen glass-surface-primary glass-glass-glass-p-6">
-  <div className="max-w-7xl glass-glass-glass-mx-auto space-y-6">
+<div className="glass-min-h-screen glass-surface-primary p-6">
+  <div className="max-w-7xl mx-auto space-y-6">
     {/* Header */}
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-      <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-glass-glass-text-primary">Dashboard</h1>
-      <div className="glass-glass-glass-flex glass-glass-glass-gap-4">
-        <motion.button className="glass-surface-secondary glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-md">
+    <div className="flex items-center justify-between">
+      <h1 className="text-3xl font-bold text-primary">Dashboard</h1>
+      <div className="flex gap-4">
+        <motion.button className="glass-surface-secondary px-4 py-2 glass-radius-md">
           Settings
         </motion.button>
-        <motion.button className="glass-surface-accent glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-md">
+        <motion.button className="glass-surface-accent px-4 py-2 glass-radius-md">
           New Item
         </motion.button>
       </div>
     </div>
 
     {/* Stats Grid */}
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {stats.map((stat, index) => (
         <motion.div
           key={index}
-          className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-glass-glass-p-6"
+          className="glass-surface-secondary glass-elev-2 glass-radius-lg p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
         >
-          <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">{stat.value}</div>
-          <div className="glass-glass-glass-text-sm glass-text-secondary">{stat.label}</div>
+          <div className="text-2xl font-bold text-primary">{stat.value}</div>
+          <div className="text-sm glass-text-secondary">{stat.label}</div>
         </motion.div>
       ))}
     </div>
 
     {/* Main Content */}
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2">
-        <div className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-4">Main Chart</h2>
+        <div className="glass-surface-secondary glass-elev-2 glass-radius-lg p-6">
+          <h2 className="text-xl font-semibold text-primary mb-4">Main Chart</h2>
           {/* Chart component would go here */}
         </div>
       </div>
       <div className="space-y-6">
-        <div className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-glass-glass-p-6">
-          <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-4">Recent Activity</h3>
+        <div className="glass-surface-secondary glass-elev-2 glass-radius-lg p-6">
+          <h3 className="text-lg font-semibold text-primary mb-4">Recent Activity</h3>
           {/* Activity list would go here */}
         </div>
       </div>
@@ -242,46 +242,46 @@ class AILayoutGenerator {
 
   private generateFormLayout(prompt: UIPrompt): string {
     return `
-<div className="max-w-md glass-glass-glass-mx-auto glass-surface-primary glass-elev-3 glass-radius-lg glass-glass-glass-p-8">
-  <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary mb-6 glass-glass-glass-text-center">Contact Form</h2>
+<div className="max-w-md mx-auto glass-surface-primary glass-elev-3 glass-radius-lg p-8">
+  <h2 className="text-2xl font-bold text-primary mb-6 text-center">Contact Form</h2>
   
   <form className="space-y-6">
     <div>
-      <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+      <label className="block text-sm font-medium glass-text-secondary mb-2">
         Full Name
       </label>
       <input
         type="text"
-        className="glass-glass-glass-w-full glass-surface-secondary glass-glass-glass-border glass-radius-md glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-text-primary placeholder-opacity-50"
+        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50"
         placeholder="Enter your full name"
       />
     </div>
 
     <div>
-      <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+      <label className="block text-sm font-medium glass-text-secondary mb-2">
         Email Address
       </label>
       <input
         type="email"
-        className="glass-glass-glass-w-full glass-surface-secondary glass-glass-glass-border glass-radius-md glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-text-primary placeholder-opacity-50"
+        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50"
         placeholder="Enter your email"
       />
     </div>
 
     <div>
-      <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+      <label className="block text-sm font-medium glass-text-secondary mb-2">
         Message
       </label>
       <textarea
         rows={4}
-        className="glass-glass-glass-w-full glass-surface-secondary glass-glass-glass-border glass-radius-md glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-text-primary placeholder-opacity-50"
+        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50"
         placeholder="Enter your message"
       />
     </div>
 
     <motion.button
       type="submit"
-      className="glass-glass-glass-w-full glass-surface-accent glass-elev-2 glass-radius-md glass-glass-glass-py-3 glass-glass-glass-font-semibold glass-glass-glass-text-primary"
+      className="w-full glass-surface-accent glass-elev-2 glass-radius-md py-3 font-semibold text-primary"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
@@ -293,7 +293,7 @@ class AILayoutGenerator {
 
   private generateCardLayout(prompt: UIPrompt): string {
     return `
-<div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6 glass-glass-glass-p-6">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
   {items.map((item, index) => (
     <motion.div
       key={item.id}
@@ -307,20 +307,20 @@ class AILayoutGenerator {
         <div className="aspect-video glass-gradient-primary glass-gradient-primary glass-gradient-primary"></div>
       )}
       
-      <div className="glass-glass-glass-p-6">
-        <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-primary mb-2">
           {item.title}
         </h3>
-        <p className="glass-text-secondary glass-glass-glass-mb-4">
+        <p className="glass-text-secondary mb-4">
           {item.description}
         </p>
         
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-          <span className="glass-glass-glass-text-sm glass-text-tertiary">
+        <div className="flex items-center justify-between">
+          <span className="text-sm glass-text-tertiary">
             {item.date}
           </span>
           <motion.button
-            className="glass-surface-accent glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-sm glass-glass-glass-text-sm"
+            className="glass-surface-accent px-3 py-1 glass-radius-sm text-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -335,9 +335,9 @@ class AILayoutGenerator {
 
   private generateListLayout(prompt: UIPrompt): string {
     return `
-<div className="max-w-2xl glass-glass-glass-mx-auto glass-surface-primary glass-elev-2 glass-radius-lg overflow-hidden">
-  <div className="glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border">
-    <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">List Items</h2>
+<div className="max-w-2xl mx-auto glass-surface-primary glass-elev-2 glass-radius-lg overflow-hidden">
+  <div className="p-6 border-b border">
+    <h2 className="text-2xl font-bold text-primary">List Items</h2>
     <p className="glass-text-secondary glass-mt-1">Manage your items efficiently</p>
   </div>
   
@@ -345,32 +345,32 @@ class AILayoutGenerator {
     {items.map((item, index) => (
       <motion.div
         key={item.id}
-        className="glass-glass-glass-p-4 hover:glass-surface-secondary transition-colors"
+        className="p-4 hover:glass-surface-secondary transition-colors"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: index * 0.05 }}
       >
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
-            <div className="glass-glass-glass-w-10 glass-glass-glass-h-10 glass-surface-accent glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 glass-surface-accent glass-radius-full flex items-center justify-center">
               {item.icon}
             </div>
             <div>
-              <div className="glass-glass-glass-font-medium glass-glass-glass-text-primary">{item.title}</div>
-              <div className="glass-glass-glass-text-sm glass-text-secondary">{item.subtitle}</div>
+              <div className="font-medium text-primary">{item.title}</div>
+              <div className="text-sm glass-text-secondary">{item.subtitle}</div>
             </div>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+          <div className="flex items-center gap-2">
             <motion.button
-              className="glass-glass-glass-p-2 glass-surface-secondary glass-radius-md"
+              className="p-2 glass-surface-secondary glass-radius-md"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Edit
             </motion.button>
             <motion.button
-              className="glass-glass-glass-p-2 glass-surface-secondary glass-radius-md"
+              className="p-2 glass-surface-secondary glass-radius-md"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -386,25 +386,25 @@ class AILayoutGenerator {
 
   private generateGenericLayout(prompt: UIPrompt): string {
     return `
-<div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-6">
-  <div className="glass-glass-glass-text-center glass-glass-glass-gap-4">
-    <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+<div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
+  <div className="text-center gap-4">
+    <h1 className="text-3xl font-bold text-primary">
       Generated Component
     </h1>
-    <p className="glass-text-secondary max-w-md glass-glass-glass-mx-auto">
+    <p className="glass-text-secondary max-w-md mx-auto">
       This is a dynamically generated component based on your prompt: "${prompt.description}"
     </p>
     
-    <div className="glass-glass-glass-flex glass-glass-glass-justify-center glass-glass-glass-gap-4 pt-4">
+    <div className="flex justify-center gap-4 pt-4">
       <motion.button
-        className="glass-surface-accent glass-glass-glass-px-6 glass-glass-glass-py-3 glass-radius-md glass-glass-glass-font-medium"
+        className="glass-surface-accent px-6 py-3 glass-radius-md font-medium"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         Primary Action
       </motion.button>
       <motion.button
-        className="glass-surface-secondary glass-glass-glass-px-6 glass-glass-glass-py-3 glass-radius-md glass-glass-glass-font-medium"
+        className="glass-surface-secondary px-6 py-3 glass-radius-md font-medium"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -788,16 +788,16 @@ export function GlassAutoComposerInterface({ className }: { className?: string }
 
   return (
     <div className={cn("space-y-6", className)}>
-      <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-6">
-        <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">AI Layout Generator</h2>
+      <div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
+        <h2 className="text-2xl font-bold text-primary mb-4">AI Layout Generator</h2>
         
-        <div className="glass-glass-glass-gap-4">
+        <div className="gap-4">
           <div>
-            <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+            <label className="block text-sm font-medium glass-text-secondary mb-2">
               Describe the layout you want
             </label>
             <textarea
-              className="glass-glass-glass-w-full glass-surface-secondary glass-glass-glass-border glass-radius-md glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-text-primary"
+              className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary"
               rows={3}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
@@ -806,7 +806,7 @@ export function GlassAutoComposerInterface({ className }: { className?: string }
           </div>
           
           <motion.button
-            className="glass-surface-accent glass-glass-glass-px-6 glass-glass-glass-py-3 glass-radius-md glass-glass-glass-font-medium"
+            className="glass-surface-accent px-6 py-3 glass-radius-md font-medium"
             onClick={handleGenerate}
             disabled={isGenerating || !prompt.trim()}
             whileHover={{ scale: 1.02 }}
@@ -819,27 +819,27 @@ export function GlassAutoComposerInterface({ className }: { className?: string }
 
       {/* Generated Layout Preview */}
       {generatedLayout && (
-        <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-glass-glass-p-6">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4">
-            <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">Generated Layout</h3>
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-              <span className="glass-glass-glass-text-sm glass-text-secondary">
+        <div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-primary">Generated Layout</h3>
+            <div className="flex items-center gap-2">
+              <span className="text-sm glass-text-secondary">
                 Confidence: {(generatedLayout.confidence * 100).toFixed(0)}%
               </span>
             </div>
           </div>
           
-          <div className="glass-glass-glass-gap-4">
+          <div className="gap-4">
             <div>
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">JSX Code</h4>
-              <pre className="glass-surface-secondary glass-radius-md glass-glass-glass-p-4 glass-glass-glass-text-xs glass-glass-glass-text-primary glass-glass-glass-overflow-x-auto">
+              <h4 className="text-sm font-medium glass-text-secondary mb-2">JSX Code</h4>
+              <pre className="glass-surface-secondary glass-radius-md p-4 text-xs text-primary overflow-x-auto">
                 {generatedLayout.jsx}
               </pre>
             </div>
             
             <div>
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">CSS Styles</h4>
-              <pre className="glass-surface-secondary glass-radius-md glass-glass-glass-p-4 glass-glass-glass-text-xs glass-glass-glass-text-primary glass-glass-glass-overflow-x-auto">
+              <h4 className="text-sm font-medium glass-text-secondary mb-2">CSS Styles</h4>
+              <pre className="glass-surface-secondary glass-radius-md p-4 text-xs text-primary overflow-x-auto">
                 {generatedLayout.css}
               </pre>
             </div>
@@ -864,14 +864,14 @@ export function GlassGeneratedLayoutRenderer({
     // In a real implementation, this would safely execute the generated JSX
     // For demo purposes, we'll show a placeholder
     return (
-      <div className="generated-component glass-glass-glass-p-6 glass-glass-glass-text-center">
-        <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-2">
+      <div className="generated-component p-6 text-center">
+        <h3 className="text-xl font-bold text-primary mb-2">
           Generated Component Preview
         </h3>
-        <p className="glass-text-secondary glass-glass-glass-mb-4">
+        <p className="glass-text-secondary mb-4">
           Based on: "{layout.prompt.description}"
         </p>
-        <div className="glass-glass-glass-text-xs glass-text-tertiary">
+        <div className="text-xs glass-text-tertiary">
           Generated at: {new Date(layout.timestamp).toLocaleString()}
         </div>
       </div>

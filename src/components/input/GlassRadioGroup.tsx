@@ -255,7 +255,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
             {description && (
                 <p 
                     id={descriptionId}
-                    className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-mb-3"
+                    className="text-sm glass-text-secondary mb-3"
                 >
                     {description}
                 </p>
@@ -298,7 +298,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
             {error && (
                 <p 
                     id={errorId}
-                    className="glass-mt-2 glass-glass-glass-text-sm text-destructive"
+                    className="glass-mt-2 text-sm text-destructive"
                     role="alert"
                     aria-live="polite"
                 >
@@ -424,10 +424,10 @@ export const GlassRadioGroupItem = forwardRef<HTMLDivElement, GlassRadioGroupIte
                             checked={isSelected}
                             disabled={isDisabled}
                             onChange={() => onSelect(option.value)}
-                            className="glass-glass-glass-sr-only"
+                            className="sr-only"
                         />
 
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3">
+                        <div className="flex items-start gap-3">
                             {/* Custom radio indicator */}
                             <div
                                 className={cn(
@@ -445,16 +445,16 @@ export const GlassRadioGroupItem = forwardRef<HTMLDivElement, GlassRadioGroupIte
                                     <Motion
                                         preset={shouldAnimate && respectMotionPreference ? "scaleIn" : "none"}
                                         duration={200}
-                                        className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-radius-full glass-surface-subtle"
+                                        className="w-2 h-2 glass-radius-full glass-surface-subtle"
                                     />
                                 )}
                             </div>
 
                             {/* Content */}
-                            <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-                                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
                                     {option.icon && (
-                                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-primary/70">
+                                        <div className="flex items-center justify-center text-primary/70">
                                             {option.icon}
                                         </div>
                                     )}
@@ -467,7 +467,7 @@ export const GlassRadioGroupItem = forwardRef<HTMLDivElement, GlassRadioGroupIte
                                 </div>
 
                                 {option.description && (
-                                    <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm glass-mt-1 leading-relaxed">
+                                    <p className="text-primary/60 text-sm glass-mt-1 leading-relaxed">
                                         {option.description}
                                     </p>
                                 )}
@@ -514,7 +514,7 @@ export const GlassRadioGroupItem = forwardRef<HTMLDivElement, GlassRadioGroupIte
                     checked={isSelected}
                     disabled={isDisabled}
                     onChange={() => onSelect(option.value)}
-                    className="glass-glass-glass-sr-only"
+                    className="sr-only"
                 />
 
                 {/* Custom radio indicator */}
@@ -534,16 +534,16 @@ export const GlassRadioGroupItem = forwardRef<HTMLDivElement, GlassRadioGroupIte
                         <Motion
                             preset={shouldAnimate && respectMotionPreference ? "scaleIn" : "none"}
                             duration={200}
-                            className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-radius-full glass-surface-subtle"
+                            className="w-2 h-2 glass-radius-full glass-surface-subtle"
                         />
                     )}
                 </div>
 
                 {/* Content */}
-                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
                         {option.icon && (
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-primary/70">
+                            <div className="flex items-center justify-center text-primary/70">
                                 {option.icon}
                             </div>
                         )}
@@ -559,7 +559,7 @@ export const GlassRadioGroupItem = forwardRef<HTMLDivElement, GlassRadioGroupIte
                     </div>
 
                     {option.description && (
-                        <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm glass-mt-1">
+                        <p className="text-primary/60 text-sm glass-mt-1">
                             {option.description}
                         </p>
                     )}

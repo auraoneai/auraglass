@@ -440,7 +440,7 @@ export const EnhancedGlassTabs = forwardRef<EnhancedGlassTabsRef, EnhancedGlassT
               <span>{tab.label}</span>
               {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
                 <span
-                  className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center min-w-[18px] h-[18px] glass-glass-glass-px-1.5 glass-glass-glass-text-xs glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-radius-full"
+                  className="glass-inline-flex items-center justify-center min-w-[18px] h-[18px] px-1.5 text-xs font-semibold text-primary glass-radius-full"
                   style={{ backgroundColor: colors.activeColor }}
                 >
                   {tab.badgeCount > 99 ? '99+' : tab.badgeCount}

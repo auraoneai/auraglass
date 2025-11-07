@@ -369,38 +369,38 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
         className={`relative ${className}`}
         {...props}
       >
-        <div className="glass-glass-glass-p-6 glass-glass-glass-space-y-4">
+        <div className="p-6 space-y-4">
           {/* Header */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+          <div className="flex items-center justify-between">
             <div>
-              <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary/90">
+              <h2 className="text-xl font-semibold text-primary/90">
                 Quantum Tunnel
               </h2>
-              <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+              <p className="text-sm text-primary/60">
                 {quantumStates.length} quantum states • {barriers.length} barriers
               </p>
             </div>
 
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-4">
-              <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+            <div className="flex items-center space-x-4">
+              <div className="text-sm text-primary/60">
                 T: {(totalTunnelingProbability * 100).toFixed(1)}%
               </div>
               {realTimeMode && (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-1 glass-glass-glass-text-primary">
-                  <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full animate-pulse" />
-                  <span className="glass-glass-glass-text-xs">Live</span>
+                <div className="flex items-center space-x-1 text-primary">
+                  <div className="w-2 h-2 glass-surface-green glass-radius-full animate-pulse" />
+                  <span className="text-xs">Live</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Canvas */}
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={800}
               height={300}
-              className="glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-surface-dark/20"
+              className="border border-white/20 glass-radius-lg glass-surface-dark/20"
             />
             
             {/* Quantum state overlays */}
@@ -426,16 +426,16 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                   onClick={() => handleStateClick(state.id)}
                   transition={shouldAnimate ? { duration: 0.3 } : { duration: 0 }}
                 >
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     {state.icon && (
-                      <span className="glass-glass-glass-text-lg">{state.icon}</span>
+                      <span className="text-lg">{state.icon}</span>
                     )}
                     <div>
-                      <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/90">
+                      <div className="text-sm font-medium text-primary/90">
                         {state.label}
                       </div>
                       {showTunnelingProbability && (
-                        <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60">
+                        <div className="text-xs text-primary/60">
                           T: {(state.tunnelingProbability * 100).toFixed(1)}%
                         </div>
                       )}
@@ -444,7 +444,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                   
                   {measuredStates.has(state.id) && (
                     <motion.div
-                      className="glass-glass-glass-absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-green glass-radius-full"
+                      className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.2 }}
@@ -467,14 +467,14 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                 return (
                   <motion.div
                     key={`${transition.from}-${transition.to}-${transition.startTime}`}
-                    className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none"
+                    className="absolute pointer-events-none"
                     style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
                   >
-                    <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 bg-pink-400 glass-radius-full glass-glass-glass-shadow-lg animate-pulse" />
-                    <div className="glass-glass-glass-absolute -bottom-8 left-1/2 transform -translate-x-1/2 glass-glass-glass-text-xs text-pink-300 whitespace-nowrap">
+                    <div className="w-4 h-4 bg-pink-400 glass-radius-full shadow-lg animate-pulse" />
+                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-pink-300 whitespace-nowrap">
                       Tunneling: {(transition.probability * 100).toFixed(1)}%
                     </div>
                   </motion.div>
@@ -484,8 +484,8 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
           </div>
 
           {/* Controls */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
               <button
                 onClick={() => setMeasuredStates(new Set())}
                 className={`
@@ -498,7 +498,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
               </button>
             </div>
 
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-6 glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+            <div className="flex items-center space-x-6 text-sm text-primary/60">
               <div>Time: {currentTime.toFixed(1)}</div>
               <div>Active: {activeTransitions.length}</div>
               <div>Measured: {measuredStates.size}</div>
@@ -510,26 +510,26 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
             p-4 rounded-lg border border-white/10 space-y-3
             ${createGlassStyle({ opacity: 0.7 }).background}
           `}>
-            <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-semibold glass-glass-glass-text-primary/90">Quantum Statistics</h3>
+            <h3 className="text-sm font-semibold text-primary/90">Quantum Statistics</h3>
             
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 glass-glass-glass-text-sm">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <span className="glass-glass-glass-text-primary/60">Avg Tunneling:</span>
-                <div className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+                <span className="text-primary/60">Avg Tunneling:</span>
+                <div className="text-primary/90 font-medium">
                   {(totalTunnelingProbability * 100).toFixed(1)}%
                 </div>
               </div>
 
               <div>
-                <span className="glass-glass-glass-text-primary/60">Wave Coherence:</span>
-                <div className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+                <span className="text-primary/60">Wave Coherence:</span>
+                <div className="text-primary/90 font-medium">
                   {(Math.cos(currentTime * 0.5) * 50 + 50).toFixed(0)}%
                 </div>
               </div>
 
               <div>
-                <span className="glass-glass-glass-text-primary/60">Energy Spread:</span>
-                <div className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+                <span className="text-primary/60">Energy Spread:</span>
+                <div className="text-primary/90 font-medium">
                   {quantumStates.length > 0 ? 
                     (Math.max(...quantumStates.map(s => s.energy)) - 
                      Math.min(...quantumStates.map(s => s.energy))).toFixed(1) 
@@ -538,8 +538,8 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
               </div>
 
               <div>
-                <span className="glass-glass-glass-text-primary/60">Barrier Count:</span>
-                <div className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+                <span className="text-primary/60">Barrier Count:</span>
+                <div className="text-primary/90 font-medium">
                   {barriers.length}
                 </div>
               </div>
@@ -548,12 +548,12 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
             {/* Recent tunneling events */}
             {activeTransitions.length > 0 && (
               <div className="space-y-1">
-                <span className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">Active Tunneling:</span>
-                <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-1">
+                <span className="text-primary/60 text-sm">Active Tunneling:</span>
+                <div className="flex flex-wrap gap-1">
                   {activeTransitions.slice(-3).map((transition, index) => (
                     <div
                       key={index}
-                      className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs bg-pink-500/20 text-pink-300 glass-radius glass-glass-glass-border glass-glass-glass-border-pink-400/20"
+                      className="px-2 py-1 text-xs bg-pink-500/20 text-pink-300 glass-radius border border-pink-400/20"
                     >
                       {transition.from} → {transition.to} ({(transition.probability * 100).toFixed(0)}%)
                     </div>

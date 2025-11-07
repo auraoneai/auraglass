@@ -23,9 +23,9 @@ export function GlassKeyValueEditor({ value, onChange, className }: GlassKeyValu
   return (
     <div className={cn('glass-gap-2', className)}>
       {value.map((p, i) => (
-        <div key={i} className="glass-glass-glass-flex glass-glass-glass-gap-2">
-          <input value={p.key} onChange={(e) => update(i, { key: e.target.value })} placeholder="Key" className="glass-glass-glass-flex-1 glass-glass-glass-bg-transparent glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-sm outline-none" />
-          <input value={p.value} onChange={(e) => update(i, { value: e.target.value })} placeholder="Value" className="glass-glass-glass-flex-1 glass-glass-glass-bg-transparent glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-sm outline-none" />
+        <div key={i} className="flex gap-2">
+          <input value={p.key} onChange={(e) => update(i, { key: e.target.value })} placeholder="Key" className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none" />
+          <input value={p.value} onChange={(e) => update(i, { value: e.target.value })} placeholder="Value" className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none" />
           <GlassButton size="sm" variant="ghost" onClick={(e) => remove(i)}>Remove</GlassButton>
         </div>
       ))}

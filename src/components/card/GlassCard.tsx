@@ -147,7 +147,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         {...props}
       >
         {loading && (
-          <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-white/10 glass-gradient-primary animate-shimmer" />
+          <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/10 glass-gradient-primary animate-shimmer" />
         )}
         {children}
       </LiquidGlassMaterial>
@@ -190,28 +190,28 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         {hoverable && (
           <>
             {/* Subtle glow overlay on hover */}
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 glass-glass-glass-pointer-events-none glass-radius-lg" />
+            <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none glass-radius-lg" />
 
             {/* Shimmer effect on hover */}
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-white/10 glass-gradient-primary -translate-x-full group-hover:translate-x-full transition-transform duration-1000 glass-glass-glass-pointer-events-none glass-radius-lg" />
+            <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/10 glass-gradient-primary -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none glass-radius-lg" />
 
             {/* Border glow enhancement */}
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/0 group-hover:glass-glass-glass-border-white/20 transition-colors duration-300 glass-glass-glass-pointer-events-none" />
+            <div className="absolute inset-0 glass-radius-lg border border-white/0 group-hover:border-white/20 transition-colors duration-300 pointer-events-none" />
           </>
         )}
 
         {/* Feature variant enhancement */}
         {variant === 'feature' && (
-          <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-secondary/4 glass-gradient-primary glass-radius-lg" />
+          <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/4 glass-gradient-primary glass-radius-lg" />
         )}
 
         {/* Content with enhanced loading state */}
-        <div className="glass-glass-glass-relative glass-glass-glass-z-10">
+        <div className="relative z-10">
           {loading ? (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <div className="glass-glass-glass-h-4 glass-surface-subtle/20 animate-pulse glass-radius-sm shimmer" />
-              <div className="glass-glass-glass-h-4 glass-surface-subtle/15 animate-pulse glass-radius-sm glass-glass-glass-w-3-4 shimmer" />
-              <div className="glass-glass-glass-h-4 glass-surface-subtle/10 animate-pulse glass-radius-sm glass-glass-glass-w-1-2 shimmer" />
+              <div className="h-4 glass-surface-subtle/20 animate-pulse glass-radius-sm shimmer" />
+              <div className="h-4 glass-surface-subtle/15 animate-pulse glass-radius-sm w-3-4 shimmer" />
+              <div className="h-4 glass-surface-subtle/10 animate-pulse glass-radius-sm w-1-2 shimmer" />
             </div>
           ) : (
             children

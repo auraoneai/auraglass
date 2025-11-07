@@ -778,11 +778,11 @@ export function GlassPredictionIndicator({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="glass-glass-glass-relative">
+        <div className="relative">
           🧠
           {predictions.length > 0 && (
             <motion.div
-              className="glass-glass-glass-absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-blue glass-radius-full glass-glass-glass-text-xs glass-glass-glass-text-primary glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center"
+              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-blue glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 500 }}
@@ -806,13 +806,13 @@ export function GlassPredictionIndicator({
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-              <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium text-primary">
                 AI Predictions
               </h3>
               <button
                 onClick={() => setShowPanel(false)}
-                className="glass-glass-glass-text-xs glass-text-secondary hover:glass-glass-glass-text-primary"
+                className="text-xs glass-text-secondary hover:text-primary"
               >
                 ✕
               </button>
@@ -820,31 +820,31 @@ export function GlassPredictionIndicator({
 
             {/* Predictions */}
             {topPredictions.length > 0 && (
-              <div className="glass-glass-glass-gap-2">
-                <h4 className="glass-glass-glass-text-xs glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-uppercase tracking-wide">
+              <div className="gap-2">
+                <h4 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
                   Predictions
                 </h4>
                 {topPredictions.map(prediction => (
                   <motion.div
                     key={prediction.id}
-                    className="glass-glass-glass-p-2 glass-surface-secondary glass-radius-md"
+                    className="p-2 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                      <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary glass-glass-glass-capitalize">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-primary capitalize">
                         {prediction.type}: {prediction.target}
                       </span>
-                      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
+                      <div className="flex items-center gap-1">
                         <div 
-                          className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-radius-full"
+                          className="w-2 h-2 glass-radius-full"
                           style={{
                             backgroundColor: prediction.confidence > 0.8 ? '#10b981' : 
                                            prediction.confidence > 0.6 ? '#f59e0b' : '#ef4444'
                           }}
                         />
-                        <span className="glass-glass-glass-text-xs glass-text-secondary">
+                        <span className="text-xs glass-text-secondary">
                           {(prediction.confidence * 100).toFixed(0)}%
                         </span>
                       </div>
@@ -856,29 +856,29 @@ export function GlassPredictionIndicator({
 
             {/* Insights */}
             {showInsights && topInsights.length > 0 && (
-              <div className="glass-glass-glass-gap-2">
-                <h4 className="glass-glass-glass-text-xs glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-uppercase tracking-wide">
+              <div className="gap-2">
+                <h4 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
                   AI Insights
                 </h4>
                 {topInsights.map(insight => (
                   <motion.div
                     key={insight.id}
-                    className="glass-glass-glass-p-2 glass-surface-secondary glass-radius-md"
+                    className="p-2 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary glass-glass-glass-mb-1">
+                    <div className="text-sm text-primary mb-1">
                       {insight.insight}
                     </div>
-                    <div className="glass-glass-glass-text-xs glass-text-secondary">
+                    <div className="text-xs glass-text-secondary">
                       {insight.recommendation}
                     </div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-mt-1">
-                      <span className="glass-glass-glass-text-xs glass-text-tertiary glass-glass-glass-capitalize">
+                    <div className="flex items-center justify-between glass-mt-1">
+                      <span className="text-xs glass-text-tertiary capitalize">
                         {insight.category}
                       </span>
-                      <span className="glass-glass-glass-text-xs glass-text-secondary">
+                      <span className="text-xs glass-text-secondary">
                         Impact: {(insight.impact * 100).toFixed(0)}%
                       </span>
                     </div>
@@ -888,7 +888,7 @@ export function GlassPredictionIndicator({
             )}
 
             {predictions.length === 0 && insights.length === 0 && (
-              <div className="glass-glass-glass-text-center glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-py-4">
+              <div className="text-center text-sm glass-text-secondary py-4">
                 Learning your behavior...
               </div>
             )}

@@ -361,10 +361,10 @@ const EcommerceInitializer: React.FC<{
 export const EmptyShoppingCart: Story = {
   render: () => (
     <EcommerceStoryWrapper>
-      <div className="max-w-md glass-glass-glass-mx-auto glass-glass-glass-p-4">
+      <div className="max-w-md mx-auto p-4">
         <GlassSmartShoppingCart
           variant="sidebar"
-          className="glass-glass-glass-h-96"
+          className="h-96"
         />
       </div>
     </EcommerceStoryWrapper>
@@ -402,7 +402,7 @@ export const SmartShoppingCartWithItems: Story = {
         { productId: 'prod_004', quantity: 1, variants: { color: 'Blue' } }
       ]}
     >
-      <div className="max-w-md glass-glass-glass-mx-auto glass-glass-glass-p-4">
+      <div className="max-w-md mx-auto p-4">
         <GlassSmartShoppingCart
           variant="sidebar"
           showShippingCalculator={true}
@@ -449,7 +449,7 @@ export const CompactCartDropdown: Story = {
         { productId: 'prod_006', quantity: 3 }
       ]}
     >
-      <div className="max-w-sm glass-glass-glass-mx-auto glass-glass-glass-p-4">
+      <div className="max-w-sm mx-auto p-4">
         <GlassSmartShoppingCart
           variant="dropdown"
           showShippingCalculator={false}
@@ -489,7 +489,7 @@ Space-efficient cart design perfect for mobile or dropdown implementations:
 export const AIProductRecommendationsGrid: Story = {
   render: () => (
     <EcommerceStoryWrapper>
-      <div className="glass-glass-glass-p-6">
+      <div className="p-6">
         <GlassProductRecommendations
           productId="prod_001"
           title="Customers Also Bought"
@@ -540,7 +540,7 @@ Intelligent product suggestions powered by machine learning algorithms:
 export const PersonalizedRecommendations: Story = {
   render: () => (
     <EcommerceStoryWrapper>
-      <div className="glass-glass-glass-p-6">
+      <div className="p-6">
         <GlassProductRecommendations
           productId="prod_002"
           title="Personalized Just for You"
@@ -581,7 +581,7 @@ Advanced personalization engine that learns from user behavior:
 export const TrendingProductsCarousel: Story = {
   render: () => (
     <EcommerceStoryWrapper>
-      <div className="glass-glass-glass-p-6">
+      <div className="p-6">
         <GlassProductRecommendations
           title="Trending Now"
           subtitle="Popular products everyone is talking about"
@@ -623,7 +623,7 @@ Dynamic showcase of popular and trending items:
 export const CompactRecommendationsList: Story = {
   render: () => (
     <EcommerceStoryWrapper>
-      <div className="max-w-md glass-glass-glass-mx-auto glass-glass-glass-p-4">
+      <div className="max-w-md mx-auto p-4">
         <GlassProductRecommendations
           productId="prod_001"
           title="You Might Also Like"
@@ -666,48 +666,48 @@ export const EcommerceShowcase: Story = {
           { productId: 'prod_004', quantity: 2, variants: { color: 'Blue' } }
         ]}
       >
-        <div className="glass-min-glass-glass-h-screen glass-surface-subtle">
+        <div className="glass-min-h-screen glass-surface-subtle">
           {/* Header */}
-          <div className="glass-surface-subtle glass-glass-glass-border-b glass-glass-glass-border-subtle glass-glass-glass-p-4">
-            <div className="max-w-6xl glass-glass-glass-mx-auto glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-              <h1 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-text-secondary">
+          <div className="glass-surface-subtle border-b border-subtle p-4">
+            <div className="max-w-6xl mx-auto flex items-center justify-between">
+              <h1 className="text-2xl font-bold glass-text-secondary">
                 🛒 E-commerce Showcase
               </h1>
               
               <button
                 onClick={() => setCartOpen(!cartOpen)}
-                className="glass-glass-glass-relative glass-glass-glass-p-2 glass-surface-blue glass-glass-glass-text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+                className="relative p-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
               >
                 🛒 Cart
-                <span className="glass-glass-glass-absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-glass-glass-w-6 glass-glass-glass-h-6 glass-surface-red glass-glass-glass-text-primary glass-glass-glass-text-xs glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                <span className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 w-6 h-6 glass-surface-red text-primary text-xs glass-radius-full flex items-center justify-center">
                   3
                 </span>
               </button>
             </div>
           </div>
 
-          <div className="max-w-6xl glass-glass-glass-mx-auto glass-glass-glass-p-6">
+          <div className="max-w-6xl mx-auto p-6">
             {/* Feature Grid */}
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6 mb-8">
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-6 glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm">
-                <div className="glass-glass-glass-text-3xl glass-glass-glass-mb-3">🤖</div>
-                <h3 className="glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-2">AI Recommendations</h3>
-                <p className="glass-glass-glass-text-sm glass-text-secondary">Personalized product suggestions powered by machine learning</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="text-center p-6 glass-surface-subtle glass-radius-lg shadow-sm">
+                <div className="text-3xl mb-3">🤖</div>
+                <h3 className="font-semibold glass-text-secondary mb-2">AI Recommendations</h3>
+                <p className="text-sm glass-text-secondary">Personalized product suggestions powered by machine learning</p>
               </div>
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-6 glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm">
-                <div className="glass-glass-glass-text-3xl glass-glass-glass-mb-3">🛍️</div>
-                <h3 className="glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-2">Smart Cart</h3>
-                <p className="glass-glass-glass-text-sm glass-text-secondary">Intelligent shopping cart with advanced features and calculations</p>
+              <div className="text-center p-6 glass-surface-subtle glass-radius-lg shadow-sm">
+                <div className="text-3xl mb-3">🛍️</div>
+                <h3 className="font-semibold glass-text-secondary mb-2">Smart Cart</h3>
+                <p className="text-sm glass-text-secondary">Intelligent shopping cart with advanced features and calculations</p>
               </div>
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-6 glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm">
-                <div className="glass-glass-glass-text-3xl glass-glass-glass-mb-3">📊</div>
-                <h3 className="glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-2">Analytics</h3>
-                <p className="glass-glass-glass-text-sm glass-text-secondary">Comprehensive insights into user behavior and sales performance</p>
+              <div className="text-center p-6 glass-surface-subtle glass-radius-lg shadow-sm">
+                <div className="text-3xl mb-3">📊</div>
+                <h3 className="font-semibold glass-text-secondary mb-2">Analytics</h3>
+                <p className="text-sm glass-text-secondary">Comprehensive insights into user behavior and sales performance</p>
               </div>
             </div>
 
             {/* Main Content */}
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               {/* Recommendations */}
               <div className="lg:col-span-3">
                 <GlassProductRecommendations
@@ -734,25 +734,25 @@ export const EcommerceShowcase: Story = {
                 />
                 
                 {/* Cart Preview */}
-                <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-p-4 glass-glass-glass-shadow-sm">
-                  <h3 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-3">Cart Summary</h3>
-                  <div className="glass-glass-glass-space-y-2 glass-glass-glass-text-sm">
-                    <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
+                <div className="glass-surface-subtle glass-radius-lg p-4 shadow-sm">
+                  <h3 className="font-medium glass-text-secondary mb-3">Cart Summary</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
                       <span>2 items</span>
                       <span>$549.98</span>
                     </div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-text-secondary">
+                    <div className="flex justify-between glass-text-secondary">
                       <span>Shipping</span>
                       <span>FREE</span>
                     </div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-font-medium glass-glass-glass-text-lg pt-2 glass-glass-glass-border-t">
+                    <div className="flex justify-between font-medium text-lg pt-2 border-t">
                       <span>Total</span>
                       <span>$593.58</span>
                     </div>
                   </div>
                   <button
                     onClick={() => setCartOpen(true)}
-                    className="glass-glass-glass-w-full mt-3 glass-glass-glass-py-2 glass-surface-blue glass-glass-glass-text-primary glass-radius hover:glass-surface-blue transition-colors"
+                    className="w-full mt-3 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors"
                   >
                     View Cart
                   </button>
@@ -763,18 +763,18 @@ export const EcommerceShowcase: Story = {
 
           {/* Cart Sidebar */}
           {cartOpen && (
-            <div className="glass-glass-glass-fixed glass-glass-glass-inset-0 glass-glass-glass-z-50 glass-glass-glass-flex glass-glass-glass-justify-end">
+            <div className="fixed inset-0 z-50 flex justify-end">
               <div
-                className="glass-glass-glass-fixed glass-glass-glass-inset-0 glass-surface-dark glass-opacity-50"
+                className="fixed inset-0 glass-surface-dark glass-opacity-50"
                 onClick={() => setCartOpen(false)}
               />
-              <div className="glass-glass-glass-relative glass-glass-glass-w-96 glass-surface-subtle glass-glass-glass-h-full overflow-hidden">
+              <div className="relative w-96 glass-surface-subtle h-full overflow-hidden">
                 <GlassSmartShoppingCart
                   variant="sidebar"
                   showShippingCalculator={true}
                   showPromoCode={true}
                   onClose={() => setCartOpen(false)}
-                  className="glass-glass-glass-h-full"
+                  className="h-full"
                 />
               </div>
             </div>

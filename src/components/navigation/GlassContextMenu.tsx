@@ -241,7 +241,7 @@ export const GlassContextMenuContent: React.FC<GlassContextMenuContentProps> = (
     }, [position]);
 
     return (
-        <Motion preset="scaleIn" className="glass-glass-glass-fixed z-[9999]">
+        <Motion preset="scaleIn" className="fixed z-[9999]">
             <OptimizedGlass
             intent="neutral"
           elevation="level4"
@@ -265,11 +265,11 @@ export const GlassContextMenuContent: React.FC<GlassContextMenuContentProps> = (
                     maxWidth,
                 }}
             >
-                <div className="glass-glass-glass-py-1">
+                <div className="py-1">
                     {items.map((item, index) => (
                         <React.Fragment key={item?.id}>
                             {item?.separator && index > 0 && (
-                                <div className="glass-glass-glass-h-px glass-surface-subtle/20 glass-glass-glass-mx-2 glass-glass-glass-my-1" />
+                                <div className="h-px glass-surface-subtle/20 mx-2 my-1" />
                             )}
                             <GlassContextMenuItem
                                 item={item}
@@ -288,7 +288,7 @@ export const GlassContextMenuContent: React.FC<GlassContextMenuContentProps> = (
                                 isSubmenu={false}
                             />
                             {item?.children && submenuOpen === item?.id && (
-                                <div className="glass-glass-glass-absolute left-full top-0 glass-ml-1">
+                                <div className="absolute left-full top-0 glass-ml-1">
                                     <GlassContextMenuContent
                                         items={item?.children}
                                         position={{ x: 0, y: 0 }}
@@ -318,7 +318,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
     const [isHovered, setIsHovered] = useState(false);
 
     if (item?.separator) {
-        return <div className="glass-glass-glass-h-px glass-surface-subtle/20 glass-glass-glass-mx-2 glass-glass-glass-my-1" />;
+        return <div className="h-px glass-surface-subtle/20 mx-2 my-1" />;
     }
 
     return (
@@ -339,23 +339,23 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
             onClick={(e) => !item?.disabled && onClick(item)}
         >
             {item?.icon && (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-w-4 glass-glass-glass-h-4 mr-3">
+                <div className="flex items-center justify-center w-4 h-4 mr-3">
                     {item?.icon}
                 </div>
             )}
 
-            <span className="glass-glass-glass-flex-1 glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-truncate">
+            <span className="flex-1 text-sm font-medium truncate">
                 {item?.label}
             </span>
 
             {item?.shortcut && (
-                <span className="ml-6 glass-glass-glass-text-xs glass-glass-glass-text-primary/50 font-mono">
+                <span className="ml-6 text-xs text-primary/50 font-mono">
                     {item?.shortcut}
                 </span>
             )}
 
             {item?.children && (
-                <div className="ml-3 glass-glass-glass-text-primary/50">
+                <div className="ml-3 text-primary/50">
                     ▶
                 </div>
             )}

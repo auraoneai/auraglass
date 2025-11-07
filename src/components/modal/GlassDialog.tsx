@@ -486,14 +486,14 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
             >
             {/* Header */}
             {(header || title || description || showCloseButton) && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/10">
-                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+              <div className="flex items-start justify-between p-6 border-b border-glass-border/10">
+                <div className="flex-1 min-w-0">
                   {header || (
                     <>
                       {title && (
                         <h2
                           id="dialog-title"
-                          className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-1"
+                          className="text-lg font-semibold text-primary mb-1"
                         >
                           {title}
                         </h2>
@@ -501,7 +501,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                       {description && (
                         <p
                           id="dialog-description"
-                          className="glass-glass-glass-text-sm text-muted-foreground"
+                          className="text-sm text-muted-foreground"
                         >
                           {description}
                         </p>
@@ -516,7 +516,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                     iconOnly
                     onClick={handleClose}
                     aria-label="Close dialog"
-                    className="glass-glass-glass-flex-shrink-0 glass-ml-4"
+                    className="flex-shrink-0 glass-ml-4"
                   >
                     ×
                   </GlassButton>
@@ -531,7 +531,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
 
             {/* Footer */}
             {footer && (
-              <div className="glass-glass-glass-p-6 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/10">
+              <div className="p-6 border-t border-glass-border/10">
                 {footer}
               </div>
             )}
@@ -562,14 +562,14 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
             >
             {/* Header */}
             {(header || title || description || showCloseButton) && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/10">
-                <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+              <div className="flex items-start justify-between p-6 border-b border-glass-border/10">
+                <div className="flex-1 min-w-0">
                   {header || (
                     <>
                       {title && (
                         <h2
                           id="dialog-title"
-                          className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-1"
+                          className="text-lg font-semibold text-primary mb-1"
                         >
                           {title}
                         </h2>
@@ -577,7 +577,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                       {description && (
                         <p
                           id="dialog-description"
-                          className="glass-glass-glass-text-sm glass-text-secondary"
+                          className="text-sm glass-text-secondary"
                         >
                           {description}
                         </p>
@@ -602,7 +602,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                     trackAchievements={trackAchievements}
                     data-consciousness-close="true"
                   >
-                    <X className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                    <X className="w-4 h-4" />
                   </GlassButton>
                 )}
               </div>
@@ -651,10 +651,10 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                 
                 {/* Dialog Insights Display */}
                 {predictive && dialogInsights && (
-                  <div className="glass-mt-4 glass-glass-glass-p-3 glass-surface-primary/10 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-primary/20 glass-glass-glass-text-xs">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                      <span className="glass-glass-glass-text-primary">Dialog Insights</span>
-                      <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                  <div className="glass-mt-4 p-3 glass-surface-primary/10 glass-radius-lg border border-primary/20 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-primary">Dialog Insights</span>
+                      <div className="flex gap-2">
                         <span className={cn(
                           "glass-px-2 glass-py-1 glass-radius-md",
                           dialogInsights.urgency === 'high' ? 'bg-red-500/20 text-red-300' :
@@ -664,7 +664,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                           {dialogInsights.urgency} urgency
                         </span>
                         {dialogInsights.userStress > 0.7 && (
-                          <span className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-md glass-surface-primary/20 glass-text-secondary">
+                          <span className="px-2 py-1 glass-radius-md glass-surface-primary/20 glass-text-secondary">
                             high stress
                           </span>
                         )}
@@ -677,7 +677,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
 
             {/* Footer */}
             {footer && (
-              <div className="glass-glass-glass-p-6 glass-glass-glass-border-t glass-glass-glass-border-glass-glass-glass-border/10">
+              <div className="p-6 border-t border-glass-border/10">
                 {footer}
               </div>
             )}

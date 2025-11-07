@@ -70,7 +70,7 @@ const ModalTrigger = ({ children, ...modalProps }: any) => {
       <GlassButton 
         material="liquid"
         onClick={() => setOpen(true)}
-        className="glass-glass-glass-px-6 glass-glass-glass-py-3"
+        className="px-6 py-3"
       >
         Open Liquid Glass Modal
       </GlassButton>
@@ -89,15 +89,15 @@ const ModalTrigger = ({ children, ...modalProps }: any) => {
 export const Default: Story = {
   render: (args) => (
     <ModalTrigger {...args}>
-      <div className="glass-glass-glass-space-y-4">
-        <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary">
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-primary">
           Liquid Glass Modal
         </h2>
-        <p className="glass-glass-glass-text-primary/80">
+        <p className="text-primary/80">
           This modal uses the new Liquid Glass material system with physically 
           accurate refraction and environmental adaptation.
         </p>
-        <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+        <p className="text-sm text-primary/60">
           Notice the subtle refraction effects and how the glass adapts to 
           the content behind it while maintaining perfect readability.
         </p>
@@ -123,21 +123,21 @@ export const Default: Story = {
 export const HighRefraction: Story = {
   render: (args) => (
     <ModalTrigger {...args}>
-      <div className="glass-glass-glass-space-y-4">
-        <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary">
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-primary">
           High IOR Crystal Modal
         </h2>
-        <p className="glass-glass-glass-text-primary/80">
+        <p className="text-primary/80">
           Enhanced refraction (IOR: 1.8) creates dramatic depth and crystal-like appearance.
         </p>
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4 mt-4">
-          <div className="glass-glass-glass-p-3 glass-surface-primary/10 glass-radius-lg">
-            <h4 className="glass-glass-glass-font-medium glass-glass-glass-text-primary">Enhanced Depth</h4>
-            <p className="glass-glass-glass-text-xs glass-glass-glass-text-primary/80">Crystal-like refraction</p>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <div className="p-3 glass-surface-primary/10 glass-radius-lg">
+            <h4 className="font-medium text-primary">Enhanced Depth</h4>
+            <p className="text-xs text-primary/80">Crystal-like refraction</p>
           </div>
-          <div className="glass-glass-glass-p-3 bg-accent/10 glass-radius-lg">
-            <h4 className="glass-glass-glass-font-medium text-accent">Visual Drama</h4>
-            <p className="glass-glass-glass-text-xs text-accent/80">Increased material presence</p>
+          <div className="p-3 bg-accent/10 glass-radius-lg">
+            <h4 className="font-medium text-accent">Visual Drama</h4>
+            <p className="text-xs text-accent/80">Increased material presence</p>
           </div>
         </div>
       </div>
@@ -160,25 +160,25 @@ export const HighRefraction: Story = {
 export const UltraClear: Story = {
   render: (args) => (
     <ModalTrigger {...args}>
-      <div className="glass-glass-glass-space-y-4">
-        <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary">
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-primary">
           Ultra Clear Glass
         </h2>
-        <p className="glass-glass-glass-text-primary/80">
+        <p className="text-primary/80">
           Water-like transparency with minimal visual weight while maintaining structure.
         </p>
-        <div className="glass-glass-glass-space-y-2">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-text-sm">
-            <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full"></div>
-            <span className="glass-glass-glass-text-primary/70">Minimal visual interference</span>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2 text-sm">
+            <div className="w-2 h-2 glass-surface-green glass-radius-full"></div>
+            <span className="text-primary/70">Minimal visual interference</span>
           </div>
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-text-sm">
-            <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-blue glass-radius-full"></div>
-            <span className="glass-glass-glass-text-primary/70">Perfect content legibility</span>
+          <div className="flex items-center space-x-2 text-sm">
+            <div className="w-2 h-2 glass-surface-blue glass-radius-full"></div>
+            <span className="text-primary/70">Perfect content legibility</span>
           </div>
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-text-sm">
-            <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-primary glass-radius-full"></div>
-            <span className="glass-glass-glass-text-primary/70">Subtle depth perception</span>
+          <div className="flex items-center space-x-2 text-sm">
+            <div className="w-2 h-2 glass-surface-primary glass-radius-full"></div>
+            <span className="text-primary/70">Subtle depth perception</span>
           </div>
         </div>
       </div>
@@ -201,14 +201,14 @@ export const UltraClear: Story = {
 export const ColorfulTints: Story = {
   render: (args) => (
     <ModalTrigger {...args}>
-      <div className="glass-glass-glass-space-y-4">
-        <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary">
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-primary">
           Colored Liquid Glass
         </h2>
-        <p className="glass-glass-glass-text-primary/80">
+        <p className="text-primary/80">
           Environmental tinting adapts to content while maintaining accessibility standards.
         </p>
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-3">
+        <div className="grid grid-cols-3 gap-3">
           {[
             { name: 'Success', color: 'bg-green-500/20', text: 'text-green-600' },
             { name: 'Warning', color: 'bg-yellow-500/20', text: 'text-yellow-600' },
@@ -216,7 +216,7 @@ export const ColorfulTints: Story = {
           ].map(({ name, color, text }) => (
             <div key={name} className={`p-3 rounded-lg ${color}`}>
               <h4 className={`font-medium ${text}`}>{name}</h4>
-              <p className="glass-glass-glass-text-xs opacity-80">Adaptive tinting</p>
+              <p className="text-xs opacity-80">Adaptive tinting</p>
             </div>
           ))}
         </div>
@@ -242,30 +242,30 @@ export const DrawerVariant: Story = {
     <ModalTrigger {...args}>
       <div className="space-y-6">
         <div>
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">
+          <h2 className="text-xl font-semibold text-primary mb-2">
             Liquid Glass Drawer
           </h2>
-          <p className="glass-glass-glass-text-primary/80">
+          <p className="text-primary/80">
             Bottom drawer with adapted liquid glass density for optimal mobile experience.
           </p>
         </div>
         
-        <div className="glass-glass-glass-space-y-4">
-          <div className="glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-            <h3 className="glass-glass-glass-font-medium glass-glass-glass-mb-2">Mobile Optimized</h3>
-            <p className="glass-glass-glass-text-sm text-muted-foreground">
+        <div className="space-y-4">
+          <div className="p-4 glass-surface-subtle glass-radius-lg">
+            <h3 className="font-medium mb-2">Mobile Optimized</h3>
+            <p className="text-sm text-muted-foreground">
               Density automatically adjusts for drawer positioning and mobile interaction patterns.
             </p>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center glass-glass-glass-py-2">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">Adaptive Density</span>
-            <span className="glass-glass-glass-text-xs glass-surface-primary/10 glass-glass-glass-text-primary glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">85%</span>
+          <div className="flex justify-between items-center py-2">
+            <span className="text-sm font-medium">Adaptive Density</span>
+            <span className="text-xs glass-surface-primary/10 text-primary px-2 py-1 glass-radius">85%</span>
           </div>
           
-          <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center glass-glass-glass-py-2">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">Motion Factor</span>
-            <span className="glass-glass-glass-text-xs bg-accent/10 text-accent glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">60%</span>
+          <div className="flex justify-between items-center py-2">
+            <span className="text-sm font-medium">Motion Factor</span>
+            <span className="text-xs bg-accent/10 text-accent px-2 py-1 glass-radius">60%</span>
           </div>
         </div>
       </div>
@@ -288,15 +288,15 @@ export const DrawerVariant: Story = {
 
 export const PerformanceComparison: Story = {
   render: () => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+    <div className="grid grid-cols-2 gap-4">
       {(['glass', 'liquid'] as const).map((material) => {
         const [open, setOpen] = useState(false);
         return (
-          <div key={material} className="glass-glass-glass-space-y-3">
+          <div key={material} className="space-y-3">
             <GlassButton 
               material={material}
               onClick={() => setOpen(true)}
-              className="glass-glass-glass-w-full glass-glass-glass-px-4 glass-glass-glass-py-3"
+              className="w-full px-4 py-3"
             >
               Open {material === 'glass' ? 'Standard Glass' : 'Liquid Glass'} Modal
             </GlassButton>
@@ -315,13 +315,13 @@ export const PerformanceComparison: Story = {
                 quality: 'high',
               } : undefined}
             >
-              <div className="glass-glass-glass-space-y-4">
-                <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
-                  <div className="glass-glass-glass-space-y-2">
-                    <h4 className="glass-glass-glass-font-medium">
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium">
                       {material === 'glass' ? 'Standard Glass' : 'Liquid Glass'}
                     </h4>
-                    <ul className="glass-glass-glass-text-sm space-y-1 text-muted-foreground">
+                    <ul className="text-sm space-y-1 text-muted-foreground">
                       {material === 'glass' ? (
                         <>
                           <li>• CSS blur effects</li>
@@ -340,9 +340,9 @@ export const PerformanceComparison: Story = {
                     </ul>
                   </div>
                   
-                  <div className="glass-glass-glass-p-3 glass-surface-subtle glass-radius-lg">
-                    <div className="glass-glass-glass-text-xs text-muted-foreground glass-glass-glass-mb-1">Quality</div>
-                    <div className="glass-glass-glass-text-lg font-mono">
+                  <div className="p-3 glass-surface-subtle glass-radius-lg">
+                    <div className="text-xs text-muted-foreground mb-1">Quality</div>
+                    <div className="text-lg font-mono">
                       {material === 'glass' ? '★★★☆☆' : '★★★★★'}
                     </div>
                   </div>

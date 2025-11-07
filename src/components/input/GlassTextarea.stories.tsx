@@ -70,7 +70,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassTextarea {...args} variant="default" placeholder="Default variant" />
       <GlassTextarea {...args} variant="filled" placeholder="Filled variant" />
       <GlassTextarea {...args} variant="outlined" placeholder="Outlined variant" />
@@ -81,7 +81,7 @@ export const Variants: Story = {
 
 export const States: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassTextarea {...args} state="default" placeholder="Default state" />
       <GlassTextarea {...args} state="success" placeholder="Success state" />
       <GlassTextarea {...args} state="warning" placeholder="Warning state" />
@@ -92,7 +92,7 @@ export const States: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassTextarea {...args} size="sm" placeholder="Small size" />
       <GlassTextarea {...args} size="md" placeholder="Medium size" />
       <GlassTextarea {...args} size="lg" placeholder="Large size" />
@@ -102,7 +102,7 @@ export const Sizes: Story = {
 
 export const WithFeatures: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4 max-w-md">
+    <div className="flex flex-col gap-4 max-w-md">
       <GlassTextarea {...args} label="With Label" placeholder="Textarea with label" />
       <GlassTextarea {...args} showCharCount maxLength={100} placeholder="With character count" />
       <GlassTextarea {...args} helperText="This is helper text" placeholder="With helper text" />

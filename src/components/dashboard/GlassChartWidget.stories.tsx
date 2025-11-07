@@ -53,9 +53,9 @@ type Story = StoryObj<typeof GlassChartWidget>;
 export const Default: Story = {
   args: {
     children: (
-      <div className="glass-glass-glass-p-4">
-        <div className="glass-glass-glass-text-center glass-glass-glass-text-primary/80">
-          <BarChart3 className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-glass-glass-mx-auto glass-glass-glass-mb-4" />
+      <div className="p-4">
+        <div className="text-center text-primary/80">
+          <BarChart3 className="w-12 h-12 mx-auto mb-4" />
           <p>Sample chart content would go here</p>
         </div>
       </div>
@@ -65,16 +65,16 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-4">
+    <div className="flex flex-col gap-4">
       <GlassChartWidget {...args} size="sm" />
       <GlassChartWidget {...args} size="lg" />
     </div>
   ),
   args: {
     children: (
-      <div className="glass-glass-glass-p-2">
-        <div className="glass-glass-glass-text-center glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
-          <LineChart className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-mx-auto glass-glass-glass-mb-2" />
+      <div className="p-2">
+        <div className="text-center text-primary/60 text-sm">
+          <LineChart className="w-8 h-8 mx-auto mb-2" />
           <p>Chart variants</p>
         </div>
       </div>

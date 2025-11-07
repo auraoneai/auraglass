@@ -349,10 +349,10 @@ export function SeasonalParticles({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-glass-glass-absolute bottom-4 right-4 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-gap-2"
+          className="absolute bottom-4 right-4 flex flex-col gap-2"
         >
           {/* Season selector */}
-          <div className="glass-glass-glass-flex glass-glass-glass-gap-2 glass-glass-glass-p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/10">
+          <div className="flex gap-2 p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10">
             {seasons.map(seasonName => (
               <button
                 key={seasonName}
@@ -370,17 +370,17 @@ export function SeasonalParticles({
           </div>
 
           {/* Playback controls */}
-          <div className="glass-glass-glass-flex glass-glass-glass-gap-2 glass-glass-glass-p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/10">
+          <div className="flex gap-2 p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10">
             <button
               onClick={togglePlay}
-              className="glass-glass-glass-p-2 glass-radius-lg glass-glass-glass-text-primary hover:glass-surface-subtle/10 transition-colors"
+              className="p-2 glass-radius-lg text-primary hover:glass-surface-subtle/10 transition-colors"
               title={isPlaying ? 'Pause' : 'Play'}
             >
-              {isPlaying ? <Pause className="glass-glass-glass-w-4 glass-glass-glass-h-4" /> : <Play className="glass-glass-glass-w-4 glass-glass-glass-h-4" />}
+              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             </button>
 
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
-              <Wind className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+            <div className="flex items-center gap-2 text-primary/60 text-sm">
+              <Wind className="w-3 h-3" />
               <span>{windStrength.toFixed(1)}</span>
             </div>
           </div>
@@ -392,9 +392,9 @@ export function SeasonalParticles({
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="glass-glass-glass-absolute top-4 right-4 glass-glass-glass-px-3 glass-glass-glass-py-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/10"
+          className="absolute top-4 right-4 px-3 py-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10"
         >
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
+          <div className="flex items-center gap-2 text-primary/60 text-sm">
             <motion.div
               animate={{
                 x: windStrength > 0 ? [0, 5, 0] : 0
@@ -405,7 +405,7 @@ export function SeasonalParticles({
                 ease: 'easeInOut'
               }}
             >
-              <Wind className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+              <Wind className="w-3 h-3" />
             </motion.div>
             <span>Wind: {windStrength.toFixed(1)}</span>
           </div>

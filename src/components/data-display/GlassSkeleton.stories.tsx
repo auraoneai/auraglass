@@ -54,22 +54,22 @@ export const Variants: Story = {
   render: (args) => (
     <div className="space-y-6 max-w-md">
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-3">Rectangular</h4>
+        <h4 className="text-sm font-medium mb-3">Rectangular</h4>
         <GlassSkeleton {...args} variant="rectangular" width="100%" height="60px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-3">Circular</h4>
+        <h4 className="text-sm font-medium mb-3">Circular</h4>
         <GlassSkeleton {...args} variant="circular" width="60px" height="60px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-3">Rounded</h4>
+        <h4 className="text-sm font-medium mb-3">Rounded</h4>
         <GlassSkeleton {...args} variant="glass-radius-md" width="100%" height="40px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-3">Text</h4>
+        <h4 className="text-sm font-medium mb-3">Text</h4>
         <GlassSkeleton {...args} variant="text" width="100%" height="20px" />
       </div>
     </div>
@@ -79,19 +79,19 @@ export const Variants: Story = {
 
 export const Animations: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-gap-4 max-w-md">
+    <div className="gap-4 max-w-md">
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Pulse Animation</h4>
+        <h4 className="text-sm font-medium mb-2">Pulse Animation</h4>
         <GlassSkeleton {...args} animation="pulse" width="100%" height="40px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Wave Animation</h4>
+        <h4 className="text-sm font-medium mb-2">Wave Animation</h4>
         <GlassSkeleton {...args} animation="wave" width="100%" height="40px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">No Animation</h4>
+        <h4 className="text-sm font-medium mb-2">No Animation</h4>
         <GlassSkeleton {...args} animation="none" width="100%" height="40px" />
       </div>
     </div>
@@ -101,19 +101,19 @@ export const Animations: Story = {
 
 export const SkeletonText: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-gap-4 max-w-md">
+    <div className="gap-4 max-w-md">
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Single Line</h4>
+        <h4 className="text-sm font-medium mb-2">Single Line</h4>
         <GlassSkeleton variant="text" lines={1} width="100%" height="20px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Multiple Lines</h4>
+        <h4 className="text-sm font-medium mb-2">Multiple Lines</h4>
         <GlassSkeleton variant="text" lines={3} width="100%" height="20px" />
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Long Text Block</h4>
+        <h4 className="text-sm font-medium mb-2">Long Text Block</h4>
         <GlassSkeleton variant="text" lines={5} width="100%" height="20px" />
       </div>
     </div>
@@ -123,7 +123,7 @@ export const SkeletonText: Story = {
 
 export const SkeletonAvatar: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-4">
+    <div className="flex items-center gap-4">
       <GlassSkeletonAvatar size="sm" />
       <GlassSkeletonAvatar size="md" />
       <GlassSkeletonAvatar size="lg" />
@@ -135,10 +135,10 @@ export const SkeletonAvatar: Story = {
 
 export const SkeletonButton: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-gap-4 max-w-md">
+    <div className="gap-4 max-w-md">
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Button Sizes</h4>
-        <div className="glass-glass-glass-gap-2">
+        <h4 className="text-sm font-medium mb-2">Button Sizes</h4>
+        <div className="gap-2">
           <GlassSkeletonButton width="60px" />
           <GlassSkeletonButton width="80px" />
           <GlassSkeletonButton width="100px" />
@@ -146,7 +146,7 @@ export const SkeletonButton: Story = {
       </div>
 
       <div>
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-mb-2">Full Width</h4>
+        <h4 className="text-sm font-medium mb-2">Full Width</h4>
         <GlassSkeletonButton width="100%" />
       </div>
     </div>
@@ -156,7 +156,7 @@ export const SkeletonButton: Story = {
 
 export const SkeletonCard: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 max-w-4xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
       <GlassSkeletonCard />
       <GlassSkeletonCard />
       <GlassSkeletonCard />
@@ -168,10 +168,10 @@ export const SkeletonCard: Story = {
 
 export const LoadingState: Story = {
   render: (args) => (
-    <div className="max-w-md glass-glass-glass-gap-4">
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+    <div className="max-w-md gap-4">
+      <div className="flex items-center gap-3">
         <GlassSkeletonAvatar size="md" />
-        <div className="glass-glass-glass-flex-1 glass-glass-glass-gap-2">
+        <div className="flex-1 gap-2">
           <GlassSkeleton variant="text" lines={1} width="100%" height="1rem" />
           <GlassSkeleton variant="text" lines={1} width="100%" height="0.75rem" />
         </div>
@@ -179,7 +179,7 @@ export const LoadingState: Story = {
 
       <GlassSkeletonCard />
 
-      <div className="glass-glass-glass-flex glass-glass-glass-justify-end glass-glass-glass-gap-2">
+      <div className="flex justify-end gap-2">
         <GlassSkeletonButton width="60px" />
         <GlassSkeletonButton width="60px" />
       </div>
@@ -192,10 +192,10 @@ export const ComplexLayout: Story = {
   render: (args) => (
     <div className="max-w-2xl space-y-6">
       {/* Header */}
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
           <GlassSkeletonAvatar size="lg" />
-          <div className="glass-glass-glass-gap-2">
+          <div className="gap-2">
             <GlassSkeleton variant="text" lines={1} width="100%" height="1rem" />
             <GlassSkeleton variant="text" lines={1} width="100%" height="0.75rem" />
           </div>
@@ -204,22 +204,22 @@ export const ComplexLayout: Story = {
       </div>
 
       {/* Content */}
-      <div className="glass-glass-glass-gap-4">
+      <div className="gap-4">
         <GlassSkeleton variant="text" lines={2} width="100%" height="1rem" />
         <GlassSkeleton variant="rectangular" width="100%" height="200px" />
         <GlassSkeleton variant="text" lines={3} width="100%" height="1rem" />
       </div>
 
       {/* Cards Grid */}
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <GlassSkeletonCard />
         <GlassSkeletonCard />
         <GlassSkeletonCard />
       </div>
 
       {/* Actions */}
-      <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center">
-        <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2">
           <GlassSkeletonButton width="60px" />
           <GlassSkeletonButton width="60px" />
         </div>

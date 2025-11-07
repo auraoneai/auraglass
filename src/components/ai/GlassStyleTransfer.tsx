@@ -249,9 +249,9 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
     }, [transferParams, realTimePreview, uploadedImage, selectedStyleId, processStyleTransfer])
 
     const StyleLibrary = () => (
-      <div className="glass-glass-glass-space-y-4">
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Style Library</h4>
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-3">
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium text-primary/80">Style Library</h4>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {styleModels.map((style) => (
             <motion.div
               key={style.id}
@@ -266,7 +266,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => handleStyleSelect(style.id)}
             >
-              <div className="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-glass-glass-mb-2 overflow-hidden">
+              <div className="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden">
                 <div className={`
                   w-full h-full bg-gradient-to-br 
                   ${style.category === 'artistic' ? 'from-red-400 to-blue-400' :
@@ -278,14 +278,14 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 `} />
               </div>
               
-              <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/90 glass-glass-glass-font-medium glass-glass-glass-mb-1">
+              <div className="text-xs text-primary/90 font-medium mb-1">
                 {style.name}
               </div>
-              <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60">
+              <div className="text-xs text-primary/60">
                 {style.description}
               </div>
               
-              <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
+              <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
                 <div className={`
                   px-1.5 py-0.5 rounded text-xs font-medium
                   ${style.category === 'artistic' ? 'bg-red-500/20 text-red-300' :
@@ -305,12 +305,12 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
     )
 
     const AdvancedControls = () => (
-      <div className="glass-glass-glass-space-y-4">
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Advanced Controls</h4>
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium text-primary/80">Advanced Controls</h4>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="glass-glass-glass-block glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-2">
+            <label className="block text-xs text-primary/70 mb-2">
               Transfer Strength: {Math.round(transferParams.strength * 100)}%
             </label>
             <input
@@ -323,19 +323,19 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 ...prev, 
                 strength: parseFloat(e.target.value) 
               }))}
-              className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-lg appearance-none glass-glass-glass-cursor-pointer slider"
+              className="w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer slider"
             />
           </div>
 
           <div>
-            <label className="glass-glass-glass-block glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-2">Resolution</label>
+            <label className="block text-xs text-primary/70 mb-2">Resolution</label>
             <select
               value={transferParams.resolution}
               onChange={(e) => setTransferParams(prev => ({ 
                 ...prev, 
                 resolution: e.target.value as any 
               }))}
-              className="glass-glass-glass-w-full glass-glass-glass-p-2 glass-surface-subtle/10 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-text-primary/90 glass-glass-glass-text-sm"
+              className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary/90 text-sm"
             >
               <option value="low">Low (512px)</option>
               <option value="medium">Medium (1024px)</option>
@@ -345,14 +345,14 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
           </div>
 
           <div>
-            <label className="glass-glass-glass-block glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-2">Blend Mode</label>
+            <label className="block text-xs text-primary/70 mb-2">Blend Mode</label>
             <select
               value={transferParams.blendMode}
               onChange={(e) => setTransferParams(prev => ({ 
                 ...prev, 
                 blendMode: e.target.value as any 
               }))}
-              className="glass-glass-glass-w-full glass-glass-glass-p-2 glass-surface-subtle/10 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-text-primary/90 glass-glass-glass-text-sm"
+              className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary/90 text-sm"
             >
               <option value="normal">Normal</option>
               <option value="multiply">Multiply</option>
@@ -363,8 +363,8 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
           </div>
         </div>
 
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-6">
-          <label className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-cursor-pointer">
+        <div className="flex items-center space-x-6">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               checked={transferParams.preserveColors}
@@ -372,12 +372,12 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 ...prev, 
                 preserveColors: e.target.checked 
               }))}
-              className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-radius glass-glass-glass-border-white/30"
+              className="w-4 h-4 glass-radius border-white/30"
             />
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/80">Preserve Colors</span>
+            <span className="text-sm text-primary/80">Preserve Colors</span>
           </label>
 
-          <label className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-cursor-pointer">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
               checked={transferParams.enhanceDetails}
@@ -385,9 +385,9 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 ...prev, 
                 enhanceDetails: e.target.checked 
               }))}
-              className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-radius glass-glass-glass-border-white/30"
+              className="w-4 h-4 glass-radius border-white/30"
             />
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/80">Enhance Details</span>
+            <span className="text-sm text-primary/80">Enhance Details</span>
           </label>
         </div>
       </div>
@@ -401,48 +401,48 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
         {...props}
       >
         {/* Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <div>
-            <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary/90">
+            <h3 className="text-xl font-semibold text-primary/90">
               Style Transfer AI
             </h3>
-            <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+            <p className="text-sm text-primary/60">
               Transform your images with artistic styles
             </p>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+          <div className="flex items-center space-x-2">
             {realTimePreview && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-1 glass-glass-glass-text-primary">
-                <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full animate-pulse" />
-                <span className="glass-glass-glass-text-xs">Real-time</span>
+              <div className="flex items-center space-x-1 text-primary">
+                <div className="w-2 h-2 glass-surface-green glass-radius-full animate-pulse" />
+                <span className="text-xs">Real-time</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Main interface */}
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Source image */}
-          <div className="glass-glass-glass-space-y-4">
-            <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Source Image</h4>
+          <div className="space-y-4">
+            <h4 className="text-sm font-medium text-primary/80">Source Image</h4>
             
             <div 
-              className="glass-glass-glass-relative aspect-square glass-surface-subtle/5 glass-glass-glass-border-2 glass-glass-glass-border-dashed glass-glass-glass-border-white/30 glass-radius-lg overflow-hidden glass-glass-glass-cursor-pointer hover:glass-glass-glass-border-white/50 transition-colors"
+              className="relative aspect-square glass-surface-subtle/5 border-2 border-dashed border-white/30 glass-radius-lg overflow-hidden cursor-pointer hover:border-white/50 transition-colors"
               onClick={() => fileInputRef.current?.click()}
             >
               {uploadedImage ? (
                 <img 
                   src={uploadedImage} 
                   alt="Source" 
-                  className="glass-glass-glass-w-full glass-glass-glass-h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-glass-glass-text-primary/50">
-                  <div className="glass-glass-glass-text-center">
-                    <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-2">📷</div>
+                <div className="flex items-center justify-center h-full text-primary/50">
+                  <div className="text-center">
+                    <div className="text-4xl mb-2">📷</div>
                     <p>Click to upload image</p>
-                    <p className="glass-glass-glass-text-xs mt-1">PNG, JPG up to 10MB</p>
+                    <p className="text-xs mt-1">PNG, JPG up to 10MB</p>
                   </div>
                 </div>
               )}
@@ -458,28 +458,28 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
           </div>
 
           {/* Preview */}
-          <div className="glass-glass-glass-space-y-4">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Style Preview</h4>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium text-primary/80">Style Preview</h4>
               {isProcessing && showProgressIndicator && (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-text-primary">
-                  <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-border-2 glass-glass-glass-border-blue glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
-                  <span className="glass-glass-glass-text-xs">{Math.round(progress)}%</span>
+                <div className="flex items-center space-x-2 text-primary">
+                  <div className="w-4 h-4 border-2 border-blue border-t-transparent glass-radius-full animate-spin" />
+                  <span className="text-xs">{Math.round(progress)}%</span>
                 </div>
               )}
             </div>
             
-            <div className="glass-glass-glass-relative aspect-square glass-surface-subtle/5 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg overflow-hidden">
+            <div className="relative aspect-square glass-surface-subtle/5 border border-white/20 glass-radius-lg overflow-hidden">
               {previewImage ? (
                 <img 
                   src={previewImage} 
                   alt="Styled preview" 
-                  className="glass-glass-glass-w-full glass-glass-glass-h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-glass-glass-text-primary/50">
-                  <div className="glass-glass-glass-text-center">
-                    <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-2">🎨</div>
+                <div className="flex items-center justify-center h-full text-primary/50">
+                  <div className="text-center">
+                    <div className="text-4xl mb-2">🎨</div>
                     <p>Style preview will appear here</p>
                   </div>
                 </div>
@@ -487,11 +487,11 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
               
               {/* Processing overlay */}
               {isProcessing && (
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-surface-dark/50 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                  <div className="glass-glass-glass-text-center glass-glass-glass-text-primary">
-                    <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-border-2 glass-glass-glass-border-white glass-glass-glass-border-t-transparent glass-radius-full animate-spin glass-glass-glass-mx-auto glass-glass-glass-mb-2" />
-                    <div className="glass-glass-glass-text-sm">Processing...</div>
-                    <div className="glass-glass-glass-text-xs mt-1">{Math.round(progress)}% complete</div>
+                <div className="absolute inset-0 glass-surface-dark/50 flex items-center justify-center">
+                  <div className="text-center text-primary">
+                    <div className="w-8 h-8 border-2 border-white border-t-transparent glass-radius-full animate-spin mx-auto mb-2" />
+                    <div className="text-sm">Processing...</div>
+                    <div className="text-xs mt-1">{Math.round(progress)}% complete</div>
                   </div>
                 </div>
               )}
@@ -513,10 +513,10 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
         {showAdvancedControls && <AdvancedControls />}
 
         {/* Action buttons */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between pt-4 glass-glass-glass-border-t glass-glass-glass-border-white/10">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-4">
+        <div className="flex items-center justify-between pt-4 border-t border-white/10">
+          <div className="flex items-center space-x-4">
             <motion.button
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue hover:glass-surface-blue glass-glass-glass-text-primary glass-radius-lg glass-glass-glass-text-sm glass-glass-glass-font-medium transition-colors"
+              className="px-4 py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg text-sm font-medium transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => uploadedImage && selectedStyleId && processStyleTransfer(uploadedImage, selectedStyleId)}
@@ -526,7 +526,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             </motion.button>
 
             <motion.button
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-white/30 hover:glass-glass-glass-border-white/50 glass-glass-glass-text-primary/80 glass-radius-lg glass-glass-glass-text-sm transition-colors"
+              className="px-4 py-2 border border-white/30 hover:border-white/50 text-primary/80 glass-radius-lg text-sm transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => {
@@ -542,7 +542,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             <motion.a
               href={previewImage}
               download="styled-image.png"
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-green hover:glass-surface-green glass-glass-glass-text-primary glass-radius-lg glass-glass-glass-text-sm glass-glass-glass-font-medium transition-colors"
+              className="px-4 py-2 glass-surface-green hover:glass-surface-green text-primary glass-radius-lg text-sm font-medium transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
             >
@@ -557,13 +557,13 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             p-3 rounded-lg border border-blue-400/30
             ${createGlassStyle({ blur: 'sm', opacity: 0.8 }).background}
           `}>
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
-              <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/80">Processing Style Transfer</span>
-              <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">{Math.round(progress)}%</span>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-primary/80">Processing Style Transfer</span>
+              <span className="text-sm font-medium text-primary">{Math.round(progress)}%</span>
             </div>
-            <div className="glass-glass-glass-w-full glass-surface-subtle/20 glass-radius-full glass-glass-glass-h-2">
+            <div className="w-full glass-surface-subtle/20 glass-radius-full h-2">
               <motion.div
-                className="glass-surface-blue glass-glass-glass-h-2 glass-radius-full"
+                className="glass-surface-blue h-2 glass-radius-full"
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.3 }}
               />

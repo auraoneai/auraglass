@@ -167,35 +167,35 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
 
     // Default loading indicator
     const defaultLoadingIndicator = (
-        <Motion preset="fadeIn" className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-8">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle/10 backdrop-blur-md glass-radius-full">
-                <Loader2 className="glass-glass-glass-w-5 glass-glass-glass-h-5 animate-spin glass-glass-glass-text-primary" />
-                <span className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm">Loading more...</span>
+        <Motion preset="fadeIn" className="flex items-center justify-center py-8">
+            <div className="flex items-center gap-3 px-4 py-2 glass-surface-subtle/10 backdrop-blur-md glass-radius-full">
+                <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                <span className="text-primary/80 text-sm">Loading more...</span>
             </div>
         </Motion>
     );
 
     // Default error indicator
     const defaultErrorIndicator = (
-        <Motion preset="fadeIn" className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-8 glass-glass-glass-px-4">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-text-primary glass-glass-glass-mb-3">
-                <AlertCircle className="glass-glass-glass-w-5 glass-glass-glass-h-5" />
-                <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">Error loading more items</span>
+        <Motion preset="fadeIn" className="flex flex-col items-center justify-center py-8 px-4">
+            <div className="flex items-center gap-2 text-primary mb-3">
+                <AlertCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">Error loading more items</span>
             </div>
             <button
                 onClick={handleRetry}
-                className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-dark/30 hover:glass-surface-dark/40 glass-radius-lg transition-colors glass-glass-glass-border glass-glass-glass-border-white/20 hover:glass-glass-glass-border-white/30"
+                className="flex items-center gap-2 px-4 py-2 glass-surface-dark/30 hover:glass-surface-dark/40 glass-radius-lg transition-colors border border-white/20 hover:border-white/30"
             >
-                <RefreshCw className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
-                <span className="glass-glass-glass-text-sm">Try again</span>
+                <RefreshCw className="w-4 h-4" />
+                <span className="text-sm">Try again</span>
             </button>
         </Motion>
     );
 
     // Default end message
     const defaultEndMessage = (
-        <Motion preset="fadeIn" className="glass-glass-glass-text-center glass-glass-glass-py-8">
-            <div className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
+        <Motion preset="fadeIn" className="text-center py-8">
+            <div className="text-primary/60 text-sm">
                 You've reached the end
             </div>
         </Motion>
@@ -218,53 +218,53 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
 
             {/* Sentinel for intersection observer */}
             {!reverse && (
-                <div ref={sentinelRef} className="glass-glass-glass-h-4" />
+                <div ref={sentinelRef} className="h-4" />
             )}
 
             {/* Loading State */}
             {isLoading && !reverse && (
-                <div className="glass-glass-glass-py-4">
+                <div className="py-4">
                     {loadingIndicator || defaultLoadingIndicator}
                 </div>
             )}
 
             {/* Error State */}
             {loadError && !reverse && (
-                <div className="glass-glass-glass-py-4">
+                <div className="py-4">
                     {errorIndicator || defaultErrorIndicator}
                 </div>
             )}
 
             {/* End of List */}
             {hasReachedEnd && !hasMore && !isLoading && !loadError && !reverse && (
-                <div className="glass-glass-glass-py-4">
+                <div className="py-4">
                     {endMessage || defaultEndMessage}
                 </div>
             )}
 
             {/* Reverse direction indicators */}
             {reverse && (
-                <div className="glass-glass-glass-flex glass-glass-glass-flex-col-reverse">
+                <div className="flex flex-col-reverse">
                     {/* Sentinel for reverse direction */}
-                    <div ref={sentinelRef} className="glass-glass-glass-h-4" />
+                    <div ref={sentinelRef} className="h-4" />
 
                     {/* Loading State */}
                     {isLoading && (
-                        <div className="glass-glass-glass-py-4">
+                        <div className="py-4">
                             {loadingIndicator || defaultLoadingIndicator}
                         </div>
                     )}
 
                     {/* Error State */}
                     {loadError && (
-                        <div className="glass-glass-glass-py-4">
+                        <div className="py-4">
                             {errorIndicator || defaultErrorIndicator}
                         </div>
                     )}
 
                     {/* End of List */}
                     {hasReachedEnd && !hasMore && !isLoading && !loadError && (
-                        <div className="glass-glass-glass-py-4">
+                        <div className="py-4">
                             {endMessage || defaultEndMessage}
                         </div>
                     )}

@@ -48,27 +48,27 @@ export default meta;
 export const ConsciousnessOverview: Story = {
   render: () => (
     <div className="space-y-6">
-      <div className="glass-glass-glass-text-center glass-glass-glass-gap-2">
-        <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">Modal Consciousness Features</h2>
-        <p className="glass-glass-glass-text-sm glass-text-secondary">Intelligent modal interactions</p>
+      <div className="text-center gap-2">
+        <h2 className="text-xl font-semibold text-primary">Modal Consciousness Features</h2>
+        <p className="text-sm glass-text-secondary">Intelligent modal interactions</p>
       </div>
       
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-glass-glass-p-4">
-          <h3 className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Predictive Content</h3>
-          <p className="glass-glass-glass-text-sm glass-text-secondary">Adapts modal content based on user context and behavior patterns.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+          <h3 className="font-medium text-primary mb-2">Predictive Content</h3>
+          <p className="text-sm glass-text-secondary">Adapts modal content based on user context and behavior patterns.</p>
         </div>
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-glass-glass-p-4">
-          <h3 className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Eye Tracking Focus</h3>
-          <p className="glass-glass-glass-text-sm glass-text-secondary">Manages focus states based on user gaze and attention patterns.</p>
+        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+          <h3 className="font-medium text-primary mb-2">Eye Tracking Focus</h3>
+          <p className="text-sm glass-text-secondary">Manages focus states based on user gaze and attention patterns.</p>
         </div>
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-glass-glass-p-4">
-          <h3 className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Biometric Adaptation</h3>
-          <p className="glass-glass-glass-text-sm glass-text-secondary">Adjusts modal complexity and timing based on stress levels.</p>
+        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+          <h3 className="font-medium text-primary mb-2">Biometric Adaptation</h3>
+          <p className="text-sm glass-text-secondary">Adjusts modal complexity and timing based on stress levels.</p>
         </div>
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-glass-glass-p-4">
-          <h3 className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-mb-2">Spatial Audio</h3>
-          <p className="glass-glass-glass-text-sm glass-text-secondary">Provides positional audio cues for modal interactions.</p>
+        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+          <h3 className="font-medium text-primary mb-2">Spatial Audio</h3>
+          <p className="text-sm glass-text-secondary">Provides positional audio cues for modal interactions.</p>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4">
+    <div className="flex flex-wrap gap-4">
       <GlassModal {...args}>
         Default
       </GlassModal>
@@ -109,8 +109,8 @@ export const SpecularOpen: Story = {
       useGlassParallax(ref, { strength: 14 });
       return (
         <GlassModal ref={ref as any} {...args}>
-          <div className="glass-glass-glass-p-6 glass-typography-reset">
-            <p className="glass-glass-glass-mb-2">This modal uses noise, edge frost and a specular sheen.</p>
+          <div className="p-6 glass-typography-reset">
+            <p className="mb-2">This modal uses noise, edge frost and a specular sheen.</p>
             <p className="opacity-80">Move the cursor to see subtle parallax on the sheen.</p>
           </div>
         </GlassModal>
@@ -134,22 +134,22 @@ export const ConsciousModal: Story = {
   },
   render: (args: any) => (
     <GlassModal {...args}>
-      <div className="glass-glass-glass-p-6">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-4">
-          <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
-          <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium">Consciousness Features Active</span>
+      <div className="p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-3 h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
+          <span className="text-sm font-medium">Consciousness Features Active</span>
         </div>
-        <p className="glass-glass-glass-mb-4">This modal demonstrates consciousness interface integration:</p>
-        <ul className="glass-glass-glass-text-sm glass-glass-glass-gap-2 mb-6">
+        <p className="mb-4">This modal demonstrates consciousness interface integration:</p>
+        <ul className="text-sm gap-2 mb-6">
           <li>• Predictive content adaptation</li>
           <li>• Eye tracking focus management</li>
           <li>• Biometric stress responsiveness</li>
           <li>• Spatial audio positioning</li>
           <li>• Achievement tracking</li>
         </ul>
-        <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
-          <button className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue/20 glass-radius-lg glass-glass-glass-text-sm">Primary Action</button>
-          <button className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-primary/20 glass-radius-lg glass-glass-glass-text-sm">Secondary</button>
+        <div className="flex gap-2">
+          <button className="px-4 py-2 glass-surface-blue/20 glass-radius-lg text-sm">Primary Action</button>
+          <button className="px-4 py-2 glass-surface-primary/20 glass-radius-lg text-sm">Secondary</button>
         </div>
       </div>
     </GlassModal>

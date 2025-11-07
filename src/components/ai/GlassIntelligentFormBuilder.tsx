@@ -325,24 +325,24 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
   }, [schema, validateForm]);
 
   return (
-    <div className="glass-glass-glass-w-full glass-container-6xl glass-glass-glass-mx-auto glass-glass-glass-p-6">
+    <div className="w-full glass-container-6xl mx-auto p-6">
       {/* Form Builder Header */}
-      <Glass className="glass-glass-glass-p-6">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between mb-6">
+      <Glass className="p-6">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-text-secondary">🤖 Intelligent Form Builder</h1>
+            <h1 className="text-2xl font-bold glass-text-secondary">🤖 Intelligent Form Builder</h1>
             <p className="glass-text-secondary mt-1">AI-powered form creation with real-time optimization</p>
           </div>
-          <div className="glass-glass-glass-flex glass-glass-glass-gap-3">
+          <div className="flex gap-3">
             <button
               onClick={exportSchema}
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue glass-glass-glass-text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+              className="px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
             >
               Export Schema
             </button>
             <button
               onClick={addField}
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-green glass-glass-glass-text-primary glass-radius-lg hover:glass-surface-green transition-colors"
+              className="px-4 py-2 glass-surface-green text-primary glass-radius-lg hover:glass-surface-green transition-colors"
             >
               + Add Field
             </button>
@@ -350,9 +350,9 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
         </div>
 
         {/* Form Basic Info */}
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+            <label className="block text-sm font-medium glass-text-secondary mb-2">
               Form Title *
             </label>
             <input
@@ -366,18 +366,18 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
               placeholder="Enter form title..."
             />
             {validationErrors.title && (
-              <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm mt-1">{validationErrors.title}</p>
+              <p className="text-primary text-sm mt-1">{validationErrors.title}</p>
             )}
           </div>
           <div>
-            <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+            <label className="block text-sm font-medium glass-text-secondary mb-2">
               Description
             </label>
             <input
               type="text"
               value={schema.description}
               onChange={(e) => setSchema(prev => ({ ...prev, description: e.target.value }))}
-              className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+              className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
               placeholder="Describe the purpose of this form..."
             />
           </div>
@@ -385,52 +385,52 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
 
         {/* AI Analysis Panel */}
         {enableAIAssistance && schema.aiAnalysis && (
-          <div className="glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl glass-glass-glass-p-6">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-mb-4">
-              <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-surface-blue glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                <span className="glass-glass-glass-text-primary glass-glass-glass-text-sm">🤖</span>
+          <div className="glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 glass-surface-blue glass-radius-full flex items-center justify-center">
+                <span className="text-primary text-sm">🤖</span>
               </div>
               <div>
-                <h3 className="glass-glass-glass-font-semibold glass-text-secondary">AI Analysis</h3>
-                <p className="glass-glass-glass-text-sm glass-text-secondary">
+                <h3 className="font-semibold glass-text-secondary">AI Analysis</h3>
+                <p className="text-sm glass-text-secondary">
                   Detected Purpose: {schema.aiAnalysis.purpose}
                 </p>
               </div>
               {isAnalyzing && (
                 <div className="ml-auto">
-                  <div className="animate-spin glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-border-2 glass-glass-glass-border-blue glass-glass-glass-border-t-transparent glass-radius-full"></div>
+                  <div className="animate-spin w-5 h-5 border-2 border-blue border-t-transparent glass-radius-full"></div>
                 </div>
               )}
             </div>
 
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-4 glass-glass-glass-mb-4">
-              <div className="glass-glass-glass-text-center">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary">
                   {schema.aiAnalysis.accessibilityScore}%
                 </div>
-                <div className="glass-glass-glass-text-sm glass-text-secondary">Accessibility Score</div>
+                <div className="text-sm glass-text-secondary">Accessibility Score</div>
               </div>
-              <div className="glass-glass-glass-text-center">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary">
                   {schema.aiAnalysis.performanceScore}/100
                 </div>
-                <div className="glass-glass-glass-text-sm glass-text-secondary">Performance Score</div>
+                <div className="text-sm glass-text-secondary">Performance Score</div>
               </div>
-              <div className="glass-glass-glass-text-center">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-glass-glass-text-primary">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary">
                   {schema.fields.length}
                 </div>
-                <div className="glass-glass-glass-text-sm glass-text-secondary">Total Fields</div>
+                <div className="text-sm glass-text-secondary">Total Fields</div>
               </div>
             </div>
 
             {schema.aiAnalysis.recommendations.length > 0 && (
               <div>
-                <h4 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">🎯 AI Recommendations:</h4>
+                <h4 className="font-medium glass-text-secondary mb-2">🎯 AI Recommendations:</h4>
                 <ul className="space-y-1">
                   {schema.aiAnalysis.recommendations.slice(0, 3).map((rec, index) => (
-                    <li key={index} className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <span className="glass-glass-glass-w-1.5 glass-glass-glass-h-1.5 glass-surface-blue glass-radius-full"></span>
+                    <li key={index} className="text-sm glass-text-secondary flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 glass-surface-blue glass-radius-full"></span>
                       {rec}
                     </li>
                   ))}
@@ -442,11 +442,11 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
       </Glass>
 
       {/* Form Fields Builder */}
-      <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Fields List */}
-        <Glass className="glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">Form Fields</h2>
-          <div className="glass-glass-glass-space-y-4 max-glass-glass-glass-h-96 glass-glass-glass-overflow-y-auto">
+        <Glass className="p-6">
+          <h2 className="text-lg font-semibold glass-text-secondary mb-4">Form Fields</h2>
+          <div className="space-y-4 max-h-96 overflow-y-auto">
             {schema.fields.map((field, index) => (
               <div
                 key={field.id}
@@ -458,10 +458,10 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                 )}
                 onClick={() => setSelectedFieldIndex(index)}
               >
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                  <div className="glass-glass-glass-flex-1">
-                    <div className="glass-glass-glass-font-medium glass-text-secondary">{field.label}</div>
-                    <div className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-capitalize">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="font-medium glass-text-secondary">{field.label}</div>
+                    <div className="text-sm glass-text-secondary capitalize">
                       {field.type} {field.required && "• Required"}
                     </div>
                   </div>
@@ -470,16 +470,16 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                       e.stopPropagation();
                       removeField(index);
                     }}
-                    className="glass-glass-glass-text-primary hover:glass-glass-glass-text-primary glass-glass-glass-p-1"
+                    className="text-primary hover:text-primary p-1"
                   >
                     ✕
                   </button>
                 </div>
                 
                 {enableAIAssistance && field.aiSuggestions && field.aiSuggestions.fieldType.length > 0 && (
-                  <div className="mt-2 glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-1">
+                  <div className="mt-2 flex flex-wrap gap-1">
                     {field.aiSuggestions.fieldType.slice(0, 2).map((suggestion, i) => (
-                      <span key={i} className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-subtle glass-glass-glass-text-primary glass-radius">
+                      <span key={i} className="px-2 py-1 text-xs glass-surface-subtle text-primary glass-radius">
                         💡 {suggestion}
                       </span>
                     ))}
@@ -489,8 +489,8 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
             ))}
             
             {schema.fields.length === 0 && (
-              <div className="glass-glass-glass-text-center glass-glass-glass-py-8 glass-text-secondary">
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-2">📝</div>
+              <div className="text-center py-8 glass-text-secondary">
+                <div className="text-4xl mb-2">📝</div>
                 <p>No fields yet. Click "Add Field" to get started.</p>
               </div>
             )}
@@ -498,18 +498,18 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
         </Glass>
 
         {/* Field Editor */}
-        <Glass className="glass-glass-glass-p-6">
-          <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">Field Editor</h2>
+        <Glass className="p-6">
+          <h2 className="text-lg font-semibold glass-text-secondary mb-4">Field Editor</h2>
           
           {selectedFieldIndex !== null && schema.fields[selectedFieldIndex] ? (
-            <div className="glass-glass-glass-space-y-4">
+            <div className="space-y-4">
               {(() => {
                 const field = schema.fields[selectedFieldIndex];
                 return (
                   <>
                     {/* Basic Field Properties */}
                     <div>
-                      <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+                      <label className="block text-sm font-medium glass-text-secondary mb-2">
                         Field Label *
                       </label>
                       <input
@@ -523,21 +523,21 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                         placeholder="Enter field label..."
                       />
                       {validationErrors[`field-${selectedFieldIndex}-label`] && (
-                        <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm mt-1">
+                        <p className="text-primary text-sm mt-1">
                           {validationErrors[`field-${selectedFieldIndex}-label`]}
                         </p>
                       )}
                     </div>
 
-                    <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+                        <label className="block text-sm font-medium glass-text-secondary mb-2">
                           Field Type
                         </label>
                         <select
                           value={field.type}
                           onChange={(e) => updateField(selectedFieldIndex, { type: e.target.value as FormField['type'] })}
-                          className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                          className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                         >
                           <option value="text">Text</option>
                           <option value="email">Email</option>
@@ -554,13 +554,13 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                         </select>
                       </div>
 
-                      <div className="glass-glass-glass-flex glass-glass-glass-items-center">
-                        <label className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">
+                      <div className="flex items-center">
+                        <label className="flex items-center gap-2 text-sm font-medium glass-text-secondary">
                           <input
                             type="checkbox"
                             checked={field.required || false}
                             onChange={(e) => updateField(selectedFieldIndex, { required: e.target.checked })}
-                            className="glass-radius glass-glass-glass-border-subtle glass-glass-glass-text-primary glass-focus"
+                            className="glass-radius border-subtle text-primary glass-focus"
                           />
                           Required Field
                         </label>
@@ -568,14 +568,14 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                     </div>
 
                     <div>
-                      <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+                      <label className="block text-sm font-medium glass-text-secondary mb-2">
                         Placeholder Text
                       </label>
                       <input
                         type="text"
                         value={field.placeholder || ''}
                         onChange={(e) => updateField(selectedFieldIndex, { placeholder: e.target.value })}
-                        className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                        className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                         placeholder="Enter placeholder text..."
                       />
                     </div>
@@ -583,12 +583,12 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                     {/* Options for Select/Radio fields */}
                     {(field.type === 'select' || field.type === 'radio') && (
                       <div>
-                        <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+                        <label className="block text-sm font-medium glass-text-secondary mb-2">
                           Options
                         </label>
-                        <div className="glass-glass-glass-space-y-2">
+                        <div className="space-y-2">
                           {(field.options || []).map((option, optionIndex) => (
-                            <div key={optionIndex} className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                            <div key={optionIndex} className="flex gap-2">
                               <input
                                 type="text"
                                 value={option.value}
@@ -598,7 +598,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                                   updateField(selectedFieldIndex, { options: newOptions });
                                 }}
                                 placeholder="Value"
-                                className="glass-glass-glass-flex-1 glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                                className="flex-1 px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                               />
                               <input
                                 type="text"
@@ -609,14 +609,14 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                                   updateField(selectedFieldIndex, { options: newOptions });
                                 }}
                                 placeholder="Label"
-                                className="glass-glass-glass-flex-1 glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                                className="flex-1 px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                               />
                               <button
                                 onClick={() => {
                                   const newOptions = (field.options || []).filter((_, i) => i !== optionIndex);
                                   updateField(selectedFieldIndex, { options: newOptions });
                                 }}
-                                className="glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-text-primary hover:glass-glass-glass-text-primary"
+                                className="px-3 py-2 text-primary hover:text-primary"
                               >
                                 ✕
                               </button>
@@ -627,13 +627,13 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                               const newOptions = [...(field.options || []), { value: '', label: '' }];
                               updateField(selectedFieldIndex, { options: newOptions });
                             }}
-                            className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-dashed glass-glass-glass-border-subtle glass-radius-lg glass-text-secondary hover:glass-glass-glass-border-subtle transition-colors"
+                            className="w-full px-3 py-2 border border-dashed border-subtle glass-radius-lg glass-text-secondary hover:border-subtle transition-colors"
                           >
                             + Add Option
                           </button>
                         </div>
                         {validationErrors[`field-${selectedFieldIndex}-options`] && (
-                          <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm mt-1">
+                          <p className="text-primary text-sm mt-1">
                             {validationErrors[`field-${selectedFieldIndex}-options`]}
                           </p>
                         )}
@@ -642,18 +642,18 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
 
                     {/* AI Suggestions */}
                     {enableAIAssistance && field.aiSuggestions && (
-                      <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-p-4">
-                        <h4 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">🤖 AI Suggestions</h4>
+                      <div className="glass-surface-subtle glass-radius-lg p-4">
+                        <h4 className="font-medium glass-text-secondary mb-2">🤖 AI Suggestions</h4>
                         
                         {field.aiSuggestions.fieldType.length > 0 && (
-                          <div className="glass-glass-glass-mb-3">
-                            <h5 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">Recommended Field Types:</h5>
-                            <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-1 mt-1">
+                          <div className="mb-3">
+                            <h5 className="text-sm font-medium glass-text-secondary">Recommended Field Types:</h5>
+                            <div className="flex flex-wrap gap-1 mt-1">
                               {field.aiSuggestions.fieldType.map((type, i) => (
                                 <button
                                   key={i}
                                   onClick={() => updateField(selectedFieldIndex, { type: type as FormField['type'] })}
-                                  className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-xs glass-surface-subtle glass-glass-glass-text-primary glass-radius hover:glass-surface-subtle transition-colors"
+                                  className="px-2 py-1 text-xs glass-surface-subtle text-primary glass-radius hover:glass-surface-subtle transition-colors"
                                 >
                                   {type}
                                 </button>
@@ -663,12 +663,12 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                         )}
 
                         {field.aiSuggestions.validationRules.length > 0 && (
-                          <div className="glass-glass-glass-mb-3">
-                            <h5 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">Validation Suggestions:</h5>
-                            <ul className="glass-glass-glass-text-xs glass-text-secondary mt-1 space-y-1">
+                          <div className="mb-3">
+                            <h5 className="text-sm font-medium glass-text-secondary">Validation Suggestions:</h5>
+                            <ul className="text-xs glass-text-secondary mt-1 space-y-1">
                               {field.aiSuggestions.validationRules.slice(0, 2).map((rule, i) => (
-                                <li key={i} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                  <span className="glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-green glass-radius-full"></span>
+                                <li key={i} className="flex items-center gap-1">
+                                  <span className="w-1 h-1 glass-surface-green glass-radius-full"></span>
                                   {rule}
                                 </li>
                               ))}
@@ -678,11 +678,11 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
 
                         {field.aiSuggestions.uxOptimizations.length > 0 && (
                           <div>
-                            <h5 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">UX Optimizations:</h5>
-                            <ul className="glass-glass-glass-text-xs glass-text-secondary mt-1 space-y-1">
+                            <h5 className="text-sm font-medium glass-text-secondary">UX Optimizations:</h5>
+                            <ul className="text-xs glass-text-secondary mt-1 space-y-1">
                               {field.aiSuggestions.uxOptimizations.slice(0, 2).map((opt, i) => (
-                                <li key={i} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                                  <span className="glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-primary glass-radius-full"></span>
+                                <li key={i} className="flex items-center gap-1">
+                                  <span className="w-1 h-1 glass-surface-primary glass-radius-full"></span>
                                   {opt}
                                 </li>
                               ))}
@@ -696,8 +696,8 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
               })()}
             </div>
           ) : (
-            <div className="glass-glass-glass-text-center glass-glass-glass-py-8 glass-text-secondary">
-              <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-2">⚙️</div>
+            <div className="text-center py-8 glass-text-secondary">
+              <div className="text-4xl mb-2">⚙️</div>
               <p>Select a field from the left to edit its properties</p>
             </div>
           )}
@@ -705,12 +705,12 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
       </div>
 
       {/* Form Preview */}
-      <Glass className="glass-glass-glass-p-6">
-        <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">Live Preview</h2>
-        <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-p-6">
-          <form className="max-w-2xl glass-glass-glass-mx-auto space-y-6">
-            <div className="glass-glass-glass-text-center mb-8">
-              <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-bold glass-text-secondary">{schema.title}</h2>
+      <Glass className="p-6">
+        <h2 className="text-lg font-semibold glass-text-secondary mb-4">Live Preview</h2>
+        <div className="glass-surface-subtle glass-radius-lg p-6">
+          <form className="max-w-2xl mx-auto space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold glass-text-secondary">{schema.title}</h2>
               {schema.description && (
                 <p className="glass-text-secondary mt-2">{schema.description}</p>
               )}
@@ -718,22 +718,22 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
 
             {schema.fields.map((field, index) => (
               <div key={field.id}>
-                <label className="glass-glass-glass-block glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">
+                <label className="block text-sm font-medium glass-text-secondary mb-2">
                   {field.label}
-                  {field.required && <span className="glass-glass-glass-text-primary ml-1">*</span>}
+                  {field.required && <span className="text-primary ml-1">*</span>}
                 </label>
                 
                 {field.type === 'textarea' ? (
                   <textarea
                     placeholder={field.placeholder}
                     required={field.required}
-                    className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                     rows={3}
                   />
                 ) : field.type === 'select' ? (
                   <select
                     required={field.required}
-                    className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                   >
                     <option value="">Choose an option...</option>
                     {(field.options || []).map((option, i) => (
@@ -743,26 +743,26 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                     ))}
                   </select>
                 ) : field.type === 'checkbox' ? (
-                  <label className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                  <label className="flex items-center gap-2">
                     <input
                       type="checkbox"
                       required={field.required}
-                      className="glass-radius glass-glass-glass-border-subtle glass-glass-glass-text-primary glass-focus"
+                      className="glass-radius border-subtle text-primary glass-focus"
                     />
-                    <span className="glass-glass-glass-text-sm glass-text-secondary">{field.placeholder || 'Check this option'}</span>
+                    <span className="text-sm glass-text-secondary">{field.placeholder || 'Check this option'}</span>
                   </label>
                 ) : field.type === 'radio' ? (
-                  <div className="glass-glass-glass-space-y-2">
+                  <div className="space-y-2">
                     {(field.options || []).map((option, i) => (
-                      <label key={i} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                      <label key={i} className="flex items-center gap-2">
                         <input
                           type="radio"
                           name={field.id}
                           value={option.value}
                           required={field.required}
-                          className="glass-glass-glass-border-subtle glass-glass-glass-text-primary glass-focus"
+                          className="border-subtle text-primary glass-focus"
                         />
-                        <span className="glass-glass-glass-text-sm glass-text-secondary">{option.label}</span>
+                        <span className="text-sm glass-text-secondary">{option.label}</span>
                       </label>
                     ))}
                   </div>
@@ -771,17 +771,17 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                     type={field.type}
                     placeholder={field.placeholder}
                     required={field.required}
-                    className="glass-glass-glass-w-full glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg glass-focus"
+                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
                   />
                 )}
               </div>
             ))}
 
             {schema.fields.length > 0 && (
-              <div className="pt-6 glass-glass-glass-border-t">
+              <div className="pt-6 border-t">
                 <button
                   type="button"
-                  className="glass-glass-glass-w-full glass-glass-glass-px-6 glass-glass-glass-py-3 glass-surface-blue glass-glass-glass-text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-glass-glass-font-medium"
+                  className="w-full px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors font-medium"
                 >
                   Submit Form
                 </button>

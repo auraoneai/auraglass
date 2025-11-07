@@ -94,10 +94,10 @@ export const GlassBottomSheet = forwardRef<HTMLDivElement, GlassBottomSheetProps
           <Motion
             preset="fadeIn"
             duration={shouldAnimate ? 200 : 0}
-            className="glass-glass-glass-fixed glass-glass-glass-inset-0 z-[1100]"
+            className="fixed inset-0 z-[1100]"
             onClick={(e) => onOpenChange(false)}
           >
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-surface-dark/50" />
+            <div className="absolute inset-0 glass-surface-dark/50" />
           </Motion>
         )}
         <Motion
@@ -123,20 +123,20 @@ export const GlassBottomSheet = forwardRef<HTMLDivElement, GlassBottomSheetProps
           >
             {/* Handle indicator */}
             <div 
-              className="glass-glass-glass-mx-auto glass-glass-glass-w-10 glass-glass-glass-h-1.5 glass-radius-full glass-surface-subtle/30 glass-glass-glass-mb-3"
+              className="mx-auto w-10 h-1.5 glass-radius-full glass-surface-subtle/30 mb-3"
               aria-hidden="true"
             />
             
             {/* Header with title and description */}
             {(title || description) && (
-              <div className="glass-glass-glass-mb-4">
+              <div className="mb-4">
                 {title && (
-                  <h2 id={titleId} className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary">
+                  <h2 id={titleId} className="text-lg font-semibold text-primary">
                     {title}
                   </h2>
                 )}
                 {description && (
-                  <p id={descriptionId} className="glass-glass-glass-text-sm glass-text-secondary glass-mt-1">
+                  <p id={descriptionId} className="text-sm glass-text-secondary glass-mt-1">
                     {description}
                   </p>
                 )}

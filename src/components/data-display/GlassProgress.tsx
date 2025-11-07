@@ -180,12 +180,12 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
       >
         {/* Top label */}
         {labelContent && labelPosition === 'top' && (
-          <div id={`${progressId}-label`} className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center glass-glass-glass-mb-2">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+          <div id={`${progressId}-label`} className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-primary">
               {label}
             </span>
             {showValue && (
-              <span className="glass-glass-glass-text-sm glass-text-secondary">
+              <span className="text-sm glass-text-secondary">
                 {formatDisplayValue()}
               </span>
             )}
@@ -220,11 +220,11 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
             }}
           >
             {/* Sheen sweep on fill */}
-            <div className="glass-glass-glass-pointer-events-none glass-glass-glass-absolute glass-glass-glass-inset-0 glass-sheen" />
+            <div className="pointer-events-none absolute inset-0 glass-sheen" />
             {/* Inline label */}
             {labelContent && labelPosition === 'inline' && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-h-full glass-glass-glass-px-2">
-                <span className="glass-glass-glass-text-xs glass-glass-glass-font-medium glass-glass-glass-text-primary mix-blend-difference">
+              <div className="flex items-center justify-center h-full px-2">
+                <span className="text-xs font-medium text-primary mix-blend-difference">
                   {showValue ? formatDisplayValue() : label}
                 </span>
               </div>
@@ -232,19 +232,19 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
 
             {/* Stripes overlay */}
             {striped && (
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 bg-stripes opacity-20" />
+              <div className="absolute inset-0 bg-stripes opacity-20" />
             )}
           </div>
         </OptimizedGlass>
 
         {/* Bottom label */}
         {labelContent && labelPosition === 'bottom' && (
-          <div id={`${progressId}-label`} className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-items-center glass-mt-2">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+          <div id={`${progressId}-label`} className="flex justify-between items-center glass-mt-2">
+            <span className="text-sm font-medium text-primary">
               {label}
             </span>
             {showValue && (
-              <span className="glass-glass-glass-text-sm glass-text-secondary">
+              <span className="text-sm glass-text-secondary">
                 {formatDisplayValue()}
               </span>
             )}
@@ -406,9 +406,9 @@ export const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps
         </svg>
 
         {/* Center content */}
-        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+        <div className="absolute inset-0 flex items-center justify-center">
           {children || (showValue && (
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary">
+            <span className="text-sm font-medium text-primary">
               {Math.round(percentage)}%
             </span>
           ))}
@@ -541,7 +541,7 @@ export function StepProgress({
             >
               {variant === 'numbered' || !steps ? (
                 status === 'completed' ? (
-                  <svg className="glass-glass-glass-w-4 glass-glass-glass-h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 ) : (

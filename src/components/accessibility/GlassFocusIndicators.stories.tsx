@@ -30,13 +30,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const DemoForm = () => (
-  <GlassCard className="glass-glass-glass-p-6 glass-glass-glass-space-y-4">
-    <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold">Focus Indicator Demo</h3>
-    <p className="glass-glass-glass-text-sm glass-text-secondary">
+  <GlassCard className="p-6 space-y-4">
+    <h3 className="text-lg font-semibold">Focus Indicator Demo</h3>
+    <p className="text-sm glass-text-secondary">
       Use Tab to navigate between elements and see the focus indicators in action.
     </p>
     
-    <div className="glass-glass-glass-space-y-3">
+    <div className="space-y-3">
       <GlassInput 
         placeholder="First input field"
         label="Name"
@@ -48,23 +48,23 @@ const DemoForm = () => (
         type="email"
       />
       
-      <div className="glass-glass-glass-flex glass-glass-glass-gap-3">
+      <div className="flex gap-3">
         <GlassButton>Primary Button</GlassButton>
         <GlassButton variant="secondary">Secondary Button</GlassButton>
         <GlassButton variant="ghost">Ghost Button</GlassButton>
       </div>
       
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <input type="checkbox" id="checkbox1" className="focus:ring-2" />
         <label htmlFor="checkbox1">Checkbox option</label>
       </div>
       
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <input type="radio" id="radio1" name="demo" className="focus:ring-2" />
         <label htmlFor="radio1">Radio option 1</label>
       </div>
       
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <input type="radio" id="radio2" name="demo" className="focus:ring-2" />
         <label htmlFor="radio2">Radio option 2</label>
       </div>

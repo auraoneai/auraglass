@@ -193,13 +193,13 @@ type AudioStory = StoryObj<typeof GlassAdvancedAudioPlayer>;
 export const AdvancedVideoPlayer: VideoStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-h-screen glass-surface-subtle glass-glass-glass-p-4">
+      <div className="h-screen glass-surface-subtle p-4">
         <GlassAdvancedVideoPlayer
           mediaFile={sampleVideoFile}
           showControls={true}
           showTranscript={false}
           showChapters={false}
-          className="glass-glass-glass-h-full"
+          className="h-full"
         />
       </div>
     </MediaProvider>
@@ -236,13 +236,13 @@ Full-featured video player with custom controls and professional-grade functiona
 export const VideoWithChapters: VideoStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-h-screen glass-surface-subtle glass-glass-glass-p-4">
+      <div className="h-screen glass-surface-subtle p-4">
         <GlassAdvancedVideoPlayer
           mediaFile={sampleVideoFile}
           showControls={true}
           showChapters={true}
           showTranscript={false}
-          className="glass-glass-glass-h-full"
+          className="h-full"
         />
       </div>
     </MediaProvider>
@@ -275,13 +275,13 @@ Video player with interactive chapter markers for easy content navigation:
 export const VideoWithTranscription: VideoStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-h-screen glass-surface-subtle glass-glass-glass-p-4">
+      <div className="h-screen glass-surface-subtle p-4">
         <GlassAdvancedVideoPlayer
           mediaFile={sampleVideoFile}
           showControls={true}
           showChapters={false}
           showTranscript={true}
-          className="glass-glass-glass-h-full"
+          className="h-full"
         />
       </div>
     </MediaProvider>
@@ -318,14 +318,14 @@ Video player with automatic speech-to-text transcription and advanced AI feature
 export const FullFeaturedVideoPlayer: VideoStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-h-screen glass-surface-subtle glass-glass-glass-p-4">
+      <div className="h-screen glass-surface-subtle p-4">
         <GlassAdvancedVideoPlayer
           mediaFile={sampleVideoFile}
           showControls={true}
           showChapters={true}
           showTranscript={true}
           showAnalytics={true}
-          className="glass-glass-glass-h-full"
+          className="h-full"
         />
       </div>
     </MediaProvider>
@@ -360,13 +360,13 @@ This represents the pinnacle of web video player technology, combining YouTube's
 export const CompactAudioPlayer: AudioStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-p-8 glass-surface-subtle glass-min-glass-glass-h-screen">
-        <div className="max-w-md glass-glass-glass-mx-auto">
+      <div className="p-8 glass-surface-subtle glass-min-h-screen">
+        <div className="max-w-md mx-auto">
           <GlassAdvancedAudioPlayer
             mediaFile={sampleAudioFile}
             variant="compact"
             visualizerType="none"
-            className="glass-glass-glass-mb-4"
+            className="mb-4"
           />
         </div>
       </div>
@@ -401,14 +401,14 @@ Minimalist audio player perfect for embedded use or space-constrained layouts:
 export const FullAudioPlayerWithVisualizer: AudioStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-p-8 glass-surface-subtle glass-min-glass-glass-h-screen">
-        <div className="max-w-2xl glass-glass-glass-mx-auto">
+      <div className="p-8 glass-surface-subtle glass-min-h-screen">
+        <div className="max-w-2xl mx-auto">
           <GlassAdvancedAudioPlayer
             mediaFile={sampleAudioFile}
             variant="full"
             visualizerType="bars"
             showWaveform={false}
-            className="glass-glass-glass-mb-4"
+            className="mb-4"
           />
         </div>
       </div>
@@ -448,14 +448,14 @@ Full-featured audio player with real-time audio visualization:
 export const AudioPlayerWithWaveform: AudioStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-p-8 glass-surface-subtle glass-min-glass-glass-h-screen">
-        <div className="max-w-2xl glass-glass-glass-mx-auto">
+      <div className="p-8 glass-surface-subtle glass-min-h-screen">
+        <div className="max-w-2xl mx-auto">
           <GlassAdvancedAudioPlayer
             mediaFile={sampleAudioFile}
             variant="full"
             visualizerType="none"
             showWaveform={true}
-            className="glass-glass-glass-mb-4"
+            className="mb-4"
           />
         </div>
       </div>
@@ -490,14 +490,14 @@ Professional audio player with interactive waveform display:
 export const PodcastPlayerWithTranscript: AudioStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-h-screen glass-surface-subtle glass-glass-glass-p-4">
-        <div className="glass-glass-glass-h-full">
+      <div className="h-screen glass-surface-subtle p-4">
+        <div className="h-full">
           <GlassAdvancedAudioPlayer
             mediaFile={sampleAudioFile}
             variant="podcast"
             showTranscript={true}
             visualizerType="wave"
-            className="glass-glass-glass-h-full"
+            className="h-full"
           />
         </div>
       </div>
@@ -541,15 +541,15 @@ Professional podcast player with automatic transcription and advanced features:
 export const MusicPlayerWithPlaylist: AudioStory = {
   render: () => (
     <MediaProvider>
-      <div className="glass-glass-glass-h-screen glass-surface-subtle glass-glass-glass-p-4">
-        <div className="glass-glass-glass-h-full">
+      <div className="h-screen glass-surface-subtle p-4">
+        <div className="h-full">
           <GlassAdvancedAudioPlayer
             mediaFile={samplePlaylist[0]}
             variant="music"
             showPlaylist={true}
             playlist={samplePlaylist}
             visualizerType="circular"
-            className="glass-glass-glass-h-full"
+            className="h-full"
           />
         </div>
       </div>
@@ -598,64 +598,64 @@ Complete music player experience with playlist management and visualization:
 export const MediaPlayerShowcase: Meta = {
   render: () => (
     <MediaProvider>
-      <div className="glass-min-glass-glass-h-screen glass-surface-subtle">
+      <div className="glass-min-h-screen glass-surface-subtle">
         {/* Header */}
-        <div className="glass-surface-subtle glass-glass-glass-border-b glass-glass-glass-border-subtle glass-glass-glass-p-6">
-          <div className="max-w-6xl glass-glass-glass-mx-auto">
-            <h1 className="glass-glass-glass-text-3xl glass-glass-glass-font-bold glass-text-secondary glass-glass-glass-mb-2">
+        <div className="glass-surface-subtle border-b border-subtle p-6">
+          <div className="max-w-6xl mx-auto">
+            <h1 className="text-3xl font-bold glass-text-secondary mb-2">
               🎬 Advanced Media Player Showcase
             </h1>
-            <p className="glass-glass-glass-text-lg glass-text-secondary">
+            <p className="text-lg glass-text-secondary">
               Revolutionary audio and video players with AI transcription, analytics, and professional features
             </p>
             
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 mt-6">
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">🤖</div>
-                <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary">AI Transcription</h3>
-                <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary">Real-time speech-to-text with speaker ID</p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+              <div className="text-center p-4 glass-surface-subtle glass-radius-lg">
+                <div className="text-2xl mb-2">🤖</div>
+                <h3 className="font-semibold text-primary">AI Transcription</h3>
+                <p className="text-sm text-primary">Real-time speech-to-text with speaker ID</p>
               </div>
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">📊</div>
-                <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary">Advanced Analytics</h3>
-                <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary">Detailed engagement and view metrics</p>
+              <div className="text-center p-4 glass-surface-subtle glass-radius-lg">
+                <div className="text-2xl mb-2">📊</div>
+                <h3 className="font-semibold text-primary">Advanced Analytics</h3>
+                <p className="text-sm text-primary">Detailed engagement and view metrics</p>
               </div>
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">🎨</div>
-                <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary">Visualizers</h3>
-                <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary">Real-time audio frequency displays</p>
+              <div className="text-center p-4 glass-surface-subtle glass-radius-lg">
+                <div className="text-2xl mb-2">🎨</div>
+                <h3 className="font-semibold text-primary">Visualizers</h3>
+                <p className="text-sm text-primary">Real-time audio frequency displays</p>
               </div>
-              <div className="glass-glass-glass-text-center glass-glass-glass-p-4 glass-surface-subtle glass-radius-lg">
-                <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">📱</div>
-                <h3 className="glass-glass-glass-font-semibold glass-glass-glass-text-primary">Responsive</h3>
-                <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary">Perfect on desktop, tablet, and mobile</p>
+              <div className="text-center p-4 glass-surface-subtle glass-radius-lg">
+                <div className="text-2xl mb-2">📱</div>
+                <h3 className="font-semibold text-primary">Responsive</h3>
+                <p className="text-sm text-primary">Perfect on desktop, tablet, and mobile</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="max-w-6xl glass-glass-glass-mx-auto glass-glass-glass-p-6 space-y-8">
+        <div className="max-w-6xl mx-auto p-6 space-y-8">
           {/* Video Player Section */}
           <section>
-            <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">🎬 Video Player</h2>
-            <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm overflow-hidden">
+            <h2 className="text-2xl font-semibold glass-text-secondary mb-4">🎬 Video Player</h2>
+            <div className="glass-surface-subtle glass-radius-lg shadow-sm overflow-hidden">
               <GlassAdvancedVideoPlayer
                 mediaFile={sampleVideoFile}
                 showControls={true}
                 showChapters={true}
                 showTranscript={true}
-                className="glass-glass-glass-h-96"
+                className="h-96"
               />
             </div>
           </section>
 
           {/* Audio Players Section */}
           <section>
-            <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">🎵 Audio Players</h2>
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
-              <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm glass-glass-glass-p-6">
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-4">Full Player with Visualizer</h3>
+            <h2 className="text-2xl font-semibold glass-text-secondary mb-4">🎵 Audio Players</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="glass-surface-subtle glass-radius-lg shadow-sm p-6">
+                <h3 className="text-lg font-medium glass-text-secondary mb-4">Full Player with Visualizer</h3>
                 <GlassAdvancedAudioPlayer
                   mediaFile={sampleAudioFile}
                   variant="full"
@@ -663,8 +663,8 @@ export const MediaPlayerShowcase: Meta = {
                 />
               </div>
               
-              <div className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm glass-glass-glass-p-6">
-                <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-4">Compact Player</h3>
+              <div className="glass-surface-subtle glass-radius-lg shadow-sm p-6">
+                <h3 className="text-lg font-medium glass-text-secondary mb-4">Compact Player</h3>
                 <GlassAdvancedAudioPlayer
                   mediaFile={sampleAudioFile}
                   variant="compact"
@@ -672,7 +672,7 @@ export const MediaPlayerShowcase: Meta = {
                 />
                 
                 <div className="mt-6">
-                  <h4 className="text-md glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">With Waveform</h4>
+                  <h4 className="text-md font-medium glass-text-secondary mb-2">With Waveform</h4>
                   <GlassAdvancedAudioPlayer
                     mediaFile={sampleAudioFile}
                     variant="full"
@@ -686,8 +686,8 @@ export const MediaPlayerShowcase: Meta = {
 
           {/* Features Grid */}
           <section>
-            <h2 className="glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-4">🚀 Revolutionary Features</h2>
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+            <h2 className="text-2xl font-semibold glass-text-secondary mb-4">🚀 Revolutionary Features</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 {
                   icon: '🎯',
@@ -720,10 +720,10 @@ export const MediaPlayerShowcase: Meta = {
                   description: 'Real-time frequency visualization with bars, waves, and circular displays'
                 }
               ].map((feature, index) => (
-                <div key={index} className="glass-surface-subtle glass-radius-lg glass-glass-glass-shadow-sm glass-glass-glass-p-6">
-                  <div className="glass-glass-glass-text-3xl glass-glass-glass-mb-3">{feature.icon}</div>
-                  <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-2">{feature.title}</h3>
-                  <p className="glass-text-secondary glass-glass-glass-text-sm">{feature.description}</p>
+                <div key={index} className="glass-surface-subtle glass-radius-lg shadow-sm p-6">
+                  <div className="text-3xl mb-3">{feature.icon}</div>
+                  <h3 className="text-lg font-semibold glass-text-secondary mb-2">{feature.title}</h3>
+                  <p className="glass-text-secondary text-sm">{feature.description}</p>
                 </div>
               ))}
             </div>

@@ -173,7 +173,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
     const isCheckedOrIndeterminate = checked || indeterminate;
 
     const checkboxElement = (
-      <div className="glass-glass-glass-relative glass-inline-glass-glass-glass-flex glass-glass-glass-items-center">
+      <div className="relative glass-inline-flex items-center">
         {/* Hidden input */}
         <input
           ref={ref}
@@ -182,7 +182,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
           checked={checked}
           onChange={handleChange}
           disabled={disabled || loading}
-          className="glass-glass-glass-sr-only"
+          className="sr-only"
           {...props}
         />
 
@@ -312,14 +312,14 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
     return (
       <div className={containerClass}>
         {(labelPosition === 'left' || labelPosition === 'right') && (
-          <div className="glass-glass-glass-flex glass-glass-glass-items-start pt-0.5">
+          <div className="flex items-start pt-0.5">
             {checkboxElement}
           </div>
         )}
 
         {(labelPosition === 'top' || labelPosition === 'bottom') && checkboxElement}
 
-        <div className="glass-glass-glass-gap-1 glass-glass-glass-min-glass-glass-w-0 glass-glass-glass-flex-1">
+        <div className="gap-1 min-w-0 flex-1">
           {labelElement}
           {descriptionElement}
           {errorElement}

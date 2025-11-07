@@ -638,10 +638,10 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     }, [activeFilters, filterParameters, processFrame])
 
     const FilterLibrary = () => (
-      <div className="glass-glass-glass-space-y-4">
-        <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Filter Library</h4>
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium text-primary/80">Filter Library</h4>
         
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-3 lg:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {availableFilters.map((filter) => (
             <motion.div
               key={filter.id}
@@ -662,14 +662,14 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                 }
               }}
             >
-              <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/90 glass-glass-glass-mb-1">
+              <div className="text-sm font-medium text-primary/90 mb-1">
                 {filter.name}
               </div>
-              <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60 glass-glass-glass-mb-2">
+              <div className="text-xs text-primary/60 mb-2">
                 {filter.description}
               </div>
               
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+              <div className="flex items-center justify-between">
                 <span className={`
                   px-2 py-0.5 rounded text-xs font-medium
                   ${filter.category === 'artistic' ? 'bg-purple-500/20 text-purple-300' :
@@ -684,7 +684,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                 </span>
                 
                 {activeFilters.includes(filter.id) && (
-                  <div className="glass-glass-glass-text-primary">✓</div>
+                  <div className="text-primary">✓</div>
                 )}
               </div>
             </motion.div>
@@ -694,9 +694,9 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     )
 
     const ActiveFilters = () => (
-      <div className="glass-glass-glass-space-y-4">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-          <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h4 className="text-sm font-medium text-primary/80">
             Active Filters ({activeFilters.length}/{maxFilters})
           </h4>
           {activeFilters.length > 0 && (
@@ -706,7 +706,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                 setFilterParameters({})
                 play('clear')
               }}
-              className="glass-glass-glass-text-xs glass-glass-glass-text-primary hover:glass-text-secondary transition-colors"
+              className="text-xs text-primary hover:glass-text-secondary transition-colors"
             >
               Clear All
             </button>
@@ -714,9 +714,9 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         </div>
 
         {activeFilters.length === 0 ? (
-          <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary/50 italic">No filters applied</p>
+          <p className="text-sm text-primary/50 italic">No filters applied</p>
         ) : (
-          <div className="glass-glass-glass-space-y-3">
+          <div className="space-y-3">
             {activeFilters.map((filterId, index) => {
               const filter = availableFilters.find(f => f.id === filterId)
               if (!filter) return null
@@ -724,17 +724,17 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
               return (
                 <div
                   key={filterId}
-                  className="glass-glass-glass-p-3 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/10 glass-surface-subtle/5"
+                  className="p-3 glass-radius-lg border border-white/10 glass-surface-subtle/5"
                 >
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
-                    <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/90">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-primary/90">
                       {filter.name}
                     </span>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
-                      <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60">#{index + 1}</span>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-primary/60">#{index + 1}</span>
                       <button
                         onClick={() => removeFilter(filterId)}
-                        className="glass-glass-glass-text-primary hover:glass-text-secondary transition-colors"
+                        className="text-primary hover:glass-text-secondary transition-colors"
                       >
                         ×
                       </button>
@@ -744,7 +744,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                   {/* Filter parameters */}
                   {filter.parameters && Object.entries(filter.parameters).map(([paramName, defaultValue]) => (
                     <div key={paramName} className="mt-2">
-                      <label className="glass-glass-glass-block glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">
+                      <label className="block text-xs text-primary/70 mb-1">
                         {paramName.charAt(0).toUpperCase() + paramName.slice(1)}:
                         {typeof defaultValue === 'number' ? 
                           ` ${(filterParameters[filterId]?.[paramName] ?? defaultValue).toFixed(2)}` : 
@@ -759,14 +759,14 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                           step={paramName === 'degrees' ? 1 : 0.1}
                           value={filterParameters[filterId]?.[paramName] ?? defaultValue}
                           onChange={(e) => updateFilterParameter(filterId, paramName, parseFloat(e.target.value))}
-                          className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-lg appearance-none glass-glass-glass-cursor-pointer"
+                          className="w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
                         />
                       ) : (
                         <input
                           type="color"
                           value={filterParameters[filterId]?.[paramName] ?? defaultValue}
                           onChange={(e) => updateFilterParameter(filterId, paramName, e.target.value)}
-                          className="glass-glass-glass-w-8 glass-glass-glass-h-6 glass-radius glass-glass-glass-border glass-glass-glass-border-white/20"
+                          className="w-8 h-6 glass-radius border border-white/20"
                         />
                       )}
                     </div>
@@ -787,27 +787,27 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         {...props}
       >
         {/* Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <div>
-            <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary/90">
+            <h3 className="text-xl font-semibold text-primary/90">
               Live Image Filter
             </h3>
-            <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+            <p className="text-sm text-primary/60">
               Real-time image and video processing with custom filters
             </p>
           </div>
 
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2">
+          <div className="flex items-center space-x-2">
             {enableRealTimeProcessing && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-1 glass-glass-glass-text-primary">
-                <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full animate-pulse" />
-                <span className="glass-glass-glass-text-xs">Real-time</span>
+              <div className="flex items-center space-x-1 text-primary">
+                <div className="w-2 h-2 glass-surface-green glass-radius-full animate-pulse" />
+                <span className="text-xs">Real-time</span>
               </div>
             )}
             {isProcessing && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-1 glass-glass-glass-text-primary">
-                <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-border-2 glass-glass-glass-border-blue glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
-                <span className="glass-glass-glass-text-xs">Processing</span>
+              <div className="flex items-center space-x-1 text-primary">
+                <div className="w-4 h-4 border-2 border-blue border-t-transparent glass-radius-full animate-spin" />
+                <span className="text-xs">Processing</span>
               </div>
             )}
           </div>
@@ -815,16 +815,16 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
 
         {/* Preview area */}
         {showPreview && (
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Original */}
-            <div className="glass-glass-glass-space-y-2">
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Original</h4>
-              <div className="glass-glass-glass-relative aspect-video glass-surface-subtle/5 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg overflow-hidden">
+            <div className="space-y-2">
+              <h4 className="text-sm font-medium text-primary/80">Original</h4>
+              <div className="relative aspect-video glass-surface-subtle/5 border border-white/20 glass-radius-lg overflow-hidden">
                 <canvas
                   ref={canvasRef}
                   width={canvasWidth}
                   height={canvasHeight}
-                  className="glass-glass-glass-w-full glass-glass-glass-h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
                 {videoSource && (
                   <video
@@ -839,18 +839,18 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
             </div>
 
             {/* Processed */}
-            <div className="glass-glass-glass-space-y-2">
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Filtered</h4>
-              <div className="glass-glass-glass-relative aspect-video glass-surface-subtle/5 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg overflow-hidden">
+            <div className="space-y-2">
+              <h4 className="text-sm font-medium text-primary/80">Filtered</h4>
+              <div className="relative aspect-video glass-surface-subtle/5 border border-white/20 glass-radius-lg overflow-hidden">
                 <canvas
                   ref={processedCanvasRef}
                   width={canvasWidth}
                   height={canvasHeight}
-                  className="glass-glass-glass-w-full glass-glass-glass-h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
                 {isProcessing && (
-                  <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-surface-dark/50 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                    <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-border-2 glass-glass-glass-border-white glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
+                  <div className="absolute inset-0 glass-surface-dark/50 flex items-center justify-center">
+                    <div className="w-8 h-8 border-2 border-white border-t-transparent glass-radius-full animate-spin" />
                   </div>
                 )}
               </div>
@@ -860,20 +860,20 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
 
         {/* Controls */}
         {showControls && (
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ActiveFilters />
-            <div className="glass-glass-glass-space-y-4">
-              <h4 className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary/80">Processing Settings</h4>
-              <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-primary/80">Processing Settings</h4>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="glass-glass-glass-block glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Quality</label>
+                  <label className="block text-xs text-primary/70 mb-1">Quality</label>
                   <select
                     value={settings.quality}
                     onChange={(e) => setSettings(prev => ({ 
                       ...prev, 
                       quality: e.target.value as any 
                     }))}
-                    className="glass-glass-glass-w-full glass-glass-glass-p-2 glass-surface-subtle/10 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-text-primary/90 glass-glass-glass-text-sm"
+                    className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary/90 text-sm"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -883,7 +883,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                 </div>
 
                 <div>
-                  <label className="glass-glass-glass-block glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">
+                  <label className="block text-xs text-primary/70 mb-1">
                     FPS: {settings.fps}
                   </label>
                   <input
@@ -895,13 +895,13 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                       ...prev, 
                       fps: parseInt(e.target.value) 
                     }))}
-                    className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-lg appearance-none glass-glass-glass-cursor-pointer"
+                    className="w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
                   />
                 </div>
               </div>
 
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-4">
-                <label className="glass-glass-glass-flex glass-glass-glass-items-center space-x-2 glass-glass-glass-cursor-pointer">
+              <div className="flex items-center space-x-4">
+                <label className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={settings.enableGPU}
@@ -909,9 +909,9 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                       ...prev, 
                       enableGPU: e.target.checked 
                     }))}
-                    className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-radius glass-glass-glass-border-white/30"
+                    className="w-4 h-4 glass-radius border-white/30"
                   />
-                  <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/80">GPU Acceleration</span>
+                  <span className="text-sm text-primary/80">GPU Acceleration</span>
                 </label>
               </div>
             </div>
@@ -922,8 +922,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         {showFilterLibrary && <FilterLibrary />}
 
         {/* Action buttons */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between pt-4 glass-glass-glass-border-t glass-glass-glass-border-white/10">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center space-x-4">
+        <div className="flex items-center justify-between pt-4 border-t border-white/10">
+          <div className="flex items-center space-x-4">
             <input
               type="file"
               accept="image/*"
@@ -940,7 +940,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
             />
             <motion.label
               htmlFor="image-upload"
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue hover:glass-surface-blue glass-glass-glass-text-primary glass-radius-lg glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-cursor-pointer transition-colors"
+              className="px-4 py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg text-sm font-medium cursor-pointer transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
             >
@@ -948,7 +948,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
             </motion.label>
 
             <motion.button
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-white/30 hover:glass-glass-glass-border-white/50 glass-glass-glass-text-primary/80 glass-radius-lg glass-glass-glass-text-sm transition-colors"
+              className="px-4 py-2 border border-white/30 hover:border-white/50 text-primary/80 glass-radius-lg text-sm transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => processFrame()}
@@ -961,7 +961,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
             <motion.a
               href={processedImageUrl}
               download="filtered-image.png"
-              className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-green hover:glass-surface-green glass-glass-glass-text-primary glass-radius-lg glass-glass-glass-text-sm glass-glass-glass-font-medium transition-colors"
+              className="px-4 py-2 glass-surface-green hover:glass-surface-green text-primary glass-radius-lg text-sm font-medium transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
             >

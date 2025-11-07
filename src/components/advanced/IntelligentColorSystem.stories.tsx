@@ -47,7 +47,7 @@ export const InteractiveDemo: Story = {
     return (
       <div
         ref={containerRef}
-        className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8 glass-glass-glass-relative overflow-hidden cursor-none"
+        className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8 relative overflow-hidden cursor-none"
         style={{
           background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(147,51,234,0.15), transparent 50%),
                        linear-gradient(135deg, rgb(15 23 42), rgb(88 28 135), rgb(15 23 42))`
@@ -55,7 +55,7 @@ export const InteractiveDemo: Story = {
       >
         {/* Custom cursor */}
         <div
-          className="glass-glass-glass-fixed glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-subtle/30 glass-radius-full glass-glass-glass-pointer-events-none glass-glass-glass-z-50 transition-all duration-150 ease-out"
+          className="fixed w-4 h-4 glass-surface-subtle/30 glass-radius-full pointer-events-none z-50 transition-all duration-150 ease-out"
           style={{
             left: `${mousePos.x}vw`,
             top: `${mousePos.y}vh`,
@@ -66,39 +66,39 @@ export const InteractiveDemo: Story = {
 
         {/* Ambient background glow - now mouse-reactive */}
         <div
-          className="glass-glass-glass-absolute glass-glass-glass-inset-0 bg-gradient-radial glass-gradient-primary via-transparent glass-gradient-primary glass-glass-glass-pointer-events-none transition-all duration-1000"
+          className="absolute inset-0 bg-gradient-radial glass-gradient-primary via-transparent glass-gradient-primary pointer-events-none transition-all duration-1000"
           style={{
             background: `radial-gradient(800px circle at ${mousePos.x}% ${mousePos.y}%, rgba(147,51,234,0.25), transparent 70%)`
           }}
         />
 
-        <div className="max-w-5xl glass-glass-glass-mx-auto glass-glass-glass-text-center glass-glass-glass-relative glass-glass-glass-z-10">
+        <div className="max-w-5xl mx-auto text-center relative z-10">
           <div className="mb-12">
-            <div className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6 glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-full glass-surface-subtle/5 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/10">
-              <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 bg-emerald-400 glass-radius-full animate-pulse" />
-              <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60 glass-glass-glass-font-medium tracking-wide">INTELLIGENT ADAPTATION</span>
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-4 py-2 glass-radius-full glass-surface-subtle/5 backdrop-blur border border-white/10">
+              <div className="w-2 h-2 bg-emerald-400 glass-radius-full animate-pulse" />
+              <span className="text-sm text-primary/60 font-medium tracking-wide">INTELLIGENT ADAPTATION</span>
             </div>
-            <h1 className="glass-glass-glass-text-5xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4 glass-gradient-primary glass-gradient-primary via-purple-100 glass-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold text-primary mb-4 glass-gradient-primary glass-gradient-primary via-purple-100 glass-gradient-primary bg-clip-text text-transparent">
               Color System Demo
             </h1>
-            <p className="glass-glass-glass-text-lg glass-glass-glass-text-primary/50 font-light max-w-2xl glass-glass-glass-mx-auto leading-relaxed">
+            <p className="text-lg text-primary/50 font-light max-w-2xl mx-auto leading-relaxed">
               Experience AI-powered color adaptation that responds to context, mood, and environment
             </p>
           </div>
 
-          <div className="glass-surface-subtle/[0.08] backdrop-blur-xl glass-radius-3xl glass-glass-glass-p-10 glass-glass-glass-shadow-2xl glass-glass-glass-border glass-glass-glass-border-white/10 glass-glass-glass-relative group hover:glass-surface-subtle/[0.12] transition-all duration-700">
+          <div className="glass-surface-subtle/[0.08] backdrop-blur-xl glass-radius-3xl p-10 shadow-2xl border border-white/10 relative group hover:glass-surface-subtle/[0.12] transition-all duration-700">
             {/* Inner glow effect */}
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-radius-3xl glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 glass-radius-3xl glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-            <h3 className="glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-3">
+            <h3 className="text-2xl font-semibold text-primary mb-3">
               Interactive Color Adaptation
             </h3>
-            <p className="glass-glass-glass-text-primary/60 mb-10 max-w-xl glass-glass-glass-mx-auto leading-relaxed">
+            <p className="text-primary/60 mb-10 max-w-xl mx-auto leading-relaxed">
               Watch colors intelligently adapt and harmonize in real-time
             </p>
 
             {/* Enhanced color palette with magnetic effects */}
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
+            <div className="grid grid-cols-3 gap-6">
               {[
                 { name: 'Ocean', colors: ['from-blue-400', 'to-blue-600'], delay: '0ms', glow: 'blue' },
                 { name: 'Mystique', colors: ['from-purple-400', 'to-purple-600'], delay: '150ms', glow: 'purple' },
@@ -113,7 +113,7 @@ export const InteractiveDemo: Story = {
                 return (
                   <div
                     key={card.name}
-                    className="group/card glass-glass-glass-cursor-pointer"
+                    className="group/card cursor-pointer"
                     style={{
                       animationDelay: card.delay,
                       animation: 'slideUpStagger 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
@@ -130,7 +130,7 @@ export const InteractiveDemo: Story = {
                     >
                       {/* Magnetic field visualization */}
                       <div
-                        className="glass-glass-glass-absolute glass-glass-glass-inset-0 opacity-20 transition-opacity duration-300"
+                        className="absolute inset-0 opacity-20 transition-opacity duration-300"
                         style={{
                           background: `radial-gradient(circle at center, rgba(255,255,255,${magneticForce * 0.02}), transparent 70%)`,
                           opacity: magneticForce > 5 ? 1 : 0
@@ -140,21 +140,21 @@ export const InteractiveDemo: Story = {
                       {/* Dynamic particle effects */}
                       {activeCard === index && (
                         <>
-                          <div key="p1" className="glass-glass-glass-absolute glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-subtle/60 glass-radius-full animate-ping" style={{ top: '20%', left: '30%', animationDelay: '0s' }} />
-                          <div key="p2" className="glass-glass-glass-absolute glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-subtle/40 glass-radius-full animate-ping" style={{ top: '70%', right: '25%', animationDelay: '0.5s' }} />
-                          <div key="p3" className="glass-glass-glass-absolute glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-subtle/50 glass-radius-full animate-bounce" style={{ top: '50%', left: '60%', animationDelay: '1s' }} />
+                          <div key="p1" className="absolute w-1 h-1 glass-surface-subtle/60 glass-radius-full animate-ping" style={{ top: '20%', left: '30%', animationDelay: '0s' }} />
+                          <div key="p2" className="absolute w-1 h-1 glass-surface-subtle/40 glass-radius-full animate-ping" style={{ top: '70%', right: '25%', animationDelay: '0.5s' }} />
+                          <div key="p3" className="absolute w-1 h-1 glass-surface-subtle/50 glass-radius-full animate-bounce" style={{ top: '50%', left: '60%', animationDelay: '1s' }} />
                         </>
                       )}
 
-                      <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary" />
+                      <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary" />
 
                       {/* Enhanced label with sound wave visualization */}
-                      <div className="glass-glass-glass-absolute bottom-3 left-3 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                        <div className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium glass-glass-glass-text-sm">{card.name}</div>
+                      <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                        <div className="text-primary/90 font-medium text-sm">{card.name}</div>
                         {activeCard === index && (
-                          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
+                          <div className="flex items-center gap-1">
                             {[1,2,3].map(i => (
-                              <div key={i} className="glass-glass-glass-w-0.5 glass-surface-subtle/60 glass-radius-full animate-pulse" style={{
+                              <div key={i} className="w-0.5 glass-surface-subtle/60 glass-radius-full animate-pulse" style={{
                                 height: `${4 + Math.random() * 8}px`,
                                 animationDelay: `${i * 0.1}s`
                               }} />
@@ -164,8 +164,8 @@ export const InteractiveDemo: Story = {
                       </div>
 
                       {/* Hover ripple effect */}
-                      <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
-                        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary animate-pulse" />
+                      <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                        <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary animate-pulse" />
                       </div>
                     </div>
                   </div>
@@ -174,8 +174,8 @@ export const InteractiveDemo: Story = {
             </div>
 
             {/* Subtle call-to-action */}
-            <div className="mt-8 glass-glass-glass-flex glass-glass-glass-justify-center">
-              <button className="glass-glass-glass-px-6 glass-glass-glass-py-3 glass-surface-subtle/10 hover:glass-surface-subtle/15 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-xl glass-glass-glass-text-primary glass-glass-glass-font-medium transition-all duration-300 hover:scale-105">
+            <div className="mt-8 flex justify-center">
+              <button className="px-6 py-3 glass-surface-subtle/10 hover:glass-surface-subtle/15 backdrop-blur border border-white/20 glass-radius-xl text-primary font-medium transition-all duration-300 hover:scale-105">
                 Explore Adaptations
               </button>
             </div>
@@ -189,134 +189,134 @@ export const InteractiveDemo: Story = {
 export const TimeBasedAdaptation: Story = {
   args: {},
   render: () => (
-    <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8 glass-glass-glass-relative">
+    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8 relative">
       {/* Dynamic ambient lighting */}
-      <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 bg-gradient-conic glass-gradient-primary via-blue-500/10 via-orange-500/10 glass-gradient-primary animate-pulse" />
+      <div className="absolute inset-0 bg-gradient-conic glass-gradient-primary via-blue-500/10 via-orange-500/10 glass-gradient-primary animate-pulse" />
 
-      <div className="max-w-6xl glass-glass-glass-mx-auto glass-glass-glass-text-center glass-glass-glass-relative glass-glass-glass-z-10">
+      <div className="max-w-6xl mx-auto text-center relative z-10">
         <div className="mb-16">
-          <div className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 mb-6 glass-glass-glass-px-5 glass-glass-glass-py-2 glass-radius-full glass-surface-subtle/5 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/10">
-            <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />
-            <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60 glass-glass-glass-font-medium tracking-wider">CIRCADIAN ADAPTATION</span>
+          <div className="glass-inline-flex items-center gap-2 mb-6 px-5 py-2 glass-radius-full glass-surface-subtle/5 backdrop-blur border border-white/10">
+            <div className="w-2 h-2 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />
+            <span className="text-sm text-primary/60 font-medium tracking-wider">CIRCADIAN ADAPTATION</span>
           </div>
-          <h2 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">
+          <h2 className="text-4xl font-bold text-primary mb-4">
             Time-Based Color Evolution
           </h2>
-          <p className="glass-glass-glass-text-primary/60 max-w-2xl glass-glass-glass-mx-auto leading-relaxed">
+          <p className="text-primary/60 max-w-2xl mx-auto leading-relaxed">
             Colors that intelligently shift throughout the day, matching natural light patterns and human circadian rhythms
           </p>
         </div>
 
-        <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Dawn */}
-          <div className="group glass-glass-glass-cursor-pointer">
-            <div className="glass-glass-glass-relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
-              <div className="glass-gradient-primary glass-gradient-primary via-rose-300 glass-gradient-primary aspect-square glass-glass-glass-relative glass-glass-glass-shadow-2xl hover:glass-glass-glass-shadow-amber-500/30">
+          <div className="group cursor-pointer">
+            <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
+              <div className="glass-gradient-primary glass-gradient-primary via-rose-300 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-amber-500/30">
                 {/* Time indicator */}
-                <div className="glass-glass-glass-absolute top-4 left-4 glass-glass-glass-text-xs glass-surface-dark/20 backdrop-blur glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-full glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   5:30 AM
                 </div>
 
                 {/* Main icon */}
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                  <div className="glass-glass-glass-text-6xl glass-glass-glass-mb-2 filter drop-glass-glass-glass-shadow-lg">🌅</div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-6xl mb-2 filter drop-shadow-lg">🌅</div>
                 </div>
 
                 {/* Bottom info */}
-                <div className="glass-glass-glass-absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-p-6">
-                  <div className="glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-lg">Dawn</div>
-                  <div className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Warm Awakening</div>
+                <div className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary p-6">
+                  <div className="font-bold text-primary text-lg">Dawn</div>
+                  <div className="text-primary/80 text-sm font-medium">Warm Awakening</div>
                 </div>
 
                 {/* Hover overlay */}
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </div>
           </div>
 
           {/* Day */}
-          <div className="group glass-glass-glass-cursor-pointer">
-            <div className="glass-glass-glass-relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
-              <div className="glass-gradient-primary glass-gradient-primary via-cyan-300 glass-gradient-primary aspect-square glass-glass-glass-relative glass-glass-glass-shadow-2xl hover:glass-glass-glass-shadow-blue-500/30">
-                <div className="glass-glass-glass-absolute top-4 left-4 glass-glass-glass-text-xs glass-surface-dark/20 backdrop-blur glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-full glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+          <div className="group cursor-pointer">
+            <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
+              <div className="glass-gradient-primary glass-gradient-primary via-cyan-300 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-blue-500/30">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   12:00 PM
                 </div>
 
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                  <div className="glass-glass-glass-text-6xl glass-glass-glass-mb-2 filter drop-glass-glass-glass-shadow-lg">☀️</div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-6xl mb-2 filter drop-shadow-lg">☀️</div>
                 </div>
 
-                <div className="glass-glass-glass-absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-p-6">
-                  <div className="glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-lg">Day</div>
-                  <div className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Bright Focus</div>
+                <div className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary p-6">
+                  <div className="font-bold text-primary text-lg">Day</div>
+                  <div className="text-primary/80 text-sm font-medium">Bright Focus</div>
                 </div>
 
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </div>
           </div>
 
           {/* Evening */}
-          <div className="group glass-glass-glass-cursor-pointer">
-            <div className="glass-glass-glass-relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
-              <div className="glass-gradient-primary glass-gradient-primary via-red-400 glass-gradient-primary aspect-square glass-glass-glass-relative glass-glass-glass-shadow-2xl hover:glass-glass-glass-shadow-orange-500/30">
-                <div className="glass-glass-glass-absolute top-4 left-4 glass-glass-glass-text-xs glass-surface-dark/20 backdrop-blur glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-full glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+          <div className="group cursor-pointer">
+            <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
+              <div className="glass-gradient-primary glass-gradient-primary via-red-400 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-orange-500/30">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   7:30 PM
                 </div>
 
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                  <div className="glass-glass-glass-text-6xl glass-glass-glass-mb-2 filter drop-glass-glass-glass-shadow-lg">🌆</div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-6xl mb-2 filter drop-shadow-lg">🌆</div>
                 </div>
 
-                <div className="glass-glass-glass-absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-p-6">
-                  <div className="glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-lg">Evening</div>
-                  <div className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Golden Warmth</div>
+                <div className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary p-6">
+                  <div className="font-bold text-primary text-lg">Evening</div>
+                  <div className="text-primary/80 text-sm font-medium">Golden Warmth</div>
                 </div>
 
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </div>
           </div>
 
           {/* Night */}
-          <div className="group glass-glass-glass-cursor-pointer">
-            <div className="glass-glass-glass-relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
-              <div className="glass-gradient-primary glass-gradient-primary via-purple-500 glass-gradient-primary aspect-square glass-glass-glass-relative glass-glass-glass-shadow-2xl hover:glass-glass-glass-shadow-indigo-500/30">
-                <div className="glass-glass-glass-absolute top-4 left-4 glass-glass-glass-text-xs glass-surface-dark/20 backdrop-blur glass-glass-glass-px-3 glass-glass-glass-py-1 glass-radius-full glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">
+          <div className="group cursor-pointer">
+            <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
+              <div className="glass-gradient-primary glass-gradient-primary via-purple-500 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-indigo-500/30">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   11:00 PM
                 </div>
 
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                  <div className="glass-glass-glass-text-6xl glass-glass-glass-mb-2 filter drop-glass-glass-glass-shadow-lg">🌙</div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-6xl mb-2 filter drop-shadow-lg">🌙</div>
                 </div>
 
-                <div className="glass-glass-glass-absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-p-6">
-                  <div className="glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-text-lg">Night</div>
-                  <div className="glass-glass-glass-text-primary/80 glass-glass-glass-text-sm glass-glass-glass-font-medium">Deep Rest</div>
+                <div className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary p-6">
+                  <div className="font-bold text-primary text-lg">Night</div>
+                  <div className="text-primary/80 text-sm font-medium">Deep Rest</div>
                 </div>
 
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Feature highlights */}
-        <div className="mt-16 glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-6">
-          <div className="glass-surface-subtle/5 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/10 glass-radius-2xl glass-glass-glass-p-6">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-3">🌡️</div>
-            <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-semibold glass-glass-glass-mb-2">Temperature Sync</h4>
-            <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">Matches color temperature to natural light cycles</p>
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="glass-surface-subtle/5 backdrop-blur border border-white/10 glass-radius-2xl p-6">
+            <div className="text-2xl mb-3">🌡️</div>
+            <h4 className="text-primary font-semibold mb-2">Temperature Sync</h4>
+            <p className="text-primary/60 text-sm">Matches color temperature to natural light cycles</p>
           </div>
-          <div className="glass-surface-subtle/5 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/10 glass-radius-2xl glass-glass-glass-p-6">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-3">🧠</div>
-            <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-semibold glass-glass-glass-mb-2">Circadian Support</h4>
-            <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">Optimizes colors for better sleep and focus</p>
+          <div className="glass-surface-subtle/5 backdrop-blur border border-white/10 glass-radius-2xl p-6">
+            <div className="text-2xl mb-3">🧠</div>
+            <h4 className="text-primary font-semibold mb-2">Circadian Support</h4>
+            <p className="text-primary/60 text-sm">Optimizes colors for better sleep and focus</p>
           </div>
-          <div className="glass-surface-subtle/5 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/10 glass-radius-2xl glass-glass-glass-p-6">
-            <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-3">⚡</div>
-            <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-semibold glass-glass-glass-mb-2">Auto-Transition</h4>
-            <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">Seamlessly adapts throughout the day</p>
+          <div className="glass-surface-subtle/5 backdrop-blur border border-white/10 glass-radius-2xl p-6">
+            <div className="text-2xl mb-3">⚡</div>
+            <h4 className="text-primary font-semibold mb-2">Auto-Transition</h4>
+            <p className="text-primary/60 text-sm">Seamlessly adapts throughout the day</p>
           </div>
         </div>
       </div>
@@ -328,10 +328,10 @@ export const SeasonalThemes: Story = {
   args: {},
   render: () => {
     return (
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8 glass-glass-glass-relative">
-        <div className="max-w-5xl glass-glass-glass-mx-auto glass-glass-glass-text-center">
-          <h1 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">Seasonal Themes</h1>
-          <p className="glass-glass-glass-text-lg glass-glass-glass-text-primary/50">Seasonal demo placeholder</p>
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8 relative">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="text-4xl font-bold text-primary mb-4">Seasonal Themes</h1>
+          <p className="text-lg text-primary/50">Seasonal demo placeholder</p>
         </div>
       </div>
     );
@@ -342,10 +342,10 @@ export const BrandIntegration: Story = {
   args: {},
   render: () => {
     return (
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8 glass-glass-glass-relative">
-        <div className="max-w-5xl glass-glass-glass-mx-auto glass-glass-glass-text-center">
-          <h1 className="glass-glass-glass-text-4xl glass-glass-glass-font-bold glass-glass-glass-text-primary glass-glass-glass-mb-4">Brand Integration</h1>
-          <p className="glass-glass-glass-text-lg glass-glass-glass-text-primary/50">Brand demo placeholder</p>
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8 relative">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="text-4xl font-bold text-primary mb-4">Brand Integration</h1>
+          <p className="text-lg text-primary/50">Brand demo placeholder</p>
         </div>
       </div>
     );
@@ -481,21 +481,21 @@ export const QuantumNeuromorphicDemo: Story = {
     }, []);
 
     return (
-      <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-glass-glass-p-8 glass-glass-glass-relative overflow-hidden">
+      <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8 relative overflow-hidden">
         {/* Quantum field visualization */}
-        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-20">
           <div 
-            className="glass-glass-glass-absolute glass-glass-glass-w-full glass-glass-glass-h-full bg-gradient-conic glass-gradient-primary via-purple-500/20 via-pink-500/30 glass-gradient-primary animate-spin"
+            className="absolute w-full h-full bg-gradient-conic glass-gradient-primary via-purple-500/20 via-pink-500/30 glass-gradient-primary animate-spin"
             style={{ animationDuration: quantumState.superposition ? '20s' : '2s' }}
           />
         </div>
 
         {/* Neural network visualization */}
-        <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none">
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="glass-glass-glass-absolute glass-glass-glass-w-1 glass-glass-glass-h-1 glass-surface-primary/60 glass-radius-full animate-pulse"
+              className="absolute w-1 h-1 glass-surface-primary/60 glass-radius-full animate-pulse"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -506,38 +506,38 @@ export const QuantumNeuromorphicDemo: Story = {
           ))}
         </div>
 
-        <div className="max-w-7xl glass-glass-glass-mx-auto glass-glass-glass-relative glass-glass-glass-z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
-          <div className="glass-glass-glass-text-center mb-12">
-            <div className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6 glass-glass-glass-px-6 glass-glass-glass-py-3 glass-radius-full glass-surface-subtle/5 backdrop-blur-xl glass-glass-glass-border glass-glass-glass-border-white/10">
-              <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full animate-pulse" />
-              <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary/70 glass-glass-glass-font-medium tracking-wider">
+          <div className="text-center mb-12">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/5 backdrop-blur-xl border border-white/10">
+              <div className="w-3 h-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full animate-pulse" />
+              <span className="text-sm text-primary/70 font-medium tracking-wider">
                 QUANTUM-NEUROMORPHIC CONSCIOUSNESS INTERFACE
               </span>
             </div>
-            <h1 className="glass-glass-glass-text-6xl glass-glass-glass-font-bold mb-6 glass-gradient-primary glass-gradient-primary via-cyan-100 via-purple-100 glass-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-6xl font-bold mb-6 glass-gradient-primary glass-gradient-primary via-cyan-100 via-purple-100 glass-gradient-primary bg-clip-text text-transparent">
               Transcendent Reality
             </h1>
-            <p className="glass-glass-glass-text-xl glass-glass-glass-text-primary/60 max-w-4xl glass-glass-glass-mx-auto leading-relaxed">
+            <p className="text-xl text-primary/60 max-w-4xl mx-auto leading-relaxed">
               Experience the convergence of quantum mechanics, neuromorphic computing, and consciousness expansion
               through revolutionary interface technologies that adapt to your biological, emotional, and mental states.
             </p>
           </div>
 
           {/* Main interface grid */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             {/* Quantum State Panel */}
-            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl glass-glass-glass-p-8 glass-glass-glass-border glass-glass-glass-border-white/20 glass-glass-glass-relative overflow-hidden">
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
-              <div className="glass-glass-glass-relative glass-glass-glass-z-10">
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                  <div className="glass-glass-glass-text-3xl">⚛️</div>
-                  <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">Quantum States</h3>
+            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 relative overflow-hidden">
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="text-3xl">⚛️</div>
+                  <h3 className="text-xl font-semibold text-primary">Quantum States</h3>
                 </div>
                 
-                <div className="glass-glass-glass-space-y-4">
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Superposition</span>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary/70">Superposition</span>
                     <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                       quantumState.superposition 
                         ? 'bg-green-500/20 text-green-300' 
@@ -548,24 +548,24 @@ export const QuantumNeuromorphicDemo: Story = {
                   </div>
                   
                   {quantumState.collapsedState && (
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                      <span className="glass-glass-glass-text-primary/70">Measured State</span>
-                      <span className="glass-text-secondary glass-glass-glass-font-medium">{quantumState.collapsedState}</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-primary/70">Measured State</span>
+                      <span className="glass-text-secondary font-medium">{quantumState.collapsedState}</span>
                     </div>
                   )}
                   
-                  <div className="glass-glass-glass-space-y-2">
-                    <span className="glass-glass-glass-text-primary/70 glass-glass-glass-text-sm">Probability Distribution</span>
+                  <div className="space-y-2">
+                    <span className="text-primary/70 text-sm">Probability Distribution</span>
                     {Object.entries(quantumState.probability).map(([state, prob]) => (
-                      <div key={state} className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                        <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60 glass-glass-glass-w-12">{state}</span>
-                        <div className="glass-glass-glass-flex-1 glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                      <div key={state} className="flex items-center gap-2">
+                        <span className="text-xs text-primary/60 w-12">{state}</span>
+                        <div className="flex-1 h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                           <div 
-                            className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
+                            className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
                             style={{ width: `${prob * 100}%` }}
                           />
                         </div>
-                        <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary/80 glass-glass-glass-w-12">{(prob * 100).toFixed(1)}%</span>
+                        <span className="text-xs text-primary/80 w-12">{(prob * 100).toFixed(1)}%</span>
                       </div>
                     ))}
                   </div>
@@ -573,7 +573,7 @@ export const QuantumNeuromorphicDemo: Story = {
                   <button
                     onClick={measureQuantumState}
                     disabled={quantumState.measurement}
-                    className="glass-glass-glass-w-full glass-glass-glass-py-3 glass-surface-blue/20 hover:glass-surface-blue/30 glass-glass-glass-border glass-glass-glass-border-blue/50 glass-radius-xl glass-glass-glass-text-primary glass-glass-glass-font-medium transition-all duration-300 disabled:opacity-50"
+                    className="w-full py-3 glass-surface-blue/20 hover:glass-surface-blue/30 border border-blue/50 glass-radius-xl text-primary font-medium transition-all duration-300 disabled:opacity-50"
                   >
                     {quantumState.measurement ? 'Measuring...' : 'Collapse Wave Function'}
                   </button>
@@ -582,19 +582,19 @@ export const QuantumNeuromorphicDemo: Story = {
             </div>
 
             {/* Biometric Adaptation Panel */}
-            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl glass-glass-glass-p-8 glass-glass-glass-border glass-glass-glass-border-white/20 glass-glass-glass-relative overflow-hidden">
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
-              <div className="glass-glass-glass-relative glass-glass-glass-z-10">
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                  <div className="glass-glass-glass-text-3xl">🧠</div>
-                  <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">Biometric Adaptation</h3>
+            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 relative overflow-hidden">
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="text-3xl">🧠</div>
+                  <h3 className="text-xl font-semibold text-primary">Biometric Adaptation</h3>
                 </div>
                 
-                <div className="glass-glass-glass-space-y-4">
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Stress Level</span>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <div className="glass-glass-glass-w-20 glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary/70">Stress Level</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                         <div 
                           className={`h-full rounded-full transition-all duration-500 ${
                             biometricData.stressLevel > 0.7 ? 'bg-red-400' :
@@ -603,33 +603,33 @@ export const QuantumNeuromorphicDemo: Story = {
                           style={{ width: `${biometricData.stressLevel * 100}%` }}
                         />
                       </div>
-                      <span className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm glass-glass-glass-w-12">{(biometricData.stressLevel * 100).toFixed(0)}%</span>
+                      <span className="text-primary/90 text-sm w-12">{(biometricData.stressLevel * 100).toFixed(0)}%</span>
                     </div>
                   </div>
 
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Focus State</span>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <div className="glass-glass-glass-w-20 glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary/70">Focus State</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                         <div 
-                          className="glass-glass-glass-h-full glass-surface-blue glass-radius-full transition-all duration-500"
+                          className="h-full glass-surface-blue glass-radius-full transition-all duration-500"
                           style={{ width: `${biometricData.focusState * 100}%` }}
                         />
                       </div>
-                      <span className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm glass-glass-glass-w-12">{(biometricData.focusState * 100).toFixed(0)}%</span>
+                      <span className="text-primary/90 text-sm w-12">{(biometricData.focusState * 100).toFixed(0)}%</span>
                     </div>
                   </div>
 
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Heart Rate</span>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                      <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-red glass-radius-full animate-pulse" />
-                      <span className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">{biometricData.heartRate} BPM</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary/70">Heart Rate</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 glass-surface-red glass-radius-full animate-pulse" />
+                      <span className="text-primary/90 font-medium">{biometricData.heartRate} BPM</span>
                     </div>
                   </div>
 
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Pattern</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary/70">Pattern</span>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                       biometricData.interactionPattern === 'calm' ? 'bg-green-500/20 text-green-300' :
                       biometricData.interactionPattern === 'active' ? 'bg-blue-500/20 text-blue-300' :
@@ -639,9 +639,9 @@ export const QuantumNeuromorphicDemo: Story = {
                     </span>
                   </div>
 
-                  <div className="mt-6 glass-glass-glass-p-4 glass-surface-subtle/5 glass-radius-xl">
-                    <h4 className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium glass-glass-glass-mb-2">Real-time Adaptation</h4>
-                    <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
+                  <div className="mt-6 p-4 glass-surface-subtle/5 glass-radius-xl">
+                    <h4 className="text-primary/90 font-medium mb-2">Real-time Adaptation</h4>
+                    <p className="text-primary/60 text-sm">
                       Interface automatically adjusts colors, animations, and interactions based on your biometric data.
                       Lower stress = warmer colors, higher focus = enhanced contrast.
                     </p>
@@ -651,62 +651,62 @@ export const QuantumNeuromorphicDemo: Story = {
             </div>
 
             {/* Neural Network Panel */}
-            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl glass-glass-glass-p-8 glass-glass-glass-border glass-glass-glass-border-white/20 glass-glass-glass-relative overflow-hidden">
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
-              <div className="glass-glass-glass-relative glass-glass-glass-z-10">
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                  <div className="glass-glass-glass-text-3xl">🔬</div>
-                  <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">Neural Learning</h3>
+            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 relative overflow-hidden">
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="text-3xl">🔬</div>
+                  <h3 className="text-xl font-semibold text-primary">Neural Learning</h3>
                 </div>
                 
-                <div className="glass-glass-glass-space-y-4">
+                <div className="space-y-4">
                   <div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
-                      <span className="glass-glass-glass-text-primary/70">Primary Weights</span>
-                      <span className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm">{(neuralWeights.primary * 100).toFixed(1)}%</span>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-primary/70">Primary Weights</span>
+                      <span className="text-primary/90 text-sm">{(neuralWeights.primary * 100).toFixed(1)}%</span>
                     </div>
-                    <div className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                    <div className="w-full h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                       <div 
-                        className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
+                        className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
                         style={{ width: `${neuralWeights.primary * 100}%` }}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
-                      <span className="glass-glass-glass-text-primary/70">Secondary Weights</span>
-                      <span className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm">{(neuralWeights.secondary * 100).toFixed(1)}%</span>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-primary/70">Secondary Weights</span>
+                      <span className="text-primary/90 text-sm">{(neuralWeights.secondary * 100).toFixed(1)}%</span>
                     </div>
-                    <div className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                    <div className="w-full h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                       <div 
-                        className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
+                        className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
                         style={{ width: `${neuralWeights.secondary * 100}%` }}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
-                      <span className="glass-glass-glass-text-primary/70">Tertiary Weights</span>
-                      <span className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm">{(neuralWeights.tertiary * 100).toFixed(1)}%</span>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-primary/70">Tertiary Weights</span>
+                      <span className="text-primary/90 text-sm">{(neuralWeights.tertiary * 100).toFixed(1)}%</span>
                     </div>
-                    <div className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                    <div className="w-full h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                       <div 
-                        className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
+                        className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
                         style={{ width: `${neuralWeights.tertiary * 100}%` }}
                       />
                     </div>
                   </div>
 
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-                    <span className="glass-glass-glass-text-primary/70">Adaptation Rate</span>
-                    <span className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium">{(neuralWeights.adaptationRate * 100).toFixed(1)}%</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-primary/70">Adaptation Rate</span>
+                    <span className="text-primary/90 font-medium">{(neuralWeights.adaptationRate * 100).toFixed(1)}%</span>
                   </div>
 
-                  <div className="mt-6 glass-glass-glass-p-4 glass-surface-subtle/5 glass-radius-xl">
-                    <h4 className="glass-glass-glass-text-primary/90 glass-glass-glass-font-medium glass-glass-glass-mb-2">Synaptic Learning</h4>
-                    <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm">
+                  <div className="mt-6 p-4 glass-surface-subtle/5 glass-radius-xl">
+                    <h4 className="text-primary/90 font-medium mb-2">Synaptic Learning</h4>
+                    <p className="text-primary/60 text-sm">
                       Neural weights continuously adapt based on interaction patterns, 
                       creating a personalized interface that learns and evolves with usage.
                     </p>
@@ -717,44 +717,44 @@ export const QuantumNeuromorphicDemo: Story = {
           </div>
 
           {/* Consciousness Stream */}
-          <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl glass-glass-glass-p-8 glass-glass-glass-border glass-glass-glass-border-white/20 mb-12 glass-glass-glass-relative overflow-hidden">
-            <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-purple-500/10 glass-gradient-primary opacity-50" />
-            <div className="glass-glass-glass-relative glass-glass-glass-z-10">
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">🌌</div>
-                <h3 className="glass-glass-glass-text-2xl glass-glass-glass-font-semibold glass-glass-glass-text-primary">Consciousness Stream</h3>
-                <div className="ml-auto glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                  <span className="glass-glass-glass-text-primary/70 glass-glass-glass-text-sm">Coherence</span>
-                  <div className="glass-glass-glass-w-20 glass-glass-glass-h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+          <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 mb-12 relative overflow-hidden">
+            <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-purple-500/10 glass-gradient-primary opacity-50" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">🌌</div>
+                <h3 className="text-2xl font-semibold text-primary">Consciousness Stream</h3>
+                <div className="ml-auto flex items-center gap-2">
+                  <span className="text-primary/70 text-sm">Coherence</span>
+                  <div className="w-20 h-2 glass-surface-subtle/20 glass-radius-full overflow-hidden">
                     <div 
-                      className="glass-glass-glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
+                      className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full transition-all duration-1000"
                       style={{ width: `${consciousness.coherence * 100}%` }}
                     />
                   </div>
-                  <span className="glass-glass-glass-text-primary/90 glass-glass-glass-text-sm">{(consciousness.coherence * 100).toFixed(0)}%</span>
+                  <span className="text-primary/90 text-sm">{(consciousness.coherence * 100).toFixed(0)}%</span>
                 </div>
               </div>
               
-              <div className="glass-glass-glass-space-y-3">
+              <div className="space-y-3">
                 {consciousness.stream.map((thought, index) => (
                   <div 
                     key={index}
-                    className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-p-3 glass-surface-subtle/5 glass-radius-xl opacity-0 animate-fade-in"
+                    className="flex items-center gap-3 p-3 glass-surface-subtle/5 glass-radius-xl opacity-0 animate-fade-in"
                     style={{ 
                       animationDelay: `${index * 200}ms`,
                       animationFillMode: 'forwards'
                     }}
                   >
-                    <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-primary glass-radius-full animate-pulse" />
-                    <span className="glass-glass-glass-text-primary/80 glass-glass-glass-font-medium">{thought}</span>
-                    <div className="ml-auto glass-glass-glass-text-primary/40 glass-glass-glass-text-xs">
+                    <div className="w-2 h-2 glass-surface-primary glass-radius-full animate-pulse" />
+                    <span className="text-primary/80 font-medium">{thought}</span>
+                    <div className="ml-auto text-primary/40 text-xs">
                       T+{index * 3}s
                     </div>
                   </div>
                 ))}
                 
                 {consciousness.stream.length === 0 && (
-                  <div className="glass-glass-glass-text-center glass-glass-glass-text-primary/50 glass-glass-glass-py-8">
+                  <div className="text-center text-primary/50 py-8">
                     Consciousness stream initializing...
                   </div>
                 )}
@@ -763,7 +763,7 @@ export const QuantumNeuromorphicDemo: Story = {
           </div>
 
           {/* Revolutionary Features Grid */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-2 lg:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 icon: '🔗',
@@ -792,18 +792,18 @@ export const QuantumNeuromorphicDemo: Story = {
             ].map((feature, index) => (
               <div 
                 key={feature.title}
-                className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-2xl glass-glass-glass-p-6 glass-glass-glass-border glass-glass-glass-border-white/20 glass-glass-glass-text-center hover:glass-surface-subtle/15 transition-all duration-500 group"
+                className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-2xl p-6 border border-white/20 text-center hover:glass-surface-subtle/15 transition-all duration-500 group"
                 style={{ 
                   animationDelay: `${index * 200}ms`,
                   animation: 'slideUpStagger 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
                 }}
               >
-                <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <h4 className="glass-glass-glass-text-primary glass-glass-glass-font-semibold glass-glass-glass-mb-2">{feature.title}</h4>
-                <p className="glass-glass-glass-text-primary/60 glass-glass-glass-text-sm leading-relaxed glass-glass-glass-mb-4">{feature.desc}</p>
-                <div className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-surface-subtle/10 glass-radius-full glass-glass-glass-text-xs glass-glass-glass-text-primary/80 glass-glass-glass-font-medium">
+                <h4 className="text-primary font-semibold mb-2">{feature.title}</h4>
+                <p className="text-primary/60 text-sm leading-relaxed mb-4">{feature.desc}</p>
+                <div className="px-3 py-1 glass-surface-subtle/10 glass-radius-full text-xs text-primary/80 font-medium">
                   {feature.status}
                 </div>
               </div>
@@ -876,11 +876,11 @@ export const PracticalEnhancementsDemo: Story = {
       <div className={`min-h-screen p-8 relative transition-colors duration-300 ${
         theme === 'light' ? 'bg-gray-50' : 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
       }`}>
-        <div className="max-w-7xl glass-glass-glass-mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="glass-glass-glass-text-center mb-12">
-            <div className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6 glass-glass-glass-px-6 glass-glass-glass-py-3 glass-radius-full glass-surface-subtle/10 backdrop-blur glass-glass-glass-border glass-glass-glass-border-white/20">
-              <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-green glass-radius-full animate-pulse" />
+          <div className="text-center mb-12">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/10 backdrop-blur border border-white/20">
+              <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse" />
               <span className={`text-sm font-medium tracking-wide ${
                 theme === 'light' ? 'text-gray-700' : 'text-white/70'
               }`}>
@@ -901,15 +901,15 @@ export const PracticalEnhancementsDemo: Story = {
           </div>
 
           {/* Main Features Grid */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 lg:glass-glass-glass-glass-glass-grid-cols-2 xl:glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
             {/* Performance Monitoring */}
             <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
             }`}>
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">⚡</div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">⚡</div>
                 <div>
                   <h3 className={`text-xl font-semibold ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -920,8 +920,8 @@ export const PracticalEnhancementsDemo: Story = {
                 </div>
               </div>
 
-              <div className="glass-glass-glass-space-y-4">
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
                   <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Frame Rate</span>
                   <span className={`font-medium ${
                     performance.fps > 50 ? 'text-green-500' : 
@@ -931,7 +931,7 @@ export const PracticalEnhancementsDemo: Story = {
                   </span>
                 </div>
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+                <div className="flex items-center justify-between">
                   <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Load Time</span>
                   <span className={`font-medium ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -941,7 +941,7 @@ export const PracticalEnhancementsDemo: Story = {
                 </div>
 
                 <div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
+                  <div className="flex items-center justify-between mb-2">
                     <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Memory Usage</span>
                     <span className={`text-sm ${
                       theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -962,7 +962,7 @@ export const PracticalEnhancementsDemo: Story = {
                   </div>
                 </div>
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+                <div className="flex items-center justify-between">
                   <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Network Latency</span>
                   <span className={`font-medium ${
                     performance.networkLatency < 50 ? 'text-green-500' :
@@ -995,8 +995,8 @@ export const PracticalEnhancementsDemo: Story = {
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
             }`}>
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">♿</div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">♿</div>
                 <div>
                   <h3 className={`text-xl font-semibold ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -1007,9 +1007,9 @@ export const PracticalEnhancementsDemo: Story = {
                 </div>
               </div>
 
-              <div className="glass-glass-glass-space-y-4">
+              <div className="space-y-4">
                 <div>
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-2">
+                  <div className="flex items-center justify-between mb-2">
                     <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Contrast Ratio</span>
                     <span className={`font-medium ${
                       accessibility.contrastRatio >= 4.5 ? 'text-green-500' : 'text-red-500'
@@ -1025,7 +1025,7 @@ export const PracticalEnhancementsDemo: Story = {
                   </div>
                 </div>
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+                <div className="flex items-center justify-between">
                   <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Keyboard Navigation</span>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     accessibility.keyboardNav 
@@ -1036,7 +1036,7 @@ export const PracticalEnhancementsDemo: Story = {
                   </div>
                 </div>
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+                <div className="flex items-center justify-between">
                   <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Screen Reader</span>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     accessibility.screenReader 
@@ -1047,7 +1047,7 @@ export const PracticalEnhancementsDemo: Story = {
                   </div>
                 </div>
 
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+                <div className="flex items-center justify-between">
                   <span className={theme === 'light' ? 'text-gray-700' : 'text-white/70'}>Reduced Motion</span>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     accessibility.motionReduced 
@@ -1077,8 +1077,8 @@ export const PracticalEnhancementsDemo: Story = {
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
             }`}>
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">👤</div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">👤</div>
                 <div>
                   <h3 className={`text-xl font-semibold ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -1089,7 +1089,7 @@ export const PracticalEnhancementsDemo: Story = {
                 </div>
               </div>
 
-              <div className="glass-glass-glass-space-y-4">
+              <div className="space-y-4">
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${
                     theme === 'light' ? 'text-gray-700' : 'text-white/70'
@@ -1102,7 +1102,7 @@ export const PracticalEnhancementsDemo: Story = {
                     max="24"
                     value={userPrefs.fontSize}
                     onChange={(e) => setUserPrefs(prev => ({ ...prev, fontSize: parseInt(e.target.value) }))}
-                    className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle glass-radius-lg appearance-none glass-glass-glass-cursor-pointer slider"
+                    className="w-full h-2 glass-surface-subtle glass-radius-lg appearance-none cursor-pointer slider"
                   />
                 </div>
 
@@ -1119,7 +1119,7 @@ export const PracticalEnhancementsDemo: Story = {
                     step="0.1"
                     value={userPrefs.animationSpeed}
                     onChange={(e) => setUserPrefs(prev => ({ ...prev, animationSpeed: parseFloat(e.target.value) }))}
-                    className="glass-glass-glass-w-full glass-glass-glass-h-2 glass-surface-subtle glass-radius-lg appearance-none glass-glass-glass-cursor-pointer slider"
+                    className="w-full h-2 glass-surface-subtle glass-radius-lg appearance-none cursor-pointer slider"
                   />
                 </div>
 
@@ -1151,7 +1151,7 @@ export const PracticalEnhancementsDemo: Story = {
                   }`}>
                     Handedness
                   </label>
-                  <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                  <div className="flex gap-2">
                     {['left', 'right'].map((hand) => (
                       <button
                         key={hand}
@@ -1180,8 +1180,8 @@ export const PracticalEnhancementsDemo: Story = {
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
             }`}>
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">🎨</div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">🎨</div>
                 <div>
                   <h3 className={`text-xl font-semibold ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -1193,7 +1193,7 @@ export const PracticalEnhancementsDemo: Story = {
               </div>
 
               <div className="space-y-6">
-                <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {[
                     { key: 'light', icon: '☀️', label: 'Light' },
                     { key: 'dark', icon: '🌙', label: 'Dark' },
@@ -1212,8 +1212,8 @@ export const PracticalEnhancementsDemo: Story = {
                             : 'bg-white/5 text-white/70 hover:bg-white/10'
                       }`}
                     >
-                      <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-1">{themeOption.icon}</div>
-                      <div className="glass-glass-glass-text-xs glass-glass-glass-font-medium">{themeOption.label}</div>
+                      <div className="text-2xl mb-1">{themeOption.icon}</div>
+                      <div className="text-xs font-medium">{themeOption.label}</div>
                     </button>
                   ))}
                 </div>
@@ -1255,8 +1255,8 @@ export const PracticalEnhancementsDemo: Story = {
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
             }`}>
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">📱</div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">📱</div>
                 <div>
                   <h3 className={`text-xl font-semibold ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -1267,12 +1267,12 @@ export const PracticalEnhancementsDemo: Story = {
                 </div>
               </div>
 
-              <div className="glass-glass-glass-space-y-4">
-                <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 glass-glass-glass-gap-4">
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div className={`p-4 rounded-xl text-center ${
                     theme === 'light' ? 'bg-gray-50' : 'bg-white/5'
                   }`}>
-                    <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">👆</div>
+                    <div className="text-2xl mb-2">👆</div>
                     <div className={`text-sm font-medium ${
                       theme === 'light' ? 'text-gray-900' : 'text-white'
                     }`}>
@@ -1288,7 +1288,7 @@ export const PracticalEnhancementsDemo: Story = {
                   <div className={`p-4 rounded-xl text-center ${
                     theme === 'light' ? 'bg-gray-50' : 'bg-white/5'
                   }`}>
-                    <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">📐</div>
+                    <div className="text-2xl mb-2">📐</div>
                     <div className={`text-sm font-medium ${
                       theme === 'light' ? 'text-gray-900' : 'text-white'
                     }`}>
@@ -1329,8 +1329,8 @@ export const PracticalEnhancementsDemo: Story = {
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
             }`}>
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 mb-6">
-                <div className="glass-glass-glass-text-3xl">👩‍💻</div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-3xl">👩‍💻</div>
                 <div>
                   <h3 className={`text-xl font-semibold ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
@@ -1341,7 +1341,7 @@ export const PracticalEnhancementsDemo: Story = {
                 </div>
               </div>
 
-              <div className="glass-glass-glass-space-y-4">
+              <div className="space-y-4">
                 <div className={`p-4 rounded-xl ${
                   theme === 'light' ? 'bg-blue-50' : 'bg-blue-500/10'
                 }`}>
@@ -1396,7 +1396,7 @@ export const PracticalEnhancementsDemo: Story = {
               ? 'bg-white/80 border-gray-200' 
               : 'bg-white/10 border-white/20'
           }`}>
-            <div className="glass-glass-glass-text-center mb-8">
+            <div className="text-center mb-8">
               <h3 className={`text-3xl font-semibold mb-4 ${
                 theme === 'light' ? 'text-gray-900' : 'text-white'
               }`}>
@@ -1409,15 +1409,15 @@ export const PracticalEnhancementsDemo: Story = {
               </p>
             </div>
 
-            <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-2 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { icon: '⚡', label: 'Performance', value: '98%', desc: 'Lighthouse Score' },
                 { icon: '♿', label: 'Accessibility', value: 'AAA', desc: 'WCAG Compliant' },
                 { icon: '📱', label: 'Mobile', value: '100%', desc: 'Touch Optimized' },
                 { icon: '👨‍💻', label: 'DX Score', value: '9.5/10', desc: 'Developer Rating' }
               ].map((metric, index) => (
-                <div key={metric.label} className="glass-glass-glass-text-center">
-                  <div className="glass-glass-glass-text-4xl glass-glass-glass-mb-3">{metric.icon}</div>
+                <div key={metric.label} className="text-center">
+                  <div className="text-4xl mb-3">{metric.icon}</div>
                   <div className={`text-2xl font-bold mb-1 ${
                     theme === 'light' ? 'text-gray-900' : 'text-white'
                   }`}>

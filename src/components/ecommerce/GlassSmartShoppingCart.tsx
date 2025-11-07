@@ -56,38 +56,38 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
 
   if (compact) {
     return (
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-p-3 glass-glass-glass-border-b glass-glass-glass-border-subtle last:glass-glass-glass-border-b-0">
+      <div className="flex items-center gap-3 p-3 border-b border-subtle last:border-b-0">
         <img
           src={item.product.thumbnail || item.product.images[0]}
           alt={item.product.name}
-          className="glass-glass-glass-w-12 glass-glass-glass-h-12 object-cover glass-radius"
+          className="w-12 h-12 object-cover glass-radius"
         />
         
-        <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-          <h3 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-text-sm glass-glass-glass-truncate">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-medium glass-text-secondary text-sm truncate">
             {item.product.name}
           </h3>
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 mt-1">
-            <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-sm font-medium glass-text-secondary">
               ${item.product.price.toFixed(2)}
             </span>
             {isOnSale && (
-              <span className="glass-glass-glass-text-xs glass-text-secondary line-through">
+              <span className="text-xs glass-text-secondary line-through">
                 ${item.product.originalPrice!.toFixed(2)}
               </span>
             )}
-            <span className="glass-glass-glass-text-xs glass-text-secondary">
+            <span className="text-xs glass-text-secondary">
               × {quantity}
             </span>
           </div>
         </div>
         
-        <div className="glass-glass-glass-text-right">
-          <div className="glass-glass-glass-font-medium glass-text-secondary">
+        <div className="text-right">
+          <div className="font-medium glass-text-secondary">
             ${itemTotal.toFixed(2)}
           </div>
           {savings > 0 && (
-            <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary">
+            <div className="text-xs text-primary">
               Save ${savings.toFixed(2)}
             </div>
           )}
@@ -97,22 +97,22 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
   }
 
   return (
-    <div className="glass-glass-glass-flex glass-glass-glass-gap-4 glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-subtle last:glass-glass-glass-border-b-0">
+    <div className="flex gap-4 p-4 border-b border-subtle last:border-b-0">
       {/* Product Image */}
-      <div className="glass-glass-glass-relative">
+      <div className="relative">
         <img
           src={item.product.thumbnail || item.product.images[0]}
           alt={item.product.name}
-          className="glass-glass-glass-w-20 glass-glass-glass-h-20 object-cover glass-radius-lg"
+          className="w-20 h-20 object-cover glass-radius-lg"
         />
         {isOnSale && (
-          <div className="glass-glass-glass-absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-surface-red glass-glass-glass-text-primary glass-glass-glass-text-xs glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius-full">
+          <div className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-surface-red text-primary text-xs px-2 py-1 glass-radius-full">
             SALE
           </div>
         )}
         {item.product.availability !== 'in-stock' && (
-          <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-surface-dark glass-opacity-50 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-radius-lg">
-            <span className="glass-glass-glass-text-primary glass-glass-glass-text-xs glass-glass-glass-font-medium">
+          <div className="absolute inset-0 glass-surface-dark glass-opacity-50 flex items-center justify-center glass-radius-lg">
+            <span className="text-primary text-xs font-medium">
               {item.product.availability === 'out-of-stock' ? 'Out of Stock' : 'Pre-order'}
             </span>
           </div>
@@ -120,25 +120,25 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
       </div>
 
       {/* Product Details */}
-      <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-        <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between">
-          <div className="glass-glass-glass-flex-1">
-            <h3 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-1">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <h3 className="font-medium glass-text-secondary mb-1">
               {item.product.name}
             </h3>
             
             {item.product.brand && (
-              <p className="glass-glass-glass-text-sm glass-text-secondary glass-glass-glass-mb-1">
+              <p className="text-sm glass-text-secondary mb-1">
                 Brand: {item.product.brand}
               </p>
             )}
             
             {item.selectedVariants && (
-              <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-1 glass-glass-glass-mb-2">
+              <div className="flex flex-wrap gap-1 mb-2">
                 {Object.entries(item.selectedVariants).map(([key, value]) => (
                   <span
                     key={key}
-                    className="inline-glass-glass-glass-block glass-glass-glass-px-2 glass-glass-glass-py-1 glass-surface-subtle glass-text-secondary glass-glass-glass-text-xs glass-radius"
+                    className="inline-block px-2 py-1 glass-surface-subtle glass-text-secondary text-xs glass-radius"
                   >
                     {key}: {value}
                   </span>
@@ -147,17 +147,17 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             )}
 
             {/* Price */}
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-3">
-              <span className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-text-secondary">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-lg font-semibold glass-text-secondary">
                 ${item.product.price.toFixed(2)}
               </span>
               {isOnSale && (
-                <span className="glass-glass-glass-text-sm glass-text-secondary line-through">
+                <span className="text-sm glass-text-secondary line-through">
                   ${item.product.originalPrice!.toFixed(2)}
                 </span>
               )}
               {item.product.availability === 'in-stock' && item.product.stock < 10 && (
-                <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary glass-surface-subtle glass-glass-glass-px-2 glass-glass-glass-py-1 glass-radius">
+                <span className="text-xs text-primary glass-surface-subtle px-2 py-1 glass-radius">
                   Only {item.product.stock} left
                 </span>
               )}
@@ -165,10 +165,10 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
 
             {/* Gift Options */}
             {item.giftWrap && (
-              <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-mb-2">
-                <span className="glass-glass-glass-text-sm glass-glass-glass-text-primary">🎁 Gift wrapped</span>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm text-primary">🎁 Gift wrapped</span>
                 {item.giftMessage && (
-                  <span className="glass-glass-glass-text-xs glass-text-secondary">with message</span>
+                  <span className="text-xs glass-text-secondary">with message</span>
                 )}
               </div>
             )}
@@ -177,7 +177,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           {/* Remove Button */}
           <button
             onClick={() => onRemove(item.id)}
-            className="glass-text-secondary hover:glass-glass-glass-text-primary glass-glass-glass-p-1"
+            className="glass-text-secondary hover:text-primary p-1"
             title="Remove from cart"
           >
             ✕
@@ -185,41 +185,41 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
         </div>
 
         {/* Quantity Controls */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-border glass-glass-glass-border-subtle glass-radius">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center border border-subtle glass-radius">
               <button
                 onClick={() => handleQuantityChange(quantity - 1)}
                 disabled={quantity <= 1 || isUpdating}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 −
               </button>
               
-              <span className="glass-glass-glass-px-4 glass-glass-glass-py-1 glass-glass-glass-border-x glass-glass-glass-border-subtle glass-glass-min-glass-glass-w-12 glass-glass-glass-text-center">
+              <span className="px-4 py-1 border-x border-subtle min-w-12 text-center">
                 {isUpdating ? '...' : quantity}
               </span>
               
               <button
                 onClick={() => handleQuantityChange(quantity + 1)}
                 disabled={quantity >= item.product.stock || isUpdating}
-                className="glass-glass-glass-px-3 glass-glass-glass-py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 +
               </button>
             </div>
 
             {/* Action Buttons */}
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => onSaveForLater(item.id)}
-                className="glass-glass-glass-text-xs glass-glass-glass-text-primary hover:glass-glass-glass-text-primary underline"
+                className="text-xs text-primary hover:text-primary underline"
               >
                 Save for later
               </button>
               <button
                 onClick={() => onMoveToWishlist(item.id)}
-                className="glass-glass-glass-text-xs glass-glass-glass-text-primary hover:glass-glass-glass-text-primary underline"
+                className="text-xs text-primary hover:text-primary underline"
               >
                 Move to wishlist
               </button>
@@ -227,12 +227,12 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           </div>
 
           {/* Item Total */}
-          <div className="glass-glass-glass-text-right">
-            <div className="glass-glass-glass-font-semibold glass-text-secondary">
+          <div className="text-right">
+            <div className="font-semibold glass-text-secondary">
               ${itemTotal.toFixed(2)}
             </div>
             {savings > 0 && (
-              <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+              <div className="text-sm text-primary">
                 You save ${savings.toFixed(2)}
               </div>
             )}
@@ -250,8 +250,8 @@ const ShippingCalculator: React.FC<{
   cartSubtotal: number;
 }> = ({ shippingOptions, selectedShipping, onShippingSelect, cartSubtotal }) => {
   return (
-    <div className="glass-glass-glass-space-y-3">
-      <h3 className="glass-glass-glass-font-medium glass-text-secondary">Shipping Options</h3>
+    <div className="space-y-3">
+      <h3 className="font-medium glass-text-secondary">Shipping Options</h3>
       {shippingOptions.map(option => {
         const isFree = option.price === 0 || (option.id === 'standard' && cartSubtotal >= 50);
         const price = isFree ? 0 : option.price;
@@ -266,26 +266,26 @@ const ShippingCalculator: React.FC<{
                 : "border-gray-200 hover:border-gray-300"
             )}
           >
-            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3">
+            <div className="flex items-center gap-3">
               <input
                 type="radio"
                 name="shipping"
                 value={option.id}
                 checked={selectedShipping?.id === option.id}
                 onChange={() => onShippingSelect(option)}
-                className="glass-glass-glass-text-primary"
+                className="text-primary"
               />
               <div>
-                <div className="glass-glass-glass-font-medium glass-text-secondary">
+                <div className="font-medium glass-text-secondary">
                   {option.name}
-                  {isFree && <span className="glass-glass-glass-text-primary ml-2">FREE</span>}
+                  {isFree && <span className="text-primary ml-2">FREE</span>}
                 </div>
-                <div className="glass-glass-glass-text-sm glass-text-secondary">
+                <div className="text-sm glass-text-secondary">
                   {option.description} • {option.estimatedDays} business days
                 </div>
               </div>
             </div>
-            <div className="glass-glass-glass-font-medium glass-text-secondary">
+            <div className="font-medium glass-text-secondary">
               {isFree ? 'FREE' : `$${price.toFixed(2)}`}
             </div>
           </label>
@@ -313,37 +313,37 @@ const PromoCodeInput: React.FC<{
   };
 
   return (
-    <div className="glass-glass-glass-space-y-3">
-      <h3 className="glass-glass-glass-font-medium glass-text-secondary">Promo Code</h3>
+    <div className="space-y-3">
+      <h3 className="font-medium glass-text-secondary">Promo Code</h3>
       
       {appliedPromo ? (
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-3 glass-surface-subtle glass-glass-glass-border glass-glass-glass-border-green-200 glass-radius-lg">
+        <div className="flex items-center justify-between p-3 glass-surface-subtle border border-green-200 glass-radius-lg">
           <div>
-            <div className="glass-glass-glass-font-medium glass-glass-glass-text-primary">
+            <div className="font-medium text-primary">
               Code "{appliedPromo.code}" applied
             </div>
-            <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary">
+            <div className="text-sm text-primary">
               You save ${appliedPromo.discount.toFixed(2)}
             </div>
           </div>
-          <button className="glass-glass-glass-text-primary hover:glass-glass-glass-text-primary glass-glass-glass-text-sm underline">
+          <button className="text-primary hover:text-primary text-sm underline">
             Remove
           </button>
         </div>
       ) : (
-        <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+        <div className="flex gap-2">
           <input
             type="text"
             placeholder="Enter promo code"
             value={promoCode}
             onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-            className="glass-glass-glass-flex-1 glass-glass-glass-px-3 glass-glass-glass-py-2 glass-glass-glass-border glass-glass-glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-3 py-2 border border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             onKeyDown={(e) => e.key === 'Enter' && handleApply()}
           />
           <button
             onClick={handleApply}
             disabled={!promoCode.trim() || isApplying}
-            className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-blue glass-glass-glass-text-primary glass-radius-lg hover:glass-surface-blue disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isApplying ? '...' : 'Apply'}
           </button>
@@ -425,9 +425,9 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   if (cart.length === 0) {
     return (
       <Glass className={cn("p-6", className)}>
-        <div className="glass-glass-glass-text-center">
-          <div className="glass-glass-glass-text-6xl glass-glass-glass-mb-4">🛒</div>
-          <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-text-secondary glass-glass-glass-mb-2">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🛒</div>
+          <h2 className="text-xl font-semibold glass-text-secondary mb-2">
             Your cart is empty
           </h2>
           <p className="glass-text-secondary mb-6">
@@ -435,7 +435,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           </p>
           <button
             onClick={onClose}
-            className="glass-glass-glass-px-6 glass-glass-glass-py-3 glass-surface-blue glass-glass-glass-text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+            className="px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
           >
             Continue Shopping
           </button>
@@ -446,11 +446,11 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
 
   return (
     <Glass className={cn("overflow-hidden", className)}>
-      <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-h-full">
+      <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-6 glass-glass-glass-border-b glass-glass-glass-border-subtle">
+        <div className="flex items-center justify-between p-6 border-b border-subtle">
           <div>
-            <h2 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-text-secondary">
+            <h2 className="text-xl font-semibold glass-text-secondary">
               Shopping Cart
             </h2>
             <p className="glass-text-secondary">
@@ -460,7 +460,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           {onClose && (
             <button
               onClick={onClose}
-              className="glass-text-secondary hover:glass-text-secondary glass-glass-glass-p-2"
+              className="glass-text-secondary hover:glass-text-secondary p-2"
             >
               ✕
             </button>
@@ -468,8 +468,8 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
         </div>
 
         {/* Cart Items */}
-        <div className="glass-glass-glass-flex-1 glass-glass-glass-overflow-y-auto">
-          <div className="max-glass-glass-glass-h-96 glass-glass-glass-overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
+          <div className="max-h-96 overflow-y-auto">
             {cart.slice(0, maxItems).map(item => (
               <CartItemCard
                 key={item.id}
@@ -483,7 +483,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
             ))}
             
             {cart.length > maxItems && (
-              <div className="glass-glass-glass-p-4 glass-glass-glass-text-center glass-text-secondary">
+              <div className="p-4 text-center glass-text-secondary">
                 And {cart.length - maxItems} more items...
               </div>
             )}
@@ -491,11 +491,11 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
 
           {/* Saved Items */}
           {showSavedItems && savedItems.length > 0 && (
-            <div className="glass-glass-glass-border-t glass-glass-glass-border-subtle glass-glass-glass-p-4">
-              <h3 className="glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-3">
+            <div className="border-t border-subtle p-4">
+              <h3 className="font-medium glass-text-secondary mb-3">
                 Saved for Later ({savedItems.length})
               </h3>
-              <div className="glass-glass-glass-space-y-2">
+              <div className="space-y-2">
                 {savedItems.map(item => (
                   <CartItemCard
                     key={item.id}
@@ -513,7 +513,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="glass-glass-glass-border-t glass-glass-glass-border-subtle glass-glass-glass-p-6 glass-glass-glass-space-y-4">
+        <div className="border-t border-subtle p-6 space-y-4">
           {/* Shipping Calculator */}
           {showShippingCalculator && (
             <ShippingCalculator
@@ -533,32 +533,32 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           )}
 
           {/* Order Summary */}
-          <div className="glass-glass-glass-space-y-2 pt-4 glass-glass-glass-border-t glass-glass-glass-border-subtle">
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-sm">
+          <div className="space-y-2 pt-4 border-t border-subtle">
+            <div className="flex justify-between text-sm">
               <span>Subtotal:</span>
               <span>${cartSubtotal.toFixed(2)}</span>
             </div>
             
             {cartShipping > 0 && (
-              <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-sm">
+              <div className="flex justify-between text-sm">
                 <span>Shipping:</span>
                 <span>${cartShipping.toFixed(2)}</span>
               </div>
             )}
             
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-sm">
+            <div className="flex justify-between text-sm">
               <span>Tax:</span>
               <span>${cartTax.toFixed(2)}</span>
             </div>
             
             {appliedPromo && (
-              <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-sm glass-glass-glass-text-primary">
+              <div className="flex justify-between text-sm text-primary">
                 <span>Promo ({appliedPromo.code}):</span>
                 <span>-${appliedPromo.discount.toFixed(2)}</span>
               </div>
             )}
             
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-between glass-glass-glass-text-lg glass-glass-glass-font-semibold pt-2 glass-glass-glass-border-t glass-glass-glass-border-subtle">
+            <div className="flex justify-between text-lg font-semibold pt-2 border-t border-subtle">
               <span>Total:</span>
               <span>${finalTotal.toFixed(2)}</span>
             </div>
@@ -567,13 +567,13 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           {/* Checkout Button */}
           <button
             onClick={onCheckout}
-            className="glass-glass-glass-w-full glass-glass-glass-py-3 glass-surface-blue glass-glass-glass-text-primary glass-glass-glass-font-medium glass-radius-lg hover:glass-surface-blue transition-colors"
+            className="w-full py-3 glass-surface-blue text-primary font-medium glass-radius-lg hover:glass-surface-blue transition-colors"
           >
             Proceed to Checkout
           </button>
 
           {/* Security Badge */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-gap-2 glass-glass-glass-text-xs glass-text-secondary">
+          <div className="flex items-center justify-center gap-2 text-xs glass-text-secondary">
             <span>🔒</span>
             <span>Secure checkout with 256-bit SSL encryption</span>
           </div>

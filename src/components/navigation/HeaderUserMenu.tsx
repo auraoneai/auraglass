@@ -71,23 +71,23 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
       appearance="glass"
       contentClassName="w-80 glass-p-1 ring-1 ring-white/10 shadow-[0_20px_60px_rgba(2,8,23,0.55)] rounded-2xl"
       content={
-        <div className="glass-glass-glass-w-80">
+        <div className="w-80">
           {/* User header */}
-          <div className="glass-glass-glass-px-4 pt-4">
+          <div className="px-4 pt-4">
             <div
-              className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-px-3 glass-glass-glass-py-3 glass-gradient-primary glass-gradient-primary via-white/3 glass-gradient-primary glass-glass-glass-border glass-glass-glass-border-white/12 glass-glass-glass-shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+              className="flex items-center gap-3 px-3 py-3 glass-gradient-primary glass-gradient-primary via-white/3 glass-gradient-primary border border-white/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
               style={{ borderRadius: 18 }}
             >
               <GlassAvatar size="md" src={user.avatar} fallbackText={user.name} showStatus={!!user.status} status={user.status as any} />
-              <div className="glass-glass-glass-min-glass-glass-w-0">
-                <div className="glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-truncate">{user.name}</div>
+              <div className="min-glass-w-0">
+                <div className="font-semibold text-primary truncate">{user.name}</div>
                 {user.email && (
-                  <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/80 glass-glass-glass-truncate">{user.email}</div>
+                  <div className="text-xs text-primary/80 truncate">{user.email}</div>
                 )}
                 {user.status && (
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1 glass-mt-1">
+                  <div className="flex items-center gap-1 glass-mt-1">
                     <span className={cn('inline-block w-2 h-2 glass-radius-full', statusColor)} />
-                    <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-capitalize">{user.status}</span>
+                    <span className="text-xs text-primary/70 capitalize">{user.status}</span>
                   </div>
                 )}
               </div>
@@ -95,11 +95,11 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
           </div>
 
           {/* Menu items */}
-          <div className="glass-glass-glass-p-2">
+          <div className="p-2">
             {items.map((item, idx) => (
               <React.Fragment key={item?.id}>
                 {item?.separator && idx > 0 && (
-                  <div className="glass-glass-glass-my-2 glass-glass-glass-border-t glass-glass-glass-border-white/10" />
+                  <div className="my-2 border-t border-white/10" />
                 )}
                 {item?.href ? (
                   <a
@@ -110,11 +110,11 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
                     )}
                     onClick={(e) => setOpen(false)}
                   >
-                    <span className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-truncate">
-                      {item?.icon && <span className="glass-glass-glass-text-primary/80">{item?.icon}</span>}
-                      <span className="glass-glass-glass-truncate">{item?.label}</span>
+                    <span className="glass-inline-flex items-center gap-3 truncate">
+                      {item?.icon && <span className="text-primary/80">{item?.icon}</span>}
+                      <span className="truncate">{item?.label}</span>
                     </span>
-                    <ChevronRight className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary/40 group-hover:glass-glass-glass-text-primary/70" />
+                    <ChevronRight className="w-4 h-4 text-primary/40 group-hover:text-primary/70" />
                   </a>
                 ) : (
                   <button
@@ -127,14 +127,14 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
                         : 'glass-text-primary/90 hover:glass-text-primary hover:bg-white/10'
                     )}
                   >
-                    <span className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-truncate">
+                    <span className="glass-inline-flex items-center gap-3 truncate">
                       {item?.icon && (
                         <span className={cn(item?.variant === 'danger' ? 'text-red-400' : 'glass-text-primary/80')}>{item?.icon}</span>
                       )}
-                      <span className="glass-glass-glass-truncate">{item?.label}</span>
+                      <span className="truncate">{item?.label}</span>
                     </span>
                     {item?.variant !== 'danger' && (
-                      <ChevronRight className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary/40 group-hover:glass-glass-glass-text-primary/70" />
+                      <ChevronRight className="w-4 h-4 text-primary/40 group-hover:text-primary/70" />
                     )}
                   </button>
                 )}

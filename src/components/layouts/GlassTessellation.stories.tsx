@@ -84,14 +84,14 @@ const manyTiles: TessellationTile[] = [
 
 // Color-coded tiles
 const colorCodedTiles: TessellationTile[] = [
-  { id: 'red', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-red glass-radius-full" />, shape: 'triangle', color: '#EF4444' },
-  { id: 'blue', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-blue glass-radius-full" />, shape: 'hexagon', color: '#3B82F6' },
-  { id: 'green', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-green glass-radius-full" />, shape: 'square', color: '#10B981' },
-  { id: 'yellow', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-yellow glass-radius-full" />, shape: 'rhombus', color: '#F59E0B' },
-  { id: 'purple', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-primary glass-radius-full" />, shape: 'pentagon', color: '#8B5CF6' },
-  { id: 'pink', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 bg-pink-500 glass-radius-full" />, shape: 'hexagon', color: '#EC4899' },
-  { id: 'cyan', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-primary glass-radius-full" />, shape: 'triangle', color: '#06B6D4' },
-  { id: 'orange', content: <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-primary glass-radius-full" />, shape: 'square', color: '#EA580C' },
+  { id: 'red', content: <div className="w-4 h-4 glass-surface-red glass-radius-full" />, shape: 'triangle', color: '#EF4444' },
+  { id: 'blue', content: <div className="w-4 h-4 glass-surface-blue glass-radius-full" />, shape: 'hexagon', color: '#3B82F6' },
+  { id: 'green', content: <div className="w-4 h-4 glass-surface-green glass-radius-full" />, shape: 'square', color: '#10B981' },
+  { id: 'yellow', content: <div className="w-4 h-4 glass-surface-yellow glass-radius-full" />, shape: 'rhombus', color: '#F59E0B' },
+  { id: 'purple', content: <div className="w-4 h-4 glass-surface-primary glass-radius-full" />, shape: 'pentagon', color: '#8B5CF6' },
+  { id: 'pink', content: <div className="w-4 h-4 bg-pink-500 glass-radius-full" />, shape: 'hexagon', color: '#EC4899' },
+  { id: 'cyan', content: <div className="w-4 h-4 glass-surface-primary glass-radius-full" />, shape: 'triangle', color: '#06B6D4' },
+  { id: 'orange', content: <div className="w-4 h-4 glass-surface-primary glass-radius-full" />, shape: 'square', color: '#EA580C' },
 ];
 
 const meta = {

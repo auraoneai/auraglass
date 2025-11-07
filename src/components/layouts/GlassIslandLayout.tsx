@@ -445,10 +445,10 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
       const minimapHeight = 150
 
       return (
-        <div className="glass-glass-glass-absolute top-4 right-4 w-50 h-38 glass-surface-dark/50 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-p-2">
-          <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/70 glass-glass-glass-mb-1">Overview</div>
+        <div className="absolute top-4 right-4 w-50 h-38 glass-surface-dark/50 border border-white/20 glass-radius-lg p-2">
+          <div className="text-xs text-primary/70 mb-1">Overview</div>
           <div 
-            className="glass-glass-glass-relative glass-surface-dark/30 glass-radius"
+            className="relative glass-surface-dark/30 glass-radius"
             style={{ width: minimapWidth, height: minimapHeight }}
           >
             {layoutIslands.map(island => (
@@ -468,7 +468,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
             
             {/* Viewport indicator */}
             <div
-              className="glass-glass-glass-absolute glass-glass-glass-border glass-glass-glass-border-blue glass-glass-glass-pointer-events-none"
+              className="absolute border border-blue pointer-events-none"
               style={{
                 left: -viewportOffset.x * minimapScale / currentZoom,
                 top: -viewportOffset.y * minimapScale / currentZoom,
@@ -486,7 +486,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         absolute bottom-4 left-4 p-3 rounded-lg border border-white/10
         ${createGlassStyle({ blur: 'sm', opacity: 0.8 }).background}
       `}>
-        <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/90 space-y-1">
+        <div className="text-xs text-primary/90 space-y-1">
           <div>Islands: {layoutIslands.length}</div>
           <div>Connections: {connections.length}</div>
           <div>Zoom: {Math.round(currentZoom * 100)}%</div>
@@ -496,9 +496,9 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
     )
 
     const Controls = () => (
-      <div className="glass-glass-glass-absolute top-4 left-4 glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-space-y-2">
+      <div className="absolute top-4 left-4 flex flex-col space-y-2">
         <motion.button
-          className="glass-glass-glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-text-primary transition-colors"
+          className="p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 border border-white/20 glass-radius-lg text-primary transition-colors"
           whileHover={shouldAnimate ? { scale: 1.05 } : {}}
           whileTap={shouldAnimate ? { scale: 0.95 } : {}}
           onClick={() => setCurrentZoom(prev => Math.min(3, prev * 1.2))}
@@ -507,7 +507,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         </motion.button>
         
         <motion.button
-          className="glass-glass-glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-text-primary transition-colors"
+          className="p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 border border-white/20 glass-radius-lg text-primary transition-colors"
           whileHover={shouldAnimate ? { scale: 1.05 } : {}}
           whileTap={shouldAnimate ? { scale: 0.95 } : {}}
           onClick={() => setCurrentZoom(prev => Math.max(0.2, prev / 1.2))}
@@ -527,7 +527,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         </motion.button>
         
         <motion.button
-          className="glass-glass-glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg glass-glass-glass-text-primary transition-colors"
+          className="p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 border border-white/20 glass-radius-lg text-primary transition-colors"
           whileHover={shouldAnimate ? { scale: 1.05 } : {}}
           whileTap={shouldAnimate ? { scale: 0.95 } : {}}
           onClick={autoArrange}
@@ -546,19 +546,19 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         {...props}
       >
         {/* Header */}
-        <div className="glass-glass-glass-absolute top-0 left-0 right-0 glass-glass-glass-p-4 glass-glass-glass-z-10">
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="absolute top-0 left-0 right-0 p-4 z-10">
+          <div className="flex items-center justify-between">
             <div>
-              <h3 className="glass-glass-glass-text-xl glass-glass-glass-font-semibold glass-glass-glass-text-primary/90">
+              <h3 className="text-xl font-semibold text-primary/90">
                 Island Layout
               </h3>
-              <p className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+              <p className="text-sm text-primary/60">
                 Floating content islands with connections
               </p>
             </div>
             
             {connectionMode && (
-              <div className="glass-glass-glass-px-3 glass-glass-glass-py-1 glass-surface-blue/20 glass-glass-glass-border glass-glass-glass-border-blue/50 glass-radius-lg glass-text-secondary glass-glass-glass-text-sm">
+              <div className="px-3 py-1 glass-surface-blue/20 border border-blue/50 glass-radius-lg glass-text-secondary text-sm">
                 {pendingConnection ? 'Select target island' : 'Select source island'}
               </div>
             )}
@@ -568,7 +568,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         {/* Main container */}
         <div
           ref={containerRef}
-          className="glass-glass-glass-absolute glass-glass-glass-inset-0 overflow-hidden cursor-move"
+          className="absolute inset-0 overflow-hidden cursor-move"
           style={{
             transform: `scale(${currentZoom}) translate(${viewportOffset.x}px, ${viewportOffset.y}px)`,
             transformOrigin: '0 0'
@@ -577,7 +577,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
           {/* Grid background */}
           {showGrid && (
             <div 
-              className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-opacity-10"
+              className="absolute inset-0 opacity-10"
               style={{
                 backgroundImage: `
                   linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
@@ -591,7 +591,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
           {/* Canvas for connections */}
           <canvas
             ref={canvasRef}
-            className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             width={2000}
             height={2000}
           />
@@ -624,9 +624,9 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                 {!island.minimized && island.content}
                 
                 {/* Island controls */}
-                <div className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 glass-glass-glass-flex space-x-1 opacity-0 hover:opacity-100 transition-opacity">
+                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 flex space-x-1 opacity-0 hover:opacity-100 transition-opacity">
                   {island.category && (
-                    <span className="glass-glass-glass-px-2 glass-glass-glass-py-1 glass-surface-dark/30 glass-glass-glass-text-primary/70 glass-radius glass-glass-glass-text-xs">
+                    <span className="px-2 py-1 glass-surface-dark/30 text-primary/70 glass-radius text-xs">
                       {island.category}
                     </span>
                   )}
@@ -640,7 +640,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                           : i
                       ))
                     }}
-                    className="glass-glass-glass-w-6 glass-glass-glass-h-6 glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius glass-glass-glass-text-primary/80 glass-glass-glass-text-xs transition-colors"
+                    className="w-6 h-6 glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius text-primary/80 text-xs transition-colors"
                   >
                     {island.minimized ? '□' : '_'}
                   </button>
@@ -649,7 +649,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                 {/* Resize handle */}
                 {enableResizing && !island.minimized && (
                   <div
-                    className="glass-glass-glass-absolute bottom-0 right-0 glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-subtle/20 cursor-se-resize opacity-0 hover:opacity-100 transition-opacity"
+                    className="absolute bottom-0 right-0 w-4 h-4 glass-surface-subtle/20 cursor-se-resize opacity-0 hover:opacity-100 transition-opacity"
                     onMouseDown={(e) => {
                       e.stopPropagation()
                       setIsResizing(island.id)

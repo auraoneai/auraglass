@@ -51,7 +51,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-4 glass-glass-glass-items-center">
+    <div className="flex flex-wrap gap-4 items-center">
       <GlassBadge {...args} variant="primary">Primary</GlassBadge>
       <GlassBadge {...args} variant="secondary">Secondary</GlassBadge>
       <GlassBadge {...args} variant="success">Success</GlassBadge>

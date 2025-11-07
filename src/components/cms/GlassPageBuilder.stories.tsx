@@ -439,19 +439,19 @@ export const InteractiveShowcase: Story = {
     };
 
     return (
-      <div className="glass-glass-glass-h-screen glass-glass-glass-flex glass-glass-glass-flex-col">
-        <div className="glass-surface-subtle glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-blue-200">
-          <h2 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-2">
+      <div className="h-screen flex flex-col">
+        <div className="glass-surface-subtle p-4 border-b border-blue-200">
+          <h2 className="text-lg font-semibold text-primary mb-2">
             🚀 Interactive Page Builder Showcase
           </h2>
-          <p className="glass-glass-glass-text-primary glass-glass-glass-text-sm glass-glass-glass-mb-3">
+          <p className="text-primary text-sm mb-3">
             This demo shows all the advanced features working together with callback integration.
           </p>
           
           {/* Action Log */}
-          <div className="glass-surface-subtle glass-radius glass-glass-glass-p-3 glass-glass-glass-mb-3">
-            <div className="glass-glass-glass-text-xs glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-mb-2">Activity Log:</div>
-            <div className="space-y-1 glass-glass-glass-text-xs glass-text-secondary max-glass-glass-glass-h-20 glass-glass-glass-overflow-y-auto">
+          <div className="glass-surface-subtle glass-radius p-3 mb-3">
+            <div className="text-xs font-medium glass-text-secondary mb-2">Activity Log:</div>
+            <div className="space-y-1 text-xs glass-text-secondary max-h-20 overflow-y-auto">
               {logs.length === 0 ? (
                 <div className="glass-text-secondary italic">Waiting for actions...</div>
               ) : (
@@ -463,31 +463,31 @@ export const InteractiveShowcase: Story = {
           </div>
 
           {/* Feature Highlights */}
-          <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-1 md:glass-glass-glass-glass-glass-grid-cols-4 glass-glass-glass-gap-4 glass-glass-glass-text-sm">
-            <div className="glass-surface-subtle glass-radius glass-glass-glass-p-3 glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-lg glass-glass-glass-mb-1">🎨</div>
-              <div className="glass-glass-glass-font-medium glass-text-secondary">Visual Builder</div>
-              <div className="glass-text-secondary glass-glass-glass-text-xs">Drag & drop components</div>
+          <div className="grid glass-grid-cols-1 md:glass-grid-cols-4 gap-4 text-sm">
+            <div className="glass-surface-subtle glass-radius p-3 text-center">
+              <div className="text-lg mb-1">🎨</div>
+              <div className="font-medium glass-text-secondary">Visual Builder</div>
+              <div className="glass-text-secondary text-xs">Drag & drop components</div>
             </div>
-            <div className="glass-surface-subtle glass-radius glass-glass-glass-p-3 glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-lg glass-glass-glass-mb-1">⚡</div>
-              <div className="glass-glass-glass-font-medium glass-text-secondary">Real-time Editing</div>
-              <div className="glass-text-secondary glass-glass-glass-text-xs">Instant property updates</div>
+            <div className="glass-surface-subtle glass-radius p-3 text-center">
+              <div className="text-lg mb-1">⚡</div>
+              <div className="font-medium glass-text-secondary">Real-time Editing</div>
+              <div className="glass-text-secondary text-xs">Instant property updates</div>
             </div>
-            <div className="glass-surface-subtle glass-radius glass-glass-glass-p-3 glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-lg glass-glass-glass-mb-1">📱</div>
-              <div className="glass-glass-glass-font-medium glass-text-secondary">Responsive</div>
-              <div className="glass-text-secondary glass-glass-glass-text-xs">Multi-device preview</div>
+            <div className="glass-surface-subtle glass-radius p-3 text-center">
+              <div className="text-lg mb-1">📱</div>
+              <div className="font-medium glass-text-secondary">Responsive</div>
+              <div className="glass-text-secondary text-xs">Multi-device preview</div>
             </div>
-            <div className="glass-surface-subtle glass-radius glass-glass-glass-p-3 glass-glass-glass-text-center">
-              <div className="glass-glass-glass-text-lg glass-glass-glass-mb-1">💾</div>
-              <div className="glass-glass-glass-font-medium glass-text-secondary">Export/Import</div>
-              <div className="glass-text-secondary glass-glass-glass-text-xs">JSON data format</div>
+            <div className="glass-surface-subtle glass-radius p-3 text-center">
+              <div className="text-lg mb-1">💾</div>
+              <div className="font-medium glass-text-secondary">Export/Import</div>
+              <div className="glass-text-secondary text-xs">JSON data format</div>
             </div>
           </div>
         </div>
 
-        <div className="glass-glass-glass-flex-1">
+        <div className="flex-1">
           <GlassPageBuilder
             initialData={sampleLandingPageData}
             onSave={(data) => {

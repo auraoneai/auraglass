@@ -366,7 +366,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
         {...props}
       >
         {/* Header */}
-        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between">
+        <div className="flex items-center justify-between">
           <div>
             <h3 className={cn("glass-text-lg glass-font-semibold glass-text-primary")}>
               Wave Function Visualization

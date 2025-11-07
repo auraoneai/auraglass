@@ -320,7 +320,7 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
 
     if (item?.separator) {
         return (
-            <div className="glass-glass-glass-h-px glass-surface-subtle/20 glass-glass-glass-mx-4 glass-glass-glass-my-2" />
+            <div className="h-px glass-surface-subtle/20 mx-4 my-2" />
         );
     }
 
@@ -349,13 +349,13 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                     type="button"
                 >
                     {item?.icon && (
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
+                        <div className="flex items-center justify-center">
                             {item?.icon}
                         </div>
                     )}
 
                     {item?.badge && (
-                        <div className="glass-glass-glass-absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-red glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs glass-glass-glass-font-bold glass-glass-glass-text-primary">
+                        <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-5 h-5 glass-surface-red glass-radius-full flex items-center justify-center text-xs font-bold text-primary">
                             {typeof item?.badge === 'number' && item?.badge > 99 ? '99+' : item?.badge}
                         </div>
                     )}
@@ -388,30 +388,30 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                 disabled={item?.disabled}
                 type="button"
             >
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+                <div className="flex items-center gap-3 flex-1 min-glass-w-0">
                     {/* Icon */}
                     {item?.icon && (
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-flex-shrink-0">
+                        <div className="flex items-center justify-center flex-shrink-0">
                             {item?.icon}
                         </div>
                     )}
 
                     {/* Content */}
-                    <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0 glass-glass-glass-text-left">
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                            <span className="glass-glass-glass-truncate glass-glass-glass-font-medium">
+                    <div className="flex-1 min-glass-w-0 text-left">
+                        <div className="flex items-center gap-2">
+                            <span className="truncate font-medium">
                                 {item?.label}
                             </span>
 
                             {item?.badge && (
-                                <span className="glass-glass-glass-flex-shrink-0 glass-glass-glass-px-2 glass-glass-glass-py-0.5 glass-surface-red/20 glass-text-secondary glass-radius-full glass-glass-glass-text-xs glass-glass-glass-font-medium">
+                                <span className="flex-shrink-0 px-2 py-0.5 glass-surface-red/20 glass-text-secondary glass-radius-full text-xs font-medium">
                                     {typeof item?.badge === 'number' && item?.badge > 99 ? '99+' : item?.badge}
                                 </span>
                             )}
                         </div>
 
                         {item?.description && (
-                            <p className="glass-glass-glass-text-primary/50 glass-glass-glass-text-sm glass-glass-glass-truncate glass-mt-0-5">
+                            <p className="text-primary/50 text-sm truncate glass-mt-0-5">
                                 {item?.description}
                             </p>
                         )}
@@ -419,31 +419,31 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                 </div>
 
                 {/* Right side actions */}
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2 glass-glass-glass-flex-shrink-0">
+                <div className="flex items-center gap-2 flex-shrink-0">
                     {/* External link indicator */}
                     {item?.external && (
-                        <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-glass-glass-text-primary/50">
+                        <div className="w-3 h-3 text-primary/50">
                             ↗
                         </div>
                     )}
 
                     {/* Featured indicator */}
                     {item?.featured && (
-                        <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-yellow glass-radius-full animate-pulse" />
+                        <div className="w-2 h-2 glass-surface-yellow glass-radius-full animate-pulse" />
                     )}
 
                     {/* Submenu toggle */}
                     {item?.children && item?.children.length > 0 && (
                         <button
                             onClick={handleSubmenuToggle}
-                            className="glass-glass-glass-p-1 hover:glass-surface-subtle/10 glass-radius-md transition-colors duration-200"
+                            className="p-1 hover:glass-surface-subtle/10 glass-radius-md transition-colors duration-200"
                             aria-label="Toggle submenu"
                         >
                             <Motion
                                 preset="rotateIn"
                                 duration={200}
                             >
-                                <ChevronRight className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-text-primary/50" />
+                                <ChevronRight className="w-4 h-4 text-primary/50" />
                             </Motion>
                         </button>
                     )}

@@ -242,7 +242,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
             // Create a lightweight glass ghost for drag image
             const ghost = document.createElement('div');
-            ghost.className='glass-glass-glass-pointer-events-none glass-glass-glass-px-3 glass-glass-glass-py-1.5 glass-radius-lg glass-surface-dark/40 ring-1 ring-white/10 glass-glass-glass-text-primary glass-glass-glass-text-sm backdrop-blur-md glass-glass-glass-shadow-xl';
+            ghost.className='pointer-events-none px-3 py-1.5 glass-radius-lg glass-surface-dark/40 ring-1 ring-white/10 text-primary text-sm backdrop-blur-md shadow-xl';
             ghost.textContent = file.name;
             document.body.appendChild(ghost);
             event.dataTransfer.setDragImage(ghost, 10, 10);
@@ -268,7 +268,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
         const getFileIcon = useCallback((file: FileItem) => {
             if (file.type === 'folder') {
-                return <Folder className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />;
+                return <Folder className="w-5 h-5 text-primary" />;
             }
 
             const ext = file.extension?.toLowerCase();
@@ -278,20 +278,20 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                 case 'png':
                 case 'gif':
                 case 'webp':
-                    return <Image className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />;
+                    return <Image className="w-5 h-5 text-primary" />;
                 case 'mp4':
                 case 'avi':
                 case 'mov':
                 case 'mkv':
-                    return <Video className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />;
+                    return <Video className="w-5 h-5 text-primary" />;
                 case 'mp3':
                 case 'wav':
                 case 'flac':
-                    return <Music className="glass-glass-glass-w-5 glass-glass-glass-h-5 text-pink-400" />;
+                    return <Music className="w-5 h-5 text-pink-400" />;
                 case 'zip':
                 case 'rar':
                 case '7z':
-                    return <Archive className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />;
+                    return <Archive className="w-5 h-5 text-primary" />;
                 case 'js':
                 case 'ts':
                 case 'jsx':
@@ -303,9 +303,9 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                 case 'php':
                 case 'html':
                 case 'css':
-                    return <Code className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-glass-glass-text-primary" />;
+                    return <Code className="w-5 h-5 text-primary" />;
                 default:
-                    return <FileText className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-text-secondary" />;
+                    return <FileText className="w-5 h-5 glass-text-secondary" />;
             }
         }, []);
 
@@ -352,16 +352,16 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
             >
                 {/* Toolbar */}
                 {showToolbar && (
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-mb-4 pb-4 glass-glass-glass-border-b glass-glass-glass-border-white/20">
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                    <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/20">
+                        <div className="flex items-center gap-2">
                             <GlassButton
                                 variant="ghost"
                                 size="sm"
                                 onClick={(e) => onNavigate('/')}
                                 disabled={currentPath === '/'}
-                                className="glass-glass-glass-text-primary/70 hover:glass-glass-glass-text-primary"
+                                className="text-primary/70 hover:text-primary"
                             >
-                                <Home className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                <Home className="w-4 h-4" />
                             </GlassButton>
 
                             <GlassButton
@@ -372,30 +372,30 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                     onNavigate(parentPath);
                                 }}
                                 disabled={currentPath === '/'}
-                                className="glass-glass-glass-text-primary/70 hover:glass-glass-glass-text-primary"
+                                className="text-primary/70 hover:text-primary"
                             >
-                                <ArrowUp className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                <ArrowUp className="w-4 h-4" />
                             </GlassButton>
 
                             <GlassButton
                                 variant="ghost"
                                 size="sm"
                                 onClick={onRefresh}
-                                className="glass-glass-glass-text-primary/70 hover:glass-glass-glass-text-primary"
+                                className="text-primary/70 hover:text-primary"
                             >
-                                <RefreshCw className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                <RefreshCw className="w-4 h-4" />
                             </GlassButton>
                         </div>
 
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                        <div className="flex items-center gap-2">
                             {onFolderCreate && (
                                 <GlassButton
                                     variant="ghost"
                                     size="sm"
                                     onClick={(e) => setCreatingFolder(true)}
-                                    className="glass-glass-glass-text-primary/70 hover:glass-glass-glass-text-primary"
+                                    className="text-primary/70 hover:text-primary"
                                 >
-                                    <Plus className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-mr-1" />
+                                    <Plus className="w-4 h-4 glass-mr-1" />
                                     New Folder
                                 </GlassButton>
                             )}
@@ -406,9 +406,9 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                         variant="ghost"
                                         size="sm"
                                         onClick={(e) => fileInputRef.current?.click()}
-                                        className="glass-glass-glass-text-primary/70 hover:glass-glass-glass-text-primary"
+                                        className="text-primary/70 hover:text-primary"
                                     >
-                                        <Upload className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-mr-1" />
+                                        <Upload className="w-4 h-4 glass-mr-1" />
                                         Upload
                                     </GlassButton>
                                     <input
@@ -421,14 +421,14 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                 </>
                             )}
 
-                            <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-border glass-glass-glass-border-white/20 glass-radius-lg">
+                            <div className="flex items-center border border-white/20 glass-radius-lg">
                                 <GlassButton
                                     variant={viewMode === 'list' ? 'secondary' : 'ghost'}
                                     size="sm"
                                     onClick={(e) => onViewModeChange?.('list')}
-                                    className="glass-radius-r-none glass-glass-glass-border-r glass-glass-glass-border-white/20"
+                                    className="glass-radius-r-none border-r border-white/20"
                                 >
-                                    <List className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                    <List className="w-4 h-4" />
                                 </GlassButton>
                                 <GlassButton
                                     variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
@@ -436,7 +436,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                     onClick={(e) => onViewModeChange?.('grid')}
                                     className="glass-radius-l-none"
                                 >
-                                    <Grid className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                    <Grid className="w-4 h-4" />
                                 </GlassButton>
                             </div>
                         </div>
@@ -445,7 +445,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
                 {/* Breadcrumb */}
                 {showBreadcrumb && (
-                    <div className="glass-glass-glass-mb-4">
+                    <div className="mb-4">
                         <GlassBreadcrumb>
                             <GlassBreadcrumbItem>
                                 <GlassButton variant="ghost" size="sm" onClick={(e) => onNavigate('/')}>
@@ -469,21 +469,21 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
                 {/* Search */}
                 {showSearch && (
-                    <div className="glass-glass-glass-mb-4">
+                    <div className="mb-4">
                         <GlassInput
                             placeholder="Search files..."
                             value={searchQuery}
                             onChange={(e) => onSearchChange?.(e.target.value)}
-                            leftIcon={<Search className="glass-glass-glass-w-4 glass-glass-glass-h-4" />}
+                            leftIcon={<Search className="w-4 h-4" />}
                         />
                     </div>
                 )}
 
                 {/* File List/Grid */}
-                <div className="glass-glass-glass-flex-1 glass-glass-glass-overflow-auto">
+                <div className="flex-1 overflow-auto">
                     {loading ? (
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-py-8">
-                            <div className="glass-glass-glass-w-8 glass-glass-glass-h-8 glass-glass-glass-border-2 glass-glass-glass-border-white/30 glass-glass-glass-border-t-white glass-radius-full animate-spin" />
+                        <div className="flex items-center justify-center py-8">
+                            <div className="w-8 h-8 border-2 border-white/30 border-t-white glass-radius-full animate-spin" />
                         </div>
                     ) : (
                         <div className={cn(
@@ -504,7 +504,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                             dragOverItem === file.id && 'ring-2 ring-green-400'
                                         )}
                                     >
-                                        <div className="glass-glass-glass-relative">
+                                        <div className="relative">
                                                 <OptimizedGlass
                                                     elevation={'level1'}
                                                     interactive
@@ -523,44 +523,44 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                                     onDrop={(e: React.DragEvent) => handleDrop(e, file)}
                                                 >
                                                     {viewMode === 'grid' ? (
-                                                        <div className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-text-center">
+                                                        <div className="flex flex-col items-center text-center">
                                                             {file.thumbnail ? (
                                                                 <img
                                                                     src={file.thumbnail}
                                                                     alt={file.name}
-                                                                    className="glass-glass-glass-w-12 glass-glass-glass-h-12 object-cover glass-radius-md glass-glass-glass-mb-2"
+                                                                    className="w-12 h-12 object-cover glass-radius-md mb-2"
                                                                 />
                                                             ) : (
-                                                                <div className="glass-glass-glass-w-12 glass-glass-glass-h-12 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-mb-2">
+                                                                <div className="w-12 h-12 flex items-center justify-center mb-2">
                                                                     {getFileIcon(file)}
                                                                 </div>
                                                             )}
-                                                            <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary glass-glass-glass-font-medium glass-glass-glass-truncate glass-glass-glass-w-full">
+                                                            <div className="text-sm text-primary font-medium truncate w-full">
                                                                 {file.name}
                                                             </div>
                                                             {file.type === 'file' && file.size && (
-                                                                <div className="glass-glass-glass-text-xs glass-glass-glass-text-primary/60">
+                                                                <div className="text-xs text-primary/60">
                                                                     {formatFileSize(file.size)}
                                                                 </div>
                                                             )}
                                                         </div>
                                                     ) : (
                                                         <>
-                                                            <div className="glass-glass-glass-flex-shrink-0">
+                                                            <div className="flex-shrink-0">
                                                                 {file.thumbnail ? (
                                                                     <img
                                                                         src={file.thumbnail}
                                                                         alt={file.name}
-                                                                        className="glass-glass-glass-w-8 glass-glass-glass-h-8 object-cover glass-radius-md"
+                                                                        className="w-8 h-8 object-cover glass-radius-md"
                                                                     />
                                                                 ) : (
                                                                     getFileIcon(file)
                                                                 )}
                                                             </div>
 
-                                                            <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+                                                            <div className="flex-1 min-w-0">
                                                                 {renamingFile === file.id ? (
-                                                                    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+                                                                    <div className="flex items-center gap-2">
                                                                         <GlassInput
                                                                             value={newName}
                                                                             onChange={(e) => setNewName(e.target.value)}
@@ -569,29 +569,29 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                                                                 if (e.key === 'Escape') setRenamingFile(null);
                                                                             }}
                                                                             autoFocus
-                                                                            className="glass-glass-glass-flex-1 glass-pulse-ring"
+                                                                            className="flex-1 glass-pulse-ring"
                                                                         />
                                                                         <GlassButton
                                                                             variant="ghost"
                                                                             size="sm"
                                                                             onClick={handleRenameSubmit}
                                                                         >
-                                                                            <Check className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                                                            <Check className="w-4 h-4" />
                                                                         </GlassButton>
                                                                         <GlassButton
                                                                             variant="ghost"
                                                                             size="sm"
                                                                             onClick={(e) => setRenamingFile(null)}
                                                                         >
-                                                                            <X className="glass-glass-glass-w-4 glass-glass-glass-h-4" />
+                                                                            <X className="w-4 h-4" />
                                                                         </GlassButton>
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-truncate">
+                                                                    <div className="font-medium text-primary truncate">
                                                                         {file.name}
                                                                     </div>
                                                                 )}
-                                                                <div className="glass-glass-glass-text-sm glass-glass-glass-text-primary/60">
+                                                                <div className="text-sm text-primary/60">
                                                                     {file.type === 'file' ? formatFileSize(file.size) : 'Folder'}
                                                                     {file.modifiedAt && ` • ${formatDate(file.modifiedAt)}`}
                                                                 </div>
@@ -604,14 +604,14 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                                 <GlassButton
                                                     variant="ghost"
                                                     size="sm"
-                                                    className="glass-glass-glass-absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 glass-glass-glass-w-6 glass-glass-glass-h-6 glass-glass-glass-p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20"
+                                                    className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 w-6 h-6 p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         // Simple action - could be expanded to show a menu
                                                         handleContextMenuAction('open', file);
                                                     }}
                                                 >
-                                                    <MoreVertical className="glass-glass-glass-w-3 glass-glass-glass-h-3" />
+                                                    <MoreVertical className="w-3 h-3" />
                                                 </GlassButton>
                                             </div>
                                     </motion.div>
@@ -623,22 +623,22 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
                 {/* Create Folder Dialog */}
                 {creatingFolder && (
-                    <div className="glass-glass-glass-fixed glass-glass-glass-inset-0 glass-surface-dark/50 backdrop-blur-md glass-glass-glass-z-50 glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center">
-                        <OptimizedGlass elevation={'level2'} className="glass-radius-lg glass-glass-glass-p-6 max-w-md glass-glass-glass-w-full glass-glass-glass-mx-4">
-                            <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-text-primary glass-glass-glass-mb-4">Create New Folder</h3>
+                    <div className="fixed inset-0 glass-surface-dark/50 backdrop-blur-md z-50 flex items-center justify-center">
+                        <OptimizedGlass elevation={'level2'} className="glass-radius-lg p-6 max-w-md w-full mx-4">
+                            <h3 className="text-lg font-semibold text-primary mb-4">Create New Folder</h3>
                             <GlassInput
                                 placeholder="Folder name..."
                                 value={newFolderName}
                                 onChange={(e) => setNewFolderName(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
-                                className="glass-glass-glass-mb-4"
+                                className="mb-4"
                                 autoFocus
                             />
-                            <div className="glass-glass-glass-flex glass-glass-glass-gap-2">
+                            <div className="flex gap-2">
                                 <GlassButton
                                     variant="ghost"
                                     onClick={(e) => setCreatingFolder(false)}
-                                    className="glass-glass-glass-flex-1"
+                                    className="flex-1"
                                 >
                                     Cancel
                                 </GlassButton>
@@ -646,7 +646,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                     variant="primary"
                                     onClick={handleCreateFolder}
                                     disabled={!newFolderName.trim()}
-                                    className="glass-glass-glass-flex-1"
+                                    className="flex-1"
                                 >
                                     Create
                                 </GlassButton>

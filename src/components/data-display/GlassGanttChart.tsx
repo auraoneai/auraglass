@@ -401,7 +401,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
           onMouseDown={(e: React.MouseEvent) => handleTaskDragStart(e, task.id, 'move')}
         >
           {/* Task Bar */}
-          <div className="glass-glass-glass-relative glass-glass-glass-h-full glass-glass-glass-flex glass-glass-glass-items-center">
+          <div className="relative h-full flex items-center">
             {/* Status Color */}
             <div 
               className={cn(
@@ -413,19 +413,19 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
             {/* Progress Bar */}
             {viewOptions.showProgress && task.progress > 0 && (
               <div
-                className="glass-glass-glass-absolute left-1 glass--glass--glass--glass--glassglass--glass-top-1 bottom-1 glass-surface-primary/30 glass-radius-sm transition-all duration-300"
+                className="absolute left-1 glass--glass--glass--glass--glassglass--glass-top-1 bottom-1 glass-surface-primary/30 glass-radius-sm transition-all duration-300"
                 style={{ width: `${(task.progress / 100) * (bounds.width - 8)}px` }}
                 onClick={(e: React.MouseEvent) => handleProgressUpdate(task.id, e, bounds.width - 8)}
               />
             )}
 
             {/* Task Content */}
-            <div className="glass-glass-glass-flex-1 glass-glass-glass-px-3 glass-glass-glass-min-glass-glass-w-0">
-              <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-truncate">
+            <div className="flex-1 px-3 min-w-0">
+              <div className="text-sm font-medium text-primary truncate">
                 {task.name}
               </div>
               {viewOptions.showResources && task.assignee && (
-                <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-truncate">
+                <div className="text-xs glass-text-secondary truncate">
                   {task.assignee.name}
                 </div>
               )}
@@ -433,7 +433,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
 
             {/* Progress Percentage */}
             {viewOptions.showProgress && (
-              <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-px-2">
+              <div className="text-xs glass-text-secondary px-2">
                 {task.progress}%
               </div>
             )}
@@ -442,11 +442,11 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
             {editable && isSelected && (
               <>
                 <div
-                  className="glass-glass-glass-absolute left-0 top-0 bottom-0 glass-glass-glass-w-1 cursor-ew-resize glass-surface-primary/20 hover:glass-surface-primary/40"
+                  className="absolute left-0 top-0 bottom-0 w-1 cursor-ew-resize glass-surface-primary/20 hover:glass-surface-primary/40"
                   onMouseDown={(e: React.MouseEvent) => handleTaskDragStart(e, task.id, 'resize-start')}
                 />
                 <div
-                  className="glass-glass-glass-absolute right-0 top-0 bottom-0 glass-glass-glass-w-1 cursor-ew-resize glass-surface-primary/20 hover:glass-surface-primary/40"
+                  className="absolute right-0 top-0 bottom-0 w-1 cursor-ew-resize glass-surface-primary/20 hover:glass-surface-primary/40"
                   onMouseDown={(e: React.MouseEvent) => handleTaskDragStart(e, task.id, 'resize-end')}
                 />
               </>
@@ -504,23 +504,23 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
       >
         <Motion
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-h-full glass-glass-glass-flex glass-glass-glass-flex-col"
+          className="h-full flex flex-col"
         >
           {/* Header */}
-          <div className="glass-glass-glass-flex glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/20">
+          <div className="flex border-b border-glass-border/20">
             {/* Task List Header */}
-            <div className="glass-glass-glass-w-64 glass-glass-glass-p-4 glass-glass-glass-border-r glass-glass-glass-border-glass-glass-glass-border/20 glass-surface-overlay">
-              <h3 className="glass-glass-glass-text-sm glass-glass-glass-font-semibold glass-glass-glass-text-primary">Tasks</h3>
+            <div className="w-64 p-4 border-r border-glass-border/20 glass-surface-overlay">
+              <h3 className="text-sm font-semibold text-primary">Tasks</h3>
             </div>
 
             {/* Timeline Header */}
             <div
               ref={timelineRef}
-              className="glass-glass-glass-flex-1 overflow-x-hidden glass-surface-overlay"
+              className="flex-1 overflow-x-hidden glass-surface-overlay"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               <div 
-                className="glass-glass-glass-flex glass-glass-glass-h-16"
+                className="flex h-16"
                 style={{ width: timeColumns.length * columnWidth }}
               >
                 {timeColumns.map((date, index) => {
@@ -547,11 +547,11 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
           </div>
 
           {/* Content */}
-          <div className="glass-glass-glass-flex glass-glass-glass-flex-1 overflow-hidden">
+          <div className="flex flex-1 overflow-hidden">
             {/* Task List */}
             <div 
               ref={taskListRef}
-              className="glass-glass-glass-w-64 glass-glass-glass-border-r glass-glass-glass-border-glass-glass-glass-border/20 overflow-y-hidden glass-surface-overlay"
+              className="w-64 border-r border-glass-border/20 overflow-y-hidden glass-surface-overlay"
             >
               <div>
                 {organizedTasks.map((task, index) => {
@@ -579,24 +579,24 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
                         }}
                       >
                         {showHierarchy && task.children && task.children.length > 0 && (
-                          <button className="glass-mr-2 glass-text-secondary hover:glass-glass-glass-text-primary">
+                          <button className="glass-mr-2 glass-text-secondary hover:text-primary">
                             ▼
                           </button>
                         )}
                         
-                        <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-                          <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-glass-glass-text-primary glass-glass-glass-truncate">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-primary truncate">
                             {task.name}
                           </div>
                           {task.assignee && (
-                            <div className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-truncate">
+                            <div className="text-xs glass-text-secondary truncate">
                               {task.assignee.name}
                             </div>
                           )}
                         </div>
 
                         {task.milestone && (
-                          <div className="glass-glass-glass-w-3 glass-glass-glass-h-3 glass-surface-primary glass-radius-full transform rotate-45 glass-ml-2" />
+                          <div className="w-3 h-3 glass-surface-primary glass-radius-full transform rotate-45 glass-ml-2" />
                         )}
                       </div>
                     </Motion>
@@ -608,18 +608,18 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
             {/* Chart Area */}
             <div 
               ref={chartRef}
-              className="glass-glass-glass-flex-1 glass-glass-glass-overflow-auto glass-glass-glass-relative"
+              className="flex-1 overflow-auto relative"
               onScroll={handleScroll}
             >
               <div 
-                className="glass-glass-glass-relative"
+                className="relative"
                 style={{ 
                   width: timeColumns.length * columnWidth,
                   height: organizedTasks.length * rowHeight
                 }}
               >
                 {/* Grid Lines */}
-                <div className="glass-glass-glass-absolute glass-glass-glass-inset-0">
+                <div className="absolute inset-0">
                   {/* Vertical lines */}
                   {timeColumns.map((date, index) => {
                     const isToday = viewOptions.showToday && 
@@ -643,7 +643,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
                   {organizedTasks.map((_, index) => (
                     <div
                       key={index}
-                      className="glass-glass-glass-absolute left-0 right-0 glass-glass-glass-border-b glass-glass-glass-border-glass-glass-glass-border/10"
+                      className="absolute left-0 right-0 border-b border-glass-border/10"
                       style={{ top: (index + 1) * rowHeight }}
                     />
                   ))}
@@ -684,7 +684,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
                     return (
                       <svg
                         key={`${task.id}-${depId}`}
-                        className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none"
+                        className="absolute pointer-events-none"
                         style={{
                           left: 0,
                           top: 0,
@@ -700,12 +700,12 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeDasharray="4,4"
-                          className="glass-glass-glass-text-primary/40"
+                          className="text-primary/40"
                         />
                         <polygon
                           points={`${taskPos.x - 6},${taskIndex * rowHeight + rowHeight / 2 - 3} ${taskPos.x},${taskIndex * rowHeight + rowHeight / 2} ${taskPos.x - 6},${taskIndex * rowHeight + rowHeight / 2 + 3}`}
                           fill="currentColor"
-                          className="glass-glass-glass-text-primary/40"
+                          className="text-primary/40"
                         />
                       </svg>
                     );

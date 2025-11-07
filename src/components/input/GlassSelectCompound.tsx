@@ -80,7 +80,7 @@ const GlassSelectTrigger = React.forwardRef<
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDown className="glass-glass-glass-h-4 glass-glass-glass-w-4 opacity-50 transition-transform group-data-[state=open]:rotate-180" />
+        <ChevronDown className="h-4 w-4 opacity-50 transition-transform group-data-[state=open]:rotate-180" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -183,9 +183,9 @@ const GlassSelectItem = React.forwardRef<
       )}
       {...props}
     >
-      <span className="glass-glass-glass-absolute left-2 glass-glass-glass-flex glass-glass-glass-h-3.5 glass-glass-glass-w-3.5 glass-glass-glass-items-center glass-glass-glass-justify-center">
+      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <Check className="glass-glass-glass-h-4 glass-glass-glass-w-4" />
+          <Check className="h-4 w-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
 
@@ -241,7 +241,7 @@ const GlassSelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUp className="glass-glass-glass-h-4 glass-glass-glass-w-4" />
+    <ChevronUp className="h-4 w-4" />
   </SelectPrimitive.ScrollUpButton>
 ));
 GlassSelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
@@ -259,7 +259,7 @@ const GlassSelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronDown className="glass-glass-glass-h-4 glass-glass-glass-w-4" />
+    <ChevronDown className="h-4 w-4" />
   </SelectPrimitive.ScrollDownButton>
 ));
 GlassSelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;

@@ -245,7 +245,7 @@ export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransition
     >
       {/* Liquid glass overlay */}
       <motion.div
-        className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: `radial-gradient(
             circle at ${50 + mousePos.x * 50}% ${50 + mousePos.y * 50}%,
@@ -260,7 +260,7 @@ export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransition
       />
 
       {/* Content */}
-      <div className="glass-glass-glass-relative glass-glass-glass-z-10">
+      <div className="relative z-10">
         {children}
       </div>
 
@@ -313,7 +313,7 @@ function LiquidRipples({ x, y, intensity, duration }: LiquidRipplesProps): JSX.E
       {ripples.map(ripple => (
         <motion.div
           key={ripple.id}
-          className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none"
+          className="absolute pointer-events-none"
           initial={{ scale: 0, opacity: 1 }}
           animate={{ scale: 3 * intensity, opacity: 0 }}
           exit={{ opacity: 0 }}
@@ -325,7 +325,7 @@ function LiquidRipples({ x, y, intensity, duration }: LiquidRipplesProps): JSX.E
             y: '-50%',
           }}
         >
-          <OptimizedGlass intensity="medium" blur="strong" className="glass-glass-glass-w-32 glass-glass-glass-h-32 glass-radius-full glass-glass-glass-border-2 glass-glass-glass-border-white/30" />
+          <OptimizedGlass intensity="medium" blur="strong" className="w-32 h-32 glass-radius-full border-2 border-white/30" />
         </motion.div>
       ))}
     </AnimatePresence>
@@ -352,7 +352,7 @@ function LiquidSplash({ x, y, intensity, duration }: LiquidSplashProps): JSX.Ele
         return (
           <motion.div
             key={i}
-            className="glass-glass-glass-absolute glass-glass-glass-pointer-events-none"
+            className="absolute pointer-events-none"
             initial={{
               x: `${50 + x * 50}%`,
               y: `${50 + y * 50}%`,
@@ -375,7 +375,7 @@ function LiquidSplash({ x, y, intensity, duration }: LiquidSplashProps): JSX.Ele
               translateY: '-50%',
             }}
           >
-            <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-radius-full glass-surface-primary" />
+            <div className="w-4 h-4 glass-radius-full glass-surface-primary" />
           </motion.div>
         );
       })}
@@ -458,7 +458,7 @@ export const GlassLiquidContainer = React.forwardRef<HTMLDivElement, GlassLiquid
       <OptimizedGlass
         intensity="subtle"
         blur="medium"
-        className="glass-glass-glass-w-full glass-glass-glass-h-full"
+        className="w-full h-full"
       >
         {children}
       </OptimizedGlass>

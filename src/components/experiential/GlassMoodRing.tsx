@@ -246,10 +246,10 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
       >
         <Motion
           preset={!prefersReducedMotion && respectMotionPreference ? "fadeIn" : "none"}
-          className="glass-glass-glass-flex glass-glass-glass-flex-col glass-glass-glass-items-center glass-glass-glass-gap-4"
+          className="flex flex-col items-center gap-4"
         >
           {/* Main Mood Ring */}
-          <div className="glass-glass-glass-relative">
+          <div className="relative">
             <Motion
               as="div"
               preset={!prefersReducedMotion && respectMotionPreference ? "scaleIn" : "none"}
@@ -291,7 +291,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                 }}
               >
                 {currentMood.icon && (
-                  <div className="glass-glass-glass-text-primary/90">
+                  <div className="text-primary/90">
                     {currentMood.icon}
                   </div>
                 )}
@@ -327,7 +327,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
           </div>
 
           {/* Mood Information */}
-          <div className="glass-glass-glass-text-center glass-glass-glass-gap-2">
+          <div className="text-center gap-2">
             {showLabels && (
               <Motion
                 preset={!prefersReducedMotion && respectMotionPreference ? "slideUp" : "none"}
@@ -360,7 +360,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
             <Motion
               preset={!prefersReducedMotion && respectMotionPreference ? "slideUp" : "none"}
               delay={200}
-              className="glass-glass-glass-flex glass-glass-glass-flex-wrap glass-glass-glass-gap-1 glass-glass-glass-justify-center max-w-xs"
+              className="flex flex-wrap gap-1 justify-center max-w-xs"
             >
               {moodStates.map((mood, index) => (
                 <button
@@ -388,7 +388,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
             <Motion
               preset={!prefersReducedMotion && respectMotionPreference ? "slideUp" : "none"}
               delay={300}
-              className="glass-glass-glass-flex glass-glass-glass-gap-2 glass-glass-glass-items-center glass-glass-glass-text-xs glass-text-secondary"
+              className="flex gap-2 items-center text-xs glass-text-secondary"
             >
               {autoTransition && (
                 <button
@@ -405,15 +405,15 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
               )}
 
               {biometricIntegration && (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                  <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-green glass-radius-full animate-pulse" />
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 glass-surface-green glass-radius-full animate-pulse" />
                   <span>Bio</span>
                 </div>
               )}
 
               {ambientResponse && (
-                <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1">
-                  <div className="glass-glass-glass-w-2 glass-glass-glass-h-2 glass-surface-blue glass-radius-full animate-pulse" />
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 glass-surface-blue glass-radius-full animate-pulse" />
                   <span>Ambient</span>
                 </div>
               )}

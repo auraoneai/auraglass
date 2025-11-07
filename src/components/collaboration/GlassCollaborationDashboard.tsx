@@ -27,7 +27,7 @@ const UserAvatar: React.FC<{
   const isActive = Date.now() - user.lastActive < 60000; // Active within last minute
 
   return (
-    <div className="glass-glass-glass-relative">
+    <div className="relative">
       {user.avatar ? (
         <img
           src={user.avatar}
@@ -101,19 +101,19 @@ const ActivityItem: React.FC<{ activity: CollaborationActivity; user?: Collabora
   };
 
   return (
-    <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 glass-glass-glass-p-2 glass-radius hover:glass-surface-subtle transition-colors">
-      <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
+    <div className="flex items-center gap-3 p-2 glass-radius hover:glass-surface-subtle transition-colors">
+      <div className="flex items-center gap-2">
         {user && <UserAvatar user={user} size="sm" showStatus={false} />}
-        <span className="glass-glass-glass-text-lg">{getActivityIcon()}</span>
+        <span className="text-lg">{getActivityIcon()}</span>
       </div>
       
-      <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
+      <div className="flex-1 min-glass-w-0">
         <p className={cn("text-sm", getActivityColor())}>
           {activity.description}
         </p>
       </div>
       
-      <span className="glass-glass-glass-text-xs glass-text-secondary whitespace-nowrap">
+      <span className="text-xs glass-text-secondary whitespace-nowrap">
         {formatTime(activity.timestamp)}
       </span>
     </div>
@@ -197,31 +197,31 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
     <div className={cn("fixed z-40", positionClasses[position], className)}>
       {!isExpanded ? (
         // Collapsed state
-        <Glass className="glass-glass-glass-p-3">
+        <Glass className="p-3">
           <button
             onClick={() => setIsExpanded(true)}
-            className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-3 hover:glass-surface-subtle glass-radius glass-glass-glass-p-2 transition-colors"
+            className="flex items-center gap-3 hover:glass-surface-subtle glass-radius p-2 transition-colors"
           >
-            <div className="glass-glass-glass-flex -space-x-2">
+            <div className="flex -space-x-2">
               {activeUsers.slice(0, 3).map(user => (
                 <UserAvatar key={user.id} user={user} size="sm" />
               ))}
               {activeUsers.length > 3 && (
-                <div className="glass-glass-glass-w-6 glass-glass-glass-h-6 glass-surface-subtle glass-text-secondary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs glass-glass-glass-border-2 glass-glass-glass-border-white">
+                <div className="w-6 h-6 glass-surface-subtle glass-text-secondary glass-radius-full flex items-center justify-center text-xs border-2 border-white">
                   +{activeUsers.length - 3}
                 </div>
               )}
             </div>
             
-            <div className="glass-glass-glass-text-left">
-              <div className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary">
+            <div className="text-left">
+              <div className="text-sm font-medium glass-text-secondary">
                 {activeUsers.length} online
               </div>
               <ConnectionStatus />
             </div>
             
             {unresolvedComments.length > 0 && (
-              <div className="glass-glass-glass-w-5 glass-glass-glass-h-5 glass-surface-red glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs">
+              <div className="w-5 h-5 glass-surface-red text-primary glass-radius-full flex items-center justify-center text-xs">
                 {unresolvedComments.length}
               </div>
             )}
@@ -229,27 +229,27 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
         </Glass>
       ) : (
         // Expanded state
-        <Glass className="glass-glass-glass-w-80 max-glass-glass-glass-h-96 overflow-hidden">
+        <Glass className="w-80 max-h-96 overflow-hidden">
           {/* Header */}
-          <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-between glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-subtle">
-            <h3 className="glass-glass-glass-font-semibold glass-text-secondary">Collaboration</h3>
+          <div className="flex items-center justify-between p-4 border-b border-subtle">
+            <h3 className="font-semibold glass-text-secondary">Collaboration</h3>
             <button
               onClick={() => setIsExpanded(false)}
-              className="glass-text-secondary hover:glass-text-secondary glass-glass-glass-p-1"
+              className="glass-text-secondary hover:glass-text-secondary p-1"
             >
               ✕
             </button>
           </div>
 
           {/* Connection Status */}
-          <div className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle glass-glass-glass-border-b glass-glass-glass-border-subtle">
+          <div className="px-4 py-2 glass-surface-subtle border-b border-subtle">
             <ConnectionStatus />
           </div>
 
           {/* Controls */}
           {showControls && (
-            <div className="glass-glass-glass-p-4 glass-glass-glass-border-b glass-glass-glass-border-subtle">
-              <div className="glass-glass-glass-grid glass-glass-glass-glass-glass-grid-cols-3 glass-glass-glass-gap-2">
+            <div className="p-4 border-b border-subtle">
+              <div className="grid glass-grid-cols-3 gap-2">
                 <button
                   onClick={toggleCursors}
                   className={cn(
@@ -275,7 +275,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                   <span>💬</span>
                   Comments
                   {unresolvedComments.length > 0 && (
-                    <div className="glass-glass-glass-absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-glass-glass-w-4 glass-glass-glass-h-4 glass-surface-red glass-glass-glass-text-primary glass-radius-full glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-justify-center glass-glass-glass-text-xs">
+                    <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full flex items-center justify-center text-xs">
                       {unresolvedComments.length}
                     </div>
                   )}
@@ -298,7 +298,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
           )}
 
           {/* Tabs */}
-          <div className="glass-glass-glass-flex glass-glass-glass-border-b glass-glass-glass-border-subtle">
+          <div className="flex border-b border-subtle">
             <button
               onClick={() => setActiveTab('users')}
               className={cn(
@@ -324,9 +324,9 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
           </div>
 
           {/* Content */}
-          <div className="glass-max-glass-glass-glass-h-64 glass-glass-glass-overflow-y-auto">
+          <div className="glass-max-h-64 overflow-y-auto">
             {activeTab === 'users' && showUserList && (
-              <div className="glass-glass-glass-p-4 glass-glass-glass-space-y-3">
+              <div className="p-4 space-y-3">
                 {activeUsers.map(user => {
                   const isCurrentUser = user.id === currentUser?.id;
                   const isActive = Date.now() - user.lastActive < 60000;
@@ -341,39 +341,39 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                     >
                       <UserAvatar user={user} size="md" />
                       
-                      <div className="glass-glass-glass-flex-1 glass-glass-glass-min-glass-glass-w-0">
-                        <div className="glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-2">
-                          <span className="glass-glass-glass-text-sm glass-glass-glass-font-medium glass-text-secondary glass-glass-glass-truncate">
+                      <div className="flex-1 min-glass-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium glass-text-secondary truncate">
                             {user.name}
                             {isCurrentUser && " (You)"}
                           </span>
                           {!isActive && (
-                            <span className="glass-glass-glass-text-xs glass-text-secondary">Away</span>
+                            <span className="text-xs glass-text-secondary">Away</span>
                           )}
                         </div>
-                        <span className="glass-glass-glass-text-xs glass-text-secondary glass-glass-glass-truncate">
+                        <span className="text-xs glass-text-secondary truncate">
                           {user.email}
                         </span>
                       </div>
                       
                       {user.cursor && (
-                        <span className="glass-glass-glass-text-xs glass-glass-glass-text-primary">📍</span>
+                        <span className="text-xs text-primary">📍</span>
                       )}
                     </div>
                   );
                 })}
                 
                 {activeUsers.length === 0 && (
-                  <div className="glass-glass-glass-text-center glass-glass-glass-py-6 glass-text-secondary">
-                    <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">👥</div>
-                    <p className="glass-glass-glass-text-sm">No users online</p>
+                  <div className="text-center py-6 glass-text-secondary">
+                    <div className="text-2xl mb-2">👥</div>
+                    <p className="text-sm">No users online</p>
                   </div>
                 )}
               </div>
             )}
 
             {activeTab === 'activity' && showActivityFeed && (
-              <div className="glass-glass-glass-p-4 space-y-1">
+              <div className="p-4 space-y-1">
                 {recentActivities.map(activity => {
                   const user = users.find(u => u.id === activity.userId);
                   return (
@@ -386,9 +386,9 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                 })}
                 
                 {recentActivities.length === 0 && (
-                  <div className="glass-glass-glass-text-center glass-glass-glass-py-6 glass-text-secondary">
-                    <div className="glass-glass-glass-text-2xl glass-glass-glass-mb-2">📊</div>
-                    <p className="glass-glass-glass-text-sm">No recent activity</p>
+                  <div className="text-center py-6 glass-text-secondary">
+                    <div className="text-2xl mb-2">📊</div>
+                    <p className="text-sm">No recent activity</p>
                   </div>
                 )}
               </div>
@@ -396,8 +396,8 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
           </div>
 
           {/* Footer Stats */}
-          <div className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-surface-subtle glass-glass-glass-border-t glass-glass-glass-border-subtle glass-glass-glass-text-xs glass-text-secondary">
-            <div className="glass-glass-glass-flex glass-glass-glass-justify-between">
+          <div className="px-4 py-2 glass-surface-subtle border-t border-subtle text-xs glass-text-secondary">
+            <div className="flex justify-between">
               <span>{comments.length} comments</span>
               <span>{activities.length} activities</span>
             </div>

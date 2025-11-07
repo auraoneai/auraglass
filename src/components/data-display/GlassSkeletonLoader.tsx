@@ -157,7 +157,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(({
 
         {text && (
           <OptimizedGlass
-            className="glass-glass-glass-px-4 glass-glass-glass-py-2 glass-radius-lg"
+            className="px-4 py-2 glass-radius-lg"
             intensity="subtle"
             elevation="level1"
           >

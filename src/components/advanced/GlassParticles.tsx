@@ -437,13 +437,13 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(({
     >
       <canvas
         ref={canvasRef}
-        className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-w-full glass-glass-glass-h-full"
+        className="absolute inset-0 w-full h-full"
         aria-hidden="true"
       />
       
       {/* Glass overlay */}
       <OptimizedGlass
-        className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none glass-glass-glass-opacity-30"
+        className="absolute inset-0 pointer-events-none opacity-30"
         intent="neutral"
         elevation="level1"
         blur="subtle"
@@ -483,11 +483,11 @@ export const GlassParticleEmitter = forwardRef<HTMLDivElement, GlassParticlesPro
     >
       {isActive && (
         <GlassParticles
-          className="glass-glass-glass-absolute glass-glass-glass-inset-0"
+          className="absolute inset-0"
           {...particleProps}
         />
       )}
-      <div className="glass-glass-glass-relative glass-glass-glass-z-10">
+      <div className="relative z-10">
         {children}
       </div>
     </div>

@@ -14,7 +14,7 @@ import { HeatGlassProps } from './types';
 
 // SVG filters for heat distortion effect
 const HeatDistortionFilters = React.memo(() => (
-  <svg width="0" height="0" className="glass-glass-glass-absolute invisible">
+  <svg width="0" height="0" className="absolute invisible">
     <defs>
       <filter id="heat-distortion-0">
         <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" seed="0" />
@@ -104,7 +104,7 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
 
         <Motion
           preset={shouldAnimate ? "pulseIn" : "none"}
-          className="glass-glass-glass-relative"
+          className="relative"
         >
           <OptimizedGlass
             ref={ref}
@@ -153,7 +153,7 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
           >
             {/* Heat radial gradient background */}
             <div 
-              className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none glass-radius-inherit -glass-glass-glass-z-10 glass-glass-glass-opacity-30"
+              className="absolute inset-0 pointer-events-none glass-radius-inherit -z-10 opacity-30"
               style={{
                 background: `radial-gradient(circle at 50% 50%, ${heatColor} 0%, transparent 70%)`,
               }}
@@ -180,7 +180,7 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
             {/* Enhanced hover glow */}
             {interactive && isHovered && (
               <div 
-                className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-glass-glass-pointer-events-none glass-radius-inherit transition-opacity duration-300"
+                className="absolute inset-0 pointer-events-none glass-radius-inherit transition-opacity duration-300"
                 style={{
                   boxShadow: `0 0 30px 10px ${heatColor}`,
                   opacity: 0.8,

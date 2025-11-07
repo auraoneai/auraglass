@@ -26,9 +26,9 @@ export function GlassTagInput({ value, onChange, placeholder = 'Add tag…', sug
   return (
     <OptimizedGlass elevation={'level1'} className={cn('glass-radius-xl glass-p-2 flex flex-wrap glass-gap-2', className)}>
       {value.map((t) => (
-        <span key={t} className="glass-inline-glass-glass-glass-flex glass-glass-glass-items-center glass-glass-glass-gap-1 glass-glass-glass-px-2 glass-glass-glass-py-1 glass-glass-glass-text-sm glass-radius-lg glass-surface-subtle/10 glass-glass-glass-border glass-glass-glass-border-white/20">
+        <span key={t} className="glass-inline-flex items-center gap-1 px-2 py-1 text-sm glass-radius-lg glass-surface-subtle/10 border border-white/20">
           {t}
-          <button onClick={(e) => remove(t)} className="glass-glass-glass-text-primary/60 hover:glass-glass-glass-text-primary">×</button>
+          <button onClick={(e) => remove(t)} className="text-primary/60 hover:text-primary">×</button>
         </span>
       ))}
       <input
@@ -43,13 +43,13 @@ export function GlassTagInput({ value, onChange, placeholder = 'Add tag…', sug
           }
         }}
         placeholder={placeholder}
-        className="glass-glass-glass-flex-1 min-w-[120px] glass-glass-glass-bg-transparent outline-none glass-glass-glass-text-sm placeholder:glass-glass-glass-text-primary/50"
+        className="flex-1 min-w-[120px] bg-transparent outline-none text-sm placeholder:text-primary/50"
       />
       {!!suggestions.length && input && (
-        <div className="glass-glass-glass-w-full -glass-glass-glass-mb-1">
-          <div className="glass-mt-1 glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/15 glass-surface-dark/20 glass-glass-glass-p-1">
+        <div className="w-full -mb-1">
+          <div className="glass-mt-1 glass-radius-lg border border-white/15 glass-surface-dark/20 p-1">
             {suggestions.filter(s => s.toLowerCase().includes(input.toLowerCase())).slice(0,6).map(s => (
-              <GlassButton key={s} variant="ghost" size="sm" className="glass-glass-glass-w-full glass-glass-glass-justify-start" onClick={(e) => add(s)}>
+              <GlassButton key={s} variant="ghost" size="sm" className="w-full justify-start" onClick={(e) => add(s)}>
                 {s}
               </GlassButton>
             ))}

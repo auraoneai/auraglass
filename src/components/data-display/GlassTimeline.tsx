@@ -158,12 +158,12 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
         >
           {showLine && (
             <div
-              className="glass-glass-glass-absolute top-8 left-0 right-0 glass-glass-glass-h-px bg-glass-glass-glass-border/20"
+              className="absolute top-8 left-0 right-0 h-px bg-border/20"
               style={{ backgroundColor: lineColor }}
             />
           )}
           {items.map((item, index) => (
-            <div key={item.id} className="glass-glass-glass-relative glass-glass-glass-flex-shrink-0 glass-glass-glass-min-glass-glass-w-0" role="listitem">
+            <div key={item.id} className="relative flex-shrink-0 min-w-0" role="listitem">
               {/* Dot */}
               <div
                 className={cn(
@@ -189,7 +189,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                     variantClasses[variant]
                   )}
                 >
-                  <div className="glass-glass-glass-min-glass-glass-w-0">
+                  <div className="min-w-0">
                     <div className={cn('font-medium text-foreground truncate', config.title)}>
                       {item.title}
                     </div>
@@ -235,7 +235,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
             const isLast = index === items.length - 1;
 
             return (
-              <li key={item.id} className="glass-glass-glass-relative" role="listitem">
+              <li key={item.id} className="relative" role="listitem">
                 {/* Dot */}
                 <span
                   className={cn(
@@ -260,14 +260,14 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                     variantClasses[variant]
                   )}
                 >
-                  <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-justify-between glass-glass-glass-gap-4">
-                    <div className="glass-glass-glass-flex glass-glass-glass-items-start glass-glass-glass-gap-3 glass-glass-glass-min-glass-glass-w-0 glass-glass-glass-flex-1">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3 min-w-0 flex-1">
                       {item.icon && (
-                        <div className="glass-glass-glass-flex-shrink-0 glass-text-secondary glass-mt-0-5">
+                        <div className="flex-shrink-0 glass-text-secondary glass-mt-0-5">
                           {item.icon}
                         </div>
                       )}
-                      <div className="glass-glass-glass-min-glass-glass-w-0 glass-glass-glass-flex-1">
+                      <div className="min-w-0 flex-1">
                         <div className={cn('font-medium text-foreground', config.title)}>
                           {item.title}
                         </div>
@@ -338,14 +338,14 @@ export const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemComp
           border="subtle"
           animation="none"
           performanceMode="medium"
-          className="glass-radius-lg glass-glass-glass-p-3"
+          className="glass-radius-lg p-3"
         >
-          <div className="glass-glass-glass-font-medium glass-glass-glass-text-primary">{item.title}</div>
+          <div className="font-medium text-primary">{item.title}</div>
           {item.subtitle && (
-            <div className="glass-glass-glass-text-sm glass-text-secondary glass-mt-1">{item.subtitle}</div>
+            <div className="text-sm glass-text-secondary glass-mt-1">{item.subtitle}</div>
           )}
           {item.time && (
-            <div className="glass-glass-glass-text-xs glass-text-secondary glass-mt-2">{item.time}</div>
+            <div className="text-xs glass-text-secondary glass-mt-2">{item.time}</div>
           )}
         </OptimizedGlass>
       </div>

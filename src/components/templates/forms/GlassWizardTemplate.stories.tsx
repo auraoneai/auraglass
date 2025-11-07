@@ -90,8 +90,8 @@ const sampleSteps = [
     description: 'Please review and confirm your information.',
     schema: [],
     component: (
-      <div className="glass-glass-glass-text-center glass-glass-glass-py-8">
-        <h3 className="glass-glass-glass-text-lg glass-glass-glass-font-semibold glass-glass-glass-mb-4">Ready to Complete Setup</h3>
+      <div className="text-center py-8">
+        <h3 className="text-lg font-semibold mb-4">Ready to Complete Setup</h3>
         <p className="glass-text-secondary">
           Please review your information and click Finish to complete the setup.
         </p>

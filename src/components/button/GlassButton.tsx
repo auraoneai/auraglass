@@ -595,7 +595,7 @@ export const GlassButton = forwardRef(function GlassButton(
         return (
           <>
             {loadingSpinner || (
-              <div className="glass-glass-glass-w-4 glass-glass-glass-h-4 glass-glass-glass-border-2 glass-glass-glass-border-current glass-glass-glass-border-t-transparent glass-radius-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-current border-t-transparent glass-radius-full animate-spin" />
             )}
             {!iconOnly && <span className="ml-2">{loadingText}</span>}
           </>
@@ -621,7 +621,7 @@ export const GlassButton = forwardRef(function GlassButton(
         <Motion
           preset={getAnimationPreset()}
           animateOnHover={animation !== 'none'}
-          className="inline-glass-glass-glass-block"
+          className="inline-block"
         >
           <Comp
             className={cn(
@@ -640,7 +640,7 @@ export const GlassButton = forwardRef(function GlassButton(
           >
             {renderContent()}
             {description && (
-              <span id={descriptionId} className="glass-glass-glass-sr-only">
+              <span id={descriptionId} className="sr-only">
                 {description}
               </span>
             )}
@@ -653,7 +653,7 @@ export const GlassButton = forwardRef(function GlassButton(
       <Motion
         preset={getAnimationPreset()}
         animateOnHover={animation !== 'none'}
-        className="inline-glass-glass-glass-block"
+        className="inline-block"
       >
         {material === 'liquid' ? (
           <LiquidGlassMaterial
@@ -722,13 +722,13 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
             {resolvedVariant === 'gradient' && (
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md" />
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md" />
             )}
-              <span className="glass-glass-glass-relative glass-glass-glass-z-10">
+              <span className="relative z-10">
                 {renderContent()}
               </span>
               {description && (
-                <span id={descriptionId} className="glass-glass-glass-sr-only">
+                <span id={descriptionId} className="sr-only">
                   {description}
                 </span>
               )}
@@ -777,13 +777,13 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
             {resolvedVariant === 'gradient' && (
-              <div className="glass-glass-glass-absolute glass-glass-glass-inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md" />
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md" />
             )}
-              <span className="glass-glass-glass-relative glass-glass-glass-z-10">
+              <span className="relative z-10">
                 {renderContent()}
               </span>
               {description && (
-                <span id={descriptionId} className="glass-glass-glass-sr-only">
+                <span id={descriptionId} className="sr-only">
                   {description}
                 </span>
               )}

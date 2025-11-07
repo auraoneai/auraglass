@@ -226,7 +226,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
   return (
     <>
       {/* Screen reader description */}
-      <span id={descriptionId} className="glass-glass-glass-sr-only">
+      <span id={descriptionId} className="sr-only">
         {ariaLabel || `Magnetic cursor (${variant})`}. Interactive cursor that follows mouse movement
         {morphTargets ? ' and morphs when hovering over magnetic elements' : ''}.
       </span>
@@ -284,7 +284,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
       {variant === 'trail' && trail.map((point, index) => (
         <motion.div
           key={point.id}
-          className="glass-glass-glass-fixed glass-glass-glass-pointer-events-none z-[9998]"
+          className="fixed pointer-events-none z-[9998]"
           initial={{ opacity: 0.5, scale: 1 }}
           animate={{ opacity: 0, scale: 0.5 }}
           exit={{ opacity: 0 }}
@@ -299,7 +299,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
           <OptimizedGlass
             intensity="subtle"
             blur="subtle"
-            className="glass-glass-glass-w-full glass-glass-glass-h-full glass-radius-full"
+            className="w-full h-full glass-radius-full"
             style={{
               background: color,
               opacity: 1 - (index / trailLength),
@@ -314,7 +314,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
         {variant === 'ripple' && ripples.map(ripple => (
           <motion.div
             key={ripple.id}
-            className="glass-glass-glass-fixed glass-glass-glass-pointer-events-none z-[9997]"
+            className="fixed pointer-events-none z-[9997]"
             initial={{ scale: 0, opacity: 1 }}
             animate={{ scale: 3, opacity: 0 }}
             exit={{ opacity: 0 }}
@@ -327,7 +327,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
             }}
           >
             <div
-              className="glass-glass-glass-w-20 glass-glass-glass-h-20 glass-radius-full glass-glass-glass-border-2"
+              className="w-20 h-20 glass-radius-full border-2"
               style={{
                 borderColor: color,
               }}
@@ -339,7 +339,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
       {/* Hover indicator */}
       {isHovering && targetElement && (
         <motion.div
-          className="glass-glass-glass-fixed glass-glass-glass-pointer-events-none z-[9996]"
+          className="fixed pointer-events-none z-[9996]"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
@@ -350,7 +350,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
             height: targetElement.getBoundingClientRect().height,
           }}
         >
-          <div className="glass-glass-glass-w-full glass-glass-glass-h-full glass-radius-lg glass-glass-glass-border glass-glass-glass-border-white/20" />
+          <div className="w-full h-full glass-radius-lg border border-white/20" />
         </motion.div>
       )}
     </>
