@@ -367,7 +367,7 @@ export const GlassColorTinting: React.FC<{
   className=''
 }) => {
   const { createGlassStyle } = useGlassEngine();
-  const [adaptiveTint, setAdaptiveTint] = useState(tintColor || 'rgba(255, 255, 255, 0.1)');
+  const [adaptiveTint, setAdaptiveTint] = useState(tintColor || 'var(--glass-bg-default)');
   const containerRef = useRef<HTMLDivElement>(null);
 
   const analyzeContent = useCallback(() => {

@@ -440,8 +440,8 @@ if (defaults?.font) {
   defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 }
 // Set colors safely
-defaults.color = '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}';
-defaults.borderColor = '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}';
+defaults.color = '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
+defaults.borderColor = '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
 
 /**
  * Register required Chart.js components
@@ -548,7 +548,7 @@ interface ZoomControlsProps {
 const zoomControlsStyle = createGlassStyle({ intent: "neutral", elevation: "level2" });
 
 const zoomLevelStyle = {
-  color: '${glassStyles.text?.primary || "rgba(255, 255, 255, 0.9)"}',
+  color: '${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"}',
   fontSize: 'var(--typography-caption-size)',
   padding: '0 8px',
   minWidth: '40px',
@@ -658,8 +658,8 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       showYGrid: true,
       showXLabels: true,
       showYLabels: true,
-      axisColor: '${glassStyles.borderColor || "rgba(255, 255, 255, 0.3)"}',
-      gridColor: '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}',
+      axisColor: '${glassStyles.borderColor || "var(--glass-bg-hover)"}',
+      gridColor: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
       gridStyle: 'solid',
     },
     initialSelection,
@@ -1274,7 +1274,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       
       if (subtitle) {
         exportContext.font = `${14 * devicePixelRatio}px Inter, sans-serif`;
-        exportContext.fillStyle = '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}';
+        exportContext.fillStyle = '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
         exportContext.fillText(subtitle, exportCanvas.width / 2, title ? 45 * devicePixelRatio : 25 * devicePixelRatio);
       }
     }

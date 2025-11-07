@@ -57,8 +57,8 @@ const defaultPalette: ColorPalette = {
   surface: '#1e293b',
   text: '#f8fafc',
   textSecondary: '#cbd5e1',
-  border: 'rgba(255, 255, 255, 0.1)',
-  glassBase: 'rgba(255, 255, 255, 0.1)',
+  border: 'var(--glass-bg-default)',
+  glassBase: 'var(--glass-bg-default)',
   glassTint: 'rgba(255, 255, 255, 0.05)'
 };
 
@@ -69,10 +69,10 @@ const darkThemePalette: ColorPalette = {
   accent: '#06b6d4',
   background: '#020617',
   surface: '#1e293b',
-  text: 'rgba(255, 255, 255, 0.95)',
+  text: 'var(--glass-text-primary)',
   textSecondary: 'rgba(255, 255, 255, 0.80)',
-  border: 'rgba(255, 255, 255, 0.15)',
-  glassBase: 'rgba(255, 255, 255, 0.15)',
+  border: 'var(--glass-bg-disabled)',
+  glassBase: 'var(--glass-bg-disabled)',
   glassTint: 'rgba(255, 255, 255, 0.08)'
 };
 

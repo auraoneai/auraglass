@@ -456,7 +456,7 @@ export function GlassTrophyCase({
             className="absolute inset-0 glass-radius-xl"
             style={{
               background: `radial-gradient(circle at center, ${tierColor.glow}20 0%, transparent 70%)`,
-              filter: 'blur(10px)'
+              filter: 'blur(var(--glass-blur-md))'
             }}
             animate={{
               scale: [1, 1.1, 1],

@@ -161,13 +161,13 @@ const getTabColors = (
     activeText: highContrast ? (isDarkMode ? '#FFFFFF' : '#000000') : selectedColor,
     inactiveText: isDarkMode
       ? highContrast
-        ? 'rgba(255, 255, 255, 0.8)'
-        : 'rgba(255, 255, 255, 0.6)'
+        ? 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'
+        : 'rgba(var(--glass-color-white) / var(--glass-opacity-60))'
       : highContrast
       ? 'rgba(0, 0, 0, 0.8)'
       : 'rgba(0, 0, 0, 0.6)',
     hoverBg: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
-    disabledText: isDarkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+    disabledText: isDarkMode ? 'var(--glass-bg-hover)' : 'rgba(var(--glass-color-black) / var(--glass-opacity-30))',
   };
 };
 

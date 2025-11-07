@@ -150,7 +150,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
           height: '60%',
           background: `radial-gradient(ellipse, ${color}08, transparent)`,
           borderRadius: '50%',
-          filter: 'blur(20px)',
+          filter: 'blur(var(--glass-blur-lg))',
           animation: isReducedMotion ? 'none' : 'pulse 8s ease-in-out infinite',
         }}
       />

@@ -193,7 +193,7 @@ export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransition
             opacity: 1,
           },
           animate: {
-            filter: isActive ? 'blur(8px)' : 'blur(0px)',
+            filter: isActive ? 'blur(var(--glass-blur-md))' : 'blur(0px)',
             opacity: isActive ? 0.7 : 1,
             scale: isActive ? 1.05 : 1,
           },

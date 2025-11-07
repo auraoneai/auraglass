@@ -388,7 +388,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
       const centerY = height / 2;
       
       // Clear canvas
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillStyle = 'rgba(var(--glass-color-black) / var(--glass-opacity-10))';
       ctx.fillRect(0, 0, width, height);
       
       // Apply distortion effects

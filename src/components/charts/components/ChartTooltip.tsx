@@ -43,19 +43,19 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
     background: tooltipStyle === 'frosted'
       ? 'rgba(0, 0, 0, 0.8)'
       : tooltipStyle === 'minimal'
-        ? 'rgba(255, 255, 255, 0.95)'
-        : '${glassStyles.text?.primary || "rgba(255, 255, 255, 0.9)"}',
+        ? 'var(--glass-text-primary)'
+        : '${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"}',
     // Use createGlassStyle() instead,
     border: tooltipStyle === 'frosted'
-      ? '1px solid ${glassStyles.borderColor || "rgba(255, 255, 255, 0.2)"}'
-      : '1px solid rgba(0, 0, 0, 0.1)',
+      ? '1px solid ${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'
+      : '1px solid rgba(var(--glass-color-black) / var(--glass-opacity-10))',
     borderRadius: '8px',
     padding: '8px 12px',
     fontSize: '0.75rem', // caption
     color: tooltipStyle === 'frosted' ? 'white' : 'black',
     pointerEvents: 'none',
     zIndex: 1000,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+    boxShadow: '0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15))',
     maxWidth: '200px',
     whiteSpace: 'nowrap',
   };

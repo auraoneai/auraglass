@@ -465,7 +465,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           (animationTime * 0.1 + 100) % width, 0
         );
         shimmerGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-        shimmerGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.8)');
+        shimmerGradient.addColorStop(0.5, 'rgba(var(--glass-color-white) / var(--glass-opacity-80))');
         shimmerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         
         ctx.fillStyle = shimmerGradient;

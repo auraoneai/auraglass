@@ -503,7 +503,7 @@ export const ProgressiveEnhancement: Story = {
               tiers={{
                 basic: {
                   background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  border: '1px solid rgba(var(--glass-color-black) / var(--glass-opacity-10))',
                   borderRadius: '8px'
                 },
                 enhanced: createGlassStyle({ intent: "neutral", elevation: "level2" }),
@@ -529,7 +529,7 @@ export const ProgressiveEnhancement: Story = {
               tiers={{
                 basic: {
                   background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  border: '1px solid rgba(var(--glass-color-black) / var(--glass-opacity-10))',
                   borderRadius: '8px'
                 },
                 enhanced: createGlassStyle({ intent: "neutral", elevation: "level2" }),
@@ -555,7 +555,7 @@ export const ProgressiveEnhancement: Story = {
               tiers={{
                 basic: {
                   background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  border: '1px solid rgba(var(--glass-color-black) / var(--glass-opacity-10))',
                   borderRadius: '8px'
                 },
                 enhanced: createGlassStyle({ intent: "neutral", elevation: "level2" }),

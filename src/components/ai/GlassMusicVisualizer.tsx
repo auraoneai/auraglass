@@ -226,7 +226,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
       const beat = detectBeat(frequencyArray)
 
       // Clear canvas
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
+      ctx.fillStyle = 'rgba(var(--glass-color-black) / var(--glass-opacity-10))'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       // Get colors for current scheme

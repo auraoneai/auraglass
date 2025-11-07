@@ -188,7 +188,7 @@ const Token = styled.div<{
   background: var(--glass-bg-default);
   backdrop-filter: var(--glass-backdrop-blur);
   border: 1px solid var(--glass-border-default);
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--glass-text-primary);
   transition: background-color 0.2s ease;
   user-select: none;
   transform: translate(${props => props.$translateX}px, ${props => props.$translateY}px)
@@ -242,7 +242,7 @@ const RemoveButton = styled.button`
   border: none;
   padding: 0;
   background-color: transparent;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   cursor: pointer;
   transition: background-color 0.2s ease;
   
@@ -266,7 +266,7 @@ const Input = styled.input<{ $size: 'small' | 'medium' | 'large' }>`
   border: none;
   outline: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-90));
   font-size: ${props => 
     props.$size === 'small' 
       ? '0.85rem' 
@@ -276,7 +276,7 @@ const Input = styled.input<{ $size: 'small' | 'medium' | 'large' }>`
   };
   
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--glass-border-hover);
   }
   
   &:disabled {
@@ -390,7 +390,7 @@ const GroupHeader = styled.div<{ $size: 'small' | 'medium' | 'large' }>`
   font-size: 0.8rem;
   font-weight: var(--typography-heading-weight);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-60));
   background: var(--glass-bg-default);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   letter-spacing: 0.5px;
@@ -398,7 +398,7 @@ const GroupHeader = styled.div<{ $size: 'small' | 'medium' | 'large' }>`
 
 const NoOptions = styled.div`
   padding: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--glass-border-hover);
   text-align: center;
   font-style: italic;
 `;
@@ -411,17 +411,17 @@ const ClearButton = styled.button`
   border: none;
   padding: 4px;
   margin-left: 4px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--glass-border-hover);
   cursor: pointer;
   transition: color 0.2s ease;
   
   &:hover {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   }
   
   &:focus {
     outline: none;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   }
   
   /* Icon sizing */
@@ -436,7 +436,7 @@ const LoadingIndicator = styled.div`
   align-items: center;
   justify-content: center;
   padding: 12px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-70));
   
   /* Simple loading spinner */
   .spinner {
@@ -461,7 +461,7 @@ const ErrorMessage = styled.div`
 `;
 
 const HelperText = styled.div`
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-60));
   font-size: 0.8rem;
   margin-top: 4px;
   padding-left: 4px;
@@ -472,7 +472,7 @@ const Label = styled.label`
   margin-bottom: 6px;
   font-size: 0.9rem;
   font-weight: var(--typography-subheading-weight);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
 `;
 
 // Interface for the wrapper props

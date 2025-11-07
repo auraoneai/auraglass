@@ -57,7 +57,7 @@ const getStateColor = (state: string, color: string): string => {
     case 'focus':
       return `rgba(${userColor}, 0.2)`;
     case 'disabled':
-      return '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}';
+      return '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
     case 'loading':
       return `rgba(${userColor}, 0.2)`;
     case 'success':

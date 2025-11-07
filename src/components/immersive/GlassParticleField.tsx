@@ -513,7 +513,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
 
       // Render debug info
       if (debug) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillStyle = 'rgba(var(--glass-color-white) / var(--glass-opacity-80))';
         ctx.font = '12px monospace';
         ctx.fillText(`Particles: ${particles.length}`, 10, 20);
         ctx.fillText(`FPS: ${frameRate}`, 10, 40);

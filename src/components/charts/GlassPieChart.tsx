@@ -257,7 +257,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(func
                                         <path
                                             d={segment.path}
                                             fill={segment.color}
-                                            stroke="rgba(255, 255, 255, 0.2)"
+                                            stroke="rgba(var(--glass-color-white) / var(--glass-opacity-20))"
                                             strokeWidth="1"
                                             className="cursor-pointer transition-all duration-200 hover:opacity-80"
                                             onMouseEnter={(e) => handleSegmentHover(segment, e)}
@@ -295,8 +295,8 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(func
                                             cx={centerX}
                                             cy={centerY}
                                             r={innerRadius}
-                                            fill="rgba(255, 255, 255, 0.1)"
-                                            stroke="rgba(255, 255, 255, 0.2)"
+                                            fill="var(--glass-bg-default)"
+                                            stroke="rgba(var(--glass-color-white) / var(--glass-opacity-20))"
                                             strokeWidth="1"
                                         />
                                         <text

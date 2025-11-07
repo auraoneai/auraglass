@@ -158,7 +158,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
     animate: {
       scale: [1, 1.05, 1],
       boxShadow: [
-        '0 0 0 0 rgba(255, 255, 255, 0.3)',
+        '0 0 0 0 var(--glass-bg-hover)',
         '0 0 0 20px rgba(255, 255, 255, 0)',
         '0 0 0 0 rgba(255, 255, 255, 0)',
       ],
@@ -189,7 +189,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
       scale: [0.8, 1.2, 1],
       opacity: [0.5, 1, 1],
       filter: [
-        'blur(10px) brightness(0.8)',
+        'blur(var(--glass-blur-md)) brightness(0.8)',
         'blur(0px) brightness(1.2)',
         'blur(0px) brightness(1)',
       ],
@@ -211,9 +211,9 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
   shimmer: {
     animate: {
       background: [
-        'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
-        'linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.4) 75%, transparent 100%)',
-        'linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.2) 100%, transparent 100%)',
+        'linear-gradient(90deg, transparent 0%, rgba(var(--glass-color-white) / var(--glass-opacity-20)) 50%, transparent 100%)',
+        'linear-gradient(90deg, transparent 25%, var(--glass-border-default) 75%, transparent 100%)',
+        'linear-gradient(90deg, transparent 50%, rgba(var(--glass-color-white) / var(--glass-opacity-20)) 100%, transparent 100%)',
       ],
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
     },

@@ -37,7 +37,7 @@ export const DimensionalGlass = forwardRef<HTMLDivElement, DimensionalGlassProps
       dynamicShadow = true,
       animate = false,
       zIndex = 1,
-      backgroundColor = 'rgba(255, 255, 255, 0.1)',
+      backgroundColor = 'var(--glass-bg-default)',
       maxTilt = 5,
       hoverScale = 1.02,
       animationConfig,

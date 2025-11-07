@@ -1093,7 +1093,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                 style={{
                   marginTop: '4px',
                   fontSize: '10px',
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  color: 'rgba(var(--glass-color-white) / var(--glass-opacity-60))',
                   fontStyle: 'italic'
                 }}
                 data-adaptation-indicator="true"

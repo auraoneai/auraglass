@@ -362,7 +362,7 @@ interface TouchRippleEffectsProps {
 
 export function TouchRippleEffects({
   children,
-  color = 'rgba(255, 255, 255, 0.3)',
+  color = 'var(--glass-bg-hover)',
   maxRipples = 3,
   rippleDuration = 600,
   className=''

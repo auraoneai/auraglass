@@ -510,17 +510,17 @@ export const seasonalPresets = {
 export const seasonalThemes = {
   winter: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    glassColor: 'rgba(255, 255, 255, 0.1)',
+    glassColor: 'var(--glass-bg-default)',
     accentColor: '#e3f2fd'
   },
   spring: {
     background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    glassColor: 'rgba(255, 255, 255, 0.15)',
+    glassColor: 'var(--glass-bg-disabled)',
     accentColor: '#fce4ec'
   },
   summer: {
     background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    glassColor: 'rgba(255, 255, 255, 0.1)',
+    glassColor: 'var(--glass-bg-default)',
     accentColor: '#fff3e0'
   },
   autumn: {

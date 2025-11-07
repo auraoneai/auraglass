@@ -284,7 +284,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         const toX = toIsland.x + toIsland.width / 2
         const toY = toIsland.y + toIsland.height / 2
 
-        ctx.strokeStyle = connection.color || 'rgba(255, 255, 255, 0.3)'
+        ctx.strokeStyle = connection.color || 'var(--glass-bg-hover)'
         ctx.lineWidth = (connection.strength || 1) * 2
 
         if (connection.type === 'dashed') {
@@ -309,7 +309,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
         const angle = Math.atan2(toY - controlY, toX - controlX)
         const arrowLength = 10
         
-        ctx.fillStyle = connection.color || 'rgba(255, 255, 255, 0.5)'
+        ctx.fillStyle = connection.color || 'var(--glass-border-hover)'
         ctx.beginPath()
         ctx.moveTo(toX, toY)
         ctx.lineTo(
@@ -580,8 +580,8 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
               className="absolute inset-0 opacity-10"
               style={{
                 backgroundImage: `
-                  linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                  linear-gradient(var(--glass-bg-default) 1px, transparent 1px),
+                  linear-gradient(90deg, var(--glass-bg-default) 1px, transparent 1px)
                 `,
                 backgroundSize: '50px 50px'
               }}

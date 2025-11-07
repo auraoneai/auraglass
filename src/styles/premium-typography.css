@@ -89,21 +89,21 @@ h6 {
 
 /* Perfect text contrast for glass components */
 .glass-text-dark {
-  color: rgba(255, 255, 255, 0.95) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  color: var(--glass-text-primary) !important;
+  text-shadow: 0 1px 3px rgba(var(--glass-color-black) / var(--glass-opacity-30));
 }
 
 .glass-text-light {
   color: rgba(0, 0, 0, 0.90) !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px var(--glass-bg-hover);
 }
 
 /* Auto text color based on theme */
 .glass-base,
 .glass-card,
 [class*="glass-"] {
-  color: rgba(255, 255, 255, 0.95) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  color: var(--glass-text-primary) !important;
+  text-shadow: 0 1px 3px rgba(var(--glass-color-black) / var(--glass-opacity-20));
 }
 
 /* Light mode adjustments */
@@ -111,7 +111,7 @@ h6 {
 .light .glass-card,
 .light [class*="glass-"] {
   color: rgba(0, 0, 0, 0.90) !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 1px 2px var(--glass-border-default);
 }
 
 /* Enhanced typography for glass components */
@@ -152,10 +152,10 @@ h6 {
   font-family: var(--font-mono);
   font-size: 0.9em;
   letter-spacing: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(var(--glass-color-black) / var(--glass-opacity-20));
   padding: 0.2em 0.4em;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-bg-default);
 }
 
 /* Enhanced button typography */
@@ -221,6 +221,6 @@ code, pre {
   .light .glass-card,
   .light [class*="glass-"] {
     color: #000000 !important;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8) !important;
+    text-shadow: 0 0 4px rgba(var(--glass-color-white) / var(--glass-opacity-80)) !important;
   }
 }

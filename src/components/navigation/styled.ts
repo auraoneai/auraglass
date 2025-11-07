@@ -21,14 +21,14 @@ export const TabBarContainer = styled.div<{
   display: flex;
   align-items: center;
   position: relative;
-  background: ${props => props.$background !== false ? 'rgba(255, 255, 255, 0.1)' : 'transparent'};
+  background: ${props => props.$background !== false ? 'var(--glass-bg-default)' : 'transparent'};
   backdrop-filter: ${props => {
     switch (props.$blurStrength) {
       case 'none': return 'none';
-      case 'light': return 'blur(4px)';
-      case 'standard': return 'blur(8px)';
-      case 'heavy': return 'blur(16px)';
-      default: return 'blur(8px)';
+      case 'light': return 'blur(var(--glass-blur-sm))';
+      case 'standard': return 'blur(var(--glass-blur-md))';
+      case 'heavy': return 'blur(var(--glass-blur-lg))';
+      default: return 'blur(var(--glass-blur-md))';
     }
   }};
   ...createGlassStyle({ elev: 1 });
@@ -63,9 +63,9 @@ export const TabSelector = styled.div<{ $position: number; $width: number }>`
       .map(([key, value]) => `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}:${value};`)
       .join('');
   })()}
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
-  backdrop-filter: blur(12px) saturate(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: inset 0 1px 0 var(--glass-border-hover);
+  backdrop-filter: blur(var(--glass-blur-md)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(120%);
 
   /* Specular sheen */
   &::after {

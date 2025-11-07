@@ -158,7 +158,7 @@ export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumbe
       case 'glow':
         return {
           textShadow: isAnimating
-            ? '0 0 20px rgba(255,255,255,0.5), 0 0 40px ${glassStyles.borderColor || "rgba(255, 255, 255, 0.3)"}'
+            ? '0 0 20px var(--glass-border-hover), 0 0 40px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
             : 'none',
           transition: 'text-shadow 0.3s ease',
         };

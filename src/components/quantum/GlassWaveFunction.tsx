@@ -141,7 +141,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
 
       // Grid
       if (showGrid) {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+        ctx.strokeStyle = 'var(--glass-bg-default)'
         ctx.lineWidth = 1
         
         // Horizontal grid lines
@@ -161,7 +161,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
         }
         
         // Center line
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+        ctx.strokeStyle = 'var(--glass-bg-hover)'
         ctx.lineWidth = 2
         ctx.beginPath()
         ctx.moveTo(0, height / 2)
@@ -249,7 +249,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       ctx.clearRect(0, 0, phaseWidth, phaseHeight)
       
       // Grid for phase space
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+      ctx.strokeStyle = 'var(--glass-bg-default)'
       ctx.lineWidth = 1
       
       for (let i = 0; i <= 10; i++) {

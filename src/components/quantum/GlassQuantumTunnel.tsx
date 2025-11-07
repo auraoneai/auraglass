@@ -241,7 +241,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
           )
           
           // Barrier label
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
+          ctx.fillStyle = 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'
           ctx.font = '12px Arial'
           ctx.textAlign = 'center'
           ctx.fillText(
@@ -342,7 +342,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
           const targetState = quantumStates.find(s => s.id === connectionId)
           if (!targetState) return
 
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+          ctx.strokeStyle = 'var(--glass-bg-hover)'
           ctx.lineWidth = 1
           ctx.setLineDash([3, 3])
           ctx.beginPath()

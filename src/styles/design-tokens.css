@@ -8,16 +8,16 @@
   --radius-xl: 24px;
 
   /* Shadows */
-  --shadow-soft: 0 6px 18px rgba(0,0,0,0.12);
+  --shadow-soft: 0 6px 18px rgba(var(--glass-color-black) / var(--glass-opacity-10));
   --shadow-medium: 0 12px 32px rgba(0,0,0,0.18);
   --shadow-strong: 0 20px 56px rgba(0,0,0,0.28);
   --shadow-glow: 0 0 24px rgba(59,130,246,0.35);
 
   /* Design blur levels (non-glass elements) */
   --design-blur-xs: blur(6px);
-  --design-blur-sm: blur(10px);
-  --design-blur-md: blur(16px);
-  --design-blur-lg: blur(24px);
+  --design-blur-sm: blur(var(--glass-blur-md));
+  --design-blur-md: blur(var(--glass-blur-lg));
+  --design-blur-lg: blur(var(--glass-blur-xl));
   --design-blur-xl: blur(36px);
 
   /* Gradient stops (semantic) */

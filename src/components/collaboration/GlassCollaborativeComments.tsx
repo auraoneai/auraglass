@@ -38,7 +38,7 @@ const CommentBubble: React.FC<{
     ptr.style.left = '50%';
     ptr.style.top = '100%';
     ptr.style.transform = 'translateX(-50%)';
-    ptr.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))';
+    ptr.style.filter = 'drop-shadow(0 2px 4px rgba(var(--glass-color-black) / var(--glass-opacity-10)))';
   }, []);
 
   useEffect(() => {
@@ -276,7 +276,7 @@ export const GlassCollaborativeComments: React.FC<CollaborativeCommentsProps> = 
       ptr.style.left = '50%';
       ptr.style.top = '100%';
       ptr.style.transform = 'translateX(-50%)';
-      ptr.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))';
+      ptr.style.filter = 'drop-shadow(0 2px 4px rgba(var(--glass-color-black) / var(--glass-opacity-10)))';
     }
   }, [isAddingComment, newCommentPosition]);
 

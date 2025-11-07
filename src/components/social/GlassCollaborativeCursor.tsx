@@ -198,7 +198,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           width={size}
           height={size}
           viewBox="0 0 24 24"
-          style={{ filter: `drop-shadow(0 2px 4px rgba(0,0,0,0.3))` }}
+          style={{ filter: `drop-shadow(0 2px 4px rgba(var(--glass-color-black) / var(--glass-opacity-30)))` }}
         >
           <path
             d="M5 3L19 12L12 14L9 21L5 3Z"

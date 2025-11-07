@@ -102,7 +102,7 @@ const ParticleBackgroundComponent = (
     className,
     style,
     baseColor = 'rgba(10, 10, 20, 0.8)',
-    particleColor = 'rgba(255, 255, 255, 0.7)',
+    particleColor = 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
     particleCount = 50,
     particleSize = 2,
     particleSpeed = 1,
@@ -141,7 +141,7 @@ const ParticleBackgroundComponent = (
   const actualCount = count ?? particleCount ?? 50;
   const actualSize = size ?? particleSize ?? 2;
   const actualSpeed = speed ?? particleSpeed ?? 1;
-  const actualColor = color ?? particleColor ?? 'rgba(255, 255, 255, 0.7)';
+  const actualColor = color ?? particleColor ?? 'rgba(var(--glass-color-white) / var(--glass-opacity-70))';
 
   // Helper function to get color values
   const getColorValues = (colorStr: string): { r: number; g: number; b: number; a?: number } => {

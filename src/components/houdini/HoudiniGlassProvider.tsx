@@ -434,14 +434,14 @@ function registerGlassProperties() {
         name: '--glass-background',
         syntax: '<color>',
         inherits: false,
-        initialValue: 'rgba(255, 255, 255, 0.1)'
+        initialValue: 'var(--glass-bg-default)'
       });
 
       CSS.registerProperty({
         name: '--glass-border',
         syntax: '<color>',
         inherits: false,
-        initialValue: 'rgba(255, 255, 255, 0.2)'
+        initialValue: 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'
       });
 
       CSS.registerProperty({
@@ -455,7 +455,7 @@ function registerGlassProperties() {
         name: '--glass-shadow',
         syntax: '<string>',
         inherits: false,
-        initialValue: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        initialValue: '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10))'
       });
 
       CSS.registerProperty({
@@ -514,16 +514,16 @@ function registerGlassWorklets() {
 // Global CSS styles for Houdini glass effects
 const houdiniGlassStyles = `
   .houdini-glass {
-    background: var(--glass-background, rgba(255, 255, 255, 0.1));
+    background: var(--glass-background, var(--glass-bg-default));
     backdrop-filter: var(--glass-backdrop-blur););
-    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
+    border: 1px solid var(--glass-border, rgba(var(--glass-color-white) / var(--glass-opacity-20)));
     box-shadow: var(--glass-elev-2);
     transition: all calc(0.3s * var(--glass-animation-speed, 1));
   }
 
   .houdini-glass:hover {
     background: var(--glass-bg-default);
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: var(--glass-bg-hover);
     box-shadow: var(--glass-elev-2);
   }
 

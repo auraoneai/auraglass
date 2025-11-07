@@ -482,7 +482,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
 
       // Draw grid
       if (showGrid) {
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.strokeStyle = 'rgba(var(--glass-color-black) / var(--glass-opacity-10))';
         ctx.lineWidth = 1 / currentZoom;
         
         for (let x = 0; x <= width; x += gridSize) {
@@ -579,7 +579,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
 
       // Draw rulers
       if (showRulers) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.fillStyle = 'rgba(var(--glass-color-black) / var(--glass-opacity-10))';
         ctx.fillRect(0, 0, width, 20);
         ctx.fillRect(0, 0, 20, height);
 

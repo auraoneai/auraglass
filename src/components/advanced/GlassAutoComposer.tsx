@@ -67,9 +67,9 @@ class AILayoutGenerator {
         secondary: '#10b981',
         accent: '#8b5cf6',
         background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-        surface: 'rgba(255, 255, 255, 0.1)',
+        surface: 'var(--glass-bg-default)',
         text: '#ffffff',
-        textSecondary: 'rgba(255, 255, 255, 0.7)',
+        textSecondary: 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
       },
       spacing: {
         xs: '0.25rem',
@@ -97,9 +97,9 @@ class AILayoutGenerator {
         },
       },
       shadows: {
-        sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        sm: '0 1px 2px 0 rgba(var(--glass-color-black) / var(--glass-opacity-5))',
+        md: '0 4px 6px -1px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
+        lg: '0 10px 15px -3px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
         glass: '0 8px 32px rgba(31, 38, 135, 0.37)',
       },
       borders: {

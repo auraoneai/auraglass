@@ -635,7 +635,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 style={{
                   '--liquid-glass-depth-offset': variant === 'drawer' ? '8px' : '12px',
                   '--liquid-glass-tint-adaptive': modalInsights?.urgency === 'high' ? 
-                    'rgba(220, 38, 38, 0.15)' : 'rgba(0, 0, 0, 0.1)'
+                    'rgba(220, 38, 38, 0.15)' : 'rgba(var(--glass-color-black) / var(--glass-opacity-10))'
                 } as React.CSSProperties}
                 data-liquid-glass-modal="true"
                 data-modal-urgency={modalInsights?.urgency}

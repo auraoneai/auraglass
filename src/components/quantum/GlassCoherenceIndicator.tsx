@@ -163,13 +163,13 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           {/* Grid lines */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--glass-bg-default)" strokeWidth="1"/>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
 
           {/* Center line */}
-          <line x1="0" y1="50" x2="300" y2="50" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="5,5"/>
+          <line x1="0" y1="50" x2="300" y2="50" stroke="var(--glass-bg-hover)" strokeWidth="1" strokeDasharray="5,5"/>
 
           {/* Primary wave */}
           <path
@@ -238,7 +238,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
             cy="48"
             r="40"
             fill="none"
-            stroke="rgba(255,255,255,0.3)"
+            stroke="var(--glass-bg-hover)"
             strokeWidth="2"
           />
           
@@ -250,7 +250,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
                 y1={48 + Math.sin((angle * Math.PI) / 180) * 35}
                 x2={48 + Math.cos((angle * Math.PI) / 180) * 42}
                 y2={48 + Math.sin((angle * Math.PI) / 180) * 42}
-                stroke="rgba(255,255,255,0.5)"
+                stroke="var(--glass-border-hover)"
                 strokeWidth="2"
               />
               <text
@@ -258,7 +258,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
                 y={48 + Math.sin((angle * Math.PI) / 180) * 30 + 3}
                 textAnchor="middle"
                 fontSize="10"
-                fill="rgba(255,255,255,0.7)"
+                fill="rgba(var(--glass-color-white) / var(--glass-opacity-70))"
               >
                 {angle}°
               </text>

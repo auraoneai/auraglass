@@ -679,7 +679,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
                 
                 // Add wave effect
                 if (element.animation === 'wave') {
-                  ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                  ctx.strokeStyle = 'var(--glass-bg-hover)';
                   ctx.lineWidth = 1;
                   const waveOffset = animationTime * 0.002;
                   for (let i = 0; i < element.width; i += 10) {

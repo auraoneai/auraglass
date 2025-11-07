@@ -79,10 +79,10 @@ const TreeItemContent = styled.div<{
   transition: background-color 0.2s ease;
   color: ${props =>
     props.$disabled
-      ? 'rgba(255, 255, 255, 0.5)'
+      ? 'var(--glass-border-hover)'
       : props.$selected
-      ? 'var(--tree-view-color, ${glassStyles.text?.primary || "rgba(255, 255, 255, 0.9)"})'
-      : 'rgba(255, 255, 255, 0.8)'};
+      ? 'var(--tree-view-color, ${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"})'
+      : 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'};
 
   /* Selected state */
   background-color: ${props => (props.$selected ? 'rgba(255, 255, 255, 0.08)' : 'transparent')};

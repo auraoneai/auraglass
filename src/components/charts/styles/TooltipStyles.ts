@@ -39,10 +39,10 @@ export const GlassTooltipContainer = styled.div<{
     return `${8 * multiplier}px`;
   }};
   box-shadow: ${props => props.$theme === 'glass'
-    ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2)'
-    : '0 4px 12px rgba(0, 0, 0, 0.15)'
+    ? '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-30)), 0 0 0 1px rgba(var(--glass-color-white) / var(--glass-opacity-20))'
+    : '0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15))'
   };
-  backdrop-filter: ${props => props.$theme === 'glass' ? 'blur(12px)' : 'none'};
+  backdrop-filter: ${props => props.$theme === 'glass' ? 'blur(var(--glass-blur-md))' : 'none'};
   background: ${props => {
     switch (props.$theme) {
       case 'glass':
@@ -54,7 +54,7 @@ export const GlassTooltipContainer = styled.div<{
     }
   }};
   border: ${props => props.$theme === 'glass' 
-    ? '1px solid rgba(255, 255, 255, 0.2)' 
+    ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))' 
     : '1px solid #e0e0e0'
   };
   color: ${props => props.$theme === 'light' ? '#1a1a1a' : '#ffffff'};
@@ -116,7 +116,7 @@ export const TooltipHeader = styled.div<{ $theme?: 'light' | 'dark' | 'glass'; $
   }};
   color: ${props => props.$theme === 'light' ? '#1a1a1a' : '#ffffff'};
   border-bottom: ${props => props.$theme === 'glass'
-    ? '1px solid rgba(255, 255, 255, 0.2)'
+    ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))'
     : '1px solid #e0e0e0'
   };
   padding-bottom: ${props => {
@@ -164,7 +164,7 @@ export const TooltipSeparator = styled.div<{ $theme?: 'light' | 'dark' | 'glass'
   background: ${props => {
     switch (props.$theme) {
       case 'glass':
-        return 'rgba(255, 255, 255, 0.2)';
+        return 'rgba(var(--glass-color-white) / var(--glass-opacity-20))';
       case 'dark':
         return '#555555';
       default:
@@ -187,7 +187,7 @@ export const TooltipFooter = styled.div<{ $theme?: 'light' | 'dark' | 'glass'; $
     return `${4 * multiplier}px`;
   }};
   border-top: ${props => props.$theme === 'glass'
-    ? '1px solid rgba(255, 255, 255, 0.2)'
+    ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))'
     : '1px solid #e0e0e0'
   };
   font-size: ${props => {
@@ -219,15 +219,15 @@ export const createTooltipStyles = (
       fontSize: `${12 * multiplier}px`,
       borderRadius: `${8 * multiplier}px`,
       boxShadow: theme === 'glass'
-        ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2)'
-        : '0 4px 12px rgba(0, 0, 0, 0.15)',
+        ? '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-30)), 0 0 0 1px rgba(var(--glass-color-white) / var(--glass-opacity-20))'
+        : '0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15))',
       // Use createGlassStyle() instead,
       background: theme === 'glass'
         ? 'rgba(0, 0, 0, 0.85)'
         : theme === 'dark'
           ? '#2a2a2a'
           : '#ffffff',
-      border: theme === 'glass' ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid #e0e0e0',
+      border: theme === 'glass' ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))' : '1px solid #e0e0e0',
       color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
       padding: `${8 * multiplier}px ${12 * multiplier}px`,
       minWidth: `${120 * multiplier}px`,
@@ -244,7 +244,7 @@ export const createTooltipStyles = (
       marginBottom: `${4 * multiplier}px`,
       color: theme === 'glass' ? '#ffffff' : theme === 'dark' ? '#ffffff' : '#1a1a1a',
       borderBottom: theme === 'glass'
-        ? '1px solid rgba(255, 255, 255, 0.2)'
+        ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))'
         : '1px solid #e0e0e0',
       paddingBottom: `${4 * multiplier}px`,
     },
@@ -257,7 +257,7 @@ export const createTooltipStyles = (
       marginTop: `${8 * multiplier}px`,
       paddingTop: `${4 * multiplier}px`,
       borderTop: theme === 'glass'
-        ? '1px solid rgba(255, 255, 255, 0.2)'
+        ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))'
         : '1px solid #e0e0e0',
       fontSize: `${10 * multiplier}px`,
       color: theme === 'dark' ? '#cccccc' : '#666666',
@@ -277,7 +277,7 @@ export const createTooltipStyles = (
     separator: {
       height: '1px',
       background: theme === 'glass'
-        ? 'rgba(255, 255, 255, 0.2)'
+        ? 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'
         : theme === 'dark'
           ? '#555555'
           : '#e0e0e0',

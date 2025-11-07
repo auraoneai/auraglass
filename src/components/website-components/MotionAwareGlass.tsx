@@ -85,7 +85,7 @@ export const MotionAwareGlass = forwardRef<HTMLDivElement, MotionAwareGlassProps
         return {
           hover: {
             backgroundColor: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-            borderColor: 'rgba(255, 255, 255, 0.25)',
+            borderColor: 'var(--glass-bg-default)',
             transition: { duration: 0.001 }
           }
         };
@@ -94,7 +94,7 @@ export const MotionAwareGlass = forwardRef<HTMLDivElement, MotionAwareGlassProps
       return {
         hover: {
           backgroundColor: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-          borderColor: 'rgba(255, 255, 255, 0.25)',
+          borderColor: 'var(--glass-bg-default)',
           y: -2,
           transition: { duration: 0.2 }
         },

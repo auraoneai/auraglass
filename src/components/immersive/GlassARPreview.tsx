@@ -343,7 +343,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       // Draw object shadow
       ctx.beginPath();
       ctx.arc(screenPos.x + 2, screenPos.y + size/2 + 2, size/2, 0, 2 * Math.PI);
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      ctx.fillStyle = 'rgba(var(--glass-color-black) / var(--glass-opacity-20))';
       ctx.fill();
 
       // Draw object
