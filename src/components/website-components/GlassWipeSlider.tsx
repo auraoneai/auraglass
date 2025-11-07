@@ -1,4 +1,5 @@
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 "use client";
 
 import { useAnimationDuration, useMotionAwareAnimation } from '../../hooks/useMotionPreference';

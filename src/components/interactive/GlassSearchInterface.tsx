@@ -307,7 +307,7 @@ export const GlassSearchInterface = forwardRef<HTMLDivElement, GlassSearchInterf
     };
 
     return (
-      <div
+      <div data-glass-component
         ref={ref}
         className={cn('relative', variantClasses[variant], className)}
         {...props}
@@ -365,7 +365,7 @@ export const GlassSearchInterface = forwardRef<HTMLDivElement, GlassSearchInterf
 
           {/* Active filters indicator */}
           {hasActiveFilters && (
-            <div className="absolute right-12 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2">
+            <div className="absolute right-12 glass-top-1/2 -translate-y-1/2">
               <GlassBadge
                 variant="default"
                 size="xs"

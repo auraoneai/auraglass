@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import { AnimatePresence, motion, PanInfo, useMotionValue } from 'framer-motion'
@@ -29,6 +30,7 @@ export function TouchOptimizedGlass({
   hapticsEnabled = true,
   glassIntensity = 'medium'
 }: TouchGlassProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [isPressed, setIsPressed] = useState(false)
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number; timestamp: number }>>([])
   const [longPressTimer, setLongPressTimer] = useState<NodeJS.Timeout | null>(null)
@@ -174,9 +176,9 @@ export function TouchOptimizedGlass({
               background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */'
             }}
             initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: 3, opacity: 0 }}
+            animate={prefersReducedMotion ? {} : { scale: 3, opacity: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, ease: 'easeOut'  }}
           />
         ))}
       </AnimatePresence>
@@ -192,9 +194,9 @@ export function TouchOptimizedGlass({
                 borderRadius: 'inherit'
               }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={prefersReducedMotion ? {} : { opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1  }}
             />
           )}
         </AnimatePresence>
@@ -276,7 +278,7 @@ export function MobileGlassNavigation({
         y: 0,
         opacity: 1
       }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       {children}
     </motion.div>
@@ -343,7 +345,7 @@ export function AdaptiveGlassDensity({
         borderRadius: '12px',
         transition: 'all 0.3s ease-in-out'
       }}
-      animate={{ opacity: 1 }}
+      animate={prefersReducedMotion ? {} : { opacity: 1 }}
       initial={{ opacity: 0 }}
     >
       {children}
@@ -411,9 +413,9 @@ export function TouchRippleEffects({
               background: color
             }}
             initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: 4, opacity: 0 }}
+            animate={prefersReducedMotion ? {} : { scale: 4, opacity: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: rippleDuration / 1000, ease: 'easeOut' }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: rippleDuration / 1000, ease: 'easeOut'  }}
           />
         ))}
       </AnimatePresence>
@@ -470,7 +472,7 @@ export function MobileGlassBottomSheet({
           <motion.div
             className={cn("glass-foundation-complete glass-position-fixed glass-inset-0 glass-surface-overlay glass-z-40")}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
@@ -480,9 +482,9 @@ export function MobileGlassBottomSheet({
             className={`fixed bottom-0 left-0 right-0 z-50 ${className}`}
             style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
             initial={{ y: '100%' }}
-            animate={{ y: 0 }}
+            animate={prefersReducedMotion ? {} : { y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={0.1}

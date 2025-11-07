@@ -39,7 +39,7 @@ const ComponentItem: React.FC<{
   };
 
   return (
-    <div
+    <div data-glass-component
       draggable
       onDragStart={handleDragStart}
       onMouseDown={handleMouseDown}
@@ -197,13 +197,13 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-3 py-2 pl-10 text-sm border border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-text-secondary">
+            <div className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary">
               🔍
             </div>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary"
+                className="absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary"
               >
                 ✕
               </button>

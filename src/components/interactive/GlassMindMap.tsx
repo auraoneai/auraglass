@@ -398,7 +398,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   };
 
   return (
-    <OptimizedGlass
+    <OptimizedGlass data-glass-component
       className={`relative overflow-hidden ${className}`}
       intensity="medium"
       elevation="level1"

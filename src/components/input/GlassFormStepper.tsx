@@ -177,7 +177,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                 const isLast = index === steps.length - 1;
 
                 return (
-                    <React.Fragment key={step.id}>
+                    <React.Fragment data-glass-component key={step.id}>
                         {/* Step */}
                         <div className="flex flex-col items-center group">
                             <Motion
@@ -221,7 +221,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
                                     {/* Optional indicator */}
                                     {step.optional && (
-                                        <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full" />
+                                        <div className="absolute glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full" />
                                     )}
                                 </div>
 
@@ -312,7 +312,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
                                     {/* Optional indicator */}
                                     {step.optional && (
-                                        <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full" />
+                                        <div className="absolute glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full" />
                                     )}
                                 </div>
 

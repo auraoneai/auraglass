@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Live Cursor Presence
  * Real-time collaborative cursor tracking with glass effects
@@ -66,6 +67,7 @@ export function GlassLiveCursorPresence({
   onUserLeave,
   onCursorMove,
 }: GlassLiveCursorPresenceProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const [cursors, setCursors] = useState<Map<string, LiveCursor>>(new Map());
@@ -343,7 +345,7 @@ export function GlassLiveCursorPresence({
       </AnimatePresence>
       
       {/* Connection status indicator */}
-      <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 flex items-center gap-2">
+      <div className="absolute glass-top-2 left-2 flex items-center gap-2">
         <div
           className={cn(
             "w-2 h-2 glass-radius-full transition-colors",
@@ -382,18 +384,14 @@ function LiveCursorComponent({
           key={`trail-${cursor.id}-${index}`}
           className="absolute pointer-events-none"
           initial={{ opacity: 0, scale: 0 }}
-          animate={{
+          animate={prefersReducedMotion ? {} : {
             opacity: (1 - index / cursor.trail.length) * 0.5,
             scale: 1 - index * 0.1,
             x: trailPoint.x,
             y: trailPoint.y,
           }}
           exit={{ opacity: 0, scale: 0 }}
-          transition={{
-            type: 'spring',
-            stiffness: 200 * (1 - smoothing),
-            damping: 20 + smoothing * 10,
-          }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
         >
           <div
             className={cn(
@@ -413,7 +411,7 @@ function LiveCursorComponent({
       <motion.div
         className="absolute pointer-events-none z-50"
         initial={{ opacity: 0, scale: 0, rotate: 0 }}
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           opacity: 1,
           scale: 1,
           x: cursor.position.x,
@@ -421,11 +419,7 @@ function LiveCursorComponent({
           rotate: Math.atan2(cursor.velocity.y, cursor.velocity.x) * 180 / Math.PI,
         }}
         exit={{ opacity: 0, scale: 0 }}
-        transition={{
-          type: 'spring',
-          stiffness: 200 * (1 - smoothing),
-          damping: 20 + smoothing * 10,
-        }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       >
         {/* Cursor icon */}
         <div
@@ -456,9 +450,9 @@ function LiveCursorComponent({
           {/* Typing indicator */}
           {cursor.isTyping && (
             <motion.div
-              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 1 }}
+              className="absolute glass--top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
+              animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
+              transition={prefersReducedMotion ? { duration: 0 } : { repeat: Infinity, duration: 1 }}
             />
           )}
         </div>
@@ -471,7 +465,7 @@ function LiveCursorComponent({
               glassEffect ? "glass-surface-primary glass-text-primary" : "bg-black glass-text-primary"
             )}
             initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             style={{
               backgroundColor: glassEffect ? undefined : cursor.color,

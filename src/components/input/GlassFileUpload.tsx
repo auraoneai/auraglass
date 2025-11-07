@@ -315,7 +315,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
     const { file, progress, status, error } = uploadedFile;
 
     return (
-      <div key={uploadedFile.id} role="listitem" className="flex items-center p-3 glass-surface-subtle glass-radius-lg border">
+      <div data-glass-component key={uploadedFile.id} role="listitem" className="flex items-center p-3 glass-surface-subtle glass-radius-lg border">
         <div className="text-2xl mr-3" aria-hidden="true">{getFileIcon(file)}</div>
 
         <div className="flex-1 min-w-0">

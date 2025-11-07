@@ -111,7 +111,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
   };
 
   return (
-    <div ref={containerRef} style={effectStyle}>
+    <div data-glass-component ref={containerRef} style={effectStyle}>
       {/* Gradient background */}
       <div
         style={{

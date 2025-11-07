@@ -211,7 +211,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(func
     // Loading skeleton
     if (actualLoading) {
         return (
-            <GlassCard className={cn('glass-p-6', className)}>
+            <GlassCard data-glass-component className={cn('glass-p-6', className)}>
                 <div className="animate-pulse gap-4">
                     <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
                     <div className="flex items-center justify-center">

@@ -129,7 +129,7 @@ export function GlassDataTable<T extends Record<string, any>>({
     if (!paginated || totalPages <= 1) return null;
 
     return (
-      <div className="flex items-center justify-between p-4 border-t border-glass-border">
+      <div data-glass-component className="flex items-center justify-between p-4 border-t border-glass-border">
         <div className="text-sm glass-text-secondary">
           Showing {startIndex + 1} to {Math.min(startIndex + pageSize, processedData.length)} of {processedData.length} results
         </div>
@@ -189,7 +189,7 @@ export function GlassDataTable<T extends Record<string, any>>({
               }}
               className="w-full px-4 py-2 glass-pl-10 bg-background border border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
             />
-            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+            <div className="absolute left-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary">
               🔍
             </div>
           </div>

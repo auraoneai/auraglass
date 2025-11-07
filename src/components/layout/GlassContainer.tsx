@@ -504,7 +504,7 @@ export const GlassContainer = forwardRef<HTMLDivElement, GlassContainerProps>(
     }
 
     return (
-      <div
+      <div data-glass-component
         className={cn(
           // Base container styles
           'w-full transition-all duration-300',

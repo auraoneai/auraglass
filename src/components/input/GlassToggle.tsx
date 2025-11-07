@@ -238,7 +238,7 @@ export const GlassToggle = React.forwardRef<HTMLButtonElement, GlassToggleProps>
         };
 
         return (
-            <Motion
+            <Motion data-glass-component
                 {...getAnimationProps()}
                 className="inline-block"
             >

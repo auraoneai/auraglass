@@ -265,7 +265,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   if (renderNode) {
     return (
-      <div>
+      <div data-glass-component>
         {renderNode(node, level, isSelected, isExpanded)}
         {hasChildren && isExpanded && (
           <Motion

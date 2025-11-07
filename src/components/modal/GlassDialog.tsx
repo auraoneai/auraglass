@@ -443,7 +443,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
     if (!isVisible) return null;
 
     return (
-      <div
+      <div data-glass-component
         className={cn(
           'fixed inset-0 flex items-center justify-center',
           variant === 'fullscreen' ? 'glass-p-0' : 'glass-p-4',

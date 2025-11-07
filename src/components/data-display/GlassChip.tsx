@@ -236,7 +236,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
     const isInteractive = clickable || onSelect || removable;
 
     return (
-      <Motion
+      <Motion data-glass-component
         preset={shouldAnimate && respectMotionPreference ? "scaleIn" : "none"}
       >
         <OptimizedGlass

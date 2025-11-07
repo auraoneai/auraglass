@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
@@ -258,6 +259,7 @@ const defaultAchievements: Achievement[] = [
 export function GlassTrophyCase({
   achievements = defaultAchievements,
   userStats = {},
+  const prefersReducedMotion = useReducedMotion();
   onAchievementUnlock,
   showProgress = true,
   enableSound = true,
@@ -440,7 +442,7 @@ export function GlassTrophyCase({
       >
         {/* Tier badge */}
         <div
-          className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 px-2 py-1 glass-radius-full text-xs font-bold border"
+          className="absolute -glass-top-2 -right-2 px-2 py-1 glass-radius-full text-xs font-bold border"
           style={{
             backgroundColor: `${tierColor.primary}20`,
             borderColor: `${tierColor.primary}40`,
@@ -458,11 +460,11 @@ export function GlassTrophyCase({
               background: `radial-gradient(circle at center, ${tierColor.glow}20 0%, transparent 70%)`,
               filter: 'blur(var(--glass-blur-md))'
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               scale: [1, 1.1, 1],
               opacity: [0.3, 0.6, 0.3]
             }}
-            transition={{ duration: 2, repeat: Infinity }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity  }}
           />
         )}
 
@@ -521,7 +523,7 @@ export function GlassTrophyCase({
                 style={{ backgroundColor: tierColor.primary }}
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercentage}%` }}
-                transition={{ duration: 1, ease: 'easeOut' }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 1, ease: 'easeOut'  }}
               />
             </div>
           </div>
@@ -590,7 +592,7 @@ export function GlassTrophyCase({
       <div className="flex flex-wrap gap-4 mb-6">
         {/* Search */}
         <div className="relative flex-1 min-w-64">
-          <Search className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/60" />
+          <Search className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/60" />
           <input
             type="text"
             value={searchQuery}
@@ -712,7 +714,7 @@ export function GlassTrophyCase({
             <motion.div
               className="fixed inset-0 glass-surface-dark/50 backdrop-blur-sm z-50"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={prefersReducedMotion ? {} : { opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedAchievement(null)}
             />
@@ -720,7 +722,7 @@ export function GlassTrophyCase({
             <motion.div
               className="fixed inset-0 flex items-center justify-center z-50 p-4"
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
             >
               <div className="max-w-lg w-full backdrop-blur-lg glass-surface-subtle/10 border border-white/20 glass-radius-xl p-8">
@@ -828,7 +830,7 @@ export function GlassTrophyCase({
         <motion.div
           className="text-center py-16"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1 }}
         >
           <Trophy className="w-16 h-16 text-primary/30 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-primary/60 mb-2">No achievements found</h3>

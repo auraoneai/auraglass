@@ -196,7 +196,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
       switch (variant) {
         case 'minimal':
           return (
-            <HStack space="sm" align="center">
+            <HStack data-glass-component space="sm" align="center">
               {data?.icon && (
                 <div className={cn(config.icon, colors.icon)}>
                   {data?.icon}

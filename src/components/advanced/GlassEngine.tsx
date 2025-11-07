@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { motion, useMotionValue, useSpring } from 'framer-motion';
@@ -66,6 +67,7 @@ const defaultConfig: GlassEngineConfig = {
 const GlassEngineContext = createContext<GlassEngineContextType | null>(null);
 
 export const useGlassEngine = () => {
+  const prefersReducedMotion = useReducedMotion();
   const context = useContext(GlassEngineContext);
   if (!context) {
     throw new Error('useGlassEngine must be used within GlassEngineProvider');
@@ -284,7 +286,7 @@ export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
       onMouseLeave={() => setCurrentVariant(variant)}
       onMouseDown={() => setCurrentVariant('active')}
       onMouseUp={() => setCurrentVariant('hover')}
-      transition={{ duration: 0.2 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
       {...props}
     >
       {children}
@@ -505,7 +507,7 @@ export const EnvironmentalGlass: React.FC<{
       animate={{
         filter: `hue-rotate(${conditions.timeOfDay * 15}deg) brightness(${1 + (conditions.timeOfDay > 12 ? (24 - conditions.timeOfDay) / 24 : conditions.timeOfDay / 24) * 0.2})`
       }}
-      transition={{ duration: 2 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 2  }}
     >
       {children}
     </motion.div>

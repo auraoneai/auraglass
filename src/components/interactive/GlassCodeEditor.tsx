@@ -258,7 +258,7 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
   const lines = currentValue.split('\n');
 
   return (
-    <OptimizedGlass
+    <OptimizedGlass data-glass-component
       className={cn('glass-relative glass-overflow-hidden', className)}
       style={{ maxHeight, minHeight }}
       blur="medium"

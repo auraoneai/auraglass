@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 import { cn } from '@/lib/utils';
 
@@ -65,6 +66,7 @@ const engagementLevels = {
 
 export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     posts,
     currentUserId,
     showInteractions = true,
@@ -208,7 +210,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
         <motion.div
           layout
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={respectMotionPreference({
             duration: 0.3,

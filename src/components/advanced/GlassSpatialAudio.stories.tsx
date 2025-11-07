@@ -391,10 +391,10 @@ export const ImmersiveMode: Story = {
               }, 1000);
             }}
           >
-            <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 text-xs glass-text-tertiary">
+            <div className="absolute glass-top-2 left-2 text-xs glass-text-tertiary">
               Left (-1, 1)
             </div>
-            <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 text-xs glass-text-tertiary">
+            <div className="absolute glass-top-2 right-2 text-xs glass-text-tertiary">
               Right (1, 1)
             </div>
             <div className="absolute bottom-2 left-2 text-xs glass-text-tertiary">
@@ -403,7 +403,7 @@ export const ImmersiveMode: Story = {
             <div className="absolute bottom-2 right-2 text-xs glass-text-tertiary">
               Right (1, -1)
             </div>
-            <div className="absolute glass--glass--glass--glass--glassglass--glass-top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute glass-top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <div className="w-3 h-3 glass-surface-green glass-radius-full" />
               <div className="text-xs text-primary glass-mt-1">Listener (0, 0)</div>
             </div>

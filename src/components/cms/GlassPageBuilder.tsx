@@ -63,7 +63,7 @@ const Toolbar: React.FC = () => {
   }, [pageState.components.length, handleSave]);
 
   return (
-    <div className="flex items-center justify-between p-4 glass-surface-subtle border-b border-subtle">
+    <div data-glass-component className="flex items-center justify-between p-4 glass-surface-subtle border-b border-subtle">
       {/* Left Side - Main Actions */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">

@@ -355,7 +355,7 @@ export const GlassFractalLayout = forwardRef<HTMLDivElement, GlassFractalLayoutP
 
                   {/* Depth indicator */}
                   {(node.depth || 0) > 0 && (
-                    <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 glass-surface-dark/50 text-primary text-xs glass-radius-full w-4 h-4 flex items-center justify-center">
+                    <div className="absolute glass-top-1 -right-1 glass-surface-dark/50 text-primary text-xs glass-radius-full w-4 h-4 flex items-center justify-center">
                       {node.depth}
                     </div>
                   )}

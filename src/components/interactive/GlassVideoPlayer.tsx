@@ -323,7 +323,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
 
     if (sources.length === 0) {
         return (
-            <GlassCard className={cn('p-8', className)}>
+            <GlassCard data-glass-component className={cn('p-8', className)}>
                 <div className="text-center text-primary/60">
                     No video sources provided
                 </div>

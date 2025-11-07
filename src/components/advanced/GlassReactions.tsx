@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Reactions System
  * Interactive emoji reactions with glass physics and animations
@@ -76,6 +77,7 @@ export function GlassReactions({
   onReactionAdd,
   onReactionExpire,
 }: GlassReactionsProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [localReactions, setLocalReactions] = useState<Reaction[]>([]);
   const [showPicker, setShowPicker] = useState(false);
@@ -339,7 +341,7 @@ function ReactionComponent({
         scale: 0,
         rotate: -180,
       }}
-      animate={{ 
+      animate={prefersReducedMotion ? {} : { 
         opacity: 1, 
         scale: enablePhysics ? undefined : 1 + intensity * 0.5,
         rotate: enablePhysics ? undefined : 0,
@@ -349,11 +351,7 @@ function ReactionComponent({
         scale: 0,
         rotate: 180,
       }}
-      transition={{
-        type: 'spring',
-        stiffness: 200,
-        damping: 15,
-      }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       <span className="block transform -translate-x-1/2 -translate-y-1/2">
         {emoji}
@@ -363,13 +361,13 @@ function ReactionComponent({
       {glassEffect && (
         <motion.div
           className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-white glass-gradient-primary opacity-30"
-          animate={{
+          animate={prefersReducedMotion ? {} : {
             x: [-100, 100],
           }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: 'linear',
+          transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2,
+    repeat: Infinity,
+    ease: 'linear',
           }}
         />
       )}
@@ -431,9 +429,9 @@ function ReactionPicker({
         transform: 'translate(-50%, -100%)',
       }}
       initial={{ opacity: 0, scale: 0.8, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8, y: 10 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       <div className="grid grid-cols-4 gap-1">
         {reactionTypes.map((reactionType, index) => (
@@ -450,7 +448,7 @@ function ReactionPicker({
             title={`${reactionType.name} (${reactionType.shortcut})`}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.05 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
           >
             {reactionType.emoji}
           </motion.button>
@@ -530,7 +528,7 @@ export function GlassReactionBar({
         className
       )}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
     >
       {reactionTypes.map((reactionType, index) => (
         <motion.button
@@ -546,7 +544,7 @@ export function GlassReactionBar({
           title={reactionType.name}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: index * 0.1 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
         >
           {reactionType.emoji}
         </motion.button>

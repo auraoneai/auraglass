@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { cn } from '../../lib/utilsComprehensive';
@@ -190,6 +191,7 @@ export function GlassTransition({
   className,
   style
 }: GlassTransitionProps) {
+  const prefersReducedMotion = useReducedMotion();
   const transitionVariant = glassTransitionVariants[variant];
 
   // Override duration if provided
@@ -416,8 +418,8 @@ export function GlassAccordion({
                 <span className={cn("glass-font-medium glass-text-white")}>{item.title}</span>
               </div>
               <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
+                animate={prefersReducedMotion ? {} : { rotate: isOpen ? 180 : 0 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
               >
                 <svg className={cn("glass-w-5 glass-h-5 glass-text-secondary")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -429,17 +431,17 @@ export function GlassAccordion({
               {isOpen && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
+                  animate={prefersReducedMotion ? {} : { height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{
-                    duration: 0.3,
-                    ease: easings.easeInOutCubic
+                  transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 0.3,
+    ease: easings.easeInOutCubic
                   }}
                   className={cn("glass-border-t glass-border-subtle")}
                 >
                   <motion.div
                     initial={{ y: -10 }}
-                    animate={{ y: 0 }}
+                    animate={prefersReducedMotion ? {} : { y: 0 }}
                     exit={{ y: -10 }}
                     className={cn("glass-p-4 glass-text-primary")}
                   >
@@ -492,7 +494,7 @@ export function GlassModal({
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn("glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4")}
           onClick={onClose}
@@ -500,7 +502,7 @@ export function GlassModal({
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1 }}
             exit={{ opacity: 0 }}
             className={cn("glass-absolute glass-inset-0 glass-surface-overlay")}
           />
@@ -594,9 +596,9 @@ export function GlassTabs({
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: easings.easeOutExpo }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: easings.easeOutExpo  }}
             className={cn("glass-p-6")}
           >
             {tabs?.find(tab => tab.id === activeTab)?.content}

@@ -69,7 +69,7 @@ const CommentBubble: React.FC<{
   };
 
   return (
-    <div
+    <div data-glass-component
       ref={bubbleRef}
       className={cn(
         'glass-absolute glass-z-40 glass-container-xs',

@@ -366,7 +366,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
     }, []);
 
     return (
-        <Motion preset="fadeIn" className="w-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full">
             <GlassCard className={cn('overflow-hidden', className)} {...props}>
                 <CardContent className="p-4">
                     {/* Attachments preview */}

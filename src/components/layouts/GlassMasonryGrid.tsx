@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { motion, PanInfo } from 'framer-motion'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -79,6 +80,7 @@ interface LayoutItem extends MasonryItem {
 
 export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
   // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
     items,
@@ -538,9 +540,9 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
                 }}
                 initial={shouldAnimate ? { opacity: 0, scale: 0.8 } : false}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  delay: shouldAnimate ? index * masonryConfig.animationDelay : 0,
-                  duration: 0.3 
+                transition={prefersReducedMotion ? { duration: 0 } : {
+    delay: shouldAnimate ? index * masonryConfig.animationDelay : 0,
+    duration: 0.3
                 }}
                 drag={enableDragReorder}
                 onDragStart={(event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => handleDragStart(event as any, item.id)}

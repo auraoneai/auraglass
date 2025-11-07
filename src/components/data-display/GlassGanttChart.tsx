@@ -349,7 +349,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
 
       if (task.milestone) {
         return (
-          <div
+          <div data-glass-component
             className={cn(
               'absolute flex items-center justify-center cursor-pointer',
               'transform rotate-45 border-2',
@@ -413,7 +413,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
             {/* Progress Bar */}
             {viewOptions.showProgress && task.progress > 0 && (
               <div
-                className="absolute left-1 glass--glass--glass--glass--glassglass--glass-top-1 bottom-1 glass-surface-primary/30 glass-radius-sm transition-all duration-300"
+                className="absolute left-1 glass-top-1 bottom-1 glass-surface-primary/30 glass-radius-sm transition-all duration-300"
                 style={{ width: `${(task.progress / 100) * (bounds.width - 8)}px` }}
                 onClick={(e: React.MouseEvent) => handleProgressUpdate(task.id, e, bounds.width - 8)}
               />

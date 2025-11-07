@@ -243,7 +243,7 @@ export const GlassColorSchemeGenerator: React.FC<GlassColorSchemeGeneratorProps>
   };
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div data-glass-component className={`space-y-6 ${className}`}>
       {/* Color Picker Section */}
       <OptimizedGlass
         className="p-6"

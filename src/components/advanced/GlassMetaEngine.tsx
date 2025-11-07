@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Meta-Engine
  * Self-Evolving Glass Framework that analyzes its own usage and optimizes in real-time
@@ -683,6 +684,7 @@ export function GlassMetaEngineProvider({
   onEvolution?: (evolution: SystemEvolution) => void;
   onOptimization?: (optimization: SystemOptimization) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<GlassMetaEngineCore>();
   const [optimizations, setOptimizations] = useState<SystemOptimization[]>([]);
   const [evolutions, setEvolutions] = useState<SystemEvolution[]>([]);
@@ -792,12 +794,12 @@ export function GlassMetaDashboard({
             <motion.div
               key={state.system}
               className="absolute w-1 h-1 glass-surface-blue glass-radius-full"
-              animate={{
+              animate={prefersReducedMotion ? {} : {
                 x: Math.cos(index * 0.8) * 20 + 20,
                 y: Math.sin(index * 0.8) * 20 + 20,
                 opacity: state.coherence,
               }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: "linear"  }}
             />
           ))}
         </div>
@@ -806,10 +808,10 @@ export function GlassMetaDashboard({
           🧬
           {optimizations.length > 0 && (
             <motion.div
-              className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 w-4 h-4 glass-surface-green glass-radius-full text-xs text-primary flex items-center justify-center"
+              className="absolute -glass-top-2 -right-2 w-4 h-4 glass-surface-green glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 500 }}
+              animate={prefersReducedMotion ? {} : { scale: 1 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             >
               {optimizations.length}
             </motion.div>
@@ -826,9 +828,9 @@ export function GlassMetaDashboard({
               "glass-surface-primary glass-elev-5 glass-radius-lg glass-p-6 glass-gap-4"
             )}
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
           >
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-primary">
@@ -853,7 +855,7 @@ export function GlassMetaDashboard({
                     key={systemId}
                     className="p-3 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-primary font-medium">
@@ -903,7 +905,7 @@ export function GlassMetaDashboard({
                             className="h-2 glass-surface-blue glass-radius-full"
                             initial={{ width: 0 }}
                             animate={{ width: `${state.coherence * 100}%` }}
-                            transition={{ duration: 0.5 }}
+                            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.5  }}
                           />
                         </div>
                         <span className="text-xs glass-text-secondary">
@@ -927,7 +929,7 @@ export function GlassMetaDashboard({
                     key={optimization.id}
                     className="p-3 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-primary font-medium">
@@ -974,7 +976,7 @@ export function GlassMetaDashboard({
                     key={evolution.id}
                     className="p-3 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
                   >
                     <div className="text-sm text-primary font-medium">
                       {evolution.evolutionType.replace('-', ' ')}

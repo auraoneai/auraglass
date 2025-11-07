@@ -15,7 +15,7 @@ export function GlassFormTable<T=any>({ columns, rows, onChange }: GlassFormTabl
   const add = () => onChange([...rows, {} as any]);
   const remove = (ri: number) => onChange(rows.filter((_,i)=>i!==ri));
   return (
-    <div className={cn('glass-overflow-auto glass-radius-xl glass-border glass-border-white-15')} role="region" aria-label="Editable data table">
+    <div data-glass-component className={cn('glass-overflow-auto glass-radius-xl glass-border glass-border-white-15')} role="region" aria-label="Editable data table">
       <table className={cn('glass-w-full glass-text-sm')} role="table" aria-label="Form data table">
         <thead className={cn('glass-surface-white-5')}>
           <tr role="row">

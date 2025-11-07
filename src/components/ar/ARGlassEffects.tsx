@@ -8,6 +8,7 @@ declare global {
 }
 
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { motion } from 'framer-motion';
@@ -398,6 +399,7 @@ interface ARGlassEffectsProps {
 export function ARGlassEffects({
   mode = 'preview',
   content = {},
+  const prefersReducedMotion = useReducedMotion();
   onInteraction,
   className='',
   enablePhysics = false,
@@ -548,7 +550,7 @@ export function ARGlassEffects({
       {mode === 'ar' && capabilities.isARSupported && showControls && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           className="absolute glass-top-4 glass-right-4 z-10 flex gap-2"
         >
           <button
@@ -584,7 +586,7 @@ export function ARGlassEffects({
       {mode === 'demo' && showInfo && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
           className="absolute top-4 left-4 z-10 p-4 glass-surface-dark/80 backdrop-blur-lg glass-radius-lg text-primary text-sm max-w-xs"
         >
           <h3 className="font-semibold mb-2 flex items-center gap-2">
@@ -624,7 +626,7 @@ export function ARGlassEffects({
       {xrError && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           className="absolute bottom-4 left-4 z-10 glass-surface-red text-primary p-3 glass-radius-lg max-w-xs"
         >
           <div className="flex items-center gap-2">
@@ -638,7 +640,7 @@ export function ARGlassEffects({
       {enableHandTracking && (handTracking.left.isActive || handTracking.right.isActive) && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           className="absolute bottom-4 right-4 z-10 glass-surface-green text-primary p-3 glass-radius-lg text-sm"
         >
           <div className="flex items-center gap-2">

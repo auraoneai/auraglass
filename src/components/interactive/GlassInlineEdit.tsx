@@ -16,7 +16,7 @@ export function GlassInlineEdit({ value, onChange, placeholder = 'Edit…', clas
   const [draft, setDraft] = React.useState(value);
   React.useEffect(() => setDraft(value), [value]);
   return (
-    <div className={cn('inline-flex items-center glass-gap-2', className)} role="group" aria-label="Inline editable field">
+    <div data-glass-component className={cn('inline-flex items-center glass-gap-2', className)} role="group" aria-label="Inline editable field">
       {editing ? (
         <>
           <input

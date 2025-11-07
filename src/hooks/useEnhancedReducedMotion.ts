@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react';
  *   return (
  *     <motion.div
  *       animate={{ opacity: 1 }}
- *       transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+ *       transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
  *     >
  *       Content
  *     </motion.div>

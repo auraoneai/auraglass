@@ -380,7 +380,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
       switch (layout) {
         case 'compact':
           return (
-            <div className="max-w-2xl mx-auto">
+            <div data-glass-component className="max-w-2xl mx-auto">
               <GlassCard variant="default" className="p-6">
                 {content}
               </GlassCard>

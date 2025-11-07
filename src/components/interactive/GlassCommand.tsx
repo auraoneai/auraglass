@@ -217,7 +217,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
     };
 
     return (
-        <CommandContext.Provider value={{ selectedIndex, setSelectedIndex, query, setQuery }}>
+        <CommandContext.Provider data-glass-component value={{ selectedIndex, setSelectedIndex, query, setQuery }}>
             <OptimizedGlass
                 intent="neutral"
                 elevation="level3"
@@ -389,7 +389,7 @@ export const GlassCommandInput: React.FC<GlassCommandInputProps> = ({
 
     return (
         <div className="relative mb-4">
-            <Search className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/50" />
+            <Search className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/50" />
             <OptimizedGlass
                 variant="clear"
                 elevation={'level1'}

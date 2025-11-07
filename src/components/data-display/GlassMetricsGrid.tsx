@@ -559,7 +559,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
                         'glass-text-sm'
                       )}
                     />
-                    <div className="absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+                    <div className="absolute right-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary">
                       🔍
                     </div>
                   </OptimizedGlass>

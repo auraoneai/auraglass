@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Auto Composer
  * On-demand generative UI layouts using LLMs + design tokens
@@ -212,8 +213,8 @@ class AILayoutGenerator {
           key={index}
           className="glass-surface-secondary glass-elev-2 glass-radius-lg p-6"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
         >
           <div className="text-2xl font-bold text-primary">{stat.value}</div>
           <div className="text-sm glass-text-secondary">{stat.label}</div>
@@ -299,8 +300,8 @@ class AILayoutGenerator {
       key={item.id}
       className="glass-surface-secondary glass-elev-2 glass-radius-lg overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       whileHover={{ scale: 1.02 }}
     >
       {item.image && (
@@ -347,8 +348,8 @@ class AILayoutGenerator {
         key={item.id}
         className="p-4 hover:glass-surface-secondary transition-colors"
         initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: index * 0.05 }}
+        animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -702,6 +703,7 @@ export function GlassAutoComposerProvider({
   children: React.ReactNode;
   config?: Partial<ComposerConfig>;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const generatorRef = useRef<AILayoutGenerator>();
   const optimizerRef = useRef<LayoutOptimizer>();
   const [currentLayouts, setCurrentLayouts] = useState<GeneratedLayout[]>([]);

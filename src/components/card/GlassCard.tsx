@@ -250,7 +250,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
     };
 
     return (
-      <div
+      <div data-glass-component
         ref={ref}
         className={cn(
           'flex flex-col glass-gap-1-5',

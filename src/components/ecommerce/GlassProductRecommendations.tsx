@@ -223,7 +223,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         />
         
         {/* Badges */}
-        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 flex flex-col gap-1">
+        <div className="absolute glass-top-2 left-2 flex flex-col gap-1">
           {product.isOnSale && (
             <span className="glass-surface-red text-primary text-xs px-2 py-1 glass-radius">
               SALE
@@ -242,7 +242,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
         
         {/* Recommendation Reason */}
-        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
+        <div className="absolute glass-top-2 right-2">
           <div className={cn("text-xs px-2 py-1 rounded-full", getReasonColor(reason))}>
             {getReasonIcon(reason)}
           </div>
@@ -335,7 +335,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 
   return (
-    <div
+    <div data-glass-component
       onClick={() => onProductClick?.(product)}
       className="cursor-pointer"
     >

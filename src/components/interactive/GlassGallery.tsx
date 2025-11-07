@@ -203,7 +203,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
 
                                 {/* Selection Indicator */}
                                 {enableSelection && (
-                                    <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2">
+                                    <div className="absolute glass-top-2 left-2">
                                         <div className={cn(
                                             'w-5 h-5 glass-radius-md border-2 transition-all',
                                             selectedImages.has(image.id)
@@ -435,7 +435,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
         const image = images[lightboxIndex];
 
         return (
-            <div className="fixed inset-0 z-50 glass-surface-dark/90 flex items-center justify-center p-4">
+            <div data-glass-component className="fixed inset-0 z-50 glass-surface-dark/90 flex items-center justify-center p-4">
                 <div className="relative max-w-4xl max-h-full">
                     {/* Close Button */}
                     <GlassButton
@@ -454,7 +454,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                                 variant="secondary"
                                 size="lg"
                                 onClick={(e) => handleLightboxNav('prev')}
-                                className="absolute left-4 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2"
+                                className="absolute left-4 glass-top-1/2 transform -translate-y-1/2"
                             >
                                 <ChevronLeft className="w-6 h-6" />
                             </GlassButton>
@@ -463,7 +463,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                                 variant="secondary"
                                 size="lg"
                                 onClick={(e) => handleLightboxNav('next')}
-                                className="absolute right-4 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2"
+                                className="absolute right-4 glass-top-1/2 transform -translate-y-1/2"
                             >
                                 <ChevronRight className="w-6 h-6" />
                             </GlassButton>

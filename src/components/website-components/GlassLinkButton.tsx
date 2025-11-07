@@ -15,7 +15,7 @@ interface GlassLinkButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
   ({ className, variant = "primary", size = "md", intent = "primary", noise = false, children, ...props }, ref) => {
     return (
-      <a
+      <a data-glass-component
         ref={ref}
         className={cn(
           "group relative inline-flex items-center justify-center rounded-glass font-semibold transition-all duration-200 ease-out hover:glass-text-primary",

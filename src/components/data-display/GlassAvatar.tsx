@@ -163,7 +163,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
         };
 
         return (
-            <div className="relative inline-block">
+            <div data-glass-component className="relative inline-block">
                 <OptimizedGlass
           elevation={elevation === 1 ? 'level1' : elevation === 2 ? 'level2' : elevation === 3 ? 'level3' : 'level1'}
           intensity="medium"

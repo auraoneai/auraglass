@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronRight, Filter, Search, SlidersHorizontal, Tag, X } from 'lucide-react';
@@ -187,7 +188,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                         className="w-full pr-12"
                         leftIcon={<Search className="w-4 h-4" />}
                     />
-                    <div className="absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <div className="absolute right-3 glass-top-1/2 -translate-y-1/2 flex items-center gap-2">
                         {loading && (
                             <div className="w-4 h-4 border-2 border-white/30 border-t-white glass-radius-full animate-spin" />
                         )}
@@ -219,7 +220,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                         {showSuggestions && (suggestions.length > 0 || recentSearches.length > 0) && (
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 className="absolute top-full left-0 right-0 glass-mt-1 z-10 max-h-60 overflow-y-auto"
                             >
@@ -272,7 +273,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                     {showFacetPanel && showFilters && (
                         <motion.div
                             initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
+                            animate={prefersReducedMotion ? {} : { opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             className="mb-6 border border-white/20 glass-radius-lg overflow-hidden"
                         >
@@ -329,7 +330,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                             {loading ? (
                                 <motion.div
                                     initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    animate={prefersReducedMotion ? {} : { opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     className="flex items-center justify-center py-8"
                                 >
@@ -338,7 +339,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                             ) : displayedResults.length > 0 ? (
                                 <motion.div
                                     initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    animate={prefersReducedMotion ? {} : { opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     className="glass-auto-gap glass-auto-gap-sm"
                                 >
@@ -346,8 +347,8 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                                         <motion.div
                                             key={result.id}
                                             initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.05 }}
+                                            animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                                            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
                                             className="p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ring-1 ring-white/10 hover:ring-white/20 border border-white/10 hover:border-white/20"
                                             onClick={(e) => onResultSelect?.(result)}
                                         >
@@ -383,7 +384,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                             ) : query ? (
                                 <motion.div
                                     initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    animate={prefersReducedMotion ? {} : { opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     className="text-center py-8 text-primary/70"
                                 >
@@ -392,7 +393,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                             ) : (
                                 <motion.div
                                     initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    animate={prefersReducedMotion ? {} : { opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     className="text-center py-8 text-primary/70"
                                 >
@@ -443,7 +444,7 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
                 {expanded && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
+                        animate={prefersReducedMotion ? {} : { opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         className="px-3 pb-3"
                     >

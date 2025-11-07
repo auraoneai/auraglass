@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Device Orientation Effects
  * Glass effects that respond to device orientation and motion
@@ -58,6 +59,7 @@ export function GlassOrientationEffects({
   onOrientationChange,
   onMotionChange,
 }: GlassOrientationEffectsProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSupported, setIsSupported] = useState(false);
   const [permissionGranted, setPermissionGranted] = useState(false);

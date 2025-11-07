@@ -172,7 +172,7 @@ export const GlassNavigationMenu: React.FC<GlassNavigationMenuProps> = ({
     };
 
     return (
-        <OptimizedGlass
+        <OptimizedGlass data-glass-component
             intent="neutral"
             elevation="level1"
             intensity="medium"
@@ -355,7 +355,7 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                     )}
 
                     {item?.badge && (
-                        <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-5 h-5 glass-surface-red glass-radius-full flex items-center justify-center text-xs font-bold text-primary">
+                        <div className="absolute glass-top-1 -right-1 w-5 h-5 glass-surface-red glass-radius-full flex items-center justify-center text-xs font-bold text-primary">
                             {typeof item?.badge === 'number' && item?.badge > 99 ? '99+' : item?.badge}
                         </div>
                     )}

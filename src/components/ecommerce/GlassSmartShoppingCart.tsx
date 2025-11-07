@@ -56,7 +56,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3 p-3 border-b border-subtle last:border-b-0">
+      <div data-glass-component className="flex items-center gap-3 p-3 border-b border-subtle last:border-b-0">
         <img
           src={item.product.thumbnail || item.product.images[0]}
           alt={item.product.name}
@@ -106,7 +106,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           className="w-20 h-20 object-cover glass-radius-lg"
         />
         {isOnSale && (
-          <div className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-surface-red text-primary text-xs px-2 py-1 glass-radius-full">
+          <div className="absolute -glass-top-2 -right-2 glass-surface-red text-primary text-xs px-2 py-1 glass-radius-full">
             SALE
           </div>
         )}

@@ -187,7 +187,7 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
 
     if (!glass) {
       return (
-        <div
+        <div data-glass-component
           ref={ref}
           className={cn('inline-flex', className)}
           role="status"

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * Dynamic Glass Morphing Engine
  * Real-time glass effects that adapt to environment, time, weather, and user activity
@@ -240,6 +241,7 @@ const defaultGlassProperties: GlassProperties = {
 };
 
 export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
+  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   environmentalContext = {},

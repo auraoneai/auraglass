@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass NeuroSync System
  * Brain-computer interface hooks for EEG-based attention/focus feedback and neural UI adaptation
@@ -724,6 +725,7 @@ export function GlassNeuroSyncProvider({
   onAdaptationChange?: (adaptation: NeuroAdaptation | null) => void;
   autoConnect?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<NeuroSyncSystem>();
   const [metrics, setMetrics] = useState<NeuroMetrics>({} as NeuroMetrics);
   const [adaptation, setAdaptation] = useState<NeuroAdaptation | null>(null);
@@ -867,7 +869,7 @@ export function GlassNeuroMetricsDashboard({
               "glass-surface-primary glass-elev-5 glass-radius-lg glass-p-6 glass-gap-4"
             )}
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
           >
             <div className="flex items-center justify-between">
@@ -930,7 +932,7 @@ export function GlassNeuroMetricsDashboard({
                           ref={(el)=>{ if(el) el.style.backgroundColor = metric.color; }}
                           initial={{ width: 0 }}
                           animate={{ width: `${metric.value * 100}%` }}
-                          transition={{ duration: 0.3 }}
+                          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
                         />
                       </div>
                       <span className="text-xs glass-text-secondary w-8 text-right">
@@ -1004,7 +1006,7 @@ export function GlassNeuroFeedback({
             className="h-full glass-radius-full"
             ref={(el)=>{ if(!el) return; el.style.backgroundColor = isOnTarget ? 'var(--glass-color-success)' : (difference>0 ? 'var(--glass-color-primary)' : 'var(--glass-color-warning)'); }}
             animate={{ width: `${currentValue * 100}%` }}
-            transition={{ duration: 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
           />
           {/* Target indicator */}
           <div

@@ -285,7 +285,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                       )}
                       
                       {item.shortcut && (
-                        <div className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 glass-surface-dark/50 text-primary/70 text-xs px-1 py-0.5 glass-radius text-[10px] backdrop-blur-sm">
+                        <div className="absolute -glass-top-2 -right-2 glass-surface-dark/50 text-primary/70 text-xs px-1 py-0.5 glass-radius text-[10px] backdrop-blur-sm">
                           {item.shortcut}
                         </div>
                       )}

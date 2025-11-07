@@ -9,7 +9,7 @@ export interface GlassReactionBarProps { reactions: Reaction[]; onReact?: (key:s
 
 export function GlassReactionBar({ reactions, onReact, className }: GlassReactionBarProps) {
   return (
-    <div className={className}>
+    <div data-glass-component className={className}>
       <div className="flex gap-2">
         {reactions.map((r: any) => (
           <GlassButton key={r.key} variant="ghost" size="sm" onClick={(e) =>onReact?.(r.key)}>

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Ambient Mesh Gradients
  * Animated mesh gradients with glass overlay effects
@@ -43,6 +44,7 @@ export function GlassMeshGradient({
   complexity = 'moderate',
   variant = 'ambient',
 }: GlassMeshGradientProps) {
+  const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const meshPoints = useRef<MeshPoint[]>([]);
   const mousePos = useRef({ x: 0, y: 0 });

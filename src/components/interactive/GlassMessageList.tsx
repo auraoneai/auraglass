@@ -164,7 +164,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
     }, {} as Record<string, ChatMessage[]>);
 
     return (
-        <Motion preset="fadeIn" className="w-full h-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full h-full">
             <GlassCard className={cn('flex flex-col h-full overflow-hidden', className)} {...props}>
                 {/* Search header */}
                 {enableSearch && showSearch && (

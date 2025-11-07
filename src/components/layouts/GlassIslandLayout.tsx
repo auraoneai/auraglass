@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { motion } from 'framer-motion'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -90,6 +91,7 @@ interface PhysicsIsland extends Island {
 
 export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
   // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
     islands,
@@ -615,8 +617,8 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                 zIndex: island.zIndex || (selectedIsland === island.id ? 1000 : index)
               }}
               initial={shouldAnimate ? { opacity: 0, scale: 0.8 } : false}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
+              animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
               onMouseDown={(e) => handleMouseDown(e, island)}
             >
               <OptimizedGlass
@@ -628,7 +630,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                 {!island.minimized && island.content}
                 
                 {/* Island controls */}
-                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 flex space-x-1 opacity-0 hover:opacity-100 transition-opacity">
+                <div className="absolute glass-top-2 right-2 flex space-x-1 opacity-0 hover:opacity-100 transition-opacity">
                   {island.category && (
                     <span className="px-2 py-1 glass-surface-dark/30 text-primary/70 glass-radius text-xs">
                       {island.category}

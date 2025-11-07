@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Predictive UI Engine
  * AI-powered system that learns user behavior and anticipates interface needs
@@ -659,7 +660,7 @@ const PredictiveEngineContext = createContext<{
 });
 
 // Provider component
-export function GlassPredictiveEngineProvider({ 
+export function GlassPredictiveEngineProvider({
   children,
   onPrediction,
   onInsight,
@@ -668,6 +669,7 @@ export function GlassPredictiveEngineProvider({
   onPrediction?: (prediction: PredictiveAction) => void;
   onInsight?: (insight: PredictiveInsight) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<PredictiveUIEngine>();
   const [predictions, setPredictions] = useState<PredictiveAction[]>([]);
   const [insights, setInsights] = useState<PredictiveInsight[]>([]);
@@ -782,10 +784,10 @@ export function GlassPredictionIndicator({
           🧠
           {predictions.length > 0 && (
             <motion.div
-              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-blue glass-radius-full text-xs text-primary flex items-center justify-center"
+              className="absolute glass-top-1 -right-1 w-3 h-3 glass-surface-blue glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 500 }}
+              animate={prefersReducedMotion ? {} : { scale: 1 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             >
               {predictions.length}
             </motion.div>
@@ -802,9 +804,9 @@ export function GlassPredictionIndicator({
               "glass-surface-primary glass-elev-4 glass-radius-lg glass-p-4 glass-gap-3"
             )}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
           >
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-medium text-primary">
@@ -829,8 +831,8 @@ export function GlassPredictionIndicator({
                     key={prediction.id}
                     className="p-2 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3 }}
+                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-primary capitalize">
@@ -865,8 +867,8 @@ export function GlassPredictionIndicator({
                     key={insight.id}
                     className="p-2 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3 }}
+                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
                   >
                     <div className="text-sm text-primary mb-1">
                       {insight.insight}

@@ -430,7 +430,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       const pathD = createSVGPath(points, series.type === 'area' ? 'area' : 'line');
 
       return (
-        <g key={series.id}>
+        <g data-glass-component key={series.id}>
           {series.type === 'area' && (
             <path
               d={pathD}

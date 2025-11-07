@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
@@ -134,6 +135,7 @@ const AuroraFactory = {
 
         // Noise function for organic movement
         float noise(vec2 st) {
+  const prefersReducedMotion = useReducedMotion();
           return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
         }
 
@@ -403,7 +405,7 @@ export function AuroraPro({
       {/* Aurora intensity indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
         className={cn("glass-absolute glass-top-4 glass-left-4 glass-px-3 glass-py-2 glass-radius-lg glass-foundation-complete glass-border glass-border-subtle glass-surface-dark")}
       >
         <div className={cn("glass-flex glass-items-center glass-gap-2 glass-text-white")}>
@@ -428,7 +430,7 @@ export function AuroraPro({
       {showControls && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           className={cn("glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-flex-col glass-gap-2")}
         >
           {/* Animation mode selector */}
@@ -499,19 +501,19 @@ export function AuroraPro({
       {/* Aurora status indicator */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
+        animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
         className={cn("glass-absolute glass-top-4 glass-right-4 glass-px-3 glass-py-2 glass-radius-lg glass-foundation-complete glass-border glass-border-subtle glass-surface-dark")}
       >
         <div className={cn("glass-flex glass-items-center glass-gap-2 glass-text-secondary glass-text-sm")}>
           <motion.div
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               scale: isPlaying ? [1, 1.2, 1] : 1,
               opacity: isPlaying ? [0.6, 1, 0.6] : 0.6
             }}
-            transition={{
-              duration: 2,
-              repeat: isPlaying ? Infinity : 0,
-              ease: 'easeInOut'
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2,
+    repeat: isPlaying ? Infinity : 0,
+    ease: 'easeInOut'
             }}
           >
             <Sparkles className={cn("glass-w-3 glass-h-3")} />

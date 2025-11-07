@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Eye Tracking Integration
  * Gaze-responsive glass effects using WebGazer.js and device camera
@@ -346,7 +347,7 @@ const EyeTrackingContext = createContext<{
 });
 
 // Provider component
-export function GlassEyeTrackingProvider({ 
+export function GlassEyeTrackingProvider({
   children,
   autoInitialize = false,
   onGazeInteraction,
@@ -355,6 +356,7 @@ export function GlassEyeTrackingProvider({
   autoInitialize?: boolean;
   onGazeInteraction?: (interaction: GazeInteraction) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<EyeTrackingEngine>();
   const [isInitialized, setIsInitialized] = useState(false);
   const [isCalibrating, setIsCalibrating] = useState(false);
@@ -544,9 +546,9 @@ export function GlassEyeTrackingCalibration({
                   scale: index === currentPoint ? [1, 1.2, 1] : index < currentPoint ? 1 : 0,
                   opacity: index <= currentPoint ? 1 : 0.3,
                 }}
-                transition={{
-                  duration: index === currentPoint ? 0.5 : 0.2,
-                  repeat: index === currentPoint ? Infinity : 0,
+                transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: index === currentPoint ? 0.5 : 0.2,
+    repeat: index === currentPoint ? Infinity : 0,
                 }}
                 onClick={() => handlePointClick(point, index)}
               >
@@ -674,11 +676,7 @@ export function GlassGazeResponsive({
           borderRadius: `${8 + gazeIntensity * 4}px`,
         }),
       }}
-      transition={{
-        type: "spring",
-        stiffness: 150,
-        damping: 20,
-      }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       // background color applied via ref assignment above
     >
       {children}
@@ -689,7 +687,7 @@ export function GlassGazeResponsive({
           <motion.div
             className={cn("glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit")}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.8 }}
+            animate={prefersReducedMotion ? {} : { opacity: 0.8 }}
             exit={{ opacity: 0 }}
           >
             <div 

@@ -312,7 +312,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
     }, [isEmpty, drawPlaceholder]);
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         id={signaturePadId}
         elevation="level1"

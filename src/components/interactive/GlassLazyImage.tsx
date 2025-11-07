@@ -255,7 +255,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
     );
 
     return (
-        <Motion
+        <Motion data-glass-component
             preset="fadeIn"
             className={cn(
                 'relative overflow-hidden group cursor-pointer',
@@ -371,7 +371,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
             {/* Actions Menu */}
             {enableActions && (
-                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute glass-top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="relative">
                         <button
                             onClick={(e) => {
@@ -433,7 +433,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
             {/* Image Dimensions Info (dev mode) */}
             {process.env.NODE_ENV === 'development' && imageDimensions.width > 0 && (
-                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 px-2 py-1 glass-surface-dark/50 backdrop-blur-md glass-radius-md text-primary/60 text-xs">
+                <div className="absolute glass-top-2 left-2 px-2 py-1 glass-surface-dark/50 backdrop-blur-md glass-radius-md text-primary/60 text-xs">
                     {imageDimensions.width} × {imageDimensions.height}
                 </div>
             )}

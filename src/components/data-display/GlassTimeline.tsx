@@ -151,7 +151,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
 
     if (orientation === 'horizontal') {
       return (
-        <div
+        <div data-glass-component
           ref={ref}
           id={timelineId}
           className={cn('flex items-start glass-gap-4 overflow-x-auto', className)}

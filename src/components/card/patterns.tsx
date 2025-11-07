@@ -39,7 +39,7 @@ export interface BasicCardProps {
 
 export function BasicCard({ title, description, children, actions, className }: BasicCardProps) {
   return (
-    <GlassCard className={className}>
+    <GlassCard data-glass-component className={className}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         {description && <CardDescription>{description}</CardDescription>}

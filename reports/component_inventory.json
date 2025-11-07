@@ -8,7 +8,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "AccessibilityProvider",
@@ -28,7 +28,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassA11y",
@@ -38,7 +38,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFocusIndicators",
@@ -48,7 +48,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "BrandColorIntegration",
@@ -58,7 +58,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAchievementSystem",
@@ -68,7 +68,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAutoComposer",
@@ -78,7 +78,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassBiometricAdaptation",
@@ -98,7 +98,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassContextualEngine",
@@ -108,7 +108,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassEngine",
@@ -118,7 +118,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassEyeTracking",
@@ -128,7 +128,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFoldableSupport",
@@ -138,7 +138,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassLiquidTransition",
@@ -148,7 +148,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassLiveCursorPresence",
@@ -158,7 +158,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMagneticCursor",
@@ -178,7 +178,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMetaEngine",
@@ -188,7 +188,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassNeuroSync",
@@ -198,7 +198,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassOrientationEffects",
@@ -208,7 +208,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassParallaxLayers",
@@ -248,7 +248,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassProgressiveEnhancement",
@@ -268,7 +268,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassReactions",
@@ -278,7 +278,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSelfHealingSystem",
@@ -288,7 +288,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSpatialAudio",
@@ -298,7 +298,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTrophyCase",
@@ -308,7 +308,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassWebGLShader",
@@ -318,7 +318,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "IntelligentColorSystem",
@@ -328,7 +328,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "LiquidGlassGPU",
@@ -338,7 +338,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "AIGlassThemeProvider",
@@ -358,7 +358,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassGANGenerator",
@@ -368,7 +368,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassGenerativeArt",
@@ -378,7 +378,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassIntelligentFormBuilder",
@@ -388,7 +388,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassLiveFilter",
@@ -398,7 +398,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMusicVisualizer",
@@ -408,7 +408,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStyleTransfer",
@@ -418,7 +418,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ProductionAIIntegration",
@@ -428,7 +428,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "AIDemo",
@@ -438,7 +438,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "AdvancedAnimations",
@@ -448,7 +448,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMotionController",
@@ -468,7 +468,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "OrganicAnimationEngine",
@@ -488,7 +488,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAuroraDisplay",
@@ -568,7 +568,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassButton",
@@ -578,7 +578,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFab",
@@ -588,7 +588,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMagneticButton",
@@ -608,7 +608,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCard",
@@ -618,7 +618,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlowingCard",
@@ -638,7 +638,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "glass-card-link",
@@ -648,7 +648,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "patterns",
@@ -658,7 +658,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAreaChart",
@@ -668,7 +668,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassBarChart",
@@ -678,7 +678,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassChart",
@@ -708,7 +708,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPieChart",
@@ -718,7 +718,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ModularGlassDataChart",
@@ -738,7 +738,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartAxis",
@@ -748,7 +748,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartContainer",
@@ -758,7 +758,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartFilters",
@@ -768,7 +768,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartGrid",
@@ -778,7 +778,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartLegend",
@@ -788,7 +788,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartRenderer",
@@ -798,7 +798,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartTooltip",
@@ -808,7 +808,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "KpiChart",
@@ -818,7 +818,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTypingIndicator",
@@ -828,7 +828,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCanvas",
@@ -838,7 +838,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassComponentPalette",
@@ -848,7 +848,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDragDropProvider",
@@ -858,7 +858,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPageBuilder",
@@ -868,7 +868,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPageStructure",
@@ -878,7 +878,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPropertyPanel",
@@ -888,7 +888,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "CollaborativeGlassWorkspace",
@@ -898,7 +898,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCollaborationDashboard",
@@ -908,7 +908,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCollaborationProvider",
@@ -918,7 +918,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCollaborativeComments",
@@ -928,7 +928,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCollaborativeCursor",
@@ -938,7 +938,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "CompactCookieNotice",
@@ -988,7 +988,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassChartWidget",
@@ -998,7 +998,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassKPICard",
@@ -1008,7 +1008,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMetricCard",
@@ -1018,7 +1018,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStatCard",
@@ -1028,7 +1028,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAccordion",
@@ -1058,7 +1058,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAvatar",
@@ -1068,7 +1068,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassBadge",
@@ -1088,7 +1088,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassChip",
@@ -1098,7 +1098,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDataGrid",
@@ -1108,7 +1108,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDataGridPro",
@@ -1118,7 +1118,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDataTable",
@@ -1128,7 +1128,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDiffViewer",
@@ -1138,7 +1138,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDivider",
@@ -1148,7 +1148,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassGanttChart",
@@ -1158,7 +1158,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassHeatmap",
@@ -1178,7 +1178,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassKanbanBoard",
@@ -1208,7 +1208,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMetricsGrid",
@@ -1228,7 +1228,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassProgress",
@@ -1248,7 +1248,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSkeleton",
@@ -1258,7 +1258,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSkeletonLoader",
@@ -1268,7 +1268,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSparkline",
@@ -1278,7 +1278,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStatusDot",
@@ -1288,7 +1288,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTimeline",
@@ -1298,7 +1298,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassToast",
@@ -1308,7 +1308,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTreeView",
@@ -1318,7 +1318,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassVirtualTable",
@@ -1328,7 +1328,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "Typography",
@@ -1338,7 +1338,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "EnhancementShowcase",
@@ -1348,7 +1348,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassEcommerceProvider",
@@ -1358,7 +1358,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassProductRecommendations",
@@ -1368,7 +1368,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSmartShoppingCart",
@@ -1378,7 +1378,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassRichTextEditor",
@@ -1388,7 +1388,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "AuroraPro",
@@ -1398,7 +1398,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "Glass3DEngine",
@@ -1408,7 +1408,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMorphingEngine",
@@ -1418,7 +1418,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPhysicsEngine",
@@ -1428,7 +1428,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassShatterEffects",
@@ -1438,7 +1438,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "SeasonalParticles",
@@ -1448,7 +1448,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMoodRing",
@@ -1468,7 +1468,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "HoudiniGlassCard",
@@ -1478,7 +1478,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "HoudiniGlassProvider",
@@ -1488,7 +1488,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ClearIcon",
@@ -1498,7 +1498,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassImageProcessingProvider",
@@ -1508,7 +1508,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassIntelligentImageUploader",
@@ -1518,7 +1518,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ImageList",
@@ -1558,7 +1558,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassARPreview",
@@ -1568,7 +1568,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFluidSimulation",
@@ -1628,7 +1628,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassColorPicker",
@@ -1638,7 +1638,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDatePicker",
@@ -1648,7 +1648,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDateRangePicker",
@@ -1658,7 +1658,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFileUpload",
@@ -1668,7 +1668,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassForm",
@@ -1678,7 +1678,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFormStepper",
@@ -1688,7 +1688,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFormTable",
@@ -1698,7 +1698,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassInput",
@@ -1708,7 +1708,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassLabel",
@@ -1718,7 +1718,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMultiSelect",
@@ -1738,7 +1738,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassRadioGroup",
@@ -1748,7 +1748,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSelect",
@@ -1758,7 +1758,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSelectCompound",
@@ -1768,7 +1768,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSlider",
@@ -1788,7 +1788,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStepIcon",
@@ -1798,7 +1798,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStepLabel",
@@ -1808,7 +1808,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStepper",
@@ -1838,7 +1838,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassToggle",
@@ -1848,7 +1848,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTransferList",
@@ -1858,7 +1858,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTreeSelect",
@@ -1868,7 +1868,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassWizard",
@@ -1878,7 +1878,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ContextAwareGlass",
@@ -1928,7 +1928,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCardLink",
@@ -1948,7 +1948,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassChat",
@@ -1958,7 +1958,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassChatInput",
@@ -1968,7 +1968,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCoachmarks",
@@ -1978,7 +1978,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCodeEditor",
@@ -1988,7 +1988,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassColorSchemeGenerator",
@@ -1998,7 +1998,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassColorWheel",
@@ -2018,7 +2018,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCommandPalette",
@@ -2028,7 +2028,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCommentThread",
@@ -2038,7 +2038,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassComponentPlayground",
@@ -2048,7 +2048,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDraggable",
@@ -2058,7 +2058,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDrawingCanvas",
@@ -2078,7 +2078,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFileExplorer",
@@ -2088,7 +2088,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFileTree",
@@ -2098,7 +2098,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFileUpload",
@@ -2108,7 +2108,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFilterPanel",
@@ -2118,7 +2118,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFocusRing",
@@ -2128,7 +2128,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFormBuilder",
@@ -2138,7 +2138,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassGallery",
@@ -2148,7 +2148,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassGestureZone",
@@ -2168,7 +2168,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassImageViewer",
@@ -2178,7 +2178,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassInfiniteScroll",
@@ -2188,7 +2188,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassInlineEdit",
@@ -2198,7 +2198,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassKanban",
@@ -2208,7 +2208,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassKeyValueEditor",
@@ -2218,7 +2218,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassLazyImage",
@@ -2228,7 +2228,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMentionList",
@@ -2238,7 +2238,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMessageList",
@@ -2248,7 +2248,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMindMap",
@@ -2258,7 +2258,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPatternBuilder",
@@ -2278,7 +2278,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassQueryBuilder",
@@ -2288,7 +2288,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassReactionBar",
@@ -2298,7 +2298,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSearchInterface",
@@ -2308,7 +2308,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSignaturePad",
@@ -2318,7 +2318,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSpotlight",
@@ -2328,7 +2328,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassStepper",
@@ -2338,7 +2338,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTagInput",
@@ -2348,7 +2348,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassThemeDemo",
@@ -2368,7 +2368,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassUserPresence",
@@ -2378,7 +2378,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassVideoPlayer",
@@ -2388,7 +2388,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassVirtualList",
@@ -2398,7 +2398,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassVoiceInput",
@@ -2418,7 +2418,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "PageTransitionDemo",
@@ -2428,7 +2428,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ThemedGlassComponents",
@@ -2448,7 +2448,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAppShell",
@@ -2468,7 +2468,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassContainer",
@@ -2478,7 +2478,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFlex",
@@ -2618,7 +2618,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMasonryGrid",
@@ -2628,7 +2628,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassOrbitalMenu",
@@ -2658,7 +2658,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAdvancedVideoPlayer",
@@ -2668,7 +2668,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMediaProvider",
@@ -2678,7 +2678,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassActionSheet",
@@ -2688,7 +2688,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPullToRefresh",
@@ -2698,7 +2698,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "TouchGlassOptimization",
@@ -2708,7 +2708,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassBottomSheet",
@@ -2728,7 +2728,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDrawer",
@@ -2738,7 +2738,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassHoverCard",
@@ -2758,7 +2758,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPopover",
@@ -2768,7 +2768,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTooltip",
@@ -2838,7 +2838,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassHeader",
@@ -2848,7 +2848,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMenubar",
@@ -2858,7 +2858,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassMobileNav",
@@ -2868,7 +2868,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassNavigation",
@@ -2888,7 +2888,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPagination",
@@ -2898,7 +2898,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassResponsiveNav",
@@ -2928,7 +2928,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassTabBar",
@@ -2958,7 +2958,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassToolbar",
@@ -2998,7 +2998,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "TabItem",
@@ -3008,7 +3008,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCoherenceIndicator",
@@ -3018,7 +3018,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassProbabilityCloud",
@@ -3028,7 +3028,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassQuantumField",
@@ -3048,7 +3048,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSuperpositionalMenu",
@@ -3058,7 +3058,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassWaveFunction",
@@ -3068,7 +3068,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassRating",
@@ -3078,7 +3078,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassIntelligentSearch",
@@ -3088,7 +3088,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSpotlightSearch",
@@ -3098,7 +3098,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCollaborativeCursor",
@@ -3108,7 +3108,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPresenceIndicator",
@@ -3118,7 +3118,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassReactionBubbles",
@@ -3128,7 +3128,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSharedWhiteboard",
@@ -3138,7 +3138,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassSocialFeed",
@@ -3148,7 +3148,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassVoiceWaveform",
@@ -3158,7 +3158,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "SpatialComputingEngine",
@@ -3168,7 +3168,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "SpeedDial",
@@ -3208,7 +3208,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "DimensionalGlass",
@@ -3238,7 +3238,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "HeatGlass",
@@ -3278,7 +3278,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ChartWidget",
@@ -3288,7 +3288,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "MetricWidget",
@@ -3298,7 +3298,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "TableWidget",
@@ -3308,7 +3308,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDetailView",
@@ -3318,7 +3318,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFormTemplate",
@@ -3328,7 +3328,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassFormWizardSteps",
@@ -3338,7 +3338,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassWizardTemplate",
@@ -3348,7 +3348,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassDataTable",
@@ -3358,7 +3358,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassListView",
@@ -3368,7 +3368,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ToggleButton",
@@ -3378,7 +3378,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "ToggleButtonGroup",
@@ -3388,7 +3388,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "TreeItem",
@@ -3408,7 +3408,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassAccordionUI",
@@ -3418,7 +3418,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassCheckboxUI",
@@ -3428,7 +3428,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "glass-panel",
@@ -3438,7 +3438,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "FocusIndicator",
@@ -3488,7 +3488,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "VoiceGlassControl",
@@ -3498,7 +3498,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassChartsDemo",
@@ -3508,7 +3508,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassLinkButton",
@@ -3518,7 +3518,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassPrismComparison",
@@ -3528,7 +3528,7 @@
       "hasARIA": false,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassWipeSlider",
@@ -3538,7 +3538,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": true,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "GlassWipeSliderExamples",
@@ -3548,7 +3548,7 @@
       "hasARIA": true,
       "hasTypescript": true,
       "hasFocusManagement": false,
-      "hasReducedMotion": false
+      "hasReducedMotion": true
     },
     {
       "name": "MotionAwareGlass",
@@ -3573,7 +3573,7 @@
       "modal": 7,
       "navigation": 23
     },
-    "typeScriptCoverage": 100.0,
+    "typeScriptCoverage": 100,
     "contrastGuardCoverage": 0.3,
     "ariaCoverage": 38.5,
     "focusCoverage": 20.2,
@@ -3584,6 +3584,12 @@
       "componentsWithFocus": 72,
       "componentsWithReducedMotion": 106,
       "componentsTypeScript": 356
+    }
+  },
+  "stats": {
+    "reducedMotion": {
+      "total": 356,
+      "percentage": 100
     }
   }
 }

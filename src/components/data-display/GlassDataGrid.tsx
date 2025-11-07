@@ -212,7 +212,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
     if (!displayData || !columns) return null;
 
     return (
-      <OptimizedGlass 
+      <OptimizedGlass data-glass-component 
         ref={ref}
         intent="neutral"
         elevation="level2"

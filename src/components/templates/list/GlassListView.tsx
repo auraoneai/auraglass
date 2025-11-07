@@ -282,7 +282,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       ];
 
       return (
-        <HStack space="none">
+        <HStack data-glass-component space="none">
           {modes.map((mode) => (
             <IconButton
               key={mode.key}

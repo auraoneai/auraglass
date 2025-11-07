@@ -28,7 +28,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({ color, name }) 
     
     {/* User name label */}
     <div
-      className="absolute left-6 glass--glass--glass--glass--glassglass--glass-top-1 px-2 py-1 glass-radius text-primary text-xs font-medium whitespace-nowrap pointer-events-none select-none"
+      className="absolute left-6 glass-top-1 px-2 py-1 glass-radius text-primary text-xs font-medium whitespace-nowrap pointer-events-none select-none"
       style={{ backgroundColor: color }}
     >
       {name}
@@ -63,7 +63,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   }
 
   return (
-    <div className={cn("fixed inset-0 pointer-events-none z-50", className)}>
+    <div data-glass-component className={cn("fixed inset-0 pointer-events-none z-50", className)}>
       {visibleCursors.map((user: any) => {
         if (!user.cursor) return null;
         

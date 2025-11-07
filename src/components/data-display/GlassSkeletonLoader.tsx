@@ -132,7 +132,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(({
     };
 
     return (
-      <div className={cn('glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-4', className)}>
+      <div data-glass-component className={cn('glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-4', className)}>
         <div style={{ position: 'relative' }}>
           <OptimizedGlass
             className={cn('glass-radius-full', sizeClasses[size])}

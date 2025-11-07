@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 import { cn } from '@/lib/utils';
 
@@ -90,6 +91,7 @@ const defaultStyleModels: StyleModel[] = [
 
 export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     sourceImage,
     styleModels = defaultStyleModels,
     selectedStyle = '',
@@ -285,7 +287,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 {style.description}
               </div>
               
-              <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
+              <div className="absolute glass-top-2 right-2">
                 <div className={`
                   px-1.5 py-0.5 rounded text-xs font-medium
                   ${style.category === 'artistic' ? 'bg-red-500/20 text-red-300' :
@@ -565,7 +567,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
               <motion.div
                 className="glass-surface-blue h-2 glass-radius-full"
                 animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
               />
             </div>
           </div>

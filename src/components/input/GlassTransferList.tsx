@@ -314,7 +314,7 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
     );
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         elevation={elevation}
         className={cn('flex gap-4 glass-p-4 glass-radius-lg', className)}

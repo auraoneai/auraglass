@@ -226,7 +226,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
     // Loading skeleton
     if (loading) {
         return (
-            <GlassCard className={cn('animate-pulse', config.cardClass, className)}>
+            <GlassCard data-glass-component className={cn('animate-pulse', config.cardClass, className)}>
                 <div className="gap-4">
                     <div className="flex items-center justify-between">
                         <div className="h-4 glass-surface-subtle/20 glass-radius-md w-24"></div>

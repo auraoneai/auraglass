@@ -202,7 +202,7 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
     );
 
     return (
-        <div
+        <div data-glass-component
             ref={containerRef}
             className={cn(
                 'overflow-y-auto',

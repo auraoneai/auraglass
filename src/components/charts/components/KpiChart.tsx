@@ -53,7 +53,7 @@ export const KpiChart: React.FC<KpiChartProps> = ({
   const style = createGlassStyle({ intent: "neutral", elevation: "level2" });
 
   return (
-    <div style={style}>
+    <div data-glass-component style={style}>
       <div style={{ fontSize: '2.25rem', marginBottom: '8px' }}>
         {formatValue(kpi.value, kpi.format)}
       </div>

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Spatial Audio System
  * 3D positioned glass sounds with Web Audio API and HRTF
@@ -470,6 +471,7 @@ export function GlassSpatialAudioProvider({
   settings?: Partial<SpatialAudioSettings>;
   autoInitialize?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<SpatialAudioEngine>();
   const [isInitialized, setIsInitialized] = useState(false);
   const [masterVolume, setMasterVolumeState] = useState(0.7);
@@ -637,11 +639,7 @@ export function GlassAudioReactive({
         opacity: 0.8 + audioIntensity * 0.2,
         backgroundColor: `rgba(255, 255, 255, ${0.1 + audioIntensity * 0.1})`,
       }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-      }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       {children}
     </motion.div>
@@ -697,7 +695,7 @@ export function GlassSpatialVisualizer({
 
         {/* Center point (listener) */}
         <div className="glass-absolute glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-top-1-2 glass-left-1-2 glass-translate-x-1/2-neg glass-translate-y-1/2-neg">
-          <div className="absolute w-4 h-4 border border-green glass-radius-full -glass--glass--glass--glass--glassglass--glass-top-1 -left-1 animate-pulse" />
+          <div className="absolute w-4 h-4 border border-green glass-radius-full glass-top-1 -left-1 animate-pulse" />
         </div>
 
         {/* Audio sources */}
@@ -720,7 +718,7 @@ export function GlassSpatialVisualizer({
                                   '#ec4899',
                 }}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ 
+                animate={prefersReducedMotion ? {} : { 
                   scale: source.isPlaying ? [1, 1.2, 1] : 1,
                   opacity: source.isPlaying ? 1 : 0.5,
                 }}
@@ -742,11 +740,11 @@ export function GlassSpatialVisualizer({
                                    source.category === 'feedback' ? 'var(--glass-color-warning)' :
                                    '#ec4899',
                     }}
-                    animate={{ scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 2,
-                      ease: "easeOut",
+                    animate={prefersReducedMotion ? {} : { scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }}
+                    transition={prefersReducedMotion ? { duration: 0 } : {
+    repeat: Infinity,
+    duration: 2,
+    ease: "easeOut",
                     }}
                   />
                 )}

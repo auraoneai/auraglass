@@ -256,7 +256,7 @@ export const GlassRichTextEditor = forwardRef<HTMLDivElement, GlassRichTextEdito
     );
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         elevation={elevation}
         className={cn('overflow-hidden glass-radius-lg', className)}

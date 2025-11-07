@@ -81,7 +81,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
   };
 
   return (
-    <button
+    <button data-glass-component
       id={`tab-${id}`}
       role="tab"
       aria-selected={active}

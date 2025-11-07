@@ -27,7 +27,7 @@ const UserAvatar: React.FC<{
   const isActive = Date.now() - user.lastActive < 60000; // Active within last minute
 
   return (
-    <div className="relative">
+    <div data-glass-component className="relative">
       {user.avatar ? (
         <img
           src={user.avatar}
@@ -275,7 +275,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                   <span>💬</span>
                   Comments
                   {unresolvedComments.length > 0 && (
-                    <div className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full flex items-center justify-center text-xs">
+                    <div className="absolute glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full flex items-center justify-center text-xs">
                       {unresolvedComments.length}
                     </div>
                   )}

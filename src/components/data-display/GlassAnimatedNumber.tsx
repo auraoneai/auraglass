@@ -172,7 +172,7 @@ export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumbe
   };
 
   return (
-    <OptimizedGlass
+    <OptimizedGlass data-glass-component
       ref={elementRef}
       className={cn('glass-inline-flex glass-items-center glass-justify-center glass-font-mono glass-font-bold glass-text-primary', sizeClasses[size], className)}
       style={getVariantStyles()}

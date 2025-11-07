@@ -227,7 +227,7 @@ export const GlassPagination: React.FC<GlassPaginationProps> = ({
     }, [updateInk]);
 
     return (
-        <nav aria-label={ariaLabel} role="navigation">
+        <nav data-glass-component aria-label={ariaLabel} role="navigation">
             <OptimizedGlass
                 intent="neutral"
                 elevation="level2"

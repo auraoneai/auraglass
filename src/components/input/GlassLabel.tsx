@@ -57,7 +57,7 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
     };
 
     return (
-      <div className="glass-label-container">
+      <div data-glass-component className="glass-label-container">
         <label
           ref={ref}
           id={finalId}

@@ -144,7 +144,7 @@ function ToggleButtonGroupComponent(
   const groupClasses = getGroupOrientationClasses(orientation, fullWidth);
 
   return (
-    <div
+    <div data-glass-component
       ref={ref}
       role="group"
       className={cn(groupClasses, className)}

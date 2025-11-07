@@ -8,7 +8,7 @@ export interface GlassJSONViewerProps { value: any; className?: string }
 
 export function GlassJSONViewer({ value, className }: GlassJSONViewerProps) {
   return (
-    <OptimizedGlass elevation={'level1'} className={cn('glass-radius-lg glass-p-3 overflow-auto border border-white/15', className)}>
+    <OptimizedGlass data-glass-component elevation={'level1'} className={cn('glass-radius-lg glass-p-3 overflow-auto border border-white/15', className)}>
       <pre className="text-xs text-primary/80 whitespace-pre-wrap break-all">
         {JSON.stringify(value, null, 2)}
       </pre>

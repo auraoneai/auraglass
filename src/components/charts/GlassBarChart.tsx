@@ -327,7 +327,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
     // Loading skeleton
     if (loading) {
         return (
-            <GlassCard className={cn('glass-p-6', className)}>
+            <GlassCard data-glass-component className={cn('glass-p-6', className)}>
                 <div className="animate-pulse gap-4">
                     <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
                     <div className="h-64 glass-surface-subtle/10 glass-radius-md flex items-end justify-center gap-2">

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 import { cn } from '@/lib/utils';
 
@@ -76,6 +77,7 @@ const sizes = [2, 4, 8, 12, 16, 24]
 
 export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhiteboardProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     width = 800,
     height = 600,
     users,
@@ -362,7 +364,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
           top: user.cursorY,
           transform: 'translate(-2px, -2px)'
         }}
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           scale: user.isDrawing ? 1.2 : 1,
           opacity: Date.now() - user.lastActivity < 5000 ? 1 : 0.5
         }}
@@ -530,7 +532,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
               {!readOnly && (
                 <button
                   onClick={() => setGridVisible(!gridVisible)}
-                  className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 p-2 text-primary/60 hover:text-primary"
+                  className="absolute glass-top-2 right-2 p-2 text-primary/60 hover:text-primary"
                   title="Toggle Grid"
                 >
                   #

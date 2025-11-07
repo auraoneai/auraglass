@@ -399,7 +399,7 @@ export const AIDemo: React.FC = () => {
   // ============================================
 
   return (
-    <div className="min-h-screen p-6">
+    <div data-glass-component className="min-h-screen p-6">
       <div className="max-w-4xl mx-auto">
         <OptimizedGlass className="p-8">
           <div className="mb-8">

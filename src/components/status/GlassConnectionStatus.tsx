@@ -222,7 +222,7 @@ export const GlassConnectionStatus = forwardRef<HTMLDivElement, GlassConnectionS
     };
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         elevation={elevation}
         className={cn(

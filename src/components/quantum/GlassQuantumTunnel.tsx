@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
@@ -66,6 +67,7 @@ const calculateTunnelingProbability = (
 
 export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     quantumStates,
     barriers = [],
     showWaveFunction = true,
@@ -418,7 +420,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                     top: state.position.y,
                   }}
                   initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ 
+                  animate={prefersReducedMotion ? {} : { 
                     opacity: state.isActive ? 1 : 0.5,
                     scale: measuredStates.has(state.id) ? 1.2 : 1,
                   }}
@@ -444,10 +446,10 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                   
                   {measuredStates.has(state.id) && (
                     <motion.div
-                      className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
+                      className="absolute glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
                       initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.2 }}
+                      animate={prefersReducedMotion ? {} : { scale: 1 }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
                     />
                   )}
                 </motion.div>
@@ -470,7 +472,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                     className="absolute pointer-events-none"
                     style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
                     initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
                   >
                     <div className="w-4 h-4 bg-pink-400 glass-radius-full shadow-lg animate-pulse" />

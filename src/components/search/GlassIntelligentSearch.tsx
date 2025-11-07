@@ -492,7 +492,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   };
 
   return (
-    <div className={cn("w-full max-w-4xl mx-auto", className)}>
+    <div data-glass-component className={cn("w-full max-w-4xl mx-auto", className)}>
       {/* Search Input */}
       <Glass className="relative">
         <div className="flex items-center gap-3 p-4">
@@ -515,7 +515,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
               aria-label="Search input"
             />
             
-            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2">
+            <div className="absolute left-3 glass-top-1/2 transform -translate-y-1/2">
               {isSearching ? (
                 <div className="animate-spin w-5 h-5 border-2 border-blue border-t-transparent glass-radius-full" />
               ) : (

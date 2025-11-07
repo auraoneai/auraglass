@@ -203,7 +203,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
     // Simple divider without label
     if (!label && !startDecorator && !endDecorator) {
       return (
-        <Motion
+        <Motion data-glass-component
           as="div"
           ref={ref}
           id={dividerId}

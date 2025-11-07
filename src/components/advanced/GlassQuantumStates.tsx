@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Quantum States System
  * Probabilistic UI states that collapse into deterministic visuals based on user interaction
@@ -499,6 +500,7 @@ export function GlassQuantumStatesProvider({
   onMeasurement?: (measurement: QuantumMeasurement) => void;
   onStateChange?: (stateId: string, superposition: any[]) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<QuantumUISystem>();
 
   // Initialize system
@@ -639,12 +641,12 @@ export function GlassQuantumButton({
                 className="flex-1 h-full opacity-30"
                 style={{ backgroundColor: state.state.color }}
                 initial={{ opacity: 0 }}
-                animate={{ 
+                animate={prefersReducedMotion ? {} : { 
                   opacity: state.probability * 0.6,
                   scale: 1 + state.phase * 0.1,
                 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
               />
             ))}
           </div>
@@ -658,9 +660,9 @@ export function GlassQuantumButton({
             className="absolute inset-0"
             style={{ backgroundColor: currentState.color }}
             initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.8 }}
+            animate={prefersReducedMotion ? {} : { scale: 1, opacity: 0.8 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
           />
         )}
       </AnimatePresence>
@@ -796,22 +798,22 @@ export function GlassQuantumEntangledPair({
     <div className={cn("flex glass-gap-4", className)}>
       <motion.div 
         className="flex-1 relative"
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           opacity: 0.5 + (state1Superposition[0]?.probability || 0) * 0.5,
           scale: 0.95 + (state1Superposition[0]?.probability || 0) * 0.1,
         }}
-        transition={{ duration: 0.1 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1  }}
       >
         {children[0]}
       </motion.div>
       
       <motion.div 
         className="flex-1 relative"
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           opacity: 0.5 + (state2Superposition[0]?.probability || 0) * 0.5,
           scale: 0.95 + (state2Superposition[0]?.probability || 0) * 0.1,
         }}
-        transition={{ duration: 0.1 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1  }}
       >
         {children[1]}
       </motion.div>
@@ -827,7 +829,7 @@ export function GlassQuantumEntangledPair({
             stroke="var(--glass-color-primary, 0.5)"
             strokeWidth="2"
             strokeDasharray="5,5"
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               strokeDashoffset: [0, -10],
               opacity: [0.3, 0.7, 0.3],
             }}
@@ -871,7 +873,7 @@ export function GlassQuantumCoherenceIndicator({
         <motion.div
           className="h-full glass-surface-blue glass-radius-full"
           animate={{ width: `${coherence * 100}%` }}
-          transition={{ duration: 0.3 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
         />
       </div>
       <span className="text-xs glass-text-secondary">

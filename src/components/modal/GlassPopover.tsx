@@ -581,7 +581,7 @@ export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
     const [open, setOpen] = React.useState(false)
 
     return (
-      <GlassPopover
+      <GlassPopover data-glass-component
         ref={ref}
         open={open}
         onOpenChange={setOpen}

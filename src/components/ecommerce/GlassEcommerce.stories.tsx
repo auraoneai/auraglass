@@ -679,7 +679,7 @@ export const EcommerceShowcase: Story = {
                 className="relative p-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
               >
                 🛒 Cart
-                <span className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 w-6 h-6 glass-surface-red text-primary text-xs glass-radius-full flex items-center justify-center">
+                <span className="absolute -glass-top-2 -right-2 w-6 h-6 glass-surface-red text-primary text-xs glass-radius-full flex items-center justify-center">
                   3
                 </span>
               </button>

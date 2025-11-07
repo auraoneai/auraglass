@@ -717,7 +717,7 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <DragDropContext.Provider value={value}>
+    <DragDropContext.Provider data-glass-component value={value}>
       {children}
     </DragDropContext.Provider>
   );

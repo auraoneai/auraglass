@@ -240,7 +240,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
       const isSelected = value.includes(node.id);
 
       return (
-        <div key={node.id}>
+        <div data-glass-component key={node.id}>
           <div
             className={cn(
               'flex items-center gap-2 glass-p-2 glass-radius-md cursor-pointer',

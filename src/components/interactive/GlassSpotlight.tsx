@@ -24,7 +24,7 @@ export function GlassSpotlight({ targetRect, onClose }: GlassSpotlightProps) {
     pointerEvents: 'none'
   };
   return (
-    <div style={style} onClick={onClose}>
+    <div data-glass-component style={style} onClick={onClose}>
       <div style={hole} />
     </div>
   );

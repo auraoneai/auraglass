@@ -63,7 +63,7 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
   };
 
   return (
-    <div ref={axisRef} style={containerStyle}>
+    <div data-glass-component ref={axisRef} style={containerStyle}>
       {/* Axis line */}
       <div style={axisLineStyle} />
 

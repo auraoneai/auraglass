@@ -407,7 +407,7 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
     if (!open) return null;
 
     return (
-      <div
+      <div data-glass-component
         className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh]"
         onClick={(e) => {
           if (e.target === e.currentTarget) {

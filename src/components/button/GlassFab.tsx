@@ -276,7 +276,7 @@ const TooltipComponent: React.FC<{
   };
   
   return (
-    <span
+    <span data-glass-component
       className={cn(
         'bg-gray-900/90 glass-text-primary px-2 py-1 glass-radius-md glass-text-xs whitespace-nowrap',
         'pointer-events-none z-50 transition-opacity duration-200',

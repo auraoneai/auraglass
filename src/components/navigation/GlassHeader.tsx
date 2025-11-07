@@ -323,7 +323,7 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
     // Render with LiquidGlassMaterial for enhanced effects
     if (material === 'liquid') {
       return (
-        <LiquidGlassMaterial
+        <LiquidGlassMaterial data-glass-component
           {...commonProps}
           material="liquid"
           variant={materialVariant}

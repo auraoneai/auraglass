@@ -390,7 +390,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
     const dayNames = getDayNames();
 
     return (
-      <div ref={containerRef} className={cn('glass-datepicker relative', className)} {...props}>
+      <div data-glass-component ref={containerRef} className={cn('glass-datepicker relative', className)} {...props}>
         <div ref={ref}>
           <GlassInput
             ref={inputRef}

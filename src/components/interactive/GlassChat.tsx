@@ -512,7 +512,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
     }, [newMessage]);
 
     return (
-        <Motion preset="fadeIn" className="w-full h-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full h-full">
             <GlassCard className={cn('flex flex-col h-full overflow-hidden', className)} {...props}>
                 {/* Header */}
                 <CardHeader className="pb-3 border-b border-white/10">
@@ -888,7 +888,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                                         variant="ghost"
                                         size="sm"
                                         onClick={(e) => setShowEmojiPicker(!showEmojiPicker)}
-                                        className="absolute right-2 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 p-1"
+                                        className="absolute right-2 glass-top-1/2 transform -translate-y-1/2 p-1"
                                     >
                                         <Smile className="w-4 h-4" />
                                     </GlassButton>

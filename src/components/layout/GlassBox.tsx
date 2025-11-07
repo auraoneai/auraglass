@@ -343,7 +343,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
     };
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         intent="neutral"
         elevation={getElevationLevel(elevation)}

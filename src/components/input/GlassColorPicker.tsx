@@ -335,7 +335,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
     const config = sizeConfigs[size];
 
     return (
-        <div className="relative">
+        <div data-glass-component className="relative">
             {/* Color Trigger */}
             <div
                 ref={triggerRef}

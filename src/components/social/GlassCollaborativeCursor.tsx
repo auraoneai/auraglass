@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useMemo, useCallback } from 'react'
@@ -52,6 +53,7 @@ const cursorColors = [
 
 export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollaborativeCursorProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     users,
     currentUserId,
     showCursorTails = true,
@@ -182,17 +184,13 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           top: user.y,
           transform: 'translate(-2px, -2px)'
         }}
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           x: 0,
           y: 0,
           scale: user.isActive ? 1 : 0.8,
           opacity: user.isActive ? 1 : 0.6
         }}
-        transition={{
-          type: 'spring',
-          stiffness: 300,
-          damping: 30
-        }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       >
         <svg
           width={size}
@@ -218,11 +216,11 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           top: user.y - 5
         }}
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ 
+        animate={prefersReducedMotion ? {} : { 
           opacity: user.isActive ? 1 : 0.7,
           scale: user.isActive ? 1 : 0.9
         }}
-        transition={{ duration: 0.2 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
       >
         <div
           className={cn('glass-px-2 glass-py-1 glass-radius-md glass-text-xs glass-font-medium glass-text-primary glass-border glass-border-white/20')}
@@ -296,8 +294,8 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
             backgroundColor: `${getUserColor(user.id)}20`
           }}
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 0.5, scale: 1 }}
-          transition={{ duration: 0.2 }}
+          animate={prefersReducedMotion ? {} : { opacity: 0.5, scale: 1 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
         />
       )
     }

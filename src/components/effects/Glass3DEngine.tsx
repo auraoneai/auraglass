@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
 import { cn } from '@/lib/utils';
  * Immersive 3D Glass Effects Engine
@@ -81,6 +82,7 @@ const DEFAULT_LAYERS: Glass3DLayer[] = [
 ];
 
 export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
+  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   layers = [],
@@ -340,7 +342,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
           filter: `blur(${layer.blurRadius + focusBlur}px)`,
           opacity: layer.opacity * focusOpacity,
         }}
-        transition={{ duration: 0.3 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
       >
         <DistortionMesh layer={layer} />
       </motion.div>
@@ -424,11 +426,11 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
               mixBlendMode: 'overlay',
               transform: `translateZ(${finalLayers.length * 20 + 10}px)`,
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               opacity: isInteracting ? 0.8 : 0.4,
               scale: isInteracting ? 1.02 : 1,
             }}
-            transition={{ duration: 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
           />
         )}
       </motion.div>
@@ -468,7 +470,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
         <div className="glass-3d-interaction-indicator">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            animate={prefersReducedMotion ? {} : { scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             className="interaction-pulse"
             style={{

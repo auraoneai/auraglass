@@ -121,7 +121,7 @@ export const ContrastGuard: React.FC<ContrastGuardProps> = ({
   );
 
   return (
-    <Component
+    <Component data-glass-component
       {...{
         ref: elementRef as any,
         className: cn(

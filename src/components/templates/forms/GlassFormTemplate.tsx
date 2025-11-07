@@ -240,7 +240,7 @@ export const GlassFormTemplate = forwardRef<HTMLDivElement, GlassFormTemplatePro
       if (!isMultiStep || !showProgress) return null;
 
       return (
-        <VStack space="md">
+        <VStack data-glass-component space="md">
           <HStack space="sm" align="center" justify="between">
             <span className="text-sm font-medium text-primary">
               Step {currentStep + 1} of {totalSteps}

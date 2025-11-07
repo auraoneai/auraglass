@@ -246,7 +246,7 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
       : pullText;
 
     return (
-      <div
+      <div data-glass-component
         ref={ref}
         className={cn('relative overflow-hidden', className)}
         {...props}

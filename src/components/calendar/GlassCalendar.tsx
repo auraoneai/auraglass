@@ -233,7 +233,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
     // Loading skeleton
     if (loading) {
         return (
-            <GlassCard className={cn('glass-p-6', className)}>
+            <GlassCard data-glass-component className={cn('glass-p-6', className)}>
                 <div className="animate-pulse gap-4">
                     <div className="flex items-center justify-between">
                         <div className="h-8 glass-surface-subtle/20 glass-radius-md w-32"></div>

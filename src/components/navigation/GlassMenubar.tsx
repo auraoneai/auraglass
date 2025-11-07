@@ -169,7 +169,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
     };
 
     return (
-        <OptimizedGlass
+        <OptimizedGlass data-glass-component
           intent="neutral"
           elevation="level2"
           intensity="medium"

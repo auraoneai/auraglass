@@ -41,7 +41,7 @@ export const GlassAvatarGroup = forwardRef<HTMLDivElement, GlassAvatarGroupProps
   
   const defaultAriaLabel = `Group of ${users.length} users${rest > 0 ? `, showing ${shown.length} of ${users.length}` : ''}`;
   return (
-    <div 
+    <div data-glass-component 
       ref={ref}
       id={componentId}
       className={cn('flex items-center', className)}

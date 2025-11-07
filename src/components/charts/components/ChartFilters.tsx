@@ -29,7 +29,7 @@ export const ChartFilters: React.FC<ChartFiltersProps> = ({
   const glowAmount = qualityTier === 'low' ? 2 : qualityTier === 'medium' ? 4 : qualityTier === 'high' ? 6 : 8;
 
   return (
-    <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+    <svg data-glass-component style={{ position: 'absolute', width: 0, height: 0 }}>
       <defs>
         {/* Glow filter */}
         <filter id="chart-glow" x="-50%" y="-50%" width="200%" height="200%">

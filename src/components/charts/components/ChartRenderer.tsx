@@ -183,7 +183,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
 
   if (!isLoaded) {
     return (
-      <div style={containerStyle}>
+      <div data-glass-component style={containerStyle}>
         <div style={{
           display: 'flex',
           alignItems: 'center',

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Liquid Glass Transitions
  * Fluid morphing transitions between glass states
@@ -23,6 +24,7 @@ interface LiquidTransitionProps {
 }
 
 export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransitionProps>(({
+  const prefersReducedMotion = useReducedMotion();
   children,
   className,
   variant = 'morph',
@@ -315,9 +317,9 @@ function LiquidRipples({ x, y, intensity, duration }: LiquidRipplesProps): JSX.E
           key={ripple.id}
           className="absolute pointer-events-none"
           initial={{ scale: 0, opacity: 1 }}
-          animate={{ scale: 3 * intensity, opacity: 0 }}
+          animate={prefersReducedMotion ? {} : { scale: 3 * intensity, opacity: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: duration / 1000, ease: 'easeOut' }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: duration / 1000, ease: 'easeOut'  }}
           style={{
             left: `${50 + ripple.x * 50}%`,
             top: `${50 + ripple.y * 50}%`,
@@ -366,9 +368,9 @@ function LiquidSplash({ x, y, intensity, duration }: LiquidSplashProps): JSX.Ele
               opacity: [1, 0.5, 0],
             }}
             exit={{ opacity: 0 }}
-            transition={{
-              duration: duration / 1000,
-              ease: 'easeOut',
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: duration / 1000,
+    ease: 'easeOut',
             }}
             style={{
               translateX: '-50%',

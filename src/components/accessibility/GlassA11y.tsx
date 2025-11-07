@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
@@ -43,6 +44,7 @@ export function GlassA11y({
   enableTesting = true,
   position = 'fixed'
 }: GlassA11yProps) {
+  const prefersReducedMotion = useReducedMotion();
   // Mock accessibility configuration state - in real implementation this would come from a context
   const [config, setConfig] = useState({
     contrastLevel: 'normal',
@@ -255,9 +257,9 @@ export function GlassA11y({
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
-            transition={{ duration: isMotionReduced ? 0.1 : 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: isMotionReduced ? 0.1 : 0.3 }}
             className={cn(
               // Base glass foundation
               'glass-foundation-complete absolute glass-right-0 glass-top-16',
@@ -507,9 +509,9 @@ export function GlassA11y({
                             {section.isExpanded && (
                               <motion.div
                                 initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
+                                animate={prefersReducedMotion ? {} : { height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: isMotionReduced ? 0.1 : 0.3 }}
+                                transition={prefersReducedMotion ? { duration: 0 } : { duration: isMotionReduced ? 0.1 : 0.3 }}
                                 className="border-t border-white/10"
                               >
                                 <div className="p-4">

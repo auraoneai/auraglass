@@ -13,7 +13,7 @@ export interface GlassDiffViewerProps {
 
 export function GlassDiffViewer({ left, right, sideBySide = true, className }: GlassDiffViewerProps) {
   return (
-    <div className={cn('w-full', className)}>
+    <div data-glass-component className={cn('w-full', className)}>
       {sideBySide ? (
         <div className="grid grid-cols-2 gap-3">
           <OptimizedGlass elevation={'level1'} className="glass-radius-lg p-3 border border-white/15 overflow-auto">

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * Enhancement Showcase
  * Comprehensive demo showcasing all advanced AuraGlass features:
@@ -46,6 +47,7 @@ interface ShowcaseSection {
 }
 
 export const EnhancementShowcase: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const [activeSection, setActiveSection] = useState<string>('overview');
   const [demoState, setDemoState] = useState({
     interactionCount: 0,
@@ -562,9 +564,9 @@ export const EnhancementShowcase: React.FC = () => {
               <motion.div
                 key={section.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
                 className="space-y-8"
               >
                 {/* Section Header */}

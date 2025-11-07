@@ -87,7 +87,7 @@ export const GlassNotificationProvider: React.FC<{ children: React.ReactNode }> 
   };
 
   return (
-    <NotificationContext.Provider value={{
+    <NotificationContext.Provider data-glass-component value={{
       notifications,
       addNotification,
       removeNotification,

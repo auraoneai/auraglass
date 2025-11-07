@@ -852,7 +852,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   return (
-    <EcommerceContext.Provider value={value}>
+    <EcommerceContext.Provider data-glass-component value={value}>
       {children}
     </EcommerceContext.Provider>
   );

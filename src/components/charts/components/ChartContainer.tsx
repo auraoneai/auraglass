@@ -52,7 +52,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
   };
 
   return (
-    <div className={cn('glass-chart-container', className)} style={containerStyle}>
+    <div data-glass-component className={cn('glass-chart-container', className)} style={containerStyle}>
       {children}
     </div>
   );

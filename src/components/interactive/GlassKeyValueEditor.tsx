@@ -21,7 +21,7 @@ export function GlassKeyValueEditor({ value, onChange, className }: GlassKeyValu
   const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i));
 
   return (
-    <div className={cn('glass-gap-2', className)} role="group" aria-label="Key-value pair editor">
+    <div data-glass-component className={cn('glass-gap-2', className)} role="group" aria-label="Key-value pair editor">
       {value.map((p, i) => (
         <div key={i} className="flex gap-2" role="group" aria-label={`Key-value pair ${i + 1}`}>
           <input

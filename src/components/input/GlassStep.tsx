@@ -79,7 +79,7 @@ export const GlassStep = forwardRef<HTMLDivElement, GlassStepInternalProps>((
   const orientationClasses = getOrientationClasses(finalOrientation);
 
   return (
-    <Motion>
+    <Motion data-glass-component>
       <OptimizedGlass
         ref={ref}
         intent={intent}

@@ -199,7 +199,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             <GlassBadge
               variant={item?.badgeVariant || 'error'}
               size="xs"
-              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 min-w-[1.25rem] h-5 flex items-center justify-center"
+              className="absolute glass-top-1 -right-1 min-w-[1.25rem] h-5 flex items-center justify-center"
             >
               {item?.badge}
             </GlassBadge>
