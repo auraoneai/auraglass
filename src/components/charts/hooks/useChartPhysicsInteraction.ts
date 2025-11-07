@@ -41,6 +41,44 @@ export interface ChartPhysicsInteraction {
   resetZoom: () => void;
 }
 
+type ChartAxis = 'x' | 'y';
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const getScaleAxis = (scale: unknown, scaleId: string): ChartAxis | null => {
+  if (isRecord(scale)) {
+    const { axis } = scale as { axis?: unknown };
+    if (axis === 'x' || axis === 'y') {
+      return axis;
+    }
+  }
+
+  const fallback = scaleId.charAt(0).toLowerCase();
+  return fallback === 'x' || fallback === 'y' ? (fallback as ChartAxis) : null;
+};
+
+const hasNumericRange = (
+  scale: unknown
+): scale is { min: number; max: number } => {
+  if (!isRecord(scale)) {
+    return false;
+  }
+
+  const { min, max } = scale as { min?: unknown; max?: unknown };
+  return (
+    typeof min === 'number' &&
+    typeof max === 'number' &&
+    Number.isFinite(min) &&
+    Number.isFinite(max)
+  );
+};
+
+const axisMatchesMode = (
+  axis: ChartAxis,
+  mode: NonNullable<ChartPhysicsOptions['mode']>
+) => mode === 'xy' || mode === axis;
+
 /**
  * Hook for physics-based chart interactions (zoom/pan)
  *
@@ -120,23 +158,20 @@ export function useChartPhysicsInteraction(
       if (chart.options.scales) {
         Object.keys(chart.options.scales).forEach((scaleId) => {
           const scale = chart.options.scales![scaleId];
-          const axis = scale.axis || scaleId.charAt(0);
+          if (!scale) return;
+
+          const axis = getScaleAxis(scale, scaleId);
+          if (!axis || !axisMatchesMode(axis, mode)) return;
 
           // Only apply zoom to enabled axes based on mode
-          if (
-            (mode === 'xy') ||
-            (mode === 'x' && axis === 'x') ||
-            (mode === 'y' && axis === 'y')
-          ) {
-            if (scale.min !== undefined && scale.max !== undefined) {
-              const range = scale.max - scale.min;
-              const center = (scale.max + scale.min) / 2;
-              const newRange = range / clampedLevel;
+          if (!hasNumericRange(scale)) return;
 
-              scale.min = center - newRange / 2;
-              scale.max = center + newRange / 2;
-            }
-          }
+          const range = scale.max - scale.min;
+          const center = (scale.max + scale.min) / 2;
+          const newRange = range / clampedLevel;
+
+          scale.min = center - newRange / 2;
+          scale.max = center + newRange / 2;
         });
       }
 
@@ -203,24 +238,21 @@ export function useChartPhysicsInteraction(
       if (chart.options.scales) {
         Object.keys(chart.options.scales).forEach((scaleId) => {
           const scale = chart.options.scales![scaleId];
-          const axis = scale.axis || scaleId.charAt(0);
+          if (!scale) return;
+
+          const axis = getScaleAxis(scale, scaleId);
+          if (!axis || !axisMatchesMode(axis, mode)) return;
 
           // Only pan enabled axes based on mode
-          if (
-            (mode === 'xy') ||
-            (mode === 'x' && axis === 'x') ||
-            (mode === 'y' && axis === 'y')
-          ) {
-            if (scale.min !== undefined && scale.max !== undefined) {
-              const range = scale.max - scale.min;
-              const panAmount = axis === 'x'
-                ? -(deltaX / (wrapperRef.current?.offsetWidth || 1)) * range
-                : (deltaY / (wrapperRef.current?.offsetHeight || 1)) * range;
+          if (!hasNumericRange(scale)) return;
 
-              scale.min += panAmount;
-              scale.max += panAmount;
-            }
-          }
+          const range = scale.max - scale.min;
+          const panAmount = axis === 'x'
+            ? -(deltaX / (wrapperRef.current?.offsetWidth || 1)) * range
+            : (deltaY / (wrapperRef.current?.offsetHeight || 1)) * range;
+
+          scale.min += panAmount;
+          scale.max += panAmount;
         });
 
         chart.update('none');
