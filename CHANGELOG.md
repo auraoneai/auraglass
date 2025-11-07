@@ -5,6 +5,13 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.6] - 2025-11-07
+
+### ♻️ Maintenance
+
+- Removed the redundant Z-Space layout and GlassTabItem utility styles from `src/styles/glass.css` now that the React components inject their own scoped styles, keeping the global stylesheet slim and avoiding repeated rules during SSR builds.
+
+
 ## [2.0.5] - 2025-11-07
 
 ### 🐛 Fixed
