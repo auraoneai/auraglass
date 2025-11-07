@@ -256,7 +256,9 @@ export { useAsyncError, useErrorBoundary, useErrorReporting, useGracefulDegradat
 export { useGlassIntersection, useGlassIntersectionAnimation, useGlassLazyImage, useProgressiveLoading } from './hooks/useGlassIntersection';
 export { useAdaptiveComponentLoading, useGlassOptimization, useOptimizedGlassComponent } from './hooks/useGlassOptimization';
 export { useMotionPreference } from './hooks/useMotionPreference';
-export { usePhysicsButton, usePhysicsDrag, useSimplePhysicsHover } from './hooks/usePhysicsInteraction';
+export { useReducedMotion } from './hooks/useReducedMotion';
+export { useGalileoStateSpring, useGalileoStateSpring as useAuraStateSpring } from './hooks/useGalileoStateSpring';
+export { usePhysicsInteraction, usePhysicsButton, usePhysicsDrag, useSimplePhysicsHover } from './hooks/usePhysicsInteraction';
 export { useGridVirtualization, useInfiniteVirtualization, useTableVirtualization, useVirtualization, useWindowVirtualization } from './hooks/useVirtualization';
 export { useA11yId } from './utils/a11y';
 export { useGlassSound } from './utils/soundDesign';
@@ -283,6 +285,7 @@ export { createZSpaceLayers, zSpaceLayer } from './core/mixins/zSpaceLayer';
 // Animation System
 export * from './animations/hooks';
 export * from './animations/physics';
+export { SpringPresets } from './animations/physics/springPhysics';
 // Explicitly re-export orchestration to resolve ambiguity
 export {
     createOrchestration, orchestrationPresets, useAnimationSequence as orchestrationUseAnimationSequence
@@ -356,4 +359,3 @@ export type {
     TableColumn,
     TableRow, ThemeConfig, TimelineItem, ValidationResult, ValidationRule, VirtualizationConfig
 } from './types/productionTypes';
-
