@@ -645,8 +645,8 @@ export const ContextAwareGlass = forwardRef<HTMLDivElement, ContextAwareGlassPro
           }),
           ...(enableEdgeHighlight && {
             boxShadow: isDarkMode 
-              ? '0 0 20px rgba(255, 255, 255, 0.1)' 
-              : '0 0 20px rgba(0, 0, 0, 0.1)',
+              ? '0 0 20px var(--glass-bg-default)' 
+              : '0 0 20px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
           }),
         }}
         {...rest}

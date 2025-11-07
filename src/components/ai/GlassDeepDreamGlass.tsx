@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { cn } from '@/lib/utils';
 
 import { motion } from 'framer-motion'
@@ -318,7 +319,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               if (layer) {
                 // Simulate layer activation
                 const activations = simulateLayerActivation(layer, currentImageData)
-                setLayerActivations(prev => ({ ...prev, [layerId]: activations }))
+                setLayerActivations((prev: any) => ({ ...prev, [layerId]: activations }))
                 onLayerActivation?.(layerId, activations)
                 
                 // Apply dream effect
@@ -375,9 +376,9 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
 
     // Handle layer selection
     const toggleLayer = useCallback((layerId: string) => {
-      setSettings(prev => {
+      setSettings((prev: any) => {
         const layers = prev.layers.includes(layerId)
-          ? prev.layers.filter(id => id !== layerId)
+          ? prev.layers.filter((id: any) => id !== layerId)
           : [...prev.layers, layerId]
         return { ...prev, layers }
       })
@@ -449,7 +450,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
                   </div>
                   
                   <div className="flex flex-wrap gap-1 mt-2">
-                    {layer.features.slice(0, 3).map(feature => (
+                    {layer.features.slice(0, 3).map((feature: any) => (
                       <span
                         key={feature}
                         className="px-1.5 py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius text-xs"
@@ -502,7 +503,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               min="5"
               max="100"
               value={settings.iterations}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 iterations: parseInt(e.target.value) 
               }))}
@@ -520,7 +521,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               max="0.1"
               step="0.001"
               value={settings.learningRate}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 learningRate: parseFloat(e.target.value) 
               }))}
@@ -537,7 +538,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               min="1"
               max="8"
               value={settings.octaves}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 octaves: parseInt(e.target.value) 
               }))}
@@ -555,7 +556,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               max="2.0"
               step="0.1"
               value={settings.octaveScale}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 octaveScale: parseFloat(e.target.value) 
               }))}
@@ -573,7 +574,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               max="5.0"
               step="0.1"
               value={settings.stepSize}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 stepSize: parseFloat(e.target.value) 
               }))}
@@ -591,7 +592,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               max="50.0"
               step="1.0"
               value={settings.maxLoss}
-              onChange={(e) => setSettings(prev => ({ 
+              onChange={(e) => setSettings((prev: any) => ({ 
                 ...prev, 
                 maxLoss: parseFloat(e.target.value) 
               }))}

@@ -440,8 +440,8 @@ if (defaults?.font) {
   defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 }
 // Set colors safely
-defaults.color = '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}';
-defaults.borderColor = '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}';
+defaults.color = '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
+defaults.borderColor = '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
 
 /**
  * Register required Chart.js components
@@ -548,7 +548,7 @@ interface ZoomControlsProps {
 const zoomControlsStyle = createGlassStyle({ intent: "neutral", elevation: "level2" });
 
 const zoomLevelStyle = {
-  color: '${glassStyles.text?.primary || "rgba(255, 255, 255, 0.9)"}',
+  color: '${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"}',
   fontSize: 'var(--typography-caption-size)',
   padding: '0 8px',
   minWidth: '40px',
@@ -658,8 +658,8 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       showYGrid: true,
       showXLabels: true,
       showYLabels: true,
-      axisColor: '${glassStyles.borderColor || "rgba(255, 255, 255, 0.3)"}',
-      gridColor: '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}',
+      axisColor: '${glassStyles.borderColor || "var(--glass-bg-hover)"}',
+      gridColor: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
       gridStyle: 'solid',
     },
     initialSelection,
@@ -969,7 +969,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       let newSelectedDatasets = [...selectedDatasets];
 
       if (newSelectedDatasets.includes(index)) {
-        newSelectedDatasets = newSelectedDatasets.filter(i => i !== index);
+        newSelectedDatasets = newSelectedDatasets.filter((i: any) => i !== index);
       } else {
         newSelectedDatasets.push(index);
       }
@@ -1041,7 +1041,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
         const physicsOptions = getElementPhysicsOptions(dataPoint, datasetIndex, dataIndex, chartType);
         if (physicsOptions?.clickEffect) {
           const key = `${datasetIndex}_${dataIndex}`;
-          setElementAnimationTargets(prev => 
+          setElementAnimationTargets((prev: any) => 
             new Map(prev).set(key, { 
               ...prev.get(key),
               targetScale: physicsOptions.clickEffect?.scale ?? 1, 
@@ -1118,7 +1118,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
           if (!dataPoint) return;
           const physicsOptions = getElementPhysicsOptions(dataPoint, datasetIndex, dataIndex, chartType);
           if (physicsOptions?.hoverEffect) {
-            setElementAnimationTargets(prev => 
+            setElementAnimationTargets((prev: any) => 
               new Map(prev).set(currentHoveredKey!, { // Use non-null assertion as key is set
                 ...prev.get(currentHoveredKey!), 
                 targetScale: physicsOptions.hoverEffect?.scale ?? 1,
@@ -1166,7 +1166,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     // Reset animation targets for previously hovered element if it's different
     // Only reset if physics hover effects are enabled
     if (interaction.physicsHoverEffects && previousHoveredKey && previousHoveredKey !== currentHoveredKey) {
-         setElementAnimationTargets(prev => 
+         setElementAnimationTargets((prev: any) => 
             new Map(prev).set(previousHoveredKey, { 
               ...prev.get(previousHoveredKey),
               targetScale: 1, 
@@ -1189,7 +1189,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     // Reset all hover targets on leave ONLY if physics effects are enabled
     if (interaction.physicsHoverEffects) {
         let resetOccurred = false;
-        setElementAnimationTargets(prev => {
+        setElementAnimationTargets((prev: any) => {
             const next = new Map(prev);
             for (const key of next.keys()) {
                 const current = next.get(key);
@@ -1274,7 +1274,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       
       if (subtitle) {
         exportContext.font = `${14 * devicePixelRatio}px Inter, sans-serif`;
-        exportContext.fillStyle = '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}';
+        exportContext.fillStyle = '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
         exportContext.fillText(subtitle, exportCanvas.width / 2, title ? 45 * devicePixelRatio : 25 * devicePixelRatio);
       }
     }

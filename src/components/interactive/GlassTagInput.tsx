@@ -21,7 +21,7 @@ export function GlassTagInput({ value, onChange, placeholder = 'Add tag…', sug
     if (!value.includes(tag)) onChange([...value, tag]);
     setInput('');
   };
-  const remove = (tag: string) => onChange(value.filter(v => v !== tag));
+  const remove = (tag: string) => onChange(value.filter((v: any) => v !== tag));
 
   return (
     <OptimizedGlass elevation={'level1'} className={cn('glass-radius-xl glass-p-2 flex flex-wrap glass-gap-2', className)}>
@@ -48,7 +48,7 @@ export function GlassTagInput({ value, onChange, placeholder = 'Add tag…', sug
       {!!suggestions.length && input && (
         <div className="w-full -mb-1">
           <div className="glass-mt-1 glass-radius-lg border border-white/15 glass-surface-dark/20 p-1">
-            {suggestions.filter(s => s.toLowerCase().includes(input.toLowerCase())).slice(0,6).map(s => (
+            {suggestions.filter((s: any) => s.toLowerCase().includes(input.toLowerCase())).slice(0,6).map((s: any) => (
               <GlassButton key={s} variant="ghost" size="sm" className="w-full justify-start" onClick={(e) => add(s)}>
                 {s}
               </GlassButton>

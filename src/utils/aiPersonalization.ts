@@ -134,7 +134,7 @@ class AIPersonalizationEngine {
     
     // Temporal features
     const now = Date.now();
-    const recentInteractions = interactions.filter(i => now - i.timestamp < 3600000); // Last hour
+    const recentInteractions = interactions.filter((i: any) => now - i.timestamp < 3600000); // Last hour
     
     const features = {
       // Interaction frequency
@@ -142,14 +142,14 @@ class AIPersonalizationEngine {
       recentInteractionRate: recentInteractions.length / 60, // Interactions per minute
       
       // Interaction types distribution
-      clickRatio: interactions.filter(i => i.type === 'click').length / interactions.length,
-      hoverRatio: interactions.filter(i => i.type === 'hover').length / interactions.length,
-      scrollRatio: interactions.filter(i => i.type === 'scroll').length / interactions.length,
+      clickRatio: interactions.filter((i: any) => i.type === 'click').length / interactions.length,
+      hoverRatio: interactions.filter((i: any) => i.type === 'hover').length / interactions.length,
+      scrollRatio: interactions.filter((i: any) => i.type === 'scroll').length / interactions.length,
       
       // Duration patterns
       avgInteractionDuration: interactions.reduce((sum, i) => sum + i.duration, 0) / interactions.length,
-      maxInteractionDuration: Math.max(...interactions.map(i => i.duration)),
-      minInteractionDuration: Math.min(...interactions.map(i => i.duration)),
+      maxInteractionDuration: Math.max(...interactions.map((i: any) => i.duration)),
+      minInteractionDuration: Math.min(...interactions.map((i: any) => i.duration)),
       
       // Temporal patterns
       hourOfDay: new Date().getHours(),
@@ -157,8 +157,8 @@ class AIPersonalizationEngine {
       
       // Sequence patterns
       sequentialClicks: this.countSequentialPatterns(interactions, 'click'),
-      rapidInteractions: interactions.filter(i => i.duration < 100).length,
-      slowInteractions: interactions.filter(i => i.duration > 5000).length,
+      rapidInteractions: interactions.filter((i: any) => i.duration < 100).length,
+      slowInteractions: interactions.filter((i: any) => i.duration > 5000).length,
       
       // Spatial patterns (if position data available)
       avgPositionX: this.calculateAveragePosition(interactions, 'x'),
@@ -166,7 +166,7 @@ class AIPersonalizationEngine {
       positionVariance: this.calculatePositionVariance(interactions),
       
       // Context patterns
-      uniqueContexts: new Set(interactions.map(i => i.context)).size,
+      uniqueContexts: new Set(interactions.map((i: any) => i.context)).size,
       contextSwitchRate: this.calculateContextSwitchRate(interactions),
     };
     
@@ -267,8 +267,8 @@ class AIPersonalizationEngine {
   private analyzeInteractionStyle(interactions: UserInteraction[], features: Record<string, number>) {
     const typeDistribution = {
       mouse: features.clickRatio + features.hoverRatio,
-      touch: interactions.filter(i => i.metadata?.touch).length / interactions.length,
-      keyboard: interactions.filter(i => i.type === 'type').length / interactions.length,
+      touch: interactions.filter((i: any) => i.metadata?.touch).length / interactions.length,
+      keyboard: interactions.filter((i: any) => i.type === 'type').length / interactions.length,
     };
     
     const primaryInput = Object.entries(typeDistribution)
@@ -286,7 +286,7 @@ class AIPersonalizationEngine {
   
   // Analyze content preferences
   private analyzeContentPreferences(interactions: UserInteraction[], features: Record<string, number>): PersonalizationProfile['contentPreferences'] {
-    const longInteractions = interactions.filter(i => i.duration > 3000).length;
+    const longInteractions = interactions.filter((i: any) => i.duration > 3000).length;
     const totalInteractions = interactions.length;
 
     return {
@@ -379,14 +379,14 @@ class AIPersonalizationEngine {
     const hour = new Date(time).getHours();
     const day = new Date(time).getDay();
     
-    const relevantPatterns = this.patterns.filter(pattern =>
+    const relevantPatterns = this.patterns.filter((pattern: any) =>
       pattern.contexts.includes(context) &&
       pattern.temporal.timeOfDay.includes(hour) &&
       pattern.temporal.dayOfWeek.includes(day)
     );
     
     return relevantPatterns
-      .map(pattern => ({
+      .map((pattern: any) => ({
         action: pattern.name,
         probability: pattern.confidence * pattern.frequency / 100,
       }))
@@ -412,14 +412,14 @@ class AIPersonalizationEngine {
   }
   
   private calculateAveragePosition(interactions: UserInteraction[], axis: 'x' | 'y'): number {
-    const withPosition = interactions.filter(i => i.position);
+    const withPosition = interactions.filter((i: any) => i.position);
     if (withPosition.length === 0) return 0;
     
     return withPosition.reduce((sum, i) => sum + i.position![axis], 0) / withPosition.length;
   }
   
   private calculatePositionVariance(interactions: UserInteraction[]): number {
-    const withPosition = interactions.filter(i => i.position);
+    const withPosition = interactions.filter((i: any) => i.position);
     if (withPosition.length === 0) return 0;
     
     const avgX = this.calculateAveragePosition(interactions, 'x');
@@ -450,7 +450,7 @@ class AIPersonalizationEngine {
   private calculateHourDistribution(interactions: UserInteraction[]): number[] {
     const distribution = new Array(24).fill(0);
     
-    interactions.forEach(interaction => {
+    interactions.forEach((interaction: any) => {
       const hour = new Date(interaction.timestamp).getHours();
       distribution[hour]++;
     });

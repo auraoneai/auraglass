@@ -102,7 +102,7 @@ const ComponentRenderer: React.FC<{
             {component.children.length === 0 ? (
               <span className="glass-text-secondary text-sm">Drop components here</span>
             ) : (
-              component.children.map(child => (
+              component.children.map((child: any) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -135,7 +135,7 @@ const ComponentRenderer: React.FC<{
             {component.children.length === 0 ? (
               <span className="glass-text-secondary text-sm">Add columns here</span>
             ) : (
-              component.children.map(child => (
+              component.children.map((child: any) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -168,7 +168,7 @@ const ComponentRenderer: React.FC<{
             {component.children.length === 0 ? (
               <span className="glass-text-secondary text-sm">Column content</span>
             ) : (
-              component.children.map(child => (
+              component.children.map((child: any) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -316,7 +316,7 @@ const ComponentRenderer: React.FC<{
             {component.children.length === 0 ? (
               <span className="glass-text-secondary text-sm">Card content goes here</span>
             ) : (
-              component.children.map(child => (
+              component.children.map((child: any) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -478,8 +478,8 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
                 // Render Components
                 <div className="p-4 space-y-4">
                   {pageState.components
-                    .filter(component => !component.parent) // Only root components
-                    .map(component => (
+                    .filter((component: any) => !component.parent) // Only root components
+                    .map((component: any) => (
                     <div key={component.id} className="relative">
                       <DropZone
                         position="before"

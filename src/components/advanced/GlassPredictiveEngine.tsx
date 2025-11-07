@@ -197,7 +197,7 @@ class PredictiveUIEngine {
   private analyzeSequentialPatterns(interactions: UserInteraction[]): void {
     for (let i = 0; i < interactions.length - 2; i++) {
       const sequence = interactions.slice(i, i + 3);
-      const pattern = sequence.map(int => int.element).join(' -> ');
+      const pattern = sequence.map((int: any) => int.element).join(' -> ');
       const patternId = `seq_${pattern}`;
       
       const existing = this.patterns.get(patternId);
@@ -212,7 +212,7 @@ class PredictiveUIEngine {
           confidence: 0.3,
           frequency: 1,
           lastSeen: Date.now(),
-          pattern: sequence.map(int => int.element),
+          pattern: sequence.map((int: any) => int.element),
           prediction: sequence.length > 2 ? 'next_in_sequence' : 'unknown',
         });
       }
@@ -222,7 +222,7 @@ class PredictiveUIEngine {
   private analyzeTemporalPatterns(interactions: UserInteraction[]): void {
     const timeGroups = new Map<number, UserInteraction[]>();
     
-    interactions.forEach(interaction => {
+    interactions.forEach((interaction: any) => {
       const hour = new Date(interaction.timestamp).getHours();
       if (!timeGroups.has(hour)) {
         timeGroups.set(hour, []);
@@ -232,7 +232,7 @@ class PredictiveUIEngine {
 
     timeGroups.forEach((hourInteractions, hour) => {
       const commonElements = this.findCommonElements(hourInteractions);
-      commonElements.forEach(element => {
+      commonElements.forEach((element: any) => {
         const patternId = `temporal_${hour}_${element}`;
         const existing = this.patterns.get(patternId);
         
@@ -257,7 +257,7 @@ class PredictiveUIEngine {
   private analyzeSpatialPatterns(interactions: UserInteraction[]): void {
     const spatialGroups = new Map<string, UserInteraction[]>();
     
-    interactions.forEach(interaction => {
+    interactions.forEach((interaction: any) => {
       if (interaction.context.location) {
         const region = this.getScreenRegion(interaction.context.location);
         if (!spatialGroups.has(region)) {
@@ -287,7 +287,7 @@ class PredictiveUIEngine {
   private analyzeContextualPatterns(interactions: UserInteraction[]): void {
     const deviceGroups = new Map<string, UserInteraction[]>();
     
-    interactions.forEach(interaction => {
+    interactions.forEach((interaction: any) => {
       const device = interaction.context.deviceType;
       if (!deviceGroups.has(device)) {
         deviceGroups.set(device, []);
@@ -317,7 +317,7 @@ class PredictiveUIEngine {
     const now = Date.now();
     
     // Generate predictions from patterns
-    this.patterns.forEach(pattern => {
+    this.patterns.forEach((pattern: any) => {
       if (pattern.confidence > 0.5 && now - pattern.lastSeen < 86400000) { // 24 hours
         const prediction = this.createPredictiveAction(pattern);
         if (prediction) {
@@ -473,7 +473,7 @@ class PredictiveUIEngine {
   // Helper methods
   private findCommonElements(interactions: UserInteraction[]): string[] {
     const elementCount = new Map<string, number>();
-    interactions.forEach(int => {
+    interactions.forEach((int: any) => {
       elementCount.set(int.element, (elementCount.get(int.element) || 0) + 1);
     });
     
@@ -506,7 +506,7 @@ class PredictiveUIEngine {
     const patterns: Array<{ elements: string[]; frequency: number }> = [];
     const elementCount = new Map<string, number>();
     
-    interactions.forEach(int => {
+    interactions.forEach((int: any) => {
       elementCount.set(int.element, (elementCount.get(int.element) || 0) + 1);
     });
     
@@ -544,8 +544,8 @@ class PredictiveUIEngine {
 
   private calculateAverageResponseTime(interactions: UserInteraction[]): number {
     const times = interactions
-      .filter(int => int.metadata.responseTime)
-      .map(int => int.metadata.responseTime);
+      .filter((int: any) => int.metadata.responseTime)
+      .map((int: any) => int.metadata.responseTime);
     
     return times.length > 0 ? times.reduce((sum, time) => sum + time, 0) / times.length : 0;
   }
@@ -554,7 +554,7 @@ class PredictiveUIEngine {
     const sequences: UserInteraction[][] = [];
     let currentSequence: UserInteraction[] = [];
     
-    interactions.forEach(int => {
+    interactions.forEach((int: any) => {
       if (int.type === 'navigate') {
         if (currentSequence.length > 0) {
           sequences.push(currentSequence);
@@ -569,7 +569,7 @@ class PredictiveUIEngine {
       sequences.push(currentSequence);
     }
     
-    const abandonedSequences = sequences.filter(seq => 
+    const abandonedSequences = sequences.filter((seq: any) => 
       seq.length < 3 && seq[seq.length - 1]?.metadata?.completed !== true
     );
     
@@ -595,7 +595,7 @@ class PredictiveUIEngine {
 
     // Analyze interaction patterns to suggest workflow improvements
     const recentInteractions = this.interactions.slice(-20);
-    const taskMovement = recentInteractions.filter(i => i.type === 'click' && i.element === 'card');
+    const taskMovement = recentInteractions.filter((i: any) => i.type === 'click' && i.element === 'card');
 
     if (taskMovement.length > 5) {
       suggestions.push({
@@ -607,7 +607,7 @@ class PredictiveUIEngine {
     }
 
     // Suggest based on completion patterns
-    const completionPatterns = recentInteractions.filter(i => i.metadata?.action === 'complete');
+    const completionPatterns = recentInteractions.filter((i: any) => i.metadata?.action === 'complete');
     if (completionPatterns.length > 0) {
       suggestions.push({
         type: 'automation',
@@ -695,8 +695,8 @@ export function GlassPredictiveEngineProvider({
     setInsights(newInsights);
 
     // Trigger callbacks for new items
-    newPredictions.forEach(prediction => onPrediction?.(prediction));
-    newInsights.forEach(insight => onInsight?.(insight));
+    newPredictions.forEach((prediction: any) => onPrediction?.(prediction));
+    newInsights.forEach((insight: any) => onInsight?.(insight));
   }, [onPrediction, onInsight]);
 
   // Auto-record viewport changes and device type
@@ -824,7 +824,7 @@ export function GlassPredictionIndicator({
                 <h4 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
                   Predictions
                 </h4>
-                {topPredictions.map(prediction => (
+                {topPredictions.map((prediction: any) => (
                   <motion.div
                     key={prediction.id}
                     className="p-2 glass-surface-secondary glass-radius-md"
@@ -860,7 +860,7 @@ export function GlassPredictionIndicator({
                 <h4 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
                   AI Insights
                 </h4>
-                {topInsights.map(insight => (
+                {topInsights.map((insight: any) => (
                   <motion.div
                     key={insight.id}
                     className="p-2 glass-surface-secondary glass-radius-md"

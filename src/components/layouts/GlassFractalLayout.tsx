@@ -222,7 +222,7 @@ export const GlassFractalLayout = forwardRef<HTMLDivElement, GlassFractalLayoutP
       
       e.preventDefault()
       const zoomDelta = e.deltaY > 0 ? 0.9 : 1.1
-      setCurrentZoom(prev => Math.max(0.1, Math.min(5, prev * zoomDelta)))
+      setCurrentZoom((prev: any) => Math.max(0.1, Math.min(5, prev * zoomDelta)))
     }, [interactiveZoom])
 
     const getNodeVariants = () => ({

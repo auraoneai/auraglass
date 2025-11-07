@@ -337,7 +337,7 @@ const TranscriptPanel: React.FC<{
 
   useEffect(() => {
     if (searchQuery) {
-      const results = transcript.filter(entry =>
+      const results = transcript.filter((entry: any) =>
         entry.text.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setHighlightedResults(results);
@@ -388,7 +388,7 @@ const TranscriptPanel: React.FC<{
 
       {/* Transcript Entries */}
       <div className="flex-1 overflow-y-auto space-y-2">
-        {(searchQuery ? highlightedResults : transcript).map(entry => {
+        {(searchQuery ? highlightedResults : transcript).map((entry: any) => {
           const isActive = currentTime >= entry.startTime && currentTime <= entry.endTime;
           
           return (

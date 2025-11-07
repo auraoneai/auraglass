@@ -136,13 +136,13 @@ const optimizeFormFlow = (fields: FormField[]): string[] => {
   }
 
   // Check for required field balance
-  const requiredFields = fields.filter(f => f.required).length;
+  const requiredFields = fields.filter((f: any) => f.required).length;
   if (requiredFields / fields.length > 0.7) {
     optimizations.push('Consider reducing required fields to improve completion rates');
   }
 
   // Check for conditional logic opportunities
-  const independentFields = fields.filter(f => !f.conditional).length;
+  const independentFields = fields.filter((f: any) => !f.conditional).length;
   if (independentFields === fields.length && fields.length > 5) {
     optimizations.push('Consider adding conditional logic to reduce cognitive load');
   }
@@ -228,7 +228,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
   const calculateAccessibilityScore = (fields: FormField[]): number => {
     let score = 100;
     
-    fields.forEach(field => {
+    fields.forEach((field: any) => {
       if (!field.label || field.label.trim() === '') score -= 10;
       if (field.required && !field.validation) score -= 5;
       if (field.type === 'select' && (!field.options || field.options.length === 0)) score -= 10;
@@ -245,14 +245,14 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
       required: false
     };
 
-    setSchema(prev => ({
+    setSchema((prev: any) => ({
       ...prev,
       fields: [...prev.fields, newField]
     }));
   }, []);
 
   const updateField = useCallback((index: number, updates: Partial<FormField>) => {
-    setSchema(prev => ({
+    setSchema((prev: any) => ({
       ...prev,
       fields: prev.fields.map((field, i) => {
         if (i === index) {
@@ -274,7 +274,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
   }, [enableAIAssistance]);
 
   const removeField = useCallback((index: number) => {
-    setSchema(prev => ({
+    setSchema((prev: any) => ({
       ...prev,
       fields: prev.fields.filter((_, i) => i !== index)
     }));
@@ -358,7 +358,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
             <input
               type="text"
               value={schema.title}
-              onChange={(e) => setSchema(prev => ({ ...prev, title: e.target.value }))}
+              onChange={(e) => setSchema((prev: any) => ({ ...prev, title: e.target.value }))}
               className={cn(
                 "glass-w-full glass-px-3 glass-py-2 glass-border glass-radius-lg glass-focus",
                 validationErrors.title ? "border-red-500" : "border-gray-300"
@@ -376,7 +376,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
             <input
               type="text"
               value={schema.description}
-              onChange={(e) => setSchema(prev => ({ ...prev, description: e.target.value }))}
+              onChange={(e) => setSchema((prev: any) => ({ ...prev, description: e.target.value }))}
               className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
               placeholder="Describe the purpose of this form..."
             />

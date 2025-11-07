@@ -208,7 +208,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
     // Handle rotation
     const handleRotate = useCallback((degrees: number) => {
-        setRotation(prev => (prev + degrees) % 360);
+        setRotation((prev: any) => (prev + degrees) % 360);
     }, []);
 
     // Handle pan
@@ -324,7 +324,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
     useEffect(() => {
             if (isAutoPlaying && images && images.length > 1) {
             autoPlayRef.current = setInterval(() => {
-                setCurrentIndex(prev => (prev + 1) % images.length);
+                setCurrentIndex((prev: any) => (prev + 1) % images.length);
             }, autoPlayInterval);
         } else {
             if (autoPlayRef.current) {

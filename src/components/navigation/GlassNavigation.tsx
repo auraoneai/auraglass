@@ -109,7 +109,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
     const { defaultSpring } = useAnimationContext();
 
     // Enhanced keyboard navigation with accessibility
-    const navigationItems = items.filter(item => !item.disabled).map(item => ({ 
+    const navigationItems = items.filter((item: any) => !item.disabled).map((item: any) => ({ 
       id: item.id || item.key, 
       disabled: item.disabled 
     }));
@@ -212,8 +212,8 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
         }
 
         if (item?.children && item?.children.length > 0) {
-          setExpandedItems(prev =>
-            prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]
+          setExpandedItems((prev: any) =>
+            prev.includes(id) ? prev.filter((itemId: any) => itemId !== id) : [...prev, id]
           );
         }
 

@@ -108,7 +108,7 @@ export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransition
   useEffect(() => {
     if (trigger === 'auto') {
       const interval = setInterval(() => {
-        setIsActive(prev => !prev);
+        setIsActive((prev: any) => !prev);
       }, duration * 2);
 
       return () => clearInterval(interval);
@@ -193,7 +193,7 @@ export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransition
             opacity: 1,
           },
           animate: {
-            filter: isActive ? 'blur(8px)' : 'blur(0px)',
+            filter: isActive ? 'blur(var(--glass-blur-md))' : 'blur(0px)',
             opacity: isActive ? 0.7 : 1,
             scale: isActive ? 1.05 : 1,
           },
@@ -301,16 +301,16 @@ function LiquidRipples({ x, y, intensity, duration }: LiquidRipplesProps): JSX.E
 
   useEffect(() => {
     const ripple = { id: Date.now(), x, y };
-    setRipples(prev => [...prev, ripple]);
+    setRipples((prev: any) => [...prev, ripple]);
 
     setTimeout(() => {
-      setRipples(prev => prev.filter(r => r.id !== ripple.id));
+      setRipples((prev: any) => prev.filter((r: any) => r.id !== ripple.id));
     }, duration);
   }, [x, y, duration]);
 
   return (
     <AnimatePresence>
-      {ripples.map(ripple => (
+      {ripples.map((ripple: any) => (
         <motion.div
           key={ripple.id}
           className="absolute pointer-events-none"

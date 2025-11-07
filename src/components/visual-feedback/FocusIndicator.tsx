@@ -169,7 +169,7 @@ function FocusIndicatorComponent(
     
     // Add blur for glow + glass
     if (finalFocusStyle === 'glow' && glass) {
-      style.backdropFilter = 'blur(4px)';
+      style.backdropFilter = 'blur(var(--glass-blur-sm))';
     }
 
     return style;

@@ -917,7 +917,7 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
       navigator.userAgent.includes('VoiceOver');
 
     // Update context
-    setContext(prev => ({
+    setContext((prev: any) => ({
       ...prev,
       prefersReducedMotion: reducedMotionMQ.matches,
       prefersHighContrast: highContrastMQ.matches,
@@ -927,15 +927,15 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
 
     // Listen for changes
     const handleReducedMotionChange = (e: MediaQueryListEvent) => {
-      setContext(prev => ({ ...prev, prefersReducedMotion: e.matches }));
+      setContext((prev: any) => ({ ...prev, prefersReducedMotion: e.matches }));
     };
 
     const handleHighContrastChange = (e: MediaQueryListEvent) => {
-      setContext(prev => ({ ...prev, prefersHighContrast: e.matches }));
+      setContext((prev: any) => ({ ...prev, prefersHighContrast: e.matches }));
     };
 
     const handleReducedDataChange = (e: MediaQueryListEvent) => {
-      setContext(prev => ({ ...prev, prefersReducedData: e.matches }));
+      setContext((prev: any) => ({ ...prev, prefersReducedData: e.matches }));
     };
 
     reducedMotionMQ.addEventListener('change', handleReducedMotionChange);
@@ -945,12 +945,12 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
     // Listen for keyboard navigation
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
-        setContext(prev => ({ ...prev, keyboardNavigation: true }));
+        setContext((prev: any) => ({ ...prev, keyboardNavigation: true }));
       }
     };
 
     const handleMouseDown = () => {
-      setContext(prev => ({ ...prev, keyboardNavigation: false }));
+      setContext((prev: any) => ({ ...prev, keyboardNavigation: false }));
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -1077,7 +1077,7 @@ export class ConsciousnessA11yValidator {
     this.validateSpatialAudio(element, consciousnessFeatures);
 
     return {
-      isValid: this.violations.filter(v => v.severity === 'error').length === 0,
+      isValid: this.violations.filter((v: any) => v.severity === 'error').length === 0,
       violations: this.violations,
     };
   }

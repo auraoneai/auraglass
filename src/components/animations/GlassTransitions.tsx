@@ -21,7 +21,7 @@ const glassTransitionVariants = {
     exit: {
       scale: [1, 1.02, 0.98, 1.1, 0],
       opacity: [1, 0.8, 0.6, 0.3, 0],
-      filter: ['blur(0px)', 'blur(1px)', 'blur(3px)', 'blur(8px)', 'blur(15px)'],
+      filter: ['blur(0px)', 'blur(1px)', 'blur(3px)', 'blur(var(--glass-blur-md))', 'blur(15px)'],
       rotate: [0, -2, 4, -8, 15],
       transition: {
         duration: 0.8,
@@ -32,7 +32,7 @@ const glassTransitionVariants = {
     enter: {
       scale: [0, 0.8, 1.05, 1],
       opacity: [0, 0.3, 0.8, 1],
-      filter: ['blur(15px)', 'blur(8px)', 'blur(2px)', 'blur(0px)'],
+      filter: ['blur(15px)', 'blur(var(--glass-blur-md))', 'blur(2px)', 'blur(0px)'],
       rotate: [15, -5, 2, 0],
       transition: {
         duration: 0.8,
@@ -149,8 +149,8 @@ const glassTransitionVariants = {
       filter: [
         'blur(0px) brightness(1)',
         'blur(2px) brightness(1.2)',
-        'blur(8px) brightness(0.8)',
-        'blur(20px) brightness(0.5)'
+        'blur(var(--glass-blur-md)) brightness(0.8)',
+        'blur(var(--glass-blur-lg)) brightness(0.5)'
       ],
       transition: {
         duration: 0.8,
@@ -161,8 +161,8 @@ const glassTransitionVariants = {
       scale: [0, 0.9, 1.1, 1],
       opacity: [0, 0.4, 0.8, 1],
       filter: [
-        'blur(20px) brightness(0.5)',
-        'blur(8px) brightness(0.8)',
+        'blur(var(--glass-blur-lg)) brightness(0.5)',
+        'blur(var(--glass-blur-md)) brightness(0.8)',
         'blur(2px) brightness(1.2)',
         'blur(0px) brightness(1)'
       ],
@@ -336,7 +336,7 @@ export function SwipeableGlassCards({
           onDragEnd={(_, info) => handleDragEnd(info)}
           className={cn("glass-foundation-complete glass-surface-primary glass-border glass-border-primary glass-radius-xl glass-p-6 glass-cursor-grab active:glass-cursor-grabbing")}
           style={{
-            background: cards[currentIndex].background || 'rgba(255, 255, 255, 0.1)'
+            background: cards[currentIndex].background || 'var(--glass-bg-default)'
           }}
         >
           {cards[currentIndex].content}
@@ -385,9 +385,9 @@ export function GlassAccordion({
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => {
+    setOpenItems((prev: any) => {
       if (prev.includes(id)) {
-        return prev.filter(item => item !== id);
+        return prev.filter((item: any) => item !== id);
       } else {
         return allowMultiple ? [...prev, id] : [id];
       }

@@ -71,9 +71,9 @@ class ConsciousnessResourcePool {
   // Clean up resources
   cleanup() {
     [...this.eyeTrackingWorkers, ...this.biometricProcessors, ...this.predictiveAnalyzers]
-      .forEach(worker => worker.terminate());
+      .forEach((worker: any) => worker.terminate());
 
-    this.spatialAudioContexts.forEach(context => {
+    this.spatialAudioContexts.forEach((context: any) => {
       if (context.state !== 'closed') {
         context.close();
       }
@@ -304,7 +304,7 @@ export const useOptimizedSpatialAudio = (
     
     return () => {
       // Clean up sources and panners
-      sourcesRef.current.forEach(source => {
+      sourcesRef.current.forEach((source: any) => {
         try {
           source.disconnect();
           source.stop();
@@ -313,7 +313,7 @@ export const useOptimizedSpatialAudio = (
         }
       });
       
-      pannersRef.current.forEach(panner => {
+      pannersRef.current.forEach((panner: any) => {
         panner.disconnect();
       });
       

@@ -91,7 +91,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
     }, ref) => {
         const [showSuggestions, setShowSuggestions] = useState(false);
         const [expandedFacets, setExpandedFacets] = useState<Record<string, boolean>>(
-            Object.fromEntries(facets.map(f => [f.id, !f.collapsed]))
+            Object.fromEntries(facets.map((f: any) => [f.id, !f.collapsed]))
         );
         const [showFacetPanel, setShowFacetPanel] = useState(showFilters);
 
@@ -115,7 +115,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
         }, [handleSearch]);
 
         const handleFacetToggle = useCallback((facetId: string) => {
-            setExpandedFacets(prev => ({
+            setExpandedFacets((prev: any) => ({
                 ...prev,
                 [facetId]: !prev[facetId]
             }));
@@ -129,9 +129,9 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
 
         const clearFilters = useCallback(() => {
             const clearedValues = Object.fromEntries(
-                facets.map(f => [f.id, f.type === 'checkbox' ? [] : null])
+                facets.map((f: any) => [f.id, f.type === 'checkbox' ? [] : null])
             );
-            Object.keys(clearedValues).forEach(facetId => {
+            Object.keys(clearedValues).forEach((facetId: any) => {
                 onFacetChange(facetId, clearedValues[facetId]);
             });
             onSearch?.(query, clearedValues);
@@ -484,7 +484,7 @@ const FacetContent: React.FC<FacetContentProps> = ({
                                     const currentValues = Array.isArray(value) ? value : [];
                                     const newValues = checked
                                         ? [...currentValues, option.value]
-                                        : currentValues.filter(v => v !== option.value);
+                                        : currentValues.filter((v: any) => v !== option.value);
                                     onChange(newValues);
                                 }}
                                 disabled={option.disabled}

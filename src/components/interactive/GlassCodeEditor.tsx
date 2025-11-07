@@ -387,7 +387,7 @@ export const GlassCodeEditorWithFiles: React.FC<{
       >
         <h3 className={cn('glass-text-sm glass-font-semibold glass-text-primary glass-mb-4')}>Files</h3>
         <div className={cn('glass-gap-2')}>
-          {files.map(file => (
+          {files.map((file: any) => (
             <button
               key={file.name}
               onClick={(e) => setActiveFile(file.name)}

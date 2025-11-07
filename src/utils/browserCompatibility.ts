@@ -347,8 +347,8 @@ export class PolyfillManager {
     ];
 
     const promises = polyfills
-      .filter(polyfill => polyfill.condition)
-      .map(polyfill => this.loadPolyfill(polyfill.name, polyfill.url));
+      .filter((polyfill: any) => polyfill.condition)
+      .map((polyfill: any) => this.loadPolyfill(polyfill.name, polyfill.url));
 
     await Promise.all(promises);
   }

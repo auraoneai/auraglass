@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { cn } from '@/lib/utils';
 
 import { motion } from 'framer-motion'
@@ -341,7 +342,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
         const latentVector = generateLatentVector(model.latentDim)
         
         // Apply truncation trick
-        const truncatedVector = latentVector.map(val => val * params.truncation)
+        const truncatedVector = latentVector.map((val: any) => val * params.truncation)
         
         // Generate image
         const imageUrl = generateGANImage(truncatedVector, model, params.seed + i)
@@ -353,8 +354,8 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
         await new Promise(resolve => setTimeout(resolve, 200))
       }
 
-      setGeneratedImages(prev => [...newImages, ...prev].slice(0, maxGenerations))
-      setLatentVectors(prev => [...newLatentVectors, ...prev].slice(0, maxGenerations))
+      setGeneratedImages((prev: any) => [...newImages, ...prev].slice(0, maxGenerations))
+      setLatentVectors((prev: any) => [...newLatentVectors, ...prev].slice(0, maxGenerations))
       setGenerationProgress(100)
       
       onGenerate?.(newImages, params)
@@ -569,7 +570,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
               min="0"
               max="1000"
               value={params.seed}
-              onChange={(e) => setParams(prev => ({ 
+              onChange={(e) => setParams((prev: any) => ({ 
                 ...prev, 
                 seed: parseInt(e.target.value) 
               }))}
@@ -587,7 +588,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
               max="2.0"
               step="0.1"
               value={params.truncation}
-              onChange={(e) => setParams(prev => ({ 
+              onChange={(e) => setParams((prev: any) => ({ 
                 ...prev, 
                 truncation: parseFloat(e.target.value) 
               }))}
@@ -605,7 +606,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
               max="2.0"
               step="0.1"
               value={params.styleStrength}
-              onChange={(e) => setParams(prev => ({ 
+              onChange={(e) => setParams((prev: any) => ({ 
                 ...prev, 
                 styleStrength: parseFloat(e.target.value) 
               }))}
@@ -622,7 +623,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
               min="1"
               max="8"
               value={params.batchSize}
-              onChange={(e) => setParams(prev => ({ 
+              onChange={(e) => setParams((prev: any) => ({ 
                 ...prev, 
                 batchSize: parseInt(e.target.value) 
               }))}

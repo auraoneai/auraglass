@@ -76,7 +76,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
         linear-gradient(135deg, ${glassTokenUtils.getSurface('neutral', 'level1').border.color} 0%, rgba(147,51,234,0.1) 100%)
       `,
       border: '1px solid rgba(255,255,255,0.04)',
-      boxShadow: '0 4px 16px rgba(0,0,0,0.1), 0 1px 0 rgba(255,255,255,0.03) inset'
+      boxShadow: '0 4px 16px rgba(var(--glass-color-black) / var(--glass-opacity-10)), 0 1px 0 rgba(255,255,255,0.03) inset'
     });
 
     const renderBasicSkeleton = () => (

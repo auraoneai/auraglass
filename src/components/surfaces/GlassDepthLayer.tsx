@@ -53,7 +53,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 0.4,
     zIndex: 10,
     transform: 'translateZ(-150px) scale(1.5)',
-    shadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+    shadow: '0 4px 20px rgba(var(--glass-color-black) / var(--glass-opacity-10))'
   },
   'mid-far': {
     layer: 'mid-far',
@@ -62,7 +62,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 0.5,
     zIndex: 20,
     transform: 'translateZ(-100px) scale(1.3)',
-    shadow: '0 6px 25px rgba(0, 0, 0, 0.15)'
+    shadow: '0 6px 25px rgba(var(--glass-color-black) / var(--glass-opacity-15))'
   },
   mid: {
     layer: 'mid',
@@ -71,7 +71,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 0.6,
     zIndex: 30,
     transform: 'translateZ(-50px) scale(1.1)',
-    shadow: '0 8px 30px rgba(0, 0, 0, 0.2)'
+    shadow: '0 8px 30px rgba(var(--glass-color-black) / var(--glass-opacity-20))'
   },
   'mid-near': {
     layer: 'mid-near',
@@ -89,7 +89,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 0.8,
     zIndex: 50,
     transform: 'translateZ(50px) scale(0.9)',
-    shadow: '0 12px 40px rgba(0, 0, 0, 0.3)'
+    shadow: '0 12px 40px rgba(var(--glass-color-black) / var(--glass-opacity-30))'
   },
   foreground: {
     layer: 'foreground',
@@ -107,7 +107,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 1,
     zIndex: 70,
     transform: 'translateZ(200px) scale(0.6)',
-    shadow: '0 20px 60px rgba(0, 0, 0, 0.5)'
+    shadow: '0 20px 60px rgba(var(--glass-color-black) / var(--glass-opacity-50))'
   }
 };
 

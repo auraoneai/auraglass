@@ -158,7 +158,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
     animate: {
       scale: [1, 1.05, 1],
       boxShadow: [
-        '0 0 0 0 rgba(255, 255, 255, 0.3)',
+        '0 0 0 0 var(--glass-bg-hover)',
         '0 0 0 20px rgba(255, 255, 255, 0)',
         '0 0 0 0 rgba(255, 255, 255, 0)',
       ],
@@ -189,7 +189,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
       scale: [0.8, 1.2, 1],
       opacity: [0.5, 1, 1],
       filter: [
-        'blur(10px) brightness(0.8)',
+        'blur(var(--glass-blur-md)) brightness(0.8)',
         'blur(0px) brightness(1.2)',
         'blur(0px) brightness(1)',
       ],
@@ -211,9 +211,9 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
   shimmer: {
     animate: {
       background: [
-        'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
-        'linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.4) 75%, transparent 100%)',
-        'linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.2) 100%, transparent 100%)',
+        'linear-gradient(90deg, transparent 0%, rgba(var(--glass-color-white) / var(--glass-opacity-20)) 50%, transparent 100%)',
+        'linear-gradient(90deg, transparent 25%, var(--glass-border-default) 75%, transparent 100%)',
+        'linear-gradient(90deg, transparent 50%, rgba(var(--glass-color-white) / var(--glass-opacity-20)) 100%, transparent 100%)',
       ],
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
     },
@@ -360,7 +360,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     if (activeSequences.size >= optimizeForPerformance.maxSequences) return;
     if (optimizeForPerformance.skipComplexAnimations && ['crystallize', 'dissolve', 'flow'].includes(sequence.pattern)) return;
 
-    setActiveSequences(prev => new Set([...prev, sequence.id]));
+    setActiveSequences((prev: any) => new Set([...prev, sequence.id]));
     onAnimationStart?.(sequence.id);
 
     try {
@@ -402,7 +402,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     } catch (error) {
       console.warn('Animation sequence failed:', error);
     } finally {
-      setActiveSequences(prev => {
+      setActiveSequences((prev: any) => {
         const next = new Set(prev);
         next.delete(sequence.id);
         return next;
@@ -424,8 +424,8 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   // Auto-trigger sequences
   useEffect(() => {
     sequences
-      .filter(seq => seq.trigger === 'auto')
-      .forEach(sequence => {
+      .filter((seq: any) => seq.trigger === 'auto')
+      .forEach((sequence: any) => {
         const delay = sequence.delay || 0;
         setTimeout(() => executeSequence(sequence), delay);
       });
@@ -435,7 +435,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   const handleHover = useCallback(() => {
     if (!enableMicroInteractions) return;
     
-    const hoverSequences = sequences.filter(seq => seq.trigger === 'hover');
+    const hoverSequences = sequences.filter((seq: any) => seq.trigger === 'hover');
     hoverSequences.forEach(executeSequence);
     
     // Physics-based hover effect
@@ -455,7 +455,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   const handleClick = useCallback((event: React.MouseEvent) => {
     if (!enableMicroInteractions) return;
 
-    const clickSequences = sequences.filter(seq => seq.trigger === 'click');
+    const clickSequences = sequences.filter((seq: any) => seq.trigger === 'click');
     clickSequences.forEach(executeSequence);
 
     // Physics-based click effect
@@ -489,7 +489,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   const handleFocus = useCallback(() => {
     if (!enableMicroInteractions) return;
     
-    const focusSequences = sequences.filter(seq => seq.trigger === 'focus');
+    const focusSequences = sequences.filter((seq: any) => seq.trigger === 'focus');
     focusSequences.forEach(executeSequence);
   }, [enableMicroInteractions, sequences, executeSequence]);
 
@@ -498,7 +498,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     const handleScroll = () => {
       if (!enableMicroInteractions) return;
       
-      const scrollSequences = sequences.filter(seq => seq.trigger === 'scroll');
+      const scrollSequences = sequences.filter((seq: any) => seq.trigger === 'scroll');
       scrollSequences.forEach(executeSequence);
     };
 

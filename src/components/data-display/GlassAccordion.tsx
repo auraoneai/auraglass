@@ -156,7 +156,7 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
 
       if (multiple) {
         const newValue = isOpen
-          ? (openItems || []).filter(id => id !== itemId)
+          ? (openItems || []).filter((id: any) => id !== itemId)
           : [...openItems, itemId];
         handleValueChange(newValue);
       } else {

@@ -127,7 +127,7 @@ export function GlassFoldableSupport({
         .getPropertyValue('env(fold-top)');
       
       if (spanning) {
-        setFoldableInfo(prev => ({
+        setFoldableInfo((prev: any) => ({
           ...prev,
           isFoldable: true,
           foldState: 'unfolded',
@@ -141,7 +141,7 @@ export function GlassFoldableSupport({
                         window.matchMedia('(spanning: single-fold-horizontal)').matches;
     
     if (isDualScreen) {
-      setFoldableInfo(prev => ({
+      setFoldableInfo((prev: any) => ({
         ...prev,
         isFoldable: true,
         foldState: 'unfolded',
@@ -165,12 +165,12 @@ export function GlassFoldableSupport({
     // Listen for visibility changes (device folding might hide content)
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        setFoldableInfo(prev => ({
+        setFoldableInfo((prev: any) => ({
           ...prev,
           foldState: 'folded',
         }));
       } else {
-        setFoldableInfo(prev => ({
+        setFoldableInfo((prev: any) => ({
           ...prev,
           foldState: prev.isFoldable ? 'unfolded' : 'unknown',
         }));

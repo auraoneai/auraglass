@@ -1,5 +1,34 @@
 /* AuraGlass Animation Keyframes - Production Ready */
 
+/* ===================================
+   REDUCED MOTION SUPPORT (WCAG 2.1 AAA)
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable problematic animations */
+  .glass-shimmer,
+  .glass-float,
+  .glass-pulse,
+  .glass-bounce,
+  .glass-spin {
+    animation: none !important;
+  }
+
+  /* Preserve essential transforms but remove motion */
+  .glass-scale,
+  .glass-fade {
+    transition: opacity 0.001ms !important;
+  }
+}
+
 /* Core Glass Animations */
 @keyframes glass-appear {
   from {
@@ -10,7 +39,7 @@
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(var(--glass-blur-md));
   }
 }
 
@@ -18,7 +47,7 @@
   from {
     opacity: 1;
     transform: scale(1) translateY(0);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(var(--glass-blur-md));
   }
   to {
     opacity: 0;
@@ -30,11 +59,11 @@
 @keyframes glass-hover {
   from {
     transform: scale(1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10));
   }
   to {
     transform: scale(1.02);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 48px rgba(var(--glass-color-black) / var(--glass-opacity-15));
   }
 }
 
@@ -275,7 +304,7 @@
   }
   to {
     opacity: 1;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--glass-blur-md));
   }
 }
 
@@ -324,7 +353,7 @@
 /* Form Animations */
 @keyframes input-focus {
   from {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(var(--glass-color-white) / var(--glass-opacity-20));
     box-shadow: none;
   }
   to {
@@ -465,7 +494,7 @@
   content: '';
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--glass-bg-hover);
   transform: scale(0);
   animation: ripple-expand 0.6s ease-out;
   pointer-events: none;
@@ -494,7 +523,7 @@
 /* High Contrast Support */
 @media (prefers-contrast: high) {
   .glass-surface {
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(var(--glass-color-white) / var(--glass-opacity-80));
     background: rgba(0, 0, 0, 0.9);
   }
 
@@ -507,19 +536,19 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --glass-surface: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-text: rgba(255, 255, 255, 0.9);
-    --glass-shadow: rgba(0, 0, 0, 0.3);
+    --glass-border: var(--glass-bg-default);
+    --glass-text: rgba(var(--glass-color-white) / var(--glass-opacity-90));
+    --glass-shadow: rgba(var(--glass-color-black) / var(--glass-opacity-30));
   }
 }
 
 /* Light Mode Support */
 @media (prefers-color-scheme: light) {
   :root {
-    --glass-surface: rgba(255, 255, 255, 0.8);
-    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-surface: rgba(var(--glass-color-white) / var(--glass-opacity-80));
+    --glass-border: rgba(var(--glass-color-black) / var(--glass-opacity-10));
     --glass-text: rgba(0, 0, 0, 0.9);
-    --glass-shadow: rgba(0, 0, 0, 0.1);
+    --glass-shadow: rgba(var(--glass-color-black) / var(--glass-opacity-10));
   }
 }
 

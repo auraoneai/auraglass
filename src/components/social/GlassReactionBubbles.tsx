@@ -105,9 +105,9 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
       if (bubbles.length === 0) return
 
       const animationFrame = requestAnimationFrame(() => {
-        setBubbles(prev =>
+        setBubbles((prev: any) =>
           prev
-            .map(bubble => {
+            .map((bubble: any) => {
               // Update lifetime
               const newLife = bubble.life - 16 // Assuming ~60fps
               if (newLife <= 0) return null
@@ -172,7 +172,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
         maxLife: bubbleLifetime
       }
 
-      setBubbles(prev => {
+      setBubbles((prev: any) => {
         const updated = [...prev, newBubble].slice(-maxBubbles)
         return updated
       })
@@ -297,7 +297,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
         animate={{ opacity: 1, y: 0 }}
         transition={shouldAnimate ? { duration: 0.3 } : { duration: 0 }}
       >
-        {availableEmojis.map(emoji => (
+        {availableEmojis.map((emoji: any) => (
           <button
             key={emoji}
             onClick={() => setSelectedEmoji(emoji)}
@@ -318,7 +318,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
 
     const stats = {
       totalReactions: bubbles.length,
-      recentReactions: bubbles.filter(b => Date.now() - b.timestamp < 5000).length,
+      recentReactions: bubbles.filter((b: any) => Date.now() - b.timestamp < 5000).length,
       mostUsedEmoji: bubbles.reduce((acc, bubble) => {
         acc[bubble.emoji] = (acc[bubble.emoji] || 0) + 1
         return acc
@@ -343,7 +343,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
           style={{ width, height }}
         >
           <AnimatePresence>
-            {bubbles.map(bubble => (
+            {bubbles.map((bubble: any) => (
               <ReactionBubbleComponent key={bubble.id} bubble={bubble} />
             ))}
           </AnimatePresence>

@@ -111,7 +111,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
         
         if (!events || !Array.isArray(events)) return eventMap;
         
-        events.forEach(event => {
+        events.forEach((event: any) => {
             const eventDate = new Date(event.date);
             const dateKey = eventDate.toDateString();
             
@@ -175,7 +175,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
 
     // Navigate to previous/next month
     const navigateMonth = (direction: 'prev' | 'next') => {
-        setCurrentDate(prev => {
+        setCurrentDate((prev: any) => {
             const newDate = new Date(prev);
             if (direction === 'prev') {
                 newDate.setMonth(newDate.getMonth() - 1);

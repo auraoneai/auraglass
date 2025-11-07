@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
     ClipboardPaste,
     Copy,
@@ -476,7 +477,7 @@ function WorkspaceHeader({
           </button>
           {showLayoutMenu && (
             <div className="absolute top-full left-0 mt-2 p-2 bg-slate-800 border border-white/20 glass-radius shadow-lg z-50">
-              {['split', 'tabs', 'canvas-focused', 'editor-focused'].map(layout => (
+              {['split', 'tabs', 'canvas-focused', 'editor-focused'].map((layout: any) => (
                 <button
                   key={layout}
                   onClick={() => {
@@ -609,7 +610,7 @@ function CollaborativeGlassCanvas({ width, height, gridSize, showGrid, showRuler
         <div
           className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(var(--glass-bg-default) 1px, transparent 1px), linear-gradient(90deg, var(--glass-bg-default) 1px, transparent 1px)`,
             backgroundSize: `${gridSize}px ${gridSize}px`
           }}
         />

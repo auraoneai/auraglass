@@ -61,14 +61,14 @@ export function useZSpaceAnimation(
 
   // Initialize layers with z-space management
   useEffect(() => {
-    initialLayers.forEach(layer => {
+    initialLayers.forEach((layer: any) => {
       zSpaceManagerRef.current.registerLayer(layer.id, layer.zIndex);
     });
 
     setLayers(initialLayers);
 
     return () => {
-      initialLayers.forEach(layer => {
+      initialLayers.forEach((layer: any) => {
         zSpaceManagerRef.current.unregisterLayer(layer.id);
       });
     };
@@ -92,7 +92,7 @@ export function useZSpaceAnimation(
     const { duration = finalConfig.duration, onComplete } = options;
 
     // Mark as animating
-    setAnimatingLayers(prev => new Set(prev).add(layerId));
+    setAnimatingLayers((prev: any) => new Set(prev).add(layerId));
 
     // Create spring animation targets
     const springTargets: Record<string, number> = {
@@ -110,7 +110,7 @@ export function useZSpaceAnimation(
 
     // Update layer after animation
     setTimeout(() => {
-      setLayers(prev => prev.map(l =>
+      setLayers((prev: any) => prev.map((l: any) =>
         l.id === layerId
           ? {
               ...l,
@@ -124,7 +124,7 @@ export function useZSpaceAnimation(
           : l
       ));
 
-      setAnimatingLayers(prev => {
+      setAnimatingLayers((prev: any) => {
         const next = new Set(prev);
         next.delete(layerId);
         return next;
@@ -164,7 +164,7 @@ export function useZSpaceAnimation(
     layerId: string,
     options?: { duration?: number; onComplete?: () => void }
   ) => {
-    const maxElevation = Math.max(...layers.map(l => l.elevation)) + 10;
+    const maxElevation = Math.max(...layers.map((l: any) => l.elevation)) + 10;
     animateToZSpace(layerId, maxElevation, options);
   }, [layers, animateToZSpace]);
 
@@ -173,7 +173,7 @@ export function useZSpaceAnimation(
     layerId: string,
     options?: { duration?: number; onComplete?: () => void }
   ) => {
-    const minElevation = Math.min(...layers.map(l => l.elevation)) - 10;
+    const minElevation = Math.min(...layers.map((l: any) => l.elevation)) - 10;
     animateToZSpace(layerId, minElevation, options);
   }, [layers, animateToZSpace]);
 
@@ -212,7 +212,7 @@ export function useZSpaceAnimation(
 
     // Push background layers back
     setTimeout(() => {
-      backgroundLayers.forEach(layerId => {
+      backgroundLayers.forEach((layerId: any) => {
         animateToZSpace(layerId, backgroundElevation, { duration: duration * 0.8 });
       });
     }, duration * 0.2);
@@ -276,7 +276,7 @@ export function useZSpaceAnimation(
       transform: `scale(0.8) translateZ(${initialElevation}px)`,
     };
 
-    setLayers(prev => [...prev, newLayer]);
+    setLayers((prev: any) => [...prev, newLayer]);
 
     if (animateIn) {
       setTimeout(() => {
@@ -300,13 +300,13 @@ export function useZSpaceAnimation(
       animateToZSpace(layerId, -20, {
         duration,
         onComplete: () => {
-          setLayers(prev => prev.filter(l => l.id !== layerId));
+          setLayers((prev: any) => prev.filter((l: any) => l.id !== layerId));
           zSpaceManagerRef.current.unregisterLayer(layerId);
           onComplete?.();
         },
       });
     } else {
-      setLayers(prev => prev.filter(l => l.id !== layerId));
+      setLayers((prev: any) => prev.filter((l: any) => l.id !== layerId));
       zSpaceManagerRef.current.unregisterLayer(layerId);
       onComplete?.();
     }
@@ -326,7 +326,7 @@ export function useZSpaceAnimation(
     if (animate && updates.elevation !== undefined) {
       animateToZSpace(layerId, updates.elevation, { duration });
     } else {
-      setLayers(prev => prev.map(layer =>
+      setLayers((prev: any) => prev.map((layer: any) =>
         layer.id === layerId ? { ...layer, ...updates } : layer
       ));
     }
@@ -409,7 +409,7 @@ export function useParallaxZSpace(
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const zSpaceAnimation = useZSpaceAnimation(
-    layers.map(layer => ({
+    layers.map((layer: any) => ({
       id: layer.id,
       zIndex: 1,
       elevation: 0,
@@ -445,7 +445,7 @@ export function useParallaxZSpace(
 
   // Apply parallax effects
   useEffect(() => {
-    layers.forEach(layer => {
+    layers.forEach((layer: any) => {
       const mouseOffset = {
         x: mousePosition.x * layer.depth * mouseInfluence * 10,
         y: mousePosition.y * layer.depth * mouseInfluence * 10,
@@ -595,7 +595,7 @@ export function useDepthNavigation(
     setActiveItem(itemId);
 
     // Animate depth changes
-    navigationItems.forEach(navItem => {
+    navigationItems.forEach((navItem: any) => {
       const isInPath = newPath.includes(navItem.id);
       const isActive = navItem.id === itemId;
 

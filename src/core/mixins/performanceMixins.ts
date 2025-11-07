@@ -87,7 +87,7 @@ export const createOptimizedTransition = (
 
   return {
     transition: properties
-      .map(prop => `${prop} ${duration}ms ${easing}`)
+      .map((prop: any) => `${prop} ${duration}ms ${easing}`)
       .join(', '),
     transitionProperty: properties.join(', '),
     transitionDuration: `${duration}ms`,
@@ -345,7 +345,7 @@ export const createCleanupManager = () => {
       cleanupFunctions.push(cleanup);
     },
     cleanup: () => {
-      cleanupFunctions.forEach(fn => {
+      cleanupFunctions.forEach((fn: any) => {
         try {
           fn();
         } catch (error) {

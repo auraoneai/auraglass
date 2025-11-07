@@ -41,14 +41,14 @@ export function GlassCommentThread({ comments, onReply }: GlassCommentThreadProp
         </div>
         {c.replies?.length ? (
           <div className={cn('glass-mt-2 glass-gap-2')}>
-            {(c.replies || []).map(r => render(r, depth + 1))}
+            {(c.replies || []).map((r: any) => render(r, depth + 1))}
           </div>
         ) : null}
       </div>
     </div>
   );
 
-  return <div className={cn('glass-gap-3')}>{(comments || []).map(c => render(c))}</div>;
+  return <div className={cn('glass-gap-3')}>{(comments || []).map((c: any) => render(c))}</div>;
 }
 
 export default GlassCommentThread;

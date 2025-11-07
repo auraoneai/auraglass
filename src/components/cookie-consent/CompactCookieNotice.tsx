@@ -61,7 +61,7 @@ const StyledCompactCookieNotice = styled.div<{
   box-sizing: border-box;
   width: auto;
   max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(var(--glass-color-black) / var(--glass-opacity-10));
   will-change: transform, opacity;
 
   ${({ $position }) => {
@@ -114,7 +114,7 @@ const StyledCompactCookieNotice = styled.div<{
   }}
   
   ${({ theme }) => `
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid var(--glass-bg-default);
   `}
   
   @media (max-width: 600px) {

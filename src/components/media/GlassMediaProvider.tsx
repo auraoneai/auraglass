@@ -214,7 +214,7 @@ const mockTranscriptionService = {
   async identifySpeakers(transcript: TranscriptEntry[]): Promise<string[]> {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const speakers = [...new Set(transcript.map(entry => entry.speaker).filter(Boolean))];
+    const speakers = [...new Set(transcript.map((entry: any) => entry.speaker).filter(Boolean))];
     return speakers as string[];
   }
 };
@@ -235,7 +235,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const getDevices = async () => {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        setRecordingDevices(devices.filter(device => 
+        setRecordingDevices(devices.filter((device: any) => 
           device.kind === 'audioinput' || device.kind === 'videoinput'
         ));
       } catch (error) {
@@ -247,10 +247,10 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const addMediaFile = useCallback((file: MediaFile) => {
-    setMediaFiles(prev => [...prev, file]);
+    setMediaFiles((prev: any) => [...prev, file]);
     
     // Initialize analytics
-    setAnalytics(prev => ({
+    setAnalytics((prev: any) => ({
       ...prev,
       [file.id]: {
         totalViews: 0,
@@ -265,13 +265,13 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const removeMediaFile = useCallback((id: string) => {
-    setMediaFiles(prev => prev.filter(file => file.id !== id));
-    setTranscripts(prev => {
+    setMediaFiles((prev: any) => prev.filter((file: any) => file.id !== id));
+    setTranscripts((prev: any) => {
       const newTranscripts = { ...prev };
       delete newTranscripts[id];
       return newTranscripts;
     });
-    setAnalytics(prev => {
+    setAnalytics((prev: any) => {
       const newAnalytics = { ...prev };
       delete newAnalytics[id];
       return newAnalytics;
@@ -283,7 +283,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [mediaFiles]);
 
   const updateMediaFile = useCallback((id: string, updates: Partial<MediaFile>) => {
-    setMediaFiles(prev => prev.map(file => 
+    setMediaFiles((prev: any) => prev.map((file: any) => 
       file.id === id ? { ...file, ...updates } : file
     ));
   }, []);
@@ -291,7 +291,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const play = useCallback((mediaId: string) => {
     const mediaFile = getMediaFile(mediaId);
     if (mediaFile) {
-      setPlaybackState(prev => ({
+      setPlaybackState((prev: any) => ({
         ...prev,
         mediaId,
         isPlaying: true,
@@ -312,7 +312,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [getMediaFile, playbackState]);
 
   const pause = useCallback(() => {
-    setPlaybackState(prev => prev ? { ...prev, isPlaying: false } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, isPlaying: false } : null);
     if (playbackState) {
       trackEngagement(playbackState.mediaId, playbackState.currentTime, 'pause');
     }
@@ -323,33 +323,33 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const seekTo = useCallback((time: number) => {
-    setPlaybackState(prev => prev ? { ...prev, currentTime: time } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, currentTime: time } : null);
     if (playbackState) {
       trackEngagement(playbackState.mediaId, time, 'seek');
     }
   }, [playbackState]);
 
   const setVolume = useCallback((volume: number) => {
-    setPlaybackState(prev => prev ? { ...prev, volume } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, volume } : null);
   }, []);
 
   const setPlaybackRate = useCallback((rate: number) => {
-    setPlaybackState(prev => prev ? { ...prev, playbackRate: rate } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, playbackRate: rate } : null);
   }, []);
 
   const toggleMute = useCallback(() => {
-    setPlaybackState(prev => prev ? { ...prev, isMuted: !prev.isMuted } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, isMuted: !prev.isMuted } : null);
   }, []);
 
   const toggleFullscreen = useCallback(() => {
-    setPlaybackState(prev => prev ? { ...prev, isFullscreen: !prev.isFullscreen } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, isFullscreen: !prev.isFullscreen } : null);
     if (playbackState) {
       trackEngagement(playbackState.mediaId, playbackState.currentTime, 'fullscreen');
     }
   }, [playbackState]);
 
   const setQuality = useCallback((quality: string) => {
-    setPlaybackState(prev => prev ? { ...prev, quality } : null);
+    setPlaybackState((prev: any) => prev ? { ...prev, quality } : null);
   }, []);
 
   const generateTranscript = useCallback(async (mediaId: string) => {
@@ -358,7 +358,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     try {
       const transcript = await mockTranscriptionService.transcribe(mediaFile);
-      setTranscripts(prev => ({ ...prev, [mediaId]: transcript }));
+      setTranscripts((prev: any) => ({ ...prev, [mediaId]: transcript }));
     } catch (error) {
       console.error('Error generating transcript:', error);
     }
@@ -368,7 +368,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const transcript = transcripts[mediaId] || [];
     const lowercaseQuery = query.toLowerCase();
     
-    return transcript.filter(entry => 
+    return transcript.filter((entry: any) => 
       entry.text.toLowerCase().includes(lowercaseQuery) ||
       entry.keywords?.some(keyword => keyword.toLowerCase().includes(lowercaseQuery))
     );
@@ -380,7 +380,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [transcripts]);
 
   const setActiveChapter = useCallback((mediaId: string, chapterId: string) => {
-    setPlaybackState(prev => prev && prev.mediaId === mediaId 
+    setPlaybackState((prev: any) => prev && prev.mediaId === mediaId 
       ? { ...prev, activeChapter: chapterId }
       : prev
     );
@@ -396,7 +396,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [getMediaFile]);
 
   const setActiveSubtitle = useCallback((mediaId: string, subtitleId: string) => {
-    setPlaybackState(prev => prev && prev.mediaId === mediaId
+    setPlaybackState((prev: any) => prev && prev.mediaId === mediaId
       ? { ...prev, activeSubtitle: subtitleId }
       : prev
     );
@@ -406,7 +406,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const transcript = transcripts[mediaId];
     if (!transcript) return;
 
-    const subtitles: SubtitleEntry[] = transcript.map(entry => ({
+    const subtitles: SubtitleEntry[] = transcript.map((entry: any) => ({
       id: entry.id,
       startTime: entry.startTime,
       endTime: entry.endTime,
@@ -428,7 +428,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [transcripts, getMediaFile, updateMediaFile]);
 
   const trackView = useCallback((mediaId: string, watchTime: number) => {
-    setAnalytics(prev => ({
+    setAnalytics((prev: any) => ({
       ...prev,
       [mediaId]: {
         ...prev[mediaId],
@@ -439,7 +439,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const trackEngagement = useCallback((mediaId: string, time: number, type: string) => {
-    setAnalytics(prev => ({
+    setAnalytics((prev: any) => ({
       ...prev,
       [mediaId]: {
         ...prev[mediaId],
@@ -478,7 +478,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (!transcript) return {};
 
     const sentimentMap: Record<number, 'positive' | 'neutral' | 'negative'> = {};
-    transcript.forEach(entry => {
+    transcript.forEach((entry: any) => {
       if (entry.sentiment) {
         sentimentMap[entry.startTime] = entry.sentiment;
       }

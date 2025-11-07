@@ -47,7 +47,7 @@ export const createChartElementStyles = (
     pie: {
       strokeWidth: 2,
       stroke: theme === 'glass'
-        ? 'rgba(255, 255, 255, 0.2)'
+        ? 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'
         : theme === 'dark'
           ? '#333333'
           : '#ffffff',
@@ -95,8 +95,8 @@ export const createChartElementStyles = (
     baseStyles.bar.fill = colorScheme[0];
     baseStyles.pie.fill = colorScheme[0];
     baseStyles.scatter.fill = colorScheme[0];
-    baseStyles.scatter.stroke = 'rgba(255, 255, 255, 0.5)';
-    baseStyles.dataPoint.stroke = 'rgba(255, 255, 255, 0.5)';
+    baseStyles.scatter.stroke = 'var(--glass-border-hover)';
+    baseStyles.dataPoint.stroke = 'var(--glass-border-hover)';
   } else if (theme === 'dark') {
     baseStyles.line.stroke = colorScheme[0];
     baseStyles.area.fill = colorScheme[0];
@@ -131,7 +131,7 @@ export const ChartToolbar = styled.div`
     elevation: 'level2',
     tier: 'high'
   })}
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--glass-bg-default);
 `;
 
 export const ChartTypeSelector = styled.div`
@@ -151,15 +151,15 @@ export const TypeButton = styled.button<{ $active?: boolean }>`
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
-  background: ${props => props.$active ? 'rgba(255, 255, 255, 0.2)' : 'transparent'};
-  color: ${props => props.$active ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'};
+  background: ${props => props.$active ? 'rgba(var(--glass-color-white) / var(--glass-opacity-20))' : 'transparent'};
+  color: ${props => props.$active ? '#ffffff' : 'rgba(var(--glass-color-white) / var(--glass-opacity-70))'};
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    /* Migrated from background: rgba(255, 255, 255, 0.1) */ ...createGlassStyle({ elevation: 'level1' });
+    /* Migrated from background: var(--glass-bg-default) */ ...createGlassStyle({ elevation: 'level1' });
     color: #ffffff;
   }
 `;
@@ -167,7 +167,7 @@ export const TypeButton = styled.button<{ $active?: boolean }>`
 export const ToolbarButton = styled.button`
   padding: 8px 12px;
   border-radius: 6px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -185,7 +185,7 @@ export const ToolbarButton = styled.button`
       elevation: 'level2',
       tier: 'high'
     })}
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: var(--glass-bg-hover);
   }
 `;
 
@@ -251,12 +251,12 @@ export const LegendColor = styled.div<{ $color?: string; $active?: boolean }>`
   border-radius: 2px;
   background: ${props => props.$color || '#6366f1'};
   opacity: ${props => props.$active === false ? 0.5 : 1};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(var(--glass-color-black) / var(--glass-opacity-10));
 `;
 
 export const LegendLabel = styled.span<{ $active?: boolean }>`
   font-size: 12px;
-  color: ${props => props.$active === false ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.8)'};
+  color: ${props => props.$active === false ? 'var(--glass-border-hover)' : 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'};
   font-weight: 500;
   white-space: nowrap;
 `;

@@ -207,7 +207,7 @@ export const GlassSearchInterface = forwardRef<HTMLDivElement, GlassSearchInterf
       if (checked) {
         currentFilters[filterId] = [...currentFilters[filterId], optionValue];
       } else {
-        currentFilters[filterId] = currentFilters[filterId].filter(v => v !== optionValue);
+        currentFilters[filterId] = currentFilters[filterId].filter((v: any) => v !== optionValue);
       }
 
       onFiltersChange?.(currentFilters);
@@ -226,11 +226,11 @@ export const GlassSearchInterface = forwardRef<HTMLDivElement, GlassSearchInterf
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
-          setFocusedIndex(prev => (prev + 1) % totalItems);
+          setFocusedIndex((prev: any) => (prev + 1) % totalItems);
           break;
         case 'ArrowUp':
           event.preventDefault();
-          setFocusedIndex(prev => (prev - 1 + totalItems) % totalItems);
+          setFocusedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);
           break;
         case 'Enter':
           event.preventDefault();

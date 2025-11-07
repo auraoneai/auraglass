@@ -76,7 +76,7 @@ class WebGazerIntegration {
               confidence: data.confidence || 0.5,
             };
             this.lastGaze = gazePoint;
-            this.gazeListeners.forEach(listener => listener(gazePoint));
+            this.gazeListeners.forEach((listener: any) => listener(gazePoint));
           }
         })
         .saveDataAcrossSessions(true)
@@ -389,7 +389,7 @@ export function GlassEyeTrackingProvider({
       setActiveInteractions(interactions);
       
       // Trigger callback for new interactions
-      interactions.forEach(interaction => onGazeInteraction?.(interaction));
+      interactions.forEach((interaction: any) => onGazeInteraction?.(interaction));
     }, 100);
 
     return () => clearInterval(interval);
@@ -720,7 +720,7 @@ export function GlassGazeVisualization({
   return (
     <div className={cn("glass-fixed glass-inset-0 glass-pointer-events-none glass-z-40", className)}>
       <AnimatePresence>
-        {activeInteractions.map(interaction => (
+        {activeInteractions.map((interaction: any) => (
           <motion.div
             key={interaction.region.id}
             className="glass-absolute"

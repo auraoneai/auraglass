@@ -178,7 +178,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       }
 
       if (accept) {
-        const acceptedTypes = accept.split(',').map(type => type.trim());
+        const acceptedTypes = accept.split(',').map((type: any) => type.trim());
         const isAccepted = acceptedTypes.some(type => {
           if (type.startsWith('.')) {
             return file.name.toLowerCase().endsWith(type.toLowerCase());
@@ -300,7 +300,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
     // Handle file removal
     const handleRemove = (fileId: string) => {
-      const updatedFiles = internalFiles.filter(f => f.id !== fileId);
+      const updatedFiles = internalFiles.filter((f: any) => f.id !== fileId);
       setInternalFiles(updatedFiles);
       onChange?.(updatedFiles);
       onRemove?.(fileId);
@@ -593,8 +593,8 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
               size="sm"
               onClick={(e) => {
                 internalFiles
-                  .filter(f => f.status === 'pending')
-                  .forEach(f => handleUpload(f.id));
+                  .filter((f: any) => f.status === 'pending')
+                  .forEach((f: any) => handleUpload(f.id));
               }}
               disabled={disabled}
             >

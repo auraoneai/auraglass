@@ -796,7 +796,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
   // Handle focus mode toggle
   const handleFocusToggle = useCallback(() => {
     if (focusMode) {
-      setIsFocused(prev => {
+      setIsFocused((prev: any) => {
         const newFocused = !prev;
         
         // Enhanced focus toggle with consciousness features
@@ -1082,7 +1082,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                 }}
                 data-insights-panel="true"
               >
-                <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map(insight => insight.title || insight.message).join(', ')}
+                <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
                 {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
               </div>
             )}
@@ -1093,7 +1093,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                 style={{
                   marginTop: '4px',
                   fontSize: '10px',
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  color: 'rgba(var(--glass-color-white) / var(--glass-opacity-60))',
                   fontStyle: 'italic'
                 }}
                 data-adaptation-indicator="true"

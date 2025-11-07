@@ -111,7 +111,7 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
             onChange={(e) => onChange(e.target.value)}
             className="w-full px-3 py-2 text-sm border border-subtle glass-radius-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {options?.map(option => (
+            {options?.map((option: any) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -333,7 +333,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
                 { key: 'properties', label: 'Properties', icon: '⚙️' },
                 { key: 'styles', label: 'Styles', icon: '🎨' },
                 { key: 'advanced', label: 'Advanced', icon: '🔧' }
-              ].map(section => (
+              ].map((section: any) => (
                 <button
                   key={section.key}
                   onClick={() => setActiveSection(section.key as any)}

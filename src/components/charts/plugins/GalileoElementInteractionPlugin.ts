@@ -63,7 +63,7 @@ const DEFAULT_CONFIG: Required<GalileoInteractionConfig> = {
   magneticStrength: 0.3,
   magneticRange: 50,
   rippleEffect: true,
-  rippleColor: 'rgba(255, 255, 255, 0.5)',
+  rippleColor: 'var(--glass-border-hover)',
   rippleDuration: 600,
   hoverGlow: true,
   glowColor: 'rgba(59, 130, 246, 0.4)',
@@ -256,7 +256,7 @@ function createRipple(chart: any, x: number, y: number) {
 }
 
 function drawRipples(ctx: CanvasRenderingContext2D, ripples: any[]) {
-  ripples.forEach(ripple => {
+  ripples.forEach((ripple: any) => {
     ctx.save();
     ctx.globalAlpha = ripple.opacity;
     ctx.strokeStyle = ripple.color;
@@ -308,7 +308,7 @@ function drawMagneticEffects(ctx: CanvasRenderingContext2D, activeElements: Map<
     // Draw connection line
     ctx.save();
     ctx.globalAlpha = influence * 0.3;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.strokeStyle = 'var(--glass-border-hover)';
     ctx.lineWidth = 1;
     ctx.setLineDash([2, 4]);
     ctx.beginPath();

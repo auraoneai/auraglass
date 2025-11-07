@@ -96,7 +96,7 @@ class EEGProcessor {
     this.bandpassFilters.set('gamma', new ButterworthFilter(30, 100, this.sampleRate, 'bandpass'));
     
     // Initialize filtered buffers
-    Object.keys(this.bandpassFilters).forEach(band => {
+    Object.keys(this.bandpassFilters).forEach((band: any) => {
       this.filteredBuffer.set(band, []);
     });
   }
@@ -473,7 +473,7 @@ class NeuroAdaptationEngine {
     let totalScore = 0;
     let totalWeight = 0;
 
-    Object.keys(trigger).forEach(key => {
+    Object.keys(trigger).forEach((key: any) => {
       const metricKey = key as keyof NeuroMetrics;
       const currentValue = current[metricKey];
       const triggerValue = trigger[metricKey];
@@ -665,7 +665,7 @@ class NeuroSyncSystem {
     const keys = Object.keys(metrics[0]) as (keyof NeuroMetrics)[];
     const averages: Partial<NeuroMetrics> = {};
 
-    keys.forEach(key => {
+    keys.forEach((key: any) => {
       const sum = metrics.reduce((total, metric) => total + metric[key], 0);
       averages[key] = sum / metrics.length;
     });
@@ -915,7 +915,7 @@ export function GlassNeuroMetricsDashboard({
                 Neural Metrics
               </h4>
               <div className="grid grid-cols-2 gap-2">
-                {metricsArray.map(metric => (
+                {metricsArray.map((metric: any) => (
                   <div
                     key={metric.name}
                     className="p-3 glass-surface-secondary glass-radius-md"

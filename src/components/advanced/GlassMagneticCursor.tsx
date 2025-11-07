@@ -85,7 +85,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
   // Initialize magnetic elements
   useEffect(() => {
     const elements = document.querySelectorAll('[data-magnetic]');
-    magneticElements.current = Array.from(elements).map(el => ({
+    magneticElements.current = Array.from(elements).map((el: any) => ({
       element: el as HTMLElement,
       strength: parseFloat(el.getAttribute('data-magnetic-strength') || '') || magnetStrength,
       radius: parseFloat(el.getAttribute('data-magnetic-radius') || '') || magnetRadius,
@@ -156,7 +156,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
     
     // Update trail
     if (variant === 'trail') {
-      setTrail(prev => {
+      setTrail((prev: any) => {
         const newTrail = [{ x, y, id: Date.now() }, ...prev.slice(0, trailLength - 1)];
         return newTrail;
       });
@@ -172,11 +172,11 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
         id: Date.now(),
       };
       
-      setRipples(prev => [...prev, ripple]);
+      setRipples((prev: any) => [...prev, ripple]);
       
       // Remove ripple after animation
       setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== ripple.id));
+        setRipples((prev: any) => prev.filter((r: any) => r.id !== ripple.id));
       }, 1000);
     }
     
@@ -311,7 +311,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
       
       {/* Ripple effect */}
       <AnimatePresence>
-        {variant === 'ripple' && ripples.map(ripple => (
+        {variant === 'ripple' && ripples.map((ripple: any) => (
           <motion.div
             key={ripple.id}
             className="fixed pointer-events-none z-[9997]"

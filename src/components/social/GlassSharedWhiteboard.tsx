@@ -125,7 +125,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
       if (!realTimeSync) return
 
       const interval = setInterval(() => {
-        setSimulatedUsers(prev => prev.map(user => {
+        setSimulatedUsers((prev: any) => prev.map((user: any) => {
           if (user.id === currentUserId) return user
 
           // Randomly move cursors and simulate drawing
@@ -155,7 +155,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
               isComplete: true
             }
 
-            setLocalStrokes(prev => [...prev.slice(-maxStrokes + 1), stroke])
+            setLocalStrokes((prev: any) => [...prev.slice(-maxStrokes + 1), stroke])
             onStroke?.(stroke)
             
             if (soundEnabled) {
@@ -214,7 +214,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
       ctx.globalAlpha = 1
 
       // Draw all strokes
-      localStrokes.forEach(stroke => {
+      localStrokes.forEach((stroke: any) => {
         if (stroke.points.length < 2) return
 
         ctx.strokeStyle = stroke.color
@@ -296,8 +296,8 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
       }
 
       setCurrentStroke(updatedStroke)
-      setLocalStrokes(prev => [
-        ...prev.filter(s => s.id !== updatedStroke.id),
+      setLocalStrokes((prev: any) => [
+        ...prev.filter((s: any) => s.id !== updatedStroke.id),
         updatedStroke
       ])
     }, [isDrawing, currentStroke, readOnly])
@@ -310,9 +310,9 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
         isComplete: true
       }
 
-      setLocalStrokes(prev => {
+      setLocalStrokes((prev: any) => {
         const newStrokes = [
-          ...prev.filter(s => s.id !== completedStroke.id),
+          ...prev.filter((s: any) => s.id !== completedStroke.id),
           completedStroke
         ].slice(-maxStrokes)
 
@@ -331,8 +331,8 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
       if (undoStack.length === 0) return
 
       const previousState = undoStack[undoStack.length - 1]
-      setRedoStack(prev => [localStrokes, ...prev])
-      setUndoStack(prev => prev.slice(0, -1))
+      setRedoStack((prev: any) => [localStrokes, ...prev])
+      setUndoStack((prev: any) => prev.slice(0, -1))
       setLocalStrokes(previousState)
       onUndo?.()
     }
@@ -341,14 +341,14 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
       if (redoStack.length === 0) return
 
       const nextState = redoStack[0]
-      setUndoStack(prev => [...prev, localStrokes])
-      setRedoStack(prev => prev.slice(1))
+      setUndoStack((prev: any) => [...prev, localStrokes])
+      setRedoStack((prev: any) => prev.slice(1))
       setLocalStrokes(nextState)
       onRedo?.()
     }
 
     const handleClear = () => {
-      setUndoStack(prev => [...prev, localStrokes])
+      setUndoStack((prev: any) => [...prev, localStrokes])
       setRedoStack([])
       setLocalStrokes([])
       onClear?.()
@@ -406,7 +406,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
               <div className="flex items-center space-x-4">
                 {/* Tools */}
                 <div className="flex space-x-2">
-                  {tools.map(tool => (
+                  {tools.map((tool: any) => (
                     <button
                       key={tool.id}
                       onClick={() => setSelectedTool(tool.id)}
@@ -444,7 +444,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
 
                 {/* Sizes */}
                 <div className="flex space-x-1">
-                  {sizes.map(size => (
+                  {sizes.map((size: any) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
@@ -519,8 +519,8 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
               {showUserCursors && (
                 <AnimatePresence>
                   {simulatedUsers
-                    .filter(user => user.id !== currentUserId)
-                    .map(user => (
+                    .filter((user: any) => user.id !== currentUserId)
+                    .map((user: any) => (
                       <UserCursor key={user.id} user={user} />
                     ))}
                 </AnimatePresence>
@@ -547,7 +547,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
                 <h3 className="text-sm font-medium text-primary/90 mb-3">
                   Active Users ({simulatedUsers.length})
                 </h3>
-                {simulatedUsers.map(user => (
+                {simulatedUsers.map((user: any) => (
                   <div
                     key={user.id}
                     className="flex items-center space-x-2 p-2 glass-radius hover:glass-surface-subtle/5"

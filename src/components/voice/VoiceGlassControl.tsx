@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -652,7 +653,7 @@ export default function VoiceGlassControl({
                       }}
                       className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius text-primary text-sm"
                     >
-                      {actions.getAvailableVoices().map(voice => (
+                      {actions.getAvailableVoices().map((voice: any) => (
                         <option key={voice.name} value={voice.name} className="glass-surface-primary">
                           {voice.name} ({voice.lang})
                         </option>

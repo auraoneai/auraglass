@@ -104,7 +104,7 @@ const CategorySection: React.FC<{
       
       {isExpanded && (
         <div className="mt-2 space-y-2 pl-4">
-          {components.map(component => (
+          {components.map((component: any) => (
             <ComponentItem
               key={component.id}
               component={component}
@@ -128,7 +128,7 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const toggleCategory = (category: string) => {
-    setExpandedCategories(prev => {
+    setExpandedCategories((prev: any) => {
       const newSet = new Set(prev);
       if (newSet.has(category)) {
         newSet.delete(category);
@@ -150,7 +150,7 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
 
   // Filter components by search query
   const filteredComponents = searchQuery
-    ? componentLibrary.filter(component =>
+    ? componentLibrary.filter((component: any) =>
         component.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         component.type.toLowerCase().includes(searchQuery.toLowerCase())
       )
@@ -219,7 +219,7 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
               <div className="text-sm glass-text-secondary mb-3">
                 {filteredComponents.length} components found
               </div>
-              {filteredComponents.map(component => (
+              {filteredComponents.map((component: any) => (
                 <ComponentItem
                   key={component.id}
                   component={component}

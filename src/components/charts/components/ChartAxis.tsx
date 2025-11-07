@@ -44,7 +44,7 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
   const glassStyles = createGlassStyle({ intent: 'neutral', elevation: 'level1' });
   const axisLineStyle: React.CSSProperties = {
     position: 'absolute',
-    background: glassStyles.borderColor || '${glassStyles.borderColor || "rgba(255, 255, 255, 0.2)"}',
+    background: glassStyles.borderColor || '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}',
     ...(orientation === 'horizontal' 
       ? { height: '1px', left: 0, right: 0, bottom: '15px' }
       : { width: '1px', top: 0, bottom: '15px', right: '15px' }
@@ -75,14 +75,14 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
                   left: `${tick.position}%`,
                   bottom: '10px',
                   transform: 'translateX(-50%)',
-                  borderLeft: `1px solid ${glassStyles.borderColor || '${glassStyles.borderColor || "rgba(255, 255, 255, 0.2)"}'}`,
+                  borderLeft: `1px solid ${glassStyles.borderColor || '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'}`,
                   height: '10px',
                 }
               : {
                   top: `${100 - tick.position}%`,
                   right: '10px',
                   transform: 'translateY(50%)',
-                  borderTop: `1px solid ${glassStyles.borderColor || '${glassStyles.borderColor || "rgba(255, 255, 255, 0.2)"}'}`,
+                  borderTop: `1px solid ${glassStyles.borderColor || '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'}`,
                   width: '10px',
                 }
             ),
@@ -93,7 +93,7 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
               style={{
                 position: 'absolute',
                 fontSize: '0.625rem',
-                color: '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.6)"}',
+                color: '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-60))"}',
                 whiteSpace: 'nowrap',
                 ...(orientation === 'horizontal'
                   ? { top: '12px', left: '50%', transform: 'translateX(-50%)' }
@@ -112,7 +112,7 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
         <div style={{
           position: 'absolute',
           fontSize: 'var(--typography-caption-size)',
-          color: '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}',
+          color: '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}',
           fontWeight: 'var(--typography-subheading-weight)',
           ...(orientation === 'horizontal'
             ? { 

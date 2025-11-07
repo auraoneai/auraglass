@@ -141,7 +141,7 @@ export class OpenAIService {
     } catch (error) {
       return this.errorHandler.handleWithFallback(error, () => ({
         enhancedQuery: userQuery,
-        searchTerms: userQuery.split(' ').filter(term => term.length > 2),
+        searchTerms: userQuery.split(' ').filter((term: any) => term.length > 2),
         intent: 'search' as const,
         confidence: 0.5,
       }));

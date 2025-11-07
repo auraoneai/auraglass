@@ -20,7 +20,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
   vertical = true,
 }) => {
   const glassStyles = createGlassStyle({ intent: 'neutral', elevation: 'level1' });
-  const gridColor = color || glassStyles.borderColor || '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}';
+  const gridColor = color || glassStyles.borderColor || '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
   const gridRef = useRef<SVGSVGElement>(null);
 
   if (!show) return null;
@@ -94,7 +94,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
       {/* Main grid */}
       <g>
         {/* Horizontal lines */}
-        {horizontalLines.map(line => (
+        {horizontalLines.map((line: any) => (
           <line
             key={line.key}
             x1="0%"
@@ -109,7 +109,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
         ))}
 
         {/* Vertical lines */}
-        {verticalLines.map(line => (
+        {verticalLines.map((line: any) => (
           <line
             key={line.key}
             x1={`${line.x}%`}

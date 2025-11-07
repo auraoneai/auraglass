@@ -114,7 +114,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        setSimulatedParticipants(prev => prev.map(participant => {
+        setSimulatedParticipants((prev: any) => prev.map((participant: any) => {
           if (!participant.isConnected) return participant
 
           const wasSpeaking = participant.isSpeaking
@@ -157,9 +157,9 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
         const { maxBars: bars, smoothing: smooth } = settingsRef.current
         const snapshot = participantsRef.current
 
-        setAudioData(prev => {
+        setAudioData((prev: any) => {
           const updated: Record<string, number[]> = {}
-          snapshot.forEach(participant => {
+          snapshot.forEach((participant: any) => {
             const prevData = prev[participant.id] || new Array(bars).fill(0)
             if (participant.isSpeaking && participant.audioLevel > 0.1) {
               const nextData = generateWaveformData(participant.audioLevel, bars)
@@ -168,7 +168,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
               )
               updated[participant.id] = smoothed
             } else {
-              updated[participant.id] = prevData.map(v => v * 0.9)
+              updated[participant.id] = prevData.map((v: any) => v * 0.9)
             }
           })
           return updated
@@ -188,11 +188,11 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
     useEffect(() => {
       if (!showVoiceActivity) return
 
-      setSpeakingHistory(prev => {
+      setSpeakingHistory((prev: any) => {
         const newHistory = { ...prev }
         const now = Date.now()
 
-        simulatedParticipants.forEach(participant => {
+        simulatedParticipants.forEach((participant: any) => {
           if (!newHistory[participant.id]) {
             newHistory[participant.id] = []
           }
@@ -204,7 +204,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
           }
 
           // Keep only last 30 seconds of history
-          newHistory[participant.id] = history.filter(timestamp => now - timestamp < 30000)
+          newHistory[participant.id] = history.filter((timestamp: any) => now - timestamp < 30000)
         })
 
         return newHistory
@@ -232,7 +232,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
       return (
         <div className="flex items-center space-x-1">
           <div className="flex space-x-0.5">
-            {[0, 1, 2, 3, 4].map(level => (
+            {[0, 1, 2, 3, 4].map((level: any) => (
               <div
                 key={level}
                 className={`
@@ -460,8 +460,8 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
       </motion.div>
     )
 
-    const activeSpeakers = simulatedParticipants.filter(p => p.isSpeaking).length
-    const connectedParticipants = simulatedParticipants.filter(p => p.isConnected).length
+    const activeSpeakers = simulatedParticipants.filter((p: any) => p.isSpeaking).length
+    const connectedParticipants = simulatedParticipants.filter((p: any) => p.isConnected).length
 
     return (
       <OptimizedGlass

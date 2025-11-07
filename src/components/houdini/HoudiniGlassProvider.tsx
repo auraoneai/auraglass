@@ -189,10 +189,10 @@ export function HoudiniGlassProvider({
   useEffect(() => {
     if (performanceModeState) {
       // Disable expensive effects in performance mode
-      const reducedEffects = enabledEffectsState.filter(effect =>
+      const reducedEffects = enabledEffectsState.filter((effect: any) =>
         !['caustics', 'refraction'].includes(effect)
       );
-      setEnabledEffectsState(prev => {
+      setEnabledEffectsState((prev: any) => {
         const sameLength = prev.length === reducedEffects.length;
         const sameOrder = sameLength && prev.every((v, i) => v === reducedEffects[i]);
         return sameOrder ? prev : reducedEffects;
@@ -207,7 +207,7 @@ export function HoudiniGlassProvider({
       }
     } else {
       // Restore full effects
-      setEnabledEffectsState(prev => {
+      setEnabledEffectsState((prev: any) => {
         const next = enabledEffects;
         const sameLength = prev.length === next.length;
         const sameOrder = sameLength && prev.every((v, i) => v === next[i]);
@@ -247,7 +247,7 @@ export function HoudiniGlassProvider({
   ]);
 
   const updateGlobalProperty = useCallback((property: string, value: string) => {
-    setGlobalProperties(prev => ({ ...prev, [property]: value }));
+    setGlobalProperties((prev: any) => ({ ...prev, [property]: value }));
 
     if (hasPropertyAPI) {
       document.documentElement.style.setProperty(property, value);
@@ -259,9 +259,9 @@ export function HoudiniGlassProvider({
   }, [hasPropertyAPI, debugModeState]);
 
   const toggleEffect = useCallback((effect: string) => {
-    setEnabledEffectsState(prev => {
+    setEnabledEffectsState((prev: any) => {
       const newEffects = prev.includes(effect)
-        ? prev.filter(e => e !== effect)
+        ? prev.filter((e: any) => e !== effect)
         : [...prev, effect];
 
       if (debugModeState) {
@@ -434,14 +434,14 @@ function registerGlassProperties() {
         name: '--glass-background',
         syntax: '<color>',
         inherits: false,
-        initialValue: 'rgba(255, 255, 255, 0.1)'
+        initialValue: 'var(--glass-bg-default)'
       });
 
       CSS.registerProperty({
         name: '--glass-border',
         syntax: '<color>',
         inherits: false,
-        initialValue: 'rgba(255, 255, 255, 0.2)'
+        initialValue: 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'
       });
 
       CSS.registerProperty({
@@ -455,7 +455,7 @@ function registerGlassProperties() {
         name: '--glass-shadow',
         syntax: '<string>',
         inherits: false,
-        initialValue: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        initialValue: '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10))'
       });
 
       CSS.registerProperty({
@@ -514,16 +514,16 @@ function registerGlassWorklets() {
 // Global CSS styles for Houdini glass effects
 const houdiniGlassStyles = `
   .houdini-glass {
-    background: var(--glass-background, rgba(255, 255, 255, 0.1));
+    background: var(--glass-background, var(--glass-bg-default));
     backdrop-filter: var(--glass-backdrop-blur););
-    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
+    border: 1px solid var(--glass-border, rgba(var(--glass-color-white) / var(--glass-opacity-20)));
     box-shadow: var(--glass-elev-2);
     transition: all calc(0.3s * var(--glass-animation-speed, 1));
   }
 
   .houdini-glass:hover {
     background: var(--glass-bg-default);
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: var(--glass-bg-hover);
     box-shadow: var(--glass-elev-2);
   }
 

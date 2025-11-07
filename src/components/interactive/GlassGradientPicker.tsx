@@ -152,7 +152,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
 
         const colorStops = stops
             .sort((a, b) => a.position - b.position)
-            .map(stop => `${stop.color} ${stop.position}%`)
+            .map((stop: any) => `${stop.color} ${stop.position}%`)
             .join(', ');
 
         switch (selectedType) {
@@ -169,7 +169,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
 
     // Handle stop change
     const handleStopChange = useCallback((index: number, updates: Partial<GradientStop>) => {
-        setStops(prev => prev.map((stop, i) =>
+        setStops((prev: any) => prev.map((stop, i) =>
             i === index ? { ...stop, ...updates } : stop
         ));
     }, []);
@@ -182,7 +182,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
             color: '#ffffff',
             position: 50
         };
-        setStops(prev => [...prev, newStop]);
+        setStops((prev: any) => [...prev, newStop]);
         setSelectedStopIndex(stops.length);
     }, [stops.length, maxStops]);
 
@@ -190,7 +190,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
     const handleRemoveStop = useCallback((index: number) => {
         if (stops.length <= 2) return; // Keep at least 2 stops
 
-        setStops(prev => prev.filter((_, i) => i !== index));
+        setStops((prev: any) => prev.filter((_, i) => i !== index));
         setSelectedStopIndex(null);
     }, [stops.length]);
 
@@ -428,7 +428,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                             className="w-full h-16 glass-radius-lg border border-white/20 group-hover:border-white/40 transition-all"
                                             style={{
                                                 background: preset.stops.length > 0
-                                                    ? `${preset.type}-gradient(${preset.angle || 0}deg, ${preset.stops.map(s => `${s.color} ${s.position}%`).join(', ')})`
+                                                    ? `${preset.type}-gradient(${preset.angle || 0}deg, ${preset.stops.map((s: any) => `${s.color} ${s.position}%`).join(', ')})`
                                                     : 'transparent'
                                             }}
                                         />

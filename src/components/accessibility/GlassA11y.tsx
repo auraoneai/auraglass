@@ -108,7 +108,7 @@ export function GlassA11y({
 
   // Toggle section expansion
   const toggleSection = useCallback((sectionId: string) => {
-    setSections(prev => prev.map(section =>
+    setSections((prev: any) => prev.map((section: any) =>
       section.id === sectionId
         ? { ...section, isExpanded: !section.isExpanded }
         : section
@@ -177,7 +177,7 @@ export function GlassA11y({
       id: 'high-contrast',
       label: 'High Contrast',
       active: isHighContrast,
-      onClick: () => setConfig(prev => ({
+      onClick: () => setConfig((prev: any) => ({
         ...prev,
         contrastLevel: prev.contrastLevel === 'high' ? 'normal' : 'high'
       }))
@@ -186,7 +186,7 @@ export function GlassA11y({
       id: 'reduce-motion',
       label: 'Reduce Motion',
       active: isMotionReduced,
-      onClick: () => setConfig(prev => ({
+      onClick: () => setConfig((prev: any) => ({
         ...prev,
         motionPreference: prev.motionPreference === 'reduced' ? 'full' : 'reduced'
       }))
@@ -195,7 +195,7 @@ export function GlassA11y({
       id: 'reduce-transparency',
       label: 'Reduce Transparency',
       active: hasReducedTransparency,
-      onClick: () => setConfig(prev => ({
+      onClick: () => setConfig((prev: any) => ({
         ...prev,
         reduceTransparency: !prev.reduceTransparency
       }))
@@ -204,7 +204,7 @@ export function GlassA11y({
       id: 'large-text',
       label: 'Large Text',
       active: config.fontSizeMultiplier > 1,
-      onClick: () => setConfig(prev => ({
+      onClick: () => setConfig((prev: any) => ({
         ...prev,
         fontSizeMultiplier: prev.fontSizeMultiplier > 1 ? 1 : 1.25
       }))
@@ -317,7 +317,7 @@ export function GlassA11y({
 
               {/* Quick Settings */}
               <div className="grid grid-cols-2 gap-2">
-                {quickSettings.map(setting => (
+                {quickSettings.map((setting: any) => (
                   <motion.button
                     key={setting.id}
                     onClick={setting.onClick}
@@ -471,7 +471,7 @@ export function GlassA11y({
 
                 {activeTab === 'sections' && (
                   <div className="space-y-3">
-                    {sections.map(section => {
+                    {sections.map((section: any) => {
                       const Component = section.component;
                       return (
                         <div key={section.id} className="border border-white/10 glass-radius-lg">

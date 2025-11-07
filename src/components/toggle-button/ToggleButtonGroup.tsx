@@ -83,7 +83,7 @@ function ToggleButtonGroupComponent(
         const valueArray = Array.isArray(value) ? value : value ? [value] : [];
 
         if (valueArray.includes(buttonValue)) {
-          newValue = valueArray.filter(v => v !== buttonValue);
+          newValue = valueArray.filter((v: any) => v !== buttonValue);
           if ((newValue?.length || 0) === 0) newValue = null;
         } else {
           newValue = [...valueArray, buttonValue];

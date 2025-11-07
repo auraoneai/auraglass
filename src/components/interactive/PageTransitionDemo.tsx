@@ -18,9 +18,9 @@ export const PageTransitionDemo: React.FC = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={page}
-            initial={{ opacity: 0, filter: 'blur(8px)', y: 10 }}
+            initial={{ opacity: 0, filter: 'blur(var(--glass-blur-md))', y: 10 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] } }}
-            exit={{ opacity: 0, filter: 'blur(8px)', y: -10, transition: { duration: 0.2 } }}
+            exit={{ opacity: 0, filter: 'blur(var(--glass-blur-md))', y: -10, transition: { duration: 0.2 } }}
             style={cardStyle}
           >
             {page === 0 && <Section title="Overview" color="linear-gradient(135deg, #60a5fa33, #c084fc33)" />}
@@ -51,7 +51,7 @@ const cardStyle: React.CSSProperties = {
 const btnStyle = (active: boolean): React.CSSProperties => ({
   padding: '6px 10px',
   borderRadius: 8,
-  border: '1px solid rgba(255,255,255,0.2)',
+  border: '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))',
   background: active ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
   color: 'white',
 });

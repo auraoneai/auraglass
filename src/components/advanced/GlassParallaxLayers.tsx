@@ -88,7 +88,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
     if (!autoRotate) return;
     
     const interval = setInterval(() => {
-      setRotation(prev => prev + rotateSpeed);
+      setRotation((prev: any) => prev + rotateSpeed);
     }, 16);
     
     return () => clearInterval(interval);

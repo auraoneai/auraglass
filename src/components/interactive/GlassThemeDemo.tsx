@@ -323,7 +323,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
             <Typography variant="h6" className="mb-4 font-semibold">Box Layout</Typography>
             <Box>
               <Typography>Above divider</Typography>
-              <Box style={{ marginTop: '16px', marginBottom: '16px', borderTop: '1px solid rgba(0,0,0,0.1)' }} />
+              <Box style={{ marginTop: '16px', marginBottom: '16px', borderTop: '1px solid rgba(var(--glass-color-black) / var(--glass-opacity-10))' }} />
               <Typography>Below divider</Typography>
             </Box>
             {showCode && (

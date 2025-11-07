@@ -76,20 +76,20 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
           display: axis?.x?.show !== false,
           grid: {
             display: axis?.x?.grid !== false,
-            color: '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}',
+            color: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
           },
           ticks: {
-            color: '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}',
+            color: '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}',
           },
         },
         y: {
           display: axis?.y?.show !== false,
           grid: {
             display: axis?.y?.grid !== false,
-            color: '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}',
+            color: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
           },
           ticks: {
-            color: '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}',
+            color: '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}',
           },
         },
       },
@@ -186,7 +186,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
-          color: 'rgba(255, 255, 255, 0.5)',
+          color: 'var(--glass-border-hover)',
         }}>
           Loading chart...
         </div>

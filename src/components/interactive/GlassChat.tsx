@@ -282,7 +282,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
         const generateSuggestions = async () => {
             try {
                 const conversationContext = {
-                    messages: messages.slice(-5).map(m => ({
+                    messages: messages.slice(-5).map((m: any) => ({
                         content: m.content,
                         sender: m.sender.name,
                         timestamp: m.timestamp
@@ -296,9 +296,9 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 
                 // Generate simple suggestions based on available data
                 const suggestions = predictions
-                    .filter(p => p.type === 'suggest')
-                    .map(p => p.metadata?.text || '')
-                    .filter(text => text.length > 0)
+                    .filter((p: any) => p.type === 'suggest')
+                    .map((p: any) => p.metadata?.text || '')
+                    .filter((text: any) => text.length > 0)
                     .slice(0, 3);
 
                 setSuggestedResponses(suggestions);
@@ -308,9 +308,9 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                     sentiment: (insights.find(i => i.type === 'sentiment')?.metadata?.sentiment as 'positive' | 'neutral' | 'negative') || 'neutral',
                     urgency: (insights.find(i => i.type === 'urgency')?.metadata?.urgency as 'low' | 'medium' | 'high') || 'medium',
                     topics: insights
-                        .filter(i => i.type === 'topic')
-                        .map(i => i.metadata?.topic || '')
-                        .filter(topic => topic.length > 0)
+                        .filter((i: any) => i.type === 'topic')
+                        .map((i: any) => i.metadata?.topic || '')
+                        .filter((topic: any) => topic.length > 0)
                 } : null;
 
                 setConversationInsights(transformedInsights);
@@ -353,7 +353,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
         if (!consciousness || !interactionRecorder) return;
 
         const recordMessageInteraction = (messageId: string, interactionType: string) => {
-            setMessageInteractionCounts(prev => ({
+            setMessageInteractionCounts((prev: any) => ({
                 ...prev,
                 [messageId]: (prev[messageId] || 0) + 1
             }));
@@ -462,13 +462,13 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 
     const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
-        setAttachments(prev => [...prev, ...files]);
+        setAttachments((prev: any) => [...prev, ...files]);
         e.target.value = '';
     }, []);
 
     // Remove attachment
     const removeAttachment = useCallback((index: number) => {
-        setAttachments(prev => prev.filter((_, i) => i !== index));
+        setAttachments((prev: any) => prev.filter((_, i) => i !== index));
     }, []);
 
     // Handle voice recording
@@ -551,7 +551,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                         <div className="flex items-center gap-2 glass-mt-2">
                             <Users className="w-4 h-4 text-primary/60" />
                             <span className="text-primary/60 text-sm">
-                                {participants.filter(p => p.status === 'online').length} online • {participants.length} total
+                                {participants.filter((p: any) => p.status === 'online').length} online • {participants.length} total
                             </span>
                         </div>
                     )}

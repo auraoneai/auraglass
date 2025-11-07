@@ -78,14 +78,14 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
         ...props
     }, ref) => {
         const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
-            Object.fromEntries(filters.map(f => [f.id, !f.collapsed]))
+            Object.fromEntries(filters.map((f: any) => [f.id, !f.collapsed]))
         );
         const [searchQuery, setSearchQuery] = useState('');
         const [showPresetDialog, setShowPresetDialog] = useState(false);
         const [newPresetName, setNewPresetName] = useState('');
 
         const toggleGroup = useCallback((groupId: string) => {
-            setExpandedGroups(prev => ({
+            setExpandedGroups((prev: any) => ({
                 ...prev,
                 [groupId]: !prev[groupId]
             }));
@@ -100,7 +100,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
 
         const handleClearAll = useCallback(() => {
             const clearedValues = Object.fromEntries(
-                filters.map(f => [f.id, f.type === 'checkbox' ? [] : null])
+                filters.map((f: any) => [f.id, f.type === 'checkbox' ? [] : null])
             );
             onChange(clearedValues);
             onClear?.();
@@ -125,7 +125,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
         const filteredGroups = useMemo(() => {
             if (!searchQuery) return filters;
 
-            return filters.filter(group =>
+            return filters.filter((group: any) =>
                 group.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 group.options?.some(option =>
                     option.label.toLowerCase().includes(searchQuery.toLowerCase())
@@ -370,7 +370,7 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
                                     const currentValues = Array.isArray(value) ? value : [];
                                     const newValues = checked
                                         ? [...currentValues, option.value]
-                                        : currentValues.filter(v => v !== option.value);
+                                        : currentValues.filter((v: any) => v !== option.value);
                                     onChange(newValues);
                                 }}
                                 disabled={option.disabled}

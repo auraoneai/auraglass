@@ -163,7 +163,7 @@ export const GlassToggle = React.forwardRef<HTMLButtonElement, GlassToggleProps>
                     groupContext.onValueChange?.(newValues);
                 } else {
                     const newValues = currentValues.includes(itemValue)
-                        ? currentValues.filter(v => v !== itemValue)
+                        ? currentValues.filter((v: any) => v !== itemValue)
                         : [...currentValues, itemValue];
                     groupContext.onValueChange?.(newValues);
                 }
@@ -408,9 +408,9 @@ export const useToggleGroup = (initialValue: string[] = []) => {
         setValue,
         onValueChange: setValue,
         toggle: (itemValue: string) => {
-            setValue(prev =>
+            setValue((prev: any) =>
                 prev.includes(itemValue)
-                    ? prev.filter(v => v !== itemValue)
+                    ? prev.filter((v: any) => v !== itemValue)
                     : [...prev, itemValue]
             );
         },

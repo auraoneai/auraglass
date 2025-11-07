@@ -316,7 +316,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         if (open) {
             const openTime = Date.now();
             setModalFocusTime(openTime);
-            setInteractionCount(prev => prev + 1);
+            setInteractionCount((prev: any) => prev + 1);
 
             // Record modal opening interaction
             if (consciousness && interactionRecorder) {
@@ -361,7 +361,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
             }
 
             // Update content engagement
-            setContentEngagement(prev => ({
+            setContentEngagement((prev: any) => ({
                 ...prev,
                 timeSpent
             }));
@@ -635,7 +635,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 style={{
                   '--liquid-glass-depth-offset': variant === 'drawer' ? '8px' : '12px',
                   '--liquid-glass-tint-adaptive': modalInsights?.urgency === 'high' ? 
-                    'rgba(220, 38, 38, 0.15)' : 'rgba(0, 0, 0, 0.1)'
+                    'rgba(220, 38, 38, 0.15)' : 'rgba(var(--glass-color-black) / var(--glass-opacity-10))'
                 } as React.CSSProperties}
                 data-liquid-glass-modal="true"
                 data-modal-urgency={modalInsights?.urgency}
@@ -790,7 +790,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                     const scrollElement = e.target as HTMLElement;
                     const scrollDepth = scrollElement.scrollTop / (scrollElement.scrollHeight - scrollElement.clientHeight) || 0;
                     
-                    setContentEngagement(prev => ({
+                    setContentEngagement((prev: any) => ({
                       ...prev,
                       scrollDepth: Math.max(prev.scrollDepth, scrollDepth),
                       interactions: prev.interactions + 1
@@ -805,7 +805,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 }}
                 onClick={(e) => {
                   if (consciousness && interactionRecorder) {
-                    setContentEngagement(prev => ({
+                    setContentEngagement((prev: any) => ({
                       ...prev,
                       interactions: prev.interactions + 1
                     }));

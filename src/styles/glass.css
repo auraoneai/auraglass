@@ -47,8 +47,8 @@
 
 /* Backdrop filter utilities */
 .glass-blur-backdrop {
-  backdrop-filter: var(--glass-backdrop-blur, blur(16px));
-  -webkit-backdrop-filter: var(--glass-backdrop-blur, blur(16px));
+  backdrop-filter: var(--glass-backdrop-blur, blur(var(--glass-blur-lg)));
+  -webkit-backdrop-filter: var(--glass-backdrop-blur, blur(var(--glass-blur-lg)));
 }
 
 .glass-backdrop-blur {
@@ -104,15 +104,15 @@
 
 /* Border color utilities */
 .glass-border-white\/10 {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--glass-bg-default);
 }
 
 .glass-border-white\/20 {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(var(--glass-color-white) / var(--glass-opacity-20));
 }
 
 .glass-border-white\/30 {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--glass-bg-hover);
 }
 
 /* ========================================
@@ -1447,18 +1447,18 @@
 
 /* Enhanced glass morphism layers */
 .glass-ultra-blur {
-  backdrop-filter: blur(24px) saturate(180%) brightness(110%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+  backdrop-filter: blur(var(--glass-blur-xl)) saturate(180%) brightness(110%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-xl)) saturate(180%) brightness(110%);
 }
 
 .glass-premium {
   background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
-  backdrop-filter: blur(20px) saturate(180%) brightness(120%);
-  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%) brightness(120%);
+  border: 1px solid var(--glass-bg-disabled);
   box-shadow: 
-    0 8px 32px rgba(0,0,0,0.1),
-    0 4px 16px rgba(0,0,0,0.05),
-    inset 0 1px 0 rgba(255,255,255,0.15);
+    0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10)),
+    0 4px 16px rgba(var(--glass-color-black) / var(--glass-opacity-5)),
+    inset 0 1px 0 var(--glass-bg-disabled);
 }
 
 /* Sophisticated hover effects */
@@ -1469,9 +1469,9 @@
 .glass-hover-lift:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 
-    0 20px 40px rgba(0,0,0,0.15),
+    0 20px 40px rgba(var(--glass-color-black) / var(--glass-opacity-15)),
     0 10px 20px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.2);
+    inset 0 1px 0 rgba(var(--glass-color-white) / var(--glass-opacity-20));
 }
 
 /* Ambient glow effects */
@@ -1529,7 +1529,7 @@
   from {
     opacity: 0;
     transform: translateY(40px) scale(0.9);
-    filter: blur(4px);
+    filter: blur(var(--glass-blur-sm));
   }
   to {
     opacity: 1;
@@ -1580,7 +1580,7 @@
   background: linear-gradient(
     90deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.1) 50%,
+    var(--glass-bg-default) 50%,
     rgba(255,255,255,0) 100%
   );
   background-size: 200% 100%;

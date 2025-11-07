@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import {
     createContext,
@@ -249,7 +250,7 @@ export function AIGlassThemeProvider({
 
   // Update AI config
   const updateAIConfig = useCallback((config: Partial<AIThemeConfig>) => {
-    setAIConfig(prev => {
+    setAIConfig((prev: any) => {
       const newConfig = { ...prev, ...config };
       return newConfig;
     });
@@ -307,7 +308,7 @@ export function AIGlassThemeProvider({
       };
 
       // Update theme history
-      setThemeHistory(prev => [theme, ...prev.slice(0, 49)]);
+      setThemeHistory((prev: any) => [theme, ...prev.slice(0, 49)]);
       setCurrentTheme(theme);
 
       return theme;
@@ -337,7 +338,7 @@ export function AIGlassThemeProvider({
 
   // Update user behavior
   const updateUserBehavior = useCallback((behavior: Partial<UserBehavior>) => {
-    setUserBehavior(prev => ({ ...prev, ...behavior }));
+    setUserBehavior((prev: any) => ({ ...prev, ...behavior }));
   }, []);
 
   // Track user interaction with theme
@@ -367,14 +368,14 @@ export function AIGlassThemeProvider({
 
   // Favorites management
   const addToFavorites = useCallback((theme: GlassTheme) => {
-    setFavoriteThemes(prev => {
+    setFavoriteThemes((prev: any) => {
       if (prev.find(t => t.id === theme.id)) return prev;
       return [theme, ...prev];
     });
   }, []);
 
   const removeFromFavorites = useCallback((themeId: string) => {
-    setFavoriteThemes(prev => prev.filter(t => t.id !== themeId));
+    setFavoriteThemes((prev: any) => prev.filter((t: any) => t.id !== themeId));
   }, []);
 
   // Cache and data management

@@ -38,16 +38,21 @@
         }
     },
     "include": [
-        "src/**/*",
-        "docs/**/*",
-        "*.ts",
-        "*.tsx"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",
         "dist",
+        "docs",
+        "examples",
+        "playwright.config.ts",
+        "*.config.ts",
+        "*.config.js",
         "src/**/*.test.ts",
         "src/**/*.test.tsx",
-        "src/**/__tests__/**"
+        "src/**/*.stories.tsx",
+        "src/**/__tests__/**",
+        "**/*.spec.ts",
+        "**/*.spec.tsx"
     ]
 }

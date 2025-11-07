@@ -33,7 +33,7 @@ export function getFocusableElements(container: HTMLElement): HTMLElement[] {
   ].join(', ');
   
   return Array.from(container.querySelectorAll<HTMLElement>(focusableSelectors))
-    .filter(el => {
+    .filter((el: any) => {
       // Check if element is visible
       const styles = window.getComputedStyle(el);
       return styles.display !== 'none' && 
@@ -178,7 +178,7 @@ export class RovingTabIndex {
   }
   
   public destroy() {
-    this.elements.forEach(el => {
+    this.elements.forEach((el: any) => {
       el.removeEventListener('keydown', this.handleKeyDown.bind(this));
     });
   }
@@ -260,7 +260,7 @@ export class FocusScope {
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
     
-    allFocusable.forEach(el => {
+    allFocusable.forEach((el: any) => {
       if (!this.container.contains(el)) {
         el.setAttribute('data-focus-disabled', 'true');
         el.setAttribute('tabindex', '-1');
@@ -271,7 +271,7 @@ export class FocusScope {
   public release() {
     // Restore focusability
     const disabled = document.querySelectorAll('[data-focus-disabled="true"]');
-    disabled.forEach(el => {
+    disabled.forEach((el: any) => {
       el.removeAttribute('data-focus-disabled');
       el.removeAttribute('tabindex');
     });

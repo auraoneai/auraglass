@@ -57,7 +57,7 @@ export function useGlassProbes(options: UseGlassProbesOptions = {}): GlassProbes
     probesRef.current = GlassStyleProbes.getInstance();
     probesRef.current.startMonitoring();
 
-    setProbesData(prev => ({ ...prev, isMonitoring: true }));
+    setProbesData((prev: any) => ({ ...prev, isMonitoring: true }));
 
     // Set up periodic updates
     intervalRef.current = setInterval(() => {
@@ -122,7 +122,7 @@ export function useGlassElementProbe<T extends HTMLElement>(
     probesRef.current = GlassStyleProbes.getInstance();
     probesRef.current.startMonitoring();
     
-    setElementData(prev => ({ ...prev, isMonitoring: true }));
+    setElementData((prev: any) => ({ ...prev, isMonitoring: true }));
   }, [options.monitor]);
 
   const probeElement = () => {

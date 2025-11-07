@@ -195,8 +195,8 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       showYGrid: true,
       showXLabels: true,
       showYLabels: true,
-      axisColor: '${glassStyles.borderColor || "rgba(255, 255, 255, 0.3)"}',
-      gridColor: '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}',
+      axisColor: '${glassStyles.borderColor || "var(--glass-bg-hover)"}',
+      gridColor: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
       gridStyle: 'solid',
     },
     initialSelection,
@@ -295,7 +295,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
   
   const animate = React.useCallback((key: string, from: number, to: number, duration: number = 500) => {
     setIsAnimating(true);
-    setAnimationValues(prev => ({ ...prev, [key]: from }));
+    setAnimationValues((prev: any) => ({ ...prev, [key]: from }));
     
     if (enablePhysicsAnimation) {
       // Use spring physics animation
@@ -310,7 +310,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         };
         
         const currentValue = from + (to - from) * easeSpring(progress);
-        setAnimationValues(prev => ({ ...prev, [key]: currentValue }));
+        setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
         
         if (progress < 1) {
           requestAnimationFrame(animateFrame);
@@ -328,7 +328,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       const interval = setInterval(() => {
         currentStep++;
         const currentValue = from + stepValue * currentStep;
-        setAnimationValues(prev => ({ ...prev, [key]: currentValue }));
+        setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
         
         if (currentStep >= steps) {
           clearInterval(interval);
@@ -672,7 +672,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       ctx.fillText(title, tempCanvas.width / 2, 25);
       
       if (subtitle) {
-        ctx.fillStyle = '${glassStyles.text?.secondary || "rgba(255, 255, 255, 0.7)"}';
+        ctx.fillStyle = '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
         ctx.font = '12px Inter, sans-serif';
         ctx.fillText(subtitle, tempCanvas.width / 2, 45);
       }
@@ -731,8 +731,8 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     ...axis,
     // Use a more visible grid color for the clear variant
     gridColor: glassVariant === 'clear' 
-      ? 'rgba(0, 0, 0, 0.15)' // Darker, semi-transparent
-      : axis.gridColor || '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}', // Original default
+      ? 'rgba(var(--glass-color-black) / var(--glass-opacity-15))' // Darker, semi-transparent
+      : axis.gridColor || '${glassStyles.surface?.base || "var(--glass-bg-default)"}', // Original default
   };
   
   // Special case for KPI chart type
@@ -775,7 +775,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
                 className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10"
                 data-insights-panel="true"
               >
-                <strong>💡 KPI Insights:</strong> {chartInsights.slice(0, 2).map(insight => insight.title || insight.message).join(', ')}
+                <strong>💡 KPI Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
                 {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
               </div>
             )}
@@ -860,7 +860,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
               className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10"
               data-insights-panel="true"
             >
-              <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map(insight => insight.title || insight.message).join(', ')}
+              <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
               {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
             </div>
           )}

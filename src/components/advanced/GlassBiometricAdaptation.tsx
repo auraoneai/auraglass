@@ -209,7 +209,7 @@ class BiometricSensorManager {
 
   private analyzeBehavioralPatterns(): void {
     const now = Date.now();
-    const recentReadings = this.readings.filter(r => now - r.timestamp < 30000); // Last 30 seconds
+    const recentReadings = this.readings.filter((r: any) => now - r.timestamp < 30000); // Last 30 seconds
 
     if (recentReadings.length === 0) return;
 
@@ -240,7 +240,7 @@ class BiometricSensorManager {
     }
 
     // Notify listeners
-    this.listeners.forEach(listener => listener(reading));
+    this.listeners.forEach((listener: any) => listener(reading));
   }
 
   async connectHeartRateMonitor(): Promise<boolean> {
@@ -293,7 +293,7 @@ class BiometricSensorManager {
 
   getReadingHistory(duration: number = 300000): BiometricReading[] {
     const cutoff = Date.now() - duration;
-    return this.readings.filter(r => r.timestamp > cutoff);
+    return this.readings.filter((r: any) => r.timestamp > cutoff);
   }
 
   cleanup(): void {
@@ -632,19 +632,19 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
 
     const handleColorAdaptation = (adaptation: any) => {
       if (adaptationType === 'color' || adaptationType === 'all') {
-        setAdaptations(prev => ({ ...prev, color: adaptation }));
+        setAdaptations((prev: any) => ({ ...prev, color: adaptation }));
       }
     };
 
     const handleMotionAdaptation = (adaptation: any) => {
       if (adaptationType === 'motion' || adaptationType === 'all') {
-        setAdaptations(prev => ({ ...prev, motion: adaptation }));
+        setAdaptations((prev: any) => ({ ...prev, motion: adaptation }));
       }
     };
 
     const handleLayoutAdaptation = (adaptation: any) => {
       if (adaptationType === 'layout' || adaptationType === 'all') {
-        setAdaptations(prev => ({ ...prev, layout: adaptation }));
+        setAdaptations((prev: any) => ({ ...prev, layout: adaptation }));
       }
     };
 
@@ -758,7 +758,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
     const interval = setInterval(() => {
       const readings = engine.getLatestReading();
       if (readings) {
-        setHistory(prev => [...prev.slice(-19), readings]); // Keep last 20 readings
+        setHistory((prev: any) => [...prev.slice(-19), readings]); // Keep last 20 readings
       }
     }, 2000);
 
@@ -872,7 +872,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
               <div>
                 <div className="text-xs glass-text-secondary dark:glass-text-secondary mb-2">Active Adaptations</div>
                 <div className="gap-1">
-                  {['color', 'motion', 'layout', 'audio'].map(type => {
+                  {['color', 'motion', 'layout', 'audio'].map((type: any) => {
                     const adaptation = engine.getCurrentAdaptation(type);
                     return adaptation ? (
                       <div key={type} className="flex items-center justify-between text-xs">

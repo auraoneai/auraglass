@@ -128,14 +128,14 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
             // Filter by search query
             if (searchQuery) {
-                filtered = filtered.filter(file =>
+                filtered = filtered.filter((file: any) =>
                     file.name.toLowerCase().includes(searchQuery.toLowerCase())
                 );
             }
 
             // Filter hidden files
             if (!showHiddenFiles) {
-                filtered = filtered.filter(file => !file.name.startsWith('.'));
+                filtered = filtered.filter((file: any) => !file.name.startsWith('.'));
             }
 
             return filtered;
@@ -158,7 +158,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
             if (allowMultiSelect && (event.ctrlKey || event.metaKey)) {
                 // Multi-select
                 const newSelection = selectedFiles.includes(file.id)
-                    ? selectedFiles.filter(id => id !== file.id)
+                    ? selectedFiles.filter((id: any) => id !== file.id)
                     : [...selectedFiles, file.id];
                 onSelectionChange?.(newSelection);
             } else if (allowMultiSelect && event.shiftKey && selectedFiles.length > 0) {
@@ -167,7 +167,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                 const targetIndex = sortedFiles.findIndex(f => f.id === file.id);
                 const startIndex = Math.min(currentIndex, targetIndex);
                 const endIndex = Math.max(currentIndex, targetIndex);
-                const rangeSelection = sortedFiles.slice(startIndex, endIndex + 1).map(f => f.id);
+                const rangeSelection = sortedFiles.slice(startIndex, endIndex + 1).map((f: any) => f.id);
                 onSelectionChange?.(rangeSelection);
             } else {
                 // Single select

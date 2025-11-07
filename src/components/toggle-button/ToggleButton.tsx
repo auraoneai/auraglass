@@ -242,7 +242,7 @@ function ToggleButtonComponent(
   const handleClick = useCallback((event: React.MouseEvent) => {
     if (disabled) return;
 
-    setClickCount(prev => prev + 1);
+    setClickCount((prev: any) => prev + 1);
 
     // Record interaction for predictive learning
     if (recordInteraction) {

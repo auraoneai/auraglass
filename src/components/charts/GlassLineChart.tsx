@@ -133,8 +133,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
 
         // Find min/max values across all series
         const allPoints = series.flatMap(s => s.data);
-        const xValues = allPoints.map(p => typeof p.x === 'number' ? p.x : 0);
-        const yValues = allPoints.map(p => p.y);
+        const xValues = allPoints.map((p: any) => typeof p.x === 'number' ? p.x : 0);
+        const yValues = allPoints.map((p: any) => p.y);
 
         const xMin = Math.min(...xValues);
         const xMax = Math.max(...xValues);
@@ -170,7 +170,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
             label: formatXValue(point.x)
         })) || [];
 
-        const yLabels = [0, 0.25, 0.5, 0.75, 1].map(ratio => {
+        const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {
             const value = yMinPadded + (yMaxPadded - yMinPadded) * ratio;
             return {
                 x: padding.left - 10,
@@ -304,7 +304,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                                             cy={point.scaledY}
                                             r="4"
                                             fill={s.color}
-                                            stroke="rgba(255, 255, 255, 0.8)"
+                                            stroke="rgba(var(--glass-color-white) / var(--glass-opacity-80))"
                                             strokeWidth="2"
                                             className="cursor-pointer hover:r-6 transition-all duration-200"
                                             onMouseEnter={() => handlePointHover(s.id, pointIndex, point.scaledX, point.scaledY)}

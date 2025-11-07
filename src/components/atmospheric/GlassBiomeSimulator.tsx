@@ -546,7 +546,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
     // Update particles
     const updateParticles = useCallback((deltaTime: number) => {
       setParticles(prevParticles => {
-        const updated = prevParticles.map(particle => {
+        const updated = prevParticles.map((particle: any) => {
           const windEffect = currentBiome.windSpeed * windStrength * 0.01;
           
           return {
@@ -556,7 +556,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
             rotation: particle.rotation + particle.rotationSpeed * deltaTime * animationSpeed,
             lifetime: particle.lifetime - deltaTime
           };
-        }).filter(particle => 
+        }).filter((particle: any) => 
           particle.lifetime > 0 &&
           particle.x > -50 && particle.x < width + 50 &&
           particle.y > -50 && particle.y < height + 50
@@ -582,7 +582,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
         ? Math.sin(((timeOfDay - 6) / 12) * Math.PI)
         : 0.2;
 
-      return baseColors.map(color => {
+      return baseColors.map((color: any) => {
         // Parse hex color
         const r = parseInt(color.slice(1, 3), 16);
         const g = parseInt(color.slice(3, 5), 16);
@@ -617,13 +617,13 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
 
       // Draw atmospheric layers
       if (showAtmosphericLayers) {
-        biomeLayers.forEach(layer => {
+        biomeLayers.forEach((layer: any) => {
           ctx.save();
           ctx.globalAlpha = layer.opacity;
           
           const parallaxOffset = parallaxEnabled ? cameraOffset.x * layer.parallaxSpeed : 0;
           
-          layer.elements.forEach(element => {
+          layer.elements.forEach((element: any) => {
             ctx.save();
             ctx.translate(element.x + parallaxOffset, element.y);
             ctx.globalAlpha = element.opacity;
@@ -679,7 +679,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
                 
                 // Add wave effect
                 if (element.animation === 'wave') {
-                  ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                  ctx.strokeStyle = 'var(--glass-bg-hover)';
                   ctx.lineWidth = 1;
                   const waveOffset = animationTime * 0.002;
                   for (let i = 0; i < element.width; i += 10) {
@@ -727,7 +727,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
       }
 
       // Draw particles (guard against malformed data)
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         ctx.save();
         ctx.globalAlpha = particle.opacity;
         ctx.translate(particle.x, particle.y);
@@ -851,7 +851,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
 
       const animate = (currentTime: number) => {
         const deltaTime = 16; // 60fps
-        setAnimationTime(prev => prev + deltaTime);
+        setAnimationTime((prev: any) => prev + deltaTime);
         
         updateParticles(deltaTime);
         render();
@@ -940,7 +940,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
               value={currentBiome.timeOfDay}
               onChange={(e) => {
                 const newTime = parseFloat(e.target.value);
-                setCurrentBiome(prev => ({ ...prev, timeOfDay: newTime }));
+                setCurrentBiome((prev: any) => ({ ...prev, timeOfDay: newTime }));
                 onTimeChange?.(newTime);
               }}
               className="w-20"

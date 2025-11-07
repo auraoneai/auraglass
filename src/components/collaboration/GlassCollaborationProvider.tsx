@@ -130,7 +130,7 @@ class MockWebSocket {
   
   removeEventListener(event: string, callback: Function) {
     if (this.listeners[event]) {
-      this.listeners[event] = this.listeners[event].filter(cb => cb !== callback);
+      this.listeners[event] = this.listeners[event].filter((cb: any) => cb !== callback);
     }
   }
   
@@ -143,7 +143,7 @@ class MockWebSocket {
   
   private emit(event: string, data: any) {
     if (this.listeners[event]) {
-      this.listeners[event].forEach(callback => callback(data));
+      this.listeners[event].forEach((callback: any) => callback(data));
     }
   }
   
@@ -176,7 +176,7 @@ class MockWebSocket {
     
     // Simulate cursor movements
     setInterval(() => {
-      otherUsers.forEach(user => {
+      otherUsers.forEach((user: any) => {
         if (Math.random() > 0.7) {
           this.emit('message', {
             data: JSON.stringify({
@@ -254,7 +254,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       
       switch (data.type) {
         case 'user_joined':
-          setUsers(prev => {
+          setUsers((prev: any) => {
             const existing = prev.find(u => u.id === data.user.id);
             if (existing) return prev;
             return [...prev, { ...data.user, lastActive: Date.now() }];
@@ -267,7 +267,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
           break;
           
         case 'user_left':
-          setUsers(prev => prev.filter(u => u.id !== data.userId));
+          setUsers((prev: any) => prev.filter((u: any) => u.id !== data.userId));
           addActivity({
             userId: data.userId,
             type: 'leave',
@@ -276,7 +276,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
           break;
           
         case 'cursor_update':
-          setUsers(prev => prev.map(user => 
+          setUsers((prev: any) => prev.map((user: any) => 
             user.id === data.userId 
               ? { ...user, cursor: data.cursor, lastActive: Date.now() }
               : user
@@ -284,7 +284,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
           break;
           
         case 'comment_added':
-          setComments(prev => [...prev, data.comment]);
+          setComments((prev: any) => [...prev, data.comment]);
           addActivity({
             userId: data.comment.userId,
             type: 'comment',
@@ -293,7 +293,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
           break;
           
         case 'edit_applied':
-          setEdits(prev => [...prev.slice(-99), data.edit]); // Keep last 100 edits
+          setEdits((prev: any) => [...prev.slice(-99), data.edit]); // Keep last 100 edits
           addActivity({
             userId: data.edit.userId,
             type: 'edit',
@@ -313,13 +313,13 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       timestamp: Date.now()
     };
     
-    setActivities(prev => [newActivity, ...prev.slice(0, 49)]); // Keep last 50 activities
+    setActivities((prev: any) => [newActivity, ...prev.slice(0, 49)]); // Keep last 50 activities
   }, []);
 
   const updateCursor = useCallback((position: { x: number; y: number; elementId?: string }) => {
     if (!currentUser || !wsRef.current) return;
     
-    setCurrentUser(prev => prev ? { ...prev, cursor: position, lastActive: Date.now() } : null);
+    setCurrentUser((prev: any) => prev ? { ...prev, cursor: position, lastActive: Date.now() } : null);
     
     // Debounce cursor updates
     clearTimeout(cursorTimeoutRef.current);
@@ -335,7 +335,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   const updateSelection = useCallback((selection: { elementId: string; start: number; end: number }) => {
     if (!currentUser || !wsRef.current) return;
     
-    setCurrentUser(prev => prev ? { ...prev, selection, lastActive: Date.now() } : null);
+    setCurrentUser((prev: any) => prev ? { ...prev, selection, lastActive: Date.now() } : null);
     
     wsRef.current.send(JSON.stringify({
       type: 'selection_update',
@@ -353,7 +353,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       timestamp: Date.now()
     };
     
-    setComments(prev => [...prev, newComment]);
+    setComments((prev: any) => [...prev, newComment]);
     
     wsRef.current.send(JSON.stringify({
       type: 'comment_added',
@@ -362,7 +362,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   }, [currentUser]);
 
   const resolveComment = useCallback((commentId: string) => {
-    setComments(prev => prev.map(comment => 
+    setComments((prev: any) => prev.map((comment: any) => 
       comment.id === commentId ? { ...comment, resolved: true } : comment
     ));
     
@@ -384,7 +384,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       position: { x: 0, y: 0 } // Replies don't need positions
     };
     
-    setComments(prev => prev.map(comment => 
+    setComments((prev: any) => prev.map((comment: any) => 
       comment.id === commentId 
         ? { ...comment, replies: [...(comment.replies || []), newReply] }
         : comment
@@ -400,7 +400,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       timestamp: Date.now()
     };
     
-    setEdits(prev => [...prev.slice(-99), newEdit]);
+    setEdits((prev: any) => [...prev.slice(-99), newEdit]);
     
     wsRef.current.send(JSON.stringify({
       type: 'edit_applied',
@@ -408,9 +408,9 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
     }));
   }, [currentUser]);
 
-  const toggleCursors = useCallback(() => setShowCursors(prev => !prev), []);
-  const toggleComments = useCallback(() => setShowComments(prev => !prev), []);
-  const toggleActivity = useCallback(() => setShowActivity(prev => !prev), []);
+  const toggleCursors = useCallback(() => setShowCursors((prev: any) => !prev), []);
+  const toggleComments = useCallback(() => setShowComments((prev: any) => !prev), []);
+  const toggleActivity = useCallback(() => setShowActivity((prev: any) => !prev), []);
 
   const handleSetCurrentUser = useCallback((user: CollaborationUser) => {
     const userWithDefaults = {
@@ -420,10 +420,10 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
     };
     
     setCurrentUser(userWithDefaults);
-    setUsers(prev => {
+    setUsers((prev: any) => {
       const existing = prev.find(u => u.id === user.id);
       if (existing) {
-        return prev.map(u => u.id === user.id ? userWithDefaults : u);
+        return prev.map((u: any) => u.id === user.id ? userWithDefaults : u);
       }
       return [...prev, userWithDefaults];
     });

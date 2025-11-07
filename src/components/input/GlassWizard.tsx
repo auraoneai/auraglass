@@ -180,12 +180,12 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             setValidatingStep(null);
 
             if (!isValid) {
-                setStepErrors(prev => ({
+                setStepErrors((prev: any) => ({
                     ...prev,
                     [stepIndex]: 'Please complete all required fields'
                 }));
             } else {
-                setStepErrors(prev => {
+                setStepErrors((prev: any) => {
                     const newErrors = { ...prev };
                     delete newErrors[stepIndex];
                     return newErrors;
@@ -195,7 +195,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             return isValid;
         } catch (error) {
             setValidatingStep(null);
-            setStepErrors(prev => ({
+            setStepErrors((prev: any) => ({
                 ...prev,
                 [stepIndex]: 'Validation failed'
             }));
@@ -228,7 +228,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             if (!isValid) return;
 
             // Mark current step as completed
-            setCompletedSteps(prev => new Set([...prev, currentStep]));
+            setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
         }
 
         const newStep = controlledCurrentStep !== undefined ? controlledCurrentStep : stepIndex;
@@ -261,7 +261,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
         if (!isValid) return;
 
         // Mark final step as completed
-        setCompletedSteps(prev => new Set([...prev, currentStep]));
+        setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
 
         onComplete?.(wizardData);
     };
@@ -273,7 +273,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 
     // Set wizard data
     const setData = (data: Record<string, any>) => {
-        setWizardData(prev => ({ ...prev, ...data }));
+        setWizardData((prev: any) => ({ ...prev, ...data }));
     };
 
     const contextValue: WizardContextValue = {

@@ -82,12 +82,12 @@ export function FocusTrap({
     
     // Filter out excluded elements
     if (exclude.length > 0) {
-      return elements.filter(el => {
+      return elements.filter((el: any) => {
         return !exclude.some(selector => el.matches(selector));
       });
     }
     
-    return elements.filter(el => {
+    return elements.filter((el: any) => {
       // Check if element is visible and not hidden
       const style = window.getComputedStyle(el);
       return (
@@ -330,12 +330,12 @@ export function useFocusTrap(
     );
     
     if (exclude.length > 0) {
-      return elements.filter(el => {
+      return elements.filter((el: any) => {
         return !exclude.some(selector => el.matches(selector));
       });
     }
     
-    return elements.filter(el => {
+    return elements.filter((el: any) => {
       const style = window.getComputedStyle(el);
       return (
         style.display !== 'none' &&

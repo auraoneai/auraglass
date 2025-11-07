@@ -88,7 +88,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
     // Quantum time evolution
     useEffect(() => {
       const interval = setInterval(() => {
-        setQuantumTime(prev => prev + 0.1)
+        setQuantumTime((prev: any) => prev + 0.1)
       }, 16)
       return () => clearInterval(interval)
     }, [])
@@ -98,13 +98,13 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
       if (isObserved || collapsedState) return
 
       const interval = setInterval(() => {
-        setCurrentStates(prev => prev.map(state => ({
+        setCurrentStates((prev: any) => prev.map((state: any) => ({
           ...state,
           coherence: Math.max(0, state.coherence - coherenceDecay),
           probability: state.coherence > 0.1 ? 
             state.probability + (Math.random() - 0.5) * 0.02 : 
             state.probability * 0.98
-        })).map(state => ({
+        })).map((state: any) => ({
           ...state,
           probability: Math.max(0.01, Math.min(1, state.probability))
         })))
@@ -117,7 +117,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
     useEffect(() => {
       const totalProb = currentStates.reduce((sum, state) => sum + state.probability, 0)
       if (totalProb > 0) {
-        setCurrentStates(prev => prev.map(state => ({
+        setCurrentStates((prev: any) => prev.map((state: any) => ({
           ...state,
           probability: state.probability / totalProb
         })))
@@ -151,7 +151,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
         }])
       }
 
-      setInteractionHistory(prev => [...prev, {
+      setInteractionHistory((prev: any) => [...prev, {
         type: 'measurement',
         stateId: selectedState.id,
         timestamp: Date.now(),
@@ -163,11 +163,11 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
     }
 
     const createEntanglement = (stateIds: string[]) => {
-      setCurrentStates(prev => prev.map(state => {
+      setCurrentStates((prev: any) => prev.map((state: any) => {
         if (stateIds.includes(state.id)) {
           return {
             ...state,
-            entangled: stateIds.filter(id => id !== state.id),
+            entangled: stateIds.filter((id: any) => id !== state.id),
             coherence: Math.min(1, state.coherence + 0.2)
           }
         }
@@ -215,7 +215,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
           style={{ zIndex: -1 }}
         >
           <path
-            d={`M ${points.map(p => `${p.x} ${p.y}`).join(' L ')}`}
+            d={`M ${points.map((p: any) => `${p.x} ${p.y}`).join(' L ')}`}
             stroke={state.entangled?.length ? quantumColors.entangled : quantumColors.superposition}
             strokeWidth="2"
             fill="none"
@@ -225,7 +225,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
           
           {/* Probability density */}
           <path
-            d={`M ${points.map(p => `${p.x} ${25 + Math.abs(p.y - 25) * 0.3}`).join(' L ')}`}
+            d={`M ${points.map((p: any) => `${p.x} ${25 + Math.abs(p.y - 25) * 0.3}`).join(' L ')}`}
             fill={state.entangled?.length ? quantumColors.entangled : quantumColors.superposition}
             opacity={state.probability * 0.2}
           />
@@ -259,8 +259,8 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
 
     const EntanglementLines = () => (
       <svg className={cn("glass-absolute glass-inset-0 glass-pointer-events-none")} style={{ zIndex: 10 }}>
-        {currentStates.map(state => 
-          state.entangled?.map(entangledId => {
+        {currentStates.map((state: any) => 
+          state.entangled?.map((entangledId: any) => {
             const entangledState = currentStates.find(s => s.id === entangledId)
             if (!entangledState) return null
 
@@ -404,7 +404,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
     )
 
     const superpositionStates = collapsedState 
-      ? currentStates.filter(s => s.id === collapsedState)
+      ? currentStates.filter((s: any) => s.id === collapsedState)
       : currentStates.slice(0, maxSuperpositions)
 
     return (
@@ -449,7 +449,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
                     const randomStates = currentStates
                       .sort(() => Math.random() - 0.5)
                       .slice(0, 2)
-                      .map(s => s.id)
+                      .map((s: any) => s.id)
                     createEntanglement(randomStates)
                   }}
                   className={cn(
@@ -493,13 +493,13 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
             <div>
               <span className={cn("glass-text-secondary")}>Entangled Pairs:</span>
               <span className={cn("glass-ml-2 glass-text-primary")}>
-                {currentStates.filter(s => s.entangled?.length).length / 2}
+                {currentStates.filter((s: any) => s.entangled?.length).length / 2}
               </span>
             </div>
             <div>
               <span className={cn("glass-text-secondary")}>Measurements:</span>
               <span className={cn("glass-ml-2 glass-text-primary")}>
-                {interactionHistory.filter(h => h.type === 'measurement').length}
+                {interactionHistory.filter((h: any) => h.type === 'measurement').length}
               </span>
             </div>
             <div>

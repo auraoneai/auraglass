@@ -86,7 +86,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        setCurrentCoherence(prev => {
+        setCurrentCoherence((prev: any) => {
           const noise = (Math.random() - 0.5) * 0.1
           const decay = prev * (1 - decoherenceRate)
           const newCoherence = Math.max(0, Math.min(1, decay + noise))
@@ -103,13 +103,13 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           return newCoherence
         })
 
-        setCurrentPhase(prev => {
+        setCurrentPhase((prev: any) => {
           const newPhase = (prev + 0.1 * animationSpeed) % (2 * Math.PI)
           onPhaseChange?.(newPhase)
           return newPhase
         })
 
-        setAnimationTime(prev => prev + 0.1 * animationSpeed)
+        setAnimationTime((prev: any) => prev + 0.1 * animationSpeed)
       }, 100)
 
       return () => clearInterval(interval)
@@ -128,7 +128,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           entanglementStrength
         }
 
-        setCoherenceHistory(prev => 
+        setCoherenceHistory((prev: any) => 
           [...prev.slice(-49), newDataPoint] // Keep last 50 points
         )
       }
@@ -163,17 +163,17 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           {/* Grid lines */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--glass-bg-default)" strokeWidth="1"/>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
 
           {/* Center line */}
-          <line x1="0" y1="50" x2="300" y2="50" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="5,5"/>
+          <line x1="0" y1="50" x2="300" y2="50" stroke="var(--glass-bg-hover)" strokeWidth="1" strokeDasharray="5,5"/>
 
           {/* Primary wave */}
           <path
-            d={`M ${waveData.map(p => `${p.x} ${p.y1}`).join(' L ')}`}
+            d={`M ${waveData.map((p: any) => `${p.x} ${p.y1}`).join(' L ')}`}
             fill="none"
             stroke={getPhaseColor(currentPhase)}
             strokeWidth="2"
@@ -183,7 +183,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           {/* Entangled wave */}
           {entanglementStrength > 0 && (
             <path
-              d={`M ${waveData.map(p => `${p.x} ${p.y2}`).join(' L ')}`}
+              d={`M ${waveData.map((p: any) => `${p.x} ${p.y2}`).join(' L ')}`}
               fill="none"
               stroke="#FF9FF3"
               strokeWidth="1.5"
@@ -195,7 +195,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
           {/* Combined interference pattern */}
           {entanglementStrength > 0.3 && (
             <path
-              d={`M ${waveData.map(p => `${p.x} ${p.combined}`).join(' L ')}`}
+              d={`M ${waveData.map((p: any) => `${p.x} ${p.combined}`).join(' L ')}`}
               fill="none"
               stroke="#FFFFFF"
               strokeWidth="1"
@@ -238,19 +238,19 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
             cy="48"
             r="40"
             fill="none"
-            stroke="rgba(255,255,255,0.3)"
+            stroke="var(--glass-bg-hover)"
             strokeWidth="2"
           />
           
           {/* Phase markers */}
-          {[0, 90, 180, 270].map(angle => (
+          {[0, 90, 180, 270].map((angle: any) => (
             <g key={angle}>
               <line
                 x1={48 + Math.cos((angle * Math.PI) / 180) * 35}
                 y1={48 + Math.sin((angle * Math.PI) / 180) * 35}
                 x2={48 + Math.cos((angle * Math.PI) / 180) * 42}
                 y2={48 + Math.sin((angle * Math.PI) / 180) * 42}
-                stroke="rgba(255,255,255,0.5)"
+                stroke="var(--glass-border-hover)"
                 strokeWidth="2"
               />
               <text
@@ -258,7 +258,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
                 y={48 + Math.sin((angle * Math.PI) / 180) * 30 + 3}
                 textAnchor="middle"
                 fontSize="10"
-                fill="rgba(255,255,255,0.7)"
+                fill="rgba(var(--glass-color-white) / var(--glass-opacity-70))"
               >
                 {angle}°
               </text>

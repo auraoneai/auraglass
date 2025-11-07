@@ -195,7 +195,7 @@ const sampleLandingPageData = {
                 padding: '30px',
                 borderRadius: '12px',
                 backgroundColor: '#f8fafc',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                boxShadow: '0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-5))',
                 border: '1px solid #e2e8f0'
               },
               children: [
@@ -294,7 +294,7 @@ const sampleDashboardData = {
                 padding: '25px',
                 borderRadius: '8px',
                 backgroundColor: '#ffffff',
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 1px 3px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
                 border: 'none'
               },
               children: [

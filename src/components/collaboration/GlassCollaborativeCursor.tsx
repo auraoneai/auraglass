@@ -49,7 +49,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
     }
 
     // Filter out current user and users without cursor data
-    const otherUsers = users.filter(user => 
+    const otherUsers = users.filter((user: any) => 
       user.id !== currentUser?.id && 
       user.cursor && 
       Date.now() - user.lastActive < 30000 // Show cursor for 30 seconds after last activity
@@ -64,7 +64,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
 
   return (
     <div className={cn("fixed inset-0 pointer-events-none z-50", className)}>
-      {visibleCursors.map(user => {
+      {visibleCursors.map((user: any) => {
         if (!user.cursor) return null;
         
         return (

@@ -19,7 +19,7 @@ export function hexToRgb(hex: string): { r: number; g: number; b: number } | nul
  * Convert RGB to hex
  */
 export function rgbToHex(r: number, g: number, b: number): string {
-  return '#' + [r, g, b].map(x => {
+  return '#' + [r, g, b].map((x: any) => {
     const hex = x.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
   }).join('');
@@ -64,7 +64,7 @@ export function parseColor(color: string): { r: number; g: number; b: number } |
  * Calculate relative luminance (WCAG formula)
  */
 export function getLuminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map(c => {
+  const [rs, gs, bs] = [r, g, b].map((c: any) => {
     c = c / 255;
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
@@ -252,7 +252,7 @@ export function auditContrast(container: HTMLElement): {
   
   const textElements = container.querySelectorAll<HTMLElement>('*');
   
-  textElements.forEach(element => {
+  textElements.forEach((element: any) => {
     const styles = window.getComputedStyle(element);
     const color = styles.color;
     const backgroundColor = styles.backgroundColor;

@@ -85,11 +85,11 @@ export function TouchOptimizedGlass({
         timestamp: Date.now()
       }
 
-      setRipples(prev => [...prev, newRipple])
+      setRipples((prev: any) => [...prev, newRipple])
 
       // Remove ripple after animation
       setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== newRipple.id))
+        setRipples((prev: any) => prev.filter((r: any) => r.id !== newRipple.id))
       }, 600)
     }
   }, [touchFeedback, rippleEffect, onLongPress, triggerHaptics, scale])
@@ -362,7 +362,7 @@ interface TouchRippleEffectsProps {
 
 export function TouchRippleEffects({
   children,
-  color = 'rgba(255, 255, 255, 0.3)',
+  color = 'var(--glass-bg-hover)',
   maxRipples = 3,
   rippleDuration = 600,
   className=''
@@ -379,14 +379,14 @@ export function TouchRippleEffects({
     const y = touch.clientY - rect.top
 
     const newRipple = { id: Date.now(), x, y }
-    setRipples(prev => {
+    setRipples((prev: any) => {
       const updated = [...prev, newRipple]
       return updated.slice(-maxRipples) // Keep only the latest ripples
     })
 
     // Remove ripple after animation
     setTimeout(() => {
-      setRipples(prev => prev.filter(r => r.id !== newRipple.id))
+      setRipples((prev: any) => prev.filter((r: any) => r.id !== newRipple.id))
     }, rippleDuration)
   }, [maxRipples, rippleDuration])
 

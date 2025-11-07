@@ -120,7 +120,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
     // Time evolution
     useEffect(() => {
       const interval = setInterval(() => {
-        setCurrentTime(prev => prev + 0.1 * tunnelingSpeed)
+        setCurrentTime((prev: any) => prev + 0.1 * tunnelingSpeed)
       }, 16)
       return () => clearInterval(interval)
     }, [tunnelingSpeed])
@@ -130,10 +130,10 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        quantumStates.forEach(state => {
+        quantumStates.forEach((state: any) => {
           if (!state.isActive) return
 
-          state.connections.forEach(connectionId => {
+          state.connections.forEach((connectionId: any) => {
             const targetState = quantumStates.find(s => s.id === connectionId)
             if (!targetState) return
 
@@ -152,7 +152,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
 
             // Random tunneling events
             if (Math.random() < tunnelingProb * 0.1) {
-              setActiveTransitions(prev => [...prev, {
+              setActiveTransitions((prev: any) => [...prev, {
                 from: state.id,
                 to: connectionId,
                 progress: 0,
@@ -172,17 +172,17 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
 
     // Update active transitions
     useEffect(() => {
-      setActiveTransitions(prev => 
-        prev.map(transition => ({
+      setActiveTransitions((prev: any) => 
+        prev.map((transition: any) => ({
           ...transition,
           progress: Math.min(1, (currentTime - transition.startTime) / 5)
-        })).filter(transition => transition.progress < 1)
+        })).filter((transition: any) => transition.progress < 1)
       )
     }, [currentTime])
 
     // Update quantum particles
     useEffect(() => {
-      setQuantumParticles(prev => prev.map(particle => {
+      setQuantumParticles((prev: any) => prev.map((particle: any) => {
         const state = quantumStates.find(s => s.id === particle.id.replace('particle-', ''))
         if (!state) return particle
 
@@ -231,7 +231,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
 
       // Draw barriers
       if (showBarriers) {
-        barriers.forEach(barrier => {
+        barriers.forEach((barrier: any) => {
           ctx.fillStyle = `rgba(255, 100, 100, ${barrier.transparency})`
           ctx.fillRect(
             barrier.position.x - barrier.width / 2,
@@ -241,7 +241,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
           )
           
           // Barrier label
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
+          ctx.fillStyle = 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'
           ctx.font = '12px Arial'
           ctx.textAlign = 'center'
           ctx.fillText(
@@ -254,7 +254,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
 
       // Draw energy levels
       if (showEnergyLevels) {
-        quantumStates.forEach(state => {
+        quantumStates.forEach((state: any) => {
           const y = 200 - state.energy * 20
           ctx.strokeStyle = 'rgba(100, 200, 255, 0.6)'
           ctx.lineWidth = 2
@@ -269,7 +269,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
 
       // Draw wave functions
       if (showWaveFunction) {
-        quantumParticles.forEach(particle => {
+        quantumParticles.forEach((particle: any) => {
           const state = quantumStates.find(s => s.id === particle.id.replace('particle-', ''))
           if (!state) return
 
@@ -308,7 +308,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
       }
 
       // Draw quantum particles
-      quantumParticles.forEach(particle => {
+      quantumParticles.forEach((particle: any) => {
         const radius = particle.tunneling ? 8 : 6
         const alpha = particle.tunneling ? 0.9 : 0.7
 
@@ -337,12 +337,12 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
       })
 
       // Draw connections
-      quantumStates.forEach(state => {
-        state.connections.forEach(connectionId => {
+      quantumStates.forEach((state: any) => {
+        state.connections.forEach((connectionId: any) => {
           const targetState = quantumStates.find(s => s.id === connectionId)
           if (!targetState) return
 
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+          ctx.strokeStyle = 'var(--glass-bg-hover)'
           ctx.lineWidth = 1
           ctx.setLineDash([3, 3])
           ctx.beginPath()
@@ -355,7 +355,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
     }, [quantumStates, quantumParticles, barriers, currentTime, showWaveFunction, showEnergyLevels, showBarriers, waveAmplitude])
 
     const handleStateClick = (stateId: string) => {
-      setMeasuredStates(prev => new Set(prev).add(stateId))
+      setMeasuredStates((prev: any) => new Set(prev).add(stateId))
     }
 
     const totalTunnelingProbability = useMemo(() => {
@@ -405,7 +405,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
             
             {/* Quantum state overlays */}
             <AnimatePresence>
-              {quantumStates.map(state => (
+              {quantumStates.map((state: any) => (
                 <motion.div
                   key={state.id}
                   className={`
@@ -456,7 +456,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
 
             {/* Active transitions */}
             <AnimatePresence>
-              {activeTransitions.map(transition => {
+              {activeTransitions.map((transition: any) => {
                 const fromState = quantumStates.find(s => s.id === transition.from)
                 const toState = quantumStates.find(s => s.id === transition.to)
                 if (!fromState || !toState) return null
@@ -531,8 +531,8 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                 <span className="text-primary/60">Energy Spread:</span>
                 <div className="text-primary/90 font-medium">
                   {quantumStates.length > 0 ? 
-                    (Math.max(...quantumStates.map(s => s.energy)) - 
-                     Math.min(...quantumStates.map(s => s.energy))).toFixed(1) 
+                    (Math.max(...quantumStates.map((s: any) => s.energy)) - 
+                     Math.min(...quantumStates.map((s: any) => s.energy))).toFixed(1) 
                     : '0'} eV
                 </div>
               </div>

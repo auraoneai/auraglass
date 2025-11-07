@@ -302,7 +302,7 @@ export function AuroraPro({
   // Initialize aurora elements
   useEffect(() => {
     const meshes: THREE.Mesh[] = [];
-    const colors = colorPalettes[colorPalette].map(c => new THREE.Color(c));
+    const colors = colorPalettes[colorPalette].map((c: any) => new THREE.Color(c));
 
     // Create wave mesh
     if (showWaves) {
@@ -353,7 +353,7 @@ export function AuroraPro({
 
   // Toggle play/pause
   const togglePlay = useCallback(() => {
-    setIsPlaying(prev => !prev);
+    setIsPlaying((prev: any) => !prev);
   }, []);
 
   // Get animation mode icon
@@ -433,7 +433,7 @@ export function AuroraPro({
         >
           {/* Animation mode selector */}
           <div className={cn("glass-flex glass-gap-2 glass-p-2 glass-surface-dark glass-foundation-complete glass-radius-lg glass-border glass-border-subtle")}>
-            {['flow', 'pulse', 'shift', 'mixed'].map(mode => (
+            {['flow', 'pulse', 'shift', 'mixed'].map((mode: any) => (
               <button
                 key={mode}
                 onClick={() => changeAnimationMode(mode)}
@@ -468,7 +468,7 @@ export function AuroraPro({
 
           {/* Color palette selector */}
           <div className={cn("glass-grid glass-grid-cols-2 glass-gap-2 glass-p-2 glass-surface-dark glass-foundation-complete glass-radius-lg glass-border glass-border-subtle")}>
-            {Object.keys(colorPalettes).slice(0, 6).map(palette => (
+            {Object.keys(colorPalettes).slice(0, 6).map((palette: any) => (
               <button
                 key={palette}
                 onClick={() => {/* Would update colorPalette prop */}}

@@ -308,7 +308,7 @@ export const renderingOptimizations = {
   // Batch DOM updates
   batchDOMUpdates: (updates: Array<() => void>): void => {
     requestAnimationFrame(() => {
-      updates.forEach(update => update());
+      updates.forEach((update: any) => update());
     });
   },
 
@@ -332,7 +332,7 @@ export const networkOptimizations = {
   // Lazy load images
   lazyLoadImage: (img: HTMLImageElement, src: string): void => {
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
           img.src = src;
           observer.disconnect();
@@ -344,7 +344,7 @@ export const networkOptimizations = {
 
   // Preload critical resources
   preloadCriticalResources: (resources: string[]): void => {
-    resources.forEach(resource => {
+    resources.forEach((resource: any) => {
       const link = document.createElement('link');
       link.rel = 'preload';
       link.href = resource;

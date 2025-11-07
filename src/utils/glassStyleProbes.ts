@@ -323,7 +323,7 @@ export class GlassStyleProbes {
     const rgb = this.parseColor(color);
     if (!rgb) return 1;
     
-    const [r, g, b] = rgb.map(c => {
+    const [r, g, b] = rgb.map((c: any) => {
       c = c / 255;
       return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
     });
@@ -391,7 +391,7 @@ export class GlassStyleProbes {
     let totalRenderTime = 0;
     let totalMemory = 0;
 
-    this.probeResults.slice(-glassElements.length).forEach(result => {
+    this.probeResults.slice(-glassElements.length).forEach((result: any) => {
       // Compliance scoring
       if (result.compliance.accessibilityScore >= 0.8) summary.compliance.passed++;
       else if (result.compliance.accessibilityScore >= 0.6) summary.compliance.warning++;

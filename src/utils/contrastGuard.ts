@@ -436,7 +436,7 @@ export class ContrastGuard {
   
   private getRelativeLuminanceFromRGB(r: number, g: number, b: number): number {
     // Convert to 0-1 range and apply gamma correction
-    const [rs, gs, bs] = [r, g, b].map(c => {
+    const [rs, gs, bs] = [r, g, b].map((c: any) => {
       c = c / 255;
       return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
     });

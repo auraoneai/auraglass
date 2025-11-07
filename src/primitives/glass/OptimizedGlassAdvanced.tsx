@@ -362,7 +362,7 @@ export function useGlassPerformance() {
     const endTime = performance.now();
     const renderTime = endTime - startTime;
 
-    setMetrics(prev => ({
+    setMetrics((prev: any) => ({
       ...prev,
       renderTime,
       recomputeCount: prev.recomputeCount + 1

@@ -273,7 +273,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
         const cellIndex = Array.from(cellElement.parentElement.children).indexOf(cellElement);
         const heatmapKey = `${rowIndex}-${cellIndex}`;
 
-        setInteractionHeatmap(prev => ({
+        setInteractionHeatmap((prev: any) => ({
           ...prev,
           [heatmapKey]: (prev[heatmapKey] || 0) + 1,
         }));
@@ -315,7 +315,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
 
       // Apply search
       if (searchQuery) {
-        result = result.filter(row =>
+        result = result.filter((row: any) =>
           columns.some(column => {
             const value = column.accessorFn
               ? column.accessorFn(row)
@@ -332,7 +332,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
         if (filterValue) {
           const column = columns.find(col => col.id === columnId);
           if (column) {
-            result = result.filter(row => {
+            result = result.filter((row: any) => {
               const value = column.accessorFn
                 ? column.accessorFn(row)
                 : column.accessorKey
@@ -389,7 +389,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
 
       // Track column usage for predictive sorting
       if (predictive) {
-        setColumnUsage(prev => ({
+        setColumnUsage((prev: any) => ({
           ...prev,
           [columnId]: (prev[columnId] || 0) + 1,
         }));
@@ -438,7 +438,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
         spatialAudioEngine.playGlassSound('sort_column');
       }
 
-      setSortState(prev => {
+      setSortState((prev: any) => {
         if (prev?.id === columnId) {
           return prev.desc ? null : { id: columnId, desc: true };
         }
@@ -455,7 +455,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       } else {
         const newSelection = selected
           ? [...selectedRows, rowId]
-          : selectedRows.filter(id => id !== rowId);
+          : selectedRows.filter((id: any) => id !== rowId);
         onSelectionChange(newSelection);
       }
     };
@@ -721,7 +721,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       setPageSize(Number(e.target.value));
                       setCurrentPage(1);
                     }}
-                    options={(pageSizeOptions || []).map(size => ({
+                    options={(pageSizeOptions || []).map((size: any) => ({
                       value: size,
                       label: size.toString(),
                     }))}

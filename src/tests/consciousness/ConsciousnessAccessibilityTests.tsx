@@ -707,7 +707,7 @@ export class ConsciousnessAccessibilityUtils {
     const liveRegions = screen.getAllByRole('status');
     expect(liveRegions.length).toBeGreaterThan(0);
     
-    liveRegions.forEach(region => {
+    liveRegions.forEach((region: any) => {
       expect(region).toHaveAttribute('aria-live');
     });
   }

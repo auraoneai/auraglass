@@ -150,7 +150,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
 
     // Display data based on renderOrder
     const displayData = useMemo(() => 
-        renderOrder.map(index => sortedData[index]), 
+        renderOrder.map((index: any) => sortedData[index]), 
         [sortedData, renderOrder]
     );
 
@@ -159,7 +159,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         setRenderOrder(newOrderIndices);
         if (onRowOrderChange) {
             // Map original data based on the new order of *original* indices
-            const originalDataInNewOrder = newOrderIndices.map(originalIndex => initialData?.[originalIndex]); 
+            const originalDataInNewOrder = newOrderIndices.map((originalIndex: any) => initialData?.[originalIndex]); 
             onRowOrderChange(originalDataInNewOrder);
         }
     }, [onRowOrderChange, initialData]);

@@ -279,13 +279,13 @@ const mockRecommendationEngine = {
     const recommendations: Recommendation[] = [];
 
     // Similar products (same category)
-    const similarProducts = products.filter(p => 
+    const similarProducts = products.filter((p: any) => 
       p.id !== productId && 
       p.category === product.category &&
       Math.abs(p.price - product.price) / product.price < 0.5
     ).slice(0, 3);
 
-    similarProducts.forEach(p => {
+    similarProducts.forEach((p: any) => {
       recommendations.push({
         productId: p.id,
         product: p,
@@ -297,12 +297,12 @@ const mockRecommendationEngine = {
     });
 
     // Trending products
-    const trendingProducts = products.filter(p => 
+    const trendingProducts = products.filter((p: any) => 
       p.id !== productId && 
       (p.isBestseller || p.isNew)
     ).slice(0, 2);
 
-    trendingProducts.forEach(p => {
+    trendingProducts.forEach((p: any) => {
       recommendations.push({
         productId: p.id,
         product: p,
@@ -314,13 +314,13 @@ const mockRecommendationEngine = {
     });
 
     // Frequently bought together (mock)
-    const complementaryProducts = products.filter(p => 
+    const complementaryProducts = products.filter((p: any) => 
       p.id !== productId && 
       p.category !== product.category &&
       p.price < product.price * 0.5
     ).slice(0, 2);
 
-    complementaryProducts.forEach(p => {
+    complementaryProducts.forEach((p: any) => {
       recommendations.push({
         productId: p.id,
         product: p,
@@ -411,17 +411,17 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const cartTotal = cartSubtotal + cartTax + cartShipping;
 
   const addProduct = useCallback((product: Product) => {
-    setProducts(prev => [...prev, product]);
+    setProducts((prev: any) => [...prev, product]);
   }, []);
 
   const updateProduct = useCallback((id: string, updates: Partial<Product>) => {
-    setProducts(prev => prev.map(product => 
+    setProducts((prev: any) => prev.map((product: any) => 
       product.id === id ? { ...product, ...updates } : product
     ));
   }, []);
 
   const removeProduct = useCallback((id: string) => {
-    setProducts(prev => prev.filter(product => product.id !== id));
+    setProducts((prev: any) => prev.filter((product: any) => product.id !== id));
   }, []);
 
   const getProduct = useCallback((id: string) => {
@@ -429,7 +429,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [products]);
 
   const getProductsByCategory = useCallback((category: string) => {
-    return products.filter(product => product.category === category);
+    return products.filter((product: any) => product.category === category);
   }, [products]);
 
   const searchProducts = useCallback((query: string, searchFilters?: ProductFilters) => {
@@ -438,7 +438,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     // Text search
     if (query) {
       const lowercaseQuery = query.toLowerCase();
-      filtered = filtered.filter(product =>
+      filtered = filtered.filter((product: any) =>
         product.name.toLowerCase().includes(lowercaseQuery) ||
         product.description.toLowerCase().includes(lowercaseQuery) ||
         product.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
@@ -450,30 +450,30 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const activeFilters = searchFilters || filters;
     
     if (activeFilters.category?.length) {
-      filtered = filtered.filter(product => activeFilters.category!.includes(product.category));
+      filtered = filtered.filter((product: any) => activeFilters.category!.includes(product.category));
     }
     
     if (activeFilters.brand?.length) {
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter((product: any) => 
         product.brand && activeFilters.brand!.includes(product.brand)
       );
     }
     
     if (activeFilters.priceRange) {
       const [min, max] = activeFilters.priceRange;
-      filtered = filtered.filter(product => product.price >= min && product.price <= max);
+      filtered = filtered.filter((product: any) => product.price >= min && product.price <= max);
     }
     
     if (activeFilters.rating) {
-      filtered = filtered.filter(product => product.rating >= activeFilters.rating!);
+      filtered = filtered.filter((product: any) => product.rating >= activeFilters.rating!);
     }
     
     if (activeFilters.onSale) {
-      filtered = filtered.filter(product => product.isOnSale);
+      filtered = filtered.filter((product: any) => product.isOnSale);
     }
     
     if (activeFilters.inStock) {
-      filtered = filtered.filter(product => product.availability === 'in-stock');
+      filtered = filtered.filter((product: any) => product.availability === 'in-stock');
     }
 
     // Apply sorting
@@ -505,14 +505,14 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const product = getProduct(productId);
     if (!product) return;
 
-    setCart(prev => {
+    setCart((prev: any) => {
       const existingItem = prev.find(item => 
         item.productId === productId &&
         JSON.stringify(item.selectedVariants) === JSON.stringify(variants)
       );
 
       if (existingItem) {
-        return prev.map(item =>
+        return prev.map((item: any) =>
           item.id === existingItem.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
@@ -537,13 +537,13 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return;
     }
 
-    setCart(prev => prev.map(item =>
+    setCart((prev: any) => prev.map((item: any) =>
       item.id === itemId ? { ...item, quantity } : item
     ));
   }, []);
 
   const removeFromCart = useCallback((itemId: string) => {
-    setCart(prev => prev.filter(item => item.id !== itemId));
+    setCart((prev: any) => prev.filter((item: any) => item.id !== itemId));
   }, []);
 
   const clearCart = useCallback(() => {
@@ -573,11 +573,11 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       priority
     };
 
-    setWishlist(prev => [...prev, newItem]);
+    setWishlist((prev: any) => [...prev, newItem]);
   }, [getProduct, wishlist]);
 
   const removeFromWishlist = useCallback((itemId: string) => {
-    setWishlist(prev => prev.filter(item => item.id !== itemId));
+    setWishlist((prev: any) => prev.filter((item: any) => item.id !== itemId));
   }, []);
 
   const moveToCart = useCallback((wishlistItemId: string) => {
@@ -589,7 +589,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [wishlist, addToCart, removeFromWishlist]);
 
   const shareWishlist = useCallback(() => {
-    const wishlistData = JSON.stringify(wishlist.map(item => item.productId));
+    const wishlistData = JSON.stringify(wishlist.map((item: any) => item.productId));
     return `${window.location.origin}/wishlist?items=${encodeURIComponent(wishlistData)}`;
   }, [wishlist]);
 
@@ -599,12 +599,12 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const generateRecommendations = useCallback(async (productId: string) => {
     const recs = await mockRecommendationEngine.generateRecommendations(productId, products);
-    setRecommendations(prev => ({ ...prev, [productId]: recs }));
+    setRecommendations((prev: any) => ({ ...prev, [productId]: recs }));
     return recs;
   }, [products]);
 
   const createComparison = useCallback((productIds: string[], title?: string) => {
-    const comparisonProducts = productIds.map(id => getProduct(id)).filter(Boolean) as Product[];
+    const comparisonProducts = productIds.map((id: any) => getProduct(id)).filter(Boolean) as Product[];
     if (comparisonProducts.length < 2) throw new Error('At least 2 products required for comparison');
 
     const comparisonMatrix = compareProducts(productIds);
@@ -617,29 +617,29 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       title: title || `Comparison of ${comparisonProducts.length} products`
     };
 
-    setComparisons(prev => [...prev, comparison]);
+    setComparisons((prev: any) => [...prev, comparison]);
     return comparison;
   }, [getProduct]);
 
   const updateComparison = useCallback((id: string, updates: Partial<ProductComparison>) => {
-    setComparisons(prev => prev.map(comp =>
+    setComparisons((prev: any) => prev.map((comp: any) =>
       comp.id === id ? { ...comp, ...updates } : comp
     ));
   }, []);
 
   const removeComparison = useCallback((id: string) => {
-    setComparisons(prev => prev.filter(comp => comp.id !== id));
+    setComparisons((prev: any) => prev.filter((comp: any) => comp.id !== id));
   }, []);
 
   const compareProducts = useCallback((productIds: string[]) => {
-    const comparisonProducts = productIds.map(id => getProduct(id)).filter(Boolean) as Product[];
+    const comparisonProducts = productIds.map((id: any) => getProduct(id)).filter(Boolean) as Product[];
     const features: ComparisonFeature[] = [];
 
     // Price comparison
     features.push({
       name: 'Price',
       category: 'General',
-      values: comparisonProducts.map(p => `$${p.price.toFixed(2)}`),
+      values: comparisonProducts.map((p: any) => `$${p.price.toFixed(2)}`),
       importance: 'high',
       winner: comparisonProducts.indexOf(comparisonProducts.reduce((min, p) => p.price < min.price ? p : min))
     });
@@ -648,7 +648,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     features.push({
       name: 'Rating',
       category: 'General',
-      values: comparisonProducts.map(p => p.rating),
+      values: comparisonProducts.map((p: any) => p.rating),
       importance: 'high',
       winner: comparisonProducts.indexOf(comparisonProducts.reduce((max, p) => p.rating > max.rating ? p : max))
     });
@@ -657,7 +657,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     features.push({
       name: 'Stock',
       category: 'Availability',
-      values: comparisonProducts.map(p => p.stock),
+      values: comparisonProducts.map((p: any) => p.stock),
       importance: 'medium'
     });
 
@@ -672,17 +672,17 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       createdAt: new Date()
     };
 
-    setReviews(prev => ({
+    setReviews((prev: any) => ({
       ...prev,
       [productId]: [...(prev[productId] || []), newReview]
     }));
   }, []);
 
   const updateReview = useCallback((reviewId: string, updates: Partial<ProductReview>) => {
-    setReviews(prev => {
+    setReviews((prev: any) => {
       const newReviews = { ...prev };
-      Object.keys(newReviews).forEach(productId => {
-        newReviews[productId] = newReviews[productId].map(review =>
+      Object.keys(newReviews).forEach((productId: any) => {
+        newReviews[productId] = newReviews[productId].map((review: any) =>
           review.id === reviewId ? { ...review, ...updates } : review
         );
       });
@@ -691,10 +691,10 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, []);
 
   const removeReview = useCallback((reviewId: string) => {
-    setReviews(prev => {
+    setReviews((prev: any) => {
       const newReviews = { ...prev };
-      Object.keys(newReviews).forEach(productId => {
-        newReviews[productId] = newReviews[productId].filter(review => review.id !== reviewId);
+      Object.keys(newReviews).forEach((productId: any) => {
+        newReviews[productId] = newReviews[productId].filter((review: any) => review.id !== reviewId);
       });
       return newReviews;
     });
@@ -722,14 +722,14 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       source: 'tracking'
     };
 
-    setPriceHistory(prev => ({
+    setPriceHistory((prev: any) => ({
       ...prev,
       [productId]: [...(prev[productId] || []), historyEntry]
     }));
   }, [getProduct]);
 
   const untrackPrice = useCallback((productId: string) => {
-    setPriceHistory(prev => {
+    setPriceHistory((prev: any) => {
       const newHistory = { ...prev };
       delete newHistory[productId];
       return newHistory;
@@ -762,7 +762,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       totalPurchases: 89,
       conversionRate: 7.1,
       averageOrderValue: 156.78,
-      popularProducts: products.slice(0, 5).map(p => ({
+      popularProducts: products.slice(0, 5).map((p: any) => ({
         productId: p.id,
         views: Math.floor(Math.random() * 500) + 100,
         purchases: Math.floor(Math.random() * 50) + 10

@@ -130,7 +130,7 @@ class SensorFusionSystem {
       'heartRate', 'stressLevel', 'batteryLevel', 'deviceMotion'
     ];
 
-    metrics.forEach(metric => {
+    metrics.forEach((metric: any) => {
       this.kalmanFilters.set(metric, new KalmanFilter());
       this.sensorWeights.set(metric, 1.0);
       this.dataQuality.set(metric, 1.0);
@@ -483,8 +483,8 @@ class ContextualNeuralNetwork {
     // Simplified training - in practice would use backpropagation
     const adjustmentRate = this.learningRate * (satisfaction - 0.5);
     
-    this.weights.forEach(layer => {
-      layer.forEach(node => {
+    this.weights.forEach((layer: any) => {
+      layer.forEach((node: any) => {
         node.forEach((weight, index) => {
           node[index] += adjustmentRate * Math.random() * 0.1;
         });
@@ -607,7 +607,7 @@ class GlassContextualEngineCore {
     const matchedPatterns = this.patternRecognizer.analyzeContext(this.currentContext);
     
     // Generate adaptations for each pattern
-    matchedPatterns.forEach(patternId => {
+    matchedPatterns.forEach((patternId: any) => {
       const adaptation = this.createAdaptationForPattern(patternId, this.currentContext);
       if (adaptation) {
         this.adaptations.push(adaptation);
@@ -616,7 +616,7 @@ class GlassContextualEngineCore {
 
     // Remove old adaptations
     const now = Date.now();
-    this.adaptations = this.adaptations.filter(adaptation => 
+    this.adaptations = this.adaptations.filter((adaptation: any) => 
       !adaptation.appliedAt || (now - adaptation.appliedAt) < (adaptation.duration || 30000)
     );
 

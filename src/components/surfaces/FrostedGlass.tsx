@@ -34,7 +34,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
       interactive = true,
       padding = 16,
       intensity = 0.5,
-      frostColor = 'rgba(255, 255, 255, 0.8)',
+      frostColor = 'rgba(var(--glass-color-white) / var(--glass-opacity-80))',
       animate = true,
       pattern = 'noise',
       backgroundColor,

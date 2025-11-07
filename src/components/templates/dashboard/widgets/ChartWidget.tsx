@@ -133,7 +133,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
         return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
       }
 
-      const maxValue = Math.max(...data.dataPoints.map(d => d.value));
+      const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
       
       return (
         <div className="flex items-end justify-between gap-2 h-full">
@@ -173,7 +173,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
         return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
       }
 
-      const maxValue = Math.max(...data.dataPoints.map(d => d.value));
+      const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
       const points = data?.dataPoints.map((point, index) => {
         const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
         const y = 100 - (point.value / maxValue) * 100;
@@ -303,7 +303,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
         return <div className="flex items-center justify-center h-full glass-text-secondary text-xs">No data</div>;
       }
 
-      const maxValue = Math.max(...data.dataPoints.map(d => d.value));
+      const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
       const points = data?.dataPoints.map((point, index) => {
         const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
         const y = 100 - (point.value / maxValue) * 100;

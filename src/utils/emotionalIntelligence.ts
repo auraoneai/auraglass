@@ -518,7 +518,7 @@ class EmotionalIntelligenceEngine {
     const sums: Partial<BiometricIndicators> = {};
     const keys = Object.keys(data[0]) as (keyof BiometricIndicators)[];
     
-    keys.forEach(key => {
+    keys.forEach((key: any) => {
       if (typeof data[0][key] === 'number') {
         sums[key] = data.reduce((sum, item) => sum + (item[key] as number), 0) / data.length as any;
       }
@@ -533,11 +533,11 @@ class EmotionalIntelligenceEngine {
     const sums: Partial<BehaviorPatterns> = {};
     const keys = Object.keys(data[0]) as (keyof BehaviorPatterns)[];
     
-    keys.forEach(key => {
+    keys.forEach((key: any) => {
       if (typeof data[0][key] === 'number') {
         sums[key] = data.reduce((sum, item) => sum + (item[key] as number), 0) / data.length as any;
       } else if (typeof data[0][key] === 'boolean') {
-        const trueCount = data.filter(item => item[key]).length;
+        const trueCount = data.filter((item: any) => item[key]).length;
         sums[key] = trueCount > data.length / 2 as any;
       }
     });
@@ -566,7 +566,7 @@ class EmotionalIntelligenceEngine {
   // Get emotion trend over time
   getEmotionTrend(timeWindow = 300000): EmotionalState[] { // 5 minutes default
     const cutoff = Date.now() - timeWindow;
-    return this.emotionHistory.filter(state => state.timestamp >= cutoff);
+    return this.emotionHistory.filter((state: any) => state.timestamp >= cutoff);
   }
   
   // Check if emotion has stabilized
@@ -575,7 +575,7 @@ class EmotionalIntelligenceEngine {
     if (recentEmotions.length < 3) return false;
     
     const intensityVariation = this.calculateVariation(
-      recentEmotions.map(e => e.intensity)
+      recentEmotions.map((e: any) => e.intensity)
     );
     
     return intensityVariation < threshold;

@@ -301,7 +301,7 @@ class GlassAchievementEngine {
   private mergeAchievements(storedAchievements: Achievement[]): Achievement[] {
     const merged = [...this.achievements];
     
-    storedAchievements.forEach(stored => {
+    storedAchievements.forEach((stored: any) => {
       const index = merged.findIndex(a => a.id === stored.id);
       if (index >= 0) {
         merged[index] = { ...merged[index], ...stored };
@@ -376,7 +376,7 @@ class GlassAchievementEngine {
   }
 
   private checkAchievements(): void {
-    this.progress.achievements.forEach(achievement => {
+    this.progress.achievements.forEach((achievement: any) => {
       if (achievement.unlocked) return;
 
       const newProgress = this.calculateAchievementProgress(achievement);
@@ -392,13 +392,13 @@ class GlassAchievementEngine {
     let totalProgress = 0;
     const requirements = achievement.requirements;
 
-    requirements.forEach(req => {
+    requirements.forEach((req: any) => {
       let reqProgress = 0;
 
       switch (req.type) {
         case 'action_count':
           if (req.action && req.count) {
-            const actionCount = this.actionHistory.filter(a => a.action === req.action).length;
+            const actionCount = this.actionHistory.filter((a: any) => a.action === req.action).length;
             reqProgress = Math.min(1, actionCount / req.count);
           }
           break;
@@ -441,7 +441,7 @@ class GlassAchievementEngine {
     switch (challenge) {
       case 'speed_interactions':
         // Check for 10 interactions in 5 seconds
-        const recent = this.actionHistory.filter(a => 
+        const recent = this.actionHistory.filter((a: any) => 
           Date.now() - a.timestamp < 5000
         );
         return Math.min(1, recent.length / 10);
@@ -459,11 +459,11 @@ class GlassAchievementEngine {
     if (comboActions.length === 0) return 0;
 
     // Check for sequence of actions in recent history
-    const recentActions = this.actionHistory.slice(-20).map(a => a.action);
+    const recentActions = this.actionHistory.slice(-20).map((a: any) => a.action);
     let bestCombo = 0;
     let currentCombo = 0;
 
-    recentActions.forEach(action => {
+    recentActions.forEach((action: any) => {
       if (comboActions.includes(action)) {
         currentCombo++;
       } else {
@@ -502,7 +502,7 @@ class GlassAchievementEngine {
     this.notifications.push(notification);
     
     // Notify listeners
-    this.listeners.forEach(listener => listener(notification));
+    this.listeners.forEach((listener: any) => listener(notification));
 
     // Apply rewards
     this.applyAchievementRewards(achievement);
@@ -533,7 +533,7 @@ class GlassAchievementEngine {
   private applyAchievementRewards(achievement: Achievement): void {
     if (!achievement.rewards) return;
 
-    achievement.rewards.forEach(reward => {
+    achievement.rewards.forEach((reward: any) => {
       switch (reward.type) {
         case 'theme':
           // Unlock theme
@@ -556,11 +556,11 @@ class GlassAchievementEngine {
   }
 
   getUnlockedAchievements(): Achievement[] {
-    return this.progress.achievements.filter(a => a.unlocked);
+    return this.progress.achievements.filter((a: any) => a.unlocked);
   }
 
   getAvailableAchievements(): Achievement[] {
-    return this.progress.achievements.filter(a => !a.unlocked && !a.hidden);
+    return this.progress.achievements.filter((a: any) => !a.unlocked && !a.hidden);
   }
 
   getNotifications(): AchievementNotification[] {
@@ -621,7 +621,7 @@ export function GlassAchievementProvider({
     setProgress(engineRef.current.getProgress());
 
     const removeListener = engineRef.current.addListener((notification) => {
-      setNotifications(prev => [...prev, notification]);
+      setNotifications((prev: any) => [...prev, notification]);
     });
 
     // Update progress periodically
@@ -681,9 +681,9 @@ export function GlassAchievementNotifications({
   const [visibleNotifications, setVisibleNotifications] = useState<AchievementNotification[]>([]);
 
   useEffect(() => {
-    const newNotifications = notifications.filter(n => !n.shown);
+    const newNotifications = notifications.filter((n: any) => !n.shown);
     if (newNotifications.length > 0) {
-      setVisibleNotifications(prev => [...prev, ...newNotifications]);
+      setVisibleNotifications((prev: any) => [...prev, ...newNotifications]);
       
       // Mark as shown
       newNotifications.forEach((_, index) => {
@@ -694,7 +694,7 @@ export function GlassAchievementNotifications({
   }, [notifications, engine]);
 
   const removeNotification = (notification: AchievementNotification) => {
-    setVisibleNotifications(prev => prev.filter(n => n !== notification));
+    setVisibleNotifications((prev: any) => prev.filter((n: any) => n !== notification));
   };
 
   const positionClasses = {
@@ -955,7 +955,7 @@ export function GlassAchievementDashboard({
           { id: 'progress', label: 'Progress', count: progress.totalXP },
           { id: 'achievements', label: 'Achievements', count: unlockedAchievements.length },
           { id: 'stats', label: 'Stats', count: progress.stats.totalInteractions },
-        ].map(tab => (
+        ].map((tab: any) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
@@ -990,7 +990,7 @@ export function GlassAchievementDashboard({
             <div>
               <h4 className="text-sm font-medium text-primary/90 mb-2">In Progress</h4>
               <div className="gap-2">
-                {availableAchievements.slice(0, 3).map(achievement => (
+                {availableAchievements.slice(0, 3).map((achievement: any) => (
                   <div key={achievement.id} className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-sm p-2">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm text-primary/90">{achievement.title}</span>
@@ -1013,7 +1013,7 @@ export function GlassAchievementDashboard({
 
         {activeTab === 'achievements' && (
           <div className="gap-2">
-            {unlockedAchievements.map(achievement => (
+            {unlockedAchievements.map((achievement: any) => (
               <div key={achievement.id} className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-sm p-3">
                 <div className="flex items-center gap-3">
                   <div className="text-xl">{achievement.icon}</div>
@@ -1051,7 +1051,7 @@ export function GlassAchievementDashboard({
                 { label: 'Sessions', value: progress.stats.sessionsCompleted },
                 { label: 'Time Spent', value: `${Math.floor(progress.stats.timeSpent / 60000)}m` },
                 { label: 'Social', value: progress.stats.socialInteractions },
-              ].map(stat => (
+              ].map((stat: any) => (
                 <div key={stat.label} className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-md p-2 text-center">
                   <div className="text-lg font-medium text-primary/90">{stat.value}</div>
                   <div className="text-xs text-primary/60">{stat.label}</div>

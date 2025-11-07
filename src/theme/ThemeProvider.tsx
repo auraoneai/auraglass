@@ -4,7 +4,7 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 // Simple deep merge utility
 const deepmerge = (target: any, source: any): any => {
   const result = { ...target };
-  Object.keys(source).forEach(key => {
+  Object.keys(source).forEach((key: any) => {
     if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
       result[key] = deepmerge(result[key] || {}, source[key]);
     } else {
@@ -329,11 +329,11 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       // Detect reduced motion preference
       const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       const handleMotionChange = (e: MediaQueryListEvent) => {
-        setPreferences(prev => ({ ...prev, reducedMotion: e.matches }));
+        setPreferences((prev: any) => ({ ...prev, reducedMotion: e.matches }));
       };
 
       motionMediaQuery.addEventListener('change', handleMotionChange);
-      setPreferences(prev => ({ ...prev, reducedMotion: motionMediaQuery.matches }));
+      setPreferences((prev: any) => ({ ...prev, reducedMotion: motionMediaQuery.matches }));
 
       // Clean up
       return () => {
@@ -369,7 +369,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       if (savedPreferences) {
         try {
           const parsedPreferences = JSON.parse(savedPreferences);
-          setPreferences(prev => ({ ...prev, ...parsedPreferences }));
+          setPreferences((prev: any) => ({ ...prev, ...parsedPreferences }));
         } catch (e) {
           if (process.env.NODE_ENV === 'development') {
             console.error('Failed to parse saved preferences', e);
@@ -474,7 +474,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
   // Handle preference changes
   const setPreference = useCallback((key: string, value: boolean) => {
-    setPreferences(prev => {
+    setPreferences((prev: any) => {
       const newPreferences = { ...prev, [key]: value };
       localStorage.setItem('glass-ui-preferences', JSON.stringify(newPreferences));
       return newPreferences;

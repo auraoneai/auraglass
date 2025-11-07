@@ -94,7 +94,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
       if (!realTimeSync) return
 
       const interval = setInterval(() => {
-        setPresenceData(prev => prev.map(user => ({
+        setPresenceData((prev: any) => prev.map((user: any) => ({
           ...user,
           lastSeen: user.status !== 'offline' ? new Date() : user.lastSeen,
           isTyping: Math.random() < 0.1 ? !user.isTyping : user.isTyping
@@ -106,14 +106,14 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
 
     // Track typing users
     useEffect(() => {
-      const typing = presenceData.filter(user => user.isTyping).map(user => user.id)
+      const typing = presenceData.filter((user: any) => user.isTyping).map((user: any) => user.id)
       setTypingUsers(typing)
     }, [presenceData])
 
     // Sound notifications for status changes
     useEffect(() => {
       if (soundEnabled) {
-        presenceData.forEach(user => {
+        presenceData.forEach((user: any) => {
           if (user.status === 'online') {
             play('notification')
           }
@@ -136,7 +136,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
       const visibleUsers = processedData.slice(0, maxVisible)
       const hiddenCount = Math.max(0, processedData.length - maxVisible)
 
-      return { visibleUsers, hiddenCount, totalOnline: processedData.filter(u => u.status === 'online').length }
+      return { visibleUsers, hiddenCount, totalOnline: processedData.filter((u: any) => u.status === 'online').length }
     }, [presenceData, maxVisible, groupSimilarStatus])
 
     const formatLastSeen = (lastSeen?: Date) => {
@@ -270,7 +270,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
               ease: 'easeInOut'
             })}
           >
-            {[0, 1, 2].map(i => (
+            {[0, 1, 2].map((i: any) => (
               <motion.div
                 key={i}
                 className="w-1.5 h-1.5 glass-surface-blue glass-radius-full"

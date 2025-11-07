@@ -54,10 +54,10 @@ export function GlassDefs({ id }: { id: string }) {
 
 export const chartGlass = {
   grid: 'rgba(255,255,255,0.08)',
-  axis: 'rgba(255,255,255,0.25)',
+  axis: 'var(--glass-bg-default)',
   tick: { fill: 'rgba(255,255,255,0.88)', fontSize: 13 },
   yTick: { fill: 'rgba(255,255,255,0.88)', fontSize: 13 },
-  label: (text: string) => ({ value: text, fill: 'rgba(255,255,255,0.8)', fontSize: 14 }),
+  label: (text: string) => ({ value: text, fill: 'rgba(var(--glass-color-white) / var(--glass-opacity-80))', fontSize: 14 }),
   tooltip: {
     cursor: { stroke: 'rgba(255,255,255,0.12)' },
     contentStyle: createGlassStyle({ intent: "neutral", elevation: "level2" }) as React.CSSProperties,

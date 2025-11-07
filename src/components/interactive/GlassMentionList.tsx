@@ -11,7 +11,7 @@ export function GlassMentionList({ items, onSelect, className }: GlassMentionLis
   return (
     <OptimizedGlass elevation={'level2'} className={cn('glass-radius-lg glass-p-1 border border-white/15', className)}>
       <ul className="max-h-60 overflow-auto">
-        {items.map(it => (
+        {items.map((it: any) => (
           <li key={it.id}>
             <button onClick={(e) =>onSelect(it.id)} className="w-full text-left px-3 py-2 glass-radius-md hover:glass-surface-subtle/10">
               <div className="text-sm text-primary">{it.label}</div>

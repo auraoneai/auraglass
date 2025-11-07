@@ -328,7 +328,7 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
     }
 
     // Apply intensity scaling
-    Object.keys(targetProperties).forEach(key => {
+    Object.keys(targetProperties).forEach((key: any) => {
       const prop = key as keyof GlassProperties;
       if (prop !== 'opacity') {
         targetProperties[prop] = targetProperties[prop] * intensityFactor;
@@ -514,7 +514,7 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
     };
     prime();
 
-    return () => { subs.forEach(unsub => unsub()); };
+    return () => { subs.forEach((unsub: any) => unsub()); };
   }, [
     containerRef,
     opacityMotion, blurMotion, refractionMotion, reflectionMotion,

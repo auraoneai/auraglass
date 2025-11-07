@@ -319,7 +319,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
               max="1"
               step="0.1"
               value={transferParams.strength}
-              onChange={(e) => setTransferParams(prev => ({ 
+              onChange={(e) => setTransferParams((prev: any) => ({ 
                 ...prev, 
                 strength: parseFloat(e.target.value) 
               }))}
@@ -331,7 +331,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             <label className="block text-xs text-primary/70 mb-2">Resolution</label>
             <select
               value={transferParams.resolution}
-              onChange={(e) => setTransferParams(prev => ({ 
+              onChange={(e) => setTransferParams((prev: any) => ({ 
                 ...prev, 
                 resolution: e.target.value as any 
               }))}
@@ -348,7 +348,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             <label className="block text-xs text-primary/70 mb-2">Blend Mode</label>
             <select
               value={transferParams.blendMode}
-              onChange={(e) => setTransferParams(prev => ({ 
+              onChange={(e) => setTransferParams((prev: any) => ({ 
                 ...prev, 
                 blendMode: e.target.value as any 
               }))}
@@ -368,7 +368,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             <input
               type="checkbox"
               checked={transferParams.preserveColors}
-              onChange={(e) => setTransferParams(prev => ({ 
+              onChange={(e) => setTransferParams((prev: any) => ({ 
                 ...prev, 
                 preserveColors: e.target.checked 
               }))}
@@ -381,7 +381,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
             <input
               type="checkbox"
               checked={transferParams.enhanceDetails}
-              onChange={(e) => setTransferParams(prev => ({ 
+              onChange={(e) => setTransferParams((prev: any) => ({ 
                 ...prev, 
                 enhanceDetails: e.target.checked 
               }))}

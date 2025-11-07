@@ -426,7 +426,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((
   const handleInteraction = useCallback((event: React.MouseEvent<HTMLElement>) => {
     if (disabled) return;
 
-    setClickCount(prev => prev + 1);
+    setClickCount((prev: any) => prev + 1);
 
     // Record interaction for predictive learning
     if (interactionRecorder) {

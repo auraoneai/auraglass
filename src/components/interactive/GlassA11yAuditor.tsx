@@ -231,9 +231,9 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
       const warningWeight = 5;
       const infoWeight = 1;
 
-      const errors = issues.filter(i => i.type === 'error').length;
-      const warnings = issues.filter(i => i.type === 'warning').length;
-      const infos = issues.filter(i => i.type === 'info').length;
+      const errors = issues.filter((i: any) => i.type === 'error').length;
+      const warnings = issues.filter((i: any) => i.type === 'warning').length;
+      const infos = issues.filter((i: any) => i.type === 'info').length;
 
       const totalWeight = (errors * errorWeight) + (warnings * warningWeight) + (infos * infoWeight);
       const score = Math.max(0, 100 - totalWeight);
@@ -264,7 +264,7 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
   }, [autoAudit, runAudit]);
 
   // Filter issues
-  const filteredIssues = auditResult?.issues.filter(issue =>
+  const filteredIssues = auditResult?.issues.filter((issue: any) =>
     filter === 'all' || issue.type === filter
   ) || [];
 
@@ -387,7 +387,7 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
           <div className="flex items-center justify-between mb-4">
             <h4 className="text-md font-semibold text-primary">Issues</h4>
             <div className="flex gap-2">
-              {(['all', 'error', 'warning', 'info'] as const).map(type => (
+              {(['all', 'error', 'warning', 'info'] as const).map((type: any) => (
                 <button
                   key={type}
                   onClick={(e) => setFilter(type)}
@@ -404,7 +404,7 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
           </div>
 
           <div className="gap-2 max-h-96 overflow-y-auto">
-            {filteredIssues.map(issue => (
+            {filteredIssues.map((issue: any) => (
               <button
                 key={issue.id}
                 onClick={(e) => handleIssueClick(issue)}
@@ -544,9 +544,9 @@ export const useA11yAudit = () => {
         score,
         issues,
         summary: {
-          errors: issues.filter(i => i.type === 'error').length,
-          warnings: issues.filter(i => i.type === 'warning').length,
-          info: issues.filter(i => i.type === 'info').length,
+          errors: issues.filter((i: any) => i.type === 'error').length,
+          warnings: issues.filter((i: any) => i.type === 'warning').length,
+          info: issues.filter((i: any) => i.type === 'info').length,
         },
         timestamp: Date.now(),
       };

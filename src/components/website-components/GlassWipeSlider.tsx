@@ -534,7 +534,7 @@ const GlassWipeSliderComponent = ({
           }),
           boxShadow: isDragging || isHovered
             ? '0 0 20px ${glassStyles.borderColor || "rgba(59, 130, 246, 0.6)"}'
-            : '0 0 10px ${glassStyles.borderColor || "rgba(255, 255, 255, 0.3)"}'
+            : '0 0 10px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
         }}
       >
         {/* Glass effect overlay */}
@@ -588,8 +588,8 @@ const GlassWipeSliderComponent = ({
             boxShadow: isDragging || isFocused
               ? '0 0 30px ${glassStyles.borderColor || "rgba(59, 130, 246, 0.6)"}'
               : isHovered
-                ? '0 0 25px rgba(255, 255, 255, 0.4)'
-                : '0 0 20px ${glassStyles.borderColor || "rgba(255, 255, 255, 0.3)"}'
+                ? '0 0 25px var(--glass-border-default)'
+                : '0 0 20px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
           },
         })}
         transition={getTransition(duration / 1000)}

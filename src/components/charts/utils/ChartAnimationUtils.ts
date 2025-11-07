@@ -157,7 +157,7 @@ export class ChartAnimationUtils {
 
       const animatedData = this.animateDataPoints(
         seriesItem.data,
-        targetSeriesItem.data.map(p => typeof p.y === 'number' ? p.y : 0),
+        targetSeriesItem.data.map((p: any) => typeof p.y === 'number' ? p.y : 0),
         seriesProgress,
         easing
       );

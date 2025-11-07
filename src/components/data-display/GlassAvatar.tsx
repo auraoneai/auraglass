@@ -134,7 +134,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
         const getInitials = (text: string) => {
             return text
                 .split(' ')
-                .map(word => word[0])
+                .map((word: any) => word[0])
                 .join('')
                 .toUpperCase()
                 .slice(0, 2);

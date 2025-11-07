@@ -11,7 +11,7 @@ function parseColor(input: string): [number, number, number, number] | null {
   const s = input.trim();
   const rgba = s.match(/^rgba?\(([^)]+)\)/i);
   if (rgba) {
-    const parts = rgba[1].split(',').map(v => v.trim());
+    const parts = rgba[1].split(',').map((v: any) => v.trim());
     const r = parseFloat(parts[0]);
     const g = parseFloat(parts[1]);
     const b = parseFloat(parts[2]);
@@ -20,7 +20,7 @@ function parseColor(input: string): [number, number, number, number] | null {
   }
   const hsla = s.match(/^hsla?\(([^)]+)\)/i);
   if (hsla) {
-    const parts = hsla[1].split(',').map(v => v.trim().replace('%',''));
+    const parts = hsla[1].split(',').map((v: any) => v.trim().replace('%',''));
     const h = parseFloat(parts[0]);
     const ss = parseFloat(parts[1]) / 100;
     const l = parseFloat(parts[2]) / 100;
@@ -44,7 +44,7 @@ function parseColor(input: string): [number, number, number, number] | null {
   const hex = s.match(/^#([0-9a-f]{3,8})$/i);
   if (hex) {
     let v = hex[1];
-    if (v.length === 3) v = v.split('').map(ch => ch + ch).join('');
+    if (v.length === 3) v = v.split('').map((ch: any) => ch + ch).join('');
     if (v.length === 6) v += 'ff';
     const num = parseInt(v, 16);
     const r = (num >> 24) & 0xff;
@@ -58,8 +58,8 @@ function parseColor(input: string): [number, number, number, number] | null {
 
 function relativeLuminance([r, g, b, _a]: [number, number, number, number]): number {
   // sRGB → linear
-  const srgb = [r, g, b].map(v => v / 255);
-  const lin = srgb.map(c => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)));
+  const srgb = [r, g, b].map((v: any) => v / 255);
+  const lin = srgb.map((c: any) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)));
   return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
 }
 

@@ -39,7 +39,7 @@ export function adjustOpacity(color: string, opacity: number): string {
   if (color.startsWith('rgb')) {
     const match = color.match(/rgba?\(([^)]+)\)/);
     if (match) {
-      const values = match[1].split(',').map(v => v.trim());
+      const values = match[1].split(',').map((v: any) => v.trim());
       return `rgba(${values[0]}, ${values[1]}, ${values[2]}, ${opacity})`;
     }
   }
@@ -106,7 +106,7 @@ export function omit<T extends Record<string, any>, K extends keyof T>(
   keys: K[]
 ): Omit<T, K> {
   const result = { ...obj };
-  keys.forEach(key => delete result[key]);
+  keys.forEach((key: any) => delete result[key]);
   return result;
 }
 
@@ -115,7 +115,7 @@ export function pick<T extends Record<string, any>, K extends keyof T>(
   keys: K[]
 ): Pick<T, K> {
   const result = {} as Pick<T, K>;
-  keys.forEach(key => {
+  keys.forEach((key: any) => {
     if (key in obj) {
       result[key] = obj[key];
     }
@@ -326,8 +326,8 @@ export const storage = {
 
   clear: (): void => {
     try {
-      const keys = Object.keys(localStorage).filter(key => key.startsWith('aura-glass-'));
-      keys.forEach(key => localStorage.removeItem(key));
+      const keys = Object.keys(localStorage).filter((key: any) => key.startsWith('aura-glass-'));
+      keys.forEach((key: any) => localStorage.removeItem(key));
     } catch {
       // Storage might be unavailable
     }

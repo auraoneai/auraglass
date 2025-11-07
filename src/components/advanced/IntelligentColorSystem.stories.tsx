@@ -60,7 +60,7 @@ export const InteractiveDemo: Story = {
             left: `${mousePos.x}vw`,
             top: `${mousePos.y}vh`,
             transform: 'translate(-50%, -50%)',
-            boxShadow: '0 0 20px rgba(255,255,255,0.5), inset 0 0 20px rgba(255,255,255,0.2)'
+            boxShadow: '0 0 20px var(--glass-border-hover), inset 0 0 20px rgba(var(--glass-color-white) / var(--glass-opacity-20))'
           }}
         />
 
@@ -1444,8 +1444,8 @@ export const PracticalEnhancementsDemo: Story = {
             background: linear-gradient(to right, 
               ${theme === 'light' ? '#3b82f6' : '#60a5fa'} 0%, 
               ${theme === 'light' ? '#3b82f6' : '#60a5fa'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
-              ${theme === 'light' ? '#e5e7eb' : 'rgba(255,255,255,0.2)'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
-              ${theme === 'light' ? '#e5e7eb' : 'rgba(255,255,255,0.2)'} 100%);
+              ${theme === 'light' ? '#e5e7eb' : 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
+              ${theme === 'light' ? '#e5e7eb' : 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'} 100%);
           }
           .slider::-webkit-slider-thumb {
             appearance: none;
@@ -1454,7 +1454,7 @@ export const PracticalEnhancementsDemo: Story = {
             border-radius: 50%;
             background: ${theme === 'light' ? '#3b82f6' : '#60a5fa'};
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(var(--glass-color-black) / var(--glass-opacity-20));
           }
         `}</style>
       </div>

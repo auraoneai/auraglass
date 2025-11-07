@@ -385,7 +385,7 @@ export class AuraGlassProduction {
 
     // Remove injected styles
     const styles = document.querySelectorAll('style[id^="aura-glass"]');
-    styles.forEach(style => style.remove());
+    styles.forEach((style: any) => style.remove());
 
     // Remove classes
     document.documentElement.className = document.documentElement.className

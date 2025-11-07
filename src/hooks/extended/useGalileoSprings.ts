@@ -74,7 +74,7 @@ export function useGalileoSprings(
     });
 
     // Add initial bodies
-    targets.forEach(target => {
+    targets.forEach((target: any) => {
       physicsSystemRef.current!.addBody({
         id: target.id,
         position: { ...target.position },
@@ -104,7 +104,7 @@ export function useGalileoSprings(
       const bodies = physicsSystemRef.current!.getAllBodies();
       const newPositions: Record<string, { x: number; y: number }> = {};
 
-      bodies.forEach(body => {
+      bodies.forEach((body: any) => {
         newPositions[body.id] = { ...body.position };
       });
 
@@ -231,7 +231,7 @@ export function useGalileoSprings(
       data?: any;
     }>
   ) => {
-    updates.forEach(update => {
+    updates.forEach((update: any) => {
       switch (update.type) {
         case 'springTo':
           if (update.data) springTo(update.id, update.data);
@@ -295,9 +295,9 @@ export function useChainReaction(
       visited.add(currentId);
 
       // Find connections from current body
-      const currentConnections = connections.filter(conn => conn.from === currentId);
+      const currentConnections = connections.filter((conn: any) => conn.from === currentId);
 
-      currentConnections.forEach(connection => {
+      currentConnections.forEach((connection: any) => {
         if (!visited.has(connection.to)) {
           // Calculate propagated impulse
           const currentBody = galileoSprings.getBody(currentId);
@@ -345,7 +345,7 @@ export function useOrbitalMechanics(
   const galileoSprings = useGalileoSprings(allBodies, springConfig);
 
   const updateOrbits = useCallback(() => {
-    orbitingBodies.forEach(body => {
+    orbitingBodies.forEach((body: any) => {
       const orbitingBody = galileoSprings.getBody(body.id);
       const central = galileoSprings.getBody(centralBody.id);
 
@@ -378,7 +378,7 @@ export function useOrbitalMechanics(
   return {
     ...galileoSprings,
     centralBody: centralBody.id,
-    orbitingBodies: orbitingBodies.map(b => b.id),
+    orbitingBodies: orbitingBodies.map((b: any) => b.id),
     updateOrbits,
   };
 }
@@ -468,7 +468,7 @@ export function useSoftBodyPhysics(
   },
   config: GalileoSpringConfig = {}
 ) {
-  const nodes = bodyDefinition.nodes.map(node => ({
+  const nodes = bodyDefinition.nodes.map((node: any) => ({
     id: node.id,
     position: { x: node.x, y: node.y },
     mass: node.mass,
@@ -478,7 +478,7 @@ export function useSoftBodyPhysics(
   const galileoSprings = useGalileoSprings(nodes, config);
 
   const updateSprings = useCallback(() => {
-    bodyDefinition.springs.forEach(spring => {
+    bodyDefinition.springs.forEach((spring: any) => {
       const fromBody = galileoSprings.getBody(spring.from);
       const toBody = galileoSprings.getBody(spring.to);
 

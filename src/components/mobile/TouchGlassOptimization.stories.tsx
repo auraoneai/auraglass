@@ -457,7 +457,7 @@ export const RippleEffects: Story = {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <TouchRippleEffects
-            color="rgba(255, 255, 255, 0.4)"
+            color="var(--glass-border-default)"
             maxRipples={3}
             rippleDuration={600}
           >

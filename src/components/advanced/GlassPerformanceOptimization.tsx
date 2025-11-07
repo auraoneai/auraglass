@@ -171,9 +171,9 @@ export function EfficientGlassRendering({
 
   // Performance-based glass styles
   const getOptimizedGlassStyles = useMemo(() => {
-    let baseBackground = 'rgba(255, 255, 255, 0.1)'
+    let baseBackground = 'var(--glass-bg-default)'
     let backdropBlur = 12
-    let shadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+    let shadow = '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10))'
 
     switch (performanceMode) {
       case 'battery-saver':
@@ -182,7 +182,7 @@ export function EfficientGlassRendering({
         break
       case 'high':
         backdropBlur = 20
-        shadow = '0 16px 64px rgba(0, 0, 0, 0.15)'
+        shadow = '0 16px 64px rgba(var(--glass-color-black) / var(--glass-opacity-15))'
         break
       default:
         backdropBlur = 12
@@ -199,7 +199,7 @@ export function EfficientGlassRendering({
         style={{
           minHeight: '100px',
           background: 'transparent',
-          border: '1px dashed rgba(0, 0, 0, 0.1)'
+          border: '1px dashed rgba(var(--glass-color-black) / var(--glass-opacity-10))'
         }}
       />
     )

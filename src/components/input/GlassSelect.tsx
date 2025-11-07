@@ -195,7 +195,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
 
     // Filter options based on search query
     const filteredOptions = searchable && searchQuery
-      ? options.filter(option =>
+      ? options.filter((option: any) =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
       )
       : options;
@@ -210,9 +210,9 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
 
     // Get selected options
     const selectedOptions = multiple && Array.isArray(value)
-      ? options.filter(opt => value.includes(opt.value))
+      ? options.filter((opt: any) => value.includes(opt.value))
       : value !== undefined
-        ? options.filter(opt => opt.value === value)
+        ? options.filter((opt: any) => opt.value === value)
         : [];
 
     // Handle option selection
@@ -222,7 +222,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
       if (multiple) {
         const currentValues = Array.isArray(value) ? value : [];
         const newValues = currentValues.includes(option.value)
-          ? currentValues.filter(v => v !== option.value)
+          ? currentValues.filter((v: any) => v !== option.value)
           : maxItems && currentValues.length >= maxItems
             ? currentValues
             : [...currentValues, option.value];
@@ -242,7 +242,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
           if (!isOpen) {
             setIsOpen(true);
           } else {
-            setFocusedIndex(prev =>
+            setFocusedIndex((prev: any) =>
               prev < filteredOptions.length - 1 ? prev + 1 : 0
             );
           }
@@ -250,7 +250,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
         case 'ArrowUp':
           event.preventDefault();
           if (isOpen) {
-            setFocusedIndex(prev =>
+            setFocusedIndex((prev: any) =>
               prev > 0 ? prev - 1 : filteredOptions.length - 1
             );
           }
@@ -356,7 +356,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
           className="sr-only"
           {...props}
         >
-          {options.map(option => (
+          {options.map((option: any) => (
             <option key={option.value} value={option.value} disabled={option.disabled}>
               {option.label}
             </option>

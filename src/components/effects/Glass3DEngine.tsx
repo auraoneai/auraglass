@@ -454,7 +454,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
             position: 'absolute',
             inset: '-20%',
             background: `radial-gradient(circle at ${50 + mousePosition.x * 10}% ${50 + mousePosition.y * 10}%, 
-              rgba(255, 255, 255, 0.1) 0%, 
+              var(--glass-bg-default) 0%, 
               transparent 70%
             )`,
             transform: `translateZ(-100px) scale(1.2)`,

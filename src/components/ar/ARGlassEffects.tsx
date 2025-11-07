@@ -7,6 +7,7 @@ declare global {
   }
 }
 
+import React from 'react';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { motion } from 'framer-motion';

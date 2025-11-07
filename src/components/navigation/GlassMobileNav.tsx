@@ -238,7 +238,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           {hasChildren && isExpanded && (
             <Motion preset="slideDown" className="glass-mt-1">
               <VStack space="xs">
-                {item?.children!.map(child =>
+                {item?.children!.map((child: any) =>
                   renderNavigationItem(child, level + 1)
                 )}
               </VStack>
@@ -263,7 +263,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
           {/* Section items */}
           <VStack space="xs">
-            {section.items.map(item => renderNavigationItem(item))}
+            {section.items.map((item: any) => renderNavigationItem(item))}
           </VStack>
         </div>
       );
@@ -344,7 +344,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           {/* Navigation content */}
           <nav className="flex-1 p-4 overflow-y-auto">
             <VStack space="lg">
-              {navigation.map(section => renderSection(section))}
+              {navigation.map((section: any) => renderSection(section))}
               {children}
             </VStack>
           </nav>

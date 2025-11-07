@@ -274,7 +274,7 @@ export function GlassTrophyCase({
   // Filter and sort achievements
   const filteredAchievements = useMemo(() => {
     return achievements
-      .filter(achievement => {
+      .filter((achievement: any) => {
         // Category filter
         if (selectedCategory !== 'all' && achievement.category !== selectedCategory) {
           return false;
@@ -331,10 +331,10 @@ export function GlassTrophyCase({
 
   // Calculate stats
   const stats = useMemo(() => {
-    const unlocked = achievements.filter(a => a.unlocked).length;
-    const total = achievements.filter(a => !a.secret || a.unlocked).length;
+    const unlocked = achievements.filter((a: any) => a.unlocked).length;
+    const total = achievements.filter((a: any) => !a.secret || a.unlocked).length;
     const totalPoints = achievements
-      .filter(a => a.unlocked)
+      .filter((a: any) => a.unlocked)
       .reduce((sum, a) => sum + a.points, 0);
 
     const tierCounts = achievements.reduce((counts, achievement) => {
@@ -405,7 +405,7 @@ export function GlassTrophyCase({
 
   // Check for newly unlocked achievements
   useEffect(() => {
-    achievements.forEach(achievement => {
+    achievements.forEach((achievement: any) => {
       if (!achievement.unlocked && achievement.progress >= achievement.maxProgress) {
         const updatedAchievement = { ...achievement, unlocked: true, unlockedAt: new Date() };
         playUnlockSound();
@@ -456,7 +456,7 @@ export function GlassTrophyCase({
             className="absolute inset-0 glass-radius-xl"
             style={{
               background: `radial-gradient(circle at center, ${tierColor.glow}20 0%, transparent 70%)`,
-              filter: 'blur(10px)'
+              filter: 'blur(var(--glass-blur-md))'
             }}
             animate={{
               scale: [1, 1.1, 1],
@@ -614,7 +614,7 @@ export function GlassTrophyCase({
           )}
         >
           <option value="all">All Categories</option>
-          {categories.map(category => (
+          {categories.map((category: any) => (
             <option key={category.id} value={category.id}>
               {category.name} ({category.count})
             </option>

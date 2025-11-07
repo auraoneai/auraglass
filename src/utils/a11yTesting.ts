@@ -45,7 +45,7 @@ export const ColorContrast = {
    * Calculate relative luminance
    */
   getLuminance(r: number, g: number, b: number): number {
-    const [rs, gs, bs] = [r, g, b].map(c => {
+    const [rs, gs, bs] = [r, g, b].map((c: any) => {
       const sRGB = c / 255;
       return sRGB <= 0.03928 ? sRGB / 12.92 : Math.pow((sRGB + 0.055) / 1.055, 2.4);
     });
@@ -170,7 +170,7 @@ export const AriaTests: A11yTestSuite = {
         // Check if referenced elements exist
         if (ariaLabelledBy) {
           const ids = ariaLabelledBy.split(' ');
-          ids.forEach(id => {
+          ids.forEach((id: any) => {
             if (!document.getElementById(id.trim())) {
               results.push({
                 element,
@@ -186,7 +186,7 @@ export const AriaTests: A11yTestSuite = {
         
         if (ariaDescribedBy) {
           const ids = ariaDescribedBy.split(' ');
-          ids.forEach(id => {
+          ids.forEach((id: any) => {
             if (!document.getElementById(id.trim())) {
               results.push({
                 element,
@@ -487,12 +487,12 @@ export class A11yTester {
   runTests(container: HTMLElement = document.body): A11yTestResult[] {
     const results: A11yTestResult[] = [];
     
-    this.testSuites.forEach(suite => {
-      suite.tests.forEach(test => {
+    this.testSuites.forEach((suite: any) => {
+      suite.tests.forEach((test: any) => {
         if (test.selector) {
           // Run test on elements matching selector
           const elements = container.querySelectorAll<HTMLElement>(test.selector);
-          elements.forEach(element => {
+          elements.forEach((element: any) => {
             const testResults = test.test(element);
             results.push(...testResults);
           });
@@ -513,12 +513,12 @@ export class A11yTester {
   runTestByRule(rule: string, container: HTMLElement = document.body): A11yTestResult[] {
     const results: A11yTestResult[] = [];
     
-    this.testSuites.forEach(suite => {
+    this.testSuites.forEach((suite: any) => {
       const test = suite.tests.find(t => t.rule === rule);
       if (test) {
         if (test.selector) {
           const elements = container.querySelectorAll<HTMLElement>(test.selector);
-          elements.forEach(element => {
+          elements.forEach((element: any) => {
             const testResults = test.test(element);
             results.push(...testResults);
           });
@@ -536,9 +536,9 @@ export class A11yTester {
    * Generate accessibility report
    */
   generateReport(results: A11yTestResult[]): string {
-    const errors = results.filter(r => r.level === 'error');
-    const warnings = results.filter(r => r.level === 'warning');
-    const info = results.filter(r => r.level === 'info');
+    const errors = results.filter((r: any) => r.level === 'error');
+    const warnings = results.filter((r: any) => r.level === 'warning');
+    const info = results.filter((r: any) => r.level === 'info');
     
     let report = '# Accessibility Test Report\n\n';
     report += `- **Errors:** ${errors.length}\n`;
@@ -603,14 +603,14 @@ export function logA11yIssues(element?: HTMLElement) {
     return;
   }
   
-  const errors = results.filter(r => r.level === 'error');
-  const warnings = results.filter(r => r.level === 'warning');
+  const errors = results.filter((r: any) => r.level === 'error');
+  const warnings = results.filter((r: any) => r.level === 'warning');
   
   console.group('🔍 Accessibility Test Results');
   
   if (errors.length > 0) {
     console.group('❌ Errors');
-    errors.forEach(error => {
+    errors.forEach((error: any) => {
       console.error(error.message, error.element);
       if (error.suggestion) console.log('💡 Suggestion:', error.suggestion);
     });
@@ -619,7 +619,7 @@ export function logA11yIssues(element?: HTMLElement) {
   
   if (warnings.length > 0) {
     console.group('⚠️ Warnings');
-    warnings.forEach(warning => {
+    warnings.forEach((warning: any) => {
       console.warn(warning.message, warning.element);
       if (warning.suggestion) console.log('💡 Suggestion:', warning.suggestion);
     });

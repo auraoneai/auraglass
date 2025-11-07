@@ -57,8 +57,8 @@ const defaultPalette: ColorPalette = {
   surface: '#1e293b',
   text: '#f8fafc',
   textSecondary: '#cbd5e1',
-  border: 'rgba(255, 255, 255, 0.1)',
-  glassBase: 'rgba(255, 255, 255, 0.1)',
+  border: 'var(--glass-bg-default)',
+  glassBase: 'var(--glass-bg-default)',
   glassTint: 'rgba(255, 255, 255, 0.05)'
 };
 
@@ -69,10 +69,10 @@ const darkThemePalette: ColorPalette = {
   accent: '#06b6d4',
   background: '#020617',
   surface: '#1e293b',
-  text: 'rgba(255, 255, 255, 0.95)',
+  text: 'var(--glass-text-primary)',
   textSecondary: 'rgba(255, 255, 255, 0.80)',
-  border: 'rgba(255, 255, 255, 0.15)',
-  glassBase: 'rgba(255, 255, 255, 0.15)',
+  border: 'var(--glass-bg-disabled)',
+  glassBase: 'var(--glass-bg-disabled)',
   glassTint: 'rgba(255, 255, 255, 0.08)'
 };
 
@@ -177,7 +177,7 @@ const calculateLuminance = (hex: string): number => {
   const rgb = hexToRgb(hex);
   if (!rgb) return 0;
 
-  const [r, g, b] = rgb.map(c => {
+  const [r, g, b] = rgb.map((c: any) => {
     c /= 255;
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
@@ -300,7 +300,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     const calculateSaturation = (color: string): number => {
       const rgb = color.match(/\d+/g);
       if (!rgb) return 0.5;
-      const [r, g, b] = rgb.map(n => Number(n) / 255);
+      const [r, g, b] = rgb.map((n: any) => Number(n) / 255);
       const max = Math.max(r, g, b);
       const min = Math.min(r, g, b);
       return max === 0 ? 0 : (max - min) / max;
@@ -329,7 +329,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
   const adaptToPalette = useCallback((analysis: ColorAnalysis) => {
     if (!config.enabled) return;
 
-    setCurrentPalette(prev => {
+    setCurrentPalette((prev: any) => {
       const { dominantColors, brightness, saturation } = analysis;
       let newPalette = { ...prev };
 
@@ -358,7 +358,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
   const adaptToTime = useCallback((timeOfDay: number) => {
     if (!config.timeBasedShifts) return;
     const hour = timeOfDay;
-    setCurrentPalette(prev => {
+    setCurrentPalette((prev: any) => {
       const timeBasePalette = { ...prev };
       if (hour >= 5 && hour < 9) {
         timeBasePalette.primary = '#f59e0b';
@@ -380,7 +380,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
 
   const adaptToSeason = useCallback((season: 'spring' | 'summer' | 'autumn' | 'winter') => {
     if (!config.seasonalAdaptation) return;
-    setCurrentPalette(prev => {
+    setCurrentPalette((prev: any) => {
       const seasonPalette = { ...prev };
       switch (season) {
         case 'spring':
@@ -416,7 +416,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
   const adaptToBrand = useCallback((brandColors: string[]) => {
     if (brandColors.length === 0) return;
     const influence = config.brandColorInfluence;
-    setCurrentPalette(prev => {
+    setCurrentPalette((prev: any) => {
       const brandPalette = { ...prev };
       brandColors.forEach((color, index) => {
         const rgb = hexToRgb(color);
@@ -469,7 +469,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
   }, []);
 
   const updateConfig = useCallback((newConfig: Partial<ColorAdaptationConfig>) => {
-    setConfig(prev => ({ ...prev, ...newConfig }));
+    setConfig((prev: any) => ({ ...prev, ...newConfig }));
   }, []);
 
   // Pure helper to compute accessible palette without relying on hooks ordering
@@ -600,7 +600,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
 
     // Check and queue essential palette properties
     const essentialProps = ['primary', 'secondary', 'accent', 'background'];
-    essentialProps.forEach(key => {
+    essentialProps.forEach((key: any) => {
       const currentValue = root.style.getPropertyValue(`--glass-${key}`);
       const newValue = currentPalette[key as keyof ColorPalette] as string;
       if (currentValue !== newValue) {

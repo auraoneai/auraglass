@@ -266,7 +266,7 @@ export function SeasonalParticles({
     if (!autoSeason || season !== 'auto') return;
 
     const interval = setInterval(() => {
-      setSeasonIndex(prev => {
+      setSeasonIndex((prev: any) => {
         const next = (prev + 1) % seasons.length;
         setCurrentSeason(seasons[next] as 'winter' | 'spring' | 'summer' | 'autumn');
         return next;
@@ -284,7 +284,7 @@ export function SeasonalParticles({
 
   // Play/pause control
   const togglePlay = useCallback(() => {
-    setIsPlaying(prev => !prev);
+    setIsPlaying((prev: any) => !prev);
   }, []);
 
   // Get season icon
@@ -353,7 +353,7 @@ export function SeasonalParticles({
         >
           {/* Season selector */}
           <div className="flex gap-2 p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10">
-            {seasons.map(seasonName => (
+            {seasons.map((seasonName: any) => (
               <button
                 key={seasonName}
                 onClick={() => changeSeason(seasonName)}
@@ -510,17 +510,17 @@ export const seasonalPresets = {
 export const seasonalThemes = {
   winter: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    glassColor: 'rgba(255, 255, 255, 0.1)',
+    glassColor: 'var(--glass-bg-default)',
     accentColor: '#e3f2fd'
   },
   spring: {
     background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    glassColor: 'rgba(255, 255, 255, 0.15)',
+    glassColor: 'var(--glass-bg-disabled)',
     accentColor: '#fce4ec'
   },
   summer: {
     background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    glassColor: 'rgba(255, 255, 255, 0.1)',
+    glassColor: 'var(--glass-bg-default)',
     accentColor: '#fff3e0'
   },
   autumn: {

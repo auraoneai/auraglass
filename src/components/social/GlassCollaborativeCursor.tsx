@@ -80,7 +80,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        setSimulatedUsers(prev => prev.map(user => {
+        setSimulatedUsers((prev: any) => prev.map((user: any) => {
           if (user.id === currentUserId) return user
 
           const deltaX = (Math.random() - 0.5) * 20
@@ -107,15 +107,15 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
 
     // Update cursor trails
     useEffect(() => {
-      simulatedUsers.forEach(user => {
+      simulatedUsers.forEach((user: any) => {
         if (!user.isActive || user.id === currentUserId) return
 
-        setCursorTrails(prev => {
+        setCursorTrails((prev: any) => {
           const userTrails = prev[user.id] || []
           const newTrail = { x: user.x, y: user.y, timestamp: Date.now() }
           
           const updatedTrails = [...userTrails, newTrail]
-            .filter(trail => Date.now() - trail.timestamp < fadeTimeout)
+            .filter((trail: any) => Date.now() - trail.timestamp < fadeTimeout)
             .slice(-maxTrailLength)
 
           return {
@@ -148,7 +148,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
     // Sound effects
     useEffect(() => {
       if (soundEnabled) {
-        simulatedUsers.forEach(user => {
+        simulatedUsers.forEach((user: any) => {
           if (user.action === 'typing') {
             play('type')
           } else if (user.action === 'selecting') {
@@ -198,7 +198,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           width={size}
           height={size}
           viewBox="0 0 24 24"
-          style={{ filter: `drop-shadow(0 2px 4px rgba(0,0,0,0.3))` }}
+          style={{ filter: `drop-shadow(0 2px 4px rgba(var(--glass-color-black) / var(--glass-opacity-30)))` }}
         >
           <path
             d="M5 3L19 12L12 14L9 21L5 3Z"
@@ -303,7 +303,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
     }
 
     const activeCursors = useMemo(() => 
-      simulatedUsers.filter(user => 
+      simulatedUsers.filter((user: any) => 
         user.id !== currentUserId && 
         user.isActive &&
         Date.now() - user.lastActivity < fadeTimeout
@@ -323,7 +323,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           {/* Cursor trails */}
           {showCursorTails && (
             <svg className={cn('glass-absolute glass-inset-0 glass-pointer-events-none')} style={{ zIndex: 10 }}>
-              {activeCursors.map(user => (
+              {activeCursors.map((user: any) => (
                 <CursorTrail key={user.id} userId={user.id} />
               ))}
             </svg>
@@ -331,14 +331,14 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
 
           {/* Selection overlays */}
           <AnimatePresence>
-            {activeCursors.map(user => (
+            {activeCursors.map((user: any) => (
               <SelectionOverlay key={`selection-${user.id}`} user={user} />
             ))}
           </AnimatePresence>
 
           {/* Cursor icons */}
           <AnimatePresence>
-            {activeCursors.map(user => (
+            {activeCursors.map((user: any) => (
               <CursorIcon 
                 key={`cursor-${user.id}`}
                 user={user} 
@@ -350,7 +350,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           {/* User labels */}
           {showUserLabels && (
             <AnimatePresence>
-              {activeCursors.map(user => (
+              {activeCursors.map((user: any) => (
                 <CursorLabel key={`label-${user.id}`} user={user} />
               ))}
             </AnimatePresence>
@@ -386,7 +386,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
               )}
             </div>
             <div className={cn('glass-flex glass-items-center glass-space-x-2')}>
-              {activeCursors.slice(0, 5).map(user => (
+              {activeCursors.slice(0, 5).map((user: any) => (
                 <div
                   key={user.id}
                   className={cn('glass-w-3 glass-h-3 glass-radius-full glass-border glass-border-white/30')}

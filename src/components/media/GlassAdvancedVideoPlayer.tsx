@@ -192,7 +192,7 @@ const VideoControls: React.FC<ControlsProps> = ({
             
             {showSpeedMenu && (
               <div className="absolute bottom-12 right-0 glass-surface-dark/90 glass-radius-lg p-2 glass-min-w-20">
-                {playbackSpeeds.map(speed => (
+                {playbackSpeeds.map((speed: any) => (
                   <button
                     key={speed}
                     onClick={() => {
@@ -222,7 +222,7 @@ const VideoControls: React.FC<ControlsProps> = ({
             
             {showQualityMenu && (
               <div className="absolute bottom-12 right-0 glass-surface-dark/90 glass-radius-lg p-2 glass-min-w-20">
-                {qualities.map(q => (
+                {qualities.map((q: any) => (
                   <button
                     key={q}
                     onClick={() => {
@@ -263,7 +263,7 @@ const ChapterList: React.FC<{
     <div className="glass-surface-subtle text-primary p-4 glass-radius-lg">
       <h3 className="text-lg font-semibold mb-4">Chapters</h3>
       <div className="space-y-2 max-h-96 overflow-y-auto">
-        {chapters.map(chapter => {
+        {chapters.map((chapter: any) => {
           const isActive = currentTime >= chapter.startTime && currentTime <= chapter.endTime;
           
           return (
@@ -312,7 +312,7 @@ const TranscriptPanel: React.FC<{
 
   useEffect(() => {
     if (searchQuery) {
-      const results = transcript.filter(entry =>
+      const results = transcript.filter((entry: any) =>
         entry.text.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setHighlightedResults(results);
@@ -363,7 +363,7 @@ const TranscriptPanel: React.FC<{
 
       {/* Transcript Entries */}
       <div className="flex-1 overflow-y-auto space-y-3">
-        {(searchQuery ? highlightedResults : transcript).map(entry => {
+        {(searchQuery ? highlightedResults : transcript).map((entry: any) => {
           const isActive = currentTime >= entry.startTime && currentTime <= entry.endTime;
           const confidence = entry.confidence || 0;
           
@@ -414,7 +414,7 @@ const TranscriptPanel: React.FC<{
               
               {entry.keywords && entry.keywords.length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-2">
-                  {entry.keywords.map(keyword => (
+                  {entry.keywords.map((keyword: any) => (
                     <span
                       key={keyword}
                       className="text-xs glass-surface-subtle text-gray-300 px-2 py-1 glass-radius"

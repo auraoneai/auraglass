@@ -158,7 +158,7 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
 
   // Start interaction
   const startInteraction = useCallback(() => {
-    setPhysicsState(prev => ({ ...prev, isInteracting: true }));
+    setPhysicsState((prev: any) => ({ ...prev, isInteracting: true }));
     onInteractionStart();
     
     if (shouldAnimate && !animationFrameRef.current) {
@@ -199,7 +199,7 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
     const deltaY = e.clientY - startPositionRef.current.y;
 
     if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
-      setPhysicsState(prev => ({
+      setPhysicsState((prev: any) => ({
         ...prev,
         position: { x: deltaX * 0.5, y: deltaY * 0.5 }, // Damped movement
       }));

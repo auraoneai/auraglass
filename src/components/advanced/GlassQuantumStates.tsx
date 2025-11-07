@@ -117,7 +117,7 @@ class QuantumStateVector {
     const totalProbability = this.amplitudes.reduce((sum, amp) => sum + amp.magnitude() ** 2, 0);
     const normalizationFactor = 1 / Math.sqrt(totalProbability);
     
-    this.amplitudes = this.amplitudes.map(amp => 
+    this.amplitudes = this.amplitudes.map((amp: any) => 
       new ComplexNumber(amp.real * normalizationFactor, amp.imaginary * normalizationFactor)
     );
   }
@@ -245,7 +245,7 @@ class QuantumUISystem {
     possibleStates: T[],
     initialProbabilities?: number[]
   ): QuantumStateVector {
-    const stateLabels = possibleStates.map(state => JSON.stringify(state));
+    const stateLabels = possibleStates.map((state: any) => JSON.stringify(state));
     const quantumState = new QuantumStateVector(stateLabels);
     
     if (initialProbabilities && initialProbabilities.length === possibleStates.length) {
@@ -266,7 +266,7 @@ class QuantumUISystem {
 
   private normalizeProbabilities(probabilities: number[]): number[] {
     const sum = probabilities.reduce((total, prob) => total + Math.abs(prob), 0);
-    return probabilities.map(prob => Math.abs(prob) / sum);
+    return probabilities.map((prob: any) => Math.abs(prob) / sum);
   }
 
   private createHamiltonianMatrix(stateId: string, dimension: number): void {
@@ -330,7 +330,7 @@ class QuantumUISystem {
   }
 
   private handleEntangledMeasurements(measuredStateId: string, measuredIndex: number): void {
-    this.entanglements.forEach(entanglement => {
+    this.entanglements.forEach((entanglement: any) => {
       if (entanglement.state1 === measuredStateId || entanglement.state2 === measuredStateId) {
         const otherStateId = entanglement.state1 === measuredStateId ? entanglement.state2 : entanglement.state1;
         const otherState = this.quantumStates.get(otherStateId);
@@ -413,7 +413,7 @@ class QuantumUISystem {
     const quantumState = this.quantumStates.get(stateId);
     if (!quantumState) return null;
 
-    return quantumState.getSuperposition().map(item => ({
+    return quantumState.getSuperposition().map((item: any) => ({
       state: JSON.parse(item.state),
       probability: item.probability,
       phase: item.amplitude.phase()

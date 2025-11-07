@@ -223,7 +223,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
       drawGrid(context);
 
       // Draw all strokes
-      strokes.forEach(stroke => drawStroke(context, stroke));
+      strokes.forEach((stroke: any) => drawStroke(context, stroke));
 
       // Draw current stroke
       if (currentStroke) {

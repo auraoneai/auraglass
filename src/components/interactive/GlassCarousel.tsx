@@ -226,7 +226,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
     // Enhanced slide change tracking (moved before navigation functions)
     const enhancedHandleSlideChange = useCallback((newIndex: number) => {
       // Track slide interaction
-      setSlideInteractionCounts(prev => ({
+      setSlideInteractionCounts((prev: any) => ({
         ...prev,
         [newIndex]: (prev[newIndex] || 0) + 1,
       }));

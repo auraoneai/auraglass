@@ -269,7 +269,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
       if (particle.life <= 0) return null;
 
       // Apply forces
-      forces.forEach(force => applyForce(particle, force, deltaTime));
+      forces.forEach((force: any) => applyForce(particle, force, deltaTime));
 
       // Apply mouse force
       if (interactive && mouseForce) {
@@ -355,7 +355,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
       setParticles(currentParticles => {
         // Update existing particles
         const updatedParticles = currentParticles
-          .map(particle => updateParticle(particle, deltaTime))
+          .map((particle: any) => updateParticle(particle, deltaTime))
           .filter((particle): particle is Particle => particle !== null);
 
         // Emit new particles
@@ -366,7 +366,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
         const allParticles = [...updatedParticles, ...newParticles];
 
         // Apply forces globally
-        forces.forEach(force => {
+        forces.forEach((force: any) => {
           if (force.enabled) {
             onForceApply?.(force, allParticles);
           }
@@ -503,7 +503,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
       }
 
       // Render particles
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         if (renderParticle) {
           // Custom rendering would be handled differently in React
         } else {
@@ -513,12 +513,12 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
 
       // Render debug info
       if (debug) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillStyle = 'rgba(var(--glass-color-white) / var(--glass-opacity-80))';
         ctx.font = '12px monospace';
         ctx.fillText(`Particles: ${particles.length}`, 10, 20);
         ctx.fillText(`FPS: ${frameRate}`, 10, 40);
-        ctx.fillText(`Emitters: ${emitters.filter(e => e.enabled).length}`, 10, 60);
-        ctx.fillText(`Forces: ${forces.filter(f => f.enabled).length}`, 10, 80);
+        ctx.fillText(`Emitters: ${emitters.filter((e: any) => e.enabled).length}`, 10, 60);
+        ctx.fillText(`Forces: ${forces.filter((f: any) => f.enabled).length}`, 10, 80);
       }
     }, [particles, bounds, effects, renderParticle, renderParticleToCanvas, debug, frameRate, emitters, forces]);
 
@@ -555,7 +555,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
           {/* React Particles (for custom rendering) */}
           {renderParticle && (
             <div className="absolute inset-0 pointer-events-none">
-              {particles.map(particle => (
+              {particles.map((particle: any) => (
                 <div
                   key={particle.id}
                   className="absolute pointer-events-auto cursor-pointer"

@@ -311,7 +311,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
                   'flex items-center justify-center',
                   // Frosted surface
                   'backdrop-blur-md2xl bg-white/55 border border-white/80',
-                  'shadow-[0_6px_18px_rgba(0,0,0,0.35),inset_0_1px_2px_rgba(255,255,255,0.35)] ring-1 ring-white/40',
+                  'shadow-[0_6px_18px_rgba(var(--glass-color-black) / var(--glass-opacity-35)),inset_0_1px_2px_var(--glass-bg-active)] ring-1 ring-white/40',
                   'hover:bg-white/65 active:bg-white/70',
                 )}
                 aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}

@@ -112,7 +112,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
     // Quantum time evolution
     useEffect(() => {
       const interval = setInterval(() => {
-        setQuantumTime(prev => prev + 0.1 * animationSpeed)
+        setQuantumTime((prev: any) => prev + 0.1 * animationSpeed)
       }, 16)
       return () => clearInterval(interval)
     }, [animationSpeed])
@@ -122,7 +122,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        setParticles(prev => prev.map(particle => {
+        setParticles((prev: any) => prev.map((particle: any) => {
           // Wave function evolution
           const newWaveFunction = waveFunction(
             particle.x / width * 4 * Math.PI,
@@ -225,7 +225,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
       }
 
       // Draw particles
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         const opacity = observerEffect && particle.lastObserved && 
                        (Date.now() - particle.lastObserved < 1000) ? 0.9 : 
                        particle.probability * 0.7 + 0.1
@@ -317,7 +317,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
       let nearestParticle: ProbabilityPoint | null = null
       let minDistance = Infinity
 
-      particles.forEach(particle => {
+      particles.forEach((particle: any) => {
         const distance = Math.sqrt(
           Math.pow(particle.x - clickX, 2) + 
           Math.pow(particle.y - clickY, 2)
@@ -336,11 +336,11 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
           uncertainty: (nearestParticle as ProbabilityPoint).uncertainty
         }
 
-        setMeasurements(prev => [...prev.slice(-9), measurement])
+        setMeasurements((prev: any) => [...prev.slice(-9), measurement])
         onMeasurement?.(nearestParticle)
 
         // Update particle due to measurement
-        setParticles(prev => prev.map(p => 
+        setParticles((prev: any) => prev.map((p: any) => 
           p.id === nearestParticle!.id ? {
             ...p,
             observationCount: p.observationCount + 1,
@@ -416,7 +416,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
             
             {/* Measurement indicator */}
             <AnimatePresence>
-              {measurements.map(measurement => (
+              {measurements.map((measurement: any) => (
                 <motion.div
                   key={measurement.timestamp}
                   className="absolute pointer-events-none"
@@ -485,7 +485,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
               <div className="space-y-1">
                 <span className={cn("glass-text-secondary glass-text-sm")}>Recent Measurements:</span>
                 <div className="flex flex-wrap gap-1">
-                  {measurements.slice(-5).map(measurement => (
+                  {measurements.slice(-5).map((measurement: any) => (
                     <div
                       key={measurement.timestamp}
                       className={cn("glass-px-2 glass-py-1 glass-text-xs glass-surface-muted glass-radius glass-border-subtle")}

@@ -33,15 +33,15 @@ export const ChartContainer = styled.div<{
       case 'clear':
         return 'transparent';
       case 'frosted':
-        return 'rgba(255, 255, 255, 0.1)';
+        return 'var(--glass-bg-default)';
       case 'dynamic':
-        return 'rgba(255, 255, 255, 0.15)';
+        return 'var(--glass-bg-disabled)';
       case 'tinted':
         return 'rgba(255, 255, 255, 0.08)';
       case 'luminous':
-        return 'rgba(255, 255, 255, 0.2)';
+        return 'rgba(var(--glass-color-white) / var(--glass-opacity-20))';
       default:
-        return 'rgba(255, 255, 255, 0.1)';
+        return 'var(--glass-bg-default)';
     }
   }};
   backdrop-filter: ${props => {
@@ -50,31 +50,31 @@ export const ChartContainer = styled.div<{
       case 'none':
         return 'none';
       case 'light':
-        return 'blur(4px)';
+        return 'blur(var(--glass-blur-sm))';
       case 'standard':
-        return 'blur(8px)';
+        return 'blur(var(--glass-blur-md))';
       case 'heavy':
-        return 'blur(16px)';
+        return 'blur(var(--glass-blur-lg))';
       default:
-        return 'blur(8px)';
+        return 'blur(var(--glass-blur-md))';
     }
   }};
-  border: 1px solid ${props => props.$borderColor || 'rgba(255, 255, 255, 0.2)'};
+  border: 1px solid ${props => props.$borderColor || 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'};
   box-shadow: ${props => {
     const elevation = props.$elevation || 3;
     switch (elevation) {
       case 0:
         return 'none';
       case 1:
-        return '0 2px 8px rgba(0, 0, 0, 0.1)';
+        return '0 2px 8px rgba(var(--glass-color-black) / var(--glass-opacity-10))';
       case 2:
-        return '0 4px 16px rgba(0, 0, 0, 0.12)';
+        return '0 4px 16px rgba(var(--glass-color-black) / var(--glass-opacity-10))';
       case 3:
-        return '0 8px 32px rgba(0, 0, 0, 0.15)';
+        return '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-15))';
       case 4:
         return '0 16px 48px rgba(0, 0, 0, 0.18)';
       default:
-        return '0 8px 32px rgba(0, 0, 0, 0.15)';
+        return '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-15))';
     }
   }};
   overflow: hidden;
@@ -99,7 +99,7 @@ export const ChartTitle = styled.h3`
 export const ChartSubtitle = styled.p`
   margin: 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-70));
   line-height: 1.4;
 `;
 
@@ -115,15 +115,15 @@ export const createChartContainerStyles = (
       padding: '16px',
       borderRadius: '12px',
       background: theme === 'glass'
-        ? 'rgba(255, 255, 255, 0.1)'
+        ? 'var(--glass-bg-default)'
         : theme === 'dark'
           ? '#1a1a1a'
           : '#ffffff',
       // Use createGlassStyle() instead,
-      border: theme === 'glass' ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid #e0e0e0',
+      border: theme === 'glass' ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))' : '1px solid #e0e0e0',
       boxShadow: theme === 'glass'
-        ? '0 8px 32px rgba(0, 0, 0, 0.1)'
-        : '0 2px 8px rgba(0, 0, 0, 0.1)',
+        ? '0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10))'
+        : '0 2px 8px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
       overflow: 'hidden',
     },
     title: {
@@ -162,8 +162,8 @@ export const createChartContainerStyles = (
       borderRadius: '8px',
       padding: '8px 12px',
       fontSize: '12px',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-      border: theme === 'glass' ? '1px solid rgba(255, 255, 255, 0.2)' : 'none',
+      boxShadow: '0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15))',
+      border: theme === 'glass' ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))' : 'none',
     },
   };
 

@@ -29,8 +29,8 @@ export class ChartDataUtils {
     if (data.length === 0) return data;
 
     const numericValues = data
-      .map(p => typeof p.y === 'number' ? p.y : 0)
-      .filter(v => !isNaN(v));
+      .map((p: any) => typeof p.y === 'number' ? p.y : 0)
+      .filter((v: any) => !isNaN(v));
 
     if (numericValues.length === 0) return data;
 
@@ -39,13 +39,13 @@ export class ChartDataUtils {
     const range = dataMax - dataMin;
 
     if (range === 0) {
-      return data.map(p => ({
+      return data.map((p: any) => ({
         ...p,
         y: typeof p.y === 'number' ? min : p.y,
       }));
     }
 
-    return data.map(point => {
+    return data.map((point: any) => {
       if (typeof point.y !== 'number') return point;
 
       const normalized = min + ((point.y - dataMin) / range) * (max - min);
@@ -96,15 +96,15 @@ export class ChartDataUtils {
     data: ChartDataPoint[],
     threshold: number = 2
   ): ChartDataPoint[] {
-    const numericData = data.filter(p => typeof p.y === 'number');
+    const numericData = data.filter((p: any) => typeof p.y === 'number');
     if (numericData.length < 4) return data;
 
-    const values = numericData.map(p => p.y as number);
+    const values = numericData.map((p: any) => p.y as number);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
     const stdDev = Math.sqrt(variance);
 
-    return data.filter(point => {
+    return data.filter((point: any) => {
       if (typeof point.y !== 'number') return true;
       return Math.abs(point.y - mean) <= threshold * stdDev;
     });
@@ -125,8 +125,8 @@ export class ChartDataUtils {
     for (let i = 0; i < data.length; i += windowSize) {
       const window = data.slice(i, i + windowSize);
       const numericValues = window
-        .map(p => typeof p.y === 'number' ? p.y : 0)
-        .filter(v => !isNaN(v));
+        .map((p: any) => typeof p.y === 'number' ? p.y : 0)
+        .filter((v: any) => !isNaN(v));
 
       if (numericValues.length === 0) continue;
 
@@ -339,8 +339,8 @@ export class ChartDataUtils {
     quartiles: [number, number, number];
   } {
     const numericValues = data
-      .map(p => typeof p.y === 'number' ? p.y : 0)
-      .filter(v => !isNaN(v))
+      .map((p: any) => typeof p.y === 'number' ? p.y : 0)
+      .filter((v: any) => !isNaN(v))
       .sort((a, b) => a - b);
 
     if (numericValues.length === 0) {
@@ -382,13 +382,13 @@ export class ChartDataUtils {
 
     // Calculate mode (most frequent values)
     const frequency: { [key: number]: number } = {};
-    numericValues.forEach(val => {
+    numericValues.forEach((val: any) => {
       frequency[val] = (frequency[val] || 0) + 1;
     });
 
     const maxFrequency = Math.max(...Object.values(frequency));
     const mode = Object.keys(frequency)
-      .filter(key => frequency[Number(key)] === maxFrequency)
+      .filter((key: any) => frequency[Number(key)] === maxFrequency)
       .map(Number);
 
     return {
@@ -408,18 +408,18 @@ export class ChartDataUtils {
    * Detect trends in data
    */
   static detectTrend(data: ChartDataPoint[]): 'increasing' | 'decreasing' | 'stable' | 'volatile' {
-    const numericData = data.filter(p => typeof p.y === 'number');
+    const numericData = data.filter((p: any) => typeof p.y === 'number');
     if (numericData.length < 3) return 'stable';
 
-    const values = numericData.map(p => p.y as number);
+    const values = numericData.map((p: any) => p.y as number);
     const diffs: number[] = [];
 
     for (let i = 1; i < values.length; i++) {
       diffs.push(values[i] - values[i - 1]);
     }
 
-    const positiveDiffs = diffs.filter(d => d > 0).length;
-    const negativeDiffs = diffs.filter(d => d < 0).length;
+    const positiveDiffs = diffs.filter((d: any) => d > 0).length;
+    const negativeDiffs = diffs.filter((d: any) => d < 0).length;
     const totalDiffs = diffs.length;
 
     const positiveRatio = positiveDiffs / totalDiffs;

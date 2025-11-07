@@ -30,9 +30,9 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
     height: '100%',
     padding: '16px',
     borderRadius: typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius,
-    background: glassVariant === 'clear' ? 'transparent' : '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}',
+    background: glassVariant === 'clear' ? 'transparent' : '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
     // Use createGlassStyle() instead,
-    border: `1px solid ${borderColor || '${glassStyles.borderColor || "rgba(255, 255, 255, 0.2)"}'}`,
+    border: `1px solid ${borderColor || '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'}`,
     boxShadow: (() => {
       const elevationMap: Record<string, number> = {
         'level1': 1,

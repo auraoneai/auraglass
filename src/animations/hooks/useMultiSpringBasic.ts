@@ -53,7 +53,7 @@ export function useMultiSpring(
   // Initialize state for each key
   useEffect(() => {
     const newState: SpringState = {};
-    Object.keys(initialValues).forEach(key => {
+    Object.keys(initialValues).forEach((key: any) => {
       newState[key] = {
         position: initialValues[key],
         velocity: config.velocity,
@@ -76,7 +76,7 @@ export function useMultiSpring(
     const newValues: Record<string, number> = {};
 
     // Update each spring
-    Object.keys(stateRef.current).forEach(key => {
+    Object.keys(stateRef.current).forEach((key: any) => {
       const spring = stateRef.current[key];
       const target = targetsRef.current[key];
 
@@ -132,7 +132,7 @@ export function useMultiSpring(
     targetsRef.current = { ...targetsRef.current, ...targets };
 
     // Start animations for changed targets
-    Object.keys(targets).forEach(key => {
+    Object.keys(targets).forEach((key: any) => {
       if (stateRef.current[key]) {
         stateRef.current[key].isAnimating = true;
       }
@@ -151,7 +151,7 @@ export function useMultiSpring(
     const newValues = { ...values };
     const newState: SpringState = {};
 
-    Object.keys(values).forEach(key => {
+    Object.keys(values).forEach((key: any) => {
       newState[key] = {
         position: values[key],
         velocity: 0,
@@ -161,7 +161,7 @@ export function useMultiSpring(
 
     stateRef.current = { ...stateRef.current, ...newState };
     targetsRef.current = { ...targetsRef.current, ...values };
-    setValues(prev => ({ ...prev, ...newValues }));
+    setValues((prev: any) => ({ ...prev, ...newValues }));
   }, []);
 
   const stop = useCallback(() => {
@@ -171,7 +171,7 @@ export function useMultiSpring(
     }
 
     // Stop all animations
-    Object.keys(stateRef.current).forEach(key => {
+    Object.keys(stateRef.current).forEach((key: any) => {
       stateRef.current[key].isAnimating = false;
     });
 
@@ -184,7 +184,7 @@ export function useMultiSpring(
     targetsRef.current = { ...initialValues };
 
     const resetState: SpringState = {};
-    Object.keys(initialValues).forEach(key => {
+    Object.keys(initialValues).forEach((key: any) => {
       resetState[key] = {
         position: initialValues[key],
         velocity: 0,
@@ -302,7 +302,7 @@ export function useSpringArray(
 
   const array = Object.keys(spring.values)
     .sort()
-    .map(key => spring.values[key]);
+    .map((key: any) => spring.values[key]);
 
   return {
     ...spring,

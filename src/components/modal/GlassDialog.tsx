@@ -220,7 +220,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
     useEffect(() => {
         if (open) {
             const openTime = Date.now();
-            setInteractionCount(prev => prev + 1);
+            setInteractionCount((prev: any) => prev + 1);
 
             // Record dialog opening
             if (consciousness && interactionRecorder) {
@@ -251,7 +251,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
 
             // Start tracking time
             const timeTracker = setInterval(() => {
-                setDialogEngagement(prev => ({
+                setDialogEngagement((prev: any) => ({
                     ...prev,
                     timeSpent: Date.now() - openTime
                 }));
@@ -620,7 +620,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                 data-consciousness-body="true"
                 data-content-complexity={dialogInsights?.complexity}
                 onScroll={(e) => {
-                  setDialogEngagement(prev => ({
+                  setDialogEngagement((prev: any) => ({
                     ...prev,
                     contentScrolled: true,
                     interactionCount: prev.interactionCount + 1
@@ -634,7 +634,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                   }
                 }}
                 onClick={(e) => {
-                  setDialogEngagement(prev => ({
+                  setDialogEngagement((prev: any) => ({
                     ...prev,
                     interactionCount: prev.interactionCount + 1
                   }));
@@ -810,7 +810,7 @@ export const useDialog = (defaultOpen = false) => {
 
   const openDialog = () => setOpen(true);
   const closeDialog = () => setOpen(false);
-  const toggleDialog = () => setOpen(prev => !prev);
+  const toggleDialog = () => setOpen((prev: any) => !prev);
 
   return {
     open,

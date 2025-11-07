@@ -29,7 +29,7 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
     background: glassEffect ? '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.05)"}' : 'transparent',
     // Use createGlassStyle() instead,
     borderRadius: glassEffect ? '8px' : '0',
-    border: glassEffect ? '1px solid ${glassStyles.surface?.base || "rgba(255, 255, 255, 0.1)"}' : 'none',
+    border: glassEffect ? '1px solid ${glassStyles.surface?.base || "var(--glass-bg-default)"}' : 'none',
     marginBottom: position === 'top' ? '16px' : '0',
     marginTop: position === 'bottom' ? '16px' : '0',
     marginRight: position === 'left' ? '16px' : '0',
@@ -63,13 +63,13 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
               height: style === 'compact' ? '8px' : '12px',
               borderRadius: '2px',
               background: dataset.backgroundColor || dataset.borderColor || '#3b82f6',
-              border: '1px solid ${glassStyles.borderColor || "rgba(255, 255, 255, 0.2)"}',
+              border: '1px solid ${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}',
             }}
           />
           <span
             style={{
               fontSize: style === 'compact' ? '11px' : '12px',
-              color: glassEffect ? 'rgba(255, 255, 255, 0.8)' : 'inherit',
+              color: glassEffect ? 'rgba(var(--glass-color-white) / var(--glass-opacity-80))' : 'inherit',
               fontWeight: 'var(--typography-subheading-weight)',
               whiteSpace: 'nowrap',
             }}
