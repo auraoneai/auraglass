@@ -605,7 +605,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                                 <GlassButton
                                                     variant="ghost"
                                                     size="sm"
-                                                    className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 w-6 h-6 p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20"
+                                                    className="absolute glass-top-2 right-2 w-6 h-6 p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         // Simple action - could be expanded to show a menu

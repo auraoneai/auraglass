@@ -692,7 +692,6 @@ const AutoComposerContext = createContext<{
 export function GlassAutoComposerProvider({
   children,
   config = {
-  const prefersReducedMotion = useReducedMotion();
     model: 'claude',
     temperature: 0.7,
     maxTokens: 2000,
@@ -704,6 +703,7 @@ export function GlassAutoComposerProvider({
   children: React.ReactNode;
   config?: Partial<ComposerConfig>;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const generatorRef = useRef<AILayoutGenerator>();
   const optimizerRef = useRef<LayoutOptimizer>();
   const [currentLayouts, setCurrentLayouts] = useState<GeneratedLayout[]>([]);

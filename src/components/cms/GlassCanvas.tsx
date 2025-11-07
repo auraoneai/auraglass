@@ -354,7 +354,7 @@ const ComponentRenderer: React.FC<{
       {/* Selection Overlay */}
       {isSelected && (
         <div className="absolute inset-0 pointer-events-none border-2 glass-radius glass-surface-overlay">
-          <div className="absolute glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-0 glass-surface-overlay text-primary px-2 py-1 text-xs glass-radius-t font-medium">
+          <div className="absolute glass-top-2 left-0 glass-surface-overlay text-primary px-2 py-1 text-xs glass-radius-t font-medium">
             {component.type}
           </div>
         </div>

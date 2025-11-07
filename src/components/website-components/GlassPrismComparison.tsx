@@ -336,7 +336,7 @@ export function GlassPrismComparison() {
               
               {/* Rainbow spectrum effect */}
               <motion.div
-                className="absolute glass--glass--glass--glass--glassglass--glass-top-1/2 -right-20 w-32 h-1 glass-gradient-primary glass-gradient-primary via-yellow-400 via-green-400 via-blue-400 glass-gradient-primary"
+                className="absolute glass-top-1/2 -right-20 w-32 h-1 glass-gradient-primary glass-gradient-primary via-yellow-400 via-green-400 via-blue-400 glass-gradient-primary"
                 style={{
                   transform: "translateY(-50%) rotate(-15deg)",
                 }}

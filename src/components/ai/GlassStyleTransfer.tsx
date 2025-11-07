@@ -287,7 +287,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 {style.description}
               </div>
               
-              <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
+              <div className="absolute glass-top-2 right-2">
                 <div className={`
                   px-1.5 py-0.5 rounded text-xs font-medium
                   ${style.category === 'artistic' ? 'bg-red-500/20 text-red-300' :

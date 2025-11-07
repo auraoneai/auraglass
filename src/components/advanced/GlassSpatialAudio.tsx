@@ -467,11 +467,11 @@ export function GlassSpatialAudioProvider({
   settings,
   autoInitialize = true,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   settings?: Partial<SpatialAudioSettings>;
   autoInitialize?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<SpatialAudioEngine>();
   const [isInitialized, setIsInitialized] = useState(false);
   const [masterVolume, setMasterVolumeState] = useState(0.7);
@@ -695,7 +695,7 @@ export function GlassSpatialVisualizer({
 
         {/* Center point (listener) */}
         <div className="glass-absolute glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-top-1-2 glass-left-1-2 glass-translate-x-1/2-neg glass-translate-y-1/2-neg">
-          <div className="absolute w-4 h-4 border border-green glass-radius-full -glass--glass--glass--glass--glassglass--glass-top-1 -left-1 animate-pulse" />
+          <div className="absolute w-4 h-4 border border-green glass-radius-full glass-top-1 -left-1 animate-pulse" />
         </div>
 
         {/* Audio sources */}

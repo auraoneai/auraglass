@@ -561,7 +561,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
                         {showArrows && needsNavigation && (
                             <>
                                 {/* Previous Arrow */}
-                                <div className="absolute left-4 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 z-10">
+                                <div className="absolute left-4 glass-top-1/2 transform -translate-y-1/2 z-10">
                                     {customPrevArrow ? (
                                         <div onClick={goToPrev}>{customPrevArrow}</div>
                                     ) : (
@@ -579,7 +579,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
                                 </div>
 
                                 {/* Next Arrow */}
-                                <div className="absolute right-4 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 z-10">
+                                <div className="absolute right-4 glass-top-1/2 transform -translate-y-1/2 z-10">
                                     {customNextArrow ? (
                                         <div onClick={goToNext}>{customNextArrow}</div>
                                     ) : (

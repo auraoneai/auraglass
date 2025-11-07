@@ -292,7 +292,7 @@ export function GlassFoldableSupport({
       
       {/* Fold state indicator */}
       {foldableInfo.isFoldable && (
-        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 glass-surface-primary p-1 glass-radius-sm text-xs opacity-50">
+        <div className="absolute glass-top-2 right-2 glass-surface-primary p-1 glass-radius-sm text-xs opacity-50">
           <div className="flex items-center gap-1">
             <div 
               className={cn(

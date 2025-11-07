@@ -579,7 +579,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
                     {/* Reset Controls */}
                     {(zoom !== 1 || rotation !== 0 || pan.x !== 0 || pan.y !== 0) && (
-                        <div className="absolute glass--glass--glass--glass--glassglass--glass-top-1/2 left-4 transform -translate-y-1/2">
+                        <div className="absolute glass-top-1/2 left-4 transform -translate-y-1/2">
                             <GlassButton
                                 variant="secondary"
                                 size="sm"

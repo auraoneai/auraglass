@@ -496,11 +496,11 @@ export function GlassQuantumStatesProvider({
   onMeasurement,
   onStateChange,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onMeasurement?: (measurement: QuantumMeasurement) => void;
   onStateChange?: (stateId: string, superposition: any[]) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<QuantumUISystem>();
 
   // Initialize system

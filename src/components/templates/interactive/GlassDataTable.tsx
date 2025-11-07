@@ -189,7 +189,7 @@ export function GlassDataTable<T extends Record<string, any>>({
               }}
               className="w-full px-4 py-2 glass-pl-10 bg-background border border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
             />
-            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+            <div className="absolute left-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary">
               🔍
             </div>
           </div>

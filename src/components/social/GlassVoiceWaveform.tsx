@@ -405,7 +405,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
             {/* Speaking indicator */}
             {participant.isSpeaking && (
               <motion.div
-                className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-4 h-4 glass-surface-green glass-radius-full"
+                className="absolute glass-top-1 -right-1 w-4 h-4 glass-surface-green glass-radius-full"
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
                 transition={shouldAnimate ? {
                   duration: 0.8,

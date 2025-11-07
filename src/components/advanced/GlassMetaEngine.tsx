@@ -680,11 +680,11 @@ export function GlassMetaEngineProvider({
   onEvolution,
   onOptimization,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onEvolution?: (evolution: SystemEvolution) => void;
   onOptimization?: (optimization: SystemOptimization) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<GlassMetaEngineCore>();
   const [optimizations, setOptimizations] = useState<SystemOptimization[]>([]);
   const [evolutions, setEvolutions] = useState<SystemEvolution[]>([]);
@@ -808,7 +808,7 @@ export function GlassMetaDashboard({
           🧬
           {optimizations.length > 0 && (
             <motion.div
-              className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 w-4 h-4 glass-surface-green glass-radius-full text-xs text-primary flex items-center justify-center"
+              className="absolute -glass-top-2 -right-2 w-4 h-4 glass-surface-green glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
               animate={prefersReducedMotion ? {} : { scale: 1 }}
               transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}

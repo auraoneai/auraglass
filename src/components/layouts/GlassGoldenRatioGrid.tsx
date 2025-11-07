@@ -392,14 +392,14 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
 
                   {/* Section info overlay */}
                   {(showGrid || isHovered) && (
-                    <div className="absolute glass--glass--glass--glass--glassglass--glass-top-1 left-1 glass-surface-dark/50 text-primary text-xs px-1 py-0.5 glass-radius backdrop-blur-sm">
+                    <div className="absolute glass-top-1 left-1 glass-surface-dark/50 text-primary text-xs px-1 py-0.5 glass-radius backdrop-blur-sm">
                       {section.ratio.toFixed(2)}
                     </div>
                   )}
 
                   {/* Golden ratio indicator */}
                   {Math.abs(section.ratio - goldenRatio) < 0.1 && (
-                    <div className="absolute glass--glass--glass--glass--glassglass--glass-top-1 right-1 w-2 h-2 glass-surface-yellow glass-radius-full opacity-70" />
+                    <div className="absolute glass-top-1 right-1 w-2 h-2 glass-surface-yellow glass-radius-full opacity-70" />
                   )}
                 </motion.div>
               )

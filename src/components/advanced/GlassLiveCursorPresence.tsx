@@ -345,7 +345,7 @@ export function GlassLiveCursorPresence({
       </AnimatePresence>
       
       {/* Connection status indicator */}
-      <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 flex items-center gap-2">
+      <div className="absolute glass-top-2 left-2 flex items-center gap-2">
         <div
           className={cn(
             "w-2 h-2 glass-radius-full transition-colors",
@@ -450,9 +450,9 @@ function LiveCursorComponent({
           {/* Typing indicator */}
           {cursor.isTyping && (
             <motion.div
-              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
+              className="absolute glass--top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
               animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
-              transition={{ duration: prefersReducedMotion ? 0 :  repeat: Infinity, duration: 1  }}
+              transition={prefersReducedMotion ? { duration: 0 } : { repeat: Infinity, duration: 1 }}
             />
           )}
         </div>

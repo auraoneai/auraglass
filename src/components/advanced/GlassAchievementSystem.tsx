@@ -610,10 +610,10 @@ export function GlassAchievementProvider({
   children,
   userId,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   userId?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<GlassAchievementEngine>();
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [notifications, setNotifications] = useState<AchievementNotification[]>([]);

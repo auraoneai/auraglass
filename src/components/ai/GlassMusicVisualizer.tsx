@@ -640,7 +640,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
           />
           
           {/* Beat intensity indicator */}
-          <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2">
+          <div className="absolute glass-top-2 right-2">
             <div 
               className="w-4 h-4 glass-radius-full glass-surface-red"
               style={{ 

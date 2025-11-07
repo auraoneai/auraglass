@@ -823,12 +823,12 @@ export function GlassSelfHealingProvider({
   onHealingCompleted,
   diagnosticInterval = 5000,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onHealingStarted?: (componentId: string, issues: ComponentIssue[]) => void;
   onHealingCompleted?: (componentId: string, success: boolean) => void;
   diagnosticInterval?: number;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<SelfHealingSystem>();
   const [systemHealth, setSystemHealth] = useState<ComponentHealthCheck[]>([]);
 
@@ -973,7 +973,7 @@ export function GlassSelfHealingWrapper({
       {/* Health indicator (development mode only) */}
       {process.env.NODE_ENV === 'development' && monitoringEnabled && health && (
         <motion.div
-          className="absolute glass--glass--glass--glass--glassglass--glass-top-1 right-1 w-3 h-3 glass-radius-full border-2 border-white/20"
+          className="absolute glass-top-1 right-1 w-3 h-3 glass-radius-full border-2 border-white/20"
           style={{ backgroundColor: statusColor }}
           initial={{ scale: 0 }}
           animate={prefersReducedMotion ? {} : { scale: 1 }}
@@ -1026,7 +1026,7 @@ export function GlassSelfHealingDashboard({
         🏥
         {(criticalCount + warningCount + healingCount) > 0 && (
           <motion.div
-            className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-red glass-radius-full text-xs text-primary flex items-center justify-center"
+            className="absolute glass-top-1 -right-1 w-3 h-3 glass-surface-red glass-radius-full text-xs text-primary flex items-center justify-center"
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
           >

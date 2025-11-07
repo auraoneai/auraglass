@@ -232,7 +232,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
             {layer.content}
             
             {debug && (
-              <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 left-2 glass-surface-dark/20 backdrop-blur-sm p-2 glass-radius-sm text-xs text-primary/90">
+              <div className="absolute glass-top-2 left-2 glass-surface-dark/20 backdrop-blur-sm p-2 glass-radius-sm text-xs text-primary/90">
                 Layer {index + 1} | Depth: {layer.depth}
               </div>
             )}

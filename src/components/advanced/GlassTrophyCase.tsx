@@ -442,7 +442,7 @@ export function GlassTrophyCase({
       >
         {/* Tier badge */}
         <div
-          className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 px-2 py-1 glass-radius-full text-xs font-bold border"
+          className="absolute -glass-top-2 -right-2 px-2 py-1 glass-radius-full text-xs font-bold border"
           style={{
             backgroundColor: `${tierColor.primary}20`,
             borderColor: `${tierColor.primary}40`,
@@ -592,7 +592,7 @@ export function GlassTrophyCase({
       <div className="flex flex-wrap gap-4 mb-6">
         {/* Search */}
         <div className="relative flex-1 min-w-64">
-          <Search className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/60" />
+          <Search className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/60" />
           <input
             type="text"
             value={searchQuery}

@@ -446,7 +446,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
                   
                   {measuredStates.has(state.id) && (
                     <motion.div
-                      className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
+                      className="absolute glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
                       initial={{ scale: 0 }}
                       animate={prefersReducedMotion ? {} : { scale: 1 }}
                       transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}

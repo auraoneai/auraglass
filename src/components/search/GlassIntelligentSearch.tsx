@@ -515,7 +515,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
               aria-label="Search input"
             />
             
-            <div className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2">
+            <div className="absolute left-3 glass-top-1/2 transform -translate-y-1/2">
               {isSearching ? (
                 <div className="animate-spin w-5 h-5 border-2 border-blue border-t-transparent glass-radius-full" />
               ) : (

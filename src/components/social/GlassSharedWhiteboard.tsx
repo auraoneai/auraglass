@@ -532,7 +532,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
               {!readOnly && (
                 <button
                   onClick={() => setGridVisible(!gridVisible)}
-                  className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 p-2 text-primary/60 hover:text-primary"
+                  className="absolute glass-top-2 right-2 p-2 text-primary/60 hover:text-primary"
                   title="Toggle Grid"
                 >
                   #

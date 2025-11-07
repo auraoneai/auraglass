@@ -352,11 +352,11 @@ export function GlassEyeTrackingProvider({
   autoInitialize = false,
   onGazeInteraction,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   autoInitialize?: boolean;
   onGazeInteraction?: (interaction: GazeInteraction) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<EyeTrackingEngine>();
   const [isInitialized, setIsInitialized] = useState(false);
   const [isCalibrating, setIsCalibrating] = useState(false);

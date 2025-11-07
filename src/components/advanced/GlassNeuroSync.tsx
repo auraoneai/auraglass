@@ -720,12 +720,12 @@ export function GlassNeuroSyncProvider({
   onAdaptationChange,
   autoConnect = false,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onMetricsUpdate?: (metrics: NeuroMetrics) => void;
   onAdaptationChange?: (adaptation: NeuroAdaptation | null) => void;
   autoConnect?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<NeuroSyncSystem>();
   const [metrics, setMetrics] = useState<NeuroMetrics>({} as NeuroMetrics);
   const [adaptation, setAdaptation] = useState<NeuroAdaptation | null>(null);

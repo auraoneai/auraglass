@@ -219,11 +219,11 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {entityColors && !isLoading && (
           <motion.div
-            className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 z-10"
+            className="absolute glass-top-2 glass-right-2 z-10"
             initial={{ opacity: 0, scale: 0, y: -10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0, y: -10 }}
-            transition={{ duration: prefersReducedMotion ? 0 :  delay: 0.2, duration: 0.3  }}
+            transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.2, duration: 0.3 }}
           >
             <div
               className={cn("glass-flex glass-items-center glass-space-x-1 glass-px-2 glass-py-1 glass-radius-full glass-text-xs glass-font-medium glass-text-primary")}
@@ -251,7 +251,7 @@ export default function BrandColorIntegration({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1.02 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: animationDuration / 1000, ease: 'easeOut'  }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: animationDuration / 1000, ease: 'easeOut' }}
           />
         )}
       </AnimatePresence>

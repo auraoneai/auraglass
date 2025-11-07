@@ -320,7 +320,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                             >
                                 <Filter className="w-4 h-4" />
                                 {activeFilterCount > 0 && (
-                                    <span className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-5 h-5 glass-surface-primary text-primary text-xs glass-radius-full flex items-center justify-center">
+                                    <span className="absolute glass-top-1 -right-1 w-5 h-5 glass-surface-primary text-primary text-xs glass-radius-full flex items-center justify-center">
                                         {activeFilterCount}
                                     </span>
                                 )}
@@ -333,7 +333,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                     {/* Search Input */}
                     <div className="relative">
                         <div className="relative">
-                            <Search className="absolute left-3 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 text-primary/60 w-4 h-4" />
+                            <Search className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 text-primary/60 w-4 h-4" />
                             <input
                                 ref={inputRef}
                                 type="text"
@@ -350,7 +350,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                         setQuery('');
                                         setShowSuggestions(false);
                                     }}
-                                    className="absolute right-2 glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 p-1"
+                                    className="absolute right-2 glass-top-1/2 transform -translate-y-1/2 p-1"
                                 >
                                     <X className="w-4 h-4" />
                                 </GlassButton>

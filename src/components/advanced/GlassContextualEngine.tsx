@@ -1081,11 +1081,11 @@ export function GlassContextualEngineProvider({
   onContextUpdate,
   onAdaptationChange,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onContextUpdate?: (context: ContextualState) => void;
   onAdaptationChange?: (adaptation: ContextualAdaptation | null) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<GlassContextualEngineCore>();
   const [context, setContext] = useState<ContextualState>({} as ContextualState);
   const [adaptations, setAdaptations] = useState<ContextualAdaptation[]>([]);
@@ -1168,7 +1168,7 @@ export function GlassContextualDashboard({
         🌐
         {adaptations.length > 0 && (
           <motion.div
-            className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
+            className="absolute glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
           />

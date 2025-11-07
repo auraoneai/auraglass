@@ -220,7 +220,7 @@ export function HoudiniGlassCard({
 
       {/* Status indicators */}
       {showControls && (
-        <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 flex gap-1">
+        <div className="absolute glass-top-2 right-2 flex gap-1">
           {appliedEffects.map((effect: any) => (
             <div
               key={effect}

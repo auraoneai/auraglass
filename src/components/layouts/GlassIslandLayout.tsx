@@ -630,7 +630,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
                 {!island.minimized && island.content}
                 
                 {/* Island controls */}
-                <div className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 flex space-x-1 opacity-0 hover:opacity-100 transition-opacity">
+                <div className="absolute glass-top-2 right-2 flex space-x-1 opacity-0 hover:opacity-100 transition-opacity">
                   {island.category && (
                     <span className="px-2 py-1 glass-surface-dark/30 text-primary/70 glass-radius text-xs">
                       {island.category}

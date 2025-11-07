@@ -665,11 +665,11 @@ export function GlassPredictiveEngineProvider({
   onPrediction,
   onInsight,
 }: {
-  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onPrediction?: (prediction: PredictiveAction) => void;
   onInsight?: (insight: PredictiveInsight) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<PredictiveUIEngine>();
   const [predictions, setPredictions] = useState<PredictiveAction[]>([]);
   const [insights, setInsights] = useState<PredictiveInsight[]>([]);
@@ -784,7 +784,7 @@ export function GlassPredictionIndicator({
           🧠
           {predictions.length > 0 && (
             <motion.div
-              className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-blue glass-radius-full text-xs text-primary flex items-center justify-center"
+              className="absolute glass-top-1 -right-1 w-3 h-3 glass-surface-blue glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
               animate={prefersReducedMotion ? {} : { scale: 1 }}
               transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}

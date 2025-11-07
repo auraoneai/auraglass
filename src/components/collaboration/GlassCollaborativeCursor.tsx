@@ -28,7 +28,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({ color, name }) 
     
     {/* User name label */}
     <div
-      className="absolute left-6 glass--glass--glass--glass--glassglass--glass-top-1 px-2 py-1 glass-radius text-primary text-xs font-medium whitespace-nowrap pointer-events-none select-none"
+      className="absolute left-6 glass-top-1 px-2 py-1 glass-radius text-primary text-xs font-medium whitespace-nowrap pointer-events-none select-none"
       style={{ backgroundColor: color }}
     >
       {name}

@@ -188,7 +188,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                         className="w-full pr-12"
                         leftIcon={<Search className="w-4 h-4" />}
                     />
-                    <div className="absolute right-3 glass--glass--glass--glass--glassglass--glass-top-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <div className="absolute right-3 glass-top-1/2 -translate-y-1/2 flex items-center gap-2">
                         {loading && (
                             <div className="w-4 h-4 border-2 border-white/30 border-t-white glass-radius-full animate-spin" />
                         )}

@@ -122,7 +122,7 @@ const VideoControls: React.FC<ControlsProps> = ({
         
         {/* Progress Handle */}
         <div
-          className="absolute glass--glass--glass--glass--glassglass--glass-top-1/2 transform -translate-y-1/2 w-4 h-4 glass-surface-blue glass-radius-full border-2 border-white shadow-md"
+          className="absolute glass-top-1/2 transform -translate-y-1/2 w-4 h-4 glass-surface-blue glass-radius-full border-2 border-white shadow-md"
           style={{ left: `calc(${(currentTime / duration) * 100}% - 8px)` }}
         />
       </div>
