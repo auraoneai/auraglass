@@ -127,20 +127,33 @@ import { ContrastGuard } from '@/components/accessibility/ContrastGuard';
 
 ---
 
-## ♿ WEEK 3: ACCESSIBILITY & ARIA (Days 11-15)
+## ♿ WEEK 3: ACCESSIBILITY & ARIA (Days 11-15) 🚧 IN PROGRESS
 ### Goal: Fix 156 Missing ARIA Attributes + Keyboard Navigation
 
-#### 📁 Interactive Components Requiring ARIA
+#### ✅ Completed Tasks [2025-11-07]
 
-**Task 3.1: Button Components**
-- [ ] `src/components/Buttons/GlassButton.tsx` (Lines 34, 56)
-  ```typescript
-  // Add: aria-label, aria-pressed, role="button"
-  // Implement keyboard handlers for Enter/Space
-  ```
-- [ ] `src/components/Buttons/IconButton.tsx` (Lines 23, 45)
-- [ ] `src/components/Buttons/FloatingActionButton.tsx` (Lines 18, 32)
-- [ ] `src/components/Buttons/ToggleButton.tsx` (Lines 28, 51)
+**Task 3.0: Infrastructure** ✅
+- [x] Created `src/hooks/useReducedMotion.tsx` - Complete reduced motion system
+- [x] Added global reduced motion CSS (@media queries)
+- [x] Created ReducedMotionWrapper component
+- [x] Implemented motion utilities (getAnimationDuration, getMotionConfig, etc.)
+- [x] Added withReducedMotion HOC
+- [x] WCAG 2.1 Success Criterion 2.3.3 (AAA) compliant
+
+**Task 3.1: Button Components** ✅
+- [x] `src/components/button/GlassButton.tsx` - Already has comprehensive ARIA
+  - ✅ aria-label, aria-labelledby, aria-describedby
+  - ✅ aria-pressed, aria-expanded, aria-controls
+  - ✅ aria-haspopup for menus/dialogs
+  - ✅ Accessibility validation warnings
+  - ✅ Uses createButtonA11y utility
+- [x] Verified IconButton uses GlassButton (inherits ARIA)
+- [x] Verified FAB uses GlassButton (inherits ARIA)
+- [x] Verified ToggleButton has proper ARIA states
+
+#### 📁 Remaining Interactive Components
+
+**Task 3.2: Navigation Components** ⏳
 
 **Task 3.2: Navigation Components**
 - [ ] `src/components/Navigation/TabNav.tsx` (Lines 45, 67, 89, 112)
