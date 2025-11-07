@@ -156,9 +156,9 @@ function BiometricAdaptationDemo() {
             <div 
               className="w-3 h-3 glass-radius-full"
               style={{
-                backgroundColor: effectiveStressLevel > 0.7 ? '#ef4444' : 
-                                effectiveStressLevel > 0.4 ? '#f59e0b' : 
-                                '#10b981'
+                backgroundColor: effectiveStressLevel > 0.7 ? 'var(--glass-color-danger)' : 
+                                effectiveStressLevel > 0.4 ? 'var(--glass-color-warning)' : 
+                                'var(--glass-color-success)'
               }}
             />
             <span className="text-sm text-primary">

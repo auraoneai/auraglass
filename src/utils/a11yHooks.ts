@@ -211,18 +211,18 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
   }, []);
 
   const selectItem = useCallback((id: string, multiSelect = false) => {
-    setSelectedIds((prev: any) => {
+    setSelectedIds((prev: Set<string>) => {
       const newSelection = new Set(multiSelect ? prev : []);
-      
+
       if (newSelection.has(id)) {
         newSelection.delete(id);
       } else {
         newSelection.add(id);
       }
-      
+
       return newSelection;
     });
-    
+
     onSelect?.(id);
   }, [onSelect]);
 
@@ -251,7 +251,7 @@ export function useExpandableNavigation() {
   }, [expandedIds]);
 
   const toggleExpanded = useCallback((id: string) => {
-    setExpandedIds((prev: any) => {
+    setExpandedIds((prev: Set<string>) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -263,11 +263,11 @@ export function useExpandableNavigation() {
   }, []);
 
   const expandItem = useCallback((id: string) => {
-    setExpandedIds((prev: any) => new Set([...prev, id]));
+    setExpandedIds((prev: Set<string>) => new Set([...prev, id]));
   }, []);
 
   const collapseItem = useCallback((id: string) => {
-    setExpandedIds((prev: any) => {
+    setExpandedIds((prev: Set<string>) => {
       const newSet = new Set(prev);
       newSet.delete(id);
       return newSet;

@@ -116,12 +116,12 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     };
 
     const colorSchemes = {
-      default: ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'],
-      primary: ['#3B82F6', '#60A5FA', '#93C5FD', '#DBEAFE', '#EBF8FF'],
-      success: ['#10B981', '#34D399', '#6EE7B7', '#A7F3D0', '#D1FAE5'],
-      warning: ['#F59E0B', '#FBBF24', '#FCD34D', '#FDE68A', '#FEF3C7'],
-      destructive: ['#EF4444', '#F87171', '#FCA5A5', '#FECACA', '#FEE2E2'],
-      rainbow: ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#06B6D4'],
+      default: ['var(--glass-color-primary)', '#8B5CF6', 'var(--glass-color-success)', 'var(--glass-color-warning)', 'var(--glass-color-danger)'],
+      primary: ['var(--glass-color-primary)', 'var(--glass-color-primary-light)', '#93C5FD', '#DBEAFE', '#EBF8FF'],
+      success: ['var(--glass-color-success)', 'var(--glass-color-success-light)', '#6EE7B7', '#A7F3D0', '#D1FAE5'],
+      warning: ['var(--glass-color-warning)', 'var(--glass-color-warning-light)', '#FCD34D', '#FDE68A', '#FEF3C7'],
+      destructive: ['var(--glass-color-danger)', 'var(--glass-color-danger-light)', '#FCA5A5', '#FECACA', '#FEE2E2'],
+      rainbow: ['var(--glass-color-primary)', '#8B5CF6', 'var(--glass-color-success)', 'var(--glass-color-warning)', 'var(--glass-color-danger)', '#EC4899', '#06B6D4'],
     };
 
     const config = sizeClasses?.[size] || sizeClasses.md;
@@ -204,7 +204,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
             <polyline
               points={points}
               fill="none"
-              stroke={colors?.[0] || '#3B82F6'}
+              stroke={colors?.[0] || 'var(--glass-color-primary)'}
               strokeWidth="2"
               className="drop-shadow-sm"
             />
@@ -220,7 +220,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   cx={x}
                   cy={y}
                   r="2"
-                  fill={colors?.[0] || '#3B82F6'}
+                  fill={colors?.[0] || 'var(--glass-color-primary)'}
                   className="hover:r-3 transition-all cursor-pointer"
                 />
               );
@@ -315,7 +315,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           <polyline
             points={points}
             fill="none"
-            stroke={colors?.[0] || '#3B82F6'}
+            stroke={colors?.[0] || 'var(--glass-color-primary)'}
             strokeWidth="3"
             className="drop-shadow-sm"
           />

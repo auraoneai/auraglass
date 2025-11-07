@@ -485,7 +485,7 @@ class ContextualNeuralNetwork {
     
     this.weights.forEach((layer: any) => {
       layer.forEach((node: any) => {
-        node.forEach((weight, index) => {
+        node.forEach((weight: any, index: any) => {
           node[index] += adjustmentRate * Math.random() * 0.1;
         });
       });

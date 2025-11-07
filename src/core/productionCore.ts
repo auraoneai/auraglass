@@ -189,7 +189,7 @@ export class AuraGlassProduction {
       /* High contrast support */
       @media (prefers-contrast: high) {
         .aura-glass-surface {
-          border: 2px solid rgba(255, 255, 255, 0.8) !important;
+          border: 2px solid var(--glass-text-secondary) !important;
           background: rgba(0, 0, 0, 0.95) !important;
         }
       }
@@ -493,7 +493,7 @@ export const devUtils = process.env.NODE_ENV === 'development' ? {
         left: 0;
         font-size: 10px;
         color: red;
-        background: rgba(0, 0, 0, 0.8);
+        background: var(--glass-text-secondary-dark);
         padding: 2px 4px;
         border-radius: 2px;
         z-index: 10000;

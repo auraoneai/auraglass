@@ -108,12 +108,13 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       waveEquations.forEach((wave: any) => {
         const k = 2 * Math.PI / wave.wavelength
         const data: number[] = []
-        
+
+
         for (let i = 0; i < points; i++) {
           const x = (i / points) * width - width / 2 // Center the wave
-          const waveFunc = waveTypes[wave.type]
+          const waveFunc = waveTypes[wave.type as keyof typeof waveTypes]
           let y = waveFunc(x, currentTime, wave.amplitude, wave.frequency, wave.phase, k, wave.velocity)
-          
+
           // Apply damping if present
           if (wave.damping && wave.damping > 0) {
             y *= Math.exp(-wave.damping * Math.abs(x))
@@ -210,7 +211,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
           interferenceData.push(sum)
         }
         
-        ctx.strokeStyle = '#FFFFFF'
+        ctx.strokeStyle = 'var(--glass-white)'
         ctx.lineWidth = 2
         ctx.globalAlpha = 0.9
         ctx.setLineDash([5, 5])
@@ -322,7 +323,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
         ctx.fillRect(x + 2, y, barWidth - 4, barHeight)
 
         // Frequency label
-        ctx.fillStyle = '#FFFFFF'
+        ctx.fillStyle = 'var(--glass-white)'
         ctx.font = '10px Arial'
         ctx.globalAlpha = 1
         ctx.fillText(`${wave.frequency.toFixed(1)}Hz`, x + 5, spectrumHeight - 5)

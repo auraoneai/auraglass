@@ -245,7 +245,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           ...layer,
           waveOffset: layer.waveOffset + layer.waveSpeed * deltaTime * animationSpeed,
           opacity: Math.max(0, layer.opacity + (Math.random() - 0.5) * 0.02 * geomagneticActivity),
-          points: layer.points.map((point, index) => ({
+          points: layer.points.map((point: { x: number; y: number; intensity: number }, index: number) => ({
             ...point,
             y: point.y + Math.sin(layer.waveOffset + index * 0.1) * (2 + geomagneticActivity * 3),
             intensity: Math.max(0.3, Math.min(1, point.intensity + (Math.random() - 0.5) * 0.1))
@@ -301,7 +301,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           lifetime: star.lifetime - deltaTime,
           trail: [
             { x: star.x, y: star.y, opacity: 1 },
-            ...star.trail.map((t, i) => ({
+            ...star.trail.map((t: { x: number; y: number; opacity: number }, i: number) => ({
               ...t,
               opacity: t.opacity * 0.95
             }))
@@ -394,7 +394,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
         // Draw shooting stars
         starField.shootingStars.forEach((star: any) => {
-          star.trail.forEach((point, index) => {
+          star.trail.forEach((point: { x: number; y: number; opacity: number }, index: number) => {
             ctx.globalAlpha = point.opacity * (1 - index * 0.1);
             ctx.fillStyle = 'white';
             ctx.beginPath();
@@ -434,9 +434,9 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
         // Draw aurora curve
         ctx.moveTo(layer.points[0].x, layer.points[0].y + layer.height / 2);
         
-        layer.points.forEach((point, index) => {
+        layer.points.forEach((point: { x: number; y: number; intensity: number }, index: number) => {
           if (index === 0) return;
-          
+
           const prevPoint = layer.points[index - 1];
           const intensityFactor = (point.intensity + prevPoint.intensity) / 2;
           const waveY = point.y + Math.sin(animationTime * 0.001 + index * 0.1) * intensityFactor * 10;
@@ -494,7 +494,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       // Aurora info overlay
       if (showAuroraInfo) {
         ctx.save();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
         ctx.fillRect(10, 10, 220, 160);
         
         ctx.fillStyle = 'white';

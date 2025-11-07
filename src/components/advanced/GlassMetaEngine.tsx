@@ -145,8 +145,8 @@ class QuantumOptimizer {
   }
 
   private applyMatrix(matrix: number[][], state: number[]): number[] {
-    return matrix.map((row: any) => 
-      row.reduce((sum, val, idx) => sum + val * state[idx], 0)
+    return matrix.map((row: any) =>
+      row.reduce((sum: any, val: any, idx: any) => sum + val * state[idx], 0)
     );
   }
 }
@@ -863,8 +863,8 @@ export function GlassMetaDashboard({
                         <div 
                           className="w-3 h-3 glass-radius-full"
                           style={{
-                            backgroundColor: health.healthScore > 0.8 ? '#10b981' : 
-                                           health.healthScore > 0.6 ? '#f59e0b' : '#ef4444'
+                            backgroundColor: health.healthScore > 0.8 ? 'var(--glass-color-success)' : 
+                                           health.healthScore > 0.6 ? 'var(--glass-color-warning)' : 'var(--glass-color-danger)'
                           }}
                         />
                         <span className="text-xs glass-text-secondary">
@@ -937,9 +937,9 @@ export function GlassMetaDashboard({
                         <div 
                           className="w-2 h-2 glass-radius-full"
                           style={{
-                            backgroundColor: optimization.priority === 'critical' ? '#dc2626' :
-                                           optimization.priority === 'high' ? '#f59e0b' : 
-                                           optimization.priority === 'medium' ? '#10b981' : '#6b7280'
+                            backgroundColor: optimization.priority === 'critical' ? 'var(--glass-color-danger-dark)' :
+                                           optimization.priority === 'high' ? 'var(--glass-color-warning)' : 
+                                           optimization.priority === 'medium' ? 'var(--glass-color-success)' : 'var(--glass-gray-500)'
                           }}
                         />
                         <span className="text-xs glass-text-secondary capitalize">

@@ -35,7 +35,7 @@ export default function BrandColorIntegration({
   entityId,
   brandColors,
   fallbackColors = {
-    primary: '#3b82f6',
+    primary: 'var(--glass-color-primary)',
     secondary: '#1e40af'
   },
   animationDuration = 600,
@@ -293,9 +293,9 @@ export function BrandGlassButton({
   const buttonStyles = {
     primary: {
       background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-      border: '1px solid var(--brand-border-primary, rgba(59, 130, 246, 0.3))',
+      border: '1px solid var(--brand-border-primary, var(--glass-color-primary, 0.3))',
       boxShadow: 'var(--glass-elev-2)',
-      color: 'var(--brand-primary, #3b82f6)'
+      color: 'var(--brand-primary, var(--glass-color-primary))'
     },
     secondary: {
       background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
@@ -322,7 +322,7 @@ export function BrandGlassButton({
         scale: 1.01,
         y: -0.5,
         boxShadow: variant === 'primary'
-          ? 'var(--brand-shadow-primary, 0 8px 24px rgba(59, 130, 246, 0.2))'
+          ? 'var(--brand-shadow-primary, 0 8px 24px var(--glass-color-primary, 0.2))'
           : 'var(--brand-shadow-secondary, 0 8px 24px rgba(30, 64, 175, 0.2))'
       } : {}}
       whileTap={!disabled ? { scale: 0.99, y: 0 } : {}}
@@ -338,7 +338,7 @@ export function BrandGlassButton({
       <motion.div
         className="absolute inset-0 glass-radius-lg pointer-events-none"
         style={{
-          background: `radial-gradient(circle at center, var(--brand-${variant}, rgba(59, 130, 246, 0.2)) 0%, transparent 70%)`
+          background: `radial-gradient(circle at center, var(--brand-${variant}, var(--glass-color-primary, 0.2)) 0%, transparent 70%)`
         }}
         animate={isPressed ? {
           scale: [1, 1.1, 1],

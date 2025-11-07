@@ -92,7 +92,7 @@ export function useZSpaceAnimation(
     const { duration = finalConfig.duration, onComplete } = options;
 
     // Mark as animating
-    setAnimatingLayers((prev: any) => new Set(prev).add(layerId));
+    setAnimatingLayers((prev: Set<string>) => new Set(prev).add(layerId));
 
     // Create spring animation targets
     const springTargets: Record<string, number> = {
@@ -124,7 +124,7 @@ export function useZSpaceAnimation(
           : l
       ));
 
-      setAnimatingLayers((prev: any) => {
+      setAnimatingLayers((prev: Set<string>) => {
         const next = new Set(prev);
         next.delete(layerId);
         return next;

@@ -205,12 +205,12 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     palette = [
       '#6366F1', // primary
       '#8B5CF6', // secondary
-      '#3B82F6', // blue
-      '#10B981', // green
-      '#F59E0B', // yellow
-      '#EF4444', // red
+      'var(--glass-color-primary)', // blue
+      'var(--glass-color-success)', // green
+      'var(--glass-color-warning)', // yellow
+      'var(--glass-color-danger)', // red
       '#EC4899', // pink
-      '#6B7280', // gray
+      'var(--glass-gray-500)', // gray
     ],
     allowTypeSwitch = true,
     backgroundColor,
@@ -666,7 +666,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     
     // Add title if needed
     if (exportOptions.includeTitle && title) {
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = 'var(--glass-white)';
       ctx.font = 'bold 16px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(title, tempCanvas.width / 2, 25);

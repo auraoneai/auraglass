@@ -287,7 +287,7 @@ const mockImageProcessor = {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     return {
-      dominantColors: ['#3b82f6', '#1e40af', '#93c5fd'],
+      dominantColors: ['var(--glass-color-primary)', '#1e40af', '#93c5fd'],
       brightness: 65 + Math.random() * 30,
       contrast: 50 + Math.random() * 30,
       saturation: 40 + Math.random() * 40,
@@ -382,7 +382,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
             colorSpace: 'sRGB',
             hasAlpha: file.type.includes('png'),
             fileSize: file.size,
-            dominantColors: ['#000000'],
+            dominantColors: ['var(--glass-black)'],
             brightness: 50,
             contrast: 50,
             saturation: 50,
@@ -443,7 +443,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
 
   const removeImage = useCallback((id: string) => {
     setImages((prev: any) => {
-      const image = prev.find(img => img.id === id);
+      const image = prev.find((img: any) => img.id === id);
       if (image) {
         URL.revokeObjectURL(image.url);
         if (image.thumbnailUrl) {
@@ -457,7 +457,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, []);
 
   const getImage = useCallback((id: string) => {
-    return images.find(img => img.id === id);
+    return images.find((img: any) => img.id === id);
   }, [images]);
 
   const updateImage = useCallback((id: string, updates: Partial<ImageFile>) => {
@@ -883,7 +883,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, [uploadToCloud]);
 
   const applyTemplate = useCallback(async (imageId: string, templateId: string): Promise<ImageFile> => {
-    const template = templates.find(t => t.id === templateId);
+    const template = templates.find((t: any) => t.id === templateId);
     if (!template) throw new Error('Template not found');
 
     let result = await resizeImage(imageId, template.width, template.height, false);
@@ -908,7 +908,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
     const image = getImage(imageId);
     if (!image) return {
       colorPalette: [],
-      dominantColor: '#000000',
+      dominantColor: 'var(--glass-black)',
       brightness: 0,
       complexity: 0,
       recommendedFormats: []
@@ -916,7 +916,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
 
     return {
       colorPalette: image.metadata.dominantColors,
-      dominantColor: image.metadata.dominantColors[0] || '#000000',
+      dominantColor: image.metadata.dominantColors[0] || 'var(--glass-black)',
       brightness: image.metadata.brightness,
       complexity: Math.random() * 100, // Mock complexity score
       recommendedFormats: image.metadata.hasAlpha ? ['PNG', 'WebP'] : ['JPEG', 'WebP', 'AVIF']

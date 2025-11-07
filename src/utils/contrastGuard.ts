@@ -170,7 +170,7 @@ export class ContrastGuard {
       targetLevel = 'AA',
       material = 'liquid',
       variant = 'regular',
-      textColor = 'rgba(255,255,255,0.95)'
+      textColor = 'var(--glass-text-primary)'
     } = options;
     
     // Throttled update function

@@ -33,7 +33,7 @@ interface GlassMeshGradientProps {
 
 export function GlassMeshGradient({
   className,
-  colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'],
+  colors = ['var(--glass-color-primary)', '#8b5cf6', '#ec4899', 'var(--glass-color-warning)'],
   points = 4,
   speed = 0.5,
   blur = 100,
@@ -248,7 +248,7 @@ export const meshGradientPresets = {
     blur: 100,
   },
   aurora: {
-    colors: ['#10b981', '#14b8a6', '#06b6d4', '#3b82f6', '#8b5cf6'],
+    colors: ['var(--glass-color-success)', '#14b8a6', '#06b6d4', 'var(--glass-color-primary)', '#8b5cf6'],
     variant: 'ambient' as const,
     speed: 0.2,
     blur: 150,
@@ -262,7 +262,7 @@ export const meshGradientPresets = {
     complexity: 'complex' as const,
   },
   minimal: {
-    colors: ['#e5e7eb', '#d1d5db', '#9ca3af'],
+    colors: ['var(--glass-gray-200)', 'var(--glass-gray-300)', 'var(--glass-gray-400)'],
     variant: 'subtle' as const,
     speed: 0.1,
     blur: 150,

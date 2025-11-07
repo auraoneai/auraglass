@@ -437,7 +437,7 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
           className="flex-1 overflow-auto p-6 glass-surface-subtle"
           style={{
             backgroundImage: pageState.showGrid 
-              ? 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)'
+              ? 'radial-gradient(circle, var(--glass-gray-200) 1px, transparent 1px)'
               : 'none',
             backgroundSize: pageState.showGrid ? '20px 20px' : 'auto'
           }}

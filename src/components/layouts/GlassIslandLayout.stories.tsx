@@ -127,28 +127,28 @@ const mockConnections: IslandConnection[] = [
     from: 'dashboard',
     to: 'metrics',
     type: 'solid',
-    color: '#60a5fa',
+    color: 'var(--glass-color-primary-light)',
     strength: 1
   },
   {
     from: 'chat',
     to: 'tasks',
     type: 'dashed',
-    color: '#34d399',
+    color: 'var(--glass-color-success-light)',
     strength: 0.8
   },
   {
     from: 'calendar',
     to: 'tasks',
     type: 'dotted',
-    color: '#fbbf24',
+    color: 'var(--glass-color-warning-light)',
     strength: 0.6
   },
   {
     from: 'metrics',
     to: 'notes',
     type: 'animated',
-    color: '#f87171',
+    color: 'var(--glass-color-danger-light)',
     strength: 0.5
   }
 ];
@@ -472,21 +472,21 @@ export const AllConnections: Story = {
         from: 'dashboard',
         to: 'chat',
         type: 'solid',
-        color: '#10b981',
+        color: 'var(--glass-color-success)',
         strength: 0.8
       },
       {
         from: 'calendar',
         to: 'notes',
         type: 'dotted',
-        color: '#f59e0b',
+        color: 'var(--glass-color-warning)',
         strength: 0.6
       },
       {
         from: 'tasks',
         to: 'notes',
         type: 'animated',
-        color: '#ef4444',
+        color: 'var(--glass-color-danger)',
         strength: 0.7
       }
     ],

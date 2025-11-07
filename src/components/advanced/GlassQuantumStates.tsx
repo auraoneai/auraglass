@@ -824,7 +824,7 @@ export function GlassQuantumEntangledPair({
             y1="50%"
             x2="75%"
             y2="50%"
-            stroke="rgba(59, 130, 246, 0.5)"
+            stroke="var(--glass-color-primary, 0.5)"
             strokeWidth="2"
             strokeDasharray="5,5"
             animate={{

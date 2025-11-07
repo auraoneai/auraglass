@@ -70,7 +70,7 @@ export const Default: Story = {
           `</defs>` +
           `<rect width='100%' height='100%' fill='url(#g)'/>` +
           `<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'` +
-                ` font-size='28' font-family='Inter, Arial, Helvetica, sans-serif' fill='#ffffff' opacity='0.9'>` +
+                ` font-size='28' font-family='Inter, Arial, Helvetica, sans-serif' fill='var(--glass-white)' opacity='0.9'>` +
             `Video Poster` +
           `</text>` +
         `</svg>`

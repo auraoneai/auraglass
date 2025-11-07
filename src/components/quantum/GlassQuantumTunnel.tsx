@@ -355,7 +355,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
     }, [quantumStates, quantumParticles, barriers, currentTime, showWaveFunction, showEnergyLevels, showBarriers, waveAmplitude])
 
     const handleStateClick = (stateId: string) => {
-      setMeasuredStates((prev: any) => new Set(prev).add(stateId))
+      setMeasuredStates((prev: Set<string>) => new Set(prev).add(stateId))
     }
 
     const totalTunnelingProbability = useMemo(() => {

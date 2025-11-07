@@ -107,7 +107,7 @@ const sampleLandingPageData = {
             level: 'h1',
             fontSize: '48px',
             fontWeight: '700',
-            color: '#ffffff',
+            color: 'var(--glass-white)',
             textAlign: 'center',
             margin: '0 0 20px 0'
           },
@@ -155,7 +155,7 @@ const sampleLandingPageData = {
       type: 'container',
       props: {
         padding: '80px 20px',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'var(--glass-white)',
         borderRadius: '0px',
         maxWidth: '1200px',
         display: 'block'
@@ -293,7 +293,7 @@ const sampleDashboardData = {
               props: {
                 padding: '25px',
                 borderRadius: '8px',
-                backgroundColor: '#ffffff',
+                backgroundColor: 'var(--glass-white)',
                 boxShadow: '0 1px 3px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
                 border: 'none'
               },
@@ -551,7 +551,7 @@ export const MobileFirst: Story = {
           type: 'container',
           props: {
             padding: '20px',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--glass-white)',
             maxWidth: '100%'
           },
           children: [

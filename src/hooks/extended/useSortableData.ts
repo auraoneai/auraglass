@@ -102,7 +102,7 @@ export function useSortableData<T>(
 
     const sortFn = finalOptions.customSort || defaultSort;
 
-    return [...data].sort((a, b) => {
+    return [...data].sort((a: any, b: any) => {
       for (const config of sortConfigs) {
         if (config.key === null) continue;
 
@@ -358,7 +358,7 @@ export const sortUtils = {
       direction?: SortDirection;
     }>
   ): T[] => {
-    return [...items].sort((a, b) => {
+    return [...items].sort((a: any, b: any) => {
       let scoreA = 0;
       const scoreB = 0;
 
@@ -399,7 +399,7 @@ export const sortUtils = {
 
     // Sort within each group
     groups.forEach((group: any) => {
-      group.sort((a, b) => {
+      group.sort((a: any, b: any) => {
         const aValue = a[sortBy];
         const bValue = b?.[sortBy];
 

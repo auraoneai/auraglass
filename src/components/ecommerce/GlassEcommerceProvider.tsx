@@ -272,7 +272,7 @@ const mockRecommendationEngine = {
   async generateRecommendations(productId: string, products: Product[]): Promise<Recommendation[]> {
     await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
 
-    const product = products.find(p => p.id === productId);
+    const product = products.find((p: any) => p.id === productId);
     if (!product) return [];
 
     // Generate different types of recommendations
@@ -425,7 +425,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, []);
 
   const getProduct = useCallback((id: string) => {
-    return products.find(product => product.id === id);
+    return products.find((product: any) => product.id === id);
   }, [products]);
 
   const getProductsByCategory = useCallback((category: string) => {
@@ -441,7 +441,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       filtered = filtered.filter((product: any) =>
         product.name.toLowerCase().includes(lowercaseQuery) ||
         product.description.toLowerCase().includes(lowercaseQuery) ||
-        product.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
+        product.tags.some((tag: any) => tag.toLowerCase().includes(lowercaseQuery)) ||
         product.brand?.toLowerCase().includes(lowercaseQuery)
       );
     }
@@ -506,7 +506,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     if (!product) return;
 
     setCart((prev: any) => {
-      const existingItem = prev.find(item => 
+      const existingItem = prev.find((item: any) => 
         item.productId === productId &&
         JSON.stringify(item.selectedVariants) === JSON.stringify(variants)
       );
@@ -562,7 +562,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const product = getProduct(productId);
     if (!product) return;
 
-    const existingItem = wishlist.find(item => item.productId === productId);
+    const existingItem = wishlist.find((item: any) => item.productId === productId);
     if (existingItem) return;
 
     const newItem: WishlistItem = {
@@ -581,7 +581,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, []);
 
   const moveToCart = useCallback((wishlistItemId: string) => {
-    const wishlistItem = wishlist.find(item => item.id === wishlistItemId);
+    const wishlistItem = wishlist.find((item: any) => item.id === wishlistItemId);
     if (!wishlistItem) return;
 
     addToCart(wishlistItem.productId, 1);

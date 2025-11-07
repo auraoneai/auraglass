@@ -172,7 +172,7 @@ export function useGlassOptimization(
       focus: {
         ...baseStyles,
         outline: 'none',
-        boxShadow: `${baseStyles.boxShadow}, 0 0 0 3px rgba(59, 130, 246, 0.3)`,
+        boxShadow: `${baseStyles.boxShadow}, 0 0 0 3px var(--glass-color-primary, 0.3)`,
       },
       disabled: {
         ...baseStyles,

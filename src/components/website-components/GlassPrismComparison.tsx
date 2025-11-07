@@ -310,7 +310,7 @@ export function GlassPrismComparison() {
               />
               
               {/* Prism refraction effects */}
-              {Array.from({ length: 5 }).map((_, i) => (
+              {Array.from({ length: 5 }).map((_: any, i: any) => (
                 <motion.div
                   key={i}
                   className="absolute w-20 h-0-5 glass-gradient-primary glass-gradient-primary via-white/60 glass-gradient-primary"
@@ -405,7 +405,7 @@ export function GlassPrismComparison() {
         >
           <p className="text-primary/50 text-lg">
             <motion.span
-              animate={{ color: ["#ffffff", "#00f5ff", "#ffffff"] }}
+              animate={{ color: ["var(--glass-white)", "#00f5ff", "var(--glass-white)"] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               Move your mouse
@@ -418,7 +418,7 @@ export function GlassPrismComparison() {
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Floating particles */}
-        {Array.from({ length: 20 }).map((_, i) => (
+        {Array.from({ length: 20 }).map((_: any, i: any) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 glass-surface-primary/30 glass-radius-full"

@@ -311,7 +311,7 @@ export interface GlassMindMapProps extends BaseGlassProps {
 
 // Whiteboard
 export type DrawingTool = 'pen' | 'eraser' | 'rectangle' | 'circle' | 'line' | 'text' | 'select';
-export type DrawingColor = '#ffffff' | '#000000' | '#ff0000' | '#00ff00' | '#0000ff' | '#ffff00' | '#ff00ff' | '#00ffff';
+export type DrawingColor = 'var(--glass-white)' | 'var(--glass-black)' | '#ff0000' | '#00ff00' | '#0000ff' | '#ffff00' | '#ff00ff' | '#00ffff';
 
 export interface DrawingPath {
   id: string;

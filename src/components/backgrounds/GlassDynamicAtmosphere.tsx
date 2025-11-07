@@ -385,8 +385,8 @@ export const DynamicAtmosphere = forwardRef<HTMLDivElement, DynamicAtmospherePro
     const {
       type = 'subtle',
       primaryColor = '#6366F1', // Primary (purple)
-      secondaryColor = '#3B82F6', // Secondary (blue)
-      accentColor = '#10B981', // Accent (green)
+      secondaryColor = 'var(--glass-color-primary)', // Secondary (blue)
+      accentColor = 'var(--glass-color-success)', // Accent (green)
       intensity = 0.5,
       speed = 1,
       interactionMode = 'none',

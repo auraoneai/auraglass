@@ -114,9 +114,9 @@ function WorkspaceContent({
     users: [],
     currentUser: { id: 'user-1', name: 'Current User', role: 'admin' },
     onlineUsers: [
-      { id: 'user-1', name: 'Alice Johnson', role: 'admin', avatar: '', color: '#3B82F6' },
-      { id: 'user-2', name: 'Bob Smith', role: 'editor', avatar: '', color: '#10B981' },
-      { id: 'user-3', name: 'Carol Davis', role: 'viewer', avatar: '', color: '#F59E0B' }
+      { id: 'user-1', name: 'Alice Johnson', role: 'admin', avatar: '', color: 'var(--glass-color-primary)' },
+      { id: 'user-2', name: 'Bob Smith', role: 'editor', avatar: '', color: 'var(--glass-color-success)' },
+      { id: 'user-3', name: 'Carol Davis', role: 'viewer', avatar: '', color: 'var(--glass-color-warning)' }
     ],
     canEdit: true,
     isVoiceActive: false,

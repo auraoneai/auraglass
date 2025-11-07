@@ -102,7 +102,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
     const defaultOptions: Required<SignatureOptions> = {
       minWidth: 0.5,
       maxWidth: 2.5,
-      penColor: '#000000',
+      penColor: 'var(--glass-black)',
       backgroundColor: 'transparent',
       velocityFilterWeight: 0.7,
       throttle: 16,

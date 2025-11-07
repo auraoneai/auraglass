@@ -317,9 +317,9 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
                 aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
                 {isCollapsed ? (
-                  <ChevronRight className="w-5 h-5 text-primary drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" strokeWidth={3} />
+                  <ChevronRight className="w-5 h-5 text-primary drop-shadow-[0_1px_8px_var(--glass-text-secondary-dark)]" strokeWidth={3} />
                 ) : (
-                  <ChevronLeft className="w-5 h-5 text-primary drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" strokeWidth={3} />
+                  <ChevronLeft className="w-5 h-5 text-primary drop-shadow-[0_1px_8px_var(--glass-text-secondary-dark)]" strokeWidth={3} />
                 )}
               </button>
             </div>,
@@ -399,7 +399,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
         'hover:bg-white/10 focus:outline-none',
         collapsed ? 'glass-px-2 glass-py-2.5 justify-center' : 'glass-px-3 glass-py-2',
         'glass-text-sm font-medium',
-        isActive ? 'bg-primary/15 text-primary shadow-[0_0_0_2px_${glassStyles.borderColor || "rgba(59, 130, 246, 0.2)"}]' : '',
+        isActive ? 'bg-primary/15 text-primary shadow-[0_0_0_2px_${glassStyles.borderColor || "var(--glass-color-primary, 0.2)"}]' : '',
         !isActive && 'glass-text-secondary hover:text-foreground',
         item?.disabled && 'opacity-50 cursor-not-allowed'
       )}
@@ -430,7 +430,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
                 'relative z-10' // Ensure badge stays above any background effects
               )}
               style={{
-                color: '#ffffff', // white text on dark background
+                color: 'var(--glass-white)', // white text on dark background
               }}
             >
               {item?.badge}

@@ -58,7 +58,7 @@ export const MultiTouchEnabled: Story = {
     multiTouch: true,
     maxTouches: 3,
     showTrail: true,
-    trailColor: '#10B981',
+    trailColor: 'var(--glass-color-success)',
   },
 };
 
@@ -162,7 +162,7 @@ export const InteractivePlayground: Story = {
     multiTouch: true,
     maxTouches: 2,
     showTrail: true,
-    trailColor: '#3B82F6',
+    trailColor: 'var(--glass-color-primary)',
     showFeedback: true,
     feedbackDuration: 2000,
     showControls: true,
@@ -212,7 +212,7 @@ export const TouchInterface: Story = {
     height: 300,
     multiTouch: true,
     showTrail: true,
-    trailColor: '#F59E0B',
+    trailColor: 'var(--glass-color-warning)',
     sensitivity: 0.9,
     showFeedback: true,
     showControls: false,

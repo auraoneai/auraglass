@@ -452,10 +452,10 @@ export function useItemTransitions(
   }, [transitionType, direction, duration, stagger, easing, animatingItems]);
 
   const animateItem = useCallback((itemId: string) => {
-    setAnimatingItems((prev: any) => new Set(prev).add(itemId));
+    setAnimatingItems((prev: Set<string>) => new Set(prev).add(itemId));
 
     setTimeout(() => {
-      setAnimatingItems((prev: any) => {
+      setAnimatingItems((prev: Set<string>) => {
         const next = new Set(prev);
         next.delete(itemId);
         return next;

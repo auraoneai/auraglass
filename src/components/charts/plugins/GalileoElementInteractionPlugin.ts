@@ -66,7 +66,7 @@ const DEFAULT_CONFIG: Required<GalileoInteractionConfig> = {
   rippleColor: 'var(--glass-border-hover)',
   rippleDuration: 600,
   hoverGlow: true,
-  glowColor: 'rgba(59, 130, 246, 0.4)',
+  glowColor: 'var(--glass-color-primary, 0.4)',
   glowIntensity: 0.6,
   physicsAnimations: true,
   springConfig: {

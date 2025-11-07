@@ -610,7 +610,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
       const shadowColor = isDarkMode ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.1)';
 
-      const glowColor = isDarkMode ? '#3b82f6' : '#6366f1';
+      const glowColor = isDarkMode ? 'var(--glass-color-primary)' : '#6366f1';
 
       // Get opacity and blur values from qualityTier
       const bgOpacity = getBackgroundOpacity('medium');
@@ -673,7 +673,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
         `;
           break;
         case 'metallic':
-          const accentColor = isDarkMode ? '#3b82f6' : '#6366f1';
+          const accentColor = isDarkMode ? 'var(--glass-color-primary)' : '#6366f1';
           const bgOpacityTop = bgOpacity * 0.6;
           const bgOpacityBottom = bgOpacity * 0.4;
           const elevationDouble = elevation * 2;

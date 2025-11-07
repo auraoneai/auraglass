@@ -146,7 +146,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
                 life: newLife
               }
             })
-            .filter((bubble): bubble is NonNullable<typeof bubble> => bubble !== null)
+            .filter((bubble: any): bubble is NonNullable<typeof bubble> => bubble !== null)
         )
       })
 

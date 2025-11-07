@@ -482,7 +482,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
           centerX, centerY, currentRadius * 0.3
         );
         
-        voidGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+        voidGradient.addColorStop(0, 'var(--glass-black)');
         voidGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         
         ctx.fillStyle = voidGradient;

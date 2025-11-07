@@ -32,7 +32,7 @@ export interface ChartRendererProps {
 export const ChartRenderer: React.FC<ChartRendererProps> = ({
   chartType,
   datasets,
-  palette = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'],
+  palette = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6'],
   qualityTier = 'medium',
   animation,
   interaction,

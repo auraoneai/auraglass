@@ -57,10 +57,10 @@ export interface GlassSocialFeedProps {
 }
 
 const engagementLevels = {
-  low: { color: '#6B7280', icon: '📊' },
-  medium: { color: '#10B981', icon: '📈' },
-  high: { color: '#F59E0B', icon: '🔥' },
-  viral: { color: '#EF4444', icon: '🚀' }
+  low: { color: 'var(--glass-gray-500)', icon: '📊' },
+  medium: { color: 'var(--glass-color-success)', icon: '📈' },
+  high: { color: 'var(--glass-color-warning)', icon: '🔥' },
+  viral: { color: 'var(--glass-color-danger)', icon: '🚀' }
 }
 
 export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
@@ -168,7 +168,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     }
 
     const handleLike = (postId: string) => {
-      setLikedPosts((prev: any) => {
+      setLikedPosts((prev: Set<string>) => {
         const newSet = new Set(prev)
         if (newSet.has(postId)) {
           newSet.delete(postId)
@@ -181,12 +181,12 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     }
 
     const handleShare = (postId: string) => {
-      setSharedPosts((prev: any) => new Set(prev).add(postId))
+      setSharedPosts((prev: Set<string>) => new Set(prev).add(postId))
       onShare?.(postId)
     }
 
     const handlePostExpand = (postId: string) => {
-      setExpandedPosts((prev: any) => {
+      setExpandedPosts((prev: Set<string>) => {
         const newSet = new Set(prev)
         if (newSet.has(postId)) {
           newSet.delete(postId)

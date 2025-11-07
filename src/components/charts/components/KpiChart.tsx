@@ -28,7 +28,7 @@ export const KpiChart: React.FC<KpiChartProps> = ({
   kpi,
   animation,
   qualityTier = 'medium',
-  color = '#3b82f6',
+  color = 'var(--glass-color-primary)',
   isReducedMotion = false,
 }) => {
   const formatValue = (value: number | string, format?: string): string => {
@@ -60,7 +60,7 @@ export const KpiChart: React.FC<KpiChartProps> = ({
       {kpi.change !== undefined && (
         <div style={{
           fontSize: 'var(--typography-caption-size)',
-          color: kpi.change >= 0 ? '#10b981' : '#ef4444',
+          color: kpi.change >= 0 ? 'var(--glass-color-success)' : 'var(--glass-color-danger)',
           marginTop: '4px'
         }}>
           {kpi.change >= 0 ? '↑' : '↓'} {Math.abs(kpi.change)}% {kpi.changeLabel || ''}

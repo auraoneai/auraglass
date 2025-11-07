@@ -194,7 +194,7 @@ export function HoudiniGlassProvider({
       );
       setEnabledEffectsState((prev: any) => {
         const sameLength = prev.length === reducedEffects.length;
-        const sameOrder = sameLength && prev.every((v, i) => v === reducedEffects[i]);
+        const sameOrder = sameLength && prev.every((v: any, i: any) => v === reducedEffects[i]);
         return sameOrder ? prev : reducedEffects;
       });
 
@@ -210,7 +210,7 @@ export function HoudiniGlassProvider({
       setEnabledEffectsState((prev: any) => {
         const next = enabledEffects;
         const sameLength = prev.length === next.length;
-        const sameOrder = sameLength && prev.every((v, i) => v === next[i]);
+        const sameOrder = sameLength && prev.every((v: any, i: any) => v === next[i]);
         return sameOrder ? prev : next;
       });
       document.documentElement.style.setProperty('--glass-animation-speed', '1');

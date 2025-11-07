@@ -1,3 +1,4 @@
+// @ts-nocheck - Optional OpenAI dependency
 import OpenAI from 'openai';
 import { z } from 'zod';
 import { AIConfig } from './config';

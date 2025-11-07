@@ -369,7 +369,7 @@ export function AIGlassThemeProvider({
   // Favorites management
   const addToFavorites = useCallback((theme: GlassTheme) => {
     setFavoriteThemes((prev: any) => {
-      if (prev.find(t => t.id === theme.id)) return prev;
+      if (prev.find((t: any) => t.id === theme.id)) return prev;
       return [theme, ...prev];
     });
   }, []);

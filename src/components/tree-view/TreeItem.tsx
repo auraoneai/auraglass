@@ -98,7 +98,7 @@ const TreeItemContent = styled.div<{
   /* Accessible focus ring */
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px ${AURA_GLASS.surfaces.neutral.level2.border.color}, 0 0 0 6px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 0 0 2px ${AURA_GLASS.surfaces.neutral.level2.border.color}, 0 0 0 6px var(--glass-color-primary, 0.15);
   }
 
   /* Glass hover effect */

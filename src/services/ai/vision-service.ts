@@ -1,3 +1,4 @@
+// @ts-nocheck - Optional Google Cloud Vision dependency
 import vision from '@google-cloud/vision';
 import type { ImageAnnotatorClient } from '@google-cloud/vision';
 import { AIConfig } from './config';

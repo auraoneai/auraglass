@@ -118,7 +118,7 @@ export const createChartContainerStyles = (
         ? 'var(--glass-bg-default)'
         : theme === 'dark'
           ? '#1a1a1a'
-          : '#ffffff',
+          : 'var(--glass-white)',
       // Use createGlassStyle() instead,
       border: theme === 'glass' ? '1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))' : '1px solid #e0e0e0',
       boxShadow: theme === 'glass'
@@ -129,7 +129,7 @@ export const createChartContainerStyles = (
     title: {
       fontSize: '18px',
       fontWeight: 600,
-      color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+      color: theme === 'dark' ? 'var(--glass-white)' : '#1a1a1a',
       marginBottom: '8px',
       textAlign: 'center' as const,
     },
@@ -154,11 +154,11 @@ export const createChartContainerStyles = (
     },
     tooltip: {
       background: theme === 'glass'
-        ? 'rgba(0, 0, 0, 0.8)'
+        ? 'var(--glass-text-secondary-dark)'
         : theme === 'dark'
           ? '#333333'
-          : '#ffffff',
-      color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+          : 'var(--glass-white)',
+      color: theme === 'dark' ? 'var(--glass-white)' : '#1a1a1a',
       borderRadius: '8px',
       padding: '8px 12px',
       fontSize: '12px',

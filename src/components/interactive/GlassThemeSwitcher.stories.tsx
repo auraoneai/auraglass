@@ -82,7 +82,7 @@ export const CompactMode: Story = {
       {
         id: 'minimal',
         name: 'Minimal',
-        preview: { primary: '#2c3e50', secondary: '#34495e', background: '#ffffff', text: '#2c3e50' },
+        preview: { primary: '#2c3e50', secondary: '#34495e', background: 'var(--glass-white)', text: '#2c3e50' },
         colors: { primary: '#2c3e50', secondary: '#34495e', accent: '#ecf0f1' }
       },
       {

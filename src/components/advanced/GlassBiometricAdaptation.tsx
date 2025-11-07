@@ -338,8 +338,8 @@ class BiometricAdaptationEngine {
       baselineHeartRate: 70,
       stressPatterns: [],
       preferences: {
-        calmingColors: ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6'],
-        stressColors: ['#ef4444', '#f59e0b', '#ec4899'],
+        calmingColors: ['var(--glass-color-primary)', '#06b6d4', 'var(--glass-color-success)', '#8b5cf6'],
+        stressColors: ['var(--glass-color-danger)', 'var(--glass-color-warning)', '#ec4899'],
         calmingAnimations: ['gentle', 'slow', 'smooth'],
         stressAnimations: ['fast', 'sharp', 'intense'],
       },
@@ -668,7 +668,7 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
 
   if (colorAdaptation) {
     if (colorAdaptation.type === 'calming') {
-      const calmColor = colorAdaptation.colors[0] || '#3b82f6';
+      const calmColor = colorAdaptation.colors[0] || 'var(--glass-color-primary)';
       adaptiveStyles.backgroundColor = `${calmColor}20`;
       adaptiveStyles.borderColor = `${calmColor}40`;
     }
@@ -845,8 +845,8 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
                       if (!el) return;
                       el.style.left = `${(index / (history.length - 1)) * 100}%`;
                       el.style.height = `${(reading.stressLevel || 0) * 100}%`;
-                      el.style.backgroundColor = (reading.stressLevel || 0) > 0.7 ? '#ef4444' :
-                        (reading.stressLevel || 0) > 0.4 ? '#f59e0b' : '#10b981';
+                      el.style.backgroundColor = (reading.stressLevel || 0) > 0.7 ? 'var(--glass-color-danger)' :
+                        (reading.stressLevel || 0) > 0.4 ? 'var(--glass-color-warning)' : 'var(--glass-color-success)';
                     }}
                     className="glass-absolute glass-bottom-0 glass-w-1 glass-radius-md"
                   />

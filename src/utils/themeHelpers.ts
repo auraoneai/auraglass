@@ -62,17 +62,17 @@ export interface GlassTheme {
 // Theme helper functions
 export const createGlassTheme = (baseTheme: Partial<GlassTheme> = {}): GlassTheme => {
   const defaultColors: ThemeColors = {
-    primary: '#3b82f6',
-    secondary: '#6b7280',
+    primary: 'var(--glass-color-primary)',
+    secondary: 'var(--glass-gray-500)',
     accent: '#8b5cf6',
     background: '#0b1220',
     surface: 'rgba(255,255,255,0.06)',
     text: 'rgba(255,255,255,0.92)',
-    textSecondary: 'rgba(255,255,255,0.7)',
+    textSecondary: 'var(--glass-text-secondary)',
     border: 'rgba(255,255,255,0.16)',
-    error: '#ef4444',
-    warning: '#f59e0b',
-    success: '#10b981',
+    error: 'var(--glass-color-danger)',
+    warning: 'var(--glass-color-warning)',
+    success: 'var(--glass-color-success)',
     info: '#0ea5e9',
   };
 
@@ -284,7 +284,7 @@ export const validateTheme = (theme: Partial<GlassTheme>): string[] => {
     ];
 
     requiredColors.forEach((color: any) => {
-      if (!theme.colors![color]) {
+      if (!(theme.colors as any)![color]) {
         errors.push(`Theme colors must include ${color}`);
       }
     });
@@ -385,18 +385,18 @@ export const mergeThemes = (
 export const createDarkTheme = (): GlassTheme => {
   return createGlassTheme({
     colors: {
-      primary: '#60a5fa',
-      secondary: '#9ca3af',
+      primary: 'var(--glass-color-primary-light)',
+      secondary: 'var(--glass-gray-400)',
       accent: '#a78bfa',
       background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
       surface: 'rgba(31, 41, 55, 0.8)',
-      text: '#f9fafb',
+      text: 'var(--glass-gray-50)',
       textSecondary: 'rgba(156, 163, 175, 0.8)',
       border: 'rgba(75, 85, 99, 0.3)',
-      error: '#f87171',
-      warning: '#fbbf24',
-      success: '#34d399',
-      info: '#60a5fa',
+      error: 'var(--glass-color-danger-light)',
+      warning: 'var(--glass-color-warning-light)',
+      success: 'var(--glass-color-success-light)',
+      info: 'var(--glass-color-primary-light)',
     },
   });
 };
@@ -404,18 +404,18 @@ export const createDarkTheme = (): GlassTheme => {
 export const createLightTheme = (): GlassTheme => {
   return createGlassTheme({
     colors: {
-      primary: '#3b82f6',
-      secondary: '#6b7280',
+      primary: 'var(--glass-color-primary)',
+      secondary: 'var(--glass-gray-500)',
       accent: '#8b5cf6',
       background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
       surface: 'rgba(249, 250, 251, 0.8)',
-      text: '#111827',
+      text: 'var(--glass-gray-900)',
       textSecondary: 'rgba(75, 85, 99, 0.7)',
       border: 'rgba(229, 231, 235, 0.5)',
-      error: '#ef4444',
-      warning: '#f59e0b',
-      success: '#10b981',
-      info: '#3b82f6',
+      error: 'var(--glass-color-danger)',
+      warning: 'var(--glass-color-warning)',
+      success: 'var(--glass-color-success)',
+      info: 'var(--glass-color-primary)',
     },
   });
 };

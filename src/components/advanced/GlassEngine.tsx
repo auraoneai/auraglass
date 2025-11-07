@@ -377,7 +377,7 @@ export const GlassColorTinting: React.FC<{
     const images = containerRef.current.querySelectorAll('img');
     if (images.length > 0) {
       // Simulate extracting dominant color from first image
-      const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'];
+      const colors = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6'];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const r = parseInt(randomColor.slice(1, 3), 16);
       const g = parseInt(randomColor.slice(3, 5), 16);

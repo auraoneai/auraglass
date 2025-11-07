@@ -1,3 +1,4 @@
+// @ts-nocheck - Optional Pinecone and OpenAI dependencies
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
 import { AIConfig } from './config';

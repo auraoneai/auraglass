@@ -512,9 +512,9 @@ export class A11yTester {
    */
   runTestByRule(rule: string, container: HTMLElement = document.body): A11yTestResult[] {
     const results: A11yTestResult[] = [];
-    
+
     this.testSuites.forEach((suite: any) => {
-      const test = suite.tests.find(t => t.rule === rule);
+      const test = suite.tests.find((t: any) => t.rule === rule);
       if (test) {
         if (test.selector) {
           const elements = container.querySelectorAll<HTMLElement>(test.selector);

@@ -18,7 +18,7 @@ export interface ChartFiltersProps {
 }
 
 export const ChartFilters: React.FC<ChartFiltersProps> = ({
-  palette = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'],
+  palette = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6'],
   qualityTier = 'medium',
 }) => {
   // Generate filter effects based on quality tier

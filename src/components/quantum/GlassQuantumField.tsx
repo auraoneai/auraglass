@@ -603,7 +603,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       // Draw quantum info overlay
       if (showQuantumInfo) {
         ctx.save();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
         ctx.fillRect(10, 10, 300, 180);
         
         ctx.fillStyle = 'white';

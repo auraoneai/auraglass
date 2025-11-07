@@ -665,7 +665,7 @@ class NeuroSyncSystem {
     const keys = Object.keys(metrics[0]) as (keyof NeuroMetrics)[];
     const averages: Partial<NeuroMetrics> = {};
 
-    keys.forEach((key: any) => {
+    keys.forEach((key: keyof NeuroMetrics) => {
       const sum = metrics.reduce((total, metric) => total + metric[key], 0);
       averages[key] = sum / metrics.length;
     });
@@ -825,15 +825,15 @@ export function GlassNeuroMetricsDashboard({
     name: name.charAt(0).toUpperCase() + name.slice(1),
     value: value || 0,
     color: {
-      attention: '#3b82f6',
-      relaxation: '#10b981',
+      attention: 'var(--glass-color-primary)',
+      relaxation: 'var(--glass-color-success)',
       meditation: '#8b5cf6',
-      engagement: '#f59e0b',
-      cognitiveLoad: '#ef4444',
-      fatigue: '#6b7280',
-      stress: '#dc2626',
+      engagement: 'var(--glass-color-warning)',
+      cognitiveLoad: 'var(--glass-color-danger)',
+      fatigue: 'var(--glass-gray-500)',
+      stress: 'var(--glass-color-danger-dark)',
       flow: '#06b6d4',
-    }[name] || '#6b7280',
+    }[name] || 'var(--glass-gray-500)',
   }));
 
   return (
@@ -1002,7 +1002,7 @@ export function GlassNeuroFeedback({
         <div className="w-full h-4 glass-surface-subtle glass-radius-full glass-overflow-hidden">
           <motion.div
             className="h-full glass-radius-full"
-            ref={(el)=>{ if(!el) return; el.style.backgroundColor = isOnTarget ? '#10b981' : (difference>0 ? '#3b82f6' : '#f59e0b'); }}
+            ref={(el)=>{ if(!el) return; el.style.backgroundColor = isOnTarget ? 'var(--glass-color-success)' : (difference>0 ? 'var(--glass-color-primary)' : 'var(--glass-color-warning)'); }}
             animate={{ width: `${currentValue * 100}%` }}
             transition={{ duration: 0.3 }}
           />

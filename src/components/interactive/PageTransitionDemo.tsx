@@ -23,9 +23,9 @@ export const PageTransitionDemo: React.FC = () => {
             exit={{ opacity: 0, filter: 'blur(var(--glass-blur-md))', y: -10, transition: { duration: 0.2 } }}
             style={cardStyle}
           >
-            {page === 0 && <Section title="Overview" color="linear-gradient(135deg, #60a5fa33, #c084fc33)" />}
-            {page === 1 && <Section title="Details" color="linear-gradient(135deg, #34d39933, #60a5fa33)" />}
-            {page === 2 && <Section title="Insights" color="linear-gradient(135deg, #f472b633, #f59e0b33)" />}
+            {page === 0 && <Section title="Overview" color="linear-gradient(135deg, var(--glass-color-primary-light)33, #c084fc33)" />}
+            {page === 1 && <Section title="Details" color="linear-gradient(135deg, var(--glass-color-success-light)33, var(--glass-color-primary-light)33)" />}
+            {page === 2 && <Section title="Insights" color="linear-gradient(135deg, #f472b633, var(--glass-color-warning)33)" />}
           </motion.div>
         </AnimatePresence>
       </div>

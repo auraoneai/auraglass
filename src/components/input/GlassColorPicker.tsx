@@ -151,7 +151,7 @@ const hslToRgb = (h: number, s: number, l: number, a?: number): Color => {
 
 // Predefined color palettes
 const defaultPalette = [
-    '#000000', '#ffffff', '#ff0000', '#00ff00', '#0000ff',
+    'var(--glass-black)', 'var(--glass-white)', '#ff0000', '#00ff00', '#0000ff',
     '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080',
     '#ffc0cb', '#a52a2a', '#808080', '#000080', '#008000'
 ];
@@ -169,7 +169,7 @@ const materialPalette = [
  */
 export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
     value,
-    defaultValue = '#3b82f6',
+    defaultValue = 'var(--glass-color-primary)',
     onChange,
     format = 'hex',
     showAlpha = false,
@@ -406,7 +406,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                             <GlassInput
                                                 value={inputValue}
                                                 onChange={(e) => handleInputChange(e.target.value)}
-                                                placeholder="#000000"
+                                                placeholder="var(--glass-black)"
                                                 className="text-sm"
                                             />
                                         )}

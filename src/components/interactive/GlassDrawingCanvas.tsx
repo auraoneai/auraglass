@@ -68,7 +68,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
     {
       width = 800,
       height = 600,
-      tool = { type: 'pen', size: 2, color: '#000000', opacity: 1 },
+      tool = { type: 'pen', size: 2, color: 'var(--glass-black)', opacity: 1 },
       readOnly = false,
       backgroundColor = 'transparent',
       backgroundImage,

@@ -16,7 +16,7 @@ const ComponentGallery: React.FC = () => {
           <h1 style={{ 
             fontSize: '3rem', 
             fontWeight: 'bold',
-            background: 'linear-gradient(135deg, #ffffff, #a855f7)',
+            background: 'linear-gradient(135deg, var(--glass-white), #a855f7)',
             backgroundClip: 'text',
             color: 'transparent',
             marginBottom: '1rem'

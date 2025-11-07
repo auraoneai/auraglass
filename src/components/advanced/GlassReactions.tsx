@@ -51,13 +51,13 @@ interface GlassReactionsProps {
 }
 
 const defaultReactionTypes: ReactionType[] = [
-  { emoji: '👍', name: 'Like', color: '#3b82f6', sound: 'success', shortcut: '1' },
-  { emoji: '❤️', name: 'Love', color: '#ef4444', sound: 'notification', shortcut: '2' },
-  { emoji: '😂', name: 'Laugh', color: '#f59e0b', sound: 'tap', shortcut: '3' },
+  { emoji: '👍', name: 'Like', color: 'var(--glass-color-primary)', sound: 'success', shortcut: '1' },
+  { emoji: '❤️', name: 'Love', color: 'var(--glass-color-danger)', sound: 'notification', shortcut: '2' },
+  { emoji: '😂', name: 'Laugh', color: 'var(--glass-color-warning)', sound: 'tap', shortcut: '3' },
   { emoji: '😮', name: 'Wow', color: '#8b5cf6', sound: 'morph', shortcut: '4' },
-  { emoji: '😢', name: 'Sad', color: '#6b7280', sound: 'slide', shortcut: '5' },
-  { emoji: '😡', name: 'Angry', color: '#dc2626', sound: 'error', shortcut: '6' },
-  { emoji: '🎉', name: 'Celebrate', color: '#10b981', sound: 'success', shortcut: '7' },
+  { emoji: '😢', name: 'Sad', color: 'var(--glass-gray-500)', sound: 'slide', shortcut: '5' },
+  { emoji: '😡', name: 'Angry', color: 'var(--glass-color-danger-dark)', sound: 'error', shortcut: '6' },
+  { emoji: '🎉', name: 'Celebrate', color: 'var(--glass-color-success)', sound: 'success', shortcut: '7' },
   { emoji: '🤔', name: 'Think', color: '#f97316', sound: 'hover', shortcut: '8' },
 ];
 

@@ -428,7 +428,7 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
           </div>
           {showRatioLines && (
             <div className="flex items-center gap-2 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
-              <div className="w-4 h-0-5 glass-surface-yellow opacity-50" style={{ background: 'repeating-linear-gradient(to right, #fbbf24 0, #fbbf24 3px, transparent 3px, transparent 6px)' }} />
+              <div className="w-4 h-0-5 glass-surface-yellow opacity-50" style={{ background: 'repeating-linear-gradient(to right, var(--glass-color-warning-light) 0, var(--glass-color-warning-light) 3px, transparent 3px, transparent 6px)' }} />
               Spiral
             </div>
           )}

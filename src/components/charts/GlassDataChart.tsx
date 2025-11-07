@@ -341,7 +341,7 @@ const TooltipHeader = styled.div<{
 }>`
   font-weight: var(--typography-heading-weight);
   margin-bottom: 8px;
-  color: ${props => props.$color || '#ffffff'};
+  color: ${props => props.$color || 'var(--glass-white)'};
 `;
 
 const TooltipRow = styled.div`
@@ -359,7 +359,7 @@ const TooltipLabel = styled.span`
 const TooltipValue = styled.span<{
   $highlighted?: boolean;
 }>`
-  color: ${props => props.$highlighted ? '#ffffff' : glassTokenUtils.getSurface('neutral', 'level1').text.primary};
+  color: ${props => props.$highlighted ? 'var(--glass-white)' : glassTokenUtils.getSurface('neutral', 'level1').text.primary};
   font-weight: ${props => props.$highlighted ? '600' : '400'};
 `;
 
@@ -668,12 +668,12 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     palette = [
       '#6366F1', // primary
       '#8B5CF6', // secondary
-      '#3B82F6', // blue
-      '#10B981', // green
-      '#F59E0B', // yellow
-      '#EF4444', // red
+      'var(--glass-color-primary)', // blue
+      'var(--glass-color-success)', // green
+      'var(--glass-color-warning)', // yellow
+      'var(--glass-color-danger)', // red
       '#EC4899', // pink
-      '#6B7280', // gray
+      'var(--glass-gray-500)', // gray
     ],
     allowTypeSwitch = true,
     borderRadius = 12,
@@ -929,7 +929,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
   // Memoized hex to RGB conversion function
   const hexToRgb = useCallback((hex: string) => {
     // Provide a default color if hex is undefined
-    const safeHex = hex || '#FFFFFF';
+    const safeHex = hex || 'var(--glass-white)';
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(safeHex);
     return result 
       ? `${parseInt(result?.[1], 16)}, ${parseInt(result?.[2], 16)}, ${parseInt(result?.[3], 16)}`
@@ -947,7 +947,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       return {
         id: dataset.id,
         label: dataset.label,
-        color: color || '#FFFFFF',
+        color: color || 'var(--glass-white)',
         rgbColor,
         isActive,
         index
@@ -1041,10 +1041,10 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
         const physicsOptions = getElementPhysicsOptions(dataPoint, datasetIndex, dataIndex, chartType);
         if (physicsOptions?.clickEffect) {
           const key = `${datasetIndex}_${dataIndex}`;
-          setElementAnimationTargets((prev: any) => 
-            new Map(prev).set(key, { 
-              ...prev.get(key),
-              targetScale: physicsOptions.clickEffect?.scale ?? 1, 
+          setElementAnimationTargets((prev: Map<string, any>) =>
+            new Map(prev).set(key, {
+              ...(prev.get(key) || {}),
+              targetScale: physicsOptions.clickEffect?.scale ?? 1,
               targetOpacity: physicsOptions.clickEffect?.opacity ?? 1,
               // Add other effects
             })
@@ -1118,9 +1118,9 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
           if (!dataPoint) return;
           const physicsOptions = getElementPhysicsOptions(dataPoint, datasetIndex, dataIndex, chartType);
           if (physicsOptions?.hoverEffect) {
-            setElementAnimationTargets((prev: any) => 
+            setElementAnimationTargets((prev: Map<string, any>) => 
               new Map(prev).set(currentHoveredKey!, { // Use non-null assertion as key is set
-                ...prev.get(currentHoveredKey!), 
+                ...(prev.get(currentHoveredKey!) || {}), 
                 targetScale: physicsOptions.hoverEffect?.scale ?? 1,
                 targetOpacity: physicsOptions.hoverEffect?.opacity ?? 1,
                 // Add other effects
@@ -1166,9 +1166,9 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     // Reset animation targets for previously hovered element if it's different
     // Only reset if physics hover effects are enabled
     if (interaction.physicsHoverEffects && previousHoveredKey && previousHoveredKey !== currentHoveredKey) {
-         setElementAnimationTargets((prev: any) => 
+         setElementAnimationTargets((prev: Map<string, any>) => 
             new Map(prev).set(previousHoveredKey, { 
-              ...prev.get(previousHoveredKey),
+              ...(prev.get(previousHoveredKey) || {}),
               targetScale: 1, 
               targetOpacity: 1,
               // Reset other effects
@@ -1189,7 +1189,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     // Reset all hover targets on leave ONLY if physics effects are enabled
     if (interaction.physicsHoverEffects) {
         let resetOccurred = false;
-        setElementAnimationTargets((prev: any) => {
+        setElementAnimationTargets((prev: Map<string, any>) => {
             const next = new Map(prev);
             for (const key of next.keys()) {
                 const current = next.get(key);
@@ -1268,7 +1268,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
       
       if (title) {
         exportContext.font = `bold ${16 * devicePixelRatio}px Inter, sans-serif`;
-        exportContext.fillStyle = '#ffffff';
+        exportContext.fillStyle = 'var(--glass-white)';
         exportContext.fillText(title, exportCanvas.width / 2, 25 * devicePixelRatio);
       }
       
@@ -1439,7 +1439,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
             $quality={typeof activeQuality === 'string' ? activeQuality : (activeQuality as any).tier}
             style={{ left: `${hoveredPoint.x ?? 0}px`, top: `${hoveredPoint.y ?? 0}px` }}
           >
-            <TooltipHeader $color={hoveredPoint.value?.color || '#FFFFFF'}>
+            <TooltipHeader $color={hoveredPoint.value?.color || 'var(--glass-white)'}>
               {hoveredPoint.value?.dataset || 'Data'}
             </TooltipHeader>
             
@@ -1467,7 +1467,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
             showArrow={true}
             content={
               <div>
-                <div style={{ color: hoveredPoint.value?.color || '#FFFFFF' }}>
+                <div style={{ color: hoveredPoint.value?.color || 'var(--glass-white)' }}>
                   {String(hoveredPoint.value?.dataset ?? 'Dataset')}
                 </div>
                 <div>

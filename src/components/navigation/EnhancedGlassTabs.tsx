@@ -149,8 +149,8 @@ const getTabColors = (
     primary: { light: '#4B66EA', dark: '#6366F1' },
     secondary: { light: '#8B5CF6', dark: '#A855F7' },
     accent: { light: '#EC4899', dark: '#F472B6' },
-    light: { light: '#F9FAFB', dark: '#F3F4F6' },
-    dark: { light: '#1F2937', dark: '#111827' },
+    light: { light: 'var(--glass-gray-50)', dark: 'var(--glass-gray-100)' },
+    dark: { light: 'var(--glass-gray-800)', dark: 'var(--glass-gray-900)' },
   };
 
   const selectedColor = baseColors?.[color || 'primary'][isDarkMode ? 'dark' : 'light'];
@@ -158,14 +158,14 @@ const getTabColors = (
   return {
     activeColor: selectedColor,
     activeBg: isDarkMode ? `${selectedColor}22` : `${selectedColor}11`,
-    activeText: highContrast ? (isDarkMode ? '#FFFFFF' : '#000000') : selectedColor,
+    activeText: highContrast ? (isDarkMode ? 'var(--glass-white)' : 'var(--glass-black)') : selectedColor,
     inactiveText: isDarkMode
       ? highContrast
         ? 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'
         : 'rgba(var(--glass-color-white) / var(--glass-opacity-60))'
       : highContrast
-      ? 'rgba(0, 0, 0, 0.8)'
-      : 'rgba(0, 0, 0, 0.6)',
+      ? 'var(--glass-text-secondary-dark)'
+      : 'var(--glass-text-tertiary-dark)',
     hoverBg: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
     disabledText: isDarkMode ? 'var(--glass-bg-hover)' : 'rgba(var(--glass-color-black) / var(--glass-opacity-30))',
   };

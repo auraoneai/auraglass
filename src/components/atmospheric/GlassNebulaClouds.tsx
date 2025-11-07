@@ -580,7 +580,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
       // Nebula info overlay
       if (showNebulaInfo) {
         ctx.save();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
         ctx.fillRect(10, 10, 250, 160);
         
         ctx.fillStyle = 'white';

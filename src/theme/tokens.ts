@@ -1,19 +1,19 @@
 // Theme tokens
 export const colors = {
-  primary: '#3b82f6',
-  secondary: '#6b7280',
-  success: '#10b981',
-  warning: '#f59e0b',
-  error: '#ef4444',
+  primary: 'var(--glass-color-primary)',
+  secondary: 'var(--glass-gray-500)',
+  success: 'var(--glass-color-success)',
+  warning: 'var(--glass-color-warning)',
+  error: 'var(--glass-color-danger)',
   info: '#06b6d4',
-  background: '#ffffff',
+  background: 'var(--glass-white)',
   surface: '#f8fafc',
   text: {
-    primary: '#1f2937',
-    secondary: '#6b7280',
-    disabled: '#9ca3af',
+    primary: 'var(--glass-gray-800)',
+    secondary: 'var(--glass-gray-500)',
+    disabled: 'var(--glass-gray-400)',
   },
-  border: '#e5e7eb',
+  border: 'var(--glass-gray-200)',
   shadow: 'rgba(0, 0, 0, 0.1)',
 };
 

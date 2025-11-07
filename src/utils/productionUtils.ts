@@ -271,7 +271,7 @@ export const data = {
     const result = {} as Pick<T, K>;
     keys.forEach((key: any) => {
       if (key in obj) {
-        result[key] = obj[key];
+        (result as any)[key] = obj[key];
       }
     });
     return result;

@@ -166,7 +166,7 @@ export class SmartColorExtraction {
       
       // Draw element styles to canvas (simplified)
       const computedStyle = getComputedStyle(element);
-      this.ctx.fillStyle = computedStyle.backgroundColor || '#ffffff';
+      this.ctx.fillStyle = computedStyle.backgroundColor || 'var(--glass-white)';
       this.ctx.fillRect(0, 0, rect.width, rect.height);
       
       // Extract text colors, border colors, etc.
@@ -289,9 +289,9 @@ export class SmartColorExtraction {
       // Update centroids
       const newCentroids = clusters.map((cluster: any) => {
         if (cluster.length === 0) return centroids[0]; // Fallback
-        
+
         const sum = cluster.reduce(
-          (acc, pixel) => ({
+          (acc: any, pixel: any) => ({
             r: acc.r + pixel.r,
             g: acc.g + pixel.g,
             b: acc.b + pixel.b,
@@ -646,7 +646,7 @@ export class SmartColorExtraction {
    * Generate mesh gradient
    */
   private generateMeshGradient(colors: ExtractedColor[]): string {
-    if (colors.length < 2) return colors[0]?.hex || '#3b82f6';
+    if (colors.length < 2) return colors[0]?.hex || 'var(--glass-color-primary)';
     
     const positions = [
       'circle at 20% 20%',
@@ -806,9 +806,9 @@ export class SmartColorExtraction {
       dominant: [defaultColor],
       supporting: [],
       gradients: {
-        primary: '#3b82f6',
-        secondary: '#3b82f6',
-        mesh: '#3b82f6',
+        primary: 'var(--glass-color-primary)',
+        secondary: 'var(--glass-color-primary)',
+        mesh: 'var(--glass-color-primary)',
       },
       accessibility: {
         textOnLight: defaultColor,

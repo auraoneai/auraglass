@@ -31,7 +31,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
         background: active ? glassTokenUtils.getSurface('neutral', 'level1').surface.base : 'transparent',
         border: 'none',
         borderRadius: '6px',
-        color: active ? '#ffffff' : glassTokenUtils.getSurface('neutral', 'level1').text.secondary,
+        color: active ? 'var(--glass-white)' : glassTokenUtils.getSurface('neutral', 'level1').text.secondary,
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.5 : 1,
         fontSize: '0.875rem', // body text
@@ -46,7 +46,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
       {badge && (
         <span
           style={{
-            background: '#ef4444',
+            background: 'var(--glass-color-danger)',
             color: 'white',
             borderRadius: '10px',
             padding: '2px 6px',

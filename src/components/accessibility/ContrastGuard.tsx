@@ -38,7 +38,7 @@ export interface ContrastGuardProps {
 
   /**
    * Text color
-   * @default 'rgba(255,255,255,0.95)'
+   * @default 'var(--glass-text-primary)'
    */
   textColor?: string;
 
@@ -85,7 +85,7 @@ export const ContrastGuard: React.FC<ContrastGuardProps> = ({
   minContrast = 4.5,
   fallbackColor = 'var(--glass-text-primary)',
   backgroundColor,
-  textColor = 'rgba(255,255,255,0.95)',
+  textColor = 'var(--glass-text-primary)',
   material = 'liquid',
   variant = 'regular',
   autoAdjust = true,
@@ -122,23 +122,24 @@ export const ContrastGuard: React.FC<ContrastGuardProps> = ({
 
   return (
     <Component
-      ref={elementRef as any}
-      className={cn(
-        'contrast-guard',
-        adjustment?.meetsRequirement && 'contrast-guard--compliant',
-        adjustment?.modifications.fallbackMode && 'contrast-guard--fallback',
-        className
-      )}
-      style={{
-        ...appliedStyles,
-        ...(backgroundColor && { backgroundColor }),
-      }}
-      data-contrast-level={level}
-      data-contrast-ratio={adjustment?.adjustedContrast?.toFixed(2)}
-      data-meets-wcag={adjustment?.meetsRequirement}
-    >
-      {children}
-    </Component>
+      {...{
+        ref: elementRef as any,
+        className: cn(
+          'contrast-guard',
+          adjustment?.meetsRequirement && 'contrast-guard--compliant',
+          adjustment?.modifications.fallbackMode && 'contrast-guard--fallback',
+          className
+        ),
+        style: {
+          ...appliedStyles,
+          ...(backgroundColor && { backgroundColor }),
+        },
+        'data-contrast-level': level,
+        'data-contrast-ratio': adjustment?.adjustedContrast?.toFixed(2),
+        'data-meets-wcag': adjustment?.meetsRequirement,
+        children,
+      } as any}
+    />
   );
 };
 
