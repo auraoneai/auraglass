@@ -12,7 +12,7 @@ export class CacheService {
 
     try {
       this.client = createClient({ url: this.config.url });
-      this.client.on('error', (err) => {
+      this.client.on('error', (err: Error) => {
         console.warn('Redis client error, falling back to memory cache:', err.message);
         this.connected = false;
       });
