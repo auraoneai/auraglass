@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
