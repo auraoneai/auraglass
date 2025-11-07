@@ -89,6 +89,9 @@ storybook-static
 tmp/
 temp/
 
+# Scripts directory
+scripts/
+
 # Editor directories and files
 .vscode/
 .idea/
