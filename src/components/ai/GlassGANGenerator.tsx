@@ -688,7 +688,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
                   whileHover={shouldAnimate ? { scale: 1.05 } : {}}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
                 >
                   <img 
                     src={imageUrl} 

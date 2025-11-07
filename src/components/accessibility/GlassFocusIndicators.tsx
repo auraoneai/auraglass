@@ -14,8 +14,8 @@ interface FocusRingProps {
 }
 
 // Enhanced focus ring component
-function FocusRing({
-  const prefersReducedMotion = useReducedMotion(); element, variant = 'default' }: FocusRingProps) {
+function FocusRing({ element, variant = 'default' }: FocusRingProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [position, setPosition] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [isVisible, setIsVisible] = useState(true);
 
@@ -126,11 +126,11 @@ function FocusRing({
             scale: [1, 1.5, 1],
             opacity: [0.6, 1, 0.6]
           }}
-          transition={{ duration: prefersReducedMotion ? 0 : 
-            duration: 1.5,
-            repeat: Infinity,
-            delay: corner === 'top-right' ? 0.2 : corner === 'bottom-right' ? 0.4 : corner === 'bottom-left' ? 0.6 : 0
-           }}
+          transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 1.5,
+    repeat: Infinity,
+    delay: corner === 'top-right' ? 0.2 : corner === 'bottom-right' ? 0.4 : corner === 'bottom-left' ? 0.6 : 0
+          }}
         />
       ))}
     </motion.div>

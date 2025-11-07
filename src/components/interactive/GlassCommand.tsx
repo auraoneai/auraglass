@@ -217,7 +217,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
     };
 
     return (
-        <CommandContext data-glass-component.Provider value={{ selectedIndex, setSelectedIndex, query, setQuery }}>
+        <CommandContext.Provider data-glass-component value={{ selectedIndex, setSelectedIndex, query, setQuery }}>
             <OptimizedGlass
                 intent="neutral"
                 elevation="level3"

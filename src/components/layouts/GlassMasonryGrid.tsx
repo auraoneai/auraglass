@@ -540,10 +540,10 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
                 }}
                 initial={shouldAnimate ? { opacity: 0, scale: 0.8 } : false}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: prefersReducedMotion ? 0 :  
-                  delay: shouldAnimate ? index * masonryConfig.animationDelay : 0,
-                  duration: 0.3 
-                 }}
+                transition={prefersReducedMotion ? { duration: 0 } : {
+    delay: shouldAnimate ? index * masonryConfig.animationDelay : 0,
+    duration: 0.3
+                }}
                 drag={enableDragReorder}
                 onDragStart={(event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => handleDragStart(event as any, item.id)}
                 onDragEnd={(event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => handleDrop(event as any, item.id)}

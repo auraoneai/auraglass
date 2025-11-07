@@ -962,7 +962,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   };
 
   return (
-    <ImageProcessingContext data-glass-component.Provider value={value}>
+    <ImageProcessingContext.Provider data-glass-component value={value}>
       {children}
     </ImageProcessingContext.Provider>
   );

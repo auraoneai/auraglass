@@ -189,7 +189,7 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
   const compatibleRest = rest;
 
   return (
-    <TreeViewContext data-glass-component.Provider value={contextValue}>
+    <TreeViewContext.Provider data-glass-component value={contextValue}>
       <TreeViewRoot
         ref={ref}
         role="tree"

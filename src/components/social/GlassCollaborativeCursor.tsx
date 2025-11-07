@@ -190,7 +190,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
           scale: user.isActive ? 1 : 0.8,
           opacity: user.isActive ? 1 : 0.6
         }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       >
         <svg
           width={size}

@@ -291,7 +291,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
     };
 
     return (
-        <WizardContext data-glass-component.Provider value={contextValue}>
+        <WizardContext.Provider data-glass-component value={contextValue}>
             <Motion preset="fadeIn" className="w-full max-w-4xl mx-auto">
                 <GlassCard className={cn('overflow-hidden', className)} {...props}>
                     {/* Header */}

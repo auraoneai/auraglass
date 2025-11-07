@@ -351,7 +351,7 @@ function ReactionComponent({
         scale: 0,
         rotate: 180,
       }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       <span className="block transform -translate-x-1/2 -translate-y-1/2">
         {emoji}
@@ -364,11 +364,11 @@ function ReactionComponent({
           animate={prefersReducedMotion ? {} : {
             x: [-100, 100],
           }}
-          transition={{ duration: prefersReducedMotion ? 0 : 
-            duration: 2,
-            repeat: Infinity,
-            ease: 'linear',
-           }}
+          transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2,
+    repeat: Infinity,
+    ease: 'linear',
+          }}
         />
       )}
     </motion.div>
@@ -431,7 +431,7 @@ function ReactionPicker({
       initial={{ opacity: 0, scale: 0.8, y: 10 }}
       animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8, y: 10 }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       <div className="grid grid-cols-4 gap-1">
         {reactionTypes.map((reactionType, index) => (
@@ -448,7 +448,7 @@ function ReactionPicker({
             title={`${reactionType.name} (${reactionType.shortcut})`}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
           >
             {reactionType.emoji}
           </motion.button>
@@ -544,7 +544,7 @@ export function GlassReactionBar({
           title={reactionType.name}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
         >
           {reactionType.emoji}
         </motion.button>

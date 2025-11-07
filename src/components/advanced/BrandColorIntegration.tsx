@@ -33,7 +33,6 @@ interface BrandColorIntegrationProps {
 }
 
 export default function BrandColorIntegration({
-  const prefersReducedMotion = useReducedMotion();
   entityId,
   brandColors,
   fallbackColors = {
@@ -44,6 +43,7 @@ export default function BrandColorIntegration({
   className='',
   children
 }: BrandColorIntegrationProps) {
+  const prefersReducedMotion = useReducedMotion();
   const { currentPalette, adaptToBrand } = useIntelligentColor()
   const [entityColors, setEntityColors] = useState<EntityBrandColors | null>(null)
   const [isLoading, setIsLoading] = useState(false)

@@ -348,7 +348,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
                                             key={result.id}
                                             initial={{ opacity: 0, x: -20 }}
                                             animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                                            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                                            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
                                             className="p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ring-1 ring-white/10 hover:ring-white/20 border border-white/10 hover:border-white/20"
                                             onClick={(e) => onResultSelect?.(result)}
                                         >

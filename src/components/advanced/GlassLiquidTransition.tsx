@@ -368,10 +368,10 @@ function LiquidSplash({ x, y, intensity, duration }: LiquidSplashProps): JSX.Ele
               opacity: [1, 0.5, 0],
             }}
             exit={{ opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 
-              duration: duration / 1000,
-              ease: 'easeOut',
-             }}
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: duration / 1000,
+    ease: 'easeOut',
+            }}
             style={{
               translateX: '-50%',
               translateY: '-50%',

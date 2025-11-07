@@ -787,7 +787,7 @@ export function GlassPredictionIndicator({
               className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-blue glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
               animate={prefersReducedMotion ? {} : { scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             >
               {predictions.length}
             </motion.div>

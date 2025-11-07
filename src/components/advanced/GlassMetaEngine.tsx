@@ -811,7 +811,7 @@ export function GlassMetaDashboard({
               className="absolute -glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 -right-2 w-4 h-4 glass-surface-green glass-radius-full text-xs text-primary flex items-center justify-center"
               initial={{ scale: 0 }}
               animate={prefersReducedMotion ? {} : { scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             >
               {optimizations.length}
             </motion.div>

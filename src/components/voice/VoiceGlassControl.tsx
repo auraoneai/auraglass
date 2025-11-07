@@ -164,7 +164,6 @@ const getVoiceCommandsHelp = (): string[] => {
 };
 
 export default function VoiceGlassControl({
-  const prefersReducedMotion = useReducedMotion();
   className,
   position = 'top-left',
   autoEnable = false,
@@ -176,6 +175,7 @@ export default function VoiceGlassControl({
   showHelp = true,
   maxTranscriptLength = 100
 }: VoiceGlassControlProps) {
+  const prefersReducedMotion = useReducedMotion();
   const { state, actions } = useVoiceGlassControl();
   const [showSettings, setShowSettings] = useState(false);
   const [showHelpPanel, setShowHelpPanel] = useState(false);

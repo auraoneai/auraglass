@@ -54,7 +54,7 @@ const GlassSelectTrigger = React.forwardRef<
   };
 
   return (
-    <SelectPrimitive data-glass-component.Trigger
+    <SelectPrimitive.Trigger data-glass-component
       ref={ref}
       className={cn(
         // Base styles

@@ -391,7 +391,7 @@ function LiveCursorComponent({
             y: trailPoint.y,
           }}
           exit={{ opacity: 0, scale: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
         >
           <div
             className={cn(
@@ -419,7 +419,7 @@ function LiveCursorComponent({
           rotate: Math.atan2(cursor.velocity.y, cursor.velocity.x) * 180 / Math.PI,
         }}
         exit={{ opacity: 0, scale: 0 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       >
         {/* Cursor icon */}
         <div

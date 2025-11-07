@@ -662,7 +662,7 @@ export function GlassQuantumButton({
             initial={{ scale: 0, opacity: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1, opacity: 0.8 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
           />
         )}
       </AnimatePresence>

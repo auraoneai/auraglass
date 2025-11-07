@@ -510,11 +510,11 @@ export function AuroraPro({
               scale: isPlaying ? [1, 1.2, 1] : 1,
               opacity: isPlaying ? [0.6, 1, 0.6] : 0.6
             }}
-            transition={{ duration: prefersReducedMotion ? 0 : 
-              duration: 2,
-              repeat: isPlaying ? Infinity : 0,
-              ease: 'easeInOut'
-             }}
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2,
+    repeat: isPlaying ? Infinity : 0,
+    ease: 'easeInOut'
+            }}
           >
             <Sparkles className={cn("glass-w-3 glass-h-3")} />
           </motion.div>

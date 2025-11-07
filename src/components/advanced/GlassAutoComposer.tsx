@@ -214,7 +214,7 @@ class AILayoutGenerator {
           className="glass-surface-secondary glass-elev-2 glass-radius-lg p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
         >
           <div className="text-2xl font-bold text-primary">{stat.value}</div>
           <div className="text-sm glass-text-secondary">{stat.label}</div>
@@ -301,7 +301,7 @@ class AILayoutGenerator {
       className="glass-surface-secondary glass-elev-2 glass-radius-lg overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       whileHover={{ scale: 1.02 }}
     >
       {item.image && (
@@ -349,7 +349,7 @@ class AILayoutGenerator {
         className="p-4 hover:glass-surface-secondary transition-colors"
         initial={{ opacity: 0, x: -20 }}
         animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

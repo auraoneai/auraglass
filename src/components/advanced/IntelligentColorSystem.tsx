@@ -764,7 +764,7 @@ export const ColorAdaptationDemo: React.FC = () => {
             <motion.div
               className={cn('glass-w-4 glass-h-4 glass-surface-light glass-radius-full')}
               animate={prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             />
           </motion.button>
         </div>

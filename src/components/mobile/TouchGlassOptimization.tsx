@@ -278,7 +278,7 @@ export function MobileGlassNavigation({
         y: 0,
         opacity: 1
       }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       {children}
     </motion.div>
@@ -484,7 +484,7 @@ export function MobileGlassBottomSheet({
             initial={{ y: '100%' }}
             animate={prefersReducedMotion ? {} : { y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={0.1}

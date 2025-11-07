@@ -639,7 +639,7 @@ export function GlassAudioReactive({
         opacity: 0.8 + audioIntensity * 0.2,
         backgroundColor: `rgba(255, 255, 255, ${0.1 + audioIntensity * 0.1})`,
       }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       {children}
     </motion.div>
@@ -741,11 +741,11 @@ export function GlassSpatialVisualizer({
                                    '#ec4899',
                     }}
                     animate={prefersReducedMotion ? {} : { scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 
-                      repeat: Infinity,
-                      duration: 2,
-                      ease: "easeOut",
-                     }}
+                    transition={prefersReducedMotion ? { duration: 0 } : {
+    repeat: Infinity,
+    duration: 2,
+    ease: "easeOut",
+                    }}
                   />
                 )}
               </motion.div>

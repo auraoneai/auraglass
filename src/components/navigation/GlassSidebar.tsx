@@ -207,7 +207,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
     }, [isCollapsed]);
 
     return (
-      <SidebarContext data-glass-component.Provider value={contextValue}>
+      <SidebarContext.Provider data-glass-component value={contextValue}>
         <Motion
           preset={variant === 'overlay' ? 'slideRight' : 'none'}
           className={cn(

@@ -546,10 +546,10 @@ export function GlassEyeTrackingCalibration({
                   scale: index === currentPoint ? [1, 1.2, 1] : index < currentPoint ? 1 : 0,
                   opacity: index <= currentPoint ? 1 : 0.3,
                 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 
-                  duration: index === currentPoint ? 0.5 : 0.2,
-                  repeat: index === currentPoint ? Infinity : 0,
-                 }}
+                transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: index === currentPoint ? 0.5 : 0.2,
+    repeat: index === currentPoint ? Infinity : 0,
+                }}
                 onClick={() => handlePointClick(point, index)}
               >
                 <div
@@ -676,7 +676,7 @@ export function GlassGazeResponsive({
           borderRadius: `${8 + gazeIntensity * 4}px`,
         }),
       }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
       // background color applied via ref assignment above
     >
       {children}

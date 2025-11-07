@@ -777,7 +777,7 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
       initial={{ x: 300, opacity: 0, scale: 0.8 }}
       animate={prefersReducedMotion ? {} : { x: 0, opacity: 1, scale: 1 }}
       exit={{ x: 300, opacity: 0, scale: 0.8 }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
       <OptimizedGlass
         intent="neutral"
@@ -878,11 +878,11 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
               opacity: [1, 0],
               scale: [1, 0],
             }}
-            transition={{ duration: prefersReducedMotion ? 0 : 
-              duration: 1.5,
-              delay: delay / 1000 + 0.5 + i * 0.1,
-              ease: "easeOut",
-             }}
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 1.5,
+    delay: delay / 1000 + 0.5 + i * 0.1,
+    ease: "easeOut",
+            }}
           />
         ))}
       </motion.div>

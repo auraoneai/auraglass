@@ -228,7 +228,7 @@ export function GlassFoldableSupport({
               }}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
             >
               <div className="OptimizedGlass intensity={0.2} blur={6} w-full h-full">
                 {React.Children.toArray(children)[index] || children}

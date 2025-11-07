@@ -152,12 +152,12 @@ export function GlassPrismComparison() {
               animate={{
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
-              transition={{ duration: prefersReducedMotion ? 0 :  
-                duration: 4, 
-                repeat: Infinity,
-              repeatType: "loop", 
-                ease: "easeInOut"
-               }}
+              transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 4,
+    repeat: Infinity,
+    repeatType: "loop",
+    ease: "easeInOut"
+              }}
             >
               THE IMPOSSIBLE
               {/* Backup text for better visibility */}
@@ -325,12 +325,12 @@ export function GlassPrismComparison() {
                     opacity: [0, 0.8, 0],
                     scaleX: [0, 1, 0],
                   }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 
-                    duration: 2,
-                    repeat: Infinity,
-              repeatType: "loop",
-                    delay: i * 0.3,
-                   }}
+                  transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2,
+    repeat: Infinity,
+    repeatType: "loop",
+    delay: i * 0.3,
+                  }}
                 />
               ))}
               
@@ -433,12 +433,12 @@ export function GlassPrismComparison() {
               opacity: [0.3, 1, 0.3],
               scale: [1, 1.5, 1],
             }}
-            transition={{ duration: prefersReducedMotion ? 0 : 
-              duration: Math.max(3 + seededRandom(i * 21000) * 2, 0.5),
-              repeat: Infinity,
-              repeatType: "loop",
-              delay: Math.max(seededRandom(i * 22000) * 2, 0),
-             }}
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: Math.max(3 + seededRandom(i * 21000) * 2, 0.5),
+    repeat: Infinity,
+    repeatType: "loop",
+    delay: Math.max(seededRandom(i * 22000) * 2, 0),
+            }}
           />
         ))}
       </div>

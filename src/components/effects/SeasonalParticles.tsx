@@ -401,11 +401,11 @@ export function SeasonalParticles({
               animate={prefersReducedMotion ? {} : {
                 x: windStrength > 0 ? [0, 5, 0] : 0
               }}
-              transition={{ duration: prefersReducedMotion ? 0 : 
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut'
-               }}
+              transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2,
+    repeat: Infinity,
+    ease: 'easeInOut'
+              }}
             >
               <Wind className="w-3 h-3" />
             </motion.div>

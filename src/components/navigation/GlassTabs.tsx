@@ -117,7 +117,7 @@ export const GlassTabs = forwardRef<HTMLDivElement, GlassTabsProps>(
     };
 
     return (
-      <TabsContext data-glass-component.Provider value={contextValue}>
+      <TabsContext.Provider data-glass-component value={contextValue}>
         <div
           ref={ref}
           className={cn(

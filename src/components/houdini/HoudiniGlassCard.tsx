@@ -114,10 +114,10 @@ export function HoudiniGlassCard({
       onMouseLeave={handleMouseLeave}
       whileHover={interactive ? { scale: 1.02 } : {}}
       whileTap={interactive ? { scale: 0.98 } : {}}
-      transition={{ duration: prefersReducedMotion ? 0 : 
-        duration: performanceMode ? 0.15 : 0.3,
-        ease: "easeOut"
-       }}
+      transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: performanceMode ? 0.15 : 0.3,
+    ease: "easeOut"
+      }}
     >
       {/* Header */}
       {(title || description || showControls) && (

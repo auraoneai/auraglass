@@ -249,11 +249,11 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
               opacity: [0.1, 0.5, 0.1],
               scale: [0.5, 1, 0.5],
             }}
-            transition={{ duration: prefersReducedMotion ? 0 : 
-              duration: 2 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-             }}
+            transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 2 + Math.random() * 3,
+    repeat: Infinity,
+    delay: Math.random() * 2,
+            }}
           />
         ))}
       </div>
@@ -286,11 +286,11 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
                 animate={prefersReducedMotion ? {} : {
                   strokeDashoffset: [0, 15]
                 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: "linear"
-                 }}
+                transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 1,
+    repeat: Infinity,
+    ease: "linear"
+                }}
               />
             )
           })
@@ -394,11 +394,11 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
                    ${quantumColors.superposition}20 0%, transparent 50%)`
                 ]
               }}
-              transition={{ duration: prefersReducedMotion ? 0 : 
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear"
-               }}
+              transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 3,
+    repeat: Infinity,
+    ease: "linear"
+              }}
             />
           )}
         </div>

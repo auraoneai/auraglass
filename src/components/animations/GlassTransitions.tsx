@@ -433,10 +433,10 @@ export function GlassAccordion({
                   initial={{ height: 0, opacity: 0 }}
                   animate={prefersReducedMotion ? {} : { height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 
-                    duration: 0.3,
-                    ease: easings.easeInOutCubic
-                   }}
+                  transition={prefersReducedMotion ? { duration: 0 } : {
+    duration: 0.3,
+    ease: easings.easeInOutCubic
+                  }}
                   className={cn("glass-border-t glass-border-subtle")}
                 >
                   <motion.div
