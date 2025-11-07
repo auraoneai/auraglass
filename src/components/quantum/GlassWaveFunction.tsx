@@ -65,7 +65,6 @@ const waveTypes = {
 
 export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     width = 800,
     height = 400,
     waveEquations,
@@ -83,6 +82,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const phaseCanvasRef = useRef<HTMLCanvasElement>(null)
     const spectrumCanvasRef = useRef<HTMLCanvasElement>(null)

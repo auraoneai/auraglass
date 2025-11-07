@@ -1150,6 +1150,7 @@ export function GlassContextualDashboard({
   className?: string;
   showSensors?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { context, adaptations, topAdaptation } = useContextualEngine();
   const [showDashboard, setShowDashboard] = useState(false);
 

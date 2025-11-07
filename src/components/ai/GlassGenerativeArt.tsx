@@ -101,7 +101,6 @@ const stylePresets = [
 
 export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     prompt = '',
     suggestions = defaultPromptSuggestions,
     generationSettings = {},
@@ -118,6 +117,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [currentPrompt, setCurrentPrompt] = useState(prompt)
     const [isGenerating, setIsGenerating] = useState(false)
     const [generationProgress, setGenerationProgress] = useState(0)

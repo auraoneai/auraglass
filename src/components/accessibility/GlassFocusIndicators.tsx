@@ -374,6 +374,7 @@ export function LandmarkAnnouncer() {
 
 // Enhanced keyboard shortcuts helper
 export function KeyboardShortcutsHelper() {
+  const prefersReducedMotion = useReducedMotion();
   const { settings } = useAccessibility();
   const [showHelp, setShowHelp] = useState(false);
 

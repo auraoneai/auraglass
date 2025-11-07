@@ -90,6 +90,7 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
         elevation = 'medium',
         ...props
     }, ref) => {
+        const prefersReducedMotion = useReducedMotion();
         const [showSuggestions, setShowSuggestions] = useState(false);
         const [expandedFacets, setExpandedFacets] = useState<Record<string, boolean>>(
             Object.fromEntries(facets.map((f: any) => [f.id, !f.collapsed]))
@@ -426,6 +427,7 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
     expanded,
     onToggle
 }) => {
+    const prefersReducedMotion = useReducedMotion();
     return (
         <div className="border border-white/10 glass-radius-lg overflow-hidden">
             <button

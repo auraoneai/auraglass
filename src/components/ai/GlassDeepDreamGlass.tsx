@@ -122,7 +122,6 @@ const defaultSettings: DeepDreamSettings = {
 
 export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlassProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     imageSource,
     availableLayers = defaultNeuralLayers,
     selectedLayers = ['mixed3a'],
@@ -142,6 +141,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
     className='',
     ...props
   }, ref) => {
+    const prefersReducedMotion = useReducedMotion();
     const [isGenerating, setIsGenerating] = useState(false)
     const [currentIteration, setCurrentIteration] = useState(0)
     const [progress, setProgress] = useState(0)

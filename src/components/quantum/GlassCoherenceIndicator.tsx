@@ -56,7 +56,6 @@ const getPhaseColor = (phase: number): string => {
 
 export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherenceIndicatorProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     coherenceLevel,
     phase = 0,
     decoherenceRate = 0.02,
@@ -75,6 +74,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [currentCoherence, setCurrentCoherence] = useState(coherenceLevel)
     const [currentPhase, setCurrentPhase] = useState(phase)
     const [animationTime, setAnimationTime] = useState(0)

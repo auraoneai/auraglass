@@ -91,7 +91,6 @@ const defaultStyleModels: StyleModel[] = [
 
 export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     sourceImage,
     styleModels = defaultStyleModels,
     selectedStyle = '',
@@ -110,6 +109,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [isProcessing, setIsProcessing] = useState(false)
     const [progress, setProgress] = useState(0)
     const [previewImage, setPreviewImage] = useState<string>('')

@@ -732,6 +732,7 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
   onClose,
   delay = 0,
 }, ref) => {
+  const prefersReducedMotion = useReducedMotion();
   const { achievement } = notification;
   const componentId = useA11yId('achievement-notification');
   
@@ -897,6 +898,7 @@ export function GlassAchievementDashboard({
   className?: string;
   show?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { progress, engine } = useAchievements();
   const [activeTab, setActiveTab] = useState<'progress' | 'achievements' | 'stats'>('progress');
 

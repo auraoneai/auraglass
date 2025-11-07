@@ -576,6 +576,7 @@ export function GlassQuantumButton({
   className?: string;
   stateId?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const prefersReducedMotion = useReducedMotion();
   const { createQuantumState, measureState, getSuperposition } = useQuantumStates();
   const [currentState, setCurrentState] = useState<any>(null);
   const [superposition, setSuperposition] = useState<any[]>([]);
@@ -603,6 +604,7 @@ export function GlassQuantumButton({
   const handleClick = useCallback(() => {
     const measurement = measureState(buttonId, 'user-click');
     if (measurement) {
+      const prefersReducedMotion = useReducedMotion();
       setCurrentState(measurement.measuredValue);
       setIsCollapsed(true);
       onCollapse?.(measurement.measuredValue);
@@ -770,6 +772,7 @@ export function GlassQuantumEntangledPair({
   entanglementStrength?: number;
   className?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { createQuantumState, createEntanglement, measureState, getSuperposition } = useQuantumStates();
   const [state1Superposition, setState1Superposition] = useState<any[]>([]);
   const [state2Superposition, setState2Superposition] = useState<any[]>([]);
@@ -796,6 +799,7 @@ export function GlassQuantumEntangledPair({
 
   return (
     <div className={cn("flex glass-gap-4", className)}>
+      const prefersReducedMotion = useReducedMotion();
       <motion.div 
         className="flex-1 relative"
         animate={prefersReducedMotion ? {} : {
@@ -852,6 +856,7 @@ export function GlassQuantumCoherenceIndicator({
   stateId: string;
   className?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { getCoherence } = useQuantumStates();
   const [coherence, setCoherence] = useState(0);
 

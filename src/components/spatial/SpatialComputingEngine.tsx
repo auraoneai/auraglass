@@ -141,7 +141,6 @@ const detectSpatialContext = (): SpatialContext => {
 };
 
 export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
-  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   position = {},
@@ -156,6 +155,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
   onPositionChange,
   onAnchorUpdate,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const xrSessionRef = useRef<any>(null); // XRSession type not available in current environment
   const [spatialContext, setSpatialContext] = useState<SpatialContext>(detectSpatialContext());

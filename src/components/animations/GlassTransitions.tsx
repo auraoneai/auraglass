@@ -384,6 +384,7 @@ export function GlassAccordion({
   allowMultiple = false,
   className
 }: GlassAccordionProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
@@ -473,6 +474,7 @@ export function GlassModal({
   variant = 'ripple',
   className
 }: GlassModalProps) {
+  const prefersReducedMotion = useReducedMotion();
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -550,6 +552,7 @@ export function GlassTabs({
   className,
   onTabChange
 }: GlassTabsProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState(defaultTab || tabs?.[0]?.id);
 
   const handleTabChange = (tabId: string) => {

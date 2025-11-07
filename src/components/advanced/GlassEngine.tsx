@@ -252,6 +252,7 @@ export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
   as: Component = 'div',
   ...props
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const { createGlassStyle, config, adaptToEnvironment } = useGlassEngine();
   const [currentVariant, setCurrentVariant] = useState(variant);
 
@@ -458,6 +459,7 @@ export const EnvironmentalGlass: React.FC<{
   timeSync = true,
   className=''
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const { adaptToEnvironment, createGlassStyle } = useGlassEngine();
   const [conditions, setConditions] = useState<EnvironmentalConditions>({
     weather: 'sunny',

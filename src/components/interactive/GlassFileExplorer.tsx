@@ -112,6 +112,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
         elevation = 'medium',
         ...props
     }, ref) => {
+        const prefersReducedMotion = useReducedMotion();
         const [draggedItem, setDraggedItem] = useState<FileItem | null>(null);
         const [dragOverItem, setDragOverItem] = useState<string | null>(null);
         const [renamingFile, setRenamingFile] = useState<string | null>(null);

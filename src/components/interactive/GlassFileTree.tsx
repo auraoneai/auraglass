@@ -315,6 +315,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
         };
 
         const TreeNodeComponent = ({ node, level = 0 }: { node: TreeNode; level?: number }) => {
+            const prefersReducedMotion = useReducedMotion();
             const isExpanded = localExpandedNodes.includes(node.id);
             const isSelected = selectedNodeId === node.id;
             const isDragOver = dragOverNode === node.id;

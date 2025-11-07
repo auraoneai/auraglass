@@ -66,7 +66,6 @@ const engagementLevels = {
 
 export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     posts,
     currentUserId,
     showInteractions = true,
@@ -88,6 +87,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set())
     const [sharedPosts, setSharedPosts] = useState<Set<string>>(new Set())
     const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set())

@@ -640,6 +640,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
 };
 
 export const ColorAdaptationDemo: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const {
     currentPalette,
     config,

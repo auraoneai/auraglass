@@ -266,6 +266,7 @@ export function GlassShatterEffects({
   disabled = false,
   showControls = false
 }: GlassShatterEffectsProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isShattered, setIsShattered] = useState(false);
@@ -405,6 +406,7 @@ export function GlassShatterEffects({
   useEffect(() => {
     if (trigger === 'auto' && !disabled) {
       const interval = setInterval(() => {
+        const prefersReducedMotion = useReducedMotion();
         if (!isAnimating) {
           triggerShatter();
         }

@@ -760,6 +760,7 @@ export function GlassPredictionIndicator({
   showInsights?: boolean;
   maxPredictions?: number;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { predictions, insights } = usePredictiveEngine();
   const [showPanel, setShowPanel] = useState(false);
 

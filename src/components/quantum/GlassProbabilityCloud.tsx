@@ -54,7 +54,6 @@ const probabilityDensity = (waveAmp: number) => waveAmp * waveAmp
 
 export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbabilityCloudProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     width = 600,
     height = 400,
     depth = 200,
@@ -76,6 +75,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [quantumTime, setQuantumTime] = useState(0)
     const [measurements, setMeasurements] = useState<Array<{

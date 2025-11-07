@@ -259,12 +259,12 @@ const defaultAchievements: Achievement[] = [
 export function GlassTrophyCase({
   achievements = defaultAchievements,
   userStats = {},
-  const prefersReducedMotion = useReducedMotion();
   onAchievementUnlock,
   showProgress = true,
   enableSound = true,
   className=''
 }: GlassTrophyCaseProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [selectedCategory, setSelectedCategory] = useState<AchievementCategory | 'all'>('all');
   const [selectedTier, setSelectedTier] = useState<AchievementTier | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');

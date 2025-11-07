@@ -583,6 +583,7 @@ export function GlassAudioReactive({
   reactToFrequency?: boolean;
   intensityMultiplier?: number;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { engine, playGlassSound, stopGlassSound } = useSpatialAudio();
   const [audioIntensity, setAudioIntensity] = useState(0);
   const soundIdRef = useRef<string>('');
@@ -654,6 +655,7 @@ export function GlassSpatialVisualizer({
   className?: string;
   show?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { engine } = useSpatialAudio();
   const [sources, setSources] = useState<AudioSource[]>([]);
 

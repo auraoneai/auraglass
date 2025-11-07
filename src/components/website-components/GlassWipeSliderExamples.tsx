@@ -309,6 +309,7 @@ export function ImageBeforeAfterComparison({ className }: { className?: string }
 
 // Example 5: Interactive Preset Demo
 export function PresetPositionDemo({ className }: { className?: string }) {
+  const prefersReducedMotion = useReducedMotion();
   const [currentPosition, setCurrentPosition] = useState(50);
   const [activePreset, setActivePreset] = useState<number | null>(null);
 

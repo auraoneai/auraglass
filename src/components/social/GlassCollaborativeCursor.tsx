@@ -53,7 +53,6 @@ const cursorColors = [
 
 export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollaborativeCursorProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     users,
     currentUserId,
     showCursorTails = true,
@@ -71,6 +70,7 @@ export const GlassCollaborativeCursor = forwardRef<HTMLDivElement, GlassCollabor
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [cursorTrails, setCursorTrails] = useState<Record<string, Array<{ x: number; y: number; timestamp: number }>>>({})
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
     const [simulatedUsers, setSimulatedUsers] = useState(users)

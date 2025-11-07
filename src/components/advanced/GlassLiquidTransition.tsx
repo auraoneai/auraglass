@@ -24,7 +24,6 @@ interface LiquidTransitionProps {
 }
 
 export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransitionProps>(({
-  const prefersReducedMotion = useReducedMotion();
   children,
   className,
   variant = 'morph',
@@ -38,6 +37,7 @@ export const GlassLiquidTransition = forwardRef<HTMLDivElement, LiquidTransition
   intensity = 1,
   ...restProps
 }, ref) => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
   const [isActive, setIsActive] = useState(false);
@@ -299,6 +299,7 @@ interface LiquidRipplesProps {
 }
 
 function LiquidRipples({ x, y, intensity, duration }: LiquidRipplesProps): JSX.Element {
+  const prefersReducedMotion = useReducedMotion();
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
 
   useEffect(() => {
@@ -343,6 +344,7 @@ interface LiquidSplashProps {
 }
 
 function LiquidSplash({ x, y, intensity, duration }: LiquidSplashProps): JSX.Element {
+  const prefersReducedMotion = useReducedMotion();
   const particleCount = Math.floor(8 * intensity);
 
   return (

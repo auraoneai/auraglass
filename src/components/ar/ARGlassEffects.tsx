@@ -399,7 +399,6 @@ interface ARGlassEffectsProps {
 export function ARGlassEffects({
   mode = 'preview',
   content = {},
-  const prefersReducedMotion = useReducedMotion();
   onInteraction,
   className='',
   enablePhysics = false,
@@ -409,6 +408,7 @@ export function ARGlassEffects({
   showControls = true,
   showInfo = true
 }: ARGlassEffectsProps) {
+  const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [userPosition] = useState(new THREE.Vector3(0, 1.6, 0));
   const [isInitialized, setIsInitialized] = useState(false);
@@ -508,6 +508,7 @@ export function ARGlassEffects({
   }, [onInteraction]);
 
   const handlePortalActivation = useCallback(() => {
+    const prefersReducedMotion = useReducedMotion();
     setPortalActive(!portalActive);
     if (onInteraction) {
       onInteraction('portal_toggle', { active: !portalActive });

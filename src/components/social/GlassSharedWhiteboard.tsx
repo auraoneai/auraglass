@@ -77,7 +77,6 @@ const sizes = [2, 4, 8, 12, 16, 24]
 
 export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhiteboardProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     width = 800,
     height = 600,
     users,
@@ -102,6 +101,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [isDrawing, setIsDrawing] = useState(false)
     const [currentStroke, setCurrentStroke] = useState<DrawingStroke | null>(null)

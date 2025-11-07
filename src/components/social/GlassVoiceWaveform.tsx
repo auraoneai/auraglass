@@ -58,7 +58,6 @@ const rainbowColors = [
 
 export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     participants,
     currentUserId,
     showAvatars = true,
@@ -80,6 +79,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [audioData, setAudioData] = useState<Record<string, number[]>>({})
     const [speakingHistory, setSpeakingHistory] = useState<Record<string, number[]>>({})
     const [simulatedParticipants, setSimulatedParticipants] = useState(participants)

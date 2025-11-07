@@ -241,7 +241,6 @@ const defaultGlassProperties: GlassProperties = {
 };
 
 export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
-  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   environmentalContext = {},
@@ -252,6 +251,7 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
   enableRealTimeAdaptation = true,
   onMorphingChange,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentProperties, setCurrentProperties] = useState<GlassProperties>(defaultGlassProperties);
   const [isTransitioning, setIsTransitioning] = useState(false);

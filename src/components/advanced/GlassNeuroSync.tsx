@@ -820,6 +820,7 @@ export function GlassNeuroMetricsDashboard({
   className?: string;
   showBrainwaves?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { metrics, adaptation, isConnected, deviceInfo } = useNeuroSync();
   const [showDashboard, setShowDashboard] = useState(false);
 
@@ -990,6 +991,7 @@ export function GlassNeuroFeedback({
   target?: number;
   className?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { metrics } = useNeuroSync();
   const currentValue = metrics[type] || 0;
   const difference = currentValue - target;

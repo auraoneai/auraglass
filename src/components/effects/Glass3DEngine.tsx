@@ -82,7 +82,6 @@ const DEFAULT_LAYERS: Glass3DLayer[] = [
 ];
 
 export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
-  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   layers = [],
@@ -95,6 +94,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
   maxDepthLayers = 4,
   onLayerInteraction,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isInteracting, setIsInteracting] = useState(false);

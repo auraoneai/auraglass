@@ -155,7 +155,6 @@ const defaultProcessingSettings: ProcessingSettings = {
 
 export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     videoSource,
     imageSource,
     availableFilters = defaultFilters,
@@ -176,6 +175,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [isProcessing, setIsProcessing] = useState(false)
     const [activeFilters, setActiveFilters] = useState<string[]>(selectedFilters)
     const [filterParameters, setFilterParameters] = useState<{ [key: string]: any }>({})

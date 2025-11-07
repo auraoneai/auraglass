@@ -36,12 +36,12 @@ export function HoudiniGlassCard({
   effects = ['frost'],
   enableWorklets = true,
   customProperties = {},
-  const prefersReducedMotion = useReducedMotion();
   interactive = true,
   showControls = false,
   title,
   description
 }: HoudiniGlassCardProps) {
+  const prefersReducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
   const { isSupported, enabledEffects, toggleEffect, performanceMode } = useHoudiniGlass();
   const [isHovered, setIsHovered] = useState(false);
@@ -77,6 +77,7 @@ export function HoudiniGlassCard({
   };
 
   const getPerformanceIndicator = () => {
+    const prefersReducedMotion = useReducedMotion();
     if (performanceMode) {
       return (
         <span title="Performance mode active">
