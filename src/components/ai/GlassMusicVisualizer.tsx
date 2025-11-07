@@ -77,7 +77,6 @@ const colorSchemes = {
 
 export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisualizerProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     audioSource,
     audioSettings = {},
     visualSettings = {},
@@ -96,6 +95,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [isPlaying, setIsPlaying] = useState(false)
     const [isRecording, setIsRecording] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)

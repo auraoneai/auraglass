@@ -444,6 +444,7 @@ export function GlassEyeTrackingCalibration({
   onComplete?: () => void;
   className?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { startCalibration, finishCalibration, isCalibrating } = useEyeTracking();
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isCalibrationActive, setIsCalibrationActive] = useState(false);
@@ -595,6 +596,7 @@ export function GlassGazeResponsive({
   glassRadius?: boolean;
   glassBlur?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { engine, activeInteractions } = useEyeTracking();
   const elementRef = useRef<HTMLDivElement>(null);
   const [isGazed, setIsGazed] = useState(false);
@@ -643,7 +645,7 @@ export function GlassGazeResponsive({
   // Track gaze interactions
   useEffect(() => {
     const interaction = activeInteractions.find(i => i.region.id === regionId);
-    
+
     if (interaction && !isGazed) {
       setIsGazed(true);
       onGazeEnter?.(interaction);

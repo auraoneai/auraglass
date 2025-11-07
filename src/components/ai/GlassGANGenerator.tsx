@@ -146,7 +146,6 @@ const defaultTrainingConfig: TrainingConfig = {
 
 export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     availableModels = defaultModels,
     selectedModel = 'stylegan2-faces',
     generationParams = {},
@@ -167,6 +166,7 @@ export const GlassGANGenerator = forwardRef<HTMLDivElement, GlassGANGeneratorPro
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [isGenerating, setIsGenerating] = useState(false)
     const [isTraining, setIsTraining] = useState(false)
     const [currentModel, setCurrentModel] = useState(selectedModel)

@@ -78,6 +78,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
         elevation = 'medium',
         ...props
     }, ref) => {
+        const prefersReducedMotion = useReducedMotion();
         const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
             Object.fromEntries(filters.map((f: any) => [f.id, !f.collapsed]))
         );

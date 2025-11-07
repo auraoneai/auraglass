@@ -91,7 +91,6 @@ interface PhysicsIsland extends Island {
 
 export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
   // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
     islands,
@@ -114,6 +113,7 @@ export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutPro
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [layoutIslands, setLayoutIslands] = useState<Island[]>(islands)
     const [physicsIslands, setPhysicsIslands] = useState<PhysicsIsland[]>([])
     const [selectedIsland, setSelectedIsland] = useState<string | null>(null)

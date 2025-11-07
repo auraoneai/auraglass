@@ -58,7 +58,6 @@ const reactionColors = [
 
 export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubblesProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     width = 600,
     height = 400,
     reactions = [],
@@ -79,6 +78,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [bubbles, setBubbles] = useState<ReactionBubble[]>(reactions)
     const [selectedEmoji, setSelectedEmoji] = useState(availableEmojis[0])
     const [isAnimating, setIsAnimating] = useState(false)

@@ -285,6 +285,7 @@ export function AuroraPro({
   onAnimationChange,
   children
 }: AuroraProProps) {
+  const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoAnimate);
   const [currentMode, setCurrentMode] = useState(animationMode);
@@ -371,6 +372,7 @@ export function AuroraPro({
 
   // Get color palette colors for UI
   const getPaletteColors = (palette: string) => {
+    const prefersReducedMotion = useReducedMotion();
     return colorPalettes[palette as keyof typeof colorPalettes] || colorPalettes.arctic;
   };
 

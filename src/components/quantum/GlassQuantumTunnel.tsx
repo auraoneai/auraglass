@@ -67,7 +67,6 @@ const calculateTunnelingProbability = (
 
 export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     quantumStates,
     barriers = [],
     showWaveFunction = true,
@@ -84,6 +83,7 @@ export const GlassQuantumTunnel = forwardRef<HTMLDivElement, GlassQuantumTunnelP
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [currentTime, setCurrentTime] = useState(0)
     const [activeTransitions, setActiveTransitions] = useState<Array<{

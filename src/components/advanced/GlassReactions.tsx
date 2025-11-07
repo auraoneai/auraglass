@@ -274,6 +274,7 @@ function ReactionComponent({
   enablePhysics: boolean;
   glassEffect: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { emoji, position, physics, intensity, timestamp } = reaction;
   const age = (Date.now() - timestamp) / 1000; // seconds
   
@@ -389,6 +390,7 @@ function ReactionPicker({
   onClose: () => void;
   glassEffect: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const pickerRef = useRef<HTMLDivElement>(null);
   
   // Close on outside click
@@ -520,6 +522,7 @@ export function GlassReactionBar({
   className?: string;
   glassEffect?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   return (
     <motion.div
       className={cn(

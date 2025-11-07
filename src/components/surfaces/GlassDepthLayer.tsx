@@ -114,9 +114,6 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
 };
 
 export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(({
-  const prefersReducedMotion = useReducedMotion();
-  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
-
   layer,
   customConfig,
   children,
@@ -127,6 +124,9 @@ export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(({
   className='',
   ...props
 }, ref) => {
+  const prefersReducedMotion = useReducedMotion();
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
   const config = useMemo(() => ({
     ...DEFAULT_DEPTH_CONFIGS[layer],
     ...customConfig

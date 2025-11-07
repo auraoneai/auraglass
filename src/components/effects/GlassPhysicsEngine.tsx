@@ -59,7 +59,6 @@ const defaultPhysics: PhysicsConfig = {
 };
 
 export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
-  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   interaction = 'ripple',
@@ -71,6 +70,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
   onInteractionStart,
   onInteractionEnd,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>();

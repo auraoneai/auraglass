@@ -290,6 +290,7 @@ export function BrandGlassButton({
   onClick?: () => void
   disabled?: boolean
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const [isPressed, setIsPressed] = useState(false)
 
   const buttonStyles = {

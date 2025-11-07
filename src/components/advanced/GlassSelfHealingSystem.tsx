@@ -899,6 +899,7 @@ export function GlassSelfHealingWrapper({
   healingEnabled?: boolean;
   className?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { diagnoseComponent, getComponentHealth } = useSelfHealing();
   const elementRef = useRef<HTMLDivElement>(null);
   const [health, setHealth] = useState<ComponentHealthCheck | null>(null);
@@ -992,6 +993,7 @@ export function GlassSelfHealingDashboard({
   className?: string;
   showOnlyUnhealthy?: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { getAllHealth } = useSelfHealing();
   const [allHealth, setAllHealth] = useState<ComponentHealthCheck[]>([]);
   const [showDashboard, setShowDashboard] = useState(false);

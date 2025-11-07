@@ -53,7 +53,6 @@ const wavePatterns = {
 
 export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpositionalMenuProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     menuStates,
     isObserved = false,
     measurementType = 'collapse',
@@ -69,6 +68,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [currentStates, setCurrentStates] = useState(menuStates)
     const [measurementTime, setMeasurementTime] = useState<number | null>(null)
     const [collapsedState, setCollapsedState] = useState<string | null>(null)

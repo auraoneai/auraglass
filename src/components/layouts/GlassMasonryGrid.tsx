@@ -80,7 +80,6 @@ interface LayoutItem extends MasonryItem {
 
 export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
   // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
     items,
@@ -103,6 +102,7 @@ export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [layoutItems, setLayoutItems] = useState<LayoutItem[]>([])
     const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 })
     const [activeFilter, setActiveFilter] = useState(filterBy)

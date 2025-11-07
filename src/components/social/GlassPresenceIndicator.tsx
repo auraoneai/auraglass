@@ -61,7 +61,6 @@ const statusLabels = {
 
 export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIndicatorProps>(
   ({
-  const prefersReducedMotion = useReducedMotion();
     users,
     maxVisible = 5,
     showAvatars = true,
@@ -82,6 +81,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
     className='',
     ...props
   }, ref) => {
+      const prefersReducedMotion = useReducedMotion();
     const [presenceData, setPresenceData] = useState(users)
     const [typingUsers, setTypingUsers] = useState<string[]>([])
     const { play } = useGlassSound()

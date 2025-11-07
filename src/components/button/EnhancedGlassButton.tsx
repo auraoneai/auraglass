@@ -103,7 +103,6 @@ export interface EnhancedGlassButtonProps extends BaseGlassButtonProps {
 export const EnhancedGlassButton = forwardRef<HTMLButtonElement, EnhancedGlassButtonProps>(
   (
     {
-  const prefersReducedMotion = useReducedMotion();
       children,
       className,
       variant = 'primary',
@@ -117,6 +116,7 @@ export const EnhancedGlassButton = forwardRef<HTMLButtonElement, EnhancedGlassBu
     },
     ref
   ) => {
+    const prefersReducedMotion = useReducedMotion();
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [isInteracting, setIsInteracting] = useState(false);
     const [adaptationApplied, setAdaptationApplied] = useState(false);

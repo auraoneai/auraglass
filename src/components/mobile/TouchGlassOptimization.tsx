@@ -225,6 +225,7 @@ export function MobileGlassNavigation({
   onSwipeDown,
   className=''
 }: MobileGlassNavigationProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -301,6 +302,7 @@ export function AdaptiveGlassDensity({
   autoAdapt = true,
   className=''
 }: AdaptiveGlassDensityProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [currentDensity, setCurrentDensity] = useState<'light' | 'medium' | 'heavy'>('medium')
 
   useEffect(() => {
@@ -369,6 +371,7 @@ export function TouchRippleEffects({
   rippleDuration = 600,
   className=''
 }: TouchRippleEffectsProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([])
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -441,6 +444,7 @@ export function MobileGlassBottomSheet({
   snapPoints = ['25vh', '50vh', '75vh'],
   className=''
 }: MobileGlassBottomSheetProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [currentHeight, setCurrentHeight] = useState(height)
 
   const handleDragEnd = useCallback((event: any, info: PanInfo) => {

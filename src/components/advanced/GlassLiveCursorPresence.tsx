@@ -376,6 +376,7 @@ function LiveCursorComponent({
   smoothing: number;
   glassEffect: boolean;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   return (
     <>
       {/* Cursor trail */}

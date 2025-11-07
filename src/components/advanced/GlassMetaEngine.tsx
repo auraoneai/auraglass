@@ -754,6 +754,7 @@ export function GlassMetaDashboard({
   showEvolutions?: boolean;
   maxOptimizations?: number;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const { optimizations, evolutions, systemHealth, engine } = useGlassMetaEngine();
   const [showDashboard, setShowDashboard] = useState(false);
   const [quantumStates, setQuantumStates] = useState<Array<{ system: string; coherence: number }>>([]);
