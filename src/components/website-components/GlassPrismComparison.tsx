@@ -1,4 +1,5 @@
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 "use client";
 
@@ -83,6 +84,7 @@ const COMPARISON_DATA: ComparisonData[] = [
 ];
 
 export function GlassPrismComparison() {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentComparison, setCurrentComparison] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
@@ -132,7 +134,7 @@ export function GlassPrismComparison() {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 1  }}
           className="text-center glass-mb-20"
         >
           <h2 className="text-5xl md:text-7xl font-black mb-8">
@@ -150,12 +152,12 @@ export function GlassPrismComparison() {
               animate={{
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
-              transition={{ 
+              transition={{ duration: prefersReducedMotion ? 0 :  
                 duration: 4, 
                 repeat: Infinity,
               repeatType: "loop", 
                 ease: "easeInOut"
-              }}
+               }}
             >
               THE IMPOSSIBLE
               {/* Backup text for better visibility */}
@@ -169,8 +171,8 @@ export function GlassPrismComparison() {
           
           <motion.p
             className="text-2xl text-primary/70 max-w-3xl mx-auto leading-relaxed"
-            animate={{ opacity: [0.7, 1, 0.7] }}
-            transition={{ duration: 3, repeat: Infinity }}
+            animate={prefersReducedMotion ? {} : { opacity: [0.7, 1, 0.7] }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 3, repeat: Infinity  }}
           >
             Move the prism to reveal how{" "}
             <span className="text-primary font-bold">AuraOne transcends</span>{" "}
@@ -209,8 +211,8 @@ export function GlassPrismComparison() {
               <div className="mb-6">
                 <motion.div
                   className="text-6xl md:text-8xl font-black mb-4"
-                  animate={{ opacity: [0.6, 0.8, 0.6] }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  animate={prefersReducedMotion ? {} : { opacity: [0.6, 0.8, 0.6] }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity  }}
                 >
                   <span className={`bg-gradient-to-r ${currentData.competitor.color} bg-clip-text text-transparent`}>
                     {currentData.competitor.value}
@@ -238,7 +240,7 @@ export function GlassPrismComparison() {
               <div className="mb-6">
                 <motion.div
                   className="text-6xl md:text-8xl font-black mb-4 relative"
-                  animate={{ 
+                  animate={prefersReducedMotion ? {} : { 
                     scale: [1, 1.05, 1],
                     textShadow: [
                       "0 0 20px currentColor",
@@ -246,7 +248,7 @@ export function GlassPrismComparison() {
                       "0 0 20px currentColor"
                     ]
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity  }}
                 >
                   <span className={`bg-gradient-to-r ${currentData.auraone.color} bg-clip-text text-transparent`}>
                     {currentData.auraone.value}
@@ -255,7 +257,7 @@ export function GlassPrismComparison() {
                   {/* Sparkle effects */}
                   <motion.div
                     className="absolute -top-4 -right-4"
-                    animate={{
+                    animate={prefersReducedMotion ? {} : {
                       rotate: 360,
                       scale: [0, 1, 0],
                     }}
@@ -275,8 +277,8 @@ export function GlassPrismComparison() {
               
               <motion.div 
                 className="flex items-center justify-center gap-4 text-primary"
-                animate={{ opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                animate={prefersReducedMotion ? {} : { opacity: [0.8, 1, 0.8] }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 1.5, repeat: Infinity  }}
               >
                 <Zap className="w-6 h-6" />
                 <span className="text-lg font-bold">Beyond Possible</span>
@@ -298,7 +300,7 @@ export function GlassPrismComparison() {
             <div className="relative w-full h-full">
               <motion.div
                 className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/40 glass-gradient-primary backdrop-blur-md border-l border-r border-white/60"
-                animate={{
+                animate={prefersReducedMotion ? {} : {
                   background: [
                     "linear-gradient(90deg, transparent, rgba(0,245,255,0.4), transparent)",
                     "linear-gradient(90deg, transparent, rgba(255,0,245,0.4), transparent)",
@@ -306,7 +308,7 @@ export function GlassPrismComparison() {
                     "linear-gradient(90deg, transparent, rgba(0,245,255,0.4), transparent)",
                   ]
                 }}
-                transition={{ duration: 3, repeat: Infinity }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 3, repeat: Infinity  }}
               />
               
               {/* Prism refraction effects */}
@@ -319,16 +321,16 @@ export function GlassPrismComparison() {
                     left: `-${40 + i * 5}px`,
                     transform: `rotate(${-30 + i * 15}deg)`,
                   }}
-                  animate={{
+                  animate={prefersReducedMotion ? {} : {
                     opacity: [0, 0.8, 0],
                     scaleX: [0, 1, 0],
                   }}
-                  transition={{
+                  transition={{ duration: prefersReducedMotion ? 0 : 
                     duration: 2,
                     repeat: Infinity,
               repeatType: "loop",
                     delay: i * 0.3,
-                  }}
+                   }}
                 />
               ))}
               
@@ -338,11 +340,11 @@ export function GlassPrismComparison() {
                 style={{
                   transform: "translateY(-50%) rotate(-15deg)",
                 }}
-                animate={{
+                animate={prefersReducedMotion ? {} : {
                   opacity: isHovering ? 0.8 : 0.4,
                   scaleX: isHovering ? 1.2 : 1,
                 }}
-                transition={{ duration: 0.3 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
               />
             </div>
           </motion.div>
@@ -356,7 +358,7 @@ export function GlassPrismComparison() {
               left: "50%",
               top: "50%",
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               scale: isHovering ? 1.5 : 0,
               rotate: 360,
             }}
@@ -378,7 +380,7 @@ export function GlassPrismComparison() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.8, delay: 0.5  }}
         >
           {COMPARISON_DATA.map((data, index) => (
             <motion.button
@@ -400,13 +402,13 @@ export function GlassPrismComparison() {
         {/* Instruction Text */}
         <motion.div
           className="text-center glass-mt-12"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={prefersReducedMotion ? {} : { opacity: [0.5, 1, 0.5] }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity  }}
         >
           <p className="text-primary/50 text-lg">
             <motion.span
-              animate={{ color: ["var(--glass-white)", "#00f5ff", "var(--glass-white)"] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              animate={prefersReducedMotion ? {} : { color: ["var(--glass-white)", "#00f5ff", "var(--glass-white)"] }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity  }}
             >
               Move your mouse
             </motion.span>
@@ -426,17 +428,17 @@ export function GlassPrismComparison() {
               left: `${seededRandom(i * 19000) * 100}%`,
               top: `${seededRandom(i * 20000) * 100}%`,
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               y: [0, -30, 0],
               opacity: [0.3, 1, 0.3],
               scale: [1, 1.5, 1],
             }}
-            transition={{
+            transition={{ duration: prefersReducedMotion ? 0 : 
               duration: Math.max(3 + seededRandom(i * 21000) * 2, 0.5),
               repeat: Infinity,
               repeatType: "loop",
               delay: Math.max(seededRandom(i * 22000) * 2, 0),
-            }}
+             }}
           />
         ))}
       </div>

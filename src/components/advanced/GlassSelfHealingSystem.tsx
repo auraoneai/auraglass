@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Self-Healing Glass Components System
  * Automatically detects and corrects visual glitches, accessibility issues, and system errors
@@ -822,6 +823,7 @@ export function GlassSelfHealingProvider({
   onHealingCompleted,
   diagnosticInterval = 5000,
 }: {
+  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onHealingStarted?: (componentId: string, issues: ComponentIssue[]) => void;
   onHealingCompleted?: (componentId: string, success: boolean) => void;
@@ -974,7 +976,7 @@ export function GlassSelfHealingWrapper({
           className="absolute glass--glass--glass--glass--glassglass--glass-top-1 right-1 w-3 h-3 glass-radius-full border-2 border-white/20"
           style={{ backgroundColor: statusColor }}
           initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          animate={prefersReducedMotion ? {} : { scale: 1 }}
           title={`Health: ${(health.healthScore * 100).toFixed(1)}% | Status: ${health.status} | Issues: ${health.issues.length}`}
         />
       )}
@@ -1026,7 +1028,7 @@ export function GlassSelfHealingDashboard({
           <motion.div
             className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-red glass-radius-full text-xs text-primary flex items-center justify-center"
             initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            animate={prefersReducedMotion ? {} : { scale: 1 }}
           >
             {criticalCount + warningCount + healingCount}
           </motion.div>
@@ -1041,7 +1043,7 @@ export function GlassSelfHealingDashboard({
               "glass-surface-primary glass-elev-4 glass-radius-lg glass-p-4 glass-gap-3"
             )}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
           >
             <div className="flex items-center justify-between">
@@ -1061,7 +1063,7 @@ export function GlassSelfHealingDashboard({
                 key={health.componentId}
                 className="p-3 glass-surface-secondary glass-radius-md"
                 initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-primary font-medium">

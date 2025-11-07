@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-11-07T12:01:30.170Z",
+  "totalProcessed": 0,
+  "results": {
+    "success": 0,
+    "failed": 0,
+    "skipped": 0,
+    "byStrategy": {
+      "framer-motion": 0,
+      "data-attribute": 0,
+      "existing": 0,
+      "none": 0
+    }
+  },
+  "coverage": {
+    "before": "100.0",
+    "after": "100.0"
+  }
+}

@@ -172,7 +172,7 @@ export const GlassNavigationMenu: React.FC<GlassNavigationMenuProps> = ({
     };
 
     return (
-        <OptimizedGlass
+        <OptimizedGlass data-glass-component
             intent="neutral"
             elevation="level1"
             intensity="medium"

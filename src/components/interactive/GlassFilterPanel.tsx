@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronRight, Filter, RotateCcw, Save, Search } from 'lucide-react';
@@ -261,7 +262,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                             <motion.div
                                 key={group.id}
                                 initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
+                                animate={prefersReducedMotion ? {} : { opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
                                 className="glass-radius-lg overflow-hidden ring-1 ring-white/10"
                             >
@@ -290,7 +291,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                     {(!collapsible || expandedGroups[group.id]) && (
                                         <motion.div
                                             initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
+                                            animate={prefersReducedMotion ? {} : { opacity: 1 }}
                                             exit={{ opacity: 0 }}
                                             className="p-3 border-t border-white/10"
                                         >

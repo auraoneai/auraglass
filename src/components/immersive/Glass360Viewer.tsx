@@ -551,7 +551,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
       if (!showControls) return null;
 
       return (
-        <OptimizedGlass
+        <OptimizedGlass data-glass-component
           elevation="level3"
           intensity="strong"
           depth={2}

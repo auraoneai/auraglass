@@ -335,7 +335,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 
   return (
-    <div
+    <div data-glass-component
       onClick={() => onProductClick?.(product)}
       className="cursor-pointer"
     >

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { HTMLMotionProps, motion } from 'framer-motion';
@@ -113,6 +114,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
 };
 
 export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(({
+  const prefersReducedMotion = useReducedMotion();
   // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
   layer,

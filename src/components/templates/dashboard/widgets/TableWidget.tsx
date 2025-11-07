@@ -192,7 +192,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
       // Default renderers for common data types
       if (typeof value === 'boolean') {
         return (
-          <GlassBadge variant={value ? 'success' : 'error'} size="xs">
+          <GlassBadge data-glass-component variant={value ? 'success' : 'error'} size="xs">
             {value ? 'Yes' : 'No'}
           </GlassBadge>
         );

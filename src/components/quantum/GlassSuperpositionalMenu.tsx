@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useMemo } from 'react'
@@ -52,6 +53,7 @@ const wavePatterns = {
 
 export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpositionalMenuProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     menuStates,
     isObserved = false,
     measurementType = 'collapse',
@@ -243,15 +245,15 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               opacity: [0.1, 0.5, 0.1],
               scale: [0.5, 1, 0.5],
             }}
-            transition={{
+            transition={{ duration: prefersReducedMotion ? 0 : 
               duration: 2 + Math.random() * 3,
               repeat: Infinity,
               delay: Math.random() * 2,
-            }}
+             }}
           />
         ))}
       </div>
@@ -281,14 +283,14 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
                 strokeWidth="2"
                 opacity={entanglementStrength}
                 strokeDasharray="10,5"
-                animate={{
+                animate={prefersReducedMotion ? {} : {
                   strokeDashoffset: [0, 15]
                 }}
-                transition={{
+                transition={{ duration: prefersReducedMotion ? 0 : 
                   duration: 1,
                   repeat: Infinity,
                   ease: "linear"
-                }}
+                 }}
               />
             )
           })
@@ -300,7 +302,7 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
       <motion.div
         className={cn("glass-relative")}
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           opacity: getStateOpacity(state),
           scale: getStateScale(state),
           y: isObserved ? 0 : Math.sin(getQuantumPhase(state)) * 5,
@@ -392,11 +394,11 @@ export const GlassSuperpositionalMenu = forwardRef<HTMLDivElement, GlassSuperpos
                    ${quantumColors.superposition}20 0%, transparent 50%)`
                 ]
               }}
-              transition={{
+              transition={{ duration: prefersReducedMotion ? 0 : 
                 duration: 3,
                 repeat: Infinity,
                 ease: "linear"
-              }}
+               }}
             />
           )}
         </div>

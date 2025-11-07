@@ -435,7 +435,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
         const image = images[lightboxIndex];
 
         return (
-            <div className="fixed inset-0 z-50 glass-surface-dark/90 flex items-center justify-center p-4">
+            <div data-glass-component className="fixed inset-0 z-50 glass-surface-dark/90 flex items-center justify-center p-4">
                 <div className="relative max-w-4xl max-h-full">
                     {/* Close Button */}
                     <GlassButton

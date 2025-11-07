@@ -325,7 +325,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
   }, [schema, validateForm]);
 
   return (
-    <div className="w-full glass-container-6xl mx-auto p-6">
+    <div data-glass-component className="w-full glass-container-6xl mx-auto p-6">
       {/* Form Builder Header */}
       <Glass className="p-6">
         <div className="flex items-center justify-between mb-6">

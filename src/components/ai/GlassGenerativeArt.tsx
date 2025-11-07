@@ -1,5 +1,6 @@
 'use client'
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 
 import { motion } from 'framer-motion'
@@ -100,6 +101,7 @@ const stylePresets = [
 
 export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     prompt = '',
     suggestions = defaultPromptSuggestions,
     generationSettings = {},
@@ -576,7 +578,7 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
               <motion.div
                 className="glass-surface-blue h-2 glass-radius-full"
                 animate={{ width: `${generationProgress}%` }}
-                transition={{ duration: 0.3 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
               />
             </div>
           </div>
@@ -593,8 +595,8 @@ export const GlassGenerativeArt = forwardRef<HTMLDivElement, GlassGenerativeArtP
                   className="relative aspect-square glass-radius-lg overflow-hidden glass-surface-subtle/10 group cursor-pointer"
                   whileHover={shouldAnimate ? { scale: 1.02 } : {}}
                   initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
                 >
                   <img 
                     src={imageUrl} 

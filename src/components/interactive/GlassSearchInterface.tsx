@@ -307,7 +307,7 @@ export const GlassSearchInterface = forwardRef<HTMLDivElement, GlassSearchInterf
     };
 
     return (
-      <div
+      <div data-glass-component
         ref={ref}
         className={cn('relative', variantClasses[variant], className)}
         {...props}

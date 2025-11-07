@@ -232,7 +232,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
     };
 
     return (
-        <Motion preset="fadeIn" className="w-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full">
             <GlassCard
                 variant="elevated"
                 elevation={'level3'}

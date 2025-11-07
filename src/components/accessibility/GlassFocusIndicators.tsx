@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '../../lib/utilsComprehensive';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
@@ -13,7 +14,8 @@ interface FocusRingProps {
 }
 
 // Enhanced focus ring component
-function FocusRing({ element, variant = 'default' }: FocusRingProps) {
+function FocusRing({
+  const prefersReducedMotion = useReducedMotion(); element, variant = 'default' }: FocusRingProps) {
   const [position, setPosition] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [isVisible, setIsVisible] = useState(true);
 
@@ -86,7 +88,7 @@ function FocusRing({ element, variant = 'default' }: FocusRingProps) {
         height: position.height + 8
       }}
       initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: isVisible ? 1 : 0, scale: 1 }}
+      animate={prefersReducedMotion ? {} : { opacity: isVisible ? 1 : 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{
         type: 'spring',
@@ -102,8 +104,8 @@ function FocusRing({ element, variant = 'default' }: FocusRingProps) {
           background: `linear-gradient(45deg, ${variant === 'interactive' ? 'var(--glass-color-primary-light)' : variant === 'navigation' ? '#A78BFA' : variant === 'form' ? '#22C55E' : 'var(--glass-color-primary-light)'}, transparent, ${variant === 'interactive' ? 'var(--glass-color-primary-light)' : variant === 'navigation' ? '#A78BFA' : variant === 'form' ? '#22C55E' : 'var(--glass-color-primary-light)'})`,
           backgroundSize: '200% 200%'
         }}
-        animate={{ backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'] }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'] }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: 'linear'  }}
       />
 
       {/* Corner highlights */}
@@ -120,15 +122,15 @@ function FocusRing({ element, variant = 'default' }: FocusRingProps) {
             corner === 'bottom-left' ? '-bottom-1 -left-1' :
             '-bottom-1 -right-1'
           )}
-          animate={{
+          animate={prefersReducedMotion ? {} : {
             scale: [1, 1.5, 1],
             opacity: [0.6, 1, 0.6]
           }}
-          transition={{
+          transition={{ duration: prefersReducedMotion ? 0 : 
             duration: 1.5,
             repeat: Infinity,
             delay: corner === 'top-right' ? 0.2 : corner === 'bottom-right' ? 0.4 : corner === 'bottom-left' ? 0.6 : 0
-          }}
+           }}
         />
       ))}
     </motion.div>
@@ -408,7 +410,7 @@ export function KeyboardShortcutsHelper() {
         <motion.div
           className="fixed bottom-4 right-4 z-50 max-w-sm"
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
         >
           <div className={cn("glass-foundation-complete glass-surface-overlay glass-border-subtle glass-radius-xl glass-p-4 glass-shadow-2xl")}>

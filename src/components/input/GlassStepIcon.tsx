@@ -59,7 +59,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
     const iconStateClasses = getIconStateClasses(active, completed);
 
     return (
-        <Motion
+        <Motion data-glass-component
           className="inline-block"
         >
           <OptimizedGlass

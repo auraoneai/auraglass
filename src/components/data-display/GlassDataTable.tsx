@@ -478,7 +478,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       (paginatedData || []).every((row, index) => selectedRows.includes(getRowId(row, index)));
 
     return (
-      <div ref={ref} className={cn('w-full', className)}>
+      <div data-glass-component ref={ref} className={cn('w-full', className)}>
         {/* Table header with search and actions */}
         {(searchable || actions || filterable) && (
           <div className="flex items-center justify-between gap-4 mb-4">

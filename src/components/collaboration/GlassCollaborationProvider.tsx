@@ -459,7 +459,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   };
 
   return (
-    <CollaborationContext.Provider value={value}>
+    <CollaborationContext data-glass-component.Provider value={value}>
       {children}
     </CollaborationContext.Provider>
   );

@@ -75,7 +75,7 @@ export class GlassErrorBoundary extends Component<Props, State> {
       
       // Default glass error UI
       return (
-        <GlassAdvanced
+        <GlassAdvanced data-glass-component
           elev={3}
           variant="danger"
           className="p-8 m-4"

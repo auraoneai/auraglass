@@ -57,7 +57,7 @@ export const GlassStepLabel: React.FC<GlassStepLabelProps> = ({
     const orientationClasses = getOrientationClasses(orientation);
 
     return (
-        <Motion
+        <Motion data-glass-component
           className={cn(orientationClasses, 'transition-all duration-300 ease-in-out')}
         >
           <span

@@ -63,7 +63,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   }
 
   return (
-    <div className={cn("fixed inset-0 pointer-events-none z-50", className)}>
+    <div data-glass-component className={cn("fixed inset-0 pointer-events-none z-50", className)}>
       {visibleCursors.map((user: any) => {
         if (!user.cursor) return null;
         

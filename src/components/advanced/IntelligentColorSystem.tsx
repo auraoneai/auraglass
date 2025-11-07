@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { cn } from '@/lib/utils';
@@ -79,6 +80,7 @@ const darkThemePalette: ColorPalette = {
 const IntelligentColorContext = createContext<IntelligentColorContextType | null>(null);
 
 export const useIntelligentColor = () => {
+  const prefersReducedMotion = useReducedMotion();
   const context = useContext(IntelligentColorContext);
   if (!context) {
     throw new Error('useIntelligentColor must be used within IntelligentColorProvider');
@@ -659,8 +661,8 @@ export const ColorAdaptationDemo: React.FC = () => {
         borderColor: currentPalette.border
       }}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: config.transitionDuration }}
+      animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: config.transitionDuration  }}
     >
       <h3 className={cn('glass-text-xl glass-font-bold glass-mb-4')} style={{ color: currentPalette.text }}>
         Intelligent Color System Demo
@@ -761,8 +763,8 @@ export const ColorAdaptationDemo: React.FC = () => {
           >
             <motion.div
               className={cn('glass-w-4 glass-h-4 glass-surface-light glass-radius-full')}
-              animate={{ x: config.enabled ? 24 : 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              animate={prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
             />
           </motion.button>
         </div>

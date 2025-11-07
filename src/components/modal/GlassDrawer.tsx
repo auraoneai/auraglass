@@ -549,7 +549,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
     if (!isVisible) return null;
 
     return (
-      <div
+      <div data-glass-component
         className={cn(
           'fixed inset-0',
           `z-${zIndex}`,

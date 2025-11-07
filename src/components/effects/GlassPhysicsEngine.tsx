@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * Advanced Physics-Based Glass Effects Engine
  * Creates realistic glass interactions with physics simulation
@@ -58,6 +59,7 @@ const defaultPhysics: PhysicsConfig = {
 };
 
 export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
+  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   interaction = 'ripple',

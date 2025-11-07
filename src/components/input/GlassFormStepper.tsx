@@ -177,7 +177,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                 const isLast = index === steps.length - 1;
 
                 return (
-                    <React.Fragment key={step.id}>
+                    <React data-glass-component.Fragment key={step.id}>
                         {/* Step */}
                         <div className="flex flex-col items-center group">
                             <Motion

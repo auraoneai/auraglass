@@ -293,7 +293,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
     };
 
     return (
-        <FormContext.Provider value={contextValue}>
+        <FormContext data-glass-component.Provider value={contextValue}>
             <Motion preset="fadeIn" className="w-full max-w-4xl mx-auto">
                 <GlassCard className={cn('overflow-hidden', className)} {...props}>
                     {/* Header */}

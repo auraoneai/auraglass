@@ -618,7 +618,7 @@ export const GlassButton = forwardRef(function GlassButton(
     if (resolvedVariant === 'ghost' || resolvedVariant === 'link') {
       const Comp: any = asChild ? Slot : 'button';
       return (
-        <Motion
+        <Motion data-glass-component
           preset={getAnimationPreset()}
           animateOnHover={animation !== 'none'}
           className="inline-block"

@@ -255,7 +255,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
     );
 
     return (
-        <Motion
+        <Motion data-glass-component
             preset="fadeIn"
             className={cn(
                 'relative overflow-hidden group cursor-pointer',

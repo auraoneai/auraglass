@@ -16,7 +16,7 @@ export const GlassCardLink: React.FC<GlassCardLinkProps> = ({
   ...props
 }) => {
   return (
-    <Motion
+    <Motion data-glass-component
       className="inline-block"
     >
       <a

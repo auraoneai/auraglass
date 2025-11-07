@@ -39,7 +39,7 @@ const ComponentItem: React.FC<{
   };
 
   return (
-    <div
+    <div data-glass-component
       draggable
       onDragStart={handleDragStart}
       onMouseDown={handleMouseDown}

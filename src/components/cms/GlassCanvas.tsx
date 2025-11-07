@@ -28,7 +28,7 @@ const DropZone: React.FC<DropZoneProps> = ({ targetId, position, isActive, onDro
   };
 
   return (
-    <div
+    <div data-glass-component
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       className={cn(

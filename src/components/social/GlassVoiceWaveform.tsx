@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
@@ -57,6 +58,7 @@ const rainbowColors = [
 
 export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     participants,
     currentUserId,
     showAvatars = true,
@@ -404,7 +406,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
             {participant.isSpeaking && (
               <motion.div
                 className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-4 h-4 glass-surface-green glass-radius-full"
-                animate={{ scale: [1, 1.2, 1] }}
+                animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
                 transition={shouldAnimate ? {
                   duration: 0.8,
                   repeat: Infinity

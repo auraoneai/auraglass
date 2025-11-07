@@ -495,7 +495,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
   };
 
   return (
-    <OptimizedGlass
+    <OptimizedGlass data-glass-component
       className={cn('glass-relative', className)}
       intent="neutral"
       elevation="level1"

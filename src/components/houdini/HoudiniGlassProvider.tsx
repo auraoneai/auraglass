@@ -302,7 +302,7 @@ export function HoudiniGlassProvider({
   };
 
   return (
-    <HoudiniGlassContext.Provider value={contextValue}>
+    <HoudiniGlassContext data-glass-component.Provider value={contextValue}>
       {children}
 
       {/* Debug overlay */}

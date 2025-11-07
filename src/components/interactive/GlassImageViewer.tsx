@@ -348,7 +348,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
     if (!currentImage) {
         return (
-            <GlassCard className={cn('p-8', className)}>
+            <GlassCard data-glass-component className={cn('p-8', className)}>
                 <div className="text-center text-primary/60">
                     No image to display
                 </div>

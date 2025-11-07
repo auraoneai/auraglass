@@ -42,7 +42,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
   const strokeDashArray = style === 'dashed' ? '5,5' : style === 'dotted' ? '2,3' : 'none';
 
   return (
-    <svg
+    <svg data-glass-component
       ref={gridRef}
       style={{
         position: 'absolute',

@@ -492,7 +492,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   };
 
   return (
-    <div className={cn("w-full max-w-4xl mx-auto", className)}>
+    <div data-glass-component className={cn("w-full max-w-4xl mx-auto", className)}>
       {/* Search Input */}
       <Glass className="relative">
         <div className="flex items-center gap-3 p-4">

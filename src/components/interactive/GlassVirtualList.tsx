@@ -156,7 +156,7 @@ export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
     }, [height]);
 
     return (
-        <Motion preset="fadeIn" className="w-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full">
             <div
                 ref={containerRef}
                 className={cn(

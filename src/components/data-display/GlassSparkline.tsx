@@ -23,7 +23,7 @@ export function GlassSparkline({ data, width = 120, height = 32, stroke = 'curre
   const step = (width - 4) / ((data?.length || 0) - 1);
   const d = data?.map((v, i) => `${i === 0 ? 'M' : 'L'} ${2 + i * step} ${norm(v)}`).join(' ');
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} className={cn('text-blue-300/90', className)}>
+    <svg data-glass-component viewBox={`0 0 ${width} ${height}`} width={width} height={height} className={cn('text-blue-300/90', className)}>
       <path d={d} fill={fill} stroke={stroke} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
     </svg>
   );

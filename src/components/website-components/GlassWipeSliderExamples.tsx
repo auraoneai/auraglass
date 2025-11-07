@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import useAutoTextContrast from '../../hooks/useAutoTextContrast';
 import {
   AURAONE_COMPARISON_EXAMPLES,
@@ -17,6 +18,7 @@ import {
 
 // Example 1: AuraOne vs Scale AI Performance Comparison
 export function AuraOneVsScaleAIComparison({ className }: { className?: string }) {
+  const prefersReducedMotion = useReducedMotion();
   const [position, setPosition] = useState(50);
   const { labels, metrics } = AURAONE_COMPARISON_EXAMPLES.SCALE_AI;
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -411,7 +413,7 @@ export function PresetPositionDemo({ className }: { className?: string }) {
         {activePreset !== null && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             className="chip chip-blue text-sm"
           >

@@ -1,5 +1,6 @@
 'use client'
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 
 import { motion } from 'framer-motion'
@@ -121,6 +122,7 @@ const defaultSettings: DeepDreamSettings = {
 
 export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlassProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     imageSource,
     availableLayers = defaultNeuralLayers,
     selectedLayers = ['mixed3a'],
@@ -723,7 +725,7 @@ export const GlassDeepDreamGlass = forwardRef<HTMLDivElement, GlassDeepDreamGlas
               <motion.div
                 className="glass-surface-blue h-2 glass-radius-full"
                 animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
               />
             </div>
             <div className="flex items-center justify-between mt-1 text-xs text-primary/60">

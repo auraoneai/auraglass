@@ -65,7 +65,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
   };
 
   return (
-    <div>
+    <div data-glass-component>
       <div
         draggable
         onDragStart={handleDragStart}

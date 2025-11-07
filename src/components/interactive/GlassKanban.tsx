@@ -308,7 +308,7 @@ export function GlassKanban({
     }, [consciousness, interactionRecorder, spatialAudio, onColumnClick, columnInteractionCounts]);
 
     return (
-        <Motion preset="fadeIn" className="w-full h-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full h-full">
             <div 
                 className={cn(
                     'grid glass-gap-4 glass-p-4',

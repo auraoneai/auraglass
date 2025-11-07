@@ -9,7 +9,7 @@ export interface GlassMentionListProps { items: MentionItem[]; onSelect: (id:str
 
 export function GlassMentionList({ items, onSelect, className }: GlassMentionListProps) {
   return (
-    <OptimizedGlass elevation={'level2'} className={cn('glass-radius-lg glass-p-1 border border-white/15', className)}>
+    <OptimizedGlass data-glass-component elevation={'level2'} className={cn('glass-radius-lg glass-p-1 border border-white/15', className)}>
       <ul className="max-h-60 overflow-auto">
         {items.map((it: any) => (
           <li key={it.id}>

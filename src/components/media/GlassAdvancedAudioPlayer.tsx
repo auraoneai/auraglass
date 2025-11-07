@@ -121,7 +121,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioData, currentTime, duration, o
   };
 
   return (
-    <div className="relative">
+    <div data-glass-component className="relative">
       <canvas
         ref={canvasRef}
         width={400}

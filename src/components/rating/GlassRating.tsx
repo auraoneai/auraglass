@@ -227,7 +227,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
       const label = labels?.[index] || `${index + 1} star${index !== 0 ? 's' : ''}`;
 
       return (
-        <button
+        <button data-glass-component
           key={index}
           type="button"
           onClick={() => handleClick(index)}

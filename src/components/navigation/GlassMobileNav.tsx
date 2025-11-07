@@ -220,7 +220,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
       );
 
       return (
-        <div key={item?.id}>
+        <div data-glass-component key={item?.id}>
           <GlassButton
             variant={active ? 'primary' : 'ghost'}
             size="md"

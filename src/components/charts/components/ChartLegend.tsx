@@ -47,7 +47,7 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
   }
 
   return (
-    <div style={containerStyle}>
+    <div data-glass-component style={containerStyle}>
       {datasets.map((dataset, index) => (
         <div
           key={dataset.id || index}

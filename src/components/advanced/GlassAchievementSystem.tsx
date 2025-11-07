@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Achievement System
  * Gamified user engagement with progressive rewards and glass-themed achievements
@@ -609,6 +610,7 @@ export function GlassAchievementProvider({
   children,
   userId,
 }: {
+  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   userId?: string;
 }) {
@@ -773,14 +775,9 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
       onKeyDown={handleKeyDown}
       className="relative"
       initial={{ x: 300, opacity: 0, scale: 0.8 }}
-      animate={{ x: 0, opacity: 1, scale: 1 }}
+      animate={prefersReducedMotion ? {} : { x: 0, opacity: 1, scale: 1 }}
       exit={{ x: 300, opacity: 0, scale: 0.8 }}
-      transition={{ 
-        delay: delay / 1000,
-        type: "spring",
-        stiffness: 300,
-        damping: 30 
-      }}
+      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
     >
       <OptimizedGlass
         intent="neutral"
@@ -864,8 +861,8 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
       <motion.div
         className="absolute inset-0 pointer-events-none"
         initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: 2, delay: delay / 1000 + 0.5 }}
+        animate={prefersReducedMotion ? {} : { opacity: [0, 1, 0] }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 2, delay: delay / 1000 + 0.5  }}
       >
         {Array.from({ length: 12 }, (_, i) => (
           <motion.div
@@ -875,17 +872,17 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
               left: '50%',
               top: '50%',
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               x: [0, (Math.cos(i * 30 * Math.PI / 180)) * 100],
               y: [0, (Math.sin(i * 30 * Math.PI / 180)) * 100],
               opacity: [1, 0],
               scale: [1, 0],
             }}
-            transition={{
+            transition={{ duration: prefersReducedMotion ? 0 : 
               duration: 1.5,
               delay: delay / 1000 + 0.5 + i * 0.1,
               ease: "easeOut",
-            }}
+             }}
           />
         ))}
       </motion.div>
@@ -940,7 +937,7 @@ export function GlassAchievementDashboard({
             animate={{ 
               width: `${(progress.currentXP / progress.xpToNextLevel) * 100}%` 
             }}
-            transition={{ duration: 0.5 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.5  }}
           />
         </div>
         <div className="flex justify-between text-xs text-primary/50 glass-mt-1">

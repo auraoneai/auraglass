@@ -323,7 +323,7 @@ export const GlassFormBuilder = forwardRef<HTMLFormElement, GlassFormBuilderProp
         case 'url':
         case 'date':
           return (
-            <GlassInput
+            <GlassInput data-glass-component
               {...baseProps}
               type={field.type}
               value={value}

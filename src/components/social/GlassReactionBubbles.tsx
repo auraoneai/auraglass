@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useCallback } from 'react'
@@ -57,6 +58,7 @@ const reactionColors = [
 
 export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubblesProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     width = 600,
     height = 400,
     reactions = [],
@@ -223,7 +225,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
           fontSize: bubble.size || 30
         }}
         initial={{ scale: 0, opacity: 0 }}
-        animate={{
+        animate={prefersReducedMotion ? {} : {
           scale: getBubbleScale(bubble),
           opacity: getBubbleOpacity(bubble),
           rotate: Math.sin(Date.now() / 1000 + bubble.timestamp) * 10
@@ -253,7 +255,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
             <motion.div
               className={cn('glass-absolute glass-bottom-8-neg glass-left-1/2 glass-transform glass-translate-x-1/2-neg')}
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 0.8, y: 0 }}
+              animate={prefersReducedMotion ? {} : { opacity: 0.8, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={shouldAnimate ? { delay: 0.2 } : { duration: 0 }}
             >
@@ -273,7 +275,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
             style={{
               background: `radial-gradient(circle, ${bubble.userColor || '#FF6B6B'}40 0%, transparent 70%)`
             }}
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               scale: [1, 1.5, 1],
               opacity: [0.3, 0.1, 0.3]
             }}
@@ -294,7 +296,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
           ${createGlassStyle({ blur: 'sm', opacity: 0.8 }).background}
         `}
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
         transition={shouldAnimate ? { duration: 0.3 } : { duration: 0 }}
       >
         {availableEmojis.map((emoji: any) => (
@@ -357,7 +359,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
                 left: Math.random() * width,
                 top: Math.random() * height
               }}
-              animate={{
+              animate={prefersReducedMotion ? {} : {
                 y: [0, -20, 0],
                 opacity: [0.2, 0.8, 0.2],
                 scale: [0.5, 1, 0.5]
@@ -386,7 +388,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
             ${createGlassStyle({ blur: 'sm', opacity: 0.8 }).background}
           `}
           initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
           transition={shouldAnimate ? { delay: 0.5 } : { duration: 0 }}
         >
           <div className={cn('glass-text-sm glass-text-secondary glass-space-y-1')}>
@@ -416,7 +418,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
               ${createGlassStyle({ blur: 'sm', opacity: 0.8 }).background}
             `}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             transition={shouldAnimate ? { delay: 1 } : { duration: 0 }}
           >
             Click anywhere to add {selectedEmoji} • Click bubbles to multiply them

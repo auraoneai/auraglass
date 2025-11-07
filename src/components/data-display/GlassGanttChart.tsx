@@ -349,7 +349,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
 
       if (task.milestone) {
         return (
-          <div
+          <div data-glass-component
             className={cn(
               'absolute flex items-center justify-center cursor-pointer',
               'transform rotate-45 border-2',

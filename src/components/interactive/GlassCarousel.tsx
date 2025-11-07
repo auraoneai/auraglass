@@ -462,7 +462,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
 
     if (totalItems === 0) {
         return (
-            <GlassCard className={cn('p-8', className)}>
+            <GlassCard data-glass-component className={cn('p-8', className)}>
                 <div className="text-center text-primary/60">
                     No items to display
                 </div>

@@ -592,7 +592,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <MediaContext.Provider value={value}>
+    <MediaContext data-glass-component.Provider value={value}>
       {children}
     </MediaContext.Provider>
   );

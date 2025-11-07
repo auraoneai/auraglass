@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Spatial Audio System
  * 3D positioned glass sounds with Web Audio API and HRTF
@@ -466,6 +467,7 @@ export function GlassSpatialAudioProvider({
   settings,
   autoInitialize = true,
 }: {
+  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   settings?: Partial<SpatialAudioSettings>;
   autoInitialize?: boolean;
@@ -637,11 +639,7 @@ export function GlassAudioReactive({
         opacity: 0.8 + audioIntensity * 0.2,
         backgroundColor: `rgba(255, 255, 255, ${0.1 + audioIntensity * 0.1})`,
       }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-      }}
+      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
     >
       {children}
     </motion.div>
@@ -720,7 +718,7 @@ export function GlassSpatialVisualizer({
                                   '#ec4899',
                 }}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ 
+                animate={prefersReducedMotion ? {} : { 
                   scale: source.isPlaying ? [1, 1.2, 1] : 1,
                   opacity: source.isPlaying ? 1 : 0.5,
                 }}
@@ -742,12 +740,12 @@ export function GlassSpatialVisualizer({
                                    source.category === 'feedback' ? 'var(--glass-color-warning)' :
                                    '#ec4899',
                     }}
-                    animate={{ scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }}
-                    transition={{
+                    animate={prefersReducedMotion ? {} : { scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 
                       repeat: Infinity,
                       duration: 2,
                       ease: "easeOut",
-                    }}
+                     }}
                   />
                 )}
               </motion.div>

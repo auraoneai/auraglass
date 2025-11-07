@@ -343,7 +343,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
     const config = sizeConfigs[size];
 
     return (
-        <div className="relative">
+        <div data-glass-component className="relative">
             {/* Trigger */}
             <div
                 ref={triggerRef}

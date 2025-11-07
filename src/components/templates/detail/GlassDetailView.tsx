@@ -177,7 +177,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       switch (field.type) {
         case 'boolean':
           return (
-            <GlassBadge variant={field.value ? 'success' : 'error'} size="xs">
+            <GlassBadge data-glass-component variant={field.value ? 'success' : 'error'} size="xs">
               {field.value ? 'Yes' : 'No'}
             </GlassBadge>
           );

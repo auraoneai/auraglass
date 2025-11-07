@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useMemo } from 'react'
@@ -55,6 +56,7 @@ const getPhaseColor = (phase: number): string => {
 
 export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherenceIndicatorProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     coherenceLevel,
     phase = 0,
     decoherenceRate = 0.02,
@@ -274,7 +276,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
             stroke={getPhaseColor(currentPhase)}
             strokeWidth="3"
             strokeLinecap="round"
-            animate={{
+            animate={prefersReducedMotion ? {} : {
               x2: 48 + Math.cos(currentPhase - Math.PI / 2) * (30 * currentCoherence),
               y2: 48 + Math.sin(currentPhase - Math.PI / 2) * (30 * currentCoherence)
             }}
@@ -322,8 +324,8 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
             {isDecohering && alertOnDecoherence && (
               <motion.div
                 className={cn("glass-flex glass-items-center glass-space-x-1 glass-text-danger")}
-                animate={{ opacity: [1, 0.5, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
+                animate={prefersReducedMotion ? {} : { opacity: [1, 0.5, 1] }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 1, repeat: Infinity  }}
               >
                 <span>⚠️</span>
                 <span className={cn("glass-text-xs glass-font-medium")}>Decoherence</span>

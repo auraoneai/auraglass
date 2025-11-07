@@ -346,7 +346,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
     };
 
     return (
-      <div className={cn('relative inline-block', { 'w-full': fullWidth })}>
+      <div data-glass-component className={cn('relative inline-block', { 'w-full': fullWidth })}>
         {/* Hidden native select for form compatibility */}
         <select
           ref={ref}

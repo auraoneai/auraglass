@@ -122,7 +122,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
     const propKeys = Object.keys(componentProps);
 
     return (
-      <div className="gap-4">
+      <div data-glass-component className="gap-4">
         <h4 className="text-sm font-semibold text-primary mb-3">Component Props</h4>
 
         {propKeys.length === 0 ? (

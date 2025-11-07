@@ -110,7 +110,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center glass-surface-dark bg-opacity-75">
+    <div data-glass-component className="fixed inset-0 z-50 flex items-center justify-center glass-surface-dark bg-opacity-75">
       <Glass className="w-full max-w-6xl max-h-[90vh] m-4 overflow-hidden">
         <div className="flex h-full">
           {/* Image Preview */}

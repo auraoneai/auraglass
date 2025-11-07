@@ -27,7 +27,7 @@ const UserAvatar: React.FC<{
   const isActive = Date.now() - user.lastActive < 60000; // Active within last minute
 
   return (
-    <div className="relative">
+    <div data-glass-component className="relative">
       {user.avatar ? (
         <img
           src={user.avatar}

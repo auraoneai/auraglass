@@ -563,7 +563,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     }
 
     return (
-      <div
+      <div data-glass-component
         className={cn(
           'fixed inset-0 flex',
           variantClasses[variant],

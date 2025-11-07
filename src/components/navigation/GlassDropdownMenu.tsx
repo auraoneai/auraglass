@@ -60,7 +60,7 @@ export const GlassDropdownMenuTrigger = forwardRef<
         );
 
         return (
-            <DropdownMenuPrimitive.Trigger
+            <DropdownMenuPrimitive data-glass-component.Trigger
                 ref={ref}
                 className={baseStyles}
                 asChild={asChild}

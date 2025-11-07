@@ -1,9 +1,11 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import React, { useState } from 'react';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 import { cn } from '../../lib/utilsComprehensive';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export const PageTransitionDemo: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const [page, setPage] = useState(0);
 
   return (

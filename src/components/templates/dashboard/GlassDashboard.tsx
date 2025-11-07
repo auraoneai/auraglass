@@ -251,7 +251,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
 
       if (!WidgetRenderer) {
         return (
-          <div className="h-full flex items-center justify-center glass-text-secondary">
+          <div data-glass-component className="h-full flex items-center justify-center glass-text-secondary">
             Unknown widget type: {widget.type}
           </div>
         );

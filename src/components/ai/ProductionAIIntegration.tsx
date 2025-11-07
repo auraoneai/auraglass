@@ -247,7 +247,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
 
   if (!isInitialized) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div data-glass-component className="flex items-center justify-center p-8">
         <div className="text-center">
           <div className="animate-spin glass-radius-full h-12 w-12 border-b-2 border-blue mx-auto mb-4"></div>
           <p className="glass-text-secondary">Initializing AI services...</p>

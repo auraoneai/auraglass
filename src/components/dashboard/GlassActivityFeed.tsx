@@ -261,7 +261,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
     // Loading skeleton
     if (loading) {
         return (
-            <GlassCard className={cn('glass-p-6', className)}>
+            <GlassCard data-glass-component className={cn('glass-p-6', className)}>
                 <div className="animate-pulse glass-auto-gap glass-auto-gap-lg">
                     <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
                     <div className="glass-auto-gap glass-auto-gap-md">

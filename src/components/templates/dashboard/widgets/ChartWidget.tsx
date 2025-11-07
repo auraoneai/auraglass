@@ -136,7 +136,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
       
       return (
-        <div className="flex items-end justify-between gap-2 h-full">
+        <div data-glass-component className="flex items-end justify-between gap-2 h-full">
           {data?.dataPoints.map((point, index) => {
             const height = (point.value / maxValue) * 100;
             const color = point.color || colors[index % (colors?.length || 0)];

@@ -661,7 +661,7 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
   if (!isGPUSupported) {
     // Fallback to CSS-based rendering
     return (
-      <div
+      <div data-glass-component
         ref={containerRef}
         className={cn('glass-surface-primary glass-blur-backdrop glass-relative glass-overflow-hidden', className)}
         style={{

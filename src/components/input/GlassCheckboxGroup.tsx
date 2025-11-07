@@ -201,7 +201,7 @@ export const GlassCheckboxItem = forwardRef<HTMLDivElement, GlassCheckboxItemPro
     }, [handleClick, onKeyDown]);
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         elevation="level1"
         intensity="subtle"

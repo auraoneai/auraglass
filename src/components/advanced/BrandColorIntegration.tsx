@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import { cn } from '../../lib/utilsComprehensive'
@@ -32,6 +33,7 @@ interface BrandColorIntegrationProps {
 }
 
 export default function BrandColorIntegration({
+  const prefersReducedMotion = useReducedMotion();
   entityId,
   brandColors,
   fallbackColors = {
@@ -182,7 +184,7 @@ export default function BrandColorIntegration({
           'transparent'
         ]
       } : {}}
-      transition={{ duration: animationDuration / 1000, ease: 'easeInOut' }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: animationDuration / 1000, ease: 'easeInOut'  }}
       onAnimationComplete={() => {
         if (colorTransition) setColorTransition(false)
       }}
@@ -194,18 +196,18 @@ export default function BrandColorIntegration({
             className="absolute inset-0 flex items-center justify-center z-50"
             style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
               className={cn("glass-flex glass-items-center glass-space-x-3 glass-text-primary")}
               initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              animate={prefersReducedMotion ? {} : { y: 0, opacity: 1 }}
             >
               <motion.div
                 className={cn("glass-w-5 glass-h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full")}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                animate={prefersReducedMotion ? {} : { rotate: 360 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 1.5, repeat: Infinity, ease: 'linear'  }}
               />
               <span className="text-sm">Loading brand colors...</span>
             </motion.div>
@@ -219,9 +221,9 @@ export default function BrandColorIntegration({
           <motion.div
             className="absolute glass--glass--glass--glass--glass--glass--glass--glass--glass--glassglass--glassglass--top-2 right-2 z-10"
             initial={{ opacity: 0, scale: 0, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0, y: -10 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
+            transition={{ duration: prefersReducedMotion ? 0 :  delay: 0.2, duration: 0.3  }}
           >
             <div
               className={cn("glass-flex glass-items-center glass-space-x-1 glass-px-2 glass-py-1 glass-radius-full glass-text-xs glass-font-medium glass-text-primary")}
@@ -247,9 +249,9 @@ export default function BrandColorIntegration({
               borderRadius: 'inherit'
             }}
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1.02 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1.02 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: animationDuration / 1000, ease: 'easeOut' }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: animationDuration / 1000, ease: 'easeOut'  }}
           />
         )}
       </AnimatePresence>
@@ -344,7 +346,7 @@ export function BrandGlassButton({
           scale: [1, 1.1, 1],
           opacity: [0, 0.2, 0]
         } : {}}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2, ease: 'easeOut'  }}
       />
     </motion.button>
   )

@@ -322,7 +322,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
                       const isSelected = globalIndex === selectedIndex;
 
                       return (
-                        <button
+                        <button data-glass-component
                           key={action.id}
                           type="button"
                           onClick={() => handleActionSelect(action)}

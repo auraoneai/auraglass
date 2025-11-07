@@ -173,7 +173,7 @@ export const GlassToast: React.FC<GlassToastProps> = ({
     if (!isVisible) return null;
 
     return (
-        <Motion
+        <Motion data-glass-component
             preset="slideRight"
             duration={300}
         >

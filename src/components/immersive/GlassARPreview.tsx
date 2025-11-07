@@ -539,7 +539,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
     }, [isTracking, markers, foundMarkers, onMarkerFound, onMarkerLost]);
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         id={arPreviewId}
         elevation="level1"

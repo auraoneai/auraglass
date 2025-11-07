@@ -10,7 +10,7 @@ export function GlassCoachmarks({ steps, current, onNext, onPrev, onClose }: Gla
   const step = steps[current];
   if (!step) return null;
   return (
-    <div className="fixed inset-0 z-[2000]">
+    <div data-glass-component className="fixed inset-0 z-[2000]">
       <div className="absolute inset-0 glass-surface-dark/60" onClick={onClose} />
       <div className="absolute inset-x-0 bottom-10 mx-auto w-full max-w-xl">
         <div className="glass-radius-2xl glass-surface-subtle/10 border border-white/20 p-4 mx-4 text-primary">

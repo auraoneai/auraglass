@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
@@ -195,6 +196,7 @@ const ShatterAnimations = {
   },
 
   createExplosionAnimation: (shards: THREE.Mesh[], center: THREE.Vector3, force: number = 10, duration: number = 1) => {
+  const prefersReducedMotion = useReducedMotion();
     const animations = shards.map((shard: THREE.Mesh, index: number) => {
       const direction = new THREE.Vector3(
         (Math.random() - 0.5) * 2,
@@ -433,7 +435,7 @@ export function GlassShatterEffects({
         {isShattered && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1 }}
             exit={{ opacity: 0 }}
             className={cn("glass-absolute glass-inset-0 glass-pointer-events-none")}
           >
@@ -460,7 +462,7 @@ export function GlassShatterEffects({
       {showControls && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           className={cn("glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-gap-2")}
         >
           <button
@@ -475,8 +477,8 @@ export function GlassShatterEffects({
           {isAnimating && (
             <div className={cn("glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-surface-info glass-foundation-complete glass-radius-lg glass-text-info glass-text-sm")}>
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                animate={prefersReducedMotion ? {} : { rotate: 360 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 1, repeat: Infinity, ease: 'linear'  }}
               >
                 <Triangle className={cn("glass-w-3 glass-h-3")} />
               </motion.div>

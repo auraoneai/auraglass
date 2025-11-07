@@ -64,7 +64,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   };
 
   return (
-    <div style={style}>
+    <div data-glass-component style={style}>
       <div style={{ fontWeight: 'var(--typography-heading-weight)', marginBottom: '4px' }}> {/* semi-bold */}
         {tooltipData.value.dataset || 'Dataset'}
       </div>

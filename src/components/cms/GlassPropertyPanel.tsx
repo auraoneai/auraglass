@@ -36,7 +36,7 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
     switch (type) {
       case 'text':
         return (
-          <input
+          <input data-glass-component
             type="text"
             value={value || ''}
             onChange={(e) => onChange(e.target.value)}

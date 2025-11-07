@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Foldable Screen Support
  * Adaptive glass layouts for foldable and dual-screen devices
@@ -48,6 +49,7 @@ export function GlassFoldableSupport({
   foldAnimation = true,
   onFoldStateChange,
 }: GlassFoldableSupportProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [foldableInfo, setFoldableInfo] = useState<FoldableInfo>({
     isFoldable: false,
@@ -225,8 +227,8 @@ export function GlassFoldableSupport({
                 height: `${(segment.height / window.innerHeight) * 100}%`,
               }}
               initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
+              animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
             >
               <div className="OptimizedGlass intensity={0.2} blur={6} w-full h-full">
                 {React.Children.toArray(children)[index] || children}
@@ -274,15 +276,15 @@ export function GlassFoldableSupport({
         scale: foldableInfo.foldState === 'folded' ? 0.95 : 1,
         opacity: foldableInfo.foldState === 'folded' ? 0.8 : 1,
       } : undefined}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: 'easeInOut'  }}
     >
       <AnimatePresence mode="wait">
         <motion.div
           key={`${layoutMode}-${foldableInfo.foldState}`}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
         >
           {generateLayout()}
         </motion.div>

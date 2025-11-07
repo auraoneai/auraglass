@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Contextual Engine
  * Hyper-contextual adaptation system that fuses biometrics, device sensors, and environment data
@@ -1080,6 +1081,7 @@ export function GlassContextualEngineProvider({
   onContextUpdate,
   onAdaptationChange,
 }: {
+  const prefersReducedMotion = useReducedMotion();
   children: React.ReactNode;
   onContextUpdate?: (context: ContextualState) => void;
   onAdaptationChange?: (adaptation: ContextualAdaptation | null) => void;
@@ -1168,7 +1170,7 @@ export function GlassContextualDashboard({
           <motion.div
             className="absolute -glass--glass--glass--glass--glassglass--glass-top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
             initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            animate={prefersReducedMotion ? {} : { scale: 1 }}
           />
         )}
       </motion.button>
@@ -1181,7 +1183,7 @@ export function GlassContextualDashboard({
               "glass-surface-primary glass-elev-4 glass-radius-lg glass-p-4 glass-gap-3"
             )}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
           >
             <div className="flex items-center justify-between">

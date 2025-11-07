@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * Enhanced Glass Button
  * Next-generation button component integrating all advanced systems:
@@ -102,6 +103,7 @@ export interface EnhancedGlassButtonProps extends BaseGlassButtonProps {
 export const EnhancedGlassButton = forwardRef<HTMLButtonElement, EnhancedGlassButtonProps>(
   (
     {
+  const prefersReducedMotion = useReducedMotion();
       children,
       className,
       variant = 'primary',

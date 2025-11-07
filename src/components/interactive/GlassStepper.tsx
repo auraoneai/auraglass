@@ -14,7 +14,7 @@ export function GlassStepper({ steps, active, onChange, className }: GlassSteppe
   }, [active]);
 
   return (
-    <div className={cn('flex items-center glass-gap-3', className)}>
+    <div data-glass-component className={cn('flex items-center glass-gap-3', className)}>
       {steps.map((s, i) => {
         const isActive = s.id === active;
         const wasJustActivated = isActive && lastActiveRef.current !== active;

@@ -161,7 +161,7 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
     );
 
     return (
-        <Motion
+        <Motion data-glass-component
             preset="fadeIn"
             className={cn(
                 'relative cursor-grab active:cursor-grabbing select-none',

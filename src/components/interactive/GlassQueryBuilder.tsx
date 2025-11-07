@@ -30,7 +30,7 @@ export function GlassQueryBuilder({ fields, value, onChange, className }: GlassQ
   const renderRule = (rule: Rule, idx: number, parent: RuleGroup) => {
     const field = fields.find(f => f.id === rule.field) || fields[0];
     return (
-      <div key={idx} className="flex items-center gap-2">
+      <div data-glass-component key={idx} className="flex items-center gap-2">
         <GlassSelect value={rule.field} onValueChange={(v) => { rule.field = v; update(value); }}>
           <GlassSelectTrigger className="w-40 h-8 text-sm">
             <GlassSelectValue placeholder="Field" />

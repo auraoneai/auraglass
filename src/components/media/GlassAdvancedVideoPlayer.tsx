@@ -98,7 +98,7 @@ const VideoControls: React.FC<ControlsProps> = ({
   const qualities = ['auto', '144p', '240p', '360p', '480p', '720p', '1080p'];
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary via-black/40 glass-gradient-primary p-4">
+    <div data-glass-component className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary via-black/40 glass-gradient-primary p-4">
       {/* Progress Bar */}
       <div
         className="w-full h-2 glass-surface-subtle/20 glass-radius-full cursor-pointer mb-4 relative"

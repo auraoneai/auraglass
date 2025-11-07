@@ -129,7 +129,7 @@ export function GlassDataTable<T extends Record<string, any>>({
     if (!paginated || totalPages <= 1) return null;
 
     return (
-      <div className="flex items-center justify-between p-4 border-t border-glass-border">
+      <div data-glass-component className="flex items-center justify-between p-4 border-t border-glass-border">
         <div className="text-sm glass-text-secondary">
           Showing {startIndex + 1} to {Math.min(startIndex + pageSize, processedData.length)} of {processedData.length} results
         </div>

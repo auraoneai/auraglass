@@ -332,7 +332,7 @@ function ToggleButtonComponent(
 
   if (glass) {
     return (
-      <Motion
+      <Motion data-glass-component
         preset="scaleIn"
         animateOnHover={true}
         duration={0.2}

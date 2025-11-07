@@ -234,7 +234,7 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
     }, {} as Record<string, UserPresence[]>);
 
     return (
-        <Motion preset="fadeIn" className="w-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full">
             <GlassCard className={cn('overflow-hidden', className)} {...props}>
                 <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">

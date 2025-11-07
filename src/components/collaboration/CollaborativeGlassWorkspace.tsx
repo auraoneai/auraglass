@@ -63,7 +63,7 @@ interface CollaborativeGlassWorkspaceProps {
 export function CollaborativeGlassWorkspace(props: CollaborativeGlassWorkspaceProps) {
   // Wrap the workspace in providers - in real implementation this would use actual providers
   return (
-    <GlassCollaborationProvider
+    <GlassCollaborationProvider data-glass-component
       workspaceId={props.workspaceId}
       userId={props.userId}
       userName={props.userName}

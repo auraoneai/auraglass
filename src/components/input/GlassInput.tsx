@@ -201,7 +201,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     };
 
     return (
-      <div className={cn('relative', { 'w-full': fullWidth })}>
+      <div data-glass-component className={cn('relative', { 'w-full': fullWidth })}>
         {/* Label */}
         {label && (
           <label 

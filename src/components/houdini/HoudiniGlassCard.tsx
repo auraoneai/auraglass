@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { motion } from 'framer-motion';
@@ -35,6 +36,7 @@ export function HoudiniGlassCard({
   effects = ['frost'],
   enableWorklets = true,
   customProperties = {},
+  const prefersReducedMotion = useReducedMotion();
   interactive = true,
   showControls = false,
   title,
@@ -112,10 +114,10 @@ export function HoudiniGlassCard({
       onMouseLeave={handleMouseLeave}
       whileHover={interactive ? { scale: 1.02 } : {}}
       whileTap={interactive ? { scale: 0.98 } : {}}
-      transition={{
+      transition={{ duration: prefersReducedMotion ? 0 : 
         duration: performanceMode ? 0.15 : 0.3,
         ease: "easeOut"
-      }}
+       }}
     >
       {/* Header */}
       {(title || description || showControls) && (
@@ -158,7 +160,7 @@ export function HoudiniGlassCard({
       {showEffectControls && showControls && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           className="mb-4 p-3 glass-radius-lg glass-surface-dark/5 dark:glass-surface-subtle/5"
         >
@@ -211,8 +213,8 @@ export function HoudiniGlassCard({
         <motion.div
           className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: performanceMode ? 0.1 : 0.2 }}
+          animate={prefersReducedMotion ? {} : { opacity: isHovered ? 1 : 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: performanceMode ? 0.1 : 0.2  }}
         />
       )}
 

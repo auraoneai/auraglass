@@ -136,7 +136,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
                     : '100%';
 
               return (
-                <OptimizedGlass
+                <OptimizedGlass data-glass-component
                   key={index}
                   elevation="level1"
                   intensity="subtle"

@@ -24,7 +24,7 @@ export function GlassDefs({ id }: { id: string }) {
   const secondary = semanticColors.chart.secondary;
   const areaTop = semanticColors.chart.senary; // cyan-ish top
   return (
-    <defs>
+    <defs data-glass-component>
       {/* Brand stroke gradient */}
       <linearGradient id={grad} x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stopColor={primary} />

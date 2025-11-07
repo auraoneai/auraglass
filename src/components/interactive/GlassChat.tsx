@@ -512,7 +512,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
     }, [newMessage]);
 
     return (
-        <Motion preset="fadeIn" className="w-full h-full">
+        <Motion data-glass-component preset="fadeIn" className="w-full h-full">
             <GlassCard className={cn('flex flex-col h-full overflow-hidden', className)} {...props}>
                 {/* Header */}
                 <CardHeader className="pb-3 border-b border-white/10">

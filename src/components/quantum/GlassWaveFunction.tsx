@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
@@ -64,6 +65,7 @@ const waveTypes = {
 
 export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     width = 800,
     height = 400,
     waveEquations,

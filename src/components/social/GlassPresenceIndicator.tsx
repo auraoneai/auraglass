@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useMemo } from 'react'
@@ -60,6 +61,7 @@ const statusLabels = {
 
 export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIndicatorProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     users,
     maxVisible = 5,
     showAvatars = true,
@@ -182,7 +184,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
         key={user.id}
         layout={animateChanges}
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
+        animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
         transition={respectMotionPreference({
           duration: 0.3,
@@ -263,7 +265,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
         {showTypingIndicator && user.isTyping && (
           <motion.div
             className="flex space-x-1"
-            animate={{ opacity: [0.4, 1, 0.4] }}
+            animate={prefersReducedMotion ? {} : { opacity: [0.4, 1, 0.4] }}
             transition={respectMotionPreference({
               duration: 1.5,
               repeat: Infinity,
@@ -274,7 +276,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
               <motion.div
                 key={i}
                 className="w-1.5 h-1.5 glass-surface-blue glass-radius-full"
-                animate={{ y: [-2, 0, -2] }}
+                animate={prefersReducedMotion ? {} : { y: [-2, 0, -2] }}
                 transition={respectMotionPreference({
                   duration: 0.6,
                   repeat: Infinity,
@@ -314,7 +316,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
                 ${createGlassStyle({ variant: 'default' })}
               `}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={prefersReducedMotion ? {} : { opacity: 1 }}
               transition={respectMotionPreference({ delay: 0.3 })}
             >
               <div className={`
@@ -335,7 +337,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
           <motion.div
             className="mt-3 pt-3 border-t border-white/10"
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
           >
             <p className="text-xs text-primary/60">
@@ -352,7 +354,7 @@ export const GlassPresenceIndicator = forwardRef<HTMLDivElement, GlassPresenceIn
         <motion.div
           className="mt-3 pt-3 border-t border-white/10 flex justify-between items-center text-xs text-primary/50"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1 }}
           transition={respectMotionPreference({ delay: 0.5 })}
         >
           <span>{processedUsers.totalOnline} online</span>

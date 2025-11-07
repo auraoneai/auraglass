@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 import { cn } from '@/lib/utils';
 
@@ -154,6 +155,7 @@ const defaultProcessingSettings: ProcessingSettings = {
 
 export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     videoSource,
     imageSource,
     availableFilters = defaultFilters,

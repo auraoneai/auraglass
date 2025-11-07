@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * AuraGlass Context-Aware Glass Intensity
  * Dynamic glass effects based on environment and usage patterns
@@ -64,6 +65,7 @@ export function GlassContextAware({
   override,
   onContextChange,
 }: GlassContextAwareProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [environmentContext, setEnvironmentContext] = useState<EnvironmentContext>({
     lightLevel: 0.5,

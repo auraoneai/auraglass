@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client'
 
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from 'react'
@@ -53,6 +54,7 @@ const probabilityDensity = (waveAmp: number) => waveAmp * waveAmp
 
 export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbabilityCloudProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     width = 600,
     height = 400,
     depth = 200,
@@ -426,9 +428,9 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
                     transform: 'translate(-50%, -50%)'
                   }}
                   initial={{ scale: 0, opacity: 1 }}
-                  animate={{ scale: 2, opacity: 0 }}
+                  animate={prefersReducedMotion ? {} : { scale: 2, opacity: 0 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 1 }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 1  }}
                 >
                   <div className={cn("glass-w-4 glass-h-4 glass-border-2 glass-border-danger glass-radius-full")} />
                 </motion.div>
@@ -449,7 +451,7 @@ export const GlassProbabilityCloud = forwardRef<HTMLDivElement, GlassProbability
                     <motion.div
                       className={cn("glass-h-full glass-gradient-primary glass-radius-full")}
                       animate={{ width: `${Math.min(100, totalUncertainty * 100)}%` }}
-                      transition={{ duration: 0.3 }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
                     />
                   </div>
                   <span className={cn("glass-text-primary glass-text-xs")}>

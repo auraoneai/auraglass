@@ -35,7 +35,7 @@ export const CleanGlassContainer = forwardRef<HTMLDivElement, CleanGlassContaine
     } = props;
 
     return (
-      <ContextAwareGlass
+      <ContextAwareGlass data-glass-component
         ref={ref}
         adaptationMode="fixed"
         baseBlurStrength={extraDark ? 7 : baseBlurStrength}

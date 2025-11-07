@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { motion } from 'framer-motion'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -76,6 +77,7 @@ const colorSchemes = {
 
 export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisualizerProps>(
   ({
+  const prefersReducedMotion = useReducedMotion();
     audioSource,
     audioSettings = {},
     visualSettings = {},

@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
 import { cn } from '@/lib/utils';
  * Spatial Computing Engine
@@ -140,6 +141,7 @@ const detectSpatialContext = (): SpatialContext => {
 };
 
 export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
+  const prefersReducedMotion = useReducedMotion();
   children,
   className='',
   position = {},

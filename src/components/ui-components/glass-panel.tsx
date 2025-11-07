@@ -58,7 +58,7 @@ const GlassPanel = React.forwardRef<HTMLDivElement, GlassPanelProps>(
     };
 
     return (
-      <OptimizedGlass
+      <OptimizedGlass data-glass-component
         ref={ref}
         elevation={elevation}
         intent={getGlassIntent()}

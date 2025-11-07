@@ -1,3 +1,4 @@
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
@@ -245,6 +246,7 @@ export function SeasonalParticles({
   onSeasonChange,
   children
 }: SeasonalParticlesProps) {
+  const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentSeason, setCurrentSeason] = useState(season === 'auto' ? 'winter' : season);
   const [particles, setParticles] = useState<THREE.Mesh[]>([]);
@@ -335,7 +337,7 @@ export function SeasonalParticles({
       {/* Season indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
         className={cn("glass-absolute glass-top-4 glass-left-4 glass-px-3 glass-py-2 glass-radius-lg glass-foundation-complete glass-border", getSeasonColors(currentSeason))}
       >
         <div className={cn("glass-flex glass-items-center glass-gap-2")}>
@@ -348,7 +350,7 @@ export function SeasonalParticles({
       {showControls && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           className="absolute bottom-4 right-4 flex flex-col gap-2"
         >
           {/* Season selector */}
@@ -391,19 +393,19 @@ export function SeasonalParticles({
       {windStrength > 0 && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
           className="absolute top-4 right-4 px-3 py-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10"
         >
           <div className="flex items-center gap-2 text-primary/60 text-sm">
             <motion.div
-              animate={{
+              animate={prefersReducedMotion ? {} : {
                 x: windStrength > 0 ? [0, 5, 0] : 0
               }}
-              transition={{
+              transition={{ duration: prefersReducedMotion ? 0 : 
                 duration: 2,
                 repeat: Infinity,
                 ease: 'easeInOut'
-              }}
+               }}
             >
               <Wind className="w-3 h-3" />
             </motion.div>

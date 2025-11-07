@@ -237,7 +237,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
     };
 
     return (
-        <div className={cn('relative', className)}>
+        <div data-glass-component className={cn('relative', className)}>
             {/* Label */}
             {label && (
                 <label 

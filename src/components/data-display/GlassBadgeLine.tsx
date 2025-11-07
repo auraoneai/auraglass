@@ -23,7 +23,7 @@ export const GlassBadgeLine = forwardRef<HTMLDivElement, GlassBadgeLineProps>(({
   const badgeLineId = useA11yId('badge-line');
   
   return (
-    <div 
+    <div data-glass-component 
       ref={ref}
       id={badgeLineId}
       className={cn('flex flex-wrap glass-gap-1', className)}

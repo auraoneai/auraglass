@@ -24,7 +24,7 @@ export function GlassTagInput({ value, onChange, placeholder = 'Add tag…', sug
   const remove = (tag: string) => onChange(value.filter((v: any) => v !== tag));
 
   return (
-    <OptimizedGlass elevation={'level1'} className={cn('glass-radius-xl glass-p-2 flex flex-wrap glass-gap-2', className)}>
+    <OptimizedGlass data-glass-component elevation={'level1'} className={cn('glass-radius-xl glass-p-2 flex flex-wrap glass-gap-2', className)}>
       {value.map((t) => (
         <span key={t} className="glass-inline-flex items-center gap-1 px-2 py-1 text-sm glass-radius-lg glass-surface-subtle/10 border border-white/20">
           {t}

@@ -139,7 +139,7 @@ export const GlassTextarea = forwardRef<HTMLTextAreaElement, GlassTextareaProps>
     };
 
     return (
-      <div className={cn('glass-textarea-wrapper', fullWidth && 'w-full')}>
+      <div data-glass-component className={cn('glass-textarea-wrapper', fullWidth && 'w-full')}>
         {/* Label */}
         {label && (
           <label
