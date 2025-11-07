@@ -300,6 +300,114 @@ All animations automatically respect user preferences:
 ```
 
 
+## 🆕 Recently Added (v2.0.3+)
+
+### New Hooks & Utilities
+
+#### Performance & Device Optimization
+- **`useDeviceCapabilities`** - React hook for device detection and capability assessment
+  - Returns `{ deviceInfo, reload }` with complete device information
+  - SSR-safe with proper initialization
+  - Automatically detects performance tier, GPU capabilities, and input methods
+
+- **`useEnhancedReducedMotion`** - Enhanced reduced motion preference detection
+  - SSR-safe with lazy initialization
+  - Reactive updates when user changes system preferences
+  - Fully documented with JSDoc and usage examples
+
+- **`useQualityTier`** - Chart quality tier management for optimal performance
+  - Automatically adjusts chart rendering based on device capabilities
+  - Returns current quality tier ('low' | 'medium' | 'high' | 'ultra')
+
+- **`getQualityBasedPhysicsParams`** - Get optimal physics parameters for device
+- **`getQualityBasedGlassParams`** - Get optimal glass effect parameters for device
+
+#### Theme & Animation Management
+- **`useTheme`** - Access and control the current theme
+- **`useThemeVariant`** - Access specific theme variant (light/dark/auto)
+- **`useThemeProviderPresence`** - Check if ThemeProvider is available
+- **`AnimationProvider`** - Context provider for animation configuration
+- **`useAnimation`** - Access animation context and global animation controls
+
+#### Chart Interactions
+- **`useChartPhysicsInteraction`** - Physics-based zoom/pan for Chart.js charts
+  - Complete implementation with scale manipulation
+  - Configurable zoom bounds and pan modes ('x', 'y', 'xy')
+  - Inertia-based smooth interactions
+  - Respects reduced motion preferences
+
+#### 3D & Spatial Animations
+- **`useZSpaceAnimation`** - Z-space layer management and 3D animations
+- **`useParallaxZSpace`** - Parallax effects with mouse/scroll tracking
+- **`useCardStackZSpace`** - 3D card stacking with hover interactions
+- **`useDepthNavigation`** - Depth-based navigation system
+
+#### Accessible Animations
+- **`prefersReducedMotion`** - SSR-safe reduced motion detection
+- **`createAccessibleAnimation`** - Create animations respecting user preferences
+- Automatic reduced motion support across all components
+
+### New Type Exports
+
+All component types are now properly exported for TypeScript users:
+
+```tsx
+import type {
+  GlassCardProps,
+  DateRange,
+  ChartDataset,
+  ColumnDefinition,
+  SortState,
+  MultiSelectOption,
+  Step,
+  MasonryItem,
+  ChartQualityTier,
+  PhysicsParams,
+} from '@aura/aura-glass';
+```
+
+### Usage Examples
+
+```tsx
+import {
+  useDeviceCapabilities,
+  useEnhancedReducedMotion,
+  useChartPhysicsInteraction,
+  useZSpaceAnimation,
+  useTheme,
+  AnimationProvider,
+  getQualityBasedPhysicsParams,
+} from '@aura/aura-glass';
+
+function MyComponent() {
+  // Device optimization
+  const { deviceInfo, reload } = useDeviceCapabilities();
+  const prefersReducedMotion = useEnhancedReducedMotion();
+
+  // Chart interactions
+  const chartRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const { isPanning, zoomLevel, resetZoom } = useChartPhysicsInteraction(
+    chartRef,
+    wrapperRef,
+    { enabled: true, mode: 'xy' }
+  );
+
+  // Quality optimization
+  const qualityTier = deviceInfo.performance.tier;
+  const physicsParams = getQualityBasedPhysicsParams(qualityTier);
+
+  // Theme management
+  const { currentTheme, setTheme } = useTheme();
+
+  return (
+    <AnimationProvider config={{ duration: prefersReducedMotion ? 0 : 300 }}>
+      {/* Your components */}
+    </AnimationProvider>
+  );
+}
+```
+
 ## 🌟 Advanced Features
 
 ### 🤖 AI-Powered Component Systems

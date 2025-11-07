@@ -239,6 +239,23 @@ import {
   adaptiveAI,
   useGlassSound,
   useAdaptiveAI,
+  // 🆕 NEW! Enhanced Hooks & Utilities
+  useEnhancedReducedMotion,
+  useDeviceCapabilities,
+  useQualityTier,
+  getQualityBasedPhysicsParams,
+  getQualityBasedGlassParams,
+  useChartPhysicsInteraction,
+  useTheme,
+  useThemeVariant,
+  useThemeProviderPresence,
+  AnimationProvider,
+  useAnimation,
+  useZSpaceAnimation,
+  useParallaxZSpace,
+  useCardStackZSpace,
+  prefersReducedMotion,
+  createAccessibleAnimation,
   // 🆕 Next-Gen Consciousness Interface
   GlassPredictiveEngine,
   GlassEyeTrackingProvider,
@@ -897,6 +914,85 @@ function AIComponentsApp() {
   );
 }
 
+// 🆕 NEW! Enhanced Hooks Usage Examples
+function EnhancedHooksApp() {
+  // Device capabilities and optimization
+  const { deviceInfo, reload } = useDeviceCapabilities();
+  const prefersReducedMotion = useEnhancedReducedMotion();
+  const { currentTheme, setTheme } = useTheme();
+
+  // Chart interactions with physics
+  const chartRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const { isPanning, zoomLevel, applyZoom, resetZoom } = useChartPhysicsInteraction(
+    chartRef,
+    wrapperRef,
+    {
+      enabled: true,
+      mode: 'xy',
+      minZoom: 0.5,
+      maxZoom: 5,
+    }
+  );
+
+  // Quality tier optimization for charts
+  const qualityTier = useQualityTier(deviceInfo.performance.tier);
+  const physicsParams = getQualityBasedPhysicsParams(qualityTier);
+  const glassParams = getQualityBasedGlassParams(qualityTier);
+
+  // Z-space 3D animations
+  const {
+    layers,
+    animateToZSpace,
+    bringToFront,
+    getLayerStyles
+  } = useZSpaceAnimation([
+    { id: 'layer1', zIndex: 1, elevation: 0, opacity: 1, scale: 1, blur: 0, transform: '' },
+    { id: 'layer2', zIndex: 2, elevation: 5, opacity: 1, scale: 1, blur: 0, transform: '' },
+  ]);
+
+  return (
+    <AnimationProvider config={{ duration: prefersReducedMotion ? 0 : 300 }}>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900">
+        {/* Device info display */}
+        <GlassCard className="p-4 m-4">
+          <h3>Device Information</h3>
+          <p>Type: {deviceInfo.type}</p>
+          <p>Performance Tier: {deviceInfo.performance.tier}</p>
+          <p>Reduced Motion: {prefersReducedMotion ? 'Yes' : 'No'}</p>
+          <GlassButton onClick={reload}>Refresh Detection</GlassButton>
+        </GlassCard>
+
+        {/* Chart with physics interactions */}
+        <div ref={wrapperRef} className="p-4 m-4">
+          <GlassCard>
+            <p>Zoom Level: {zoomLevel.toFixed(2)}x</p>
+            <p>Panning: {isPanning ? 'Yes' : 'No'}</p>
+            <GlassButton onClick={resetZoom}>Reset Zoom</GlassButton>
+            {/* Chart.js component would go here */}
+          </GlassCard>
+        </div>
+
+        {/* Z-space layered UI */}
+        {layers.map((layer) => (
+          <div
+            key={layer.id}
+            style={getLayerStyles(layer.id)}
+            onClick={() => bringToFront(layer.id)}
+          >
+            <GlassCard>Layer {layer.id}</GlassCard>
+          </div>
+        ))}
+
+        {/* Theme switcher */}
+        <GlassButton onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}>
+          Toggle Theme
+        </GlassButton>
+      </div>
+    </AnimationProvider>
+  );
+}
+
 ## 🎨 Component Categories (20+ Categories)
 
 ### Layout & Structure
@@ -1322,12 +1418,34 @@ function AIComponentsApp() {
 - `DeviceCapabilities` - Device detection and optimization
 
 ### Advanced Hooks
+
+#### Core Performance & Optimization
 - `useGlassFocus` - Advanced focus management with glass effects
 - `useGlassPerformance` - Performance monitoring and optimization
+- `useEnhancedReducedMotion` - SSR-safe reduced motion preference detection with reactive updates
+- `useDeviceCapabilities` - Device capability detection and performance tier optimization
+- `useQualityTier` - Chart quality tier management with physics parameter optimization
+- `getQualityBasedPhysicsParams` - Helper to get optimal physics parameters for device
+- `getQualityBasedGlassParams` - Helper to get optimal glass parameters for device
+
+#### Theme & Animation
+- `useTheme` - Access current theme and theme switching functionality
+- `useThemeVariant` - Access specific theme variant (light/dark/auto)
+- `useThemeProviderPresence` - Check if ThemeProvider is available
+- `AnimationProvider` - Context provider for animation configuration
+- `useAnimation` - Access animation context and controls
+
+#### Data & Interaction
 - `useSortableData` - Data sorting with multiple criteria
 - `useDraggableListPhysics` - Physics-based drag and drop
 - `useGalileoSprings` - Multi-spring physics animations
-- `useZSpaceAnimation` - 3D depth and layering animations
+- `useChartPhysicsInteraction` - Physics-based chart zoom/pan interactions for Chart.js
+
+#### 3D & Spatial
+- `useZSpaceAnimation` - 3D depth and layering animations with z-space management
+- `useParallaxZSpace` - Parallax effects with mouse and scroll tracking
+- `useCardStackZSpace` - 3D card stacking effects with hover interactions
+- `useDepthNavigation` - Depth-based navigation with z-space transitions
 - `useMouseMagneticEffect` - Magnetic interaction effects
 
 ### Design Token System
@@ -1360,6 +1478,25 @@ function AIComponentsApp() {
 - `useMultiSpringPhysics` - Advanced physics-based multi-spring system
 - `InterpolationUtils` - Advanced interpolation functions
 - `GalileoElementInteractionPlugin` - Chart.js physics plugin
+
+### Accessible Animation Utilities
+- `prefersReducedMotion` - Check if user prefers reduced motion (SSR-safe)
+- `createAccessibleAnimation` - Create animations that respect user preferences
+- Automatic reduced motion support across all animated components
+
+### TypeScript Support
+
+#### Component Type Exports
+- `GlassCardProps` - Props for GlassCard component with material support
+- `DateRange` - Date range interface for date pickers
+- `ChartDataset` - Chart data configuration for visualization components
+- `ColumnDefinition` - Table column definition with rendering support
+- `SortState` - Sorting state management for data grids
+- `MultiSelectOption` - Multi-select dropdown option interface
+- `Step` - Stepper and wizard step configuration
+- `MasonryItem` - Masonry grid item configuration
+- `ChartQualityTier` - Chart performance quality tier type
+- `PhysicsParams` - Physics simulation parameters for animations
 
 ## 🎛️ Glass Effects & Customization
 
