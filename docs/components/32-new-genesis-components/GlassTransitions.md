@@ -25,7 +25,7 @@ import {
   GlassAccordion,
   GlassModal,
   GlassTabs
-} from '@auraglass/animations';
+} from '@aura/aura-glass';
 
 function App() {
   return (
@@ -403,7 +403,7 @@ const transitionDuration = useReducedMotion() ? 0.1 : 0.6;
 ### Custom Easing
 
 ```tsx
-import { easings } from '@auraglass/animations';
+import { easings } from '@aura/aura-glass';
 
 // Use custom easing functions
 const customTransition = {

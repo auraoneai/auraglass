@@ -268,7 +268,7 @@ const { saveFocus, restoreFocus } = useFocusRestore();
 
 ### **Quick Start - Enhanced Button**
 ```tsx
-import { GlassButton } from '@auraglass/components';
+import { GlassButton } from '@aura/aura-glass';
 
 // Icon-only button with proper accessibility
 <GlassButton 
@@ -283,7 +283,7 @@ import { GlassButton } from '@auraglass/components';
 
 ### **Form with Full Accessibility**
 ```tsx
-import { AccessibleFormField, GlassInput } from '@auraglass/components';
+import { AccessibleFormField, GlassInput } from '@aura/aura-glass';
 
 <AccessibleFormField
   label="Email Address" 
@@ -302,7 +302,7 @@ import { AccessibleFormField, GlassInput } from '@auraglass/components';
 
 ### **Navigation with Keyboard Support**
 ```tsx
-import { GlassNavigation } from '@auraglass/components';
+import { GlassNavigation } from '@aura/aura-glass';
 
 <GlassNavigation
   items={navigationItems}
@@ -315,7 +315,7 @@ import { GlassNavigation } from '@auraglass/components';
 
 ### **Accessible Modal**
 ```tsx
-import { GlassModal } from '@auraglass/components';
+import { GlassModal } from '@aura/aura-glass';
 
 <GlassModal
   open={isOpen}

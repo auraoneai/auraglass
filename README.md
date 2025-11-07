@@ -1069,64 +1069,6 @@ function AIComponentsApp() {
   );
 }
 
-// 🚀 NEW! Production AI Services Usage
-import {
-  OpenAIService,
-  SemanticSearchService,
-  VisionService,
-  CollaborationService,
-  AuthService,
-  defaultAIConfig
-} from '@aura/aura-glass/services';
-
-async function ProductionAIApp() {
-  // Initialize production AI services
-  const openAI = new OpenAIService(defaultAIConfig);
-  const searchService = new SemanticSearchService(defaultAIConfig);
-  const visionService = new VisionService(defaultAIConfig);
-  const authService = new AuthService();
-
-  // Generate smart forms with GPT-4
-  const formFields = await openAI.generateFormFieldSuggestions(
-    'user registration form',
-    []
-  );
-
-  // Semantic search with vector embeddings
-  await searchService.initialize();
-  const searchResults = await searchService.hybridSearch('authentication settings', {
-    semanticWeight: 0.8,
-    keywordWeight: 0.2,
-    topK: 10
-  });
-
-  // Computer vision processing
-  const imageBuffer = Buffer.from(imageData);
-  const [faces, objects, text, analysis] = await Promise.all([
-    visionService.detectFaces(imageBuffer),
-    visionService.detectObjects(imageBuffer),
-    visionService.extractText(imageBuffer),
-    visionService.analyzeImage(imageBuffer)
-  ]);
-
-  // Real-time collaboration
-  const collab = new CollaborationService('ws://localhost:3001', authToken);
-  await collab.connect();
-  await collab.joinRoom('design-session');
-
-  // Authentication with JWT
-  const token = authService.generateAccessToken(user);
-  const hasPermission = authService.hasPermission(user, 'ai:use_openai');
-
-  return (
-    <ProductionAIIntegration
-      authToken={token}
-      userId={user.id}
-    />
-  );
-}
-```
-
 ## 🎨 Component Categories (20+ Categories)
 
 ### Layout & Structure

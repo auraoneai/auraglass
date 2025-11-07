@@ -41,6 +41,9 @@ graph TD
 Run the comprehensive assessment to understand your starting point:
 
 ```bash
+
+**📝 Note:** The `@auraglass/*` tooling packages referenced in this guide are conceptual examples for future automation tools. Currently, migration should be done manually following the patterns described below.
+
 # Install assessment tools
 npm install -g @auraglass/migration-tools
 

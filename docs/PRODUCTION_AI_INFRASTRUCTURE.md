@@ -17,10 +17,13 @@ AuraGlass has evolved from demo components to a complete production-ready AI pla
 
 ## 🤖 Real AI Service Integrations
 
+**⚠️ IMPORTANT:** These are Node.js backend services, not browser components. They run on your server and are located in the `server/` directory. Do not import these in your React components. See the deployment section for server setup.
+
+
 ### OpenAI GPT-4 Integration
 
 ```typescript
-import { OpenAIService } from '@aura/aura-glass/services/ai';
+import { OpenAIService } from '../server/services/ai/openai-service';
 
 const openAI = new OpenAIService(config);
 
@@ -48,7 +51,7 @@ const summary = await openAI.generateContentSummary(content, 200);
 ### Pinecone Vector Database
 
 ```typescript
-import { SemanticSearchService } from '@aura/aura-glass/services/ai';
+import { SemanticSearchService } from '../server/services/ai/openai-service';
 
 const searchService = new SemanticSearchService(config);
 
@@ -76,7 +79,7 @@ const results = await searchService.hybridSearch(query, {
 ### Google Vision API
 
 ```typescript
-import { VisionService } from '@aura/aura-glass/services/ai';
+import { VisionService } from '../server/services/ai/openai-service';
 
 const vision = new VisionService(config);
 
@@ -105,7 +108,7 @@ const processedImage = await vision.removeBackground(imageBuffer);
 ### JWT Authentication System
 
 ```typescript
-import { AuthService } from '@aura/aura-glass/services/auth';
+import { AuthService } from '../server/services/auth/auth-service';
 
 const auth = new AuthService();
 
@@ -147,7 +150,7 @@ app.use('/api/ai',
 ### Rate Limiting
 
 ```typescript
-import { createRateLimiter } from '@aura/aura-glass/services/auth';
+import { createRateLimiter } from '../server/services/auth/auth-service';
 
 // AI endpoint rate limiting
 const aiRateLimiter = createRateLimiter({
@@ -168,7 +171,7 @@ const searchRateLimiter = createRateLimiter({
 ### WebSocket Server for Collaboration
 
 ```typescript
-import { CollaborationService } from '@aura/aura-glass/services/websocket';
+import { CollaborationService } from '../server/services/websocket/collaboration-service';
 
 const collab = new CollaborationService('ws://localhost:3001', authToken);
 
@@ -552,7 +555,7 @@ class MockWebSocket {
 
 ```typescript
 // Real OpenAI integration
-import { OpenAIService } from '@aura/aura-glass/services/ai';
+import { OpenAIService } from '../server/services/ai/openai-service';
 
 const openAI = new OpenAIService(config);
 const fields = await openAI.generateFormFieldSuggestions(
@@ -561,7 +564,7 @@ const fields = await openAI.generateFormFieldSuggestions(
 );
 
 // Real WebSocket with Redis backing
-import { CollaborationService } from '@aura/aura-glass/services/websocket';
+import { CollaborationService } from '../server/services/websocket/collaboration-service';
 
 const collab = new CollaborationService(wsUrl, authToken);
 await collab.connect();

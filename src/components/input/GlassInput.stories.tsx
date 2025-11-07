@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useArgs } from '@storybook/preview-api';
 import { GlassInput } from './GlassInput';
 import { cn } from '../../lib/utils';
 
@@ -11,7 +10,7 @@ const meta: Meta<typeof GlassInput> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A glass morphism glassinput component.',
+        component: 'A glassmorphism input component with advanced styling and validation.',
       },
     },
   },
@@ -107,25 +106,25 @@ export const WithIcons: Story = {
   ),
 };
 
-// Controlled example that wires value + onChange via Storybook args
+// Controlled example using React state
 export const Controlled: Story = {
   render: (args) => {
-    const [{ value = '' }, updateArgs] = useArgs();
-    return (
-      <div className="max-w-md glass-glass-glass-space-y-3">
-        <GlassInput
-          {...args}
-          value={value}
-          onChange={(e) => updateArgs({ value: (e.target as HTMLInputElement).value })}
-          placeholder={args.placeholder ?? 'Controlled input'}
-        />
-        <div className="glass-glass-glass-text-sm glass-text-secondary">
-          Current value: <code>{JSON.stringify(value)}</code>
+    const ControlledInput = () => {
+      const [value, setValue] = useState('Hello');
+      return (
+        <div className="max-w-md glass-glass-glass-space-y-3">
+          <GlassInput
+            {...args}
+            value={value}
+            onChange={(e) => setValue((e.target as HTMLInputElement).value)}
+            placeholder={args.placeholder ?? 'Controlled input'}
+          />
+          <div className="glass-glass-glass-text-sm glass-text-secondary">
+            Current value: <code>{JSON.stringify(value)}</code>
+          </div>
         </div>
-      </div>
-    );
-  },
-  args: {
-    value: 'Hello',
+      );
+    };
+    return <ControlledInput />;
   },
 };
