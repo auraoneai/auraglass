@@ -60,7 +60,7 @@
     "release": "npm run ci && npx semantic-release",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "size-check": "bundlesize",
     "analyze": "npm run build && npx bundle-analyzer dist/index.esm.js"
   },
