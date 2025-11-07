@@ -257,14 +257,22 @@ export { useGlassIntersection, useGlassIntersectionAnimation, useGlassLazyImage,
 export { useAdaptiveComponentLoading, useGlassOptimization, useOptimizedGlassComponent } from './hooks/useGlassOptimization';
 export { useMotionPreference } from './hooks/useMotionPreference';
 export { useReducedMotion } from './hooks/useReducedMotion';
+export { useEnhancedReducedMotion } from './hooks/useEnhancedReducedMotion';
 export { useGalileoStateSpring, useGalileoStateSpring as useAuraStateSpring } from './hooks/useGalileoStateSpring';
 export { usePhysicsInteraction, usePhysicsButton, usePhysicsDrag, useSimplePhysicsHover } from './hooks/usePhysicsInteraction';
 export { useGridVirtualization, useInfiniteVirtualization, useTableVirtualization, useVirtualization, useWindowVirtualization } from './hooks/useVirtualization';
+export { useDeviceCapabilities } from './hooks/useDeviceCapabilities';
+export { useQualityTier, getQualityBasedPhysicsParams, getQualityBasedGlassParams } from './components/charts/hooks/useQualityTier';
+export { useChartPhysicsInteraction } from './components/charts/hooks/useChartPhysicsInteraction';
+export { useTheme, useThemeVariant, useThemeProviderPresence } from './theme/ThemeProvider';
+export { AnimationProvider, useAnimation } from './contexts/AnimationContext';
 export { useA11yId } from './utils/a11y';
 export { useGlassSound } from './utils/soundDesign';
 
 // Extended Hooks
 export * from './hooks/extended';
+// Explicit named exports for extended hooks to ensure tree-shaking works correctly
+export { useZSpaceAnimation, useParallaxZSpace, useCardStackZSpace } from './hooks/extended/useZSpaceAnimation';
 
 // Enhanced Core Mixins
 export {
@@ -290,6 +298,8 @@ export { SpringPresets } from './animations/physics/springPhysics';
 export {
     createOrchestration, orchestrationPresets, useAnimationSequence as orchestrationUseAnimationSequence
 } from './animations/orchestration/index';
+// Accessible animation utilities
+export * from './animations/accessible';
 
 // Error Boundaries and Utils
 export { GlassAsyncErrorBoundary, GlassComponentErrorBoundary, GlassErrorBoundary, GlassLightErrorBoundary, withGlassErrorBoundary } from './utils/errorBoundary';
@@ -345,6 +355,15 @@ export type {
     // Glass primitive types
     OptimizedGlassProps
 } from './types';
+
+// Additional component type exports
+export type { GlassCardProps } from './components/card/GlassCard';
+export type { DateRange } from './components/input/GlassDateRangePicker';
+export type { ChartDataset } from './components/charts/GlassDataChart';
+export type { ColumnDefinition, SortState } from './components/data-display/types';
+export type { MultiSelectOption, Step } from './components/input/types';
+export type { MasonryItem } from './components/layouts/GlassMasonryGrid';
+export type { QualityTier as ChartQualityTier, PhysicsParams } from './components/charts/hooks/useQualityTier';
 
 // Re-export production types (explicitly to resolve PerformanceMetrics ambiguity)
 export type {
