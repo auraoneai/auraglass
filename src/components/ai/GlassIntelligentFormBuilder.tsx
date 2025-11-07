@@ -254,7 +254,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
   const updateField = useCallback((index: number, updates: Partial<FormField>) => {
     setSchema((prev: any) => ({
       ...prev,
-      fields: prev.fields.map((field, i) => {
+      fields: prev.fields.map((field: any, i: any) => {
         if (i === index) {
           const updatedField = { ...field, ...updates };
           

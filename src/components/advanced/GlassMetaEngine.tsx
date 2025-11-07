@@ -145,8 +145,8 @@ class QuantumOptimizer {
   }
 
   private applyMatrix(matrix: number[][], state: number[]): number[] {
-    return matrix.map((row: any) => 
-      row.reduce((sum, val, idx) => sum + val * state[idx], 0)
+    return matrix.map((row: any) =>
+      row.reduce((sum: any, val: any, idx: any) => sum + val * state[idx], 0)
     );
   }
 }

@@ -472,7 +472,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
     return processedData.map((series, seriesIndex) => (
       <g key={series.id}>
-        {series.data.map((point, pointIndex) => {
+        {series.data.map((point: any, pointIndex: any) => {
           const x = (pointIndex * barWidth) + (seriesIndex * barGroupWidth) + barGroupWidth / 2;
           const y = scaleValue(point.y, chartDimensions.yDomain, [chartDimensions.chartHeight, 0]);
           const height = chartDimensions.chartHeight - y;
