@@ -243,7 +243,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                         </div>
                     </div>
                     <div className="grid grid-cols-7 gap-2">
-                        {Array.from({ length: 35 }).map((_, i) => (
+                        {Array.from({ length: 35 }).map((_: any, i: any) => (
                             <div key={i} className="aspect-square glass-surface-subtle/10 glass-radius-lg"></div>
                         ))}
                     </div>

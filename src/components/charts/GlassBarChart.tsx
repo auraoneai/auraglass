@@ -328,7 +328,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                 <div className="animate-pulse gap-4">
                     <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
                     <div className="h-64 glass-surface-subtle/10 glass-radius-md flex items-end justify-center gap-2">
-                        {Array.from({ length: 8 }).map((_, i) => (
+                        {Array.from({ length: 8 }).map((_: any, i: any) => (
                             <div
                                 key={i}
                                 className="glass-surface-subtle/20 glass-radius-t"

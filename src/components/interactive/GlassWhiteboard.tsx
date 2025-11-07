@@ -376,7 +376,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
   // Draw selection highlights
   const drawSelection = useCallback((ctx: CanvasRenderingContext2D) => {
     selectedElements.forEach((elementId: any) => {
-      const element = drawingData.find(item => item?.id === elementId);
+      const element = drawingData.find((item: any) => item?.id === elementId);
       if (!element) return;
 
       ctx.strokeStyle = '#ffffff';

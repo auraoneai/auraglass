@@ -279,7 +279,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const getMediaFile = useCallback((id: string) => {
-    return mediaFiles.find(file => file.id === id);
+    return mediaFiles.find((file: any) => file.id === id);
   }, [mediaFiles]);
 
   const updateMediaFile = useCallback((id: string, updates: Partial<MediaFile>) => {
@@ -376,7 +376,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const getTranscriptAtTime = useCallback((mediaId: string, time: number) => {
     const transcript = transcripts[mediaId] || [];
-    return transcript.find(entry => time >= entry.startTime && time <= entry.endTime);
+    return transcript.find((entry: any) => time >= entry.startTime && time <= entry.endTime);
   }, [transcripts]);
 
   const setActiveChapter = useCallback((mediaId: string, chapterId: string) => {
@@ -390,7 +390,7 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const mediaFile = getMediaFile(mediaId);
     if (!mediaFile?.chapters) return undefined;
     
-    return mediaFile.chapters.find(chapter => 
+    return mediaFile.chapters.find((chapter: any) => 
       time >= chapter.startTime && time <= chapter.endTime
     );
   }, [getMediaFile]);

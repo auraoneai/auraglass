@@ -360,7 +360,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     if (activeSequences.size >= optimizeForPerformance.maxSequences) return;
     if (optimizeForPerformance.skipComplexAnimations && ['crystallize', 'dissolve', 'flow'].includes(sequence.pattern)) return;
 
-    setActiveSequences((prev: any) => new Set([...prev, sequence.id]));
+    setActiveSequences((prev: Set<string>) => new Set([...prev, sequence.id]));
     onAnimationStart?.(sequence.id);
 
     try {
@@ -402,7 +402,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
     } catch (error) {
       console.warn('Animation sequence failed:', error);
     } finally {
-      setActiveSequences((prev: any) => {
+      setActiveSequences((prev: Set<string>) => {
         const next = new Set(prev);
         next.delete(sequence.id);
         return next;

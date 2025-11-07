@@ -345,7 +345,7 @@ function LiquidSplash({ x, y, intensity, duration }: LiquidSplashProps): JSX.Ele
 
   return (
     <AnimatePresence>
-      {Array.from({ length: particleCount }).map((_, i) => {
+      {Array.from({ length: particleCount }).map((_: any, i: any) => {
         const angle = (i / particleCount) * Math.PI * 2;
         const distance = 100 * intensity;
 

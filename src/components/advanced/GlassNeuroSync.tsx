@@ -665,7 +665,7 @@ class NeuroSyncSystem {
     const keys = Object.keys(metrics[0]) as (keyof NeuroMetrics)[];
     const averages: Partial<NeuroMetrics> = {};
 
-    keys.forEach((key: any) => {
+    keys.forEach((key: keyof NeuroMetrics) => {
       const sum = metrics.reduce((total, metric) => total + metric[key], 0);
       averages[key] = sum / metrics.length;
     });

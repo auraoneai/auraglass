@@ -165,7 +165,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
             stackedData = Array.from(xPoints).map((x: any) => {
                 let cumulativeY = 0;
                 return series.map((s: any) => {
-                    const point = s.data?.find(p => p.x === x);
+                    const point = s.data?.find((p: any) => p.x === x);
                     const y = point ? point.y : 0;
                     cumulativeY += y;
                     return {
@@ -187,7 +187,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                 data: stackedData!.map((stackPoint: any) => ({
                     x: stackPoint[index].x,
                     y: stackPoint[index].y,
-                    label: s.data?.find(p => p.x === stackPoint[index].x)?.label
+                    label: s.data?.find((p: any) => p.x === stackPoint[index].x)?.label
                 }))
             }));
         }
@@ -225,7 +225,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                     ...point,
                     scaledX: Number.isFinite(sx) ? sx : padding.left,
                     scaledY: Number.isFinite(sy) ? sy : padding.top + chartHeight,
-                    originalY: stacked && stackedData ? (stackedData.find(sd => sd[seriesIndex].x === point.x)?.[seriesIndex].originalY || point.y) : point.y
+                    originalY: stacked && stackedData ? (stackedData.find((sd: any) => sd[seriesIndex].x === point.x)?.[seriesIndex].originalY || point.y) : point.y
                 };
             }).filter((p: any) => Number.isFinite(p.scaledX) && Number.isFinite(p.scaledY));
 

@@ -443,7 +443,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
 
   const removeImage = useCallback((id: string) => {
     setImages((prev: any) => {
-      const image = prev.find(img => img.id === id);
+      const image = prev.find((img: any) => img.id === id);
       if (image) {
         URL.revokeObjectURL(image.url);
         if (image.thumbnailUrl) {
@@ -457,7 +457,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, []);
 
   const getImage = useCallback((id: string) => {
-    return images.find(img => img.id === id);
+    return images.find((img: any) => img.id === id);
   }, [images]);
 
   const updateImage = useCallback((id: string, updates: Partial<ImageFile>) => {
@@ -883,7 +883,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   }, [uploadToCloud]);
 
   const applyTemplate = useCallback(async (imageId: string, templateId: string): Promise<ImageFile> => {
-    const template = templates.find(t => t.id === templateId);
+    const template = templates.find((t: any) => t.id === templateId);
     if (!template) throw new Error('Template not found');
 
     let result = await resizeImage(imageId, template.width, template.height, false);

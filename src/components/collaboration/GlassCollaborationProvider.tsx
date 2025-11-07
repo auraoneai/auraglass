@@ -255,7 +255,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       switch (data.type) {
         case 'user_joined':
           setUsers((prev: any) => {
-            const existing = prev.find(u => u.id === data.user.id);
+            const existing = prev.find((u: any) => u.id === data.user.id);
             if (existing) return prev;
             return [...prev, { ...data.user, lastActive: Date.now() }];
           });
@@ -421,7 +421,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
     
     setCurrentUser(userWithDefaults);
     setUsers((prev: any) => {
-      const existing = prev.find(u => u.id === user.id);
+      const existing = prev.find((u: any) => u.id === user.id);
       if (existing) {
         return prev.map((u: any) => u.id === user.id ? userWithDefaults : u);
       }

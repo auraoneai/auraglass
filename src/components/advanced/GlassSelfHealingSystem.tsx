@@ -1071,13 +1071,13 @@ export function GlassSelfHealingDashboard({
                     <div 
                       className="w-3 h-3 glass-radius-full"
                       style={{
-                        backgroundColor: {
+                        backgroundColor: ({
                           healthy: '#10b981',
                           warning: '#f59e0b',
                           critical: '#ef4444',
                           healing: '#3b82f6',
                           failed: '#7f1d1d',
-                        }[health.status]
+                        } as const)[health.status]
                       }}
                     />
                     <span className="text-xs glass-text-secondary">

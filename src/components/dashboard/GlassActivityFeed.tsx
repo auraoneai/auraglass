@@ -262,7 +262,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                 <div className="animate-pulse glass-auto-gap glass-auto-gap-lg">
                     <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
                     <div className="glass-auto-gap glass-auto-gap-md">
-                        {Array.from({ length: 5 }).map((_, i) => (
+                        {Array.from({ length: 5 }).map((_: any, i: any) => (
                             <div key={i} className="flex gap-3">
                                 <div className="w-8 h-8 glass-surface-subtle/20 glass-radius-full flex-shrink-0"></div>
                                 <div className="flex-1 glass-auto-gap glass-auto-gap-sm">

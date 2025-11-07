@@ -305,8 +305,8 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 
                 // Transform insights array to expected object format
                 const transformedInsights = insights && insights.length > 0 ? {
-                    sentiment: (insights.find(i => i.type === 'sentiment')?.metadata?.sentiment as 'positive' | 'neutral' | 'negative') || 'neutral',
-                    urgency: (insights.find(i => i.type === 'urgency')?.metadata?.urgency as 'low' | 'medium' | 'high') || 'medium',
+                    sentiment: (insights.find((i: any) => i.type === 'sentiment')?.metadata?.sentiment as 'positive' | 'neutral' | 'negative') || 'neutral',
+                    urgency: (insights.find((i: any) => i.type === 'urgency')?.metadata?.urgency as 'low' | 'medium' | 'high') || 'medium',
                     topics: insights
                         .filter((i: any) => i.type === 'topic')
                         .map((i: any) => i.metadata?.topic || '')
