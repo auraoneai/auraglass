@@ -153,43 +153,6 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
             aria-hidden="true"
           />
         )}
-
-        <style jsx>{`
-          .glass-tab-item:hover:not(.disabled) {
-            background: var(
-              --aura-glass-bg-hover,
-              rgba(255, 255, 255, 0.08)
-            ) !important;
-            transform: translateY(-1px);
-          }
-
-          .glass-tab-item:active:not(.disabled) {
-            transform: translateY(0);
-          }
-
-          .glass-tab-item:focus-visible {
-            outline: 2px solid var(--aura-accent-color, #00d4ff);
-            outline-offset: 2px;
-          }
-
-          .glass-tab-item-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .glass-tab-item,
-            .glass-tab-item-indicator {
-              transition: none !important;
-              animation: none !important;
-            }
-            .glass-tab-item:hover:not(.disabled) {
-              transform: none !important;
-            }
-          }
-        `}</style>
       </Component>
     );
   }
