@@ -19,7 +19,7 @@ The `AIGlassThemeProvider` is a revolutionary AI-powered theming system that int
 ## Usage
 
 ```tsx
-import { AIGlassThemeProvider, useAIGlassTheme, useSmartTheme } from '@auraglass/ai';
+import { AIGlassThemeProvider, useAIGlassTheme, useSmartTheme } from '@aura/aura-glass';
 
 function App() {
   return (

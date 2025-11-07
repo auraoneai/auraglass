@@ -20,7 +20,7 @@ The `GlassTrophyCase` component provides a comprehensive gamification system for
 ## Usage
 
 ```tsx
-import { GlassTrophyCase } from '@auraglass/advanced';
+import { GlassTrophyCase } from '@aura/aura-glass';
 
 const achievements = [
   {

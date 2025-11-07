@@ -18,7 +18,7 @@ The `GlassFocusIndicators` component provides a comprehensive focus management s
 ## Usage
 
 ```tsx
-import { GlassFocusIndicators, SkipLinks, LandmarkAnnouncer, KeyboardShortcutsHelper } from '@auraglass/accessibility';
+import { GlassFocusIndicators, SkipLinks, LandmarkAnnouncer, KeyboardShortcutsHelper } from '@aura/aura-glass';
 
 function App() {
   return (
@@ -122,7 +122,7 @@ The focus indicators automatically adapt to different element types:
 This component requires the `AccessibilityProvider` context to be available in the component tree.
 
 ```tsx
-import { AccessibilityProvider } from '@auraglass/accessibility';
+import { AccessibilityProvider } from '@aura/aura-glass';
 
 function App() {
   return (
