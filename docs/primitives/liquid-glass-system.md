@@ -157,7 +157,7 @@ const { fps, gpuMemory, quality } = useLiquidGlassPerformance()
 
 ## Migration Guide
 
-See [LIQUID_GLASS_MIGRATION_GUIDE.md](../LIQUID_GLASS_MIGRATION_GUIDE.md) for detailed migration instructions.
+See [Liquid Glass Migration Guide](../guides/liquid-glass-migration.md) for detailed migration instructions.
 
 ## Related Components
 

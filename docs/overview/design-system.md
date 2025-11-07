@@ -438,17 +438,17 @@ npm run docs:generate      # Update documentation
 ## 📚 Related Documentation
 
 ### Essential References
-- **[Design System Enforcement](../DESIGN_SYSTEM_ENFORCEMENT.md)** - Complete validation pipeline
-- **[Visual Testing Guide](../VISUAL_TESTING_GUIDE.md)** - Advanced regression testing
-- **[Design Tokens Reference](../DESIGN_TOKENS.md)** - Complete token system
-- **[Component Standards](../COMPONENT_STANDARDS.md)** - Development standards
-- **[Accessibility Guide](../ACCESSIBILITY_GUIDE.md)** - WCAG implementation
+- **[Design System Enforcement](../guides/design-system-enforcement.md)** - Complete validation pipeline
+- **[Visual Testing Guide](../testing/visual-testing.md)** - Advanced regression testing
+- **[Design Tokens Reference](../tokens/design-tokens.md)** - Complete token system
+- **[Component Standards](../guides/component-standards.md)** - Development standards
+- **[Accessibility Guide](./accessibility.md)** - WCAG implementation
 
 ### Quick Links
-- **[Migration Guide](../../MIGRATION.md)** - Upgrading instructions
-- **[Component Index](./README.md)** - Complete component list
-- **[Glass Utilities](../GLASS_UTILITIES.md)** - Utility system reference
-- **[Elevation Guidelines](../ELEVATION_GUIDELINES.md)** - Shadow system guide
+- **[Migration Guide](../guides/migration.md)** - Upgrading instructions
+- **[Component Index](../components/README.md)** - Complete component list
+- **[Glass Utilities](../utilities/glass-utilities.md)** - Utility system reference
+- **[Elevation Guidelines](../guides/elevation-guidelines.md)** - Shadow system guide
 
 ---
 

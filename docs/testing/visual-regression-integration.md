@@ -866,10 +866,10 @@ expect(properties.background).toMatch(/rgba?\([^)]+,\s*0?\.\d+\)/);
 
 ## 📚 Related Documentation
 
-- **[Visual Testing Guide](../VISUAL_TESTING_GUIDE.md)** - Complete testing guide
-- **[Design System Overview](./DESIGN_SYSTEM_OVERVIEW.md)** - System documentation
-- **[Automated Enforcement](./AUTOMATED_ENFORCEMENT.md)** - Enforcement system
-- **[Component Standards](../COMPONENT_STANDARDS.md)** - Development standards
+- **[Visual Testing Guide](../testing/visual-testing.md)** - Complete testing guide
+- **[Design System Overview](../overview/design-system.md)** - System documentation
+- **[Automated Enforcement](../guides/automated-enforcement.md)** - Enforcement system
+- **[Component Standards](../guides/component-standards.md)** - Development standards
 
 ---
 

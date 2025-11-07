@@ -790,11 +790,11 @@ export const productionConfig = {
 ## 📚 Additional Resources
 
 ### Documentation Links
-- **[Design System Overview](./DESIGN_SYSTEM_OVERVIEW.md)** - Complete system documentation
-- **[Automated Enforcement](./AUTOMATED_ENFORCEMENT.md)** - Enforcement system details
-- **[Visual Testing Integration](./VISUAL_REGRESSION_INTEGRATION.md)** - Testing guide
-- **[Component Standards](../COMPONENT_STANDARDS.md)** - Development standards
-- **[Design Tokens Reference](../DESIGN_TOKENS.md)** - Token system guide
+- **[Design System Overview](../overview/design-system.md)** - Complete system documentation
+- **[Automated Enforcement](../guides/automated-enforcement.md)** - Enforcement system details
+- **[Visual Testing Integration](../testing/visual-regression-integration.md)** - Testing guide
+- **[Component Standards](../guides/component-standards.md)** - Development standards
+- **[Design Tokens Reference](../tokens/design-tokens.md)** - Token system guide
 
 ### Support Channels
 - **GitHub Issues**: Bug reports and feature requests

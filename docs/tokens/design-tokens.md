@@ -663,11 +663,11 @@ npm run token:report
 
 ## 📚 Related Documentation
 
-- [Component Standards](./COMPONENT_STANDARDS.md)
-- [Glass Utilities Guide](./GLASS_UTILITIES.md)
-- [Elevation Guidelines](./ELEVATION_GUIDELINES.md)
-- [Design System Enforcement](./DESIGN_SYSTEM_ENFORCEMENT.md)
-- [Migration Guide](../MIGRATION.md)
+- [Component Standards](../guides/component-standards.md)
+- [Glass Utilities Guide](../utilities/glass-utilities.md)
+- [Elevation Guidelines](../guides/elevation-guidelines.md)
+- [Design System Enforcement](../guides/design-system-enforcement.md)
+- [Migration Guide](../guides/migration.md)
 
 ---
 

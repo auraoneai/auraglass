@@ -10,7 +10,6 @@ Comprehensive button component ecosystem featuring advanced interactions, physic
 - **✅ Quality**: Perfect glassmorphism implementation across all button variants
 - **✅ Accessibility**: WCAG AAA compliance maintained
 
-See [GLASSMORPHISM_AUDIT_REPORT.md](../../../GLASSMORPHISM_AUDIT_REPORT.md) for complete audit details.
 
 ## Overview
 

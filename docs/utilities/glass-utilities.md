@@ -503,11 +503,11 @@ const dynamicGlass = createGlassStyle({
 
 ## 📚 Related Resources
 
-- [Component Standards](./COMPONENT_STANDARDS.md)
-- [Elevation Guidelines](./ELEVATION_GUIDELINES.md)
-- [Design System Enforcement](./DESIGN_SYSTEM_ENFORCEMENT.md)
-- [Design Token Reference](./DESIGN_TOKENS.md)
-- [Migration Guide](../MIGRATION.md)
+- [Component Standards](../guides/component-standards.md)
+- [Elevation Guidelines](../guides/elevation-guidelines.md)
+- [Design System Enforcement](../guides/design-system-enforcement.md)
+- [Design Token Reference](../tokens/design-tokens.md)
+- [Migration Guide](../guides/migration.md)
 
 ---
 

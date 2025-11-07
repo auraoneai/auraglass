@@ -363,10 +363,10 @@ className={cn("glass-animate-pulse hover:glass-animate-none")}
 
 ## 📚 **Additional Resources**
 
-- **[Design Token Reference](../DESIGN_TOKENS.md)** - Complete token documentation
-- **[Component Standards](../COMPONENT_STANDARDS.md)** - Usage guidelines
-- **[Enhancement Methodology](./ENHANCEMENT_METHODOLOGY.md)** - Detailed process guide
-- **[Quality Validation](./QUALITY_VALIDATION.md)** - Testing standards
+- **[Design Token Reference](../tokens/design-tokens.md)** - Complete token documentation
+- **[Component Standards](../guides/component-standards.md)** - Usage guidelines
+- **[Enhancement Methodology](./enhancement-methodology.md)** - Detailed process guide
+- **[Quality Validation](../testing/quality-validation.md)** - Testing standards
 
 ---
 

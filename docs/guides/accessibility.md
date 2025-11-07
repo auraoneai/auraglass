@@ -25,8 +25,8 @@ AuraGlass provides comprehensive accessibility support across all components, in
 - **Assistive Technology**: Compatible with all major screen readers
 
 ### Accessibility Status
-- **Total Components**: 454 components
-- **Components with Accessibility**: 454 components (100%)
+- **Total Components**: 630 components
+- **Components with Accessibility**: 630 components (100%)
 - **WCAG 2.1 AA Compliance**: ✅ Complete
 - **Screen Reader Tested**: ✅ NVDA, JAWS, VoiceOver
 - **Keyboard Navigation**: ✅ Full support

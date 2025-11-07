@@ -354,9 +354,9 @@ function CustomGlassComponent({ children, ...glassProps }: CustomGlassProps) {
 
 - [Liquid Glass System Overview](./liquid-glass-system.md)
 - [GPU Acceleration Guide](./liquid-glass-gpu.md)
-- [Accessibility Guidelines](../ACCESSIBILITY_GUIDE.md)
+- [Accessibility Guidelines](../guides/accessibility.md)
 - [Performance Best Practices](./performance-optimization.md)
 
 ## Migration from OptimizedGlass
 
-See [LIQUID_GLASS_MIGRATION_GUIDE.md](../LIQUID_GLASS_MIGRATION_GUIDE.md) for detailed migration instructions from the previous glass system.
+See [Liquid Glass Migration Guide](../guides/liquid-glass-migration.md) for detailed migration instructions from the previous glass system.

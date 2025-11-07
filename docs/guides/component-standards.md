@@ -597,12 +597,12 @@ When reviewing component implementations:
 
 ## 📚 Related Resources
 
-- [Elevation Guidelines](./ELEVATION_GUIDELINES.md)
-- [Design System Enforcement](./DESIGN_SYSTEM_ENFORCEMENT.md)
-- [Button Spacing Guide](./BUTTON_SPACING_GUIDE.md)
-- [Glass Utility Reference](./GLASS_UTILITIES.md)
-- [Migration Guide](../MIGRATION.md)
-- [Accessibility Guide](./ACCESSIBILITY_GUIDE.md)
+- [Elevation Guidelines](./elevation-guidelines.md)
+- [Design System Enforcement](./design-system-enforcement.md)
+- [Button Spacing Guide](./button-spacing.md)
+- [Glass Utility Reference](../utilities/glass-utilities.md)
+- [Migration Guide](./migration.md)
+- [Accessibility Guide](./accessibility.md)
 
 ---
 

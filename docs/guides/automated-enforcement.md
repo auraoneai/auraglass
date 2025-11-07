@@ -900,11 +900,11 @@ npm run pre-commit:optimize
 
 ## 📚 Related Documentation
 
-- **[Design System Overview](./DESIGN_SYSTEM_OVERVIEW.md)** - Complete system documentation
-- **[Visual Testing Guide](../VISUAL_TESTING_GUIDE.md)** - Visual regression testing
-- **[Design System Enforcement](../DESIGN_SYSTEM_ENFORCEMENT.md)** - Enforcement details
-- **[Component Standards](../COMPONENT_STANDARDS.md)** - Development standards
-- **[Migration Guide](../../MIGRATION.md)** - Upgrading instructions
+- **[Design System Overview](../overview/design-system.md)** - Complete system documentation
+- **[Visual Testing Guide](../testing/visual-testing.md)** - Visual regression testing
+- **[Design System Enforcement](../guides/design-system-enforcement.md)** - Enforcement details
+- **[Component Standards](../guides/component-standards.md)** - Development standards
+- **[Migration Guide](.././migration.md)** - Upgrading instructions
 
 ---
 

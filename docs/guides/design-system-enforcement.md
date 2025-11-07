@@ -427,12 +427,12 @@ const generateGoodStyle = (intent: GlassIntent) =>
 
 ## 📚 Related Documentation
 
-- [Glass Utilities Reference](./GLASS_UTILITIES.md)
-- [Component Standards](./COMPONENT_STANDARDS.md)
-- [Design Token Reference](./DESIGN_TOKENS.md)
-- [Elevation Guidelines](./ELEVATION_GUIDELINES.md)
-- [Button Spacing Guide](./BUTTON_SPACING_GUIDE.md)
-- [Migration Guide](../MIGRATION.md)
+- [Glass Utilities Reference](../utilities/glass-utilities.md)
+- [Component Standards](../guides/component-standards.md)
+- [Design Token Reference](../tokens/design-tokens.md)
+- [Elevation Guidelines](./elevation-guidelines.md)
+- [Button Spacing Guide](./button-spacing.md)
+- [Migration Guide](./migration.md)
 
 ---
 

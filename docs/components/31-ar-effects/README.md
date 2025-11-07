@@ -10,7 +10,6 @@ Welcome to the AR & Effects category of AuraGlass components! This revolutionary
 - **✅ Quality**: Perfect glassmorphism implementation
 - **✅ Performance**: GPU-accelerated rendering optimized
 
-See [GLASSMORPHISM_AUDIT_REPORT.md](../../../GLASSMORPHISM_AUDIT_REPORT.md) for complete audit details.
 
 ## 🎯 Overview
 

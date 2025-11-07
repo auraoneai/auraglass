@@ -574,8 +574,8 @@ Your application now has:
 
 ## 📚 Additional Resources
 
-- [Component Standards](./docs/COMPONENT_STANDARDS.md)
-- [Glass Utilities Guide](./docs/GLASS_UTILITIES.md)
-- [Elevation Guidelines](./docs/ELEVATION_GUIDELINES.md)
-- [Design System Enforcement](./docs/DESIGN_SYSTEM_ENFORCEMENT.md)
-- [Design Token Reference](./docs/DESIGN_TOKENS.md)
+- [Component Standards](./component-standards.md)
+- [Glass Utilities Guide](../utilities/glass-utilities.md)
+- [Elevation Guidelines](./elevation-guidelines.md)
+- [Design System Enforcement](./design-system-enforcement.md)
+- [Design Token Reference](../tokens/design-tokens.md)

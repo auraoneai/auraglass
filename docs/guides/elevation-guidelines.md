@@ -203,7 +203,7 @@ If updating existing components:
 
 - [Design Tokens](../src/styles/tokens.css)
 - [Glass Utilities](../src/styles/glass.css)
-- [Component Standards](./COMPONENT_STANDARDS.md)
-- [Design System Enforcement](./DESIGN_SYSTEM_ENFORCEMENT.md)
-- [Button Spacing Guide](./BUTTON_SPACING_GUIDE.md)
-- [Accessibility Guide](./ACCESSIBILITY_GUIDE.md)
+- [Component Standards](../guides/component-standards.md)
+- [Design System Enforcement](./design-system-enforcement.md)
+- [Button Spacing Guide](./button-spacing.md)
+- [Accessibility Guide](./accessibility.md)
