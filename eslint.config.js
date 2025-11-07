@@ -9,6 +9,7 @@ module.exports = [
   // Main configuration for TypeScript/React files
   {
     files: ['src/**/*.{js,jsx,ts,tsx}'],
+    ignores: ['**/*.{test,spec}.{js,jsx,ts,tsx}', '**/__tests__/**', 'src/tests/**'],
     languageOptions: {
       parser: require('@typescript-eslint/parser'),
       ecmaVersion: 2022,
@@ -95,12 +96,15 @@ module.exports = [
   {
     ignores: [
       'node_modules/**',
-      'dist/**', 
+      'dist/**',
       'build/**',
       'coverage/**',
       'src/styles/_deprecated/**',
       'src/styles/glass.generated.css',
-      'reports/**'
+      'reports/**',
+      '**/*.{test,spec}.{js,jsx,ts,tsx}',
+      '**/__tests__/**',
+      'src/tests/**'
     ]
   }
 ];

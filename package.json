@@ -87,12 +87,12 @@
   },
   "homepage": "https://aura-glass.auraone.com",
   "peerDependencies": {
+    "@react-three/drei": ">=9.40.0",
+    "@react-three/fiber": ">=8.0.0",
+    "framer-motion": ">=10.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
-    "three": ">=0.137.0",
-    "@react-three/fiber": ">=8.0.0",
-    "@react-three/drei": ">=9.40.0",
-    "framer-motion": ">=10.0.0"
+    "three": ">=0.137.0"
   },
   "peerDependenciesMeta": {
     "@react-three/drei": {
@@ -131,7 +131,7 @@
     "@types/node": "^24.3.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@types/three": "^0.180.0",
+    "@types/three": "^0.181.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^5.0.2",
@@ -163,10 +163,9 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
-    "@react-three/drei": "^9.40.0",
-    "@react-three/fiber": "8.15.19",
+    "@react-three/drei": ">=9.40.0",
+    "@react-three/fiber": ">=8.0.0",
     "@rollup/plugin-babel": "^6.0.4",
-    "@sentry/react": "^7.100.0",
     "@tensorflow/tfjs": "^4.17.0",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.5.0",
@@ -177,7 +176,7 @@
     "react-hook-form": "^7.62.0",
     "socket.io-client": "^4.7.0",
     "tailwind-merge": "^3.3.1",
-    "three": "^0.136.0",
+    "three": ">=0.137.0",
     "zod": "^3.22.0"
   },
   "optionalDependencies": {
