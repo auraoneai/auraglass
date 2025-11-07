@@ -176,7 +176,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
 
         {/* Sidebar */}
         {sidebar && (
-          <div className="zspace-app-layout-sidebar" data-position={sidebarPosition} style={sidebarStyles}>
+          <div className="zspace-app-layout-sidebar" style={sidebarStyles}>
             <GlassContainer style={{ width: '100%', height: '100%' }}>
               {sidebar}
 
@@ -240,15 +240,48 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
           </div>
         )}
 
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            @media (max-width: 768px) {
-              .zspace-app-layout-sidebar[data-position="${sidebarPosition}"] {
-                transform: translateX(${sidebarPosition === 'left' ? '-100%' : '100%'}) !important;
-              }
+        <style>{`
+          .zspace-app-layout {
+            font-family: var(--aura-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+          }
+
+          .zspace-sidebar-toggle:hover {
+            background: var(--aura-glass-bg-hover, rgba(255, 255, 255, 0.15)) !important;
+            transform: translateY(-50%) scale(1.05);
+          }
+
+          .zspace-sidebar-toggle:active {
+            transform: translateY(-50%) scale(0.95);
+          }
+
+          .zspace-sidebar-toggle:focus-visible {
+            outline: 2px solid var(--aura-accent-color, #00d4ff);
+            outline-offset: 2px;
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .zspace-app-layout *,
+            .zspace-sidebar-toggle {
+              transform: none !important;
+              transition: none !important;
             }
-          `
-        }} />
+          }
+
+          @media (max-width: 768px) {
+            .zspace-app-layout-sidebar {
+              transform: translateX(${sidebarPosition === 'left' ? '-100%' : '100%'}) !important;
+            }
+
+            .zspace-app-layout-sidebar.mobile-open {
+              transform: none !important;
+            }
+
+            .zspace-app-layout-main {
+              left: 0 !important;
+              right: 0 !important;
+            }
+          }
+        `}</style>
       </div>
     );
   }

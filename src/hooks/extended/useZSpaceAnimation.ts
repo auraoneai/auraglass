@@ -36,6 +36,8 @@ export interface ZSpaceAnimationConfig {
   maxBlur?: number;
 }
 
+export type ZSpaceConfig = ZSpaceAnimationConfig;
+
 const DEFAULT_CONFIG: Required<ZSpaceAnimationConfig> = {
   enabled: true,
   springConfig: { stiffness: 200, damping: 25, mass: 1 },
@@ -632,3 +634,5 @@ export function useDepthNavigation(
     canGoBack: (navigationPath?.length || 0) > 1,
   };
 }
+
+export type ZSpaceAnimationResult = ReturnType<typeof useZSpaceAnimation>;

@@ -228,7 +228,7 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
           )}
         </div>
 
-        <style jsx>{`
+        <style>{`
           .dimensional-dashboard-container {
             width: 100%;
             height: 100%;

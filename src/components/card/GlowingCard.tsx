@@ -143,7 +143,7 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
           {children}
         </GlassCard>
 
-        <style jsx>{`
+        <style>{`
           .glowing-card {
             border-radius: 12px;
           }
