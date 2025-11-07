@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Glass } from '../../../primitives';
 import { cn } from '../../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ColumnDef<T> {
   key: keyof T;
@@ -25,6 +26,8 @@ export interface GlassDataTableProps<T> extends React.HTMLAttributes<HTMLDivElem
 }
 
 export function GlassDataTable<T extends Record<string, any>>({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   data,
   columns,
   loading = false,

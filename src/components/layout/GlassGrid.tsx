@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassGridProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -130,6 +131,8 @@ export interface GlassGridItemProps extends React.HTMLAttributes<HTMLDivElement>
 export const GlassGrid = forwardRef<HTMLDivElement, GlassGridProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
       cols = 12,
       responsive,
       gap = 'md',

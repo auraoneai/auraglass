@@ -4,6 +4,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import React, { useMemo, useState } from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartDataPoint {
     x: number | string;
@@ -91,6 +92,8 @@ export interface GlassLineChartProps {
  * A glassmorphism line chart with multiple series support and interactive features
  */
 export const GlassLineChart: React.FC<GlassLineChartProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
     title,
     series = [],
     width = 600,

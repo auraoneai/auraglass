@@ -254,6 +254,9 @@ export const GlassContextMenuContent: React.FC<GlassContextMenuContentProps> = (
           ref={menuRef}
                 liftOnHover
                 hoverSheen
+                role="menu"
+                aria-label="Context menu"
+                aria-orientation="vertical"
                 className={cn(
                     'backdrop-blur-md bg-black/20 border border-white/20 shadow-2xl',
                     'min-w-48 max-w-xs overflow-hidden glass-radial-reveal glass-lift',
@@ -269,7 +272,7 @@ export const GlassContextMenuContent: React.FC<GlassContextMenuContentProps> = (
                     {items.map((item, index) => (
                         <React.Fragment key={item?.id}>
                             {item?.separator && index > 0 && (
-                                <div className="h-px glass-surface-subtle/20 mx-2 my-1" />
+                                <div className="h-px glass-surface-subtle/20 mx-2 my-1" role="separator" />
                             )}
                             <GlassContextMenuItem
                                 item={item}
@@ -316,13 +319,71 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
     isSubmenu = false,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const itemRef = useRef<HTMLDivElement>(null);
 
     if (item?.separator) {
-        return <div className="h-px glass-surface-subtle/20 mx-2 my-1" />;
+        return <div className="h-px glass-surface-subtle/20 mx-2 my-1" role="separator" />;
     }
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        const menuContainer = itemRef.current?.closest('[role="menu"]');
+        if (!menuContainer) return;
+
+        const menuItems = Array.from(
+            menuContainer.querySelectorAll('[role="menuitem"]:not([aria-disabled="true"])')
+        ) as HTMLElement[];
+        const currentIndex = menuItems.indexOf(itemRef.current!);
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                const nextItem = menuItems[currentIndex + 1] || menuItems[0];
+                nextItem?.focus();
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                const prevItem = menuItems[currentIndex - 1] || menuItems[menuItems.length - 1];
+                prevItem?.focus();
+                break;
+            case 'ArrowRight':
+                if (item?.children) {
+                    e.preventDefault();
+                    onClick(item);
+                }
+                break;
+            case 'ArrowLeft':
+                if (isSubmenu) {
+                    e.preventDefault();
+                    onClose();
+                }
+                break;
+            case 'Enter':
+            case ' ':
+                e.preventDefault();
+                if (!item?.disabled) onClick(item);
+                break;
+            case 'Escape':
+                e.preventDefault();
+                onClose();
+                break;
+            case 'Home':
+                e.preventDefault();
+                menuItems[0]?.focus();
+                break;
+            case 'End':
+                e.preventDefault();
+                menuItems[menuItems.length - 1]?.focus();
+                break;
+        }
+    };
 
     return (
         <div
+            ref={itemRef}
+            role="menuitem"
+            aria-disabled={item?.disabled}
+            aria-haspopup={item?.children ? 'menu' : undefined}
+            tabIndex={item?.disabled ? -1 : 0}
             className={cn(
                 'relative flex items-center glass-px-3 glass-py-2 cursor-pointer transition-all duration-200',
                 'glass-text-primary/90 hover:glass-text-primary glass-radius-lg',
@@ -337,6 +398,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={(e) => !item?.disabled && onClick(item)}
+            onKeyDown={handleKeyDown}
         >
             {item?.icon && (
                 <div className="flex items-center justify-center w-4 h-4 mr-3">
@@ -355,7 +417,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
             )}
 
             {item?.children && (
-                <div className="ml-3 text-primary/50">
+                <div className="ml-3 text-primary/50" aria-hidden="true">
                     ▶
                 </div>
             )}

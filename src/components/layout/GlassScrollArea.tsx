@@ -5,6 +5,7 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { OptimizedGlass } from '../../primitives';
 import { useA11yId } from '@/utils/a11y';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassScrollAreaProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onScroll'> {
     /**
@@ -86,6 +87,8 @@ export interface GlassScrollBarProps extends React.HTMLAttributes<HTMLDivElement
  */
 export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>((
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
         children,
         maxHeight = '200px',
         maxWidth,

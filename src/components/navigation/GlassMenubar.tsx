@@ -43,6 +43,10 @@ export interface GlassMenubarProps {
      * Whether menubar is disabled
      */
     disabled?: boolean;
+    /**
+     * Accessible label for the menubar
+     */
+    'aria-label'?: string;
 }
 
 export interface GlassMenubarContentProps {
@@ -101,6 +105,14 @@ export interface GlassMenubarItemProps {
      * Custom className
      */
     className?: string;
+    /**
+     * ARIA haspopup attribute
+     */
+    'aria-haspopup'?: 'menu' | undefined;
+    /**
+     * ARIA expanded attribute
+     */
+    'aria-expanded'?: boolean | undefined;
 }
 
 /**
@@ -113,6 +125,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
     size = 'md',
     className,
     disabled = false,
+    'aria-label': ariaLabel = 'Menu bar',
 }) => {
     const [openMenus, setOpenMenus] = useState<Set<string>>(new Set());
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -165,7 +178,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
           border="subtle"
           animation="none"
           performanceMode="medium"
-          
+
             className={cn(
                 'relative backdrop-blur-md ring-1 ring-white/10 bg-white/5',
                 orientation === 'horizontal' ? 'flex flex-row' : 'flex flex-col',
@@ -173,6 +186,9 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
                 className
             )}
             role="menubar"
+            aria-label={ariaLabel}
+            aria-orientation={orientation}
+            aria-disabled={disabled}
         >
             {items.map((item, index) => (
                 <React.Fragment key={item?.id}>
@@ -191,6 +207,8 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
                         onOpenSubmenu={(item) => setOpenMenus((prev: any) => new Set([...prev, item?.id]))}
                         onCloseSubmenu={() => setOpenMenus(new Set())}
                         size={size}
+                        aria-haspopup={item?.children && item?.children.length > 0 ? 'menu' : undefined}
+                        aria-expanded={openMenus.has(item?.id) ? true : undefined}
                     />
 
                     {/* Submenu */}
@@ -306,6 +324,8 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
     onCloseSubmenu,
     size = 'md',
     className,
+    'aria-haspopup': ariaHasPopup,
+    'aria-expanded': ariaExpanded,
 }) => {
     const sizeClasses = {
         sm: 'h-8 glass-px-3 glass-text-sm',
@@ -329,7 +349,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
 
     if (item?.separator) {
         return (
-            <div className="h-px glass-surface-subtle/20 mx-2 my-1" />
+            <div className="h-px glass-surface-subtle/20 mx-2 my-1" role="separator" />
         );
     }
 
@@ -353,6 +373,15 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
         } else if (e.key === 'Escape') {
             onCloseSubmenu();
             current.blur();
+            e.preventDefault();
+        } else if (e.key === 'Home') {
+            items[0]?.focus();
+            e.preventDefault();
+        } else if (e.key === 'End') {
+            items[items.length - 1]?.focus();
+            e.preventDefault();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            handleClick();
             e.preventDefault();
         }
     };
@@ -380,6 +409,10 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
             disabled={item?.disabled}
             type="button"
             role="menuitem"
+            aria-haspopup={ariaHasPopup}
+            aria-expanded={ariaExpanded}
+            aria-disabled={item?.disabled}
+            aria-checked={item?.type === 'checkbox' || item?.type === 'radio' ? item?.checked : undefined}
             onKeyDown={handleKeyDown}
         >
             <div className="flex items-center gap-3">

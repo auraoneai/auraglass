@@ -21,15 +21,27 @@ export function GlassKeyValueEditor({ value, onChange, className }: GlassKeyValu
   const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i));
 
   return (
-    <div className={cn('glass-gap-2', className)}>
+    <div className={cn('glass-gap-2', className)} role="group" aria-label="Key-value pair editor">
       {value.map((p, i) => (
-        <div key={i} className="flex gap-2">
-          <input value={p.key} onChange={(e) => update(i, { key: e.target.value })} placeholder="Key" className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none" />
-          <input value={p.value} onChange={(e) => update(i, { value: e.target.value })} placeholder="Value" className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none" />
-          <GlassButton size="sm" variant="ghost" onClick={(e) => remove(i)}>Remove</GlassButton>
+        <div key={i} className="flex gap-2" role="group" aria-label={`Key-value pair ${i + 1}`}>
+          <input
+            value={p.key}
+            onChange={(e) => update(i, { key: e.target.value })}
+            placeholder="Key"
+            aria-label={`Key for pair ${i + 1}`}
+            className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none"
+          />
+          <input
+            value={p.value}
+            onChange={(e) => update(i, { value: e.target.value })}
+            placeholder="Value"
+            aria-label={`Value for pair ${i + 1}`}
+            className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none"
+          />
+          <GlassButton size="sm" variant="ghost" onClick={(e) => remove(i)} aria-label={`Remove pair ${i + 1}`}>Remove</GlassButton>
         </div>
       ))}
-      <GlassButton size="sm" variant="secondary" onClick={add}>Add</GlassButton>
+      <GlassButton size="sm" variant="secondary" onClick={add} aria-label="Add new key-value pair">Add</GlassButton>
     </div>
   );
 }

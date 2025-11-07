@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassMasonryProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -38,6 +39,8 @@ export interface GlassMasonryProps extends React.HTMLAttributes<HTMLDivElement> 
  */
 export const GlassMasonry = forwardRef<HTMLDivElement, GlassMasonryProps>(
   ({ 
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     columns = 3, 
     gap = 12, 
     children, 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 import { cn } from '@/lib/utils';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Localized semantic colors to avoid cross-package imports
 const semanticColors = {
@@ -88,6 +89,8 @@ export interface GlassChartsDemoProps {
 }
 
 export function GlassChartsDemo({ className, children }: GlassChartsDemoProps) {
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   return (
     <div className={className}>
       <h3>Glass Charts Demo</h3>

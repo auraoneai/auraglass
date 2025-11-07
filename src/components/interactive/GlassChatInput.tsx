@@ -371,10 +371,11 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                 <CardContent className="p-4">
                     {/* Attachments preview */}
                     {attachments.length > 0 && (
-                        <div className="mb-4 gap-2">
+                        <div className="mb-4 gap-2" role="list" aria-label="Attached files">
                             {attachments.map((attachment) => (
                                 <div
                                     key={attachment.id}
+                                    role="listitem"
                                     className="flex items-center gap-3 p-3 glass-surface-subtle/10 glass-radius-lg"
                                 >
                                     {/* Preview */}
@@ -425,9 +426,10 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                                 size="sm"
                                 onClick={handleFileSelect}
                                 disabled={disabled || loading}
+                                aria-label="Attach file"
                                 className="p-2 flex-shrink-0"
                             >
-                                <Paperclip className="w-4 h-4" />
+                                <Paperclip className="w-4 h-4" aria-hidden="true" />
                             </GlassButton>
                         )}
 
@@ -438,15 +440,17 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                                 size="sm"
                                 onClick={handleVoiceToggle}
                                 disabled={disabled || loading}
+                                aria-label={isRecording ? `Stop recording (${formatRecordingTime(recordingTime)})` : "Start voice recording"}
+                                aria-pressed={isRecording}
                                 className="p-2 flex-shrink-0"
                             >
                                 {isRecording ? (
                                     <>
-                                        <Square className="w-4 h-4 glass-mr-2" />
-                                        <span className="text-xs">{formatRecordingTime(recordingTime)}</span>
+                                        <Square className="w-4 h-4 glass-mr-2" aria-hidden="true" />
+                                        <span className="text-xs" aria-hidden="true">{formatRecordingTime(recordingTime)}</span>
                                     </>
                                 ) : (
-                                    <Mic className="w-4 h-4" />
+                                    <Mic className="w-4 h-4" aria-hidden="true" />
                                 )}
                             </GlassButton>
                         )}
@@ -493,11 +497,15 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                         <div className="flex-1 relative">
                             <textarea
                                 ref={textareaRef}
+                                id="chat-message-input"
                                 value={message}
                                 onChange={handleInputChange}
                                 onKeyPress={handleKeyPress}
                                 placeholder={isRecording ? 'Recording...' : placeholder}
                                 disabled={disabled || loading || isRecording}
+                                aria-label="Chat message"
+                                aria-describedby={showCharCount && maxLength ? "char-count" : undefined}
+                                aria-multiline="true"
                                 className={cn(
                                     'w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-3 glass-text-primary placeholder-white/50',
                                     'focus:outline-none focus:ring-white/30 resize-none min-h-[44px] max-h-[120px]',
@@ -508,7 +516,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
 
                             {/* Character count */}
                             {showCharCount && maxLength && (
-                                <div className="absolute bottom-2 right-3 text-xs text-primary/50">
+                                <div id="char-count" className="absolute bottom-2 right-3 text-xs text-primary/50" aria-live="polite">
                                     {message.length}/{maxLength}
                                 </div>
                             )}

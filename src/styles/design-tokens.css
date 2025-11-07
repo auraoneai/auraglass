@@ -40,6 +40,13 @@
   /* Containers */
   --container-gutter: clamp(1rem, 4vw, 1.5rem);
   --prose-max: 65ch;
+
+  /* Focus indicators (WCAG 3:1 contrast) */
+  --glass-focus-ring-color: #3b82f6;
+  --glass-focus-ring-width: 2px;
+  --glass-focus-ring-offset: 2px;
+  --glass-focus-ring-opacity: 0.2;
+  --glass-focus-ring-blur: 0 0 0 4px rgba(59, 130, 246, 0.2);
 }
 
 /* Utilities bound to tokens */
@@ -81,3 +88,159 @@
 
 /* Utility to ensure pseudo-elements inherit radius */
 .rounded-inherit { border-radius: inherit; }
+
+/* ============================================================================
+   REDUCED MOTION SUPPORT (WCAG 2.3.3 Animation from Interactions - AAA)
+   ============================================================================ */
+
+/* Global reduced motion rules - automatically disables animations/transitions
+   for users with prefers-reduced-motion: reduce preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Component-specific overrides for glass elements */
+  .glass-transition-all,
+  .glass-transition,
+  [class*="glass-transition"] {
+    transition: none !important;
+  }
+
+  .glass-animate,
+  [class*="glass-animate"] {
+    animation: none !important;
+  }
+
+  .glass-transform-gpu,
+  [class*="glass-transform"] {
+    transform: none !important;
+  }
+
+  /* Parallax and 3D effects - completely disable */
+  .glass-parallax,
+  [class*="parallax"] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .glass-3d-transform,
+  [class*="3d-transform"],
+  [class*="perspective"] {
+    transform: none !important;
+    perspective: none !important;
+    transform-style: flat !important;
+  }
+
+  /* Tilt effects */
+  [class*="tilt"],
+  [class*="magnetic"] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Hover effects - reduce to instant transitions */
+  [class*="hover:"],
+  .glass-hover-effect {
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Modal/Dialog/Drawer animations */
+  [role="dialog"],
+  [role="alertdialog"],
+  [data-glass-modal],
+  [data-glass-dialog],
+  [data-glass-drawer] {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Toast/Alert animations */
+  [role="alert"],
+  [role="status"],
+  [data-glass-toast],
+  [data-glass-alert] {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Carousel/Slider animations */
+  [data-glass-carousel],
+  [data-glass-slider] {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+
+  /* Accordion animations */
+  [data-glass-accordion],
+  [data-accordion-content] {
+    transition: none !important;
+  }
+
+  /* Tab animations */
+  [role="tabpanel"],
+  [data-glass-tab-indicator] {
+    transition: none !important;
+  }
+
+  /* Chart animations */
+  [data-glass-chart],
+  svg[class*="recharts"] {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Keep essential animations but significantly reduce duration */
+  .glass-spinner,
+  [class*="spinner"],
+  [class*="loading"] {
+    animation-duration: 0.3s !important;
+  }
+
+  .glass-progress,
+  [role="progressbar"] {
+    transition-duration: 0.2s !important;
+  }
+
+  /* Skeleton loading shimmer - keep but reduce */
+  .glass-skeleton,
+  [class*="skeleton"] {
+    animation-duration: 0.5s !important;
+  }
+
+  /* Infinite scroll/lazy load indicators */
+  [data-glass-infinite-scroll] {
+    animation-duration: 0.3s !important;
+  }
+}
+
+/* Utility classes for manual reduced motion control */
+.glass-reduce-motion-safe {
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.glass-reduce-motion-essential {
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.1s !important;
+  }
+}
+
+/* Force disable all motion - for testing or user preference */
+.glass-no-motion,
+.glass-no-motion *,
+.glass-no-motion *::before,
+.glass-no-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}

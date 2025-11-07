@@ -11,18 +11,83 @@ export interface TabItemProps {
   disabled?: boolean;
   active?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  /**
+   * ID of the tab panel this tab controls
+   */
+  'aria-controls'?: string;
+  /**
+   * Index of the tab for keyboard navigation
+   */
+  index?: number;
+  /**
+   * Total number of tabs for keyboard navigation
+   */
+  totalTabs?: number;
+  /**
+   * Callback for keyboard navigation
+   */
+  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 const TabItemComponent: React.FC<TabItemProps> = ({
+  id,
   label,
   icon,
   badge,
   disabled = false,
   active = false,
   onClick,
+  'aria-controls': ariaControls,
+  index = 0,
+  totalTabs = 1,
+  onKeyDown,
 }) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (onKeyDown) {
+      onKeyDown(e);
+      return;
+    }
+
+    const parent = e.currentTarget.parentElement;
+    if (!parent) return;
+
+    const tabs = Array.from(parent.querySelectorAll('[role="tab"]')) as HTMLButtonElement[];
+    const currentIndex = tabs.indexOf(e.currentTarget);
+
+    switch (e.key) {
+      case 'ArrowLeft':
+        e.preventDefault();
+        const prevIndex = currentIndex - 1 < 0 ? tabs.length - 1 : currentIndex - 1;
+        tabs[prevIndex]?.focus();
+        tabs[prevIndex]?.click();
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % tabs.length;
+        tabs[nextIndex]?.focus();
+        tabs[nextIndex]?.click();
+        break;
+      case 'Home':
+        e.preventDefault();
+        tabs[0]?.focus();
+        tabs[0]?.click();
+        break;
+      case 'End':
+        e.preventDefault();
+        tabs[tabs.length - 1]?.focus();
+        tabs[tabs.length - 1]?.click();
+        break;
+    }
+  };
+
   return (
     <button
+      id={`tab-${id}`}
+      role="tab"
+      aria-selected={active}
+      aria-controls={ariaControls || `panel-${id}`}
+      aria-disabled={disabled}
+      tabIndex={active ? 0 : -1}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -39,12 +104,14 @@ const TabItemComponent: React.FC<TabItemProps> = ({
         transition: 'all 0.2s ease',
       }}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       disabled={disabled}
     >
-      {icon && <span>{icon}</span>}
+      {icon && <span aria-hidden="true">{icon}</span>}
       <span>{label}</span>
       {badge && (
         <span
+          aria-label={`${badge} notifications`}
           style={{
             background: 'var(--glass-color-danger)',
             color: 'white',

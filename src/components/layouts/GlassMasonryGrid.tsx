@@ -9,6 +9,7 @@ import { OptimizedGlass } from '../../primitives'
 import { useA11yId } from '../../utils/a11y'
 import { createGlassStyle } from '../../utils/createGlassStyle'
 import { useGlassSound } from '../../utils/soundDesign'
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface MasonryItem {
   id: string
@@ -78,6 +79,8 @@ interface LayoutItem extends MasonryItem {
 
 export const GlassMasonryGrid = forwardRef<HTMLDivElement, GlassMasonryGridProps>(
   ({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     items,
     config = {},
     showControls = true,

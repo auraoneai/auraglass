@@ -6,6 +6,7 @@ import { Motion } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassDividerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Orientation of the divider */
@@ -36,6 +37,8 @@ export interface GlassDividerProps extends React.HTMLAttributes<HTMLDivElement> 
 export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       orientation = 'horizontal',
       variant = 'default',
       size = 'sm',

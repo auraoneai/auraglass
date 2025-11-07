@@ -4,6 +4,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import React, { useMemo, useState, forwardRef } from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface PieDataPoint {
     label: string;
@@ -79,6 +80,8 @@ export interface GlassPieChartProps {
  * A glassmorphism pie/donut chart with interactive segments and smooth animations
  */
 export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(function GlassPieChartComponent({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
     title,
     data = [],
     size = 300,

@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface TimelineItem {
   /**
@@ -90,6 +91,8 @@ export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement>
 export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       items,
       variant = 'default',
       size = 'md',

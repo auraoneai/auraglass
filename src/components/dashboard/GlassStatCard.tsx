@@ -16,6 +16,7 @@ import {
 import React from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassStatCardProps {
     /**
@@ -105,6 +106,8 @@ export interface GlassStatCardProps {
  * A glassmorphism statistics card with trend indicators and additional metrics
  */
 export const GlassStatCard: React.FC<GlassStatCardProps> = ({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     title,
     value,
     unit = '',

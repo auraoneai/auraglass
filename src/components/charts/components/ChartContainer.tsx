@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartContainerProps {
   children?: React.ReactNode;
@@ -14,6 +15,8 @@ export interface ChartContainerProps {
 }
 
 export const ChartContainer: React.FC<ChartContainerProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   children,
   style,
   className,

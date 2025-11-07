@@ -5,6 +5,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass, Motion } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassCardLinkProps {
   /** Icon to display in the card */
@@ -43,6 +44,8 @@ export interface GlassCardLinkProps {
  * Modernized to use OptimizedGlass architecture.
  */
 export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   icon,
   title,
   description,

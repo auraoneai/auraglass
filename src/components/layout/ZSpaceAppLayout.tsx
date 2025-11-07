@@ -6,6 +6,7 @@
 import React, { CSSProperties, forwardRef, ReactNode } from 'react';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { GlassContainer } from './GlassContainer';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 /**
  * Z-Space App Layout Props
@@ -38,6 +39,8 @@ export interface ZSpaceAppLayoutProps {
 export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
       children,
       className = '',
       style = {},

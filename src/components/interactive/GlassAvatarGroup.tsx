@@ -3,6 +3,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface AvatarItem { 
   name: string; 
@@ -22,6 +23,8 @@ export interface GlassAvatarGroupProps {
 }
 
 export const GlassAvatarGroup = forwardRef<HTMLDivElement, GlassAvatarGroupProps>(({ 
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   users, 
   max = 5, 
   size = 'md', 

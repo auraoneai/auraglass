@@ -8,6 +8,7 @@ import { GlassContainer } from './GlassContainer';
 import { VStack } from './GlassStack';
 import { useA11yId } from '@/utils/a11y';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassAppShellProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -160,6 +161,8 @@ export interface ContentSectionProps {
 export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
       variant = 'default',
       header,
       sidebar,

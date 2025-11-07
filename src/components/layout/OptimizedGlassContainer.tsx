@@ -5,6 +5,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass } from '../../primitives';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useA11yId } from '@/utils/a11y';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Types
 export enum OptimizationLevel {
@@ -88,6 +89,8 @@ const usePerformanceMonitoring = (
 export const OptimizedGlassContainer = forwardRef<HTMLDivElement, OptimizedGlassContainerProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
       children,
       initialOptimizationLevel = 'none',
       autoOptimize = true,

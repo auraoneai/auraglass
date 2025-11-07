@@ -6,6 +6,7 @@ import { Motion } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -73,6 +74,8 @@ export interface GlassProgressProps extends React.HTMLAttributes<HTMLDivElement>
 export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       value = 0,
       max = 100,
       variant = 'default',

@@ -7,6 +7,7 @@ import { useMotionPreference } from '../../hooks/useMotionPreference'
 import { OptimizedGlass } from '../../primitives'
 import { useA11yId } from '../../utils/a11y'
 import { useGlassSound } from '../../utils/soundDesign'
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GoldenRatioItem {
   id: string
@@ -57,6 +58,8 @@ export interface GlassGoldenRatioGridProps {
 
 export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioGridProps>(
   ({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     items = [],
     containerWidth = 800,
     containerHeight = 600,

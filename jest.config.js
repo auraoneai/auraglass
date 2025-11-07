@@ -1,6 +1,6 @@
 /**
  * Jest Configuration for AuraGlass Component Library
- * Week 5: Testing & Validation Setup
+ * Week 5: Testing & Validation Setup - Enhanced
  */
 
 module.exports = {
@@ -8,7 +8,10 @@ module.exports = {
   testEnvironment: 'jsdom',
 
   // Setup files
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: [
+    '@testing-library/jest-dom',
+    '<rootDir>/src/utils/testSetup.ts'
+  ],
 
   // Module paths
   moduleNameMapper: {
@@ -45,8 +48,8 @@ module.exports = {
 
   // Test match patterns
   testMatch: [
-    '**/__tests__/**/*.(test|spec).(ts|tsx|js)',
-    '**/*.(test|spec).(ts|tsx|js)',
+    '**/__tests__/**/*.{ts,tsx}',
+    '**/*.{spec,test}.{ts,tsx}'
   ],
 
   // Ignore patterns
@@ -55,6 +58,8 @@ module.exports = {
     '/dist/',
     '/docs/',
     '/examples/',
+    '/test-results/',
+    '/playwright-report/',
     'visual', // Separate visual tests
   ],
 
@@ -63,22 +68,24 @@ module.exports = {
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/**/*.stories.tsx',
-    '!src/**/*.test.tsx',
+    '!src/utils/testingUtils.tsx',
+    '!src/**/*.test.{ts,tsx}',
     '!src/**/__tests__/**',
     '!src/types/**',
     '!src/index.ts',
   ],
 
-  coverageThresholds: {
+  coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70,
-    },
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
   },
 
-  coverageReporters: ['text', 'lcov', 'html'],
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
+  coverageDirectory: '<rootDir>/coverage',
 
   // Module file extensions
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
@@ -95,4 +102,7 @@ module.exports = {
 
   // Max workers for parallel execution
   maxWorkers: '50%',
+
+  // Test timeout
+  testTimeout: 10000,
 };

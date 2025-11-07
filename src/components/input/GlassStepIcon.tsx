@@ -66,6 +66,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
             intent={intent}
             elevation={elevation}
             tier={tier}
+            aria-hidden="true"
             className={cn(
               // Base styles
               'w-6 h-6 min-w-6 glass-radius-full',

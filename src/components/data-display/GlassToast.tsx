@@ -9,6 +9,7 @@ import { OptimizedGlass } from '../../primitives';
 import { Motion } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ToastData {
     id: string;
@@ -96,6 +97,8 @@ export const useToast = () => {
  * Individual toast notification
  */
 export const GlassToast: React.FC<GlassToastProps> = ({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     id,
     title,
     description,

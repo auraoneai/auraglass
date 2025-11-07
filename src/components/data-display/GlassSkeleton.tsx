@@ -3,6 +3,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass } from '../../primitives';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export type SkeletonVariant = 'text' | 'rectangular' | 'circular' | 'glass-radius-md';
 
@@ -49,6 +50,8 @@ const skeletonKeyframes = `
 export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       variant = 'text',
       width,
       height,
@@ -142,8 +145,10 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
                   border="subtle"
                   animation="none"
                   performanceMode="low"
+                  data-glass-skeleton="true"
+                  data-skeleton-variant={variant}
                   className={cn(
-                    'block',
+                    'block glass-skeleton',
                     animation === 'pulse' && 'animate-pulse'
                   )}
                   style={{
@@ -172,8 +177,11 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
           border="subtle"
           animation="none"
           performanceMode="low"
+          data-glass-skeleton="true"
+          data-skeleton-variant={variant}
+          data-skeleton-animation={animation}
           className={cn(
-            'block',
+            'block glass-skeleton',
             animation === 'pulse' && 'animate-pulse',
             className
           )}

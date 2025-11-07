@@ -72,6 +72,7 @@ import {
 import { useAccessibilitySettings } from '../../hooks/useAccessibilitySettings';
 import { useGlassTheme } from '../../hooks/useGlassTheme';
 import { createThemeContext } from '../../core/themeContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Import modular components
 import {
@@ -123,6 +124,8 @@ Chart.register(
  * smooth animations, and rich customization options. Enhanced with consciousness interface features.
  */
 export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDataChartProps & {
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   // Consciousness interface features
   predictive?: boolean;
   preloadData?: boolean;

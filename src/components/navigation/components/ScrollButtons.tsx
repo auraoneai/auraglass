@@ -18,6 +18,8 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({
     <>
       {showLeft && (
         <button
+          type="button"
+          aria-label="Scroll left"
           style={{
             position: 'absolute',
             left: 0,
@@ -37,6 +39,8 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({
       )}
       {showRight && (
         <button
+          type="button"
+          aria-label="Scroll right"
           style={{
             position: 'absolute',
             right: 0,

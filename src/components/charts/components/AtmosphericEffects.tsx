@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface AtmosphericEffectsProps {
   qualityTier?: 'low' | 'medium' | 'high' | 'ultra';
@@ -17,6 +18,8 @@ export interface AtmosphericEffectsProps {
 }
 
 export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   qualityTier = 'medium',
   color = 'var(--glass-color-primary)',
   isReducedMotion = false,

@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -50,6 +51,8 @@ export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement
  */
 export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
   ({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     direction = 'horizontal',
     initial = 50,
     min = 20,

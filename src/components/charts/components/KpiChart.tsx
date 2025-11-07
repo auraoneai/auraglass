@@ -2,6 +2,7 @@
 import { cn } from '../../../lib/utilsComprehensive';
 import React from 'react';
 import { createGlassStyle } from '../../../core/mixins/glassMixins';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface KpiData {
   value: number | string;
@@ -25,6 +26,8 @@ export interface KpiChartProps {
 }
 
 export const KpiChart: React.FC<KpiChartProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   kpi,
   animation,
   qualityTier = 'medium',

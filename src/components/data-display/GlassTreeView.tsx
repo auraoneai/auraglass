@@ -7,6 +7,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
 import { useGlassSound } from '../../utils/soundDesign';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassTreeNode {
   id: string;
@@ -397,6 +398,8 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       data,
       selectedId,
       expandedIds,

@@ -7,6 +7,7 @@ import { useMotionPreference } from '../../hooks/useMotionPreference'
 import { OptimizedGlass } from '../../primitives'
 import { useA11yId } from '../../utils/a11y'
 import { useGlassSound } from '../../utils/soundDesign'
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface FractalNode {
   id: string
@@ -47,6 +48,8 @@ export interface GlassFractalLayoutProps {
 
 export const GlassFractalLayout = forwardRef<HTMLDivElement, GlassFractalLayoutProps>(
   ({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     nodes = [],
     maxDepth = 5,
     fractalType = 'tree',

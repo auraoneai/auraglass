@@ -23,6 +23,7 @@ const useVectorSpring = (options: any) => ({
 });
 import { OptimizedGlass, Motion } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // --- Styled Components using Theme --- 
 
@@ -126,6 +127,8 @@ const StyledTr = styled.tr<{ $isPointerDragging?: boolean; $isKeyboardDraggingAc
 // Define the component using forwardRef
 export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
   (props, ref) => {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     const {
       data: initialData,
       columns,
