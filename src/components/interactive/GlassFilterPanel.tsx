@@ -127,7 +127,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
 
             return filters.filter((group: any) =>
                 group.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                group.options?.some(option =>
+                group.options?.some((option: any) =>
                     option.label.toLowerCase().includes(searchQuery.toLowerCase())
                 )
             );

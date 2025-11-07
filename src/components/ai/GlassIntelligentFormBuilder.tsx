@@ -276,7 +276,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
   const removeField = useCallback((index: number) => {
     setSchema((prev: any) => ({
       ...prev,
-      fields: prev.fields.filter((_, i) => i !== index)
+      fields: prev.fields.filter((_: any, i: any) => i !== index)
     }));
     if (selectedFieldIndex === index) {
       setSelectedFieldIndex(null);

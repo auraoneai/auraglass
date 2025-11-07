@@ -289,9 +289,9 @@ export class SmartColorExtraction {
       // Update centroids
       const newCentroids = clusters.map((cluster: any) => {
         if (cluster.length === 0) return centroids[0]; // Fallback
-        
+
         const sum = cluster.reduce(
-          (acc, pixel) => ({
+          (acc: any, pixel: any) => ({
             r: acc.r + pixel.r,
             g: acc.g + pixel.g,
             b: acc.b + pixel.b,

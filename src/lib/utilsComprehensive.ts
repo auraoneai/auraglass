@@ -117,7 +117,7 @@ export function pick<T extends Record<string, any>, K extends keyof T>(
   const result = {} as Pick<T, K>;
   keys.forEach((key: any) => {
     if (key in obj) {
-      result[key] = obj[key];
+      (result as any)[key] = obj[key];
     }
   });
   return result;

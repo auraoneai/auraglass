@@ -169,7 +169,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
 
     // Handle stop change
     const handleStopChange = useCallback((index: number, updates: Partial<GradientStop>) => {
-        setStops((prev: any) => prev.map((stop, i) =>
+        setStops((prev: any) => prev.map((stop: any, i: any) =>
             i === index ? { ...stop, ...updates } : stop
         ));
     }, []);
@@ -190,7 +190,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
     const handleRemoveStop = useCallback((index: number) => {
         if (stops.length <= 2) return; // Keep at least 2 stops
 
-        setStops((prev: any) => prev.filter((_, i) => i !== index));
+        setStops((prev: any) => prev.filter((_: any, i: any) => i !== index));
         setSelectedStopIndex(null);
     }, [stops.length]);
 

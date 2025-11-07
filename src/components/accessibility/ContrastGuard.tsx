@@ -122,23 +122,24 @@ export const ContrastGuard: React.FC<ContrastGuardProps> = ({
 
   return (
     <Component
-      ref={elementRef as any}
-      className={cn(
-        'contrast-guard',
-        adjustment?.meetsRequirement && 'contrast-guard--compliant',
-        adjustment?.modifications.fallbackMode && 'contrast-guard--fallback',
-        className
-      )}
-      style={{
-        ...appliedStyles,
-        ...(backgroundColor && { backgroundColor }),
-      }}
-      data-contrast-level={level}
-      data-contrast-ratio={adjustment?.adjustedContrast?.toFixed(2)}
-      data-meets-wcag={adjustment?.meetsRequirement}
-    >
-      {children}
-    </Component>
+      {...{
+        ref: elementRef as any,
+        className: cn(
+          'contrast-guard',
+          adjustment?.meetsRequirement && 'contrast-guard--compliant',
+          adjustment?.modifications.fallbackMode && 'contrast-guard--fallback',
+          className
+        ),
+        style: {
+          ...appliedStyles,
+          ...(backgroundColor && { backgroundColor }),
+        },
+        'data-contrast-level': level,
+        'data-contrast-ratio': adjustment?.adjustedContrast?.toFixed(2),
+        'data-meets-wcag': adjustment?.meetsRequirement,
+        children,
+      } as any}
+    />
   );
 };
 

@@ -108,12 +108,13 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
       waveEquations.forEach((wave: any) => {
         const k = 2 * Math.PI / wave.wavelength
         const data: number[] = []
-        
+
+
         for (let i = 0; i < points; i++) {
           const x = (i / points) * width - width / 2 // Center the wave
-          const waveFunc = waveTypes[wave.type]
+          const waveFunc = waveTypes[wave.type as keyof typeof waveTypes]
           let y = waveFunc(x, currentTime, wave.amplitude, wave.frequency, wave.phase, k, wave.velocity)
-          
+
           // Apply damping if present
           if (wave.damping && wave.damping > 0) {
             y *= Math.exp(-wave.damping * Math.abs(x))

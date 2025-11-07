@@ -122,7 +122,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
 
         if (item?.children && item?.children.length > 0) {
             // Toggle submenu
-            setOpenMenus((prev: any) => {
+            setOpenMenus((prev: Set<string>) => {
                 const newSet = new Set(prev);
                 if (newSet.has(item?.id)) {
                     newSet.delete(item?.id);

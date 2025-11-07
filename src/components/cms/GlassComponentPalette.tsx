@@ -128,7 +128,7 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const toggleCategory = (category: string) => {
-    setExpandedCategories((prev: any) => {
+    setExpandedCategories((prev: Set<string>) => {
       const newSet = new Set(prev);
       if (newSet.has(category)) {
         newSet.delete(category);

@@ -163,7 +163,7 @@ export const GlassVoiceWaveform = forwardRef<HTMLDivElement, GlassVoiceWaveformP
             const prevData = prev[participant.id] || new Array(bars).fill(0)
             if (participant.isSpeaking && participant.audioLevel > 0.1) {
               const nextData = generateWaveformData(participant.audioLevel, bars)
-              const smoothed = prevData.map((current, index) =>
+              const smoothed = prevData.map((current: any, index: any) =>
                 current * smooth + nextData[index] * (1 - smooth)
               )
               updated[participant.id] = smoothed

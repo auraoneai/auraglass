@@ -168,7 +168,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     }
 
     const handleLike = (postId: string) => {
-      setLikedPosts((prev: any) => {
+      setLikedPosts((prev: Set<string>) => {
         const newSet = new Set(prev)
         if (newSet.has(postId)) {
           newSet.delete(postId)
@@ -181,12 +181,12 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     }
 
     const handleShare = (postId: string) => {
-      setSharedPosts((prev: any) => new Set(prev).add(postId))
+      setSharedPosts((prev: Set<string>) => new Set(prev).add(postId))
       onShare?.(postId)
     }
 
     const handlePostExpand = (postId: string) => {
-      setExpandedPosts((prev: any) => {
+      setExpandedPosts((prev: Set<string>) => {
         const newSet = new Set(prev)
         if (newSet.has(postId)) {
           newSet.delete(postId)

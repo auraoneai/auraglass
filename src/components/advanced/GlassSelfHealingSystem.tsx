@@ -1068,16 +1068,16 @@ export function GlassSelfHealingDashboard({
                     {health.componentType}
                   </span>
                   <div className="flex items-center gap-2">
-                    <div 
+                    <div
                       className="w-3 h-3 glass-radius-full"
                       style={{
-                        backgroundColor: ({
+                        backgroundColor: (({
                           healthy: 'var(--glass-color-success)',
                           warning: 'var(--glass-color-warning)',
                           critical: 'var(--glass-color-danger)',
                           healing: 'var(--glass-color-primary)',
                           failed: '#7f1d1d',
-                        } as const)[health.status]
+                        } as const) as any)[health.status]
                       }}
                     />
                     <span className="text-xs glass-text-secondary">

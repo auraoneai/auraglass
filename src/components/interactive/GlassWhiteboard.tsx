@@ -231,7 +231,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
       drawingData.forEach((item: any) => {
         if ('points' in item) {
           // Check if path intersects with selection box
-          const intersects = item?.points.some(point =>
+          const intersects = item?.points.some((point: any) =>
             point.x >= x && point.x <= x + width &&
             point.y >= y && point.y <= y + height
           );

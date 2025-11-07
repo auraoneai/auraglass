@@ -468,7 +468,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 
     // Remove attachment
     const removeAttachment = useCallback((index: number) => {
-        setAttachments((prev: any) => prev.filter((_, i) => i !== index));
+        setAttachments((prev: any) => prev.filter((_: any, i: any) => i !== index));
     }, []);
 
     // Handle voice recording

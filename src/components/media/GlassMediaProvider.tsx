@@ -367,10 +367,10 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const searchTranscript = useCallback((mediaId: string, query: string) => {
     const transcript = transcripts[mediaId] || [];
     const lowercaseQuery = query.toLowerCase();
-    
-    return transcript.filter((entry: any) => 
+
+    return transcript.filter((entry: any) =>
       entry.text.toLowerCase().includes(lowercaseQuery) ||
-      entry.keywords?.some(keyword => keyword.toLowerCase().includes(lowercaseQuery))
+      entry.keywords?.some((keyword: any) => keyword.toLowerCase().includes(lowercaseQuery))
     );
   }, [transcripts]);
 

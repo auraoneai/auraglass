@@ -129,7 +129,7 @@ export const GlassNavigationMenu: React.FC<GlassNavigationMenuProps> = ({
 
         if (item?.children && item?.children.length > 0) {
             // Toggle submenu
-            setOpenSubmenus((prev: any) => {
+            setOpenSubmenus((prev: Set<string>) => {
                 const newSet = new Set(prev);
                 if (newSet.has(item?.id)) {
                     newSet.delete(item?.id);
@@ -154,7 +154,7 @@ export const GlassNavigationMenu: React.FC<GlassNavigationMenuProps> = ({
     };
 
     const toggleSubmenu = (itemId: string) => {
-        setOpenSubmenus((prev: any) => {
+        setOpenSubmenus((prev: Set<string>) => {
             const newSet = new Set(prev);
             if (newSet.has(itemId)) {
                 newSet.delete(itemId);

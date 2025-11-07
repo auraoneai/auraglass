@@ -517,13 +517,13 @@ class EmotionalIntelligenceEngine {
     
     const sums: Partial<BiometricIndicators> = {};
     const keys = Object.keys(data[0]) as (keyof BiometricIndicators)[];
-    
+
     keys.forEach((key: any) => {
-      if (typeof data[0][key] === 'number') {
-        sums[key] = data.reduce((sum, item) => sum + (item[key] as number), 0) / data.length as any;
+      if (typeof (data[0] as any)[key] === 'number') {
+        (sums as any)[key] = data.reduce((sum, item) => sum + ((item as any)[key] as number), 0) / data.length as any;
       }
     });
-    
+
     return sums;
   }
   
@@ -532,13 +532,13 @@ class EmotionalIntelligenceEngine {
     
     const sums: Partial<BehaviorPatterns> = {};
     const keys = Object.keys(data[0]) as (keyof BehaviorPatterns)[];
-    
+
     keys.forEach((key: any) => {
-      if (typeof data[0][key] === 'number') {
-        sums[key] = data.reduce((sum, item) => sum + (item[key] as number), 0) / data.length as any;
-      } else if (typeof data[0][key] === 'boolean') {
-        const trueCount = data.filter((item: any) => item[key]).length;
-        sums[key] = trueCount > data.length / 2 as any;
+      if (typeof (data[0] as any)[key] === 'number') {
+        (sums as any)[key] = data.reduce((sum, item) => sum + ((item as any)[key] as number), 0) / data.length as any;
+      } else if (typeof (data[0] as any)[key] === 'boolean') {
+        const trueCount = data.filter((item: any) => (item as any)[key]).length;
+        (sums as any)[key] = trueCount > data.length / 2 as any;
       }
     });
     

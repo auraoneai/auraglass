@@ -434,7 +434,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
         ...calculateStrokeProperties(stroke.points)
       };
 
-      setCurrentStrokes((prev: any) => {
+      setCurrentStrokes((prev: Map<string, GestureStroke>) => {
         const newMap = new Map(prev);
         newMap.delete(pointerId);
         return newMap;

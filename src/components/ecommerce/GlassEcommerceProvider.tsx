@@ -441,7 +441,7 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       filtered = filtered.filter((product: any) =>
         product.name.toLowerCase().includes(lowercaseQuery) ||
         product.description.toLowerCase().includes(lowercaseQuery) ||
-        product.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
+        product.tags.some((tag: any) => tag.toLowerCase().includes(lowercaseQuery)) ||
         product.brand?.toLowerCase().includes(lowercaseQuery)
       );
     }

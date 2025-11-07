@@ -196,7 +196,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   const selectedComponent = getSelectedComponent();
 
   const toggleExpanded = (id: string) => {
-    setExpandedItems((prev: any) => {
+    setExpandedItems((prev: Set<string>) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);

@@ -448,7 +448,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             strokeLinejoin="round"
             className={enableAnimation ? 'transition-all duration-300' : ''}
           />
-          {series.data.map((point, index) => (
+          {series.data.map((point: any, index: any) => (
             <circle
               key={`${point.id}-${index}`}
               cx={points[index].x}
@@ -650,7 +650,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               >
                 {filter.field}: {filter.value}
                 <button
-                  onClick={() => setAppliedFilters((prev: any) => prev.filter((_, i) => i !== index))}
+                  onClick={() => setAppliedFilters((prev: any) => prev.filter((_: any, i: any) => i !== index))}
                   className="text-primary hover:text-primary ml-1"
                 >
                   ✕

@@ -525,7 +525,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
               onMarkerFound?.(randomMarker);
             }
           } else if (wasFound && Math.random() > 0.8) {
-            setFoundMarkers((prev: any) => {
+            setFoundMarkers((prev: Set<string>) => {
               const newSet = new Set(prev);
               newSet.delete(randomMarker.id);
               return newSet;
