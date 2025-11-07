@@ -34,7 +34,7 @@ docker-compose up -d
 
 ### Basic Usage
 ```tsx
-import { OptimizedGlass, GlassButton, GlassCard } from '@aura/aura-glass';
+import { OptimizedGlass, GlassButton, GlassCard, GlowingCard } from '@aura/aura-glass';
 import '@aura/aura-glass/styles/tokens.css';
 import '@aura/aura-glass/styles/glass.css';
 
@@ -45,7 +45,43 @@ function App() {
         <h1>Welcome to AuraGlass</h1>
         <GlassButton variant="primary">Get Started</GlassButton>
       </GlassCard>
+
+      {/* NEW! Glowing Card with animated edges */}
+      <GlowingCard variant="neon" glowColor="#00d4ff">
+        <p>Featured Content</p>
+      </GlowingCard>
     </OptimizedGlass>
+  );
+}
+```
+
+### Advanced Physics & Animation (NEW!)
+```tsx
+import {
+  usePhysicsEngine,
+  useGesturePhysics,
+  use3DTransform,
+  ZSpaceAppLayout,
+  DimensionalDashboardContainer
+} from '@aura/aura-glass';
+
+function PhysicsDemo() {
+  const { createBody, applyForce } = usePhysicsEngine({ autoStart: true });
+  const { handlers, position } = useGesturePhysics({ preset: 'smooth' });
+  const { style, rotateFromPointer } = use3DTransform({ perspective: 1000 });
+
+  return (
+    <ZSpaceAppLayout
+      header={<>Header</>}
+      sidebar={<>Sidebar</>}
+      footer={<>Footer</>}
+    >
+      <DimensionalDashboardContainer parallax autoRotate>
+        <div {...handlers} style={{ ...style, transform: position }}>
+          Interactive Physics Content
+        </div>
+      </DimensionalDashboardContainer>
+    </ZSpaceAppLayout>
   );
 }
 ```
@@ -533,3 +569,308 @@ AuraGlass includes production-ready AI-powered systems with real API integration
 ---
 
 **Welcome to the future of glassmorphism design systems!** 🌟
+
+## 🚀 NEW! Physics & Animation System
+
+### Physics Engine
+Complete 2D physics simulation with collision detection, spring dynamics, and gesture-based interactions.
+
+```tsx
+import { usePhysicsEngine, Vector2D } from '@aura/aura-glass';
+
+function PhysicsExample() {
+  const physics = usePhysicsEngine({
+    autoStart: true,
+    gravity: { x: 0, y: 9.8 },
+    timeScale: 1.0
+  });
+  
+  // Create physics bodies
+  const bodyId = physics.createBody('box1', {
+    mass: 1,
+    initialPosition: { x: 100, y: 100 },
+    bounds: { min: { x: 0, y: 0 }, max: { x: 800, y: 600 } }
+  });
+  
+  // Apply forces
+  physics.applyForce(bodyId, { x: 50, y: -100 });
+  
+  // Listen for collisions
+  physics.onCollision(bodyId, (event) => {
+    console.log('Collision detected:', event);
+  });
+  
+  return <div>Physics Simulation Active</div>;
+}
+```
+
+### Gesture Physics
+8 gesture types with 5 preset physics configurations for natural interactions.
+
+```tsx
+import { useGesturePhysics, GestureType } from '@aura/aura-glass';
+
+function GestureExample() {
+  const { handlers, position, gestureType } = useGesturePhysics({
+    preset: 'smooth', // smooth, snappy, bouncy, gentle, precise
+    enabledGestures: [GestureType.PAN, GestureType.SWIPE, GestureType.TAP],
+    onGesture: (event) => {
+      console.log('Gesture:', event.type, event.velocity);
+    }
+  });
+  
+  return (
+    <div {...handlers}>
+      Gesture-enabled element (Position: {position.x}, {position.y})
+    </div>
+  );
+}
+```
+
+### Animation Orchestration
+Multi-element choreography with parallel, sequential, and stagger modes.
+
+```tsx
+import { useOrchestration, PublicAnimationStage } from '@aura/aura-glass';
+
+function OrchestrationExample() {
+  const sequence = useOrchestration({
+    elements: [
+      { id: 'elem1', duration: 300, delay: 0 },
+      { id: 'elem2', duration: 400, delay: 100 },
+      { id: 'elem3', duration: 350, delay: 200 }
+    ],
+    mode: 'stagger', // parallel, sequential, stagger
+    staggerDelay: 100,
+    loop: false,
+    onStageChange: (stage) => {
+      console.log('Stage:', stage);
+    }
+  });
+  
+  return (
+    <>
+      <button onClick={sequence.start}>Start Animation</button>
+      <div>Progress: {sequence.progress}%</div>
+      <div>Stage: {sequence.stage}</div>
+    </>
+  );
+}
+```
+
+### 3D Transforms
+Advanced 3D CSS transforms with perspective and animation.
+
+```tsx
+import { use3DTransform } from '@aura/aura-glass';
+
+function Transform3DExample() {
+  const { style, setRotation, flip, wobble } = use3DTransform({
+    perspective: 1200,
+    transformOrigin: 'center center'
+  });
+  
+  return (
+    <>
+      <div style={style}>3D Transformed Element</div>
+      <button onClick={() => flip()}>Flip</button>
+      <button onClick={() => wobble(15)}>Wobble</button>
+    </>
+  );
+}
+```
+
+### Ambient Tilt
+Subtle tilting effects with device orientation support.
+
+```tsx
+import { useAmbientTilt } from '@aura/aura-glass';
+
+function TiltExample() {
+  const { ref, transformStyle, glareStyle } = useAmbientTilt({
+    maxTilt: 15,
+    glare: true,
+    gyroscope: true
+  });
+  
+  return (
+    <div ref={ref} style={transformStyle}>
+      <div style={glareStyle} />
+      Tilt-enabled element
+    </div>
+  );
+}
+```
+
+### Magnetic Elements
+Cursor attraction effects with configurable strength.
+
+```tsx
+import { useMagneticElement } from '@aura/aura-glass';
+
+function MagneticExample() {
+  const { ref, style, isActive } = useMagneticElement({
+    strength: 0.3,
+    range: 100,
+    maxDistance: 30
+  });
+  
+  return (
+    <div ref={ref} style={style}>
+      Magnetic Button {isActive && '(Active)'}
+    </div>
+  );
+}
+```
+
+## 📦 NEW Components
+
+### GlowingCard
+Glassmorphic card with animated glowing edges.
+
+```tsx
+import { GlowingCard } from '@aura/aura-glass';
+
+<GlowingCard 
+  variant="neon" // default, neon, subtle, rainbow
+  glowColor="#00d4ff"
+  glowIntensity={0.8}
+  animationDuration={3000}
+>
+  Content with glowing edges
+</GlowingCard>
+```
+
+### GlassTabItem
+Individual tab items with glass styling.
+
+```tsx
+import { GlassTabItem } from '@aura/aura-glass';
+
+<GlassTabItem
+  label="Tab 1"
+  value="tab1"
+  active={true}
+  badge={5}
+  icon={<Icon />}
+  onClick={(value) => console.log(value)}
+/>
+```
+
+### ZSpaceAppLayout
+Full application layout with Z-space depth layers.
+
+```tsx
+import { ZSpaceAppLayout } from '@aura/aura-glass';
+
+<ZSpaceAppLayout
+  header={<>Header</>}
+  sidebar={<>Sidebar</>}
+  footer={<>Footer</>}
+  headerDepth={30}
+  sidebarDepth={20}
+  contentDepth={0}
+  overlayDepth={100}
+  perspective={1500}
+>
+  Main Content
+</ZSpaceAppLayout>
+```
+
+### DimensionalDashboardContainer
+3D dashboard with parallax and auto-rotation.
+
+```tsx
+import { DimensionalDashboardContainer } from '@aura/aura-glass';
+
+<DimensionalDashboardContainer
+  perspective={1200}
+  depth={100}
+  parallax={true}
+  autoRotate={true}
+  rotationSpeed={10}
+  layers={[
+    <Layer1 />,
+    <Layer2 />,
+    <Layer3 />
+  ]}
+/>
+```
+
+## 🔧 Utility Functions
+
+### Date Adapters
+Support for multiple date libraries with unified interface.
+
+```tsx
+import { 
+  createDateFnsAdapter,
+  createDayJsAdapter,
+  createNativeDateAdapter,
+  DateAdapter 
+} from '@aura/aura-glass';
+
+// Use with date-fns
+const adapter = createDateFnsAdapter();
+const formatted = adapter.format(new Date(), 'yyyy-MM-dd');
+
+// Or use native Date
+const nativeAdapter = createNativeDateAdapter();
+```
+
+### Physics Utilities
+Direct access to physics engine functions.
+
+```tsx
+import { 
+  forcePhysicsEngineUpdate,
+  getPhysicsBodyState,
+  AuraPhysicsEngineAPI 
+} from '@aura/aura-glass';
+
+// Force physics update
+forcePhysicsEngineUpdate();
+
+// Get body state
+const state = getPhysicsBodyState('body-id');
+console.log(state?.position, state?.velocity);
+
+// Create custom engine instance
+const engine = new AuraPhysicsEngineAPI();
+engine.createBody('custom-body');
+engine.start();
+```
+
+## 📝 Type Definitions
+
+### Physics Types
+```typescript
+import type {
+  Vector2D,
+  PhysicsBodyState,
+  PhysicsBodyOptions,
+  CollisionEvent,
+  UnsubscribeFunction
+} from '@aura/aura-glass';
+```
+
+### Component Props
+```typescript
+import type {
+  GlowingCardProps,
+  GlassTabItemProps,
+  ZSpaceAppLayoutProps,
+  DimensionalDashboardContainerProps
+} from '@aura/aura-glass';
+```
+
+### Animation & Gesture Types
+```typescript
+import type {
+  GestureType,
+  GesturePhysicsPreset,
+  PublicAnimationStage,
+  DateAdapter
+} from '@aura/aura-glass';
+```
+

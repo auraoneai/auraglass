@@ -27,6 +27,7 @@ export { GlassSeparator } from './components/layout/GlassSeparator';
 export { GlassSplitPane } from './components/layout/GlassSplitPane';
 export { GlassStack } from './components/layout/GlassStack';
 export { OptimizedGlassContainer } from './components/layout/OptimizedGlassContainer';
+export { ZSpaceAppLayout } from './components/layout/ZSpaceAppLayout';
 
 // Navigation & Chrome Components
 export { GlassBottomNav } from './components/navigation/GlassBottomNav';
@@ -40,9 +41,11 @@ export { GlassMobileNav } from './components/navigation/GlassMobileNav';
 export { GlassNavigationMenu } from './components/navigation/GlassNavigationMenu';
 export { GlassPagination } from './components/navigation/GlassPagination';
 export { GlassResponsiveNav } from './components/navigation/GlassResponsiveNav';
+export { GlassResponsiveNav as ResponsiveNavigation } from './components/navigation/GlassResponsiveNav'; // Alias export
 export { GlassSegmentedControl } from './components/navigation/GlassSegmentedControl';
 export { GlassSidebar } from './components/navigation/GlassSidebar';
 export { GlassTabBar } from './components/navigation/GlassTabBar';
+export { GlassTabItem } from './components/navigation/GlassTabItem';
 export { GlassTabs } from './components/navigation/GlassTabs';
 export { GlassToolbar } from './components/navigation/GlassToolbar';
 
@@ -80,14 +83,18 @@ export { GlassWizard } from './components/input/GlassWizard';
 
 // Button & Card Components
 export { GlassButton } from './components/button/GlassButton';
+export { GlassButton as Button } from './components/button/GlassButton'; // Alias export
 export { GlassCardLink } from './components/card/glass-card-link';
 export { GlassCard } from './components/card/GlassCard';
+export { GlassCard as Card } from './components/card/GlassCard'; // Alias export
+export { GlowingCard } from './components/card/GlowingCard';
 
 // Chart Components
 export { GlassAreaChart } from './components/charts/GlassAreaChart';
 export { GlassBarChart } from './components/charts/GlassBarChart';
 export { GlassChart } from './components/charts/GlassChart';
 export { GlassDataChart } from './components/charts/GlassDataChart';
+export { GlassDataChart as DataChart } from './components/charts/GlassDataChart'; // Alias export
 export { GlassLineChart } from './components/charts/GlassLineChart';
 export { GlassPieChart } from './components/charts/GlassPieChart';
 
@@ -177,6 +184,7 @@ export { GlassChartWidget } from './components/dashboard/GlassChartWidget';
 export { GlassKPICard } from './components/dashboard/GlassKPICard';
 export { GlassMetricCard } from './components/dashboard/GlassMetricCard';
 export { GlassStatCard } from './components/dashboard/GlassStatCard';
+export { DimensionalDashboardContainer } from './components/dashboard/DimensionalDashboardContainer';
 
 // Calendar Components
 export { GlassCalendar } from './components/calendar/GlassCalendar';
@@ -269,10 +277,24 @@ export { AnimationProvider, useAnimation } from './contexts/AnimationContext';
 export { useA11yId } from './utils/a11y';
 export { useGlassSound } from './utils/soundDesign';
 
+// Physics & Transform Hooks
+export { usePhysicsEngine } from './hooks/physics/usePhysicsEngine';
+export { usePhysicsLayout } from './hooks/physics/usePhysicsLayout';
+export { use3DTransform } from './hooks/extended/use3DTransform';
+export { useAmbientTilt } from './hooks/extended/useAmbientTilt';
+export { useMagneticElement } from './hooks/extended/useMagneticElement';
+export { useZSpace } from './hooks/extended/useZSpace';
+
 // Extended Hooks
 export * from './hooks/extended';
 // Explicit named exports for extended hooks to ensure tree-shaking works correctly
 export { useZSpaceAnimation, useParallaxZSpace, useCardStackZSpace } from './hooks/extended/useZSpaceAnimation';
+
+// Gesture Physics Hooks
+export { useGesturePhysics } from './animations/physics/gesturePhysics';
+
+// Orchestration Hooks
+export { useOrchestration } from './animations/orchestration/useOrchestration';
 
 // Enhanced Core Mixins
 export {
@@ -301,11 +323,25 @@ export {
 // Accessible animation utilities
 export * from './animations/accessible';
 
+// Gesture Physics System
+export {
+    GestureType,
+    GesturePhysicsPreset,
+    GESTURE_PRESETS as GesturePresets
+} from './animations/physics/gesturePhysics';
+
+// Orchestration Types
+export { PublicAnimationStage, createOrchestrationSequence } from './animations/orchestration/useOrchestration';
+
 // Error Boundaries and Utils
 export { GlassAsyncErrorBoundary, GlassComponentErrorBoundary, GlassErrorBoundary, GlassLightErrorBoundary, withGlassErrorBoundary } from './utils/errorBoundary';
 
 // Production Utilities
 export { analytics, browser, css, data, dev, features, initializeProduction, logger, memory, performance, productionConfig, safeExecute, safeExecuteAsync, storage, validate } from './utils/productionUtils';
+
+// Date Utilities
+export { createDateFnsAdapter, createDayJsAdapter, createNativeDateAdapter } from './utils/dateAdapters';
+export type { DateAdapter } from './utils/dateAdapters';
 
 // Core Production System
 export {
@@ -358,12 +394,17 @@ export type {
 
 // Additional component type exports
 export type { GlassCardProps } from './components/card/GlassCard';
+export type { GlowingCardProps } from './components/card/GlowingCard';
+export type { GlassTabItemProps } from './components/navigation/GlassTabItem';
 export type { DateRange } from './components/input/GlassDateRangePicker';
 export type { ChartDataset } from './components/charts/GlassDataChart';
 export type { ColumnDefinition, SortState } from './components/data-display/types';
 export type { MultiSelectOption, Step } from './components/input/types';
 export type { MasonryItem } from './components/layouts/GlassMasonryGrid';
 export type { QualityTier as ChartQualityTier, PhysicsParams } from './components/charts/hooks/useQualityTier';
+export type { QualityTier } from './components/charts/hooks/useQualityTier';
+export type { DimensionalDashboardContainerProps } from './components/dashboard/DimensionalDashboardContainer';
+export type { ZSpaceAppLayoutProps } from './components/layout/ZSpaceAppLayout';
 
 // Re-export production types (explicitly to resolve PerformanceMetrics ambiguity)
 export type {
@@ -378,3 +419,28 @@ export type {
     TableColumn,
     TableRow, ThemeConfig, TimelineItem, ValidationResult, ValidationRule, VirtualizationConfig
 } from './types/productionTypes';
+
+// Common types
+export type {
+    Vector2D,
+    UnsubscribeFunction,
+    CallbackFunction,
+    EventHandler,
+    AsyncCallback,
+    Subscription
+} from './types/common';
+
+// Physics types
+export type {
+    PhysicsBodyState,
+    PhysicsBodyOptions,
+    CollisionEvent
+} from './physics/AuraPhysicsEngine';
+
+// Export physics engine
+export {
+    AuraPhysicsEngineAPI,
+    getGlobalPhysicsEngine,
+    forcePhysicsEngineUpdate,
+    getPhysicsBodyState
+} from './physics/AuraPhysicsEngine';
