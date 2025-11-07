@@ -6,10 +6,4 @@
  * media query.
  */
 
-// Re-export core accessible animation utilities
 export { prefersReducedMotion, createAccessibleAnimation } from '../accessibleAnimation';
-
-// Future-proof exports (commented out for now, ready to add when needed)
-// export { createAccessibleTransition } from './transitions';
-// export { AccessibleMotionConfig } from './config';
-// export { useAccessibleMotion } from './hooks';

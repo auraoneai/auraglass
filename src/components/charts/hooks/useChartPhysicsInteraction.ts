@@ -114,17 +114,35 @@ export function useChartPhysicsInteraction(
       const clampedLevel = Math.max(minZoom, Math.min(maxZoom, level));
       setZoomLevel(clampedLevel);
 
-      // Apply zoom to chart
       const chart = chartRef.current;
+
+      // Apply zoom transformations to chart scales
       if (chart.options.scales) {
-        // Apply zoom transformations
-        // Note: Actual implementation would interact with Chart.js zoom plugin
-        // This is a simplified version showing the hook structure
+        Object.keys(chart.options.scales).forEach((scaleId) => {
+          const scale = chart.options.scales![scaleId];
+          const axis = scale.axis || scaleId.charAt(0);
+
+          // Only apply zoom to enabled axes based on mode
+          if (
+            (mode === 'xy') ||
+            (mode === 'x' && axis === 'x') ||
+            (mode === 'y' && axis === 'y')
+          ) {
+            if (scale.min !== undefined && scale.max !== undefined) {
+              const range = scale.max - scale.min;
+              const center = (scale.max + scale.min) / 2;
+              const newRange = range / clampedLevel;
+
+              scale.min = center - newRange / 2;
+              scale.max = center + newRange / 2;
+            }
+          }
+        });
       }
 
-      chart.update('none'); // Update without animation for performance
+      chart.update('none');
     },
-    [enabled, chartRef, minZoom, maxZoom]
+    [enabled, chartRef, minZoom, maxZoom, mode]
   );
 
   /**
@@ -179,12 +197,38 @@ export function useChartPhysicsInteraction(
       // Update velocity for inertia
       velocityRef.current = { x: deltaX, y: deltaY };
 
-      // Apply pan to chart
-      // Note: Actual implementation would interact with Chart.js pan plugin
+      const chart = chartRef.current;
+
+      // Apply pan transformations to chart scales
+      if (chart.options.scales) {
+        Object.keys(chart.options.scales).forEach((scaleId) => {
+          const scale = chart.options.scales![scaleId];
+          const axis = scale.axis || scaleId.charAt(0);
+
+          // Only pan enabled axes based on mode
+          if (
+            (mode === 'xy') ||
+            (mode === 'x' && axis === 'x') ||
+            (mode === 'y' && axis === 'y')
+          ) {
+            if (scale.min !== undefined && scale.max !== undefined) {
+              const range = scale.max - scale.min;
+              const panAmount = axis === 'x'
+                ? -(deltaX / (wrapperRef.current?.offsetWidth || 1)) * range
+                : (deltaY / (wrapperRef.current?.offsetHeight || 1)) * range;
+
+              scale.min += panAmount;
+              scale.max += panAmount;
+            }
+          }
+        });
+
+        chart.update('none');
+      }
 
       lastPosRef.current = { x: event.clientX, y: event.clientY };
     },
-    [isPanning, chartRef]
+    [isPanning, chartRef, mode, wrapperRef]
   );
 
   /**
