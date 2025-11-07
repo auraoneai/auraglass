@@ -1,8 +1,8 @@
 # AuraGlass Migration Guide
 
-## Version 2.0 - Token-First Architecture & Design System Unification
+## Version 2.0 - Token-First Architecture
 
-This guide helps you migrate from raw values to the new token-first AuraGlass system with semantic elevation levels, comprehensive utilities, and 100/100 design system compliance.
+This guide helps you migrate from raw values to the new token-first AuraGlass system with semantic elevation levels and comprehensive utilities.
 
 ## Quick Start
 
@@ -13,16 +13,9 @@ npm install @aura/aura-glass@latest
 # 2. Run automated migration
 npm run codemod:all
 
-# 3. Validate your code
-npm run glass:full-check
-
-# 4. Fix any remaining issues
-npm run lint:tokens
-npm run lint:styles
-npm run lint:glass
-
-# 5. Verify accessibility compliance
-npm run test:a11y
+# 3. Test your application
+npm run typecheck
+npm run test
 ```
 
 ## Breaking Changes
@@ -362,34 +355,16 @@ background: linear-gradient(135deg,
 
 After migration, ensure:
 
-### ✅ Token Usage
-```bash
-npm run lint:tokens
-# Should report: "No violations found!"
-```
-
-### ✅ Style Patterns
-```bash
-npm run lint:styles
-# Should report: "No style issues found!"
-```
-
 ### ✅ TypeScript
 ```bash
 npm run typecheck
 # Should complete without errors
 ```
 
-### ✅ Accessibility
+### ✅ Tests Pass
 ```bash
-npm run test:a11y
+npm run test
 # All tests should pass
-```
-
-### ✅ Visual Consistency
-```bash
-npm run test:visual
-# No unexpected changes
 ```
 
 ## Rollback
@@ -431,26 +406,6 @@ A: Run `npm run glass:full-check` for detailed violations, then use codemods to 
 **Q: How do I handle third-party integrations?**
 A: Wrap third-party components with glass utility classes rather than modifying them directly.
 
-## 🎯 Post-Migration Validation
-
-### Verify Design System Compliance
-```bash
-# Check your design system score (aim for 100/100)
-npm run ci:score
-
-# Generate compliance report
-npm run ci:report
-
-# Validate all patterns
-npm run glass:audit
-```
-
-### Expected Results
-- **Design System Score**: 95-100/100
-- **Token Usage**: 100% (no raw values)
-- **Elevation**: All semantic (`level1`, `level2`, etc.)
-- **Accessibility**: Full WCAG compliance
-- **Performance**: Optimized glass rendering
 
 ## 🔍 Common Migration Issues
 
@@ -555,17 +510,13 @@ After successful migration:
    - Update style guides
    - Train team on glass utilities
 
-3. **Set up continuous enforcement**
-   - Enable pre-commit hooks
-   - Configure CI validation
-   - Monitor design system score
-
-4. **Celebrate! 🎉**
+3. **Test thoroughly**
+   - Run your test suite
+   - Verify visual consistency
+   - Check accessibility compliance
 
 Your application now has:
-- ✨ **100/100 Design System Score**
-- 🎨 **Semantic Elevation System** 
-- 🛡️ **Automated Enforcement**
+- 🎨 **Semantic Elevation System**
 - ♿ **Full Accessibility Compliance**
 - 🚀 **Performance Optimization**
 - 🔧 **Maintainable Token Architecture**

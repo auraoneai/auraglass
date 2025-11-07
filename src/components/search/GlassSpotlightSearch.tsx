@@ -259,7 +259,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
             open ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
           aria-label="Command search"

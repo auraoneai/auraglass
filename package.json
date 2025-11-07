@@ -1,5 +1,5 @@
 {
-  "name": "@aura/aura-glass",
+  "name": "aura-glass",
   "version": "1.0.0",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
@@ -92,6 +92,10 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.7.0",
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@percy/cli": "^1.27.0",
     "@playwright/test": "^1.55.0",
     "@rollup/plugin-commonjs": "^25.0.0",

@@ -192,7 +192,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               return {
                 ...node,
                 children: filteredChildren.length > 0 ? filteredChildren : node.children,
-              };
+              } as TreeNode;
             }
             return null;
           })
@@ -313,7 +313,6 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     return (
       <div ref={containerRef} className={cn('relative', className)} {...props}>
         <button
-          ref={ref}
           type="button"
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
