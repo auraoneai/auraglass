@@ -67,10 +67,10 @@ const defaultVisualSettings: VisualizationSettings = {
 
 const colorSchemes = {
   rainbow: ['#ff0000', '#ff8000', '#ffff00', '#80ff00', '#00ff00', '#00ff80', '#00ffff', '#0080ff', '#0000ff', '#8000ff'],
-  monochrome: ['#ffffff', '#e0e0e0', '#c0c0c0', '#a0a0a0', '#808080', '#606060', '#404040', '#202020'],
+  monochrome: ['var(--glass-white)', '#e0e0e0', '#c0c0c0', '#a0a0a0', '#808080', '#606060', '#404040', '#202020'],
   neon: ['#ff00ff', '#ff0080', '#ff0040', '#ff8040', '#ffff40', '#80ff40', '#40ff40', '#40ff80', '#40ffff', '#4080ff'],
   fire: ['#ffff00', '#ffcc00', '#ff9900', '#ff6600', '#ff3300', '#ff0000', '#cc0000', '#990000'],
-  ice: ['#ffffff', '#e0f0ff', '#c0e0ff', '#a0d0ff', '#80c0ff', '#60b0ff', '#40a0ff', '#2090ff'],
+  ice: ['var(--glass-white)', '#e0f0ff', '#c0e0ff', '#a0d0ff', '#80c0ff', '#60b0ff', '#40a0ff', '#2090ff'],
   galaxy: ['#1a1a2e', '#16213e', '#0f3460', '#533483', '#7209b7', '#a663cc', '#4cc9f0']
 }
 
@@ -353,7 +353,7 @@ export const GlassMusicVisualizer = forwardRef<HTMLDivElement, GlassMusicVisuali
         const y = Math.floor((i / data.length) * ctx.canvas.height)
         const intensity = data[i] / 255
         const colorIndex = Math.floor(intensity * colors.length)
-        const color = colors[colorIndex] || '#ffffff'
+        const color = colors[colorIndex] || 'var(--glass-white)'
         
         const r = parseInt(color.slice(1, 3), 16)
         const g = parseInt(color.slice(3, 5), 16)

@@ -210,7 +210,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
           interferenceData.push(sum)
         }
         
-        ctx.strokeStyle = '#FFFFFF'
+        ctx.strokeStyle = 'var(--glass-white)'
         ctx.lineWidth = 2
         ctx.globalAlpha = 0.9
         ctx.setLineDash([5, 5])
@@ -322,7 +322,7 @@ export const GlassWaveFunction = forwardRef<HTMLDivElement, GlassWaveFunctionPro
         ctx.fillRect(x + 2, y, barWidth - 4, barHeight)
 
         // Frequency label
-        ctx.fillStyle = '#FFFFFF'
+        ctx.fillStyle = 'var(--glass-white)'
         ctx.font = '10px Arial'
         ctx.globalAlpha = 1
         ctx.fillText(`${wave.frequency.toFixed(1)}Hz`, x + 5, spectrumHeight - 5)

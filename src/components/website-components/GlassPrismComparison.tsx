@@ -405,7 +405,7 @@ export function GlassPrismComparison() {
         >
           <p className="text-primary/50 text-lg">
             <motion.span
-              animate={{ color: ["#ffffff", "#00f5ff", "#ffffff"] }}
+              animate={{ color: ["var(--glass-white)", "#00f5ff", "var(--glass-white)"] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               Move your mouse

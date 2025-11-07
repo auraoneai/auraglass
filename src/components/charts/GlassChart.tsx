@@ -392,14 +392,14 @@ const defaultTheme: DefaultTheme = {
       accentPrimary: '#6366F1',
       accentSecondary: '#8B5CF6',
       accentTertiary: '#EC4899',
-      stateCritical: '#EF4444',
-      stateOptimal: '#10B981',
-      stateAttention: '#F59E0B',
-      stateInformational: '#3B82F6',
-      neutralBackground: '#F9FAFB',
-      neutralForeground: '#1F2937',
-      neutralBorder: '#E5E7EB',
-      neutralSurface: '#FFFFFF'
+      stateCritical: 'var(--glass-color-danger)',
+      stateOptimal: 'var(--glass-color-success)',
+      stateAttention: 'var(--glass-color-warning)',
+      stateInformational: 'var(--glass-color-primary)',
+      neutralBackground: 'var(--glass-gray-50)',
+      neutralForeground: 'var(--glass-gray-800)',
+      neutralBorder: 'var(--glass-gray-200)',
+      neutralSurface: 'var(--glass-white)'
     },
     glass: {
       light: createGlassStyle({ intent: "neutral", elevation: "level2" }),

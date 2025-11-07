@@ -736,7 +736,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
         // Fallback color guard in case a particle was created without a color
         const color = Array.isArray(particle.color)
           ? `rgb(${particle.color[0]}, ${particle.color[1]}, ${particle.color[2]})`
-          : 'rgb(255, 255, 255)';
+          : 'var(--glass-white)';
 
         switch (particle.type) {
           case 'leaf':
@@ -827,7 +827,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
       // Biome info overlay
       if (showBiomeInfo) {
         ctx.save();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
         ctx.fillRect(10, 10, 250, 140);
         
         ctx.fillStyle = 'white';

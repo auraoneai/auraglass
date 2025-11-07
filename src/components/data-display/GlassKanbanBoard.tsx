@@ -364,7 +364,7 @@ export const GlassKanbanBoard = forwardRef<HTMLDivElement, GlassKanbanBoardProps
           <div className="flex items-center gap-2">
             <div
               className="w-3 h-3 glass-radius-full"
-              style={{ backgroundColor: column.color || '#6b7280' }}
+              style={{ backgroundColor: column.color || 'var(--glass-gray-500)' }}
             />
             <h2 className="font-semibold text-primary">{column.title}</h2>
             {showCardCounts && (

@@ -525,7 +525,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
       // Weather info overlay
       if (showWeatherInfo) {
         ctx.save();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
         ctx.fillRect(10, 10, 200, 120);
         
         ctx.fillStyle = 'white';

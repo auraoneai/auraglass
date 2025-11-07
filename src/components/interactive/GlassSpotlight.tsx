@@ -20,7 +20,7 @@ export function GlassSpotlight({ targetRect, onClose }: GlassSpotlightProps) {
     width: targetRect.width + pad*2,
     height: targetRect.height + pad*2,
     borderRadius: 12,
-    boxShadow: '0 0 0 9999px rgba(0,0,0,0.6)',
+    boxShadow: '0 0 0 9999px var(--glass-text-tertiary-dark)',
     pointerEvents: 'none'
   };
   return (

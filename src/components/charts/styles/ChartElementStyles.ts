@@ -24,7 +24,7 @@ export interface ChartElementStyles {
 
 export const createChartElementStyles = (
   theme: 'light' | 'dark' | 'glass' = 'glass',
-  colorScheme: string[] = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6']
+  colorScheme: string[] = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6']
 ): ChartElementStyles => {
   const baseStyles: ChartElementStyles = {
     line: {
@@ -50,7 +50,7 @@ export const createChartElementStyles = (
         ? 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'
         : theme === 'dark'
           ? '#333333'
-          : '#ffffff',
+          : 'var(--glass-white)',
     },
     scatter: {
       r: 4,
@@ -79,11 +79,11 @@ export const createChartElementStyles = (
       cursor: 'pointer',
     } as any,
     gradient: {
-      start: 'rgba(59, 130, 246, 0.2)',
-      end: 'rgba(59, 130, 246, 0.05)',
+      start: 'var(--glass-color-primary, 0.2)',
+      end: 'var(--glass-color-primary, 0.05)',
       stops: [
-        { offset: '0%', color: 'rgba(59, 130, 246, 0.2)' },
-        { offset: '100%', color: 'rgba(59, 130, 246, 0.05)' },
+        { offset: '0%', color: 'var(--glass-color-primary, 0.2)' },
+        { offset: '100%', color: 'var(--glass-color-primary, 0.05)' },
       ],
     },
   };
@@ -103,16 +103,16 @@ export const createChartElementStyles = (
     baseStyles.bar.fill = colorScheme[0];
     baseStyles.pie.fill = colorScheme[0];
     baseStyles.scatter.fill = colorScheme[0];
-    baseStyles.scatter.stroke = '#ffffff';
-    baseStyles.dataPoint.stroke = '#ffffff';
+    baseStyles.scatter.stroke = 'var(--glass-white)';
+    baseStyles.dataPoint.stroke = 'var(--glass-white)';
   } else {
     baseStyles.line.stroke = colorScheme[0];
     baseStyles.area.fill = colorScheme[0];
     baseStyles.bar.fill = colorScheme[0];
     baseStyles.pie.fill = colorScheme[0];
     baseStyles.scatter.fill = colorScheme[0];
-    baseStyles.scatter.stroke = '#ffffff';
-    baseStyles.dataPoint.stroke = '#ffffff';
+    baseStyles.scatter.stroke = 'var(--glass-white)';
+    baseStyles.dataPoint.stroke = 'var(--glass-white)';
   }
 
   return baseStyles;
@@ -152,7 +152,7 @@ export const TypeButton = styled.button<{ $active?: boolean }>`
   border: none;
   border-radius: 6px;
   background: ${props => props.$active ? 'rgba(var(--glass-color-white) / var(--glass-opacity-20))' : 'transparent'};
-  color: ${props => props.$active ? '#ffffff' : 'rgba(var(--glass-color-white) / var(--glass-opacity-70))'};
+  color: ${props => props.$active ? 'var(--glass-white)' : 'rgba(var(--glass-color-white) / var(--glass-opacity-70))'};
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -160,7 +160,7 @@ export const TypeButton = styled.button<{ $active?: boolean }>`
 
   &:hover {
     /* Migrated from background: var(--glass-bg-default) */ ...createGlassStyle({ elevation: 'level1' });
-    color: #ffffff;
+    color: var(--glass-white);
   }
 `;
 
@@ -264,10 +264,10 @@ export const LegendLabel = styled.span<{ $active?: boolean }>`
 export const getColorPalette = (theme: 'light' | 'dark' | 'glass' = 'glass'): string[] => {
   if (theme === 'glass') {
     return [
-      '#3b82f6', // Blue
-      '#ef4444', // Red
-      '#10b981', // Green
-      '#f59e0b', // Yellow
+      'var(--glass-color-primary)', // Blue
+      'var(--glass-color-danger)', // Red
+      'var(--glass-color-success)', // Green
+      'var(--glass-color-warning)', // Yellow
       '#8b5cf6', // Purple
       '#ec4899', // Pink
       '#06b6d4', // Cyan
@@ -275,10 +275,10 @@ export const getColorPalette = (theme: 'light' | 'dark' | 'glass' = 'glass'): st
     ];
   } else if (theme === 'dark') {
     return [
-      '#60a5fa', // Light blue
-      '#f87171', // Light red
-      '#34d399', // Light green
-      '#fbbf24', // Light yellow
+      'var(--glass-color-primary-light)', // Light blue
+      'var(--glass-color-danger-light)', // Light red
+      'var(--glass-color-success-light)', // Light green
+      'var(--glass-color-warning-light)', // Light yellow
       '#a78bfa', // Light purple
       '#f472b6', // Light pink
       '#22d3ee', // Light cyan
@@ -286,10 +286,10 @@ export const getColorPalette = (theme: 'light' | 'dark' | 'glass' = 'glass'): st
     ];
   } else {
     return [
-      '#2563eb', // Dark blue
-      '#dc2626', // Dark red
-      '#059669', // Dark green
-      '#d97706', // Dark yellow
+      'var(--glass-color-primary-dark)', // Dark blue
+      'var(--glass-color-danger-dark)', // Dark red
+      'var(--glass-color-success-dark)', // Dark green
+      'var(--glass-color-warning-dark)', // Dark yellow
       '#7c3aed', // Dark purple
       '#db2777', // Dark pink
       '#0891b2', // Dark cyan

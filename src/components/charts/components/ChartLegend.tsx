@@ -62,7 +62,7 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
               width: style === 'compact' ? '8px' : '12px',
               height: style === 'compact' ? '8px' : '12px',
               borderRadius: '2px',
-              background: dataset.backgroundColor || dataset.borderColor || '#3b82f6',
+              background: dataset.backgroundColor || dataset.borderColor || 'var(--glass-color-primary)',
               border: '1px solid ${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}',
             }}
           />

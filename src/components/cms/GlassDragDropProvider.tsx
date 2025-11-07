@@ -243,7 +243,7 @@ const defaultComponentLibrary: ComponentDefinition[] = [
       level: 'h2',
       fontSize: '32px',
       fontWeight: '600',
-      color: '#111827',
+      color: 'var(--glass-gray-900)',
       textAlign: 'left',
       margin: '16px 0'
     },
@@ -345,9 +345,9 @@ const defaultComponentLibrary: ComponentDefinition[] = [
     defaultProps: {
       padding: '24px',
       borderRadius: '12px',
-      backgroundColor: '#ffffff',
+      backgroundColor: 'var(--glass-white)',
       boxShadow: 'var(--glass-elev-2)',
-      border: '1px solid #e5e7eb'
+      border: '1px solid var(--glass-gray-200)'
     },
     editableProps: {
       padding: { type: 'text', label: 'Padding' },

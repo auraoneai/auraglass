@@ -55,29 +55,29 @@ export const COLORS = {
 
   // Semantic colors
   semantic: {
-    primary: '#3b82f6',
-    secondary: '#6b7280',
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-    info: '#3b82f6',
+    primary: 'var(--glass-color-primary)',
+    secondary: 'var(--glass-gray-500)',
+    success: 'var(--glass-color-success)',
+    warning: 'var(--glass-color-warning)',
+    error: 'var(--glass-color-danger)',
+    info: 'var(--glass-color-primary)',
   },
 
   // Neutral colors
   neutral: {
-    white: '#ffffff',
-    black: '#000000',
+    white: 'var(--glass-white)',
+    black: 'var(--glass-black)',
     gray: {
-      50: '#f9fafb',
-      100: '#f3f4f6',
-      200: '#e5e7eb',
-      300: '#d1d5db',
-      400: '#9ca3af',
-      500: '#6b7280',
-      600: '#4b5563',
-      700: '#374151',
-      800: '#1f2937',
-      900: '#111827',
+      50: 'var(--glass-gray-50)',
+      100: 'var(--glass-gray-100)',
+      200: 'var(--glass-gray-200)',
+      300: 'var(--glass-gray-300)',
+      400: 'var(--glass-gray-400)',
+      500: 'var(--glass-gray-500)',
+      600: 'var(--glass-gray-600)',
+      700: 'var(--glass-gray-700)',
+      800: 'var(--glass-gray-800)',
+      900: 'var(--glass-gray-900)',
     },
   },
 
@@ -88,8 +88,8 @@ export const COLORS = {
     surfaceActive: 'rgba(255, 255, 255, 0.08)',
     border: 'rgba(255, 255, 255, 0.2)',
     borderHover: 'rgba(255, 255, 255, 0.3)',
-    text: 'rgba(255, 255, 255, 0.9)',
-    textSecondary: 'rgba(255, 255, 255, 0.7)',
+    text: 'var(--glass-text-primary)',
+    textSecondary: 'var(--glass-text-secondary)',
     shadow: 'rgba(0, 0, 0, 0.15)',
   },
 } as const;
@@ -264,7 +264,7 @@ export const ACCESSIBILITY = {
   focusRing: {
     width: '2px',
     style: 'solid',
-    color: 'rgba(59, 130, 246, 0.5)',
+    color: 'var(--glass-color-primary, 0.5)',
     offset: '2px',
   },
 

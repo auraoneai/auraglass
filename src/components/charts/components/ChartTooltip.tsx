@@ -29,7 +29,7 @@ export interface ChartTooltipProps {
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   tooltipData,
   datasets = [],
-  color = '#3b82f6',
+  color = 'var(--glass-color-primary)',
   qualityTier = 'medium',
   tooltipStyle = 'frosted',
   followCursor = false,
@@ -41,7 +41,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
     left: tooltipData.x + 10,
     top: tooltipData.y - 10,
     background: tooltipStyle === 'frosted'
-      ? 'rgba(0, 0, 0, 0.8)'
+      ? 'var(--glass-text-secondary-dark)'
       : tooltipStyle === 'minimal'
         ? 'var(--glass-text-primary)'
         : '${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"}',

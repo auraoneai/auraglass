@@ -45,10 +45,10 @@ export interface GlassPresenceIndicatorProps {
 }
 
 const statusColors = {
-  online: '#10B981',
-  away: '#F59E0B',
-  busy: '#EF4444',
-  offline: '#6B7280'
+  online: 'var(--glass-color-success)',
+  away: 'var(--glass-color-warning)',
+  busy: 'var(--glass-color-danger)',
+  offline: 'var(--glass-gray-500)'
 }
 
 const statusLabels = {

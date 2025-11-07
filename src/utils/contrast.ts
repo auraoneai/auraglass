@@ -46,8 +46,8 @@ export function parseColor(color: string): { r: number; g: number; b: number } |
   
   // Handle CSS color names (simplified - in production, use a full map)
   const colorMap: Record<string, string> = {
-    white: '#ffffff',
-    black: '#000000',
+    white: 'var(--glass-white)',
+    black: 'var(--glass-black)',
     red: '#ff0000',
     green: '#008000',
     blue: '#0000ff',
@@ -118,7 +118,7 @@ export function meetsWCAG(
  */
 export function getTextColorForBackground(
   background: string,
-  lightOption = 'rgba(255, 255, 255, 0.95)',
+  lightOption = 'var(--glass-text-primary)',
   darkOption = 'rgba(0, 0, 0, 0.90)'
 ): string {
   const bgColor = parseColor(background);
@@ -311,19 +311,19 @@ export function getWCAGBadge(ratio: number): {
   if (ratio >= 7) {
     return {
       level: 'AAA',
-      color: '#10b981', // green
+      color: 'var(--glass-color-success)', // green
       description: 'Exceeds WCAG AAA standards',
     };
   } else if (ratio >= 4.5) {
     return {
       level: 'AA',
-      color: '#3b82f6', // blue
+      color: 'var(--glass-color-primary)', // blue
       description: 'Meets WCAG AA standards',
     };
   } else {
     return {
       level: 'Fail',
-      color: '#ef4444', // red
+      color: 'var(--glass-color-danger)', // red
       description: 'Does not meet WCAG standards',
     };
   }

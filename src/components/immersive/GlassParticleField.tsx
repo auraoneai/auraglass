@@ -169,9 +169,9 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
     // Color schemes
     const colorSchemes = {
       warm: ['#FF6B35', '#F7931E', '#FFD23F', '#FF0080'],
-      cool: ['#06B6D4', '#3B82F6', '#8B5CF6', '#06FFA5'],
+      cool: ['#06B6D4', 'var(--glass-color-primary)', '#8B5CF6', '#06FFA5'],
       rainbow: ['#FF0080', '#FF8000', '#FFFF00', '#80FF00', '#00FF80', '#0080FF', '#8000FF'],
-      monochrome: ['#FFFFFF', '#E5E7EB', '#9CA3AF', '#6B7280'],
+      monochrome: ['var(--glass-white)', 'var(--glass-gray-200)', 'var(--glass-gray-400)', 'var(--glass-gray-500)'],
       neon: ['#39FF14', '#FF073A', '#FF4081', '#00FFFF', '#FF10F0'],
     };
 
@@ -548,7 +548,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
             ref={canvasRef}
             className="absolute inset-0 w-full h-full"
             style={{
-              filter: effects.bloom ? 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.3))' : undefined,
+              filter: effects.bloom ? 'drop-shadow(0 0 10px var(--glass-color-primary, 0.3))' : undefined,
             }}
           />
 
@@ -612,7 +612,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
                 top: mousePosition.y - mouseForce.radius,
                 width: mouseForce.radius * 2,
                 height: mouseForce.radius * 2,
-                backgroundColor: mouseForce.type === 'attraction' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                backgroundColor: mouseForce.type === 'attraction' ? 'var(--glass-color-primary, 0.1)' : 'var(--glass-color-danger, 0.1)',
               }}
             />
           )}

@@ -44,10 +44,10 @@ export interface GlassVoiceWaveformProps {
 }
 
 const activityColors = {
-  low: '#4B5563',
-  medium: '#10B981',
-  high: '#F59E0B',
-  peak: '#EF4444'
+  low: 'var(--glass-gray-600)',
+  medium: 'var(--glass-color-success)',
+  high: 'var(--glass-color-warning)',
+  peak: 'var(--glass-color-danger)'
 }
 
 const rainbowColors = [

@@ -695,7 +695,7 @@ export function GlassGazeResponsive({
             <div 
               className={cn("glass-absolute glass-inset-0 glass-radius-inherit")}
               style={{
-                boxShadow: `inset 0 0 ${20 + gazeIntensity * 30}px rgba(59, 130, 246, ${0.2 + gazeIntensity * 0.3})`,
+                boxShadow: `inset 0 0 ${20 + gazeIntensity * 30}px var(--glass-color-primary, ${0.2 + gazeIntensity * 0.3})`,
               }}
             />
           </motion.div>
@@ -731,7 +731,7 @@ export function GlassGazeVisualization({
           >
             <div
               className={cn("glass-w-full glass-h-full glass-border-2 glass-radius-md")}
-              ref={(el)=>{ if(!el) return; const a=interaction.intensity; el.style.borderColor = `rgba(59,130,246,${a})`; el.style.backgroundColor = `rgba(59,130,246,${a*0.1})`; }}
+              ref={(el)=>{ if(!el) return; const a=interaction.intensity; el.style.borderColor = `var(--glass-color-primary,${a})`; el.style.backgroundColor = `var(--glass-color-primary,${a*0.1})`; }}
             />
             <div className={cn("glass-absolute glass--top-2 glass-left-0 glass-text-xs glass-font-mono glass-text-primary")}> 
               {interaction.type} ({(interaction.intensity * 100).toFixed(0)}%)

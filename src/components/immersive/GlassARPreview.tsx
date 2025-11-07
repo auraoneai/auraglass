@@ -124,16 +124,16 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
         far: 1000,
       },
       lighting = {
-        ambient: { color: '#ffffff', intensity: 0.6 },
+        ambient: { color: 'var(--glass-white)', intensity: 0.6 },
         directional: {
-          color: '#ffffff',
+          color: 'var(--glass-white)',
           intensity: 0.8,
           position: { x: 1, y: 1, z: 1 },
           castShadow: true,
         },
       },
       background = 'transparent',
-      backgroundColor = '#000000',
+      backgroundColor = 'var(--glass-black)',
       environmentMap,
       enableCamera = true,
       debug = false,
@@ -349,18 +349,18 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       // Draw object
       ctx.beginPath();
       ctx.arc(screenPos.x, screenPos.y, size/2, 0, 2 * Math.PI);
-      ctx.fillStyle = object.material?.color || '#3B82F6';
+      ctx.fillStyle = object.material?.color || 'var(--glass-color-primary)';
       ctx.fill();
 
       // Draw selection ring
       if (isSelected) {
-        ctx.strokeStyle = '#10B981';
+        ctx.strokeStyle = 'var(--glass-color-success)';
         ctx.lineWidth = 3;
         ctx.stroke();
       }
 
       // Draw object label
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = 'var(--glass-white)';
       ctx.font = '12px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(object.name, screenPos.x, screenPos.y + size/2 + 20);
@@ -393,7 +393,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       const size = marker.size || 50;
 
       ctx.save();
-      ctx.strokeStyle = '#10B981';
+      ctx.strokeStyle = 'var(--glass-color-success)';
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]);
 
@@ -401,7 +401,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
       ctx.strokeRect(x - size/2, y - size/2, size, size);
 
       // Draw marker type indicator
-      ctx.fillStyle = '#10B981';
+      ctx.fillStyle = 'var(--glass-color-success)';
       ctx.font = '10px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(marker.type.toUpperCase(), x, y + size/2 + 15);
@@ -412,10 +412,10 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
     // Render debug information
     const renderDebugInfo = useCallback((ctx: CanvasRenderingContext2D) => {
       ctx.save();
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      ctx.fillStyle = 'var(--glass-text-secondary-dark)';
       ctx.fillRect(10, 10, 200, 120);
 
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = 'var(--glass-white)';
       ctx.font = '11px monospace';
       ctx.textAlign = 'left';
 

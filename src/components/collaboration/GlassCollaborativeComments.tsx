@@ -43,7 +43,7 @@ const CommentBubble: React.FC<{
 
   useEffect(() => {
     if (avatarRef.current) {
-      avatarRef.current.style.backgroundColor = user?.color || '#6B7280';
+      avatarRef.current.style.backgroundColor = user?.color || 'var(--glass-gray-500)';
     }
   }, [user?.color]);
 
@@ -172,7 +172,7 @@ const CommentBubble: React.FC<{
                 <Glass key={reply.id} className="p-2 glass-surface-subtle">
                   <div className="flex items-center gap-2 mb-1">
                     <div
-                      ref={(el) => { if (el) el.style.backgroundColor = replyUser?.color || '#6B7280'; }}
+                      ref={(el) => { if (el) el.style.backgroundColor = replyUser?.color || 'var(--glass-gray-500)'; }}
                       className="w-4 h-4 glass-radius-full flex items-center justify-center text-primary text-xs"
                     >
                       {replyUser?.name?.[0]?.toUpperCase() || '?'}
@@ -214,7 +214,7 @@ const CommentDot: React.FC<{
     el.style.left = `${position.x}px`;
     el.style.top = `${position.y}px`;
     el.style.transform = 'translate(-50%, -50%)';
-    el.style.backgroundColor = resolved ? '#6B7280' : color;
+    el.style.backgroundColor = resolved ? 'var(--glass-gray-500)' : color;
   }, [position.x, position.y, color, resolved]);
   return (
     <button
@@ -266,7 +266,7 @@ export const GlassCollaborativeComments: React.FC<CollaborativeCommentsProps> = 
 
   useEffect(() => {
     if (newAvatarRef.current) {
-      newAvatarRef.current.style.backgroundColor = currentUser?.color || '#6B7280';
+      newAvatarRef.current.style.backgroundColor = currentUser?.color || 'var(--glass-gray-500)';
     }
   }, [currentUser?.color]);
 
@@ -373,7 +373,7 @@ export const GlassCollaborativeComments: React.FC<CollaborativeCommentsProps> = 
           <CommentDot
             key={`group-${index}`}
             position={firstComment.position}
-            color={user?.color || '#6B7280'}
+            color={user?.color || 'var(--glass-gray-500)'}
             count={group.length}
             resolved={!hasUnresolved}
             onClick={() => setSelectedComment(

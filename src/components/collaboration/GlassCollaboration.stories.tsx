@@ -52,7 +52,7 @@ const CollaborationDemo: React.FC<{
         id: `user-${Date.now()}`,
         name: 'Demo User',
         email: 'demo@example.com',
-        color: '#3B82F6',
+        color: 'var(--glass-color-primary)',
         lastActive: Date.now()
       };
       setUser(demoUser);
@@ -283,21 +283,21 @@ export const MultipleUsers: Story = {
         id: 'user-1',
         name: 'Alice Johnson',
         email: 'alice@company.com',
-        color: '#3B82F6',
+        color: 'var(--glass-color-primary)',
         lastActive: Date.now()
       },
       {
         id: 'user-2',
         name: 'Bob Smith',
         email: 'bob@company.com',
-        color: '#EF4444',
+        color: 'var(--glass-color-danger)',
         lastActive: Date.now()
       },
       {
         id: 'user-3',
         name: 'Carol Davis',
         email: 'carol@company.com',
-        color: '#10B981',
+        color: 'var(--glass-color-success)',
         lastActive: Date.now()
       }
     ];

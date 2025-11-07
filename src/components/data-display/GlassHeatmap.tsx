@@ -94,7 +94,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
       data,
       xAxis,
       yAxis,
-      colorScale = { min: '#3B82F6', max: '#EF4444' },
+      colorScale = { min: 'var(--glass-color-primary)', max: 'var(--glass-color-danger)' },
       cellSize = 20,
       cellGap = 1,
       showValues = false,
@@ -298,7 +298,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           )}
           style={{
             backgroundColor: cellColor,
-            color: cell.normalizedValue > 0.5 ? '#ffffff' : '#000000',
+            color: cell.normalizedValue > 0.5 ? 'var(--glass-white)' : 'var(--glass-black)',
             width: cellSize * internalZoomLevel,
             height: cellSize * internalZoomLevel,
             fontSize: `${Math.max(8, cellSize * internalZoomLevel * 0.4)}px`,

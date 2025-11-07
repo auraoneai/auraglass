@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 // Localized semantic colors to avoid cross-package imports
 const semanticColors = {
   chart: {
-    primary: '#60A5FA',    // brand blue
+    primary: 'var(--glass-color-primary-light)',    // brand blue
     secondary: '#8B5CF6',  // brand purple
     senary: '#22D3EE',     // cyan-ish for area fill
   }
@@ -36,9 +36,9 @@ export function GlassDefs({ id }: { id: string }) {
       </linearGradient>
       {/* Moving sweep highlight for bars/lines (used with <animate> on x) */}
       <linearGradient id={sweep} x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stopColor="#fff" stopOpacity={0} />
-        <stop offset="50%" stopColor="#fff" stopOpacity={0.35} />
-        <stop offset="100%" stopColor="#fff" stopOpacity={0} />
+        <stop offset="0%" stopColor="var(--glass-white)" stopOpacity={0} />
+        <stop offset="50%" stopColor="var(--glass-white)" stopOpacity={0.35} />
+        <stop offset="100%" stopColor="var(--glass-white)" stopOpacity={0} />
       </linearGradient>
       {/* Soft glow around strokes/points */}
       <filter id={glow} x="-50%" y="-50%" width="200%" height="200%">
@@ -61,7 +61,7 @@ export const chartGlass = {
   tooltip: {
     cursor: { stroke: 'rgba(255,255,255,0.12)' },
     contentStyle: createGlassStyle({ intent: "neutral", elevation: "level2" }) as React.CSSProperties,
-    itemStyle: { color: '#fff' } as React.CSSProperties,
+    itemStyle: { color: 'var(--glass-white)' } as React.CSSProperties,
     labelStyle: { color: 'rgba(255,255,255,0.85)' } as React.CSSProperties,
   },
   brandGrad: (base: string) => `url(#${base}-grad)`,

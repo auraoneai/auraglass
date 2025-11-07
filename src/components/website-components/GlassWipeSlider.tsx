@@ -533,7 +533,7 @@ const GlassWipeSliderComponent = ({
             transform: 'translateX(-50%)',
           }),
           boxShadow: isDragging || isHovered
-            ? '0 0 20px ${glassStyles.borderColor || "rgba(59, 130, 246, 0.6)"}'
+            ? '0 0 20px ${glassStyles.borderColor || "var(--glass-color-primary, 0.6)"}'
             : '0 0 10px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
         }}
       >
@@ -586,7 +586,7 @@ const GlassWipeSliderComponent = ({
           whileTap: { scale: 0.95 },
           animate: {
             boxShadow: isDragging || isFocused
-              ? '0 0 30px ${glassStyles.borderColor || "rgba(59, 130, 246, 0.6)"}'
+              ? '0 0 30px ${glassStyles.borderColor || "var(--glass-color-primary, 0.6)"}'
               : isHovered
                 ? '0 0 25px var(--glass-border-default)'
                 : '0 0 20px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'

@@ -40,7 +40,7 @@ const cloudMove = keyframes`
 
 // Default gradient colors
 const defaultGradientColors = [
-  'rgba(59, 130, 246, 0.5)', // Blue
+  'var(--glass-color-primary, 0.5)', // Blue
   'rgba(99, 102, 241, 0.5)', // Indigo
   'rgba(139, 92, 246, 0.5)', // Purple
   'rgba(244, 114, 182, 0.5)', // Pink

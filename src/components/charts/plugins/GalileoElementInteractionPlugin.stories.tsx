@@ -157,8 +157,8 @@ export const Default: Story = {
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 1" dotColor="#3B82F6" />
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 2" dotColor="#10B981" />
+          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 1" dotColor="var(--glass-color-primary)" />
+          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 2" dotColor="var(--glass-color-success)" />
           <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 3" dotColor="#6366F1" />
         </div>
 

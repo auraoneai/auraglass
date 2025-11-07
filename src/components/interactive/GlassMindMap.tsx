@@ -240,7 +240,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
     const addConnection = (fromNode: PositionedNode, toNode: PositionedNode) => {
       const connection = connections.find(c => c.from === fromNode.id && c.to === toNode.id);
-      const color = connection?.color || '#ffffff40';
+      const color = connection?.color || 'var(--glass-white)40';
       const strokeDasharray = connection?.type === 'dashed' ? '5,5' :
                            connection?.type === 'dotted' ? '2,2' : 'none';
 
@@ -339,8 +339,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 width={nodeSize}
                 height={nodeHeight}
                 rx="8"
-                fill={node.color || '#ffffff20'}
-                stroke={isSelected ? '#ffffff60' : '#ffffff30'}
+                fill={node.color || 'var(--glass-white)20'}
+                stroke={isSelected ? 'var(--glass-white)60' : 'var(--glass-white)30'}
                 strokeWidth={isSelected ? '2' : '1'}
               />
             );
@@ -351,8 +351,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
             shapeElement = (
               <polygon
                 points={`${centerX},${centerY - nodeHeight/2} ${centerX + nodeSize/2},${centerY} ${centerX},${centerY + nodeHeight/2} ${centerX - nodeSize/2},${centerY}`}
-                fill={node.color || '#ffffff20'}
-                stroke={isSelected ? '#ffffff60' : '#ffffff30'}
+                fill={node.color || 'var(--glass-white)20'}
+                stroke={isSelected ? 'var(--glass-white)60' : 'var(--glass-white)30'}
                 strokeWidth={isSelected ? '2' : '1'}
               />
             );
@@ -363,8 +363,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 cx={node.position.x + nodeSize / 2}
                 cy={node.position.y + nodeHeight / 2}
                 r={Math.min(nodeSize, nodeHeight) / 2}
-                fill={node.color || '#ffffff20'}
-                stroke={isSelected ? '#ffffff60' : '#ffffff30'}
+                fill={node.color || 'var(--glass-white)20'}
+                stroke={isSelected ? 'var(--glass-white)60' : 'var(--glass-white)30'}
                 strokeWidth={isSelected ? '2' : '1'}
               />
             );
@@ -430,7 +430,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 cx={(node.position.x + 160) / 3}
                 cy={(node.position.y + 120) / 3}
                 r="2"
-                fill="#ffffff60"
+                fill="var(--glass-white)60"
               />
             ))}
           </svg>
@@ -464,7 +464,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
             >
               <polygon
                 points="0 0, 10 3.5, 0 7"
-                fill="#ffffff40"
+                fill="var(--glass-white)40"
               />
             </marker>
           </defs>

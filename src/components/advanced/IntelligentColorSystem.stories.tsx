@@ -1442,17 +1442,17 @@ export const PracticalEnhancementsDemo: Story = {
         <style>{`
           .slider {
             background: linear-gradient(to right, 
-              ${theme === 'light' ? '#3b82f6' : '#60a5fa'} 0%, 
-              ${theme === 'light' ? '#3b82f6' : '#60a5fa'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
-              ${theme === 'light' ? '#e5e7eb' : 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
-              ${theme === 'light' ? '#e5e7eb' : 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'} 100%);
+              ${theme === 'light' ? 'var(--glass-color-primary)' : 'var(--glass-color-primary-light)'} 0%, 
+              ${theme === 'light' ? 'var(--glass-color-primary)' : 'var(--glass-color-primary-light)'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
+              ${theme === 'light' ? 'var(--glass-gray-200)' : 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'} ${((userPrefs.fontSize - 12) / 12) * 100}%, 
+              ${theme === 'light' ? 'var(--glass-gray-200)' : 'rgba(var(--glass-color-white) / var(--glass-opacity-20))'} 100%);
           }
           .slider::-webkit-slider-thumb {
             appearance: none;
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: ${theme === 'light' ? '#3b82f6' : '#60a5fa'};
+            background: ${theme === 'light' ? 'var(--glass-color-primary)' : 'var(--glass-color-primary-light)'};
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(var(--glass-color-black) / var(--glass-opacity-20));
           }

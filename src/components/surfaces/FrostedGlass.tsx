@@ -173,10 +173,10 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
             
             // Glow effect
             glowColor && {
-              'primary': 'drop-shadow-[0_0_18px_rgba(59,130,246,0.28)]',
-              'success': 'drop-shadow-[0_0_18px_rgba(16,185,129,0.28)]',
-              'warning': 'drop-shadow-[0_0_18px_rgba(245,158,11,0.28)]',
-              'danger': 'drop-shadow-[0_0_18px_rgba(239,68,68,0.28)]',
+              'primary': 'drop-shadow-[0_0_18px_var(--glass-color-primary,0.28)]',
+              'success': 'drop-shadow-[0_0_18px_var(--glass-color-success,0.28)]',
+              'warning': 'drop-shadow-[0_0_18px_var(--glass-color-warning,0.28)]',
+              'danger': 'drop-shadow-[0_0_18px_var(--glass-color-danger,0.28)]',
               'info': 'drop-shadow-[0_0_18px_rgba(14,165,233,0.28)]',
             }[glowColor],
             

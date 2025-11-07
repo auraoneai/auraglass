@@ -24,7 +24,7 @@ const meta: Meta<typeof CursorGlow> = {
     size: 320,
     intensity: 0.6,
     opacity: 0.18,
-    color: '#ffffff',
+    color: 'var(--glass-white)',
   },
 };
 

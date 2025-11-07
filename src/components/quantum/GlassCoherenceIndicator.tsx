@@ -135,9 +135,9 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
     }, [currentCoherence, currentPhase, realTimeMode, decoherenceRate, entanglementStrength])
 
     const coherenceStatus = useMemo(() => {
-      if (currentCoherence >= 0.8) return { label: 'Highly Coherent', color: '#10B981' }
-      if (currentCoherence >= 0.5) return { label: 'Moderately Coherent', color: '#F59E0B' }
-      if (currentCoherence >= 0.2) return { label: 'Low Coherence', color: '#EF4444' }
+      if (currentCoherence >= 0.8) return { label: 'Highly Coherent', color: 'var(--glass-color-success)' }
+      if (currentCoherence >= 0.5) return { label: 'Moderately Coherent', color: 'var(--glass-color-warning)' }
+      if (currentCoherence >= 0.2) return { label: 'Low Coherence', color: 'var(--glass-color-danger)' }
       return { label: 'Decoherent', color: '#7F1D1D' }
     }, [currentCoherence])
 
@@ -197,7 +197,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
             <path
               d={`M ${waveData.map((p: any) => `${p.x} ${p.combined}`).join(' L ')}`}
               fill="none"
-              stroke="#FFFFFF"
+              stroke="var(--glass-white)"
               strokeWidth="1"
               opacity={0.6}
             />
@@ -212,7 +212,7 @@ export const GlassCoherenceIndicator = forwardRef<HTMLDivElement, GlassCoherence
                   cx={Math.random() * 300}
                   cy={Math.random() * 100}
                   r={Math.random() * 3 + 1}
-                  fill="#EF4444"
+                  fill="var(--glass-color-danger)"
                   opacity={Math.random() * 0.8}
                 >
                   <animate

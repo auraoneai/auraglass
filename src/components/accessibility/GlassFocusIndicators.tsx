@@ -99,7 +99,7 @@ function FocusRing({ element, variant = 'default' }: FocusRingProps) {
       <motion.div
         className={cn("glass-position-absolute glass-inset-0 glass-radius-lg glass-border-2 glass-border-transparent")}
         style={{
-          background: `linear-gradient(45deg, ${variant === 'interactive' ? '#60A5FA' : variant === 'navigation' ? '#A78BFA' : variant === 'form' ? '#22C55E' : '#60A5FA'}, transparent, ${variant === 'interactive' ? '#60A5FA' : variant === 'navigation' ? '#A78BFA' : variant === 'form' ? '#22C55E' : '#60A5FA'})`,
+          background: `linear-gradient(45deg, ${variant === 'interactive' ? 'var(--glass-color-primary-light)' : variant === 'navigation' ? '#A78BFA' : variant === 'form' ? '#22C55E' : 'var(--glass-color-primary-light)'}, transparent, ${variant === 'interactive' ? 'var(--glass-color-primary-light)' : variant === 'navigation' ? '#A78BFA' : variant === 'form' ? '#22C55E' : 'var(--glass-color-primary-light)'})`,
           backgroundSize: '200% 200%'
         }}
         animate={{ backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'] }}

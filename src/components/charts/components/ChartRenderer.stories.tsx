@@ -47,7 +47,7 @@ export const Default: Story = {
     datasets: [{
       label: 'Sample Data',
       data: [10, 20, 15, 25, 30, 20],
-      borderColor: '#3b82f6',
+      borderColor: 'var(--glass-color-primary)',
       backgroundColor: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
     }],
   },
@@ -62,7 +62,7 @@ export const Variants: Story = {
           datasets={[{
             label: 'Sample Chart',
             data: [10, 20, 15, 25, 30, 20],
-            borderColor: '#3b82f6',
+            borderColor: 'var(--glass-color-primary)',
             backgroundColor: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
           }]}
         />

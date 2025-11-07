@@ -42,7 +42,7 @@ export const CursorGlow = forwardRef<HTMLDivElement, CursorGlowProps>((
   {
     size = 280,
     intensity = 0.6,
-    color = '#ffffff',
+    color = 'var(--glass-white)',
     opacity = 0.18,
     global = true,
     respectMotionPreference = true,

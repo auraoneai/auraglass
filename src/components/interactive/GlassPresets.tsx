@@ -233,7 +233,7 @@ export const ImmersiveGlassContainer = forwardRef<HTMLDivElement, ContextAwareGl
         baseBorderOpacity={baseBorderOpacity}
         enableEdgeHighlight={enableEdgeHighlight}
         enableGlow={enableGlow}
-        glowColor={glowColor || '#3b82f6'}
+        glowColor={glowColor || 'var(--glass-color-primary)'}
         {...rest}
       />
     );
@@ -337,7 +337,7 @@ export const ModalGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassP
         baseBorderOpacity={baseBorderOpacity}
         enableEdgeHighlight={enableEdgeHighlight}
         enableGlow={enableGlow}
-        glowColor={glowColor || '#3b82f6'}
+        glowColor={glowColor || 'var(--glass-color-primary)'}
         {...rest}
       />
     );

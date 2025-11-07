@@ -209,7 +209,7 @@ export function enhanceForStorybookMode(
       background: `rgba(255, 255, 255, ${GLASS_FOUNDATION.opacity.strong})`,
       border: `2px solid ${GLASS_FOUNDATION.borders.strong}`,
       boxShadow: [
-        '0 0 80px rgba(59,130,246,0.3)',
+        '0 0 80px var(--glass-color-primary,0.3)',
         '0 0 160px rgba(147,51,234,0.15)', 
         GLASS_FOUNDATION.shadows.strong,
         '0 2px 0 rgba(255,255,255,0.3) inset',

@@ -33,7 +33,7 @@ const meta: Meta<typeof ClearIcon> = {
   args: {
     className: '',
     size: 24,
-    color: '#ffffff',
+    color: 'var(--glass-white)',
     onClick: fn(),
   },
 };

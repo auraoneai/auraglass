@@ -31,7 +31,7 @@ const StyledTable = styled.table`
   border-collapse: separate; /* Needed for border-radius on cells/rows */
   border-spacing: 0;
   font-family: ${props => (props?.theme as any).typography?.body?.fontFamily || 'sans-serif'}; // Use theme hook instead?
-  color: ${props => (props?.theme as any).colors?.text?.primary || '#000'}; // Use theme hook instead?
+  color: ${props => (props?.theme as any).colors?.text?.primary || 'var(--glass-black)'}; // Use theme hook instead?
   // Glass surface effect applied via DimensionalGlass wrapper
 `;
 
@@ -73,7 +73,7 @@ const StyledTd = styled.td`
   padding: 12px 16px; 
   border-bottom: 1px solid ${props => (props?.theme as any).colors?.divider || '#eee'};
   font-size: ${props => (props?.theme as any).typography?.body?.fontSize || '1rem'};
-  color: ${props => (props?.theme as any).colors?.text?.primary || '#000'};
+  color: ${props => (props?.theme as any).colors?.text?.primary || 'var(--glass-black)'};
 `;
 
 // Wrapper for applying Glass effect

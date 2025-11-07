@@ -38,7 +38,7 @@ export interface ContrastGuardProps {
 
   /**
    * Text color
-   * @default 'rgba(255,255,255,0.95)'
+   * @default 'var(--glass-text-primary)'
    */
   textColor?: string;
 
@@ -85,7 +85,7 @@ export const ContrastGuard: React.FC<ContrastGuardProps> = ({
   minContrast = 4.5,
   fallbackColor = 'var(--glass-text-primary)',
   backgroundColor,
-  textColor = 'rgba(255,255,255,0.95)',
+  textColor = 'var(--glass-text-primary)',
   material = 'liquid',
   variant = 'regular',
   autoAdjust = true,

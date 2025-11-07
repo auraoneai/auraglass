@@ -105,7 +105,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
       templates = [],
       colorPalette = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#F8C471'],
       showRulers = true,
-      backgroundColor = '#FFFFFF',
+      backgroundColor = 'var(--glass-white)',
       exportFormat = 'png',
       onChange,
       onLayerChange,
@@ -170,7 +170,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
             rotation: 0,
             color: colorPalette[i % colorPalette.length],
             opacity: 0.8,
-            strokeColor: '#000000',
+            strokeColor: 'var(--glass-black)',
             strokeWidth: 2,
             id: `grid-${i}`,
             properties: {}
@@ -226,7 +226,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
             rotation: 0,
             color: colorPalette[i % 3],
             opacity: 0.7,
-            strokeColor: '#000000',
+            strokeColor: 'var(--glass-black)',
             strokeWidth: 1,
             id: `mandala-${i}`,
             properties: {}
@@ -267,7 +267,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
         rotation: 0,
         color: currentColor,
         opacity: 1,
-        strokeColor: '#000000',
+        strokeColor: 'var(--glass-black)',
         strokeWidth: 2,
         id: `element-${Date.now()}-${Math.random()}`,
         properties: {}
@@ -562,7 +562,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
 
           // Highlight selected elements
           if (selectedElementIds.includes(element.id)) {
-            ctx.strokeStyle = '#3B82F6';
+            ctx.strokeStyle = 'var(--glass-color-primary)';
             ctx.lineWidth = 2 / currentZoom;
             ctx.setLineDash([5 / currentZoom, 5 / currentZoom]);
             ctx.strokeRect(-element.width / 2 - 5, -element.height / 2 - 5, element.width + 10, element.height + 10);

@@ -18,7 +18,7 @@ export interface AtmosphericEffectsProps {
 
 export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
   qualityTier = 'medium',
-  color = '#3b82f6',
+  color = 'var(--glass-color-primary)',
   isReducedMotion = false,
 }) => {
   const [particles, setParticles] = useState<Array<{

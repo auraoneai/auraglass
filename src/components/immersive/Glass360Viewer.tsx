@@ -366,8 +366,8 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
         // Only render if hotspot is in view
         if (x >= 0 && x <= width && y >= 0 && y <= height) {
           ctx.save();
-          ctx.fillStyle = hotspot.color || '#3B82F6';
-          ctx.strokeStyle = '#ffffff';
+          ctx.fillStyle = hotspot.color || 'var(--glass-color-primary)';
+          ctx.strokeStyle = 'var(--glass-white)';
           ctx.lineWidth = 2;
           
           // Draw hotspot circle
@@ -381,7 +381,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
             const pulseScale = 1 + Math.sin(Date.now() * 0.01 + index) * 0.2;
             ctx.beginPath();
             ctx.arc(x, y, 8 * pulseScale, 0, 2 * Math.PI);
-            ctx.strokeStyle = hotspot.color || '#3B82F6';
+            ctx.strokeStyle = hotspot.color || 'var(--glass-color-primary)';
             ctx.globalAlpha = 0.5;
             ctx.stroke();
             ctx.globalAlpha = 1;

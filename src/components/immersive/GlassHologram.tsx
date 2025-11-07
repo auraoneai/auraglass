@@ -150,12 +150,12 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
     // Color scheme configurations
     const colorSchemes = {
-      blue: { primary: '#3B82F6', secondary: '#1E40AF', accent: '#60A5FA' },
-      green: { primary: '#10B981', secondary: '#047857', accent: '#34D399' },
-      red: { primary: '#EF4444', secondary: '#B91C1C', accent: '#F87171' },
+      blue: { primary: 'var(--glass-color-primary)', secondary: '#1E40AF', accent: 'var(--glass-color-primary-light)' },
+      green: { primary: 'var(--glass-color-success)', secondary: '#047857', accent: 'var(--glass-color-success-light)' },
+      red: { primary: 'var(--glass-color-danger)', secondary: '#B91C1C', accent: 'var(--glass-color-danger-light)' },
       purple: { primary: '#8B5CF6', secondary: '#6D28D9', accent: '#A78BFA' },
       cyan: { primary: '#06B6D4', secondary: '#0891B2', accent: '#22D3EE' },
-      white: { primary: '#FFFFFF', secondary: '#E5E7EB', accent: '#F3F4F6' },
+      white: { primary: 'var(--glass-white)', secondary: 'var(--glass-gray-200)', accent: 'var(--glass-gray-100)' },
       rainbow: { primary: '#FF0080', secondary: '#00FF80', accent: '#8000FF' },
     };
 

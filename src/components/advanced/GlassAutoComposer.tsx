@@ -63,12 +63,12 @@ class AILayoutGenerator {
   private initializeDesignTokens(): DesignTokens {
     return {
       colors: {
-        primary: '#3b82f6',
-        secondary: '#10b981',
+        primary: 'var(--glass-color-primary)',
+        secondary: 'var(--glass-color-success)',
         accent: '#8b5cf6',
         background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
         surface: 'var(--glass-bg-default)',
-        text: '#ffffff',
+        text: 'var(--glass-white)',
         textSecondary: 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
       },
       spacing: {

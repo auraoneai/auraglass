@@ -78,13 +78,13 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
           <div className="flex items-center gap-2">
             <input
               type="color"
-              value={value || '#000000'}
+              value={value || 'var(--glass-black)'}
               onChange={(e) => onChange(e.target.value)}
               className="w-12 h-8 border border-subtle glass-radius cursor-pointer"
             />
             <input
               type="text"
-              value={value || '#000000'}
+              value={value || 'var(--glass-black)'}
               onChange={(e) => onChange(e.target.value)}
               className="flex-1 px-3 py-2 text-sm border border-subtle glass-radius-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

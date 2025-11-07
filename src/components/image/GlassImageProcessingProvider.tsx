@@ -287,7 +287,7 @@ const mockImageProcessor = {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     return {
-      dominantColors: ['#3b82f6', '#1e40af', '#93c5fd'],
+      dominantColors: ['var(--glass-color-primary)', '#1e40af', '#93c5fd'],
       brightness: 65 + Math.random() * 30,
       contrast: 50 + Math.random() * 30,
       saturation: 40 + Math.random() * 40,
@@ -382,7 +382,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
             colorSpace: 'sRGB',
             hasAlpha: file.type.includes('png'),
             fileSize: file.size,
-            dominantColors: ['#000000'],
+            dominantColors: ['var(--glass-black)'],
             brightness: 50,
             contrast: 50,
             saturation: 50,
@@ -908,7 +908,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
     const image = getImage(imageId);
     if (!image) return {
       colorPalette: [],
-      dominantColor: '#000000',
+      dominantColor: 'var(--glass-black)',
       brightness: 0,
       complexity: 0,
       recommendedFormats: []
@@ -916,7 +916,7 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
 
     return {
       colorPalette: image.metadata.dominantColors,
-      dominantColor: image.metadata.dominantColors[0] || '#000000',
+      dominantColor: image.metadata.dominantColors[0] || 'var(--glass-black)',
       brightness: image.metadata.brightness,
       complexity: Math.random() * 100, // Mock complexity score
       recommendedFormats: image.metadata.hasAlpha ? ['PNG', 'WebP'] : ['JPEG', 'WebP', 'AVIF']

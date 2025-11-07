@@ -45,7 +45,7 @@ const meta: Meta<typeof GlassGradientPicker> = {
     },
   },
   args: {
-    value: 'linear-gradient(45deg, #3b82f6 0%, #8b5cf6 100%)',
+    value: 'linear-gradient(45deg, var(--glass-color-primary) 0%, #8b5cf6 100%)',
     presets: [
       {
         id: 'sunset',

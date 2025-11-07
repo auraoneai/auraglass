@@ -111,7 +111,7 @@ interface CollaborationProviderProps {
 // Generate random colors for users
 const generateUserColor = (): string => {
   const colors = [
-    '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6',
+    'var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8B5CF6',
     '#EC4899', '#06B6D4', '#84CC16', '#F97316', '#6366F1'
   ];
   return colors[Math.floor(Math.random() * colors.length)];
@@ -150,8 +150,8 @@ class MockWebSocket {
   // Simulate other users
   simulateOtherUsers(roomId: string) {
     const otherUsers = [
-      { id: 'user-2', name: 'Sarah Chen', email: 'sarah@company.com', color: '#EF4444' },
-      { id: 'user-3', name: 'Mike Johnson', email: 'mike@company.com', color: '#10B981' },
+      { id: 'user-2', name: 'Sarah Chen', email: 'sarah@company.com', color: 'var(--glass-color-danger)' },
+      { id: 'user-3', name: 'Mike Johnson', email: 'mike@company.com', color: 'var(--glass-color-success)' },
       { id: 'user-4', name: 'Alex Rodriguez', email: 'alex@company.com', color: '#8B5CF6' }
     ];
     

@@ -296,7 +296,7 @@ export function AuroraPro({
     sunset: ['#ff9800', '#e91e63', '#9c27b0'],
     ocean: ['#00bcd4', '#2196f3', '#3f51b5'],
     cosmic: ['#9c27b0', '#673ab7', '#3f51b5'],
-    custom: customColors || ['#ffffff', '#ffffff', '#ffffff']
+    custom: customColors || ['var(--glass-white)', 'var(--glass-white)', 'var(--glass-white)']
   };
 
   // Initialize aurora elements

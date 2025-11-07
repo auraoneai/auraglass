@@ -129,7 +129,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
       showAlpha = false,
       alpha,
       defaultAlpha = 1,
-      swatches = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#000000', '#ffffff'],
+      swatches = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', 'var(--glass-black)', 'var(--glass-white)'],
       showSwatches = true,
       showInputs = true,
       inputFormat = 'hex',
@@ -230,7 +230,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
       // Draw inner circle (saturation/brightness selector area)
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius * 0.6, 0, 2 * Math.PI);
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = 'var(--glass-white)';
       ctx.fill();
       ctx.strokeStyle = '#dddddd';
       ctx.stroke();
@@ -294,7 +294,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
       for (let y = 0; y < height; y += checkSize) {
         for (let x = 0; x < width; x += checkSize) {
           const isEven = (Math.floor(x / checkSize) + Math.floor(y / checkSize)) % 2 === 0;
-          ctx.fillStyle = isEven ? '#ffffff' : '#cccccc';
+          ctx.fillStyle = isEven ? 'var(--glass-white)' : '#cccccc';
           ctx.fillRect(x, y, checkSize, checkSize);
         }
       }

@@ -32,7 +32,7 @@ export const glowEffects = {
 
 export const createGlowEffect = (config: GlowConfig = {}): CSSProperties => {
   const {
-    color = '#ffffff',
+    color = 'var(--glass-white)',
     intensity = 'standard',
     size = 30,
     spread = 0,
@@ -70,22 +70,22 @@ const hexToRgba = (hex: string, alpha: number): string => {
 
 // Predefined glow colors
 export const glowColors = {
-  white: '#ffffff',
-  blue: '#3b82f6',
+  white: 'var(--glass-white)',
+  blue: 'var(--glass-color-primary)',
   indigo: '#6366f1',
   purple: '#8b5cf6',
   pink: '#ec4899',
-  red: '#ef4444',
+  red: 'var(--glass-color-danger)',
   orange: '#f97316',
-  amber: '#f59e0b',
+  amber: 'var(--glass-color-warning)',
   yellow: '#eab308',
   lime: '#84cc16',
   green: '#22c55e',
-  emerald: '#10b981',
+  emerald: 'var(--glass-color-success)',
   teal: '#14b8a6',
   cyan: '#06b6d4',
   sky: '#0ea5e9',
-  gray: '#6b7280',
+  gray: 'var(--glass-gray-500)',
 } as const;
 
 // Preset glow effects

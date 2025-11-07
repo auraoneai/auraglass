@@ -50,7 +50,7 @@ interface IntelligentColorContextType {
 }
 
 const defaultPalette: ColorPalette = {
-  primary: '#3b82f6',
+  primary: 'var(--glass-color-primary)',
   secondary: '#8b5cf6',
   accent: '#06b6d4',
   background: '#0f172a',
@@ -64,7 +64,7 @@ const defaultPalette: ColorPalette = {
 
 // Dark theme palette with high contrast text colors
 const darkThemePalette: ColorPalette = {
-  primary: '#3b82f6',
+  primary: 'var(--glass-color-primary)',
   secondary: '#8b5cf6',
   accent: '#06b6d4',
   background: '#020617',
@@ -361,11 +361,11 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     setCurrentPalette((prev: any) => {
       const timeBasePalette = { ...prev };
       if (hour >= 5 && hour < 9) {
-        timeBasePalette.primary = '#f59e0b';
-        timeBasePalette.glassBase = 'rgba(245, 158, 11, 0.1)';
+        timeBasePalette.primary = 'var(--glass-color-warning)';
+        timeBasePalette.glassBase = 'var(--glass-color-warning, 0.1)';
       } else if (hour >= 9 && hour < 17) {
-        timeBasePalette.primary = '#3b82f6';
-        timeBasePalette.glassBase = 'rgba(59, 130, 246, 0.1)';
+        timeBasePalette.primary = 'var(--glass-color-primary)';
+        timeBasePalette.glassBase = 'var(--glass-color-primary, 0.1)';
       } else if (hour >= 17 && hour < 21) {
         timeBasePalette.primary = '#f97316';
         timeBasePalette.glassBase = 'rgba(249, 115, 22, 0.1)';
@@ -384,21 +384,21 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
       const seasonPalette = { ...prev };
       switch (season) {
         case 'spring':
-          seasonPalette.primary = '#10b981';
-          seasonPalette.secondary = '#f59e0b';
+          seasonPalette.primary = 'var(--glass-color-success)';
+          seasonPalette.secondary = 'var(--glass-color-warning)';
           seasonPalette.accent = '#ec4899';
-          seasonPalette.glassBase = 'rgba(16, 185, 129, 0.1)';
+          seasonPalette.glassBase = 'var(--glass-color-success, 0.1)';
           break;
         case 'summer':
           seasonPalette.primary = '#06b6d4';
-          seasonPalette.secondary = '#f59e0b';
-          seasonPalette.accent = '#ef4444';
+          seasonPalette.secondary = 'var(--glass-color-warning)';
+          seasonPalette.accent = 'var(--glass-color-danger)';
           seasonPalette.glassBase = 'rgba(6, 182, 212, 0.1)';
           break;
         case 'autumn':
           seasonPalette.primary = '#f97316';
           seasonPalette.secondary = '#eab308';
-          seasonPalette.accent = '#dc2626';
+          seasonPalette.accent = 'var(--glass-color-danger-dark)';
           seasonPalette.glassBase = 'rgba(249, 115, 22, 0.1)';
           break;
         case 'winter':
@@ -648,7 +648,7 @@ export const ColorAdaptationDemo: React.FC = () => {
   } = useIntelligentColor();
 
   const demoColors = useMemo(() => [
-    '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4'
+    'var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6', '#06b6d4'
   ], []);
 
   return (

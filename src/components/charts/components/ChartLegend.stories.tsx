@@ -48,9 +48,9 @@ type Story = StoryObj<typeof ChartLegend>;
 export const Default: Story = {
   args: {
     datasets: [
-      { label: 'Dataset 1', color: '#3b82f6' },
-      { label: 'Dataset 2', color: '#ef4444' },
-      { label: 'Dataset 3', color: '#10b981' },
+      { label: 'Dataset 1', color: 'var(--glass-color-primary)' },
+      { label: 'Dataset 2', color: 'var(--glass-color-danger)' },
+      { label: 'Dataset 3', color: 'var(--glass-color-success)' },
     ],
   },
 };
@@ -65,9 +65,9 @@ export const Variants: Story = {
   ),
   args: {
     datasets: [
-      { label: 'Revenue', color: '#3b82f6' },
-      { label: 'Profit', color: '#10b981' },
-      { label: 'Expenses', color: '#ef4444' },
+      { label: 'Revenue', color: 'var(--glass-color-primary)' },
+      { label: 'Profit', color: 'var(--glass-color-success)' },
+      { label: 'Expenses', color: 'var(--glass-color-danger)' },
     ],
   },
 };

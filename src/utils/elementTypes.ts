@@ -366,7 +366,7 @@ export const elementStyles = {
     if (info.focusable) {
       baseStyles.outline = 'none';
       baseStyles['&:focus-visible'] = {
-        outline: '2px solid rgba(59, 130, 246, 0.5)',
+        outline: '2px solid var(--glass-color-primary, 0.5)',
         outlineOffset: '2px',
       };
     }

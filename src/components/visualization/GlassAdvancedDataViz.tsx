@@ -89,7 +89,7 @@ const scaleValue = (value: number, domain: [number, number], range: [number, num
 
 const generateColors = (count: number): string[] => {
   const colors = [
-    '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6',
+    'var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8B5CF6',
     '#EC4899', '#06B6D4', '#84CC16', '#F97316', '#6366F1'
   ];
   
@@ -506,7 +506,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
           y1={chartDimensions.chartHeight}
           x2={chartDimensions.chartWidth}
           y2={chartDimensions.chartHeight}
-          stroke="#e5e7eb"
+          stroke="var(--glass-gray-200)"
           strokeWidth={1}
         />
         
@@ -516,7 +516,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
           y1={0}
           x2={0}
           y2={chartDimensions.chartHeight}
-          stroke="#e5e7eb"
+          stroke="var(--glass-gray-200)"
           strokeWidth={1}
         />
 
@@ -532,7 +532,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 y1={chartDimensions.chartHeight}
                 x2={x}
                 y2={chartDimensions.chartHeight + 5}
-                stroke="#9ca3af"
+                stroke="var(--glass-gray-400)"
                 strokeWidth={1}
               />
               <text
@@ -559,7 +559,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 y1={y}
                 x2={0}
                 y2={y}
-                stroke="#9ca3af"
+                stroke="var(--glass-gray-400)"
                 strokeWidth={1}
               />
               <text
@@ -688,7 +688,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               {/* Grid lines */}
               <defs>
                 <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f3f4f6" strokeWidth="1"/>
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--glass-gray-100)" strokeWidth="1"/>
                 </pattern>
               </defs>
               <rect width={chartDimensions.chartWidth} height={chartDimensions.chartHeight} fill="url(#grid)" opacity="0.5"/>

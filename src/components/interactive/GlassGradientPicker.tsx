@@ -91,7 +91,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
     const [selectedType, setSelectedType] = useState<'linear' | 'radial' | 'conic'>('linear');
     const [angle, setAngle] = useState(45);
     const [stops, setStops] = useState<GradientStop[]>([
-        { color: '#3b82f6', position: 0 },
+        { color: 'var(--glass-color-primary)', position: 0 },
         { color: '#8b5cf6', position: 100 }
     ]);
     const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(null);
@@ -179,7 +179,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
         if (stops.length >= maxStops) return;
 
         const newStop: GradientStop = {
-            color: '#ffffff',
+            color: 'var(--glass-white)',
             position: 50
         };
         setStops((prev: any) => [...prev, newStop]);
@@ -244,7 +244,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
         setSelectedType('linear');
         setAngle(45);
         setStops([
-            { color: '#3b82f6', position: 0 },
+            { color: 'var(--glass-color-primary)', position: 0 },
             { color: '#8b5cf6', position: 100 }
         ]);
         setSelectedStopIndex(null);

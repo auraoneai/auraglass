@@ -946,12 +946,12 @@ export function GlassSelfHealingWrapper({
   }, [monitoringEnabled, componentId, componentType, diagnoseComponent]);
 
   const statusColor = health ? {
-    healthy: '#10b981',
-    warning: '#f59e0b',
-    critical: '#ef4444',
-    healing: '#3b82f6',
+    healthy: 'var(--glass-color-success)',
+    warning: 'var(--glass-color-warning)',
+    critical: 'var(--glass-color-danger)',
+    healing: 'var(--glass-color-primary)',
     failed: '#7f1d1d',
-  }[health.status] : '#6b7280';
+  }[health.status] : 'var(--glass-gray-500)';
 
   return (
     <div
@@ -1072,10 +1072,10 @@ export function GlassSelfHealingDashboard({
                       className="w-3 h-3 glass-radius-full"
                       style={{
                         backgroundColor: ({
-                          healthy: '#10b981',
-                          warning: '#f59e0b',
-                          critical: '#ef4444',
-                          healing: '#3b82f6',
+                          healthy: 'var(--glass-color-success)',
+                          warning: 'var(--glass-color-warning)',
+                          critical: 'var(--glass-color-danger)',
+                          healing: 'var(--glass-color-primary)',
                           failed: '#7f1d1d',
                         } as const)[health.status]
                       }}

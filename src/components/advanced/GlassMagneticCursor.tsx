@@ -40,7 +40,7 @@ export const GlassMagneticCursor = forwardRef<HTMLDivElement, GlassMagneticCurso
   className,
   variant = 'default',
   size = 20,
-  color = 'rgba(59, 130, 246, 0.5)',
+  color = 'var(--glass-color-primary, 0.5)',
   magnetStrength = 0.3,
   magnetRadius = 100,
   showCursor = true,

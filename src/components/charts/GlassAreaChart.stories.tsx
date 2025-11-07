@@ -111,7 +111,7 @@ const sampleSeries = [
       { x: 'Nov', y: 9000 },
       { x: 'Dec', y: 8500 },
     ],
-    color: '#3b82f6',
+    color: 'var(--glass-color-primary)',
   },
   {
     id: 'series2',
@@ -130,7 +130,7 @@ const sampleSeries = [
       { x: 'Nov', y: 4900 },
       { x: 'Dec', y: 4400 },
     ],
-    color: '#ef4444',
+    color: 'var(--glass-color-danger)',
   },
 ];
 
@@ -160,11 +160,11 @@ export const WithCustomColors: Story = {
     series: [
       {
         ...sampleSeries[0],
-        color: '#10b981',
+        color: 'var(--glass-color-success)',
       },
       {
         ...sampleSeries[1],
-        color: '#f59e0b',
+        color: 'var(--glass-color-warning)',
       },
     ],
     title: 'Custom Colors',

@@ -68,7 +68,7 @@ const tools = [
 ]
 
 const colors = [
-  '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00',
+  'var(--glass-black)', '#FF0000', '#00FF00', '#0000FF', '#FFFF00',
   '#FF00FF', '#00FFFF', '#FF8000', '#8000FF', '#FF0080'
 ]
 
@@ -81,7 +81,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
     users,
     currentUserId,
     strokes = [],
-    backgroundColor = '#FFFFFF',
+    backgroundColor = 'var(--glass-white)',
     gridVisible = false,
     showUserCursors = true,
     showToolbar = true,
@@ -104,7 +104,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
     const [isDrawing, setIsDrawing] = useState(false)
     const [currentStroke, setCurrentStroke] = useState<DrawingStroke | null>(null)
     const [selectedTool, setSelectedTool] = useState('pen')
-    const [selectedColor, setSelectedColor] = useState('#000000')
+    const [selectedColor, setSelectedColor] = useState('var(--glass-black)')
     const [selectedSize, setSelectedSize] = useState(4)
     const [localStrokes, setLocalStrokes] = useState<DrawingStroke[]>(strokes)
     const [undoStack, setUndoStack] = useState<DrawingStroke[][]>([])

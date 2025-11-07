@@ -714,9 +714,9 @@ export function GlassSpatialVisualizer({
                 style={{
                   left: `${screenX}%`,
                   top: `${screenY}%`,
-                  backgroundColor: source.category === 'ambient' ? '#3b82f6' :
-                                  source.category === 'ui' ? '#10b981' :
-                                  source.category === 'feedback' ? '#f59e0b' :
+                  backgroundColor: source.category === 'ambient' ? 'var(--glass-color-primary)' :
+                                  source.category === 'ui' ? 'var(--glass-color-success)' :
+                                  source.category === 'feedback' ? 'var(--glass-color-warning)' :
                                   '#ec4899',
                 }}
                 initial={{ scale: 0, opacity: 0 }}
@@ -737,9 +737,9 @@ export function GlassSpatialVisualizer({
                   <motion.div
                     className="absolute inset-0 glass-radius-full border opacity-30"
                     style={{
-                      borderColor: source.category === 'ambient' ? '#3b82f6' :
-                                   source.category === 'ui' ? '#10b981' :
-                                   source.category === 'feedback' ? '#f59e0b' :
+                      borderColor: source.category === 'ambient' ? 'var(--glass-color-primary)' :
+                                   source.category === 'ui' ? 'var(--glass-color-success)' :
+                                   source.category === 'feedback' ? 'var(--glass-color-warning)' :
                                    '#ec4899',
                     }}
                     animate={{ scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }}

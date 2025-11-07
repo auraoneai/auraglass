@@ -255,7 +255,7 @@ export function useSpringTransform(
 
 // Hook for spring-based color transitions
 export function useSpringColor(
-  initialColor: string = '#000000',
+  initialColor: string = 'var(--glass-black)',
   options: MultiSpringOptions = {}
 ) {
   // Parse initial color

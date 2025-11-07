@@ -35,7 +35,7 @@ type Story = StoryObj<typeof GlassColorPicker>;
 
 export const Default: Story = {
   args: {
-    value: '#3b82f6',
+    value: 'var(--glass-color-primary)',
     format: 'hex',
     showAlpha: false,
   },
@@ -48,7 +48,7 @@ export const Variants: Story = {
     </div>
   ),
   args: {
-    value: '#10b981',
+    value: 'var(--glass-color-success)',
     size: 'lg',
     showPresets: true,
   },

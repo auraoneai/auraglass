@@ -97,8 +97,8 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(func
     ...props
 }, ref) {
     const defaultColors = [
-        '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
-        '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6b7280'
+        'var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6',
+        '#06b6d4', '#84cc16', '#f97316', '#ec4899', 'var(--glass-gray-500)'
     ];
     const actualColors = colors || defaultColors;
     const actualAnimationDuration = animationDuration;

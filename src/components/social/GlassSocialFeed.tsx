@@ -57,10 +57,10 @@ export interface GlassSocialFeedProps {
 }
 
 const engagementLevels = {
-  low: { color: '#6B7280', icon: '📊' },
-  medium: { color: '#10B981', icon: '📈' },
-  high: { color: '#F59E0B', icon: '🔥' },
-  viral: { color: '#EF4444', icon: '🚀' }
+  low: { color: 'var(--glass-gray-500)', icon: '📊' },
+  medium: { color: 'var(--glass-color-success)', icon: '📈' },
+  high: { color: 'var(--glass-color-warning)', icon: '🔥' },
+  viral: { color: 'var(--glass-color-danger)', icon: '🚀' }
 }
 
 export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(

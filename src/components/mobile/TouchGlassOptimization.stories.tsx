@@ -471,7 +471,7 @@ export const RippleEffects: Story = {
           </TouchRippleEffects>
 
           <TouchRippleEffects
-            color="rgba(59, 130, 246, 0.6)"
+            color="var(--glass-color-primary, 0.6)"
             maxRipples={5}
             rippleDuration={800}
           >
@@ -485,7 +485,7 @@ export const RippleEffects: Story = {
           </TouchRippleEffects>
 
           <TouchRippleEffects
-            color="rgba(16, 185, 129, 0.5)"
+            color="var(--glass-color-success, 0.5)"
             maxRipples={2}
             rippleDuration={400}
           >

@@ -38,8 +38,8 @@ export interface GlassSuperpositionalMenuProps {
 const quantumColors = {
   superposition: '#4F46E5',
   entangled: '#EC4899',
-  collapsed: '#10B981',
-  decoherent: '#F59E0B',
+  collapsed: 'var(--glass-color-success)',
+  decoherent: 'var(--glass-color-warning)',
   interference: '#8B5CF6'
 }
 

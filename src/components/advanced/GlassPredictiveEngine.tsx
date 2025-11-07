@@ -840,8 +840,8 @@ export function GlassPredictionIndicator({
                         <div 
                           className="w-2 h-2 glass-radius-full"
                           style={{
-                            backgroundColor: prediction.confidence > 0.8 ? '#10b981' : 
-                                           prediction.confidence > 0.6 ? '#f59e0b' : '#ef4444'
+                            backgroundColor: prediction.confidence > 0.8 ? 'var(--glass-color-success)' : 
+                                           prediction.confidence > 0.6 ? 'var(--glass-color-warning)' : 'var(--glass-color-danger)'
                           }}
                         />
                         <span className="text-xs glass-text-secondary">

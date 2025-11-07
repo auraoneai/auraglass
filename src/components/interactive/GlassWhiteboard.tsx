@@ -4,7 +4,7 @@ import { OptimizedGlass } from '../../primitives';
 
 export type DrawingTool = 'pen' | 'eraser' | 'rectangle' | 'circle' | 'line' | 'text' | 'select';
 
-export type DrawingColor = '#ffffff' | '#000000' | '#ff0000' | '#00ff00' | '#0000ff' | '#ffff00' | '#ff00ff' | '#00ffff';
+export type DrawingColor = 'var(--glass-white)' | 'var(--glass-black)' | '#ff0000' | '#00ff00' | '#0000ff' | '#ffff00' | '#ff00ff' | '#00ffff';
 
 export interface DrawingPath {
   id: string;
@@ -62,7 +62,7 @@ export interface GlassWhiteboardProps {
 }
 
 const defaultColors: DrawingColor[] = [
-  '#ffffff', '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'
+  'var(--glass-white)', 'var(--glass-black)', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'
 ];
 
 const defaultTools: DrawingTool[] = ['pen', 'eraser', 'rectangle', 'circle', 'line', 'text', 'select'];
@@ -84,7 +84,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
   onColorChange,
 }) => {
   const [currentTool, setCurrentTool] = useState<DrawingTool>('pen');
-  const [currentColor, setCurrentColor] = useState<DrawingColor>('#000000');
+  const [currentColor, setCurrentColor] = useState<DrawingColor>('var(--glass-black)');
   const [brushSize, setBrushSize] = useState(2);
   const [opacity, setOpacity] = useState(1);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -150,7 +150,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
         id: `path-${Date.now()}-${Math.random()}`,
         tool: currentTool,
         points: [pos],
-        color: currentTool === 'eraser' ? '#ffffff' : currentColor,
+        color: currentTool === 'eraser' ? 'var(--glass-white)' : currentColor,
         width: brushSize,
         opacity,
         timestamp: Date.now(),
@@ -270,7 +270,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
 
     switch (backgroundPattern) {
       case 'grid':
-        ctx.strokeStyle = '#ffffff10';
+        ctx.strokeStyle = 'var(--glass-white)10';
         ctx.lineWidth = 1;
         for (let x = 0; x < width; x += 20) {
           ctx.beginPath();
@@ -286,7 +286,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
         }
         break;
       case 'dots':
-        ctx.fillStyle = '#ffffff20';
+        ctx.fillStyle = 'var(--glass-white)20';
         for (let x = 20; x < width; x += 20) {
           for (let y = 20; y < height; y += 20) {
             ctx.beginPath();
@@ -296,7 +296,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
         }
         break;
       case 'lines':
-        ctx.strokeStyle = '#ffffff10';
+        ctx.strokeStyle = 'var(--glass-white)10';
         ctx.lineWidth = 1;
         for (let y = 0; y < height; y += 40) {
           ctx.beginPath();
@@ -379,7 +379,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
       const element = drawingData.find((item: any) => item?.id === elementId);
       if (!element) return;
 
-      ctx.strokeStyle = '#ffffff';
+      ctx.strokeStyle = 'var(--glass-white)';
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]);
 
@@ -447,7 +447,7 @@ export const GlassWhiteboard: React.FC<GlassWhiteboardProps> = ({
 
     // Draw selection box
     if (selectionBox && isSelecting) {
-      overlayCtx.strokeStyle = '#ffffff80';
+      overlayCtx.strokeStyle = 'var(--glass-white)80';
       overlayCtx.lineWidth = 1;
       overlayCtx.setLineDash([5, 5]);
       overlayCtx.strokeRect(

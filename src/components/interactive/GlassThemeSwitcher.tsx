@@ -86,16 +86,16 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
     const [selectedTheme, setSelectedTheme] = useState(currentTheme);
     const [showCustomizer, setShowCustomizer] = useState(false);
     const [customColors, setCustomColors] = useState<Record<string, string>>({
-        primary: '#3b82f6',
+        primary: 'var(--glass-color-primary)',
         secondary: '#64748b',
-        background: '#ffffff',
-        text: '#000000'
+        background: 'var(--glass-white)',
+        text: 'var(--glass-black)'
     });
 
     // System theme options
     const systemThemes = [
-        { id: 'light', name: 'Light', icon: Sun, preview: { primary: '#3b82f6', secondary: '#64748b', background: '#ffffff', text: '#000000' } },
-        { id: 'dark', name: 'Dark', icon: Moon, preview: { primary: '#60a5fa', secondary: '#94a3b8', background: '#0f172a', text: '#ffffff' } },
+        { id: 'light', name: 'Light', icon: Sun, preview: { primary: 'var(--glass-color-primary)', secondary: '#64748b', background: 'var(--glass-white)', text: 'var(--glass-black)' } },
+        { id: 'dark', name: 'Dark', icon: Moon, preview: { primary: 'var(--glass-color-primary-light)', secondary: '#94a3b8', background: '#0f172a', text: 'var(--glass-white)' } },
         ...(enableSystemTheme ? [{ id: 'system', name: 'System', icon: Monitor, preview: { primary: '#8b5cf6', secondary: '#64748b', background: '#f8fafc', text: '#1e293b' } }] : [])
     ];
 
