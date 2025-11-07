@@ -326,9 +326,9 @@ export * from './animations/accessible';
 // Gesture Physics System
 export {
     GestureType,
-    GesturePhysicsPreset,
     GESTURE_PRESETS as GesturePresets
 } from './animations/physics/gesturePhysics';
+export type { GesturePhysicsPreset } from './animations/physics/gesturePhysics';
 
 // Orchestration Types
 export { PublicAnimationStage, createOrchestrationSequence } from './animations/orchestration/useOrchestration';
