@@ -164,14 +164,27 @@ AuraGlass now includes complete production-ready AI services transforming demo c
 
 ## 🚀 Installation & Deployment
 
-### Install Package
+### Install Package (v2.0.0+)
+
+**⚠️ Breaking Change:** Three.js packages are now peer dependencies
+
+**Step 1:** Install peer dependencies
 ```bash
-npm install @aura/aura-glass
-# or
-yarn add @aura/aura-glass
-# or
-pnpm add @aura/aura-glass
+npm install react react-dom three @react-three/fiber framer-motion
+# Optional: 3D helpers (recommended)
+npm install @react-three/drei
 ```
+
+**Step 2:** Install AuraGlass
+```bash
+npm install aura-glass
+# or
+yarn add aura-glass
+# or
+pnpm add aura-glass
+```
+
+📘 **See [INSTALLATION.md](./INSTALLATION.md) for upgrade guide from v1.x and troubleshooting**
 
 ### Production Deployment
 ```bash
@@ -179,7 +192,7 @@ pnpm add @aura/aura-glass
 cp .env.example .env
 
 # Install dependencies
-npm install --legacy-peer-deps
+npm install
 
 # Deploy with Docker (recommended)
 docker-compose up -d
