@@ -4,6 +4,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import React, { useMemo, useState } from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card/GlassCard';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface BarDataPoint {
     x: string | number;
@@ -103,6 +104,8 @@ export interface GlassBarChartProps {
  * A glassmorphism bar chart with multiple series support and interactive features
  */
 export const GlassBarChart: React.FC<GlassBarChartProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
     title,
     series = [],
     width = 600,

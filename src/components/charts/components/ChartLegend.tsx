@@ -1,6 +1,7 @@
 // Typography tokens available via typography.css (imported in index.css)
 import { cn } from '../../../lib/utilsComprehensive';
 import React from 'react';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartLegendProps {
   datasets?: any[];
@@ -13,6 +14,8 @@ export interface ChartLegendProps {
 }
 
 export const ChartLegend: React.FC<ChartLegendProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   datasets = [],
   position = 'top',
   style = 'default',

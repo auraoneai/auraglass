@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
@@ -20,6 +21,8 @@ const variantMap = {
 
 export const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   ({ variant = 'p', className, children, ...props }, ref) => {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     const Component = variantMap[variant];
     const sizeClass: Record<keyof typeof variantMap, string> = {
       h1: 'glass-text-5xl',

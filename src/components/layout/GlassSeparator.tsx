@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassSeparatorProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'content'> {
   /** Orientation of the separator */
@@ -29,6 +30,8 @@ export interface GlassSeparatorProps extends Omit<React.HTMLAttributes<HTMLDivEl
 export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
       orientation = 'horizontal',
       variant = 'default',
       size = 'md',

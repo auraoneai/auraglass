@@ -66,3 +66,45 @@
     transition: none;
   }
 }
+
+/* Global focus-visible styles for all interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: var(--glass-focus-ring-width) solid var(--glass-focus-ring-color);
+  outline-offset: var(--glass-focus-ring-offset);
+  box-shadow: var(--glass-focus-ring-blur);
+}
+
+/* Glass-specific focus indicators */
+.glass-focus-visible {
+  outline: var(--glass-focus-ring-width) solid var(--glass-focus-ring-color);
+  outline-offset: var(--glass-focus-ring-offset);
+  box-shadow: var(--glass-focus-ring-blur);
+}
+
+/* Keyboard-specific focus (for programmatic detection) */
+.glass-focus-keyboard {
+  outline: var(--glass-focus-ring-width) solid var(--glass-focus-ring-color);
+  outline-offset: var(--glass-focus-ring-offset);
+  box-shadow: var(--glass-focus-ring-blur);
+}
+
+/* Remove default focus styles when using custom glass focus */
+.glass-component:focus {
+  outline: none;
+}
+
+/* Ensure focus indicators on disabled elements are not shown */
+:disabled:focus-visible,
+[aria-disabled="true"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

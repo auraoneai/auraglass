@@ -5,6 +5,7 @@ import { Activity, DollarSign, Minus, Target, TrendingDown, TrendingUp, Users } 
 import React, { forwardRef } from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassMetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
     /**
@@ -91,6 +92,8 @@ export interface GlassMetricCardProps extends React.HTMLAttributes<HTMLDivElemen
 export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       title,
       value,
       unit = '',

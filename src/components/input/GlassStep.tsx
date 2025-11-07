@@ -92,8 +92,11 @@ export const GlassStep = forwardRef<HTMLDivElement, GlassStepInternalProps>((
         )}
         style={style}
         onClick={handleClick}
-        role={isClickable ? 'button' : undefined}
-        tabIndex={isClickable && !isDisabled ? 0 : undefined}
+        role={isClickable ? 'button' : 'listitem'}
+        aria-label={`Step ${index + 1}: ${step.label || step.title}${active ? ' (current)' : ''}${completed ? ' (completed)' : ''}${isDisabled ? ' (disabled)' : ''}`}
+        aria-current={active ? 'step' : undefined}
+        aria-disabled={isDisabled}
+        tabIndex={isClickable && !isDisabled ? 0 : -1}
         onKeyDown={isClickable && !isDisabled ? (e: React.KeyboardEvent) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();

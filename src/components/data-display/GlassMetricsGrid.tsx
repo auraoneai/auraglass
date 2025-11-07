@@ -8,6 +8,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
 import { useGlassSound } from '../../utils/soundDesign';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface MetricValue {
   current: number;
@@ -110,6 +111,8 @@ export interface GlassMetricsGridProps extends React.HTMLAttributes<HTMLDivEleme
 export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       metrics,
       layout = { columns: 4, gap: 16 },
       loading = false,

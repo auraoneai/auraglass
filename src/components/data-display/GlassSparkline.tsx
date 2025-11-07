@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassSparklineProps {
   data: number[];
@@ -13,6 +14,8 @@ export interface GlassSparklineProps {
 }
 
 export function GlassSparkline({ data, width = 120, height = 32, stroke = 'currentColor', fill = 'none', className }: GlassSparklineProps) {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   if (!(data?.length || 0)) return null;
   const max = Math.max(...data);
   const min = Math.min(...data);

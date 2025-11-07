@@ -1,0 +1,3589 @@
+{
+  "components": [
+    {
+      "name": "GlassErrorBoundary",
+      "path": "components/GlassErrorBoundary.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "AccessibilityProvider",
+      "path": "components/accessibility/AccessibilityProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ContrastGuard",
+      "path": "components/accessibility/ContrastGuard.tsx",
+      "category": "misc",
+      "hasContrastGuard": true,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassA11y",
+      "path": "components/accessibility/GlassA11y.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFocusIndicators",
+      "path": "components/accessibility/GlassFocusIndicators.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "BrandColorIntegration",
+      "path": "components/advanced/BrandColorIntegration.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAchievementSystem",
+      "path": "components/advanced/GlassAchievementSystem.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAutoComposer",
+      "path": "components/advanced/GlassAutoComposer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassBiometricAdaptation",
+      "path": "components/advanced/GlassBiometricAdaptation.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassContextAware",
+      "path": "components/advanced/GlassContextAware.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassContextualEngine",
+      "path": "components/advanced/GlassContextualEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassEngine",
+      "path": "components/advanced/GlassEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassEyeTracking",
+      "path": "components/advanced/GlassEyeTracking.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFoldableSupport",
+      "path": "components/advanced/GlassFoldableSupport.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassLiquidTransition",
+      "path": "components/advanced/GlassLiquidTransition.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassLiveCursorPresence",
+      "path": "components/advanced/GlassLiveCursorPresence.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMagneticCursor",
+      "path": "components/advanced/GlassMagneticCursor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassMeshGradient",
+      "path": "components/advanced/GlassMeshGradient.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMetaEngine",
+      "path": "components/advanced/GlassMetaEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassNeuroSync",
+      "path": "components/advanced/GlassNeuroSync.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassOrientationEffects",
+      "path": "components/advanced/GlassOrientationEffects.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassParallaxLayers",
+      "path": "components/advanced/GlassParallaxLayers.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassParticles",
+      "path": "components/advanced/GlassParticles.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassPerformanceOptimization",
+      "path": "components/advanced/GlassPerformanceOptimization.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassPredictiveEngine",
+      "path": "components/advanced/GlassPredictiveEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassProgressiveEnhancement",
+      "path": "components/advanced/GlassProgressiveEnhancement.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassQuantumStates",
+      "path": "components/advanced/GlassQuantumStates.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassReactions",
+      "path": "components/advanced/GlassReactions.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSelfHealingSystem",
+      "path": "components/advanced/GlassSelfHealingSystem.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSpatialAudio",
+      "path": "components/advanced/GlassSpatialAudio.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTrophyCase",
+      "path": "components/advanced/GlassTrophyCase.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassWebGLShader",
+      "path": "components/advanced/GlassWebGLShader.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "IntelligentColorSystem",
+      "path": "components/advanced/IntelligentColorSystem.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "LiquidGlassGPU",
+      "path": "components/advanced/LiquidGlassGPU.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "AIGlassThemeProvider",
+      "path": "components/ai/AIGlassThemeProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDeepDreamGlass",
+      "path": "components/ai/GlassDeepDreamGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassGANGenerator",
+      "path": "components/ai/GlassGANGenerator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassGenerativeArt",
+      "path": "components/ai/GlassGenerativeArt.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassIntelligentFormBuilder",
+      "path": "components/ai/GlassIntelligentFormBuilder.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassLiveFilter",
+      "path": "components/ai/GlassLiveFilter.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMusicVisualizer",
+      "path": "components/ai/GlassMusicVisualizer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStyleTransfer",
+      "path": "components/ai/GlassStyleTransfer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ProductionAIIntegration",
+      "path": "components/ai/ProductionAIIntegration.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "AIDemo",
+      "path": "components/ai/examples/AIDemo.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "AdvancedAnimations",
+      "path": "components/animations/AdvancedAnimations.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMotionController",
+      "path": "components/animations/GlassMotionController.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassTransitions",
+      "path": "components/animations/GlassTransitions.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "OrganicAnimationEngine",
+      "path": "components/animations/OrganicAnimationEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ARGlassEffects",
+      "path": "components/ar/ARGlassEffects.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAuroraDisplay",
+      "path": "components/atmospheric/GlassAuroraDisplay.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassBiomeSimulator",
+      "path": "components/atmospheric/GlassBiomeSimulator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassNebulaClouds",
+      "path": "components/atmospheric/GlassNebulaClouds.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassWeatherGlass",
+      "path": "components/atmospheric/GlassWeatherGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "AtmosphericBackground",
+      "path": "components/backgrounds/AtmosphericBackground.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDynamicAtmosphere",
+      "path": "components/backgrounds/GlassDynamicAtmosphere.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ParticleBackground",
+      "path": "components/backgrounds/ParticleBackground.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "EnhancedGlassButton",
+      "path": "components/button/EnhancedGlassButton.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassButton",
+      "path": "components/button/GlassButton.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFab",
+      "path": "components/button/GlassFab.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMagneticButton",
+      "path": "components/button/GlassMagneticButton.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassCalendar",
+      "path": "components/calendar/GlassCalendar.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCard",
+      "path": "components/card/GlassCard.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlowingCard",
+      "path": "components/card/GlowingCard.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "div",
+      "path": "components/card/div.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "glass-card-link",
+      "path": "components/card/glass-card-link.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "patterns",
+      "path": "components/card/patterns.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAreaChart",
+      "path": "components/charts/GlassAreaChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassBarChart",
+      "path": "components/charts/GlassBarChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassChart",
+      "path": "components/charts/GlassChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDataChart",
+      "path": "components/charts/GlassDataChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassLineChart",
+      "path": "components/charts/GlassLineChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPieChart",
+      "path": "components/charts/GlassPieChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ModularGlassDataChart",
+      "path": "components/charts/ModularGlassDataChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "AtmosphericEffects",
+      "path": "components/charts/components/AtmosphericEffects.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartAxis",
+      "path": "components/charts/components/ChartAxis.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartContainer",
+      "path": "components/charts/components/ChartContainer.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartFilters",
+      "path": "components/charts/components/ChartFilters.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartGrid",
+      "path": "components/charts/components/ChartGrid.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartLegend",
+      "path": "components/charts/components/ChartLegend.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartRenderer",
+      "path": "components/charts/components/ChartRenderer.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartTooltip",
+      "path": "components/charts/components/ChartTooltip.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "KpiChart",
+      "path": "components/charts/components/KpiChart.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTypingIndicator",
+      "path": "components/chat/GlassTypingIndicator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCanvas",
+      "path": "components/cms/GlassCanvas.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassComponentPalette",
+      "path": "components/cms/GlassComponentPalette.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDragDropProvider",
+      "path": "components/cms/GlassDragDropProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPageBuilder",
+      "path": "components/cms/GlassPageBuilder.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPageStructure",
+      "path": "components/cms/GlassPageStructure.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPropertyPanel",
+      "path": "components/cms/GlassPropertyPanel.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "CollaborativeGlassWorkspace",
+      "path": "components/collaboration/CollaborativeGlassWorkspace.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCollaborationDashboard",
+      "path": "components/collaboration/GlassCollaborationDashboard.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCollaborationProvider",
+      "path": "components/collaboration/GlassCollaborationProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCollaborativeComments",
+      "path": "components/collaboration/GlassCollaborativeComments.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCollaborativeCursor",
+      "path": "components/collaboration/GlassCollaborativeCursor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "CompactCookieNotice",
+      "path": "components/cookie-consent/CompactCookieNotice.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "CookieConsent",
+      "path": "components/cookie-consent/CookieConsent.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlobalCookieConsent",
+      "path": "components/cookie-consent/GlobalCookieConsent.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "DimensionalDashboardContainer",
+      "path": "components/dashboard/DimensionalDashboardContainer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassActivityFeed",
+      "path": "components/dashboard/GlassActivityFeed.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassChartWidget",
+      "path": "components/dashboard/GlassChartWidget.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassKPICard",
+      "path": "components/dashboard/GlassKPICard.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMetricCard",
+      "path": "components/dashboard/GlassMetricCard.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStatCard",
+      "path": "components/dashboard/GlassStatCard.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAccordion",
+      "path": "components/data-display/GlassAccordion.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassAlert",
+      "path": "components/data-display/GlassAlert.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassAnimatedNumber",
+      "path": "components/data-display/GlassAnimatedNumber.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAvatar",
+      "path": "components/data-display/GlassAvatar.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassBadge",
+      "path": "components/data-display/GlassBadge.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassBadgeLine",
+      "path": "components/data-display/GlassBadgeLine.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassChip",
+      "path": "components/data-display/GlassChip.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDataGrid",
+      "path": "components/data-display/GlassDataGrid.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDataGridPro",
+      "path": "components/data-display/GlassDataGridPro.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDataTable",
+      "path": "components/data-display/GlassDataTable.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDiffViewer",
+      "path": "components/data-display/GlassDiffViewer.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDivider",
+      "path": "components/data-display/GlassDivider.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassGanttChart",
+      "path": "components/data-display/GlassGanttChart.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassHeatmap",
+      "path": "components/data-display/GlassHeatmap.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassJSONViewer",
+      "path": "components/data-display/GlassJSONViewer.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassKanbanBoard",
+      "path": "components/data-display/GlassKanbanBoard.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassLoadingSkeleton",
+      "path": "components/data-display/GlassLoadingSkeleton.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassMetricChip",
+      "path": "components/data-display/GlassMetricChip.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMetricsGrid",
+      "path": "components/data-display/GlassMetricsGrid.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassNotificationCenter",
+      "path": "components/data-display/GlassNotificationCenter.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassProgress",
+      "path": "components/data-display/GlassProgress.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassSchemaViewer",
+      "path": "components/data-display/GlassSchemaViewer.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSkeleton",
+      "path": "components/data-display/GlassSkeleton.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSkeletonLoader",
+      "path": "components/data-display/GlassSkeletonLoader.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSparkline",
+      "path": "components/data-display/GlassSparkline.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStatusDot",
+      "path": "components/data-display/GlassStatusDot.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTimeline",
+      "path": "components/data-display/GlassTimeline.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassToast",
+      "path": "components/data-display/GlassToast.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTreeView",
+      "path": "components/data-display/GlassTreeView.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassVirtualTable",
+      "path": "components/data-display/GlassVirtualTable.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "Typography",
+      "path": "components/data-display/Typography.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "EnhancementShowcase",
+      "path": "components/demo/EnhancementShowcase.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassEcommerceProvider",
+      "path": "components/ecommerce/GlassEcommerceProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassProductRecommendations",
+      "path": "components/ecommerce/GlassProductRecommendations.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSmartShoppingCart",
+      "path": "components/ecommerce/GlassSmartShoppingCart.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassRichTextEditor",
+      "path": "components/editor/GlassRichTextEditor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "AuroraPro",
+      "path": "components/effects/AuroraPro.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "Glass3DEngine",
+      "path": "components/effects/Glass3DEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMorphingEngine",
+      "path": "components/effects/GlassMorphingEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPhysicsEngine",
+      "path": "components/effects/GlassPhysicsEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassShatterEffects",
+      "path": "components/effects/GlassShatterEffects.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "SeasonalParticles",
+      "path": "components/effects/SeasonalParticles.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMoodRing",
+      "path": "components/experiential/GlassMoodRing.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassToast",
+      "path": "components/feedback/GlassToast.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "HoudiniGlassCard",
+      "path": "components/houdini/HoudiniGlassCard.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "HoudiniGlassProvider",
+      "path": "components/houdini/HoudiniGlassProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ClearIcon",
+      "path": "components/icons/ClearIcon.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassImageProcessingProvider",
+      "path": "components/image/GlassImageProcessingProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassIntelligentImageUploader",
+      "path": "components/image/GlassIntelligentImageUploader.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ImageList",
+      "path": "components/image-list/ImageList.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ImageListItem",
+      "path": "components/image-list/ImageListItem.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ImageListItemBar",
+      "path": "components/image-list/ImageListItemBar.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "Glass360Viewer",
+      "path": "components/immersive/Glass360Viewer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassARPreview",
+      "path": "components/immersive/GlassARPreview.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFluidSimulation",
+      "path": "components/immersive/GlassFluidSimulation.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassHologram",
+      "path": "components/immersive/GlassHologram.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassParticleField",
+      "path": "components/immersive/GlassParticleField.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassVortexPortal",
+      "path": "components/immersive/GlassVortexPortal.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassCheckbox",
+      "path": "components/input/GlassCheckbox.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassCheckboxGroup",
+      "path": "components/input/GlassCheckboxGroup.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassColorPicker",
+      "path": "components/input/GlassColorPicker.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDatePicker",
+      "path": "components/input/GlassDatePicker.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDateRangePicker",
+      "path": "components/input/GlassDateRangePicker.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFileUpload",
+      "path": "components/input/GlassFileUpload.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassForm",
+      "path": "components/input/GlassForm.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFormStepper",
+      "path": "components/input/GlassFormStepper.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFormTable",
+      "path": "components/input/GlassFormTable.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassInput",
+      "path": "components/input/GlassInput.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassLabel",
+      "path": "components/input/GlassLabel.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMultiSelect",
+      "path": "components/input/GlassMultiSelect.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassMultiStepForm",
+      "path": "components/input/GlassMultiStepForm.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassRadioGroup",
+      "path": "components/input/GlassRadioGroup.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSelect",
+      "path": "components/input/GlassSelect.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSelectCompound",
+      "path": "components/input/GlassSelectCompound.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSlider",
+      "path": "components/input/GlassSlider.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassStep",
+      "path": "components/input/GlassStep.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStepIcon",
+      "path": "components/input/GlassStepIcon.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStepLabel",
+      "path": "components/input/GlassStepLabel.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStepper",
+      "path": "components/input/GlassStepper.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassSwitch",
+      "path": "components/input/GlassSwitch.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassTextarea",
+      "path": "components/input/GlassTextarea.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassToggle",
+      "path": "components/input/GlassToggle.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTransferList",
+      "path": "components/input/GlassTransferList.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTreeSelect",
+      "path": "components/input/GlassTreeSelect.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassWizard",
+      "path": "components/input/GlassWizard.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ContextAwareGlass",
+      "path": "components/interactive/ContextAwareGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "CursorGlow",
+      "path": "components/interactive/CursorGlow.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassA11yAuditor",
+      "path": "components/interactive/GlassA11yAuditor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassAdvancedSearch",
+      "path": "components/interactive/GlassAdvancedSearch.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassAvatarGroup",
+      "path": "components/interactive/GlassAvatarGroup.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCardLink",
+      "path": "components/interactive/GlassCardLink.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassCarousel",
+      "path": "components/interactive/GlassCarousel.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassChat",
+      "path": "components/interactive/GlassChat.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassChatInput",
+      "path": "components/interactive/GlassChatInput.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCoachmarks",
+      "path": "components/interactive/GlassCoachmarks.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCodeEditor",
+      "path": "components/interactive/GlassCodeEditor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassColorSchemeGenerator",
+      "path": "components/interactive/GlassColorSchemeGenerator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassColorWheel",
+      "path": "components/interactive/GlassColorWheel.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassCommand",
+      "path": "components/interactive/GlassCommand.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCommandPalette",
+      "path": "components/interactive/GlassCommandPalette.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCommentThread",
+      "path": "components/interactive/GlassCommentThread.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassComponentPlayground",
+      "path": "components/interactive/GlassComponentPlayground.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDraggable",
+      "path": "components/interactive/GlassDraggable.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDrawingCanvas",
+      "path": "components/interactive/GlassDrawingCanvas.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassFacetSearch",
+      "path": "components/interactive/GlassFacetSearch.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFileExplorer",
+      "path": "components/interactive/GlassFileExplorer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFileTree",
+      "path": "components/interactive/GlassFileTree.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFileUpload",
+      "path": "components/interactive/GlassFileUpload.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFilterPanel",
+      "path": "components/interactive/GlassFilterPanel.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFocusRing",
+      "path": "components/interactive/GlassFocusRing.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFormBuilder",
+      "path": "components/interactive/GlassFormBuilder.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassGallery",
+      "path": "components/interactive/GlassGallery.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassGestureZone",
+      "path": "components/interactive/GlassGestureZone.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassGradientPicker",
+      "path": "components/interactive/GlassGradientPicker.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassImageViewer",
+      "path": "components/interactive/GlassImageViewer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassInfiniteScroll",
+      "path": "components/interactive/GlassInfiniteScroll.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassInlineEdit",
+      "path": "components/interactive/GlassInlineEdit.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassKanban",
+      "path": "components/interactive/GlassKanban.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassKeyValueEditor",
+      "path": "components/interactive/GlassKeyValueEditor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassLazyImage",
+      "path": "components/interactive/GlassLazyImage.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMentionList",
+      "path": "components/interactive/GlassMentionList.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMessageList",
+      "path": "components/interactive/GlassMessageList.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMindMap",
+      "path": "components/interactive/GlassMindMap.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPatternBuilder",
+      "path": "components/interactive/GlassPatternBuilder.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassPresets",
+      "path": "components/interactive/GlassPresets.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassQueryBuilder",
+      "path": "components/interactive/GlassQueryBuilder.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassReactionBar",
+      "path": "components/interactive/GlassReactionBar.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSearchInterface",
+      "path": "components/interactive/GlassSearchInterface.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSignaturePad",
+      "path": "components/interactive/GlassSignaturePad.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSpotlight",
+      "path": "components/interactive/GlassSpotlight.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassStepper",
+      "path": "components/interactive/GlassStepper.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTagInput",
+      "path": "components/interactive/GlassTagInput.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassThemeDemo",
+      "path": "components/interactive/GlassThemeDemo.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassThemeSwitcher",
+      "path": "components/interactive/GlassThemeSwitcher.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassUserPresence",
+      "path": "components/interactive/GlassUserPresence.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassVideoPlayer",
+      "path": "components/interactive/GlassVideoPlayer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassVirtualList",
+      "path": "components/interactive/GlassVirtualList.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassVoiceInput",
+      "path": "components/interactive/GlassVoiceInput.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassWhiteboard",
+      "path": "components/interactive/GlassWhiteboard.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "PageTransitionDemo",
+      "path": "components/interactive/PageTransitionDemo.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ThemedGlassComponents",
+      "path": "components/interactive/ThemedGlassComponents.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "Box",
+      "path": "components/layout/Box.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAppShell",
+      "path": "components/layout/GlassAppShell.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassBox",
+      "path": "components/layout/GlassBox.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassContainer",
+      "path": "components/layout/GlassContainer.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFlex",
+      "path": "components/layout/GlassFlex.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassGrid",
+      "path": "components/layout/GlassGrid.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassMasonry",
+      "path": "components/layout/GlassMasonry.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassScrollArea",
+      "path": "components/layout/GlassScrollArea.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassSeparator",
+      "path": "components/layout/GlassSeparator.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassSplitPane",
+      "path": "components/layout/GlassSplitPane.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassStack",
+      "path": "components/layout/GlassStack.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "HStack",
+      "path": "components/layout/HStack.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "OptimizedGlassContainer",
+      "path": "components/layout/OptimizedGlassContainer.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "VStack",
+      "path": "components/layout/VStack.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ZSpaceAppLayout",
+      "path": "components/layout/ZSpaceAppLayout.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassFractalLayout",
+      "path": "components/layouts/GlassFractalLayout.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassGoldenRatioGrid",
+      "path": "components/layouts/GlassGoldenRatioGrid.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassIslandLayout",
+      "path": "components/layouts/GlassIslandLayout.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMasonryGrid",
+      "path": "components/layouts/GlassMasonryGrid.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassOrbitalMenu",
+      "path": "components/layouts/GlassOrbitalMenu.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassTessellation",
+      "path": "components/layouts/GlassTessellation.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassAdvancedAudioPlayer",
+      "path": "components/media/GlassAdvancedAudioPlayer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAdvancedVideoPlayer",
+      "path": "components/media/GlassAdvancedVideoPlayer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMediaProvider",
+      "path": "components/media/GlassMediaProvider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassActionSheet",
+      "path": "components/mobile/GlassActionSheet.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPullToRefresh",
+      "path": "components/mobile/GlassPullToRefresh.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "TouchGlassOptimization",
+      "path": "components/mobile/TouchGlassOptimization.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassBottomSheet",
+      "path": "components/modal/GlassBottomSheet.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDialog",
+      "path": "components/modal/GlassDialog.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDrawer",
+      "path": "components/modal/GlassDrawer.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassHoverCard",
+      "path": "components/modal/GlassHoverCard.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassModal",
+      "path": "components/modal/GlassModal.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPopover",
+      "path": "components/modal/GlassPopover.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTooltip",
+      "path": "components/modal/GlassTooltip.tsx",
+      "category": "modal",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "EnhancedGlassTabs",
+      "path": "components/navigation/EnhancedGlassTabs.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassBottomNav",
+      "path": "components/navigation/GlassBottomNav.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassBreadcrumb",
+      "path": "components/navigation/GlassBreadcrumb.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassCommandBar",
+      "path": "components/navigation/GlassCommandBar.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassContextMenu",
+      "path": "components/navigation/GlassContextMenu.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDropdownMenu",
+      "path": "components/navigation/GlassDropdownMenu.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassHeader",
+      "path": "components/navigation/GlassHeader.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMenubar",
+      "path": "components/navigation/GlassMenubar.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassMobileNav",
+      "path": "components/navigation/GlassMobileNav.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassNavigation",
+      "path": "components/navigation/GlassNavigation.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassNavigationMenu",
+      "path": "components/navigation/GlassNavigationMenu.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPagination",
+      "path": "components/navigation/GlassPagination.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassResponsiveNav",
+      "path": "components/navigation/GlassResponsiveNav.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassSegmentedControl",
+      "path": "components/navigation/GlassSegmentedControl.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassSidebar",
+      "path": "components/navigation/GlassSidebar.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassTabBar",
+      "path": "components/navigation/GlassTabBar.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassTabItem",
+      "path": "components/navigation/GlassTabItem.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassTabs",
+      "path": "components/navigation/GlassTabs.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassToolbar",
+      "path": "components/navigation/GlassToolbar.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "HeaderUserMenu",
+      "path": "components/navigation/HeaderUserMenu.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "CollapsedMenu",
+      "path": "components/navigation/components/CollapsedMenu.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "ScrollButtons",
+      "path": "components/navigation/components/ScrollButtons.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "TabItem",
+      "path": "components/navigation/components/TabItem.tsx",
+      "category": "navigation",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCoherenceIndicator",
+      "path": "components/quantum/GlassCoherenceIndicator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassProbabilityCloud",
+      "path": "components/quantum/GlassProbabilityCloud.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassQuantumField",
+      "path": "components/quantum/GlassQuantumField.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassQuantumTunnel",
+      "path": "components/quantum/GlassQuantumTunnel.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSuperpositionalMenu",
+      "path": "components/quantum/GlassSuperpositionalMenu.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassWaveFunction",
+      "path": "components/quantum/GlassWaveFunction.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassRating",
+      "path": "components/rating/GlassRating.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassIntelligentSearch",
+      "path": "components/search/GlassIntelligentSearch.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSpotlightSearch",
+      "path": "components/search/GlassSpotlightSearch.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCollaborativeCursor",
+      "path": "components/social/GlassCollaborativeCursor.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPresenceIndicator",
+      "path": "components/social/GlassPresenceIndicator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassReactionBubbles",
+      "path": "components/social/GlassReactionBubbles.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSharedWhiteboard",
+      "path": "components/social/GlassSharedWhiteboard.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassSocialFeed",
+      "path": "components/social/GlassSocialFeed.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassVoiceWaveform",
+      "path": "components/social/GlassVoiceWaveform.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "SpatialComputingEngine",
+      "path": "components/spatial/SpatialComputingEngine.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "SpeedDial",
+      "path": "components/speed-dial/SpeedDial.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "SpeedDialAction",
+      "path": "components/speed-dial/SpeedDialAction.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "SpeedDialIcon",
+      "path": "components/speed-dial/SpeedDialIcon.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassConnectionStatus",
+      "path": "components/status/GlassConnectionStatus.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "DimensionalGlass",
+      "path": "components/surfaces/DimensionalGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "FrostedGlass",
+      "path": "components/surfaces/FrostedGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDepthLayer",
+      "path": "components/surfaces/GlassDepthLayer.tsx",
+      "category": "layout",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "HeatGlass",
+      "path": "components/surfaces/HeatGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "PageGlassContainer",
+      "path": "components/surfaces/PageGlassContainer.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "WidgetGlass",
+      "path": "components/surfaces/WidgetGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassDashboard",
+      "path": "components/templates/dashboard/GlassDashboard.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ChartWidget",
+      "path": "components/templates/dashboard/widgets/ChartWidget.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "MetricWidget",
+      "path": "components/templates/dashboard/widgets/MetricWidget.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "TableWidget",
+      "path": "components/templates/dashboard/widgets/TableWidget.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDetailView",
+      "path": "components/templates/detail/GlassDetailView.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFormTemplate",
+      "path": "components/templates/forms/GlassFormTemplate.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassFormWizardSteps",
+      "path": "components/templates/forms/GlassFormWizardSteps.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassWizardTemplate",
+      "path": "components/templates/forms/GlassWizardTemplate.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassDataTable",
+      "path": "components/templates/interactive/GlassDataTable.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassListView",
+      "path": "components/templates/list/GlassListView.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ToggleButton",
+      "path": "components/toggle-button/ToggleButton.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "ToggleButtonGroup",
+      "path": "components/toggle-button/ToggleButtonGroup.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "TreeItem",
+      "path": "components/tree-view/TreeItem.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "TreeView",
+      "path": "components/tree-view/TreeView.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassAccordionUI",
+      "path": "components/ui-components/GlassAccordionUI.tsx",
+      "category": "data-display",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassCheckboxUI",
+      "path": "components/ui-components/GlassCheckboxUI.tsx",
+      "category": "form",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "glass-panel",
+      "path": "components/ui-components/glass-panel.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "FocusIndicator",
+      "path": "components/visual-feedback/FocusIndicator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "RippleButton",
+      "path": "components/visual-feedback/RippleButton.tsx",
+      "category": "button",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "StateIndicator",
+      "path": "components/visual-feedback/StateIndicator.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "VisualFeedback",
+      "path": "components/visual-feedback/VisualFeedback.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": true
+    },
+    {
+      "name": "GlassAdvancedDataViz",
+      "path": "components/visualization/GlassAdvancedDataViz.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "VoiceGlassControl",
+      "path": "components/voice/VoiceGlassControl.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassChartsDemo",
+      "path": "components/website-components/GlassChartsDemo.tsx",
+      "category": "chart",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassLinkButton",
+      "path": "components/website-components/GlassLinkButton.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassPrismComparison",
+      "path": "components/website-components/GlassPrismComparison.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": false,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassWipeSlider",
+      "path": "components/website-components/GlassWipeSlider.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "GlassWipeSliderExamples",
+      "path": "components/website-components/GlassWipeSliderExamples.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": false,
+      "hasReducedMotion": false
+    },
+    {
+      "name": "MotionAwareGlass",
+      "path": "components/website-components/MotionAwareGlass.tsx",
+      "category": "misc",
+      "hasContrastGuard": false,
+      "hasARIA": true,
+      "hasTypescript": true,
+      "hasFocusManagement": true,
+      "hasReducedMotion": true
+    }
+  ],
+  "summary": {
+    "totalComponents": 356,
+    "byCategory": {
+      "misc": 195,
+      "data-display": 46,
+      "button": 10,
+      "form": 36,
+      "chart": 18,
+      "layout": 21,
+      "modal": 7,
+      "navigation": 23
+    },
+    "typeScriptCoverage": 100.0,
+    "contrastGuardCoverage": 0.3,
+    "ariaCoverage": 38.5,
+    "focusCoverage": 20.2,
+    "reducedMotionCoverage": 29.8,
+    "stats": {
+      "componentsWithContrast": 1,
+      "componentsWithARIA": 137,
+      "componentsWithFocus": 72,
+      "componentsWithReducedMotion": 106,
+      "componentsTypeScript": 356
+    }
+  }
+}

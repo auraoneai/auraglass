@@ -5,6 +5,7 @@ import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
 import { Motion, OptimizedGlass } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface HeatmapDataPoint {
   x: number;
@@ -91,6 +92,8 @@ export interface GlassHeatmapProps extends React.HTMLAttributes<HTMLDivElement> 
 export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       data,
       xAxis,
       yAxis,

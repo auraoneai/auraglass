@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
 import { Line, Bar, Pie, Scatter } from 'react-chartjs-2';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartRendererProps {
   chartType: 'line' | 'bar' | 'area' | 'pie' | 'scatter' | 'heatmap' | 'radar';
@@ -30,6 +31,8 @@ export interface ChartRendererProps {
 }
 
 export const ChartRenderer: React.FC<ChartRendererProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   chartType,
   datasets,
   palette = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6'],

@@ -4,6 +4,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef } from 'react';
 import { OptimizedGlassCore as OptimizedGlass, type OptimizedGlassProps } from '../../primitives';
 import { LiquidGlassMaterial } from '../../primitives/LiquidGlassMaterial';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassCardProps extends Omit<OptimizedGlassProps, 'variant' | 'tint'> {
   /**
@@ -57,6 +58,8 @@ export interface GlassCardProps extends Omit<OptimizedGlassProps, 'variant' | 't
 export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       variant = 'default',
       size = 'md',
       elevation = 'level2',

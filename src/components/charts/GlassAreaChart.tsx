@@ -4,6 +4,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import React, { useMemo, useState } from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface AreaDataPoint {
     x: number | string;
@@ -100,6 +101,8 @@ export interface GlassAreaChartProps {
  * A glassmorphism area chart with multiple series support and smooth area fills
  */
 export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
     title,
     series = [],
     width = 600,

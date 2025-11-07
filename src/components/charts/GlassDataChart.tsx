@@ -72,6 +72,7 @@ const convertToChartJsDatasetWithEffects = (dataset: ChartDataset, index: number
 
 // Basic styled components (will be replaced with proper modular components later)
 import styled from 'styled-components';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Chart variant types
 export type ChartVariant = 'line' | 'bar' | 'area' | 'pie' | 'doughnut' | 'polarArea' | 'kpi';

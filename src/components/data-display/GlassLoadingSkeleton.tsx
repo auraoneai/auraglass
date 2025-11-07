@@ -7,6 +7,7 @@ import { Motion } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassLoadingSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of skeleton rows to display */
@@ -34,6 +35,8 @@ export interface GlassLoadingSkeletonProps extends React.HTMLAttributes<HTMLDivE
 export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkeletonProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       rows = 3,
       height = '1rem',
       width = '100%',

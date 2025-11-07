@@ -10,6 +10,7 @@ import { OptimizedGlass } from '../../primitives';
 import { Motion } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Glass Alert text color variants
 const alertTextVariants = {

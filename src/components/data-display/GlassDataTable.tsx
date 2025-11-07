@@ -12,6 +12,7 @@ import { useBiometricAdaptation } from '../advanced/GlassBiometricAdaptation';
 import { useEyeTracking } from '../advanced/GlassEyeTracking';
 import { useSpatialAudio } from '../advanced/GlassSpatialAudio';
 import type { ConsciousnessFeatures } from '../layout/GlassContainer';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ColumnDef<T = any> {
   id?: string;
@@ -145,6 +146,8 @@ export interface GlassDataTableProps<T = any> extends ConsciousnessFeatures {
  * A comprehensive data table with glassmorphism styling
  */
 export const GlassDataTable = <T = any,>(props: GlassDataTableProps<T> & { ref?: React.Ref<HTMLDivElement> }) => {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   return <GlassDataTableInner {...props} />;
 };
 

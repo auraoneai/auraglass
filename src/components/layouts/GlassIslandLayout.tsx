@@ -9,6 +9,7 @@ import { OptimizedGlass } from '../../primitives'
 import { useA11yId } from '../../utils/a11y'
 import { createGlassStyle } from '../../utils/createGlassStyle'
 import { useGlassSound } from '../../utils/soundDesign'
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface Island {
   id: string
@@ -89,6 +90,8 @@ interface PhysicsIsland extends Island {
 
 export const GlassIslandLayout = forwardRef<HTMLDivElement, GlassIslandLayoutProps>(
   ({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     islands,
     connections = [],
     config = {},

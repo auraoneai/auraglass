@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
 
 import { glassTokenUtils } from '../../../tokens/glass';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 export interface ChartFiltersProps {
   palette?: string[];
   qualityTier?: 'low' | 'medium' | 'high' | 'ultra';
@@ -18,6 +19,8 @@ export interface ChartFiltersProps {
 }
 
 export const ChartFilters: React.FC<ChartFiltersProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   palette = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6'],
   qualityTier = 'medium',
 }) => {

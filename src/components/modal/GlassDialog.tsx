@@ -2,11 +2,12 @@
 
 import { cn } from '../../lib/utilsComprehensive';
 import { X } from 'lucide-react';
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Motion, OptimizedGlass } from '../../primitives';
 import { LiquidGlassMaterial } from '../../primitives/LiquidGlassMaterial';
 import { GlassButton } from '../button/GlassButton';
 import type { ConsciousnessFeatures } from '../layout/GlassContainer';
+import { trapFocus } from '../../utils/focus';
 // import { usePredictiveEngine, useInteractionRecorder } from '../advanced/GlassPredictiveEngine';
 // import { useAchievements } from '../advanced/GlassAchievementSystem';
 // import { useBiometricAdaptation } from '../advanced/GlassBiometricAdaptation';
@@ -145,6 +146,8 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
     ref
   ) => {
     const [isVisible, setIsVisible] = useState(open);
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
     // Consciousness state
     const [interactionCount, setInteractionCount] = useState(0);
@@ -203,6 +206,31 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         };
       }
     }, [modal, open]);
+
+    // Focus management: trap focus and restore on close
+    useEffect(() => {
+      if (!open || !dialogRef.current) return;
+
+      // Store previously focused element
+      previouslyFocusedRef.current = document.activeElement as HTMLElement;
+
+      // Set up focus trap
+      const releaseFocus = trapFocus(dialogRef.current, {
+        returnFocus: false, // We'll handle this manually for better control
+        escapeDeactivates: false, // We handle escape separately
+        allowOutsideClick: true, // We handle backdrop clicks separately
+      });
+
+      return () => {
+        releaseFocus();
+        // Restore focus to previously focused element
+        if (previouslyFocusedRef.current) {
+          setTimeout(() => {
+            previouslyFocusedRef.current?.focus();
+          }, 0);
+        }
+      };
+    }, [open]);
 
     // Handle visibility state
     useEffect(() => {
@@ -448,6 +476,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
 
         {/* Dialog Content */}
         <Motion
+          ref={dialogRef}
           preset={getAnimationPreset()}
           duration={200}
           className={cn(

@@ -7,6 +7,7 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { OptimizedGlass } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface AccordionItem {
   /**
@@ -102,6 +103,8 @@ export interface GlassAccordionProps {
 export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       items = [],
       variant = 'default',
       size = 'md',

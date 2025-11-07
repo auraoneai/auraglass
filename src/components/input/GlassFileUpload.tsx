@@ -313,11 +313,11 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
   // Render file preview
   const renderFilePreview = (uploadedFile: UploadedFile) => {
     const { file, progress, status, error } = uploadedFile;
-    
+
     return (
-      <div key={uploadedFile.id} className="flex items-center p-3 glass-surface-subtle glass-radius-lg border">
-        <div className="text-2xl mr-3">{getFileIcon(file)}</div>
-        
+      <div key={uploadedFile.id} role="listitem" className="flex items-center p-3 glass-surface-subtle glass-radius-lg border">
+        <div className="text-2xl mr-3" aria-hidden="true">{getFileIcon(file)}</div>
+
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-primary truncate">{file.name}</p>
@@ -325,21 +325,22 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
               onClick={() => removeFile(uploadedFile.id)}
               className="ml-2 text-primary hover:text-primary text-sm"
               disabled={status === 'uploading'}
+              aria-label={`Remove ${file.name}`}
             >
               ✕
             </button>
           </div>
-          
+
           <p className="text-xs glass-text-secondary">
             {formatFileSize(file.size)}
-            {status === 'completed' && <span className="text-primary ml-2">✓ Completed</span>}
-            {status === 'error' && <span className="text-primary ml-2">✗ {error}</span>}
+            {status === 'completed' && <span className="text-primary ml-2" role="status">✓ Completed</span>}
+            {status === 'error' && <span className="text-primary ml-2" role="alert">✗ {error}</span>}
           </p>
-          
+
           {status === 'uploading' && (
-            <div className="mt-2">
+            <div className="mt-2" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100} aria-label={`Uploading ${file.name}`}>
               <div className="w-full glass-surface-subtle glass-radius-full h-1">
-                <div 
+                <div
                   className="glass-surface-blue h-1 glass-radius-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
@@ -363,10 +364,17 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         onChange={handleFileInputChange}
         className="hidden"
         disabled={disabled}
+        aria-label="File upload input"
+        id="file-upload-input"
       />
 
       {/* Upload area */}
       <Glass
+        role="button"
+        aria-label={uploadText}
+        aria-describedby="file-upload-instructions"
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : 0}
         className={cn(
           'border-2 border-dashed glass-p-8 text-center transition-all duration-200 cursor-pointer',
           isDragOver && !disabled && 'border-primary bg-primary/5',
@@ -377,6 +385,12 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
       >
         <div className="flex flex-col items-center gap-4">
           <div className="text-4xl opacity-60">
@@ -387,18 +401,19 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
             <p className="text-lg font-medium text-primary mb-2">
               {isUploading ? 'Uploading...' : uploadText}
             </p>
-            <p className="glass-text-secondary">
+            <p id="file-upload-instructions" className="glass-text-secondary">
               {accept && `Accepted formats: ${accept}`}
               {maxSize && ` • Max size: ${formatFileSize(maxSize)}`}
               {multiple && ` • Max files: ${maxFiles}`}
             </p>
           </div>
-          
+
           {!isUploading && (
             <button
               type="button"
               className="px-4 py-2 glass-surface-primary text-primary-foreground glass-radius-lg hover:glass-surface-primary/90 transition-colors font-medium"
               disabled={disabled}
+              aria-label={browseText}
             >
               {browseText}
             </button>
@@ -408,11 +423,13 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
       {/* File list */}
       {showPreview && files.length > 0 && (
-        <Glass className="border-t-0 glass-radius-b-xl p-4 space-y-3">
-          <h4 className="font-medium text-primary mb-3">
+        <Glass className="border-t-0 glass-radius-b-xl p-4 space-y-3" role="region" aria-label="Uploaded files list">
+          <h4 id="uploaded-files-heading" className="font-medium text-primary mb-3">
             Uploaded Files ({files.length}/{maxFiles})
           </h4>
-          {files.map(renderFilePreview)}
+          <div role="list" aria-labelledby="uploaded-files-heading">
+            {files.map(renderFilePreview)}
+          </div>
         </Glass>
       )}
     </div>

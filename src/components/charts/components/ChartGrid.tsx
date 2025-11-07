@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
 import { createGlassStyle } from '../../../core/mixins/glassMixins';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartGridProps {
   show?: boolean;
@@ -12,6 +13,8 @@ export interface ChartGridProps {
 }
 
 export const ChartGrid: React.FC<ChartGridProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   show = true,
   style = 'solid',
   color,

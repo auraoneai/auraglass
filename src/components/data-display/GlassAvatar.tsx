@@ -4,6 +4,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef } from 'react';
 import { OptimizedGlass } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassAvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     /**
@@ -77,6 +78,8 @@ export interface GlassAvatarFallbackProps {
 export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     (
         {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
             variant = 'circle',
             size = 'md',
             status,

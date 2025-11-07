@@ -7,6 +7,7 @@ import { useMotionPreference } from '../../hooks/useMotionPreference'
 import { OptimizedGlass } from '../../primitives'
 import { useA11yId } from '../../utils/a11y'
 import { useGlassSound } from '../../utils/soundDesign'
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface TessellationTile {
   id: string
@@ -54,6 +55,8 @@ export interface GlassTessellationProps {
 
 export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationProps>(
   ({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     tiles = [],
     tessellationType = 'hexagonal',
     containerWidth = 800,

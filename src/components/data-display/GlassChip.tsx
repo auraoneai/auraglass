@@ -6,6 +6,7 @@ import { useMotionPreference } from '../../hooks/useMotionPreference';
 import { Motion, OptimizedGlass } from '../../primitives';
 import { useA11yId } from '../../utils/a11y';
 import { useGlassSound } from '../../utils/soundDesign';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassChipProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /** Chip content */
@@ -41,6 +42,8 @@ export interface GlassChipProps extends Omit<React.HTMLAttributes<HTMLDivElement
 export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       children,
       variant = 'default',
       size = 'md',

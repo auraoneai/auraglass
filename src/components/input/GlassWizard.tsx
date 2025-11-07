@@ -322,7 +322,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 
                         {/* Step Navigation */}
                         {showStepNavigation && (
-                            <div className="flex items-center gap-2 mt-6 overflow-x-auto pb-2">
+                            <nav aria-label="Wizard steps" className="flex items-center gap-2 mt-6 overflow-x-auto pb-2">
                                 {steps.map((step, index) => {
                                     const isActive = index === currentStep;
                                     const isCompleted = completedSteps.has(index);
@@ -334,6 +334,9 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                                             key={step.id}
                                             onClick={(e) => !isDisabled && goToStep(index)}
                                             disabled={isDisabled}
+                                            aria-label={`${step.title}${isActive ? ' (current step)' : ''}${isCompleted ? ' (completed)' : ''}`}
+                                            aria-current={isActive ? 'step' : undefined}
+                                            aria-disabled={isDisabled}
                                             className={cn(
                                                 'flex items-center glass-gap-2 glass-px-3 glass-py-2 glass-radius-lg glass-text-sm font-medium transition-all duration-200 whitespace-nowrap',
                                                 'border border-white/20',
@@ -359,7 +362,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                                         </button>
                                     );
                                 })}
-                            </div>
+                            </nav>
                         )}
                     </CardHeader>
 
@@ -391,8 +394,8 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 
                                 {/* Error indicator */}
                                 {stepErrors[currentStep] && (
-                                    <div className="flex items-center gap-2 text-primary">
-                                        <AlertCircle className="w-4 h-4" />
+                                    <div role="alert" aria-live="assertive" className="flex items-center gap-2 text-primary">
+                                        <AlertCircle className="w-4 h-4" aria-hidden="true" />
                                         <span className="text-sm">{stepErrors[currentStep]}</span>
                                     </div>
                                 )}

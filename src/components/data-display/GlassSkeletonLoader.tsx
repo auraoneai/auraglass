@@ -3,6 +3,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useAccessibleAnimation } from '../../hooks/useAccessibilitySettings';
 import { OptimizedGlass } from '../../primitives';
 import { GlassComponentErrorBoundary } from '../../utils/errorBoundary';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassSkeletonLoaderProps {
   /** Whether the loader is active */
@@ -67,6 +68,8 @@ const sheenKeyframes = `
 `;
 
 export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   loading = true,
   text = "Loading...",
   size = 'md',

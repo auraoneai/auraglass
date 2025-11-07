@@ -4,6 +4,7 @@ import React, { useState, useEffect, createContext, useContext, forwardRef } fro
 import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass } from '../../primitives';
 import { Motion } from '../../primitives';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info';
 
@@ -104,6 +105,8 @@ export const GlassNotificationProvider: React.FC<{ children: React.ReactNode }> 
 export const GlassNotificationCenter = forwardRef<HTMLDivElement, GlassNotificationCenterProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       position = 'top-right',
       maxNotifications = 5,
       autoHideDelay = 5000,

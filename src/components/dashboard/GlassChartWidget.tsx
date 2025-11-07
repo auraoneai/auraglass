@@ -18,6 +18,7 @@ import { Motion } from '../../primitives';
 import { GlassButton } from '../button';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
 import { GlassBadge } from '../data-display';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartWidgetAction {
     label: string;
@@ -130,6 +131,8 @@ export interface GlassChartWidgetProps {
  * A glassmorphism chart container widget with header, actions, and fullscreen support
  */
 export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
     title,
     subtitle,
     children,

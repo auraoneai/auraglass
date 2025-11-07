@@ -348,7 +348,11 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                 )}
                 onClick={(e) => !disabled && setIsOpen(!isOpen)}
                 role="button"
-                tabIndex={0}
+                aria-label="Choose color"
+                aria-haspopup="dialog"
+                aria-expanded={isOpen}
+                aria-disabled={disabled}
+                tabIndex={disabled ? -1 : 0}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
@@ -372,6 +376,9 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                 >
                     <div
                         ref={popoverRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Color picker"
                         className={cn(
                             'glass-radius-xl border border-white/20 shadow-2xl backdrop-blur-md bg-black/20',
                             config.popover
@@ -380,14 +387,15 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                         <GlassCard variant="outline" className="border-0 bg-transparent">
                             <CardHeader className="pb-4">
                                 <div className="flex items-center justify-between">
-                                    <CardTitle className="text-lg font-semibold text-primary flex items-center gap-2">
-                                        <Palette className="w-5 h-5" />
+                                    <CardTitle id="color-picker-title" className="text-lg font-semibold text-primary flex items-center gap-2">
+                                        <Palette className="w-5 h-5" aria-hidden="true" />
                                         Color Picker
                                     </CardTitle>
                                     <GlassButton
                                         variant="ghost"
                                         size="sm"
                                         onClick={(e) => setIsOpen(false)}
+                                        aria-label="Close color picker"
                                     >
                                         ×
                                     </GlassButton>
@@ -419,10 +427,17 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                 {/* HSL Sliders */}
                                 <div className="gap-4">
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-2 block">Hue</label>
+                                        <label htmlFor="hue-slider" id="hue-label" className="text-sm text-primary/80 mb-2 block">Hue</label>
                                         <input
                                             ref={hueRef}
+                                            id="hue-slider"
                                             type="range"
+                                            role="slider"
+                                            aria-labelledby="hue-label"
+                                            aria-valuemin={0}
+                                            aria-valuemax={360}
+                                            aria-valuenow={Math.round(hsl.h)}
+                                            aria-valuetext={`${Math.round(hsl.h)} degrees`}
                                             min="0"
                                             max="360"
                                             value={hsl.h}
@@ -432,10 +447,17 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                     </div>
 
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-2 block">Saturation</label>
+                                        <label htmlFor="saturation-slider" id="saturation-label" className="text-sm text-primary/80 mb-2 block">Saturation</label>
                                         <input
                                             ref={satRef}
+                                            id="saturation-slider"
                                             type="range"
+                                            role="slider"
+                                            aria-labelledby="saturation-label"
+                                            aria-valuemin={0}
+                                            aria-valuemax={100}
+                                            aria-valuenow={Math.round(hsl.s)}
+                                            aria-valuetext={`${Math.round(hsl.s)} percent`}
                                             min="0"
                                             max="100"
                                             value={hsl.s}
@@ -445,10 +467,17 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                     </div>
 
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-2 block">Lightness</label>
+                                        <label htmlFor="lightness-slider" id="lightness-label" className="text-sm text-primary/80 mb-2 block">Lightness</label>
                                         <input
                                             ref={lightRef}
+                                            id="lightness-slider"
                                             type="range"
+                                            role="slider"
+                                            aria-labelledby="lightness-label"
+                                            aria-valuemin={0}
+                                            aria-valuemax={100}
+                                            aria-valuenow={Math.round(hsl.l)}
+                                            aria-valuetext={`${Math.round(hsl.l)} percent`}
                                             min="0"
                                             max="100"
                                             value={hsl.l}
@@ -459,10 +488,17 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
 
                                     {showAlpha && (
                                         <div>
-                                            <label className="text-sm text-primary/80 mb-2 block">Alpha</label>
+                                            <label htmlFor="alpha-slider" id="alpha-label" className="text-sm text-primary/80 mb-2 block">Alpha</label>
                                             <input
                                                 ref={alphaRef}
+                                                id="alpha-slider"
                                                 type="range"
+                                                role="slider"
+                                                aria-labelledby="alpha-label"
+                                                aria-valuemin={0}
+                                                aria-valuemax={100}
+                                                aria-valuenow={Math.round((rgb.a || 1) * 100)}
+                                                aria-valuetext={`${Math.round((rgb.a || 1) * 100)} percent`}
                                                 min="0"
                                                 max="100"
                                                 value={(rgb.a || 1) * 100}
@@ -476,35 +512,50 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                 {/* RGB Inputs */}
                                 <div className="grid grid-cols-3 gap-4">
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-2 block">R</label>
+                                        <label htmlFor="red-input" className="text-sm text-primary/80 mb-2 block">R</label>
                                         <GlassInput
+                                            id="red-input"
                                             type="number"
                                             min="0"
                                             max="255"
                                             value={rgb.r}
                                             onChange={(e) => handleRgbChange('r', Number(e.target.value))}
+                                            aria-label="Red channel value"
+                                            aria-valuemin={0}
+                                            aria-valuemax={255}
+                                            aria-valuenow={rgb.r}
                                             className="text-sm"
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-2 block">G</label>
+                                        <label htmlFor="green-input" className="text-sm text-primary/80 mb-2 block">G</label>
                                         <GlassInput
+                                            id="green-input"
                                             type="number"
                                             min="0"
                                             max="255"
                                             value={rgb.g}
                                             onChange={(e) => handleRgbChange('g', Number(e.target.value))}
+                                            aria-label="Green channel value"
+                                            aria-valuemin={0}
+                                            aria-valuemax={255}
+                                            aria-valuenow={rgb.g}
                                             className="text-sm"
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-2 block">B</label>
+                                        <label htmlFor="blue-input" className="text-sm text-primary/80 mb-2 block">B</label>
                                         <GlassInput
+                                            id="blue-input"
                                             type="number"
                                             min="0"
                                             max="255"
                                             value={rgb.b}
                                             onChange={(e) => handleRgbChange('b', Number(e.target.value))}
+                                            aria-label="Blue channel value"
+                                            aria-valuemin={0}
+                                            aria-valuemax={255}
+                                            aria-valuenow={rgb.b}
                                             className="text-sm"
                                         />
                                     </div>
@@ -513,8 +564,8 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                 {/* Color Palette */}
                                 {showPresets && (
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-3 block">Palette</label>
-                                        <div className="grid grid-cols-5 gap-2">
+                                        <label id="palette-label" className="text-sm text-primary/80 mb-3 block">Palette</label>
+                                        <div role="group" aria-labelledby="palette-label" className="grid grid-cols-5 gap-2">
                                             {palette.map((color, i) => (
                                                 <button
                                                     key={`${color}-${i}`}
@@ -524,10 +575,12 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                                     )}
                                                     ref={(el) => { if (el) el.style.backgroundColor = color; }}
                                                     onClick={(e) => handleColorChange(color)}
+                                                    aria-label={`Select color ${color}`}
+                                                    aria-pressed={currentColor === color}
                                                     title={color}
                                                 >
                                                     {currentColor === color && (
-                                                        <Check className="w-4 h-4 text-primary mx-auto" />
+                                                        <Check className="w-4 h-4 text-primary mx-auto" aria-hidden="true" />
                                                     )}
                                                 </button>
                                             ))}
@@ -538,14 +591,15 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                                 {/* Material Palette */}
                                 {showPresets && (
                                     <div>
-                                        <label className="text-sm text-primary/80 mb-3 block">Material Colors</label>
-                                        <div className="grid grid-cols-5 gap-2">
+                                        <label id="material-palette-label" className="text-sm text-primary/80 mb-3 block">Material Colors</label>
+                                        <div role="group" aria-labelledby="material-palette-label" className="grid grid-cols-5 gap-2">
                                             {materialPalette.slice(0, 10).map((color, i) => (
                                                 <button
                                                     key={`${color}-${i}`}
                                                     className="w-8 h-8 glass-radius-lg border-2 border-white/20 hover:border-white/40 transition-all duration-200 glass-focus"
                                                     ref={(el) => { if (el) el.style.backgroundColor = color; }}
                                                     onClick={(e) => handleColorChange(color)}
+                                                    aria-label={`Select color ${color}`}
                                                     title={color}
                                                 />
                                             ))}

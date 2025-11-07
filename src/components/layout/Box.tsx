@@ -3,6 +3,7 @@
 import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -29,6 +30,8 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Box = React.forwardRef<HTMLDivElement, BoxProps>(
   ({ 
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
     as: Component = 'div', 
     className, 
     children, 

@@ -4,6 +4,7 @@ import { HTMLMotionProps, motion } from 'framer-motion';
 import React, { forwardRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export type DepthLayer =
   | 'background'
@@ -112,6 +113,8 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
 };
 
 export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(({
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
   layer,
   customConfig,
   children,

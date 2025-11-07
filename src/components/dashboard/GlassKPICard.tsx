@@ -5,6 +5,7 @@ import { ArrowDownIcon, ArrowUpIcon, Minus } from 'lucide-react';
 import React from 'react';
 import { Motion } from '../../primitives';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassKPICardProps {
     /**
@@ -82,6 +83,8 @@ export interface GlassKPICardProps {
  * A glassmorphism KPI card for displaying key performance indicators
  */
 export const GlassKPICard: React.FC<GlassKPICardProps> = ({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     title,
     value,
     unit = '',

@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { OptimizedGlass } from '../../primitives';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassAnimatedNumberProps {
   /** The target number to animate to */
@@ -44,6 +45,8 @@ const easingFunctions = {
 };
 
 export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumberProps>(({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   value,
   from = 0,
   duration = 1000,

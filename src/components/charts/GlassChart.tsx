@@ -184,6 +184,7 @@ import { GlassAreaChart as AreaChart } from './GlassAreaChart';
 import { GlassBarChart as BarChart } from './GlassBarChart';
 import { GlassLineChart as LineChart } from './GlassLineChart';
 import { GlassPieChart as PieChart } from './GlassPieChart';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Ref interface
 export interface GlassChartRef {

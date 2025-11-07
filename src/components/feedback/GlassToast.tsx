@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { Glass } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -113,16 +114,18 @@ interface ToastItemProps {
 const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    // Trigger entrance animation
-    const timeout = setTimeout(() => setIsVisible(true), 50);
+    // Trigger entrance animation - instant if reduced motion
+    const timeout = setTimeout(() => setIsVisible(true), prefersReducedMotion ? 0 : 50);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [prefersReducedMotion]);
 
   const handleRemove = () => {
     setIsRemoving(true);
-    setTimeout(() => onRemove(toast.id), 300);
+    // Instant removal if reduced motion
+    setTimeout(() => onRemove(toast.id), prefersReducedMotion ? 0 : 300);
   };
 
   const getToastIcon = () => {
@@ -157,11 +160,16 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
   return (
     <Glass
+      role="status"
+      aria-live="polite"
+      data-glass-toast="true"
+      data-toast-type={toast.type}
       className={cn(
-        'w-96 max-w-sm glass-p-4 glass-radius-lg border-2 shadow-lg transition-all duration-300 transform',
+        'w-96 max-w-sm glass-p-4 glass-radius-lg border-2 shadow-lg transform',
+        !prefersReducedMotion && 'transition-all duration-300',
         getToastColors(),
-        isVisible && !isRemoving ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0',
-        isRemoving && '-translate-x-full opacity-0'
+        isVisible && !isRemoving ? 'translate-x-0 opacity-100' : prefersReducedMotion ? 'opacity-100' : 'translate-x-full opacity-0',
+        isRemoving && (prefersReducedMotion ? 'opacity-0' : '-translate-x-full opacity-0')
       )}
     >
       <div className="flex items-start gap-3">
@@ -201,9 +209,9 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
       </div>
       
       {/* Progress bar */}
-      {toast.duration && toast.duration > 0 && (
+      {toast.duration && toast.duration > 0 && !prefersReducedMotion && (
         <div className="mt-3 w-full h-1 glass-surface-dark/10 glass-radius-full overflow-hidden">
-          <div 
+          <div
             className={cn('h-full glass-radius-full transition-all ease-linear', getProgressBarColor())}
             style={{
               animation: `shrink ${toast.duration}ms linear forwards`,

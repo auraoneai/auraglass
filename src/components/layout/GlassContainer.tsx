@@ -9,6 +9,7 @@ import { useBiometricAdaptation } from '../advanced/GlassBiometricAdaptation';
 import { useEyeTracking } from '../advanced/GlassEyeTracking';
 import { useInteractionRecorder, usePredictiveEngine } from '../advanced/GlassPredictiveEngine';
 import { useSpatialAudio } from '../advanced/GlassSpatialAudio';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ConsciousnessFeatures {
   /**
@@ -123,6 +124,8 @@ export interface GlassContainerProps extends React.HTMLAttributes<HTMLDivElement
 export const GlassContainer = forwardRef<HTMLDivElement, GlassContainerProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
       size = 'lg',
       centered = true,
       padding = 'md',

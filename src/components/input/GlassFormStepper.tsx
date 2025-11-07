@@ -170,7 +170,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
     // Render horizontal stepper
     const renderHorizontalStepper = () => (
-        <div className={cn('flex items-center justify-center', config.spacing, className)}>
+        <nav aria-label="Form steps" className={cn('flex items-center justify-center', config.spacing, className)}>
             {steps.map((step, index) => {
                 const state = getStepState(index, step);
                 const styles = getStepStyles(state);
@@ -184,6 +184,17 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                                 preset={state === 'active' ? 'scaleIn' : 'fadeIn'}
                                 className="flex flex-col items-center cursor-pointer"
                                 onClick={(e) => handleStepClick(index, step)}
+                                role="button"
+                                aria-label={`Step ${index + 1}: ${step.title}${state === 'completed' ? ' (completed)' : state === 'active' ? ' (current)' : ''}`}
+                                aria-current={state === 'active' ? 'step' : undefined}
+                                aria-disabled={state === 'disabled'}
+                                tabIndex={state === 'disabled' ? -1 : 0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        handleStepClick(index, step);
+                                    }
+                                }}
                             >
                                 {/* Step Circle */}
                                 <div className={cn(
@@ -246,12 +257,12 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                     </React.Fragment>
                 );
             })}
-        </div>
+        </nav>
     );
 
     // Render vertical stepper
     const renderVerticalStepper = () => (
-        <div className={cn('flex flex-col', config.spacing, className)}>
+        <nav aria-label="Form steps" className={cn('flex flex-col', config.spacing, className)}>
             {steps.map((step, index) => {
                 const state = getStepState(index, step);
                 const styles = getStepStyles(state);
@@ -264,6 +275,17 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                                 preset={state === 'active' ? 'slideRight' : 'fadeIn'}
                                 className="flex items-start cursor-pointer"
                                 onClick={(e) => handleStepClick(index, step)}
+                                role="button"
+                                aria-label={`Step ${index + 1}: ${step.title}${state === 'completed' ? ' (completed)' : state === 'active' ? ' (current)' : ''}`}
+                                aria-current={state === 'active' ? 'step' : undefined}
+                                aria-disabled={state === 'disabled'}
+                                tabIndex={state === 'disabled' ? -1 : 0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        handleStepClick(index, step);
+                                    }
+                                }}
                             >
                                 {/* Step Circle */}
                                 <div className={cn(
@@ -327,7 +349,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                     </React.Fragment>
                 );
             })}
-        </div>
+        </nav>
     );
 
     return (

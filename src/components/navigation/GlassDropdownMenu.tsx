@@ -64,6 +64,7 @@ export const GlassDropdownMenuTrigger = forwardRef<
                 ref={ref}
                 className={baseStyles}
                 asChild={asChild}
+                aria-haspopup="menu"
                 {...props}
             >
                 {children}

@@ -3,6 +3,7 @@
 import React from 'react';
 import { OptimizedGlass } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface GlassMetricChipProps {
   label: string;
@@ -14,6 +15,8 @@ export interface GlassMetricChipProps {
 }
 
 export function GlassMetricChip({ label, value, delta, intent = 'default', icon, className }: GlassMetricChipProps) {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
   const intentColor = intent === 'success' ? 'text-emerald-300' : intent === 'warning' ? 'text-amber-300' : intent === 'danger' ? 'text-red-300' : 'glass-text-primary';
   return (
     <OptimizedGlass elevation={'level1'} className={cn('inline-flex items-center glass-gap-2 glass-px-3 glass-py-1.5 glass-radius-xl border border-white/15', className)}>

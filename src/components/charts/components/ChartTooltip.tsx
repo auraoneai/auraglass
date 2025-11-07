@@ -1,6 +1,7 @@
 // Typography tokens available via typography.css (imported in index.css)
 import { cn } from '../../../lib/utilsComprehensive';
 import React from 'react';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface TooltipData {
   datasetIndex: number;
@@ -27,6 +28,8 @@ export interface ChartTooltipProps {
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   tooltipData,
   datasets = [],
   color = 'var(--glass-color-primary)',

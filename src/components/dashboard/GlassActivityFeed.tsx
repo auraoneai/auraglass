@@ -18,6 +18,7 @@ import { Motion } from '../../primitives';
 import { GlassButton } from '../button';
 import { CardContent, CardHeader, CardTitle, GlassCard } from '../card';
 import { GlassBadge } from '../data-display';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ActivityItem {
     id: string;
@@ -118,6 +119,8 @@ export interface GlassActivityFeedProps {
  * A glassmorphism activity timeline with filtering and grouping
  */
 export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     activities,
     title = 'Activity Feed',
     subtitle,

@@ -6,6 +6,7 @@
 import React, { CSSProperties, forwardRef, ReactNode } from 'react';
 import { GlassCard } from './GlassCard';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 /**
  * Glowing Card Props
@@ -29,6 +30,8 @@ export interface GlowingCardProps {
 export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
   (
     {
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
       children,
       className = '',
       style = {},

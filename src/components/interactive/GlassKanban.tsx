@@ -12,6 +12,7 @@ import { useSpatialAudio } from '../advanced/GlassSpatialAudio';
 import { GlassButton } from '../button';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
 import { Plus, MoreHorizontal, Eye, Target, Brain } from 'lucide-react';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Extend Window interface for spatial audio
 declare global {
@@ -72,6 +73,8 @@ export interface GlassKanbanProps extends ConsciousnessFeatures {
  * A comprehensive Kanban board with consciousness interface features
  */
 export function GlassKanban({ 
+  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+
     columns, 
     className,
     enableDragDrop = true,

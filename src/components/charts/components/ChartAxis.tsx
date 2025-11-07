@@ -2,6 +2,7 @@
 import { cn } from '../../../lib/utilsComprehensive';
 import React, { useRef, useState, useEffect } from 'react';
 import { createGlassStyle } from '../../../core/mixins/glassMixins';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 export interface ChartAxisProps {
   orientation?: 'horizontal' | 'vertical';
@@ -13,6 +14,8 @@ export interface ChartAxisProps {
 }
 
 export const ChartAxis: React.FC<ChartAxisProps> = ({
+  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+
   orientation = 'horizontal',
   show = true,
   showLabels = true,

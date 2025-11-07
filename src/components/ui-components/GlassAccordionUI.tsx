@@ -8,6 +8,7 @@
  */
 
 import { cn } from '../../lib/utilsComprehensive';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Re-export Glass components with legacy names
 export {

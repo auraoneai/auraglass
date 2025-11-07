@@ -3,6 +3,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass } from '../../primitives';
+import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Box props interface
 export interface BoxProps {
@@ -387,6 +388,8 @@ Box.displayName = 'Box';
  * A box component with glass morphism styling.
  */
 export const GlassBox = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
+  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+
   const {
     glass = true,
     elevation = 'level2',
