@@ -675,8 +675,8 @@
 .glass-bottom-0 { bottom: 0; }
 .glass-left-4 { left: var(--glass-space-4); }
 .glass-left-1-2 { left: 50%; }
-.glass-translate-x-1/2-neg { transform: translateX(-50%); }
-.glass-translate-y-1/2-neg { transform: translateY(-50%); }
+.glass-translate-x-1\/2-neg { transform: translateX(-50%); }
+.glass-translate-y-1\/2-neg { transform: translateY(-50%); }
 .glass-radius-inherit { border-radius: inherit; }
 .glass-z-10 { z-index: 10; }
 .glass-z-30 { z-index: 30; }
@@ -1510,14 +1510,17 @@
 
 /* Enhanced focus states for accessibility */
 .glass-focus {
+  --glass-focus-ring-offset-width: 2px;
+  --glass-focus-ring-offset-color: transparent;
+  --glass-focus-ring-opacity: 0.5;
   outline: none;
-  box-shadow: 0 0 0 2px transparent, 0 0 0 4px rgba(59, 130, 246, 0.5);
-  ring-offset-width: 2px;
-  ring-offset-color: transparent;
+  box-shadow:
+    0 0 0 var(--glass-focus-ring-offset-width, 2px) var(--glass-focus-ring-offset-color, transparent),
+    0 0 0 calc(4px + var(--glass-focus-ring-offset-width, 2px)) rgba(59, 130, 246, var(--glass-focus-ring-opacity, 0.5));
 }
 
 .glass-focus:focus-visible {
-  ring-opacity: 1;
+  --glass-focus-ring-opacity: 1;
 }
 
 /* ========================================
