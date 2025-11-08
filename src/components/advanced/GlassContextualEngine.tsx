@@ -915,6 +915,12 @@ class ContextualSensors {
   private battery: any = null;
 
   async initialize(): Promise<void> {
+    // CRITICAL SSR FIX: Skip all sensor initialization on server
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+      console.warn('ContextualSensors: Skipping initialization on server');
+      return;
+    }
+
     // Request permissions and initialize sensors
     await this.initializeGeolocation();
     await this.initializeDeviceMotion();
@@ -1076,6 +1082,11 @@ class ContextualSensors {
   }
 
   private estimateNetworkQuality(): DeviceSensorData["networkQuality"] {
+    // CRITICAL SSR FIX: Skip navigator access on server
+    if (typeof navigator === 'undefined') {
+      return "good";
+    }
+
     const connection = (navigator as any).connection;
     if (!connection) return "good";
 

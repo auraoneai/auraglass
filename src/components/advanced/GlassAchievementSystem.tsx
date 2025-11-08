@@ -318,6 +318,11 @@ class GlassAchievementEngine {
   }
 
   private loadProgress(): void {
+    // CRITICAL SSR FIX: Skip localStorage access on server
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+
     try {
       const stored = localStorage.getItem(
         `auraglass-achievements-${this.progress.userId}`
@@ -350,6 +355,11 @@ class GlassAchievementEngine {
   }
 
   private saveProgress(): void {
+    // CRITICAL SSR FIX: Skip localStorage access on server
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+
     try {
       localStorage.setItem(
         `auraglass-achievements-${this.progress.userId}`,

@@ -73,6 +73,12 @@ class BiometricSensorManager {
   private listeners: Array<(reading: BiometricReading) => void> = [];
 
   async initialize(): Promise<boolean> {
+    // CRITICAL SSR FIX: Skip all sensor initialization on server
+    if (typeof window === 'undefined') {
+      console.warn('BiometricSensorManager: Skipping initialization on server');
+      return false;
+    }
+
     try {
       // Check for Generic Sensor API support
       if ("Accelerometer" in window) {
@@ -121,6 +127,11 @@ class BiometricSensorManager {
   }
 
   private setupBehavioralAnalysis(): void {
+    // CRITICAL SSR FIX: Skip document access on server
+    if (typeof document === 'undefined') {
+      return;
+    }
+
     // Track mouse/touch patterns for stress indicators
     let lastClickTime = 0;
     let clickCount = 0;
@@ -282,6 +293,12 @@ class BiometricSensorManager {
   }
 
   async connectHeartRateMonitor(): Promise<boolean> {
+    // CRITICAL SSR FIX: Skip bluetooth access on server
+    if (typeof navigator === 'undefined') {
+      console.warn('BiometricSensorManager: Bluetooth not available on server');
+      return false;
+    }
+
     try {
       if (!("bluetooth" in navigator)) {
         throw new Error("Web Bluetooth not supported");
@@ -551,6 +568,11 @@ export class BiometricAdaptationEngine {
   }
 
   private loadProfile(): void {
+    // CRITICAL SSR FIX: Skip localStorage access on server
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+
     try {
       const stored = localStorage.getItem("auraglass-biometric-profile");
       if (stored) {
@@ -563,6 +585,11 @@ export class BiometricAdaptationEngine {
   }
 
   private saveProfile(): void {
+    // CRITICAL SSR FIX: Skip localStorage access on server
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+
     try {
       localStorage.setItem(
         "auraglass-biometric-profile",
