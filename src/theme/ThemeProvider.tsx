@@ -10,13 +10,15 @@ import React, {
   useId,
 } from "react";
 
-// Conditional styled-components import (only loads if styled-components is installed)
-let StyledThemeProvider: any = null;
-try {
-  const sc = require("styled-components");
-  StyledThemeProvider = sc.ThemeProvider;
-} catch {
-  // styled-components not available - will skip StyledThemeProvider wrapper
+// Lazy styled-components import - only loads at render time, not module initialization
+// This prevents styled-components from executing during Next.js build-time static analysis
+function getStyledThemeProvider() {
+  try {
+    const sc = require("styled-components");
+    return sc.ThemeProvider;
+  } catch {
+    return null;
+  }
 }
 
 // import { css, createGlobalStyle } from 'styled-components'; // Unused imports
@@ -1205,13 +1207,16 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
             <GlassEffectsContext.Provider value={glassEffectsContextValue}>
               <PreferencesContext.Provider value={preferencesContextValue}>
                 <ResponsiveContext.Provider value={responsiveContextValue}>
-                  {StyledThemeProvider ? (
-                    <StyledThemeProvider theme={theme}>
-                      {children}
-                    </StyledThemeProvider>
-                  ) : (
-                    children
-                  )}
+                  {(() => {
+                    const StyledThemeProvider = getStyledThemeProvider();
+                    return StyledThemeProvider ? (
+                      <StyledThemeProvider theme={theme}>
+                        {children}
+                      </StyledThemeProvider>
+                    ) : (
+                      children
+                    );
+                  })()}
                 </ResponsiveContext.Provider>
               </PreferencesContext.Provider>
             </GlassEffectsContext.Provider>
