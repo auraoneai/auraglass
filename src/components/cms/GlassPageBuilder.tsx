@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Glass } from '../../primitives';
-import { cn } from '../../lib/utilsComprehensive';
-import { DragDropProvider, useDragDrop } from './GlassDragDropProvider';
-import { GlassComponentPalette } from './GlassComponentPalette';
-import { GlassCanvas } from './GlassCanvas';
-import { GlassPropertyPanel } from './GlassPropertyPanel';
-import { GlassPageStructure } from './GlassPageStructure';
+import React, { useState, useCallback, useEffect } from "react";
+import { Glass } from "../../primitives";
+import { cn } from "../../lib/utilsComprehensive";
+import { DragDropProvider, useDragDrop } from "./GlassDragDropProvider";
+import { GlassComponentPalette } from "./GlassComponentPalette";
+import { GlassCanvas } from "./GlassCanvas";
+import { GlassPropertyPanel } from "./GlassPropertyPanel";
+import { GlassPageStructure } from "./GlassPageStructure";
 
 interface PageBuilderProps {
   className?: string;
@@ -28,23 +28,23 @@ const Toolbar: React.FC = () => {
     toggleSnapToGrid,
     clearPage,
     exportPage,
-    importPage
+    importPage,
   } = useDragDrop();
 
   const handleSave = useCallback(() => {
     const data = exportPage();
-    localStorage.setItem('glass-page-builder-autosave', JSON.stringify(data));
+    localStorage.setItem("glass-page-builder-autosave", JSON.stringify(data));
     // You could also call an onSave prop here
   }, [exportPage]);
 
   const handleLoad = useCallback(() => {
-    const saved = localStorage.getItem('glass-page-builder-autosave');
+    const saved = localStorage.getItem("glass-page-builder-autosave");
     if (saved) {
       try {
         const data = JSON.parse(saved);
         importPage(data);
       } catch (error) {
-        console.error('Error loading saved data:', error);
+        console.error("Error loading saved data:", error);
       }
     }
   }, [importPage]);
@@ -61,37 +61,42 @@ const Toolbar: React.FC = () => {
   }, [pageState.components.length, handleSave]);
 
   return (
-    <div data-glass-component className="flex items-center justify-between p-4 glass-surface-subtle border-b border-subtle">
+    <div
+      data-glass-component
+      className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-surface-subtle glass-border-b glass-border-subtle"
+    >
       {/* Left Side - Main Actions */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold glass-text-secondary">Page Builder</h1>
-          <span className="text-xs glass-text-secondary glass-surface-subtle px-2 py-1 glass-radius">
+      <div className="glass-flex glass-items-center glass-gap-4">
+        <div className="glass-flex glass-items-center glass-gap-2">
+          <h1 className="glass-text-xl font-bold glass-text-secondary">
+            Page Builder
+          </h1>
+          <span className="glass-text-xs glass-text-secondary glass-surface-subtle glass-px-2 glass-py-1 glass-radius">
             v1.0
           </span>
         </div>
-        
+
         <div className="w-px h-6 glass-surface-subtle" />
-        
+
         {/* File Actions */}
-        <div className="flex items-center gap-2">
+        <div className="glass-flex glass-items-center glass-gap-2">
           <button
             onClick={clearPage}
-            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <span>🗑️</span>
             New
           </button>
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <span>💾</span>
             Save
           </button>
           <button
             onClick={handleLoad}
-            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <span>📁</span>
             Load
@@ -101,14 +106,14 @@ const Toolbar: React.FC = () => {
         <div className="w-px h-6 glass-surface-subtle" />
 
         {/* Undo/Redo */}
-        <div className="flex items-center gap-1">
+        <div className="glass-flex glass-items-center glass-gap-1">
           <button
             onClick={undo}
             disabled={!canUndo()}
             className={cn(
               "p-2 rounded-md transition-colors",
-              canUndo() 
-                ? "text-gray-700 hover:bg-gray-100" 
+              canUndo()
+                ? "text-gray-700 hover:bg-gray-100"
                 : "text-gray-400 cursor-not-allowed"
             )}
             title="Undo (Ctrl+Z)"
@@ -120,8 +125,8 @@ const Toolbar: React.FC = () => {
             disabled={!canRedo()}
             className={cn(
               "p-2 rounded-md transition-colors",
-              canRedo() 
-                ? "text-gray-700 hover:bg-gray-100" 
+              canRedo()
+                ? "text-gray-700 hover:bg-gray-100"
                 : "text-gray-400 cursor-not-allowed"
             )}
             title="Redo (Ctrl+Y)"
@@ -132,11 +137,11 @@ const Toolbar: React.FC = () => {
       </div>
 
       {/* Center - Breakpoint Controls */}
-      <div className="flex items-center gap-2 glass-surface-subtle glass-radius-lg p-1">
+      <div className="glass-flex glass-items-center glass-gap-2 glass-surface-subtle glass-radius-lg glass-p-1">
         {[
-          { key: 'desktop', icon: '🖥️', label: 'Desktop' },
-          { key: 'tablet', icon: '📱', label: 'Tablet' },
-          { key: 'mobile', icon: '📱', label: 'Mobile' }
+          { key: "desktop", icon: "🖥️", label: "Desktop" },
+          { key: "tablet", icon: "📱", label: "Tablet" },
+          { key: "mobile", icon: "📱", label: "Mobile" },
         ].map((breakpoint: any) => (
           <button
             key={breakpoint.key}
@@ -156,9 +161,9 @@ const Toolbar: React.FC = () => {
       </div>
 
       {/* Right Side - View Options & Actions */}
-      <div className="flex items-center gap-4">
+      <div className="glass-flex glass-items-center glass-gap-4">
         {/* View Options */}
-        <div className="flex items-center gap-2">
+        <div className="glass-flex glass-items-center glass-gap-2">
           <button
             onClick={toggleGrid}
             className={cn(
@@ -188,7 +193,7 @@ const Toolbar: React.FC = () => {
         <div className="w-px h-6 glass-surface-subtle" />
 
         {/* Preview & Publish */}
-        <div className="flex items-center gap-2">
+        <div className="glass-flex glass-items-center glass-gap-2">
           <button
             onClick={togglePreviewMode}
             className={cn(
@@ -198,16 +203,16 @@ const Toolbar: React.FC = () => {
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             )}
           >
-            <span>{pageState.previewMode ? '👁️' : '✏️'}</span>
-            {pageState.previewMode ? 'Exit Preview' : 'Preview'}
+            <span>{pageState.previewMode ? "👁️" : "✏️"}</span>
+            {pageState.previewMode ? "Exit Preview" : "Preview"}
           </button>
           <button
             onClick={() => {
               const data = exportPage();
-              console.log('Publishing:', data);
-              alert('Page published! (Demo - check console for data)');
+              console.log("Publishing:", data);
+              alert("Page published! (Demo - check console for data)");
             }}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium glass-surface-blue text-primary hover:glass-surface-blue glass-radius-md transition-colors"
+            className="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm font-medium glass-surface-blue text-primary hover:glass-surface-blue glass-radius-md transition-colors"
           >
             <span>🚀</span>
             Publish
@@ -223,13 +228,15 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
   initialData,
   onSave,
   onPreview,
-  onPublish
+  onPublish,
 }) => {
   const { importPage } = useDragDrop();
-  
+
   const [leftPanelCollapsed, setLeftPanelCollapsed] = useState(false);
   const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
-  const [activeLeftPanel, setActiveLeftPanel] = useState<'components' | 'structure'>('components');
+  const [activeLeftPanel, setActiveLeftPanel] = useState<
+    "components" | "structure"
+  >("components");
 
   // Load initial data
   useEffect(() => {
@@ -237,13 +244,13 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
       importPage(initialData);
     } else {
       // Try to load from localStorage
-      const saved = localStorage.getItem('glass-page-builder-autosave');
+      const saved = localStorage.getItem("glass-page-builder-autosave");
       if (saved) {
         try {
           const data = JSON.parse(saved);
           importPage(data);
         } catch (error) {
-          console.error('Error loading saved data:', error);
+          console.error("Error loading saved data:", error);
         }
       }
     }
@@ -254,21 +261,21 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && !e.shiftKey && !e.altKey) {
         switch (e.key) {
-          case 'z':
+          case "z":
             e.preventDefault();
             // undo() would be called here if we had access to it
             break;
-          case 'y':
+          case "y":
             e.preventDefault();
             // redo() would be called here if we had access to it
             break;
-          case 's':
+          case "s":
             e.preventDefault();
             if (onSave) {
               // Call onSave prop
             }
             break;
-          case 'p':
+          case "p":
             e.preventDefault();
             if (onPreview) {
               // Call onPreview prop
@@ -278,62 +285,71 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onSave, onPreview]);
 
   return (
-    <div className={cn("h-screen flex flex-col overflow-hidden bg-gray-100", className)}>
+    <div
+      className={cn(
+        "h-screen flex flex-col overflow-hidden bg-gray-100",
+        className
+      )}
+    >
       {/* Toolbar */}
       <Toolbar />
 
       {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="glass-flex-1 glass-flex overflow-hidden">
         {/* Left Panels */}
-        <div className="flex">
+        <div className="glass-flex">
           {/* Left Panel Tabs */}
           {!leftPanelCollapsed && (
-            <div className="w-12 glass-surface-subtle border-r border-subtle flex flex-col">
+            <div className="w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col">
               <button
-                onClick={() => setActiveLeftPanel('components')}
+                onClick={() => setActiveLeftPanel("components")}
                 className={cn(
                   "flex flex-col items-center gap-1 p-3 text-xs transition-colors",
-                  activeLeftPanel === 'components'
+                  activeLeftPanel === "components"
                     ? "bg-blue-50 text-blue-600"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
                 title="Components"
               >
-                <span className="text-lg">📦</span>
+                <span className="glass-text-lg">📦</span>
                 Comp
               </button>
               <button
-                onClick={() => setActiveLeftPanel('structure')}
+                onClick={() => setActiveLeftPanel("structure")}
                 className={cn(
                   "flex flex-col items-center gap-1 p-3 text-xs transition-colors",
-                  activeLeftPanel === 'structure'
+                  activeLeftPanel === "structure"
                     ? "bg-blue-50 text-blue-600"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
                 title="Structure"
               >
-                <span className="text-lg">🌳</span>
+                <span className="glass-text-lg">🌳</span>
                 Tree
               </button>
             </div>
           )}
 
           {/* Active Left Panel */}
-          <div className="border-r border-subtle">
-            {activeLeftPanel === 'components' ? (
+          <div className="glass-border-r glass-border-subtle">
+            {activeLeftPanel === "components" ? (
               <GlassComponentPalette
                 collapsed={leftPanelCollapsed}
-                onToggleCollapse={() => setLeftPanelCollapsed(!leftPanelCollapsed)}
+                onToggleCollapse={() =>
+                  setLeftPanelCollapsed(!leftPanelCollapsed)
+                }
               />
             ) : (
               <GlassPageStructure
                 collapsed={leftPanelCollapsed}
-                onToggleCollapse={() => setLeftPanelCollapsed(!leftPanelCollapsed)}
+                onToggleCollapse={() =>
+                  setLeftPanelCollapsed(!leftPanelCollapsed)
+                }
               />
             )}
           </div>
@@ -343,23 +359,25 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
         <GlassCanvas />
 
         {/* Right Panel - Properties */}
-        <div className="border-l border-subtle">
+        <div className="glass-border-l glass-border-subtle">
           <GlassPropertyPanel
             collapsed={rightPanelCollapsed}
-            onToggleCollapse={() => setRightPanelCollapsed(!rightPanelCollapsed)}
+            onToggleCollapse={() =>
+              setRightPanelCollapsed(!rightPanelCollapsed)
+            }
           />
         </div>
       </div>
 
       {/* Status Bar */}
-      <div className="h-6 glass-surface-primary text-gray-300 text-xs flex items-center justify-between px-4">
-        <div className="flex items-center gap-4">
+      <div className="h-6 glass-surface-primary text-gray-300 glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4">
+        <div className="glass-flex glass-items-center glass-gap-4">
           <span>🟢 Ready</span>
           <span>Auto-save: ON</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="glass-flex glass-items-center glass-gap-4">
           <span>Zoom: 100%</span>
-          <span>Grid: {`${false ? 'ON' : 'OFF'}`}</span>
+          <span>Grid: {`${false ? "ON" : "OFF"}`}</span>
         </div>
       </div>
     </div>

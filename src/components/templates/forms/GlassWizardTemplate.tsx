@@ -1,12 +1,12 @@
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
-import { GlassButton } from '@/components/button';
-import { cn } from '../../../lib/utilsComprehensive';
-import { GlassCard } from '@/components/card';
-import { GlassFormBuilder } from '@/components/interactive/GlassFormBuilder';
-import { HStack, VStack } from '@/components/layout';
-import { Glass } from '@/primitives';
-import { Motion } from '@/primitives';
-import { GlassFormWizardSteps } from './GlassFormWizardSteps';
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import { GlassButton } from "@/components/button";
+import { cn } from "../../../lib/utilsComprehensive";
+import { GlassCard } from "@/components/card";
+import { GlassFormBuilder } from "@/components/interactive/GlassFormBuilder";
+import { HStack, VStack } from "@/components/layout";
+import { Glass } from "@/primitives";
+import { Motion } from "@/primitives";
+import { GlassFormWizardSteps } from "./GlassFormWizardSteps";
 
 export interface WizardStep {
   id: string;
@@ -19,7 +19,8 @@ export interface WizardStep {
   component?: React.ReactNode;
 }
 
-export interface GlassWizardTemplateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'autoSave'> {
+export interface GlassWizardTemplateProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "autoSave"> {
   /**
    * Wizard title
    */
@@ -63,7 +64,10 @@ export interface GlassWizardTemplateProps extends Omit<React.HTMLAttributes<HTML
   /**
    * Step validation handler
    */
-  onStepValidate?: (step: number, values: Record<string, any>) => Promise<Record<string, string>>;
+  onStepValidate?: (
+    step: number,
+    values: Record<string, any>
+  ) => Promise<Record<string, string>>;
   /**
    * Loading state
    */
@@ -91,7 +95,7 @@ export interface GlassWizardTemplateProps extends Omit<React.HTMLAttributes<HTML
   /**
    * Layout variant
    */
-  layout?: 'default' | 'compact' | 'sidebar';
+  layout?: "default" | "compact" | "sidebar";
   /**
    * Button text customization
    */
@@ -107,7 +111,10 @@ export interface GlassWizardTemplateProps extends Omit<React.HTMLAttributes<HTML
  * GlassWizardTemplate component
  * Multi-step wizard template with advanced navigation and validation
  */
-export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplateProps>(
+export const GlassWizardTemplate = forwardRef<
+  HTMLDivElement,
+  GlassWizardTemplateProps
+>(
   (
     {
       title,
@@ -127,13 +134,13 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
       autoSave = false,
       showStepIndicator = true,
       allowSkipping = false,
-      layout = 'default',
-      submitText = 'Submit',
-      cancelText = 'Cancel',
-      nextText = 'Next',
-      previousText = 'Previous',
-      skipText = 'Skip',
-      finishText = 'Finish',
+      layout = "default",
+      submitText = "Submit",
+      cancelText = "Cancel",
+      nextText = "Next",
+      previousText = "Previous",
+      skipText = "Skip",
+      finishText = "Finish",
       className,
       ...props
     },
@@ -141,8 +148,12 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
   ) => {
     const [internalValues, setInternalValues] = useState(values);
     const [internalErrors, setInternalErrors] = useState(errors);
-    const [stepValidation, setStepValidation] = useState<Record<number, boolean>>({});
-    const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+    const [stepValidation, setStepValidation] = useState<
+      Record<number, boolean>
+    >({});
+    const [completedSteps, setCompletedSteps] = useState<Set<number>>(
+      new Set()
+    );
 
     const totalSteps = steps?.length || 0;
     const currentStepData = steps?.[currentStep];
@@ -150,33 +161,39 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
     const isLastStep = currentStep === totalSteps - 1;
 
     // Handle value change
-    const handleValueChange = useCallback((newValues: Record<string, any>) => {
-      setInternalValues(newValues);
-      onChange?.(newValues);
-    }, [onChange]);
+    const handleValueChange = useCallback(
+      (newValues: Record<string, any>) => {
+        setInternalValues(newValues);
+        onChange?.(newValues);
+      },
+      [onChange]
+    );
 
     // Handle step validation
-    const handleStepValidation = useCallback(async (stepIndex: number, stepValues: Record<string, any>) => {
-      const step = steps?.[stepIndex];
-      let errors: Record<string, string> = {};
+    const handleStepValidation = useCallback(
+      async (stepIndex: number, stepValues: Record<string, any>) => {
+        const step = steps?.[stepIndex];
+        let errors: Record<string, string> = {};
 
-      // Step-specific validation
-      if (step.validation) {
-        errors = await step.validation(stepValues);
-      }
+        // Step-specific validation
+        if (step.validation) {
+          errors = await step.validation(stepValues);
+        }
 
-      // Custom validation handler
-      if (onStepValidate) {
-        const customErrors = await onStepValidate(stepIndex, stepValues);
-        errors = { ...errors, ...customErrors };
-      }
+        // Custom validation handler
+        if (onStepValidate) {
+          const customErrors = await onStepValidate(stepIndex, stepValues);
+          errors = { ...errors, ...customErrors };
+        }
 
-      setInternalErrors(errors);
-      const isValid = Object.keys(errors).length === 0;
-      setStepValidation((prev: any) => ({ ...prev, [stepIndex]: isValid }));
+        setInternalErrors(errors);
+        const isValid = Object.keys(errors).length === 0;
+        setStepValidation((prev: any) => ({ ...prev, [stepIndex]: isValid }));
 
-      return isValid;
-    }, [steps, onStepValidate]);
+        return isValid;
+      },
+      [steps, onStepValidate]
+    );
 
     // Handle next step
     const handleNext = useCallback(async () => {
@@ -188,7 +205,13 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
         setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
         onStepChange?.(currentStep + 1);
       }
-    }, [currentStep, isLastStep, handleStepValidation, internalValues, onStepChange]);
+    }, [
+      currentStep,
+      isLastStep,
+      handleStepValidation,
+      internalValues,
+      onStepChange,
+    ]);
 
     // Handle previous step
     const handlePrevious = useCallback(() => {
@@ -203,12 +226,15 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
     }, [currentStep, isLastStep, currentStepData?.canSkip, onStepChange]);
 
     // Handle step click (direct navigation)
-    const handleStepClick = useCallback((stepIndex: number) => {
-      // Only allow navigation to completed steps or the next step
-      if (stepIndex <= currentStep || completedSteps.has(stepIndex - 1)) {
-        onStepChange?.(stepIndex);
-      }
-    }, [currentStep, completedSteps, onStepChange]);
+    const handleStepClick = useCallback(
+      (stepIndex: number) => {
+        // Only allow navigation to completed steps or the next step
+        if (stepIndex <= currentStep || completedSteps.has(stepIndex - 1)) {
+          onStepChange?.(stepIndex);
+        }
+      },
+      [currentStep, completedSteps, onStepChange]
+    );
 
     // Handle form submission
     const handleSubmit = useCallback(async () => {
@@ -221,7 +247,14 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
           handleNext();
         }
       }
-    }, [currentStep, internalValues, isLastStep, handleStepValidation, onSubmit, handleNext]);
+    }, [
+      currentStep,
+      internalValues,
+      isLastStep,
+      handleStepValidation,
+      onSubmit,
+      handleNext,
+    ]);
 
     // Handle draft save
     const handleSaveDraft = useCallback(() => {
@@ -243,14 +276,8 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
     const renderHeader = () => (
       <VStack space="md">
         <VStack space="sm">
-          <h1 className="text-2xl font-bold text-primary">
-            {title}
-          </h1>
-          {description && (
-            <p className="glass-text-secondary">
-              {description}
-            </p>
-          )}
+          <h1 className="glass-text-2xl font-bold text-primary">{title}</h1>
+          {description && <p className="glass-text-secondary">{description}</p>}
         </VStack>
 
         {showStepIndicator && (
@@ -259,7 +286,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
             currentStep={currentStep}
             completedSteps={completedSteps}
             onStepClick={handleStepClick}
-            layout={layout === 'compact' ? 'compact' : 'default'}
+            layout={layout === "compact" ? "compact" : "default"}
           />
         )}
       </VStack>
@@ -271,11 +298,11 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
         {/* Step header */}
         <VStack space="sm">
           <HStack space="sm" align="center">
-            <h2 className="text-xl font-semibold text-primary">
+            <h2 className="glass-text-xl font-semibold text-primary">
               {currentStepData.title}
             </h2>
             {currentStepData.optional && (
-              <span className="text-sm glass-text-secondary glass-surface-subtle px-2 py-1 glass-radius-md">
+              <span className="glass-text-sm glass-text-secondary glass-surface-subtle glass-px-2 glass-py-1 glass-radius-md">
                 Optional
               </span>
             )}
@@ -288,7 +315,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
         </VStack>
 
         {/* Step content */}
-        <div className="flex-1">
+        <div className="glass-flex-1">
           {currentStepData.component ? (
             currentStepData.component
           ) : (
@@ -314,11 +341,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
       <HStack space="sm" align="center" justify="between">
         <HStack space="sm">
           {onCancel && (
-            <GlassButton
-              variant="ghost"
-              onClick={onCancel}
-              disabled={loading}
-            >
+            <GlassButton variant="ghost" onClick={onCancel} disabled={loading}>
               {cancelText}
             </GlassButton>
           )}
@@ -376,20 +399,20 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
       );
 
       switch (layout) {
-        case 'compact':
+        case "compact":
           return (
-            <div data-glass-component className="max-w-2xl mx-auto">
-              <GlassCard variant="default" className="p-6">
+            <div data-glass-component className="max-w-2xl glass-mx-auto">
+              <GlassCard variant="default" className="glass-p-6">
                 {content}
               </GlassCard>
             </div>
           );
 
-        case 'sidebar':
+        case "sidebar":
           return (
-            <div className="grid grid-cols-12 gap-8">
+            <div className="glass-grid glass-grid-cols-12 glass-gap-8">
               <div className="col-span-4">
-                <Glass className="p-6 sticky top-8">
+                <Glass className="glass-p-6 sticky top-8">
                   <VStack space="md">
                     <h3 className="font-semibold text-primary">Steps</h3>
                     <VStack space="sm">
@@ -398,18 +421,21 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
                           key={step.id}
                           onClick={(e) => handleStepClick(index)}
                           className={cn(
-                            'text-left glass-p-3 glass-radius-lg transition-colors',
+                            "text-left glass-p-3 glass-radius-lg transition-colors",
                             index === currentStep
-                              ? 'bg-primary/10 text-primary border border-primary/20'
+                              ? "bg-primary/10 text-primary border border-primary/20"
                               : completedSteps.has(index)
-                                ? 'bg-success/10 text-success border border-success/20'
-                                : 'glass-text-secondary hover:bg-muted/50'
+                                ? "bg-success/10 text-success border border-success/20"
+                                : "glass-text-secondary hover:bg-muted/50"
                           )}
-                          disabled={index > currentStep && !completedSteps.has(index - 1)}
+                          disabled={
+                            index > currentStep &&
+                            !completedSteps.has(index - 1)
+                          }
                         >
                           <div className="font-medium">{step.title}</div>
                           {step.description && (
-                            <div className="text-sm opacity-75 glass-mt-1">
+                            <div className="glass-text-sm opacity-75 glass-mt-1">
                               {step.description}
                             </div>
                           )}
@@ -420,7 +446,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
                 </Glass>
               </div>
               <div className="col-span-8">
-                <GlassCard variant="default" className="p-6">
+                <GlassCard variant="default" className="glass-p-6">
                   {content}
                 </GlassCard>
               </div>
@@ -429,7 +455,7 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
 
         default:
           return (
-            <GlassCard variant="default" className="p-6">
+            <GlassCard variant="default" className="glass-p-6">
               {content}
             </GlassCard>
           );
@@ -437,15 +463,17 @@ export const GlassWizardTemplate = forwardRef<HTMLDivElement, GlassWizardTemplat
     };
 
     return (
-      <div ref={ref} className={cn('w-full glass-auto-gap glass-auto-gap-3xl', className)} {...props}>
-        {layout !== 'sidebar' && renderHeader()}
+      <div
+        ref={ref}
+        className={cn("w-full glass-auto-gap glass-auto-gap-3xl", className)}
+        {...props}
+      >
+        {layout !== "sidebar" && renderHeader()}
 
-        <Motion>
-          {renderLayout()}
-        </Motion>
+        <Motion>{renderLayout()}</Motion>
       </div>
     );
   }
 );
 
-GlassWizardTemplate.displayName = 'GlassWizardTemplate';
+GlassWizardTemplate.displayName = "GlassWizardTemplate";

@@ -185,7 +185,7 @@ function BiometricAdaptationDemo() {
         <div className="flex justify-center gap-4">
           <button
             onClick={() => setShowDashboard(!showDashboard)}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
           >
             {showDashboard ? '📊 Hide Dashboard' : '📊 Show Dashboard'}
           </button>
@@ -215,7 +215,7 @@ function BiometricAdaptationDemo() {
               key={item.scenario}
               onClick={() => simulateStressScenario(item.scenario)}
               className={`glass-surface-secondary glass-elev-2 glass-radius-lg glass-p-4 text-center glass-gap-2
-                         hover:glass-elev-3 transition-all duration-300
+                         hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard
                          ${simulatedStress === item.stress ? 'ring-2 ring-blue-500' : ''}`}
             >
               <div className="text-2xl">{item.icon}</div>

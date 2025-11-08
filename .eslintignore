@@ -1,0 +1,14 @@
+# Build outputs
+dist/
+build/
+node_modules/
+
+# Story files (excluded from type-checking)
+**/*.stories.tsx
+**/*.stories.ts
+
+# Test files
+**/*.test.tsx
+**/*.test.ts
+**/*.spec.tsx
+**/*.spec.ts

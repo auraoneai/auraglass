@@ -1,16 +1,19 @@
-import React, { forwardRef, useState, useMemo } from 'react';
-import { Glass } from '../../../primitives';
-import { Motion } from '../../../primitives';
-import { GlassSearchInterface } from '../../../components/interactive/GlassSearchInterface';
-import { GlassDataTable } from '../../../components/data-display/GlassDataTable';
-import { GlassButton, IconButton } from '../../../components/button/GlassButton';
-import { GlassBadge } from '../../../components/data-display/GlassBadge';
-import { PageHeader } from '../../../components/layout/GlassAppShell';
-import { VStack, HStack } from '../../../components/layout/GlassStack';
-import { GlassGrid, GlassGridItem } from '../../../components/layout/GlassGrid';
-import { GlassCard } from '../../../components/card/GlassCard';
-import { GlassInput } from '../../../components/input/GlassInput';
-import { cn } from '@/lib/utils';
+import React, { forwardRef, useState, useMemo } from "react";
+import { Glass } from "../../../primitives";
+import { Motion } from "../../../primitives";
+import { GlassSearchInterface } from "../../../components/interactive/GlassSearchInterface";
+import { GlassDataTable } from "../../../components/data-display/GlassDataTable";
+import {
+  GlassButton,
+  IconButton,
+} from "../../../components/button/GlassButton";
+import { GlassBadge } from "../../../components/data-display/GlassBadge";
+import { PageHeader } from "../../../components/layout/GlassAppShell";
+import { VStack, HStack } from "../../../components/layout/GlassStack";
+import { GlassGrid, GlassGridItem } from "../../../components/layout/GlassGrid";
+import { GlassCard } from "../../../components/card/GlassCard";
+import { GlassInput } from "../../../components/input/GlassInput";
+import { cn } from "@/lib/utils";
 
 export interface ListItem {
   id: string;
@@ -26,13 +29,13 @@ export interface ListColumn {
   sortable?: boolean;
   filterable?: boolean;
   width?: string | number;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
 }
 
 export interface ListFilter {
   id: string;
   label: string;
-  type: 'select' | 'multiselect' | 'range' | 'date' | 'text';
+  type: "select" | "multiselect" | "range" | "date" | "text";
   options?: Array<{ value: string; label: string; count?: number }>;
   value?: any;
   placeholder?: string;
@@ -40,20 +43,21 @@ export interface ListFilter {
 
 export interface ListSort {
   column: string;
-  direction: 'asc' | 'desc';
+  direction: "asc" | "desc";
 }
 
 export interface ListAction {
   id: string;
   label: string;
   icon?: React.ReactNode;
-  variant?: 'default' | 'primary' | 'secondary' | 'error';
+  variant?: "default" | "primary" | "secondary" | "error";
   onClick: (items: ListItem[]) => void;
   requiresSelection?: boolean;
   single?: boolean; // Only for single item selection
 }
 
-export interface GlassListViewProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassListViewProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Page title
    */
@@ -117,11 +121,11 @@ export interface GlassListViewProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * View mode
    */
-  viewMode?: 'table' | 'grid' | 'list';
+  viewMode?: "table" | "grid" | "list";
   /**
    * View mode change handler
    */
-  onViewModeChange?: (mode: 'table' | 'grid' | 'list') => void;
+  onViewModeChange?: (mode: "table" | "grid" | "list") => void;
   /**
    * Available actions
    */
@@ -178,7 +182,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       filters = [],
       activeFilters = {},
       onFiltersChange,
-      searchQuery = '',
+      searchQuery = "",
       onSearchChange,
       sort,
       onSortChange,
@@ -186,7 +190,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       pageSize = 20,
       totalItems,
       onPaginationChange,
-      viewMode = 'table',
+      viewMode = "table",
       onViewModeChange,
       actions = [],
       primaryAction,
@@ -211,13 +215,15 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       // Apply search
       if (searchQuery && !onSearchChange) {
         result = result.filter((item: any) =>
-          columns.some(column => {
+          columns.some((column) => {
             const value = column.accessorFn
               ? column.accessorFn(item)
               : column.accessorKey
-              ? item?.[column.accessorKey]
-              : '';
-            return String(value).toLowerCase().includes(searchQuery.toLowerCase());
+                ? item?.[column.accessorKey]
+                : "";
+            return String(value)
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
           })
         );
       }
@@ -225,40 +231,59 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       // Apply filters
       if (Object.keys(activeFilters).length > 0 && !onFiltersChange) {
         result = result.filter((item: any) => {
-          return Object.entries(activeFilters).every(([filterId, filterValue]) => {
-            const filter = filters.find(f => f.id === filterId);
-            if (!filter || !filterValue) return true;
+          return Object.entries(activeFilters).every(
+            ([filterId, filterValue]) => {
+              const filter = filters.find((f) => f.id === filterId);
+              if (!filter || !filterValue) return true;
 
-            const itemValue = item?.[filterId];
+              const itemValue = item?.[filterId];
 
-            switch (filter.type) {
-              case 'select':
-                return itemValue === filterValue;
-              case 'multiselect':
-                return Array.isArray(filterValue) ? filterValue.includes(itemValue) : true;
-              case 'text':
-                return String(itemValue).toLowerCase().includes(String(filterValue).toLowerCase());
-              case 'range':
-                if (Array.isArray(filterValue) && filterValue.length === 2) {
-                  return itemValue >= filterValue?.[0] && itemValue <= filterValue?.[1];
-                }
-                return true;
-              default:
-                return true;
+              switch (filter.type) {
+                case "select":
+                  return itemValue === filterValue;
+                case "multiselect":
+                  return Array.isArray(filterValue)
+                    ? filterValue.includes(itemValue)
+                    : true;
+                case "text":
+                  return String(itemValue)
+                    .toLowerCase()
+                    .includes(String(filterValue).toLowerCase());
+                case "range":
+                  if (Array.isArray(filterValue) && filterValue.length === 2) {
+                    return (
+                      itemValue >= filterValue?.[0] &&
+                      itemValue <= filterValue?.[1]
+                    );
+                  }
+                  return true;
+                default:
+                  return true;
+              }
             }
-          });
+          );
         });
       }
 
       return result;
-    }, [data, searchQuery, activeFilters, filters, columns, onSearchChange, onFiltersChange]);
+    }, [
+      data,
+      searchQuery,
+      activeFilters,
+      filters,
+      columns,
+      onSearchChange,
+      onFiltersChange,
+    ]);
 
     // Calculate pagination
-    const totalFilteredItems = totalItems || (filteredData?.length || 0);
+    const totalFilteredItems = totalItems || filteredData?.length || 0;
     const totalPages = Math.ceil(totalFilteredItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentPageData = onPaginationChange ? filteredData : filteredData.slice(startIndex, endIndex);
+    const currentPageData = onPaginationChange
+      ? filteredData
+      : filteredData.slice(startIndex, endIndex);
 
     // Handle selection
     const handleSelectionChange = (newSelection: string[]) => {
@@ -267,7 +292,9 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
     // Handle bulk actions
     const handleBulkAction = (action: ListAction) => {
-      const selectedData = data?.filter((item: any) => selectedItems.includes(item?.id));
+      const selectedData = data?.filter((item: any) =>
+        selectedItems.includes(item?.id)
+      );
       action.onClick(selectedData);
     };
 
@@ -276,9 +303,9 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       if (!onViewModeChange) return null;
 
       const modes = [
-        { key: 'table', icon: '📊', label: 'Table' },
-        { key: 'grid', icon: '▦', label: 'Grid' },
-        { key: 'list', icon: '☰', label: 'List' },
+        { key: "table", icon: "📊", label: "Table" },
+        { key: "grid", icon: "▦", label: "Grid" },
+        { key: "list", icon: "☰", label: "List" },
       ];
 
       return (
@@ -287,7 +314,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             <IconButton
               key={mode.key}
               icon={mode.icon}
-              variant={viewMode === mode.key ? 'primary' : 'ghost'}
+              variant={viewMode === mode.key ? "primary" : "ghost"}
               size="sm"
               onClick={(e) => onViewModeChange(mode.key as any)}
               aria-label={mode.label}
@@ -303,10 +330,12 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
       return (
         <Motion preset="slideDown">
-          <Glass className="p-4 glass-radius-lg">
+          <Glass className="glass-p-4 glass-radius-lg">
             <VStack space="md">
               <HStack space="sm" align="center" justify="between">
-                <h3 className="text-sm font-medium text-primary">Filters</h3>
+                <h3 className="glass-text-sm font-medium text-primary">
+                  Filters
+                </h3>
                 <GlassButton
                   variant="ghost"
                   size="sm"
@@ -316,24 +345,28 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                   Clear All
                 </GlassButton>
               </HStack>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+              <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 glass-gap-4">
                 {filters.map((filter) => (
                   <div key={filter.id}>
-                    <label className="block text-sm font-medium text-primary mb-2">
+                    <label className="block glass-text-sm font-medium text-primary mb-2">
                       {filter.label}
                     </label>
-                    
-                    {filter.type === 'select' && (
+
+                    {filter.type === "select" && (
                       <select
-                        value={activeFilters?.[filter.id] || ''}
-                        onChange={(e) => onFiltersChange?.({
-                          ...activeFilters,
-                          [filter.id]: e.target.value
-                        })}
-                        className="w-full px-3 py-2 bg-background border border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={activeFilters?.[filter.id] || ""}
+                        onChange={(e) =>
+                          onFiltersChange?.({
+                            ...activeFilters,
+                            [filter.id]: e.target.value,
+                          })
+                        }
+                        className="glass-w-full glass-px-3 glass-py-2 bg-background glass-border glass-border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary"
                       >
-                        <option value="">{filter.placeholder || 'Select...'}</option>
+                        <option value="">
+                          {filter.placeholder || "Select..."}
+                        </option>
                         {filter.options?.map((option) => (
                           <option key={option.value} value={option.value}>
                             {option.label} {option.count && `(${option.count})`}
@@ -341,16 +374,19 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                         ))}
                       </select>
                     )}
-                    
-                    {filter.type === 'text' && (
-                      <GlassInput type="text"
-                        value={activeFilters?.[filter.id] || ''}
-                        onChange={(e) => onFiltersChange?.({
-                          ...activeFilters,
-                          [filter.id]: e.target.value
-                        })}
+
+                    {filter.type === "text" && (
+                      <GlassInput
+                        type="text"
+                        value={activeFilters?.[filter.id] || ""}
+                        onChange={(e) =>
+                          onFiltersChange?.({
+                            ...activeFilters,
+                            [filter.id]: e.target.value,
+                          })
+                        }
                         placeholder={filter.placeholder}
-                        className="w-full px-3 py-2 bg-background border border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="glass-w-full glass-px-3 glass-py-2 bg-background glass-border glass-border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     )}
                   </div>
@@ -365,8 +401,8 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     // Render actions bar
     const renderActionsBar = () => {
       const hasSelectedItems = (selectedItems?.length || 0) > 0;
-      const availableActions = actions.filter((action: any) => 
-        !action.requiresSelection || hasSelectedItems
+      const availableActions = actions.filter(
+        (action: any) => !action.requiresSelection || hasSelectedItems
       );
 
       if ((availableActions?.length || 0) === 0 && !primaryAction) return null;
@@ -375,19 +411,22 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
         <HStack space="sm" align="center" justify="between">
           <HStack space="sm" align="center">
             {hasSelectedItems && (
-              <span className="text-sm glass-text-secondary">
-                {(selectedItems?.length || 0)} item{(selectedItems?.length || 0) !== 1 ? 's' : ''} selected
+              <span className="glass-text-sm glass-text-secondary">
+                {selectedItems?.length || 0} item
+                {(selectedItems?.length || 0) !== 1 ? "s" : ""} selected
               </span>
             )}
-            
+
             {availableActions.map((action) => (
               <GlassButton
                 key={action.id}
-                variant={action.variant || 'outline'}
+                variant={action.variant || "outline"}
                 size="sm"
                 leftIcon={action.icon}
                 onClick={(e) => handleBulkAction(action)}
-                disabled={action.requiresSelection && (selectedItems?.length || 0) === 0}
+                disabled={
+                  action.requiresSelection && (selectedItems?.length || 0) === 0
+                }
               >
                 {action.label}
               </GlassButton>
@@ -396,17 +435,17 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
           <HStack space="sm" align="center">
             {renderViewModeToggle()}
-            
+
             {(filters?.length || 0) > 0 && (
               <IconButton
                 icon="🔍"
-                variant={showFilters ? 'primary' : 'ghost'}
+                variant={showFilters ? "primary" : "ghost"}
                 size="sm"
                 onClick={(e) => setShowFilters(!showFilters)}
                 aria-label="Toggle filters"
               />
             )}
-            
+
             {primaryAction && (
               <GlassButton
                 variant="default"
@@ -427,18 +466,20 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       <GlassGrid cols={12} gap="md">
         {currentPageData.map((item, index) => (
           <GlassGridItem key={item?.id} colSpan={4}>
-            {renderCard ? renderCard(item, index) : (
+            {renderCard ? (
+              renderCard(item, index)
+            ) : (
               <GlassCard
                 variant="default"
-                className="h-full cursor-pointer hover:shadow-lg transition-shadow"
+                className="glass-h-full cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={(e) => onRowClick?.(item)}
               >
                 <VStack space="sm">
-                  <div className="text-sm font-medium text-primary">
+                  <div className="glass-text-sm font-medium text-primary">
                     {item?.name || item?.title || item?.id}
                   </div>
-                  <div className="text-xs glass-text-secondary">
-                    {item?.description || 'No description'}
+                  <div className="glass-text-xs glass-text-secondary">
+                    {item?.description || "No description"}
                   </div>
                 </VStack>
               </GlassCard>
@@ -452,23 +493,26 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     const renderListView = () => (
       <VStack space="sm">
         {currentPageData.map((item, index) => (
-          <div 
-            key={item?.id} 
+          <div
+            key={item?.id}
             className="animate-fade-in-up"
-            style={{ 
+            style={{
               animationDelay: `${Math.min(index, 10) * 50}ms`,
-              animationFillMode: 'both'
+              animationFillMode: "both",
             }}
           >
-            {renderCard ? renderCard(item, index) : (
+            {renderCard ? (
+              renderCard(item, index)
+            ) : (
               <GlassCard
                 variant="outlined"
-                className="glass-foundation-complete glass-glass-glass-backdrop-blur-md bg-transparent border-white/40 shadow-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all glass-focus glass-touch-target glass-contrast-guard"
+                className="glass-foundation-complete glass-glass-glass-backdrop-blur-md bg-transparent glass-border-white/40 glass-shadow-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all glass-focus glass-touch-target glass-contrast-guard"
                 onClick={(e) => onRowClick?.(item)}
               >
                 <HStack space="md" align="center">
                   {selectable && (
-                    <GlassInput type="checkbox"
+                    <GlassInput
+                      type="checkbox"
                       checked={selectedItems.includes(item?.id)}
                       onChange={(e) => {
                         const newSelection = e.target.checked
@@ -477,19 +521,19 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                         handleSelectionChange(newSelection);
                       }}
                       onClick={(e) => e.stopPropagation()}
-                      className="glass-radius-md border-glass-border focus:ring-primary"
+                      className="glass-radius-md glass-border-glass-border focus:ring-primary"
                     />
                   )}
-                  
-                  <VStack space="xs" className="flex-1">
-                    <div className="text-sm font-medium text-primary">
+
+                  <VStack space="xs" className="glass-flex-1">
+                    <div className="glass-text-sm font-medium text-primary">
                       {item?.name || item?.title || item?.id}
                     </div>
-                    <div className="text-xs text-primary/70">
-                      {item?.description || 'No description'}
+                    <div className="glass-text-xs text-primary/70">
+                      {item?.description || "No description"}
                     </div>
                   </VStack>
-                  
+
                   {item?.status && (
                     <GlassBadge variant="outline" size="xs">
                       {item?.status}
@@ -507,29 +551,31 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     const renderContent = () => {
       if (loading) {
         return (
-          <div className="flex items-center justify-center h-64">
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
+          <div className="glass-flex glass-items-center glass-justify-center h-64">
+            <div className="w-8 h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
           </div>
         );
       }
 
       if ((currentPageData?.length || 0) === 0) {
-        return emptyState || (
-          <div className="flex flex-col items-center justify-center h-64 text-center">
-            <div className="text-lg font-medium glass-text-secondary mb-2">
-              No items found
+        return (
+          emptyState || (
+            <div className="glass-flex glass-flex-col glass-items-center glass-justify-center h-64 text-center">
+              <div className="glass-text-lg font-medium glass-text-secondary mb-2">
+                No items found
+              </div>
+              <div className="glass-text-sm glass-text-secondary">
+                Try adjusting your search or filters
+              </div>
             </div>
-            <div className="text-sm glass-text-secondary">
-              Try adjusting your search or filters
-            </div>
-          </div>
+          )
         );
       }
 
       switch (viewMode) {
-        case 'grid':
+        case "grid":
           return renderGridView();
-        case 'list':
+        case "list":
           return renderListView();
         default:
           return (
@@ -551,7 +597,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     };
 
     return (
-      <div ref={ref} className={cn('w-full space-y-6', className)} {...props}>
+      <div ref={ref} className={cn("w-full space-y-6", className)} {...props}>
         {/* Header */}
         <PageHeader
           title={title}
@@ -576,9 +622,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
         </VStack>
 
         {/* Content */}
-        <div>
-          {renderContent()}
-        </div>
+        <div>{renderContent()}</div>
 
         {/* Pagination */}
         {onPaginationChange && totalPages > 1 && (
@@ -591,11 +635,11 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             >
               Previous
             </GlassButton>
-            
-            <span className="text-sm glass-text-secondary">
+
+            <span className="glass-text-sm glass-text-secondary">
               Page {currentPage} of {totalPages}
             </span>
-            
+
             <GlassButton
               variant="ghost"
               size="sm"
@@ -611,4 +655,4 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
   }
 );
 
-GlassListView.displayName = 'GlassListView';
+GlassListView.displayName = "GlassListView";

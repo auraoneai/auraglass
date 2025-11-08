@@ -119,7 +119,7 @@ function EyeTrackingDemo() {
         <div className="flex justify-center gap-4">
           <button
             onClick={() => setShowVisualization(!showVisualization)}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
           >
             {showVisualization ? '👁️ Hide Gaze Debug' : '👁️ Show Gaze Debug'}
           </button>

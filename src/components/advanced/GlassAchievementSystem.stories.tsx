@@ -182,14 +182,14 @@ function AchievementSystemDemo() {
         <div className="flex justify-center gap-4">
           <button
             onClick={() => setShowDashboard(!showDashboard)}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
           >
             {showDashboard ? '📊 Hide Dashboard' : '📊 Show Dashboard'}
           </button>
           
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
           >
             {showNotifications ? '🔔 Hide Notifications' : '🔔 Show Notifications'}
           </button>
@@ -250,14 +250,14 @@ function AchievementSystemDemo() {
           <div className="flex justify-center gap-4">
             <button
               onClick={() => handleInteraction('customize')}
-              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
             >
               🎨 Customize Theme
             </button>
             
             <button
               onClick={() => recordAction('collaborate', { users: ['demo-user'] })}
-              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
             >
               🤝 Collaborate
             </button>
@@ -269,7 +269,7 @@ function AchievementSystemDemo() {
                   setTimeout(() => handleInteraction('click', 'combo-sequence'), i * 100);
                 }
               }}
-              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-secondary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
             >
               ⚡ Trigger Combo
             </button>

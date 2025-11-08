@@ -1,48 +1,80 @@
-import React from 'react';
-import { GlassButton } from '../button/GlassButton';
-import { cn } from '../../lib/utilsComprehensive';
+import React from "react";
+import { GlassButton } from "../button/GlassButton";
+import { cn } from "../../lib/utilsComprehensive";
 
-export interface Pair { key: string; value: string }
+export interface Pair {
+  key: string;
+  value: string;
+}
 export interface GlassKeyValueEditorProps {
   value: Pair[];
   onChange: (pairs: Pair[]) => void;
   className?: string;
 }
 
-export function GlassKeyValueEditor({ value, onChange, className }: GlassKeyValueEditorProps) {
+export function GlassKeyValueEditor({
+  value,
+  onChange,
+  className,
+}: GlassKeyValueEditorProps) {
   const update = (i: number, patch: Partial<Pair>) => {
     const next = value.slice();
     next[i] = { ...next[i], ...patch };
     onChange(next);
   };
-  const add = () => onChange([...value, { key: '', value: '' }]);
+  const add = () => onChange([...value, { key: "", value: "" }]);
   const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i));
 
   return (
-    <div data-glass-component className={cn('glass-gap-2', className)} role="group" aria-label="Key-value pair editor">
+    <div
+      data-glass-component
+      className={cn("glass-gap-2", className)}
+      role="group"
+      aria-label="Key-value pair editor"
+    >
       {value.map((p, i) => (
-        <div key={i} className="flex gap-2" role="group" aria-label={`Key-value pair ${i + 1}`}>
+        <div
+          key={i}
+          className="glass-flex glass-gap-2"
+          role="group"
+          aria-label={`Key-value pair ${i + 1}`}
+        >
           <input
             value={p.key}
             onChange={(e) => update(i, { key: e.target.value })}
             placeholder="Key"
             aria-label={`Key for pair ${i + 1}`}
-            className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none"
+            className="glass-flex-1 bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm outline-none glass-focus glass-touch-target glass-contrast-guard"
           />
           <input
             value={p.value}
             onChange={(e) => update(i, { value: e.target.value })}
             placeholder="Value"
             aria-label={`Value for pair ${i + 1}`}
-            className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none"
+            className="glass-flex-1 bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm outline-none glass-focus glass-touch-target glass-contrast-guard"
           />
-          <GlassButton size="sm" variant="ghost" onClick={(e) => remove(i)} aria-label={`Remove pair ${i + 1}`} className="glass-focus glass-touch-target">Remove</GlassButton>
+          <GlassButton
+            size="sm"
+            variant="ghost"
+            onClick={(e) => remove(i)}
+            aria-label={`Remove pair ${i + 1}`}
+            className="glass-focus glass-touch-target"
+          >
+            Remove
+          </GlassButton>
         </div>
       ))}
-      <GlassButton size="sm" variant="secondary" onClick={add} aria-label="Add new key-value pair" className="glass-focus glass-touch-target">Add</GlassButton>
+      <GlassButton
+        size="sm"
+        variant="secondary"
+        onClick={add}
+        aria-label="Add new key-value pair"
+        className="glass-focus glass-touch-target"
+      >
+        Add
+      </GlassButton>
     </div>
   );
 }
 
 export default GlassKeyValueEditor;
-

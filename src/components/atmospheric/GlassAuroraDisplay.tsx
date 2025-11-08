@@ -1,10 +1,16 @@
-import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { cn } from '../../lib/utilsComprehensive';
-import { useA11yId } from '../../utils/a11y';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { useGlassSound } from '../../utils/soundDesign';
+import React, {
+  forwardRef,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { cn } from "../../lib/utilsComprehensive";
+import { useA11yId } from "../../utils/a11y";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { useGlassSound } from "../../utils/soundDesign";
 
 export interface AuroraLayer {
   points: Array<{ x: number; y: number; intensity: number }>;
@@ -30,12 +36,25 @@ export interface SolarWindParticle {
 }
 
 export interface StarField {
-  stars: Array<{ x: number; y: number; brightness: number; twinklePhase: number }>;
-  shootingStars: Array<{ x: number; y: number; vx: number; vy: number; lifetime: number; trail: Array<{ x: number; y: number; opacity: number }> }>;
+  stars: Array<{
+    x: number;
+    y: number;
+    brightness: number;
+    twinklePhase: number;
+  }>;
+  shootingStars: Array<{
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    lifetime: number;
+    trail: Array<{ x: number; y: number; opacity: number }>;
+  }>;
   id: string;
 }
 
-export interface GlassAuroraDisplayProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassAuroraDisplayProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /** Canvas width */
   width?: number;
   /** Canvas height */
@@ -47,7 +66,7 @@ export interface GlassAuroraDisplayProps extends Omit<React.HTMLAttributes<HTMLD
   /** Geomagnetic activity level */
   geomagneticActivity?: number;
   /** Aurora colors preset */
-  colorPreset?: 'classic' | 'rare' | 'storm' | 'sunset' | 'cosmic';
+  colorPreset?: "classic" | "rare" | "storm" | "sunset" | "cosmic";
   /** Whether to show stars */
   showStars?: boolean;
   /** Whether to show solar wind particles */
@@ -65,13 +84,13 @@ export interface GlassAuroraDisplayProps extends Omit<React.HTMLAttributes<HTMLD
   /** Whether to show atmospheric glow */
   showAtmosphericGlow?: boolean;
   /** Aurora activity level */
-  activityLevel?: 'low' | 'moderate' | 'high' | 'storm';
+  activityLevel?: "low" | "moderate" | "high" | "storm";
   /** Real-time data mode */
   realTimeMode?: boolean;
   /** Aurora change handler */
   onAuroraChange?: (intensity: number, colors: string[]) => void;
   /** Solar event handler */
-  onSolarEvent?: (eventType: 'flare' | 'wind' | 'storm') => void;
+  onSolarEvent?: (eventType: "flare" | "wind" | "storm") => void;
   /** Show controls */
   showControls?: boolean;
   /** Show aurora info */
@@ -80,7 +99,10 @@ export interface GlassAuroraDisplayProps extends Omit<React.HTMLAttributes<HTMLD
   respectMotionPreference?: boolean;
 }
 
-export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayProps>(
+export const GlassAuroraDisplay = forwardRef<
+  HTMLDivElement,
+  GlassAuroraDisplayProps
+>(
   (
     {
       width = 800,
@@ -88,7 +110,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       intensity = 0.7,
       solarWindStrength = 0.6,
       geomagneticActivity = 0.5,
-      colorPreset = 'classic',
+      colorPreset = "classic",
       showStars = true,
       showSolarWind = true,
       animationSpeed = 1,
@@ -97,7 +119,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       observationTime = 22,
       latitude = 65,
       showAtmosphericGlow = true,
-      activityLevel = 'moderate',
+      activityLevel = "moderate",
       realTimeMode = false,
       onAuroraChange,
       onSolarEvent,
@@ -111,14 +133,20 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
   ) => {
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
     const { play } = useGlassSound();
-    
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationRef = useRef<number>();
-    const auroraDisplayId = useA11yId('glass-aurora-display');
-    
+    const auroraDisplayId = useA11yId("glass-aurora-display");
+
     const [auroraLayers, setAuroraLayers] = useState<AuroraLayer[]>([]);
-    const [solarWindParticles, setSolarWindParticles] = useState<SolarWindParticle[]>([]);
-    const [starField, setStarField] = useState<StarField>({ stars: [], shootingStars: [], id: 'starfield' });
+    const [solarWindParticles, setSolarWindParticles] = useState<
+      SolarWindParticle[]
+    >([]);
+    const [starField, setStarField] = useState<StarField>({
+      stars: [],
+      shootingStars: [],
+      id: "starfield",
+    });
     const [animationTime, setAnimationTime] = useState(0);
     const [currentIntensity, setCurrentIntensity] = useState(intensity);
     const [activeColors, setActiveColors] = useState<string[]>([]);
@@ -126,35 +154,35 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
     // Aurora color presets
     const colorPresets = {
       classic: [
-        [0, 255, 146],    // Green (oxygen 557.7nm)
-        [255, 0, 255],    // Magenta (nitrogen)
-        [0, 255, 255],    // Cyan (oxygen 630nm)
-        [255, 255, 0]     // Yellow (sodium)
+        [0, 255, 146], // Green (oxygen 557.7nm)
+        [255, 0, 255], // Magenta (nitrogen)
+        [0, 255, 255], // Cyan (oxygen 630nm)
+        [255, 255, 0], // Yellow (sodium)
       ],
       rare: [
-        [255, 0, 0],      // Red (high altitude oxygen)
-        [128, 0, 128],    // Purple (nitrogen)
-        [255, 165, 0],    // Orange (sodium)
-        [255, 192, 203]   // Pink (nitrogen)
+        [255, 0, 0], // Red (high altitude oxygen)
+        [128, 0, 128], // Purple (nitrogen)
+        [255, 165, 0], // Orange (sodium)
+        [255, 192, 203], // Pink (nitrogen)
       ],
       storm: [
-        [255, 255, 255],  // White (intense activity)
-        [255, 0, 0],      // Red (storm conditions)
-        [255, 100, 100],  // Light red
-        [200, 200, 255]   // Blue-white
+        [255, 255, 255], // White (intense activity)
+        [255, 0, 0], // Red (storm conditions)
+        [255, 100, 100], // Light red
+        [200, 200, 255], // Blue-white
       ],
       sunset: [
-        [255, 140, 0],    // Dark orange
-        [255, 69, 0],     // Red-orange
-        [255, 20, 147],   // Deep pink
-        [138, 43, 226]    // Blue violet
+        [255, 140, 0], // Dark orange
+        [255, 69, 0], // Red-orange
+        [255, 20, 147], // Deep pink
+        [138, 43, 226], // Blue violet
       ],
       cosmic: [
-        [75, 0, 130],     // Indigo
-        [148, 0, 211],    // Dark violet
-        [0, 191, 255],    // Deep sky blue
-        [127, 255, 212]   // Aquamarine
-      ]
+        [75, 0, 130], // Indigo
+        [148, 0, 211], // Dark violet
+        [0, 191, 255], // Deep sky blue
+        [127, 255, 212], // Aquamarine
+      ],
     };
 
     // Initialize star field
@@ -163,7 +191,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
         x: Math.random() * width,
         y: Math.random() * height * 0.6, // Stars in upper portion
         brightness: Math.random() * 0.8 + 0.2,
-        twinklePhase: Math.random() * Math.PI * 2
+        twinklePhase: Math.random() * Math.PI * 2,
       }));
 
       setStarField((prev: any) => ({ ...prev, stars }));
@@ -173,36 +201,47 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
     const generateAuroraLayers = useCallback(() => {
       const colors = colorPresets[colorPreset];
       const layers: AuroraLayer[] = [];
-      
+
       for (let i = 0; i < layerCount; i++) {
         const points = [];
         const baseY = height * (0.3 + i * 0.15);
         const layerHeight = 60 + i * 20;
-        
+
         // Generate wave points
         for (let x = 0; x <= width; x += 10) {
           points.push({
             x,
             y: baseY + Math.sin(x * 0.01 + i) * (20 + waveComplexity * 10),
-            intensity: Math.random() * 0.5 + 0.5
+            intensity: Math.random() * 0.5 + 0.5,
           });
         }
-        
+
         layers.push({
           points,
           color: colors[i % colors.length] as [number, number, number],
-          opacity: (currentIntensity * 0.8) * (1 - i * 0.2),
-          waveOffset: i * Math.PI / 4,
+          opacity: currentIntensity * 0.8 * (1 - i * 0.2),
+          waveOffset: (i * Math.PI) / 4,
           waveSpeed: 0.02 + i * 0.01,
           height: layerHeight,
-          id: `aurora-layer-${i}`
+          id: `aurora-layer-${i}`,
         });
       }
-      
+
       setAuroraLayers(layers);
       setActiveColors(colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));
-      onAuroraChange?.(currentIntensity, colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));
-    }, [colorPreset, layerCount, width, height, waveComplexity, currentIntensity, onAuroraChange]);
+      onAuroraChange?.(
+        currentIntensity,
+        colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`)
+      );
+    }, [
+      colorPreset,
+      layerCount,
+      width,
+      height,
+      waveComplexity,
+      currentIntensity,
+      onAuroraChange,
+    ]);
 
     // Generate solar wind particles
     const generateSolarWindParticles = useCallback(() => {
@@ -222,7 +261,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           color: [255, 255, 255],
           energy: Math.random() * solarWindStrength,
           lifetime: Math.random() * 3000 + 1000,
-          id: `solar-particle-${i}`
+          id: `solar-particle-${i}`,
         });
       }
 
@@ -237,91 +276,134 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
     }, [initializeStarField, generateAuroraLayers, generateSolarWindParticles]);
 
     // Update aurora layers
-    const updateAuroraLayers = useCallback((deltaTime: number) => {
-      setAuroraLayers(prevLayers => 
-        prevLayers.map((layer: any) => ({
-          ...layer,
-          waveOffset: layer.waveOffset + layer.waveSpeed * deltaTime * animationSpeed,
-          opacity: Math.max(0, layer.opacity + (Math.random() - 0.5) * 0.02 * geomagneticActivity),
-          points: layer.points.map((point: { x: number; y: number; intensity: number }, index: number) => ({
-            ...point,
-            y: point.y + Math.sin(layer.waveOffset + index * 0.1) * (2 + geomagneticActivity * 3),
-            intensity: Math.max(0.3, Math.min(1, point.intensity + (Math.random() - 0.5) * 0.1))
+    const updateAuroraLayers = useCallback(
+      (deltaTime: number) => {
+        setAuroraLayers((prevLayers) =>
+          prevLayers.map((layer: any) => ({
+            ...layer,
+            waveOffset:
+              layer.waveOffset + layer.waveSpeed * deltaTime * animationSpeed,
+            opacity: Math.max(
+              0,
+              layer.opacity + (Math.random() - 0.5) * 0.02 * geomagneticActivity
+            ),
+            points: layer.points.map(
+              (
+                point: { x: number; y: number; intensity: number },
+                index: number
+              ) => ({
+                ...point,
+                y:
+                  point.y +
+                  Math.sin(layer.waveOffset + index * 0.1) *
+                    (2 + geomagneticActivity * 3),
+                intensity: Math.max(
+                  0.3,
+                  Math.min(1, point.intensity + (Math.random() - 0.5) * 0.1)
+                ),
+              })
+            ),
           }))
-        }))
-      );
-    }, [animationSpeed, geomagneticActivity]);
+        );
+      },
+      [animationSpeed, geomagneticActivity]
+    );
 
     // Update solar wind particles
-    const updateSolarWindParticles = useCallback((deltaTime: number) => {
-      setSolarWindParticles(prevParticles => {
-        const updated = prevParticles.map((particle: any) => ({
-          ...particle,
-          x: particle.x + particle.vx * deltaTime * animationSpeed,
-          y: particle.y + particle.vy * deltaTime * animationSpeed,
-          lifetime: particle.lifetime - deltaTime,
-          opacity: Math.max(0, particle.opacity - deltaTime * 0.0005)
-        })).filter((particle: any) => 
-          particle.lifetime > 0 && 
-          particle.x > -50 && particle.x < width + 50 &&
-          particle.y < height + 50
-        );
+    const updateSolarWindParticles = useCallback(
+      (deltaTime: number) => {
+        setSolarWindParticles((prevParticles) => {
+          const updated = prevParticles
+            .map((particle: any) => ({
+              ...particle,
+              x: particle.x + particle.vx * deltaTime * animationSpeed,
+              y: particle.y + particle.vy * deltaTime * animationSpeed,
+              lifetime: particle.lifetime - deltaTime,
+              opacity: Math.max(0, particle.opacity - deltaTime * 0.0005),
+            }))
+            .filter(
+              (particle: any) =>
+                particle.lifetime > 0 &&
+                particle.x > -50 &&
+                particle.x < width + 50 &&
+                particle.y < height + 50
+            );
 
-        // Add new particles
-        if (updated.length < solarWindStrength * 30) {
-          const newParticles = Array.from({ length: Math.min(5, Math.floor(solarWindStrength * 30) - updated.length) }, (_, i) => ({
-            x: Math.random() * width,
-            y: -10,
-            vx: (Math.random() - 0.5) * 2,
-            vy: Math.random() * 3 + 2,
-            size: Math.random() * 2 + 1,
-            opacity: Math.random() * 0.6 + 0.2,
-            color: [255, 255, 255] as [number, number, number],
-            energy: Math.random() * solarWindStrength,
-            lifetime: Math.random() * 3000 + 1000,
-            id: `solar-particle-new-${i}-${Date.now()}`
-          }));
-          
-          return [...updated, ...newParticles];
-        }
+          // Add new particles
+          if (updated.length < solarWindStrength * 30) {
+            const newParticles = Array.from(
+              {
+                length: Math.min(
+                  5,
+                  Math.floor(solarWindStrength * 30) - updated.length
+                ),
+              },
+              (_, i) => ({
+                x: Math.random() * width,
+                y: -10,
+                vx: (Math.random() - 0.5) * 2,
+                vy: Math.random() * 3 + 2,
+                size: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.6 + 0.2,
+                color: [255, 255, 255] as [number, number, number],
+                energy: Math.random() * solarWindStrength,
+                lifetime: Math.random() * 3000 + 1000,
+                id: `solar-particle-new-${i}-${Date.now()}`,
+              })
+            );
 
-        return updated;
-      });
-    }, [animationSpeed, solarWindStrength, width, height]);
+            return [...updated, ...newParticles];
+          }
+
+          return updated;
+        });
+      },
+      [animationSpeed, solarWindStrength, width, height]
+    );
 
     // Update shooting stars
-    const updateShootingStars = useCallback((deltaTime: number) => {
-      setStarField(prevField => {
-        const updatedShootingStars = prevField.shootingStars.map((star: any) => ({
-          ...star,
-          x: star.x + star.vx * deltaTime * animationSpeed,
-          y: star.y + star.vy * deltaTime * animationSpeed,
-          lifetime: star.lifetime - deltaTime,
-          trail: [
-            { x: star.x, y: star.y, opacity: 1 },
-            ...star.trail.map((t: { x: number; y: number; opacity: number }, i: number) => ({
-              ...t,
-              opacity: t.opacity * 0.95
+    const updateShootingStars = useCallback(
+      (deltaTime: number) => {
+        setStarField((prevField) => {
+          const updatedShootingStars = prevField.shootingStars
+            .map((star: any) => ({
+              ...star,
+              x: star.x + star.vx * deltaTime * animationSpeed,
+              y: star.y + star.vy * deltaTime * animationSpeed,
+              lifetime: star.lifetime - deltaTime,
+              trail: [
+                { x: star.x, y: star.y, opacity: 1 },
+                ...star.trail.map(
+                  (
+                    t: { x: number; y: number; opacity: number },
+                    i: number
+                  ) => ({
+                    ...t,
+                    opacity: t.opacity * 0.95,
+                  })
+                ),
+              ].slice(0, 10),
             }))
-          ].slice(0, 10)
-        })).filter((star: any) => star.lifetime > 0 && star.x < width + 100);
+            .filter((star: any) => star.lifetime > 0 && star.x < width + 100);
 
-        // Occasionally add new shooting stars
-        if (Math.random() < 0.001 * animationSpeed) {
-          updatedShootingStars.push({
-            x: Math.random() * width,
-            y: Math.random() * height * 0.3,
-            vx: Math.random() * 3 + 2,
-            vy: Math.random() * 2 + 1,
-            lifetime: Math.random() * 2000 + 1000,
-            trail: []
-          });
-          play('success');
-        }
+          // Occasionally add new shooting stars
+          if (Math.random() < 0.001 * animationSpeed) {
+            updatedShootingStars.push({
+              x: Math.random() * width,
+              y: Math.random() * height * 0.3,
+              vx: Math.random() * 3 + 2,
+              vy: Math.random() * 2 + 1,
+              lifetime: Math.random() * 2000 + 1000,
+              trail: [],
+            });
+            play("success");
+          }
 
-        return { ...prevField, shootingStars: updatedShootingStars };
-      });
-    }, [animationSpeed, width, height, play]);
+          return { ...prevField, shootingStars: updatedShootingStars };
+        });
+      },
+      [animationSpeed, width, height, play]
+    );
 
     // Solar activity simulation
     useEffect(() => {
@@ -330,23 +412,26 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       const interval = setInterval(() => {
         // Simulate solar events
         if (Math.random() < 0.1) {
-          const eventType: 'flare' | 'wind' | 'storm' = 
-            Math.random() < 0.3 ? 'flare' :
-            Math.random() < 0.6 ? 'wind' : 'storm';
-          
+          const eventType: "flare" | "wind" | "storm" =
+            Math.random() < 0.3
+              ? "flare"
+              : Math.random() < 0.6
+                ? "wind"
+                : "storm";
+
           onSolarEvent?.(eventType);
-          
+
           // Adjust parameters based on event
           switch (eventType) {
-            case 'flare':
+            case "flare":
               setCurrentIntensity((prev: any) => Math.min(1, prev + 0.3));
               break;
-            case 'wind':
+            case "wind":
               // Handled in particle updates
               break;
-            case 'storm':
+            case "storm":
               setCurrentIntensity(1);
-              play('error');
+              play("error");
               break;
           }
         }
@@ -360,31 +445,32 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
       // Clear canvas with night sky gradient
       const skyGradient = ctx.createLinearGradient(0, 0, 0, height);
       const isDarkTime = observationTime < 6 || observationTime > 18;
-      
+
       if (isDarkTime) {
-        skyGradient.addColorStop(0, 'rgb(10, 10, 30)');
-        skyGradient.addColorStop(0.6, 'rgb(5, 5, 15)');
-        skyGradient.addColorStop(1, 'rgb(0, 0, 5)');
+        skyGradient.addColorStop(0, "rgb(10, 10, 30)");
+        skyGradient.addColorStop(0.6, "rgb(5, 5, 15)");
+        skyGradient.addColorStop(1, "rgb(0, 0, 5)");
       } else {
-        skyGradient.addColorStop(0, 'rgb(70, 130, 180)');
-        skyGradient.addColorStop(1, 'rgb(25, 25, 112)');
+        skyGradient.addColorStop(0, "rgb(70, 130, 180)");
+        skyGradient.addColorStop(1, "rgb(25, 25, 112)");
       }
-      
+
       ctx.fillStyle = skyGradient;
       ctx.fillRect(0, 0, width, height);
 
       // Draw stars
       if (showStars && isDarkTime) {
         starField.stars.forEach((star: any) => {
-          const twinkle = Math.sin(animationTime * 0.003 + star.twinklePhase) * 0.3 + 0.7;
+          const twinkle =
+            Math.sin(animationTime * 0.003 + star.twinklePhase) * 0.3 + 0.7;
           ctx.globalAlpha = star.brightness * twinkle;
-          ctx.fillStyle = 'white';
+          ctx.fillStyle = "white";
           ctx.beginPath();
           ctx.arc(star.x, star.y, 1, 0, Math.PI * 2);
           ctx.fill();
@@ -392,25 +478,34 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
         // Draw shooting stars
         starField.shootingStars.forEach((star: any) => {
-          star.trail.forEach((point: { x: number; y: number; opacity: number }, index: number) => {
-            ctx.globalAlpha = point.opacity * (1 - index * 0.1);
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 2 - index * 0.2, 0, Math.PI * 2);
-            ctx.fill();
-          });
+          star.trail.forEach(
+            (
+              point: { x: number; y: number; opacity: number },
+              index: number
+            ) => {
+              ctx.globalAlpha = point.opacity * (1 - index * 0.1);
+              ctx.fillStyle = "white";
+              ctx.beginPath();
+              ctx.arc(point.x, point.y, 2 - index * 0.2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          );
         });
       }
 
       // Draw atmospheric glow
       if (showAtmosphericGlow && isDarkTime) {
         const glowGradient = ctx.createRadialGradient(
-          width / 2, height * 0.8, 0,
-          width / 2, height * 0.8, width
+          width / 2,
+          height * 0.8,
+          0,
+          width / 2,
+          height * 0.8,
+          width
         );
-        glowGradient.addColorStop(0, 'rgba(100, 200, 100, 0.1)');
-        glowGradient.addColorStop(1, 'rgba(100, 200, 100, 0)');
-        
+        glowGradient.addColorStop(0, "rgba(100, 200, 100, 0.1)");
+        glowGradient.addColorStop(1, "rgba(100, 200, 100, 0)");
+
         ctx.fillStyle = glowGradient;
         ctx.fillRect(0, 0, width, height);
       }
@@ -422,50 +517,75 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
 
         // Create gradient for aurora band
         const gradient = ctx.createLinearGradient(0, 0, 0, layer.height);
-        gradient.addColorStop(0, `rgba(${layer.color[0]}, ${layer.color[1]}, ${layer.color[2]}, 0)`);
-        gradient.addColorStop(0.5, `rgba(${layer.color[0]}, ${layer.color[1]}, ${layer.color[2]}, ${layer.opacity})`);
-        gradient.addColorStop(1, `rgba(${layer.color[0]}, ${layer.color[1]}, ${layer.color[2]}, 0)`);
+        gradient.addColorStop(
+          0,
+          `rgba(${layer.color[0]}, ${layer.color[1]}, ${layer.color[2]}, 0)`
+        );
+        gradient.addColorStop(
+          0.5,
+          `rgba(${layer.color[0]}, ${layer.color[1]}, ${layer.color[2]}, ${layer.opacity})`
+        );
+        gradient.addColorStop(
+          1,
+          `rgba(${layer.color[0]}, ${layer.color[1]}, ${layer.color[2]}, 0)`
+        );
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        
+
         // Draw aurora curve
         ctx.moveTo(layer.points[0].x, layer.points[0].y + layer.height / 2);
-        
-        layer.points.forEach((point: { x: number; y: number; intensity: number }, index: number) => {
-          if (index === 0) return;
 
-          const prevPoint = layer.points[index - 1];
-          const intensityFactor = (point.intensity + prevPoint.intensity) / 2;
-          const waveY = point.y + Math.sin(animationTime * 0.001 + index * 0.1) * intensityFactor * 10;
-          
-          ctx.lineTo(point.x, waveY);
-        });
-        
+        layer.points.forEach(
+          (
+            point: { x: number; y: number; intensity: number },
+            index: number
+          ) => {
+            if (index === 0) return;
+
+            const prevPoint = layer.points[index - 1];
+            const intensityFactor = (point.intensity + prevPoint.intensity) / 2;
+            const waveY =
+              point.y +
+              Math.sin(animationTime * 0.001 + index * 0.1) *
+                intensityFactor *
+                10;
+
+            ctx.lineTo(point.x, waveY);
+          }
+        );
+
         // Complete the shape
         for (let i = layer.points.length - 1; i >= 0; i--) {
           const point = layer.points[i];
           const intensityFactor = point.intensity;
-          const waveY = point.y + Math.sin(animationTime * 0.001 + i * 0.1) * intensityFactor * 10;
+          const waveY =
+            point.y +
+            Math.sin(animationTime * 0.001 + i * 0.1) * intensityFactor * 10;
           ctx.lineTo(point.x, waveY + layer.height);
         }
-        
+
         ctx.closePath();
         ctx.fill();
 
         // Add shimmer effect
         ctx.save();
-        ctx.globalCompositeOperation = 'overlay';
+        ctx.globalCompositeOperation = "overlay";
         ctx.globalAlpha = 0.3;
-        
+
         const shimmerGradient = ctx.createLinearGradient(
-          animationTime * 0.1 % width, 0,
-          (animationTime * 0.1 + 100) % width, 0
+          (animationTime * 0.1) % width,
+          0,
+          (animationTime * 0.1 + 100) % width,
+          0
         );
-        shimmerGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-        shimmerGradient.addColorStop(0.5, 'rgba(var(--glass-color-white) / var(--glass-opacity-80))');
-        shimmerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        
+        shimmerGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        shimmerGradient.addColorStop(
+          0.5,
+          "rgba(var(--glass-color-white) / var(--glass-opacity-80))"
+        );
+        shimmerGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
         ctx.fillStyle = shimmerGradient;
         ctx.fill();
         ctx.restore();
@@ -476,15 +596,15 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
         solarWindParticles.forEach((particle: any) => {
           ctx.globalAlpha = particle.opacity;
           ctx.fillStyle = `rgb(${particle.color[0]}, ${particle.color[1]}, ${particle.color[2]})`;
-          
+
           // Add glow effect
           ctx.shadowBlur = particle.energy * 10;
           ctx.shadowColor = `rgb(${particle.color[0]}, ${particle.color[1]}, ${particle.color[2]})`;
-          
+
           ctx.beginPath();
           ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
           ctx.fill();
-          
+
           ctx.shadowBlur = 0;
         });
       }
@@ -492,21 +612,54 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       // Aurora info overlay
       if (showAuroraInfo) {
         ctx.save();
-        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
+        ctx.fillStyle = "var(--glass-text-secondary-dark)";
         ctx.fillRect(10, 10, 220, 160);
-        
-        ctx.fillStyle = 'white';
-        ctx.font = '14px sans-serif';
-        ctx.fillText(`Aurora Intensity: ${Math.round(currentIntensity * 100)}%`, 20, 30);
+
+        ctx.fillStyle = "white";
+        ctx.font = "14px sans-serif";
+        ctx.fillText(
+          `Aurora Intensity: ${Math.round(currentIntensity * 100)}%`,
+          20,
+          30
+        );
         ctx.fillText(`Activity Level: ${activityLevel}`, 20, 50);
-        ctx.fillText(`Solar Wind: ${Math.round(solarWindStrength * 100)}%`, 20, 70);
-        ctx.fillText(`Geomagnetic: ${Math.round(geomagneticActivity * 100)}%`, 20, 90);
+        ctx.fillText(
+          `Solar Wind: ${Math.round(solarWindStrength * 100)}%`,
+          20,
+          70
+        );
+        ctx.fillText(
+          `Geomagnetic: ${Math.round(geomagneticActivity * 100)}%`,
+          20,
+          90
+        );
         ctx.fillText(`Latitude: ${latitude}°`, 20, 110);
-        ctx.fillText(`Time: ${Math.floor(observationTime)}:${String(Math.floor((observationTime % 1) * 60)).padStart(2, '0')}`, 20, 130);
-        ctx.fillText(`Visibility: ${isDarkTime ? 'Good' : 'Poor'}`, 20, 150);
+        ctx.fillText(
+          `Time: ${Math.floor(observationTime)}:${String(Math.floor((observationTime % 1) * 60)).padStart(2, "0")}`,
+          20,
+          130
+        );
+        ctx.fillText(`Visibility: ${isDarkTime ? "Good" : "Poor"}`, 20, 150);
         ctx.restore();
       }
-    }, [width, height, observationTime, showStars, starField, animationTime, showAtmosphericGlow, auroraLayers, showSolarWind, solarWindParticles, showAuroraInfo, currentIntensity, activityLevel, solarWindStrength, geomagneticActivity, latitude]);
+    }, [
+      width,
+      height,
+      observationTime,
+      showStars,
+      starField,
+      animationTime,
+      showAtmosphericGlow,
+      auroraLayers,
+      showSolarWind,
+      solarWindParticles,
+      showAuroraInfo,
+      currentIntensity,
+      activityLevel,
+      solarWindStrength,
+      geomagneticActivity,
+      latitude,
+    ]);
 
     // Animation loop
     useEffect(() => {
@@ -518,12 +671,12 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
       const animate = (currentTime: number) => {
         const deltaTime = 16; // 60fps
         setAnimationTime((prev: any) => prev + deltaTime);
-        
+
         updateAuroraLayers(deltaTime);
         updateSolarWindParticles(deltaTime);
         updateShootingStars(deltaTime);
         render();
-        
+
         animationRef.current = requestAnimationFrame(animate);
       };
 
@@ -534,7 +687,14 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           cancelAnimationFrame(animationRef.current);
         }
       };
-    }, [prefersReducedMotion, respectMotionPreference, render, updateAuroraLayers, updateSolarWindParticles, updateShootingStars]);
+    }, [
+      prefersReducedMotion,
+      respectMotionPreference,
+      render,
+      updateAuroraLayers,
+      updateSolarWindParticles,
+      updateShootingStars,
+    ]);
 
     // Canvas setup
     useEffect(() => {
@@ -556,10 +716,10 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-aurora-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
+          className="glass-aurora-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Intensity:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Intensity:</label>
             <input
               type="range"
               min="0"
@@ -569,15 +729,17 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
               className="w-20"
             />
-            <span className="text-sm min-w-[3ch]">{Math.round(currentIntensity * 100)}%</span>
+            <span className="glass-text-sm min-w-[3ch]">
+              {Math.round(currentIntensity * 100)}%
+            </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Colors:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Colors:</label>
             <select
               value={colorPreset}
               onChange={(e) => {}}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20 glass-contrast-guard"
+              className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
             >
               <option value="classic">Classic</option>
               <option value="rare">Rare</option>
@@ -587,12 +749,12 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Activity:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Activity:</label>
             <select
               value={activityLevel}
               onChange={(e) => {}}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20 glass-contrast-guard"
+              className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
             >
               <option value="low">Low</option>
               <option value="moderate">Moderate</option>
@@ -601,8 +763,8 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Time:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Time:</label>
             <input
               type="range"
               min="0"
@@ -614,8 +776,8 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={showStars}
@@ -624,7 +786,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
               />
               Stars
             </label>
-            <label className="text-sm">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={showSolarWind}
@@ -633,7 +795,7 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
               />
               Solar Wind
             </label>
-            <label className="text-sm">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={realTimeMode}
@@ -657,23 +819,23 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-aurora-display relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20',
+          "glass-aurora-display relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20",
           className
         )}
         {...props}
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="flex flex-col gap-4 p-4"
+          className="glass-flex glass-flex-col glass-gap-4 glass-p-4"
         >
           {renderControls()}
-          
+
           <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}
               height={height}
-              className="border border-glass-border/20 glass-radius-md glass-surface-dark glass-contrast-guard"
+              className="glass-border glass-border-glass-border/20 glass-radius-md glass-surface-dark glass-contrast-guard"
               style={{ width, height }}
             />
           </div>
@@ -683,6 +845,6 @@ export const GlassAuroraDisplay = forwardRef<HTMLDivElement, GlassAuroraDisplayP
   }
 );
 
-GlassAuroraDisplay.displayName = 'GlassAuroraDisplay';
+GlassAuroraDisplay.displayName = "GlassAuroraDisplay";
 
 export default GlassAuroraDisplay;

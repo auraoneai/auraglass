@@ -1,7 +1,7 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useEffect, useCallback, useRef } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { createPortal } from 'react-dom';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useEffect, useCallback, useRef } from "react";
+import { OptimizedGlass } from "../../primitives";
+import { createPortal } from "react-dom";
 
 export interface GlassActionSheetAction {
   /**
@@ -20,7 +20,7 @@ export interface GlassActionSheetAction {
    * Action style variant
    * @default 'default'
    */
-  variant?: 'default' | 'destructive' | 'primary';
+  variant?: "default" | "destructive" | "primary";
   /**
    * Whether the action is disabled
    * @default false
@@ -28,7 +28,8 @@ export interface GlassActionSheetAction {
   disabled?: boolean;
 }
 
-export interface GlassActionSheetProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface GlassActionSheetProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   /**
    * Whether the action sheet is open
    */
@@ -63,7 +64,7 @@ export interface GlassActionSheetProps extends Omit<React.HTMLAttributes<HTMLDiv
    * Glassmorphism elevation level
    * @default 'level4'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Close on backdrop click
    * @default true
@@ -76,7 +77,10 @@ export interface GlassActionSheetProps extends Omit<React.HTMLAttributes<HTMLDiv
   animationDuration?: number;
 }
 
-export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps>(
+export const GlassActionSheet = forwardRef<
+  HTMLDivElement,
+  GlassActionSheetProps
+>(
   (
     {
       open,
@@ -85,8 +89,8 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
       message,
       actions,
       showCancel = true,
-      cancelText = 'Cancel',
-      elevation = 'level4',
+      cancelText = "Cancel",
+      elevation = "level4",
       closeOnBackdrop = true,
       animationDuration = 300,
       className,
@@ -114,17 +118,17 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
       if (!isVisible) return;
 
       const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
+        if (e.key === "Escape") {
           onClose();
         }
       };
 
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
 
       return () => {
-        document.removeEventListener('keydown', handleEscape);
-        document.body.style.overflow = '';
+        document.removeEventListener("keydown", handleEscape);
+        document.body.style.overflow = "";
       };
     }, [isVisible, onClose]);
 
@@ -162,7 +166,7 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
       if (currentYRef.current > 100) {
         onClose();
       } else if (sheetRef.current) {
-        sheetRef.current.style.transform = '';
+        sheetRef.current.style.transform = "";
       }
       currentYRef.current = 0;
     }, [onClose]);
@@ -172,9 +176,9 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
     const content = (
       <div
         className={cn(
-          'fixed inset-0 z-50 flex items-end justify-center',
-          'transition-colors duration-300',
-          isAnimating ? 'bg-black/40' : 'bg-black/0'
+          "fixed inset-0 z-50 flex items-end justify-center",
+          "transition-colors duration-300",
+          isAnimating ? "bg-black/40" : "bg-black/0"
         )}
         onClick={handleBackdropClick}
         role="presentation"
@@ -186,26 +190,23 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           className={cn(
-            'w-full max-w-2xl mx-auto glass-p-4 pb-safe',
-            'transition-transform duration-300 ease-out',
-            isAnimating ? 'translate-y-0' : 'translate-y-full'
+            "w-full max-w-2xl mx-auto glass-p-4 pb-safe",
+            "transition-transform duration-300 ease-out",
+            isAnimating ? "translate-y-0" : "translate-y-full"
           )}
           role="dialog"
           aria-modal="true"
-          aria-labelledby={title ? 'action-sheet-title' : undefined}
-          aria-describedby={message ? 'action-sheet-message' : undefined}
+          aria-labelledby={title ? "action-sheet-title" : undefined}
+          aria-describedby={message ? "action-sheet-message" : undefined}
         >
           <OptimizedGlass
             ref={ref}
             elevation={elevation}
-            className={cn(
-              'overflow-hidden glass-radius-2xl',
-              className
-            )}
+            className={cn("overflow-hidden glass-radius-2xl", className)}
             {...props}
           >
             {(title || message) && (
-              <div className="glass-p-4 text-center border-b glass-border-subtle">
+              <div className="glass-p-4 text-center glass-border-b glass-border-subtle">
                 {title && (
                   <h3
                     id="action-sheet-title"
@@ -232,23 +233,23 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
                   onClick={() => handleActionClick(action)}
                   disabled={action.disabled}
                   className={cn(
-                    'w-full glass-p-4 flex items-center justify-center gap-3',
-                    'glass-text-base font-medium',
-                    'transition-all duration-200',
-                    'border-b glass-border-subtle last:border-b-0',
-                    'hover:bg-white/5 active:bg-white/10',
-                    'disabled:opacity-50 disabled:cursor-not-allowed',
-                    action.variant === 'destructive' && 'text-red-500',
-                    action.variant === 'primary' && 'text-blue-500 font-semibold',
-                    action.variant === 'default' && 'glass-text-primary',
-                    !action.disabled && 'glass-focus'
+                    "w-full glass-p-4 flex items-center justify-center gap-3",
+                    "glass-text-base font-medium",
+                    "transition-all duration-200",
+                    "border-b glass-border-subtle last:border-b-0",
+                    "hover:bg-white/5 active:bg-white/10",
+                    "disabled:opacity-50 disabled:cursor-not-allowed",
+                    action.variant === "destructive" && "text-red-500",
+                    action.variant === "primary" &&
+                      "text-blue-500 font-semibold",
+                    action.variant === "default" && "glass-text-primary",
+                    !action.disabled &&
+                      "glass-focus glass-touch-target glass-contrast-guard"
                   )}
                   type="button"
                 >
                   {action.icon && (
-                    <span className="flex-shrink-0">
-                      {action.icon}
-                    </span>
+                    <span className="glass-flex-shrink-0">{action.icon}</span>
                   )}
                   <span>{action.label}</span>
                 </button>
@@ -264,11 +265,11 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
               <button
                 onClick={onClose}
                 className={cn(
-                  'w-full glass-p-4 flex items-center justify-center',
-                  'glass-text-base font-semibold glass-text-primary',
-                  'transition-all duration-200',
-                  'hover:bg-white/5 active:bg-white/10',
-                  'glass-focus'
+                  "w-full glass-p-4 flex items-center justify-center",
+                  "glass-text-base font-semibold glass-text-primary",
+                  "transition-all duration-200",
+                  "hover:bg-white/5 active:bg-white/10",
+                  "glass-focus glass-touch-target glass-contrast-guard"
                 )}
                 type="button"
               >
@@ -284,6 +285,6 @@ export const GlassActionSheet = forwardRef<HTMLDivElement, GlassActionSheetProps
   }
 );
 
-GlassActionSheet.displayName = 'GlassActionSheet';
+GlassActionSheet.displayName = "GlassActionSheet";
 
 export default GlassActionSheet;

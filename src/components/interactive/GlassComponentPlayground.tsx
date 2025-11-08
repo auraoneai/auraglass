@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { OptimizedGlass } from '../../primitives';
+import React, { useState, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { OptimizedGlass } from "../../primitives";
 
 export interface ComponentExample {
   id: string;
@@ -32,88 +32,111 @@ export interface GlassComponentPlaygroundProps {
   /** Custom className */
   className?: string;
   /** Theme for the playground */
-  theme?: 'light' | 'dark' | 'auto';
+  theme?: "light" | "dark" | "auto";
   /** Code editor theme */
-  codeTheme?: 'light' | 'dark';
+  codeTheme?: "light" | "dark";
 }
 
-export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> = ({
+export const GlassComponentPlayground: React.FC<
+  GlassComponentPlaygroundProps
+> = ({
   examples,
   defaultExample,
   showCode = true,
   showProps = true,
   customTabs = [],
-  className='',
-  theme = 'dark',
-  codeTheme = 'dark',
+  className = "",
+  theme = "dark",
+  codeTheme = "dark",
 }) => {
   const [selectedExample, setSelectedExample] = useState<string>(
-    defaultExample || examples[0]?.id || ''
+    defaultExample || examples[0]?.id || ""
   );
-  const [activeTab, setActiveTab] = useState<'preview' | 'code' | 'props' | string>('preview');
+  const [activeTab, setActiveTab] = useState<
+    "preview" | "code" | "props" | string
+  >("preview");
   const [componentProps, setComponentProps] = useState<Record<string, any>>({});
-  const [componentCode, setComponentCode] = useState<string>('');
+  const [componentCode, setComponentCode] = useState<string>("");
   const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   // Group examples by category
   useEffect(() => {
-    const uniqueCategories = Array.from(new Set(examples.map((ex: any) => ex.category)));
+    const uniqueCategories = Array.from(
+      new Set(examples.map((ex: any) => ex.category))
+    );
     setCategories(uniqueCategories);
   }, [examples]);
 
   // Update component props and code when example changes
   useEffect(() => {
-    const example = examples.find(ex => ex.id === selectedExample);
+    const example = examples.find((ex) => ex.id === selectedExample);
     if (example) {
       setComponentProps(example.props || {});
-      setComponentCode(example.code || generateCodeFromProps(example.component, example.props || {}));
+      setComponentCode(
+        example.code ||
+          generateCodeFromProps(example.component, example.props || {})
+      );
     }
   }, [selectedExample, examples]);
 
   // Generate code from component and props
-  const generateCodeFromProps = useCallback((component: React.ComponentType<any>, props: Record<string, any>): string => {
-    const componentName = component.displayName || component.name || 'Component';
-    const propsString = Object.entries(props)
-      .map(([key, value]) => {
-        if (typeof value === 'string') {
-          return `${key}="${value}"`;
-        } else if (typeof value === 'boolean') {
-          return value ? key : `${key}={false}`;
-        } else if (typeof value === 'number') {
-          return `${key}={${value}}`;
-        } else if (Array.isArray(value)) {
-          return `${key}={${JSON.stringify(value)}}`;
-        } else if (typeof value === 'object') {
-          return `${key}={${JSON.stringify(value, null, 2)}}`;
-        }
-        return `${key}={${String(value)}}`;
-      })
-      .join('\n  ');
+  const generateCodeFromProps = useCallback(
+    (
+      component: React.ComponentType<any>,
+      props: Record<string, any>
+    ): string => {
+      const componentName =
+        component.displayName || component.name || "Component";
+      const propsString = Object.entries(props)
+        .map(([key, value]) => {
+          if (typeof value === "string") {
+            return `${key}="${value}"`;
+          } else if (typeof value === "boolean") {
+            return value ? key : `${key}={false}`;
+          } else if (typeof value === "number") {
+            return `${key}={${value}}`;
+          } else if (Array.isArray(value)) {
+            return `${key}={${JSON.stringify(value)}}`;
+          } else if (typeof value === "object") {
+            return `${key}={${JSON.stringify(value, null, 2)}}`;
+          }
+          return `${key}={${String(value)}}`;
+        })
+        .join("\n  ");
 
-    return `<${componentName}${propsString ? `\n  ${propsString}` : ''}\n/>`;
-  }, []);
+      return `<${componentName}${propsString ? `\n  ${propsString}` : ""}\n/>`;
+    },
+    []
+  );
 
   // Handle prop change
-  const handlePropChange = useCallback((propName: string, value: any) => {
-    setComponentProps((prev: any) => ({
-      ...prev,
-      [propName]: value,
-    }));
+  const handlePropChange = useCallback(
+    (propName: string, value: any) => {
+      setComponentProps((prev: any) => ({
+        ...prev,
+        [propName]: value,
+      }));
 
-    const example = examples.find(ex => ex.id === selectedExample);
-    if (example) {
-      const newCode = generateCodeFromProps(example.component, { ...componentProps, [propName]: value });
-      setComponentCode(newCode);
-    }
-  }, [componentProps, selectedExample, examples, generateCodeFromProps]);
+      const example = examples.find((ex) => ex.id === selectedExample);
+      if (example) {
+        const newCode = generateCodeFromProps(example.component, {
+          ...componentProps,
+          [propName]: value,
+        });
+        setComponentCode(newCode);
+      }
+    },
+    [componentProps, selectedExample, examples, generateCodeFromProps]
+  );
 
   // Filter examples by category
-  const filteredExamples = selectedCategory === 'all'
-    ? examples
-    : examples.filter((ex: any) => ex.category === selectedCategory);
+  const filteredExamples =
+    selectedCategory === "all"
+      ? examples
+      : examples.filter((ex: any) => ex.category === selectedCategory);
 
-  const currentExample = examples.find(ex => ex.id === selectedExample);
+  const currentExample = examples.find((ex) => ex.id === selectedExample);
 
   // Render prop editor
   const renderPropEditor = () => {
@@ -122,53 +145,63 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
     const propKeys = Object.keys(componentProps);
 
     return (
-      <div data-glass-component className="gap-4">
-        <h4 className="text-sm font-semibold text-primary mb-3">Component Props</h4>
+      <div data-glass-component className="glass-gap-4">
+        <h4 className="glass-text-sm font-semibold text-primary mb-3">
+          Component Props
+        </h4>
 
         {propKeys.length === 0 ? (
-          <p className="text-sm text-primary/50">No editable props available</p>
+          <p className="glass-text-sm text-primary/50">
+            No editable props available
+          </p>
         ) : (
           propKeys.map((propName: any) => {
             const value = componentProps[propName];
             const valueType = typeof value;
 
             return (
-              <div key={propName} className="gap-2">
-                <label className="block text-sm text-primary/70">
+              <div key={propName} className="glass-gap-2">
+                <label className="block glass-text-sm text-primary/70">
                   {propName} ({valueType})
                 </label>
 
-                {valueType === 'string' && (
+                {valueType === "string" && (
                   <input
                     type="text"
                     value={value}
                     onChange={(e) => handlePropChange(propName, e.target.value)}
-                    className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40"
+                    className="glass-w-full glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40 glass-focus glass-touch-target glass-contrast-guard"
                   />
                 )}
 
-                {valueType === 'number' && (
+                {valueType === "number" && (
                   <input
                     type="number"
                     value={value}
-                    onChange={(e) => handlePropChange(propName, Number(e.target.value))}
-                    className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40"
+                    onChange={(e) =>
+                      handlePropChange(propName, Number(e.target.value))
+                    }
+                    className="glass-w-full glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40 glass-focus glass-touch-target glass-contrast-guard"
                   />
                 )}
 
-                {valueType === 'boolean' && (
-                  <label className="flex items-center gap-2 cursor-pointer">
+                {valueType === "boolean" && (
+                  <label className="glass-flex glass-items-center glass-gap-2 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={value}
-                      onChange={(e) => handlePropChange(propName, e.target.checked)}
-                      className="glass-radius-md border-white/20 text-primary focus:ring-blue-500"
+                      onChange={(e) =>
+                        handlePropChange(propName, e.target.checked)
+                      }
+                      className="glass-radius-md glass-border-white/20 text-primary focus:ring-blue-500 glass-focus glass-touch-target glass-contrast-guard"
                     />
-                    <span className="text-sm text-primary/70">{value ? 'True' : 'False'}</span>
+                    <span className="glass-text-sm text-primary/70">
+                      {value ? "True" : "False"}
+                    </span>
                   </label>
                 )}
 
-                {(valueType === 'object' || Array.isArray(value)) && (
+                {(valueType === "object" || Array.isArray(value)) && (
                   <textarea
                     value={JSON.stringify(value, null, 2)}
                     onChange={(e) => {
@@ -180,7 +213,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
                       }
                     }}
                     rows={4}
-                    className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40 font-mono text-sm"
+                    className="glass-w-full glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40 font-mono glass-text-sm"
                   />
                 )}
               </div>
@@ -198,15 +231,17 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
       elevation="level1"
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-white/10">
-        <h2 className="text-xl font-semibold text-primary">Component Playground</h2>
+      <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-white/10">
+        <h2 className="glass-text-xl font-semibold text-primary">
+          Component Playground
+        </h2>
 
-        <div className="flex items-center gap-4">
+        <div className="glass-flex glass-items-center glass-gap-4">
           {/* Category Filter */}
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-md text-primary focus:outline-none focus:border-white/40"
+            className="glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md text-primary focus:outline-none focus:border-white/40 glass-focus glass-touch-target glass-contrast-guard"
           >
             <option value="all">All Categories</option>
             {categories.map((category: any) => (
@@ -218,42 +253,48 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
         </div>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="glass-flex glass-flex-1 overflow-hidden">
         {/* Sidebar - Component List */}
-        <div className="w-64 border-r border-white/10 p-4 overflow-y-auto">
-          <h3 className="text-sm font-semibold text-primary mb-4">Components</h3>
+        <div className="w-64 glass-border-r glass-border-white/10 glass-p-4 overflow-y-auto">
+          <h3 className="glass-text-sm font-semibold text-primary mb-4">
+            Components
+          </h3>
 
-          <div className="gap-2">
+          <div className="glass-gap-2">
             {filteredExamples.map((example: any) => (
               <button
                 key={example.id}
                 onClick={(e) => setSelectedExample(example.id)}
-                className={`w-full text-left glass-p-3 glass-radius-md transition-colors ${
+                className={`w-full text-left glass-p-3 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard ${
                   selectedExample === example.id
-                    ? 'bg-white/20 glass-text-primary'
-                    : 'glass-text-primary/70 hover:glass-text-primary hover:bg-white/10'
+                    ? "bg-white/20 glass-text-primary"
+                    : "glass-text-primary/70 hover:glass-text-primary hover:bg-white/10"
                 }`}
               >
-                <div className="font-medium text-sm">{example.name}</div>
+                <div className="font-medium glass-text-sm">{example.name}</div>
                 {example.description && (
-                  <div className="text-xs opacity-70 glass-mt-1">{example.description}</div>
+                  <div className="glass-text-xs opacity-70 glass-mt-1">
+                    {example.description}
+                  </div>
                 )}
-                <div className="text-xs opacity-50 glass-mt-1 capitalize">{example.category}</div>
+                <div className="glass-text-xs opacity-50 glass-mt-1 capitalize">
+                  {example.category}
+                </div>
               </button>
             ))}
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col">
+        <div className="glass-flex-1 glass-flex glass-flex-col">
           {/* Tabs */}
-          <div className="flex border-b border-white/10">
+          <div className="glass-flex glass-border-b glass-border-white/10">
             <button
-              onClick={(e) => setActiveTab('preview')}
-              className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors ${
-                activeTab === 'preview'
-                  ? 'glass-text-primary border-b-2 border-blue-400'
-                  : 'glass-text-primary/70 hover:glass-text-primary'
+              onClick={(e) => setActiveTab("preview")}
+              className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard ${
+                activeTab === "preview"
+                  ? "glass-text-primary border-b-2 border-blue-400"
+                  : "glass-text-primary/70 hover:glass-text-primary"
               }`}
             >
               Preview
@@ -261,11 +302,11 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
 
             {showCode && (
               <button
-                onClick={(e) => setActiveTab('code')}
-                className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors ${
-                  activeTab === 'code'
-                    ? 'glass-text-primary border-b-2 border-blue-400'
-                    : 'glass-text-primary/70 hover:glass-text-primary'
+                onClick={(e) => setActiveTab("code")}
+                className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard ${
+                  activeTab === "code"
+                    ? "glass-text-primary border-b-2 border-blue-400"
+                    : "glass-text-primary/70 hover:glass-text-primary"
                 }`}
               >
                 Code
@@ -274,11 +315,11 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
 
             {showProps && (
               <button
-                onClick={(e) => setActiveTab('props')}
-                className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors ${
-                  activeTab === 'props'
-                    ? 'glass-text-primary border-b-2 border-blue-400'
-                    : 'glass-text-primary/70 hover:glass-text-primary'
+                onClick={(e) => setActiveTab("props")}
+                className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard ${
+                  activeTab === "props"
+                    ? "glass-text-primary border-b-2 border-blue-400"
+                    : "glass-text-primary/70 hover:glass-text-primary"
                 }`}
               >
                 Props
@@ -290,10 +331,10 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
               <button
                 key={tab.id}
                 onClick={(e) => setActiveTab(tab.id)}
-                className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors ${
+                className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard ${
                   activeTab === tab.id
-                    ? 'glass-text-primary border-b-2 border-blue-400'
-                    : 'glass-text-primary/70 hover:glass-text-primary'
+                    ? "glass-text-primary border-b-2 border-blue-400"
+                    : "glass-text-primary/70 hover:glass-text-primary"
                 }`}
               >
                 {tab.label}
@@ -302,25 +343,27 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
           </div>
 
           {/* Tab Content */}
-          <div className="flex-1 overflow-hidden">
+          <div className="glass-flex-1 overflow-hidden">
             {/* Preview Tab */}
-            {activeTab === 'preview' && (
-              <div className="h-full p-6 overflow-auto">
-                <div className="max-w-4xl mx-auto">
+            {activeTab === "preview" && (
+              <div className="glass-h-full glass-p-6 overflow-auto">
+                <div className="max-w-4xl glass-mx-auto">
                   {currentExample ? (
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-semibold text-primary mb-2">
+                        <h3 className="glass-text-lg font-semibold text-primary mb-2">
                           {currentExample.name}
                         </h3>
                         {currentExample.description && (
-                          <p className="text-primary/70">{currentExample.description}</p>
+                          <p className="text-primary/70">
+                            {currentExample.description}
+                          </p>
                         )}
                       </div>
 
                       {/* Component Preview */}
                       <OptimizedGlass
-                        className="p-6 glass-min-h-64 flex items-center justify-center"
+                        className="glass-p-6 glass-min-h-64 glass-flex glass-items-center glass-justify-center"
                         blur="subtle"
                         elevation="level1"
                       >
@@ -328,7 +371,7 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
                       </OptimizedGlass>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center h-64 text-primary/50">
+                    <div className="glass-flex glass-items-center glass-justify-center h-64 text-primary/50">
                       Select a component to preview
                     </div>
                   )}
@@ -337,21 +380,25 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
             )}
 
             {/* Code Tab */}
-            {activeTab === 'code' && showCode && (
-              <div className="h-full p-6 overflow-auto">
-                <div className="gap-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-primary">Generated Code</h3>
+            {activeTab === "code" && showCode && (
+              <div className="glass-h-full glass-p-6 overflow-auto">
+                <div className="glass-gap-4">
+                  <div className="glass-flex glass-items-center glass-justify-between">
+                    <h3 className="glass-text-lg font-semibold text-primary">
+                      Generated Code
+                    </h3>
                     <button
-                      onClick={(e) => navigator.clipboard?.writeText(componentCode)}
-                      className="px-3 py-1 text-sm glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-md transition-colors"
+                      onClick={(e) =>
+                        navigator.clipboard?.writeText(componentCode)
+                      }
+                      className="glass-px-3 glass-py-1 glass-text-sm glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard"
                     >
                       Copy
                     </button>
                   </div>
 
-                  <pre className="p-4 glass-surface-dark/20 glass-radius-md overflow-x-auto">
-                    <code className="text-sm text-primary font-mono whitespace-pre-wrap">
+                  <pre className="glass-p-4 glass-surface-dark/20 glass-radius-md overflow-x-auto">
+                    <code className="glass-text-sm text-primary font-mono whitespace-pre-wrap">
                       {componentCode}
                     </code>
                   </pre>
@@ -360,8 +407,8 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
             )}
 
             {/* Props Tab */}
-            {activeTab === 'props' && showProps && (
-              <div className="h-full p-6 overflow-y-auto">
+            {activeTab === "props" && showProps && (
+              <div className="glass-h-full glass-p-6 overflow-y-auto">
                 {renderPropEditor()}
               </div>
             )}
@@ -369,7 +416,10 @@ export const GlassComponentPlayground: React.FC<GlassComponentPlaygroundProps> =
             {/* Custom Tab Content */}
             {customTabs.map((tab: any) =>
               activeTab === tab.id ? (
-                <div key={tab.id} className="h-full p-6 overflow-auto">
+                <div
+                  key={tab.id}
+                  className="glass-h-full glass-p-6 overflow-auto"
+                >
                   {tab.content}
                 </div>
               ) : null
@@ -418,7 +468,7 @@ export const createPlaygroundExample = (
     defaultProps?: Record<string, any>;
   } = {}
 ): ComponentExample => {
-  const { category = 'general', description, defaultProps = {} } = options;
+  const { category = "general", description, defaultProps = {} } = options;
 
   return {
     id,

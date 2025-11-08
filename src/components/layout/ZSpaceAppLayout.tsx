@@ -3,10 +3,14 @@
  * Full application layout with Z-space depth layers for navigation, content, and overlays
  */
 
-import React, { CSSProperties, forwardRef, ReactNode } from 'react';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { GlassContainer } from './GlassContainer';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import React, { CSSProperties, forwardRef, ReactNode } from "react";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { GlassContainer } from "./GlassContainer";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
+import { createGlassStyle } from "../../utils/createGlassStyle";
 
 /**
  * Z-Space App Layout Props
@@ -28,7 +32,7 @@ export interface ZSpaceAppLayoutProps {
   sidebarWidth?: string | number;
   headerHeight?: string | number;
   footerHeight?: string | number;
-  sidebarPosition?: 'left' | 'right';
+  sidebarPosition?: "left" | "right";
   collapsedSidebar?: boolean;
   onSidebarToggle?: () => void;
 }
@@ -39,10 +43,10 @@ export interface ZSpaceAppLayoutProps {
 export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
   (
     {
-  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+      // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
       children,
-      className = '',
+      className = "",
       style = {},
       header,
       sidebar,
@@ -57,7 +61,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
       sidebarWidth = 280,
       headerHeight = 64,
       footerHeight = 60,
-      sidebarPosition = 'left',
+      sidebarPosition = "left",
       collapsedSidebar = false,
       onSidebarToggle,
     },
@@ -66,28 +70,31 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
     const prefersReducedMotion = useReducedMotion();
 
     // Convert numeric values to pixels
-    const sidebarWidthPx = typeof sidebarWidth === 'number' ? `${sidebarWidth}px` : sidebarWidth;
-    const headerHeightPx = typeof headerHeight === 'number' ? `${headerHeight}px` : headerHeight;
-    const footerHeightPx = typeof footerHeight === 'number' ? `${footerHeight}px` : footerHeight;
+    const sidebarWidthPx =
+      typeof sidebarWidth === "number" ? `${sidebarWidth}px` : sidebarWidth;
+    const headerHeightPx =
+      typeof headerHeight === "number" ? `${headerHeight}px` : headerHeight;
+    const footerHeightPx =
+      typeof footerHeight === "number" ? `${footerHeight}px` : footerHeight;
 
     /**
      * Container styles
      */
     const containerStyles: CSSProperties = {
       ...style,
-      position: 'relative',
-      width: '100%',
-      height: '100vh',
+      position: "relative",
+      width: "100%",
+      height: "100vh",
       perspective: `${perspective}px`,
-      transformStyle: 'preserve-3d',
-      overflow: 'hidden',
+      transformStyle: "preserve-3d",
+      overflow: "hidden",
     };
 
     /**
      * Get layer transform
      */
     const getLayerTransform = (depth: number): string => {
-      if (prefersReducedMotion) return 'none';
+      if (prefersReducedMotion) return "none";
       return `translateZ(${depth}px)`;
     };
 
@@ -95,13 +102,13 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Header styles
      */
     const headerStyles: CSSProperties = {
-      position: 'fixed',
+      position: "fixed",
       top: 0,
       left: 0,
       right: 0,
       height: headerHeightPx,
       transform: getLayerTransform(headerDepth),
-      transformStyle: 'preserve-3d',
+      transformStyle: "preserve-3d",
       zIndex: 40,
     };
 
@@ -109,14 +116,16 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Sidebar styles
      */
     const sidebarStyles: CSSProperties = {
-      position: 'fixed',
+      position: "fixed",
       top: header ? headerHeightPx : 0,
       [sidebarPosition]: 0,
       bottom: footer ? footerHeightPx : 0,
-      width: collapsedSidebar ? '64px' : sidebarWidthPx,
+      width: collapsedSidebar ? "64px" : sidebarWidthPx,
       transform: getLayerTransform(sidebarDepth),
-      transformStyle: 'preserve-3d',
-      transition: prefersReducedMotion ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      transformStyle: "preserve-3d",
+      transition: prefersReducedMotion
+        ? "none"
+        : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       zIndex: 30,
     };
 
@@ -124,15 +133,27 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Main content styles
      */
     const mainStyles: CSSProperties = {
-      position: 'fixed',
+      position: "fixed",
       top: header ? headerHeightPx : 0,
       bottom: footer ? footerHeightPx : 0,
-      left: sidebar && sidebarPosition === 'left' ? (collapsedSidebar ? '64px' : sidebarWidthPx) : 0,
-      right: sidebar && sidebarPosition === 'right' ? (collapsedSidebar ? '64px' : sidebarWidthPx) : 0,
+      left:
+        sidebar && sidebarPosition === "left"
+          ? collapsedSidebar
+            ? "64px"
+            : sidebarWidthPx
+          : 0,
+      right:
+        sidebar && sidebarPosition === "right"
+          ? collapsedSidebar
+            ? "64px"
+            : sidebarWidthPx
+          : 0,
       transform: getLayerTransform(contentDepth),
-      transformStyle: 'preserve-3d',
-      overflow: 'auto',
-      transition: prefersReducedMotion ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      transformStyle: "preserve-3d",
+      overflow: "auto",
+      transition: prefersReducedMotion
+        ? "none"
+        : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       zIndex: 10,
     };
 
@@ -140,13 +161,13 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Footer styles
      */
     const footerStyles: CSSProperties = {
-      position: 'fixed',
+      position: "fixed",
       bottom: 0,
       left: 0,
       right: 0,
       height: footerHeightPx,
       transform: getLayerTransform(footerDepth),
-      transformStyle: 'preserve-3d',
+      transformStyle: "preserve-3d",
       zIndex: 20,
     };
 
@@ -154,12 +175,12 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Overlay styles
      */
     const overlayStyles: CSSProperties = {
-      position: 'fixed',
+      position: "fixed",
       inset: 0,
       transform: getLayerTransform(overlayDepth),
-      transformStyle: 'preserve-3d',
+      transformStyle: "preserve-3d",
       zIndex: 50,
-      pointerEvents: overlay ? 'auto' : 'none',
+      pointerEvents: overlay ? "auto" : "none",
     };
 
     return (
@@ -171,7 +192,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
         {/* Header */}
         {header && (
           <div className="zspace-app-layout-header" style={headerStyles}>
-            <GlassContainer style={{ width: '100%', height: '100%' }}>
+            <GlassContainer style={{ width: "100%", height: "100%" }}>
               {header}
             </GlassContainer>
           </div>
@@ -180,7 +201,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
         {/* Sidebar */}
         {sidebar && (
           <div className="zspace-app-layout-sidebar" style={sidebarStyles}>
-            <GlassContainer style={{ width: '100%', height: '100%' }}>
+            <GlassContainer style={{ width: "100%", height: "100%" }}>
               {sidebar}
 
               {/* Sidebar toggle button */}
@@ -188,30 +209,15 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
                 <button
                   onClick={onSidebarToggle}
                   className="zspace-sidebar-toggle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    [sidebarPosition === 'left' ? 'right' : 'left']: '-16px',
-                    transform: 'translateY(-50%)',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    border: '1px solid var(--aura-glass-border-color, rgba(255, 255, 255, 0.2))',
-                    background: 'var(--aura-glass-bg, rgba(255, 255, 255, 0.1))',
-                    backdropFilter: 'var(--aura-glass-blur-md, blur(10px))',
-                    color: 'var(--aura-text-primary, #ffffff)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: prefersReducedMotion
-                      ? 'none'
-                      : 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                    zIndex: 1,
-                  }}
-                  aria-label={collapsedSidebar ? 'Expand sidebar' : 'Collapse sidebar'}
+                  style={createGlassStyle({
+                    variant: "default",
+                    elev: 2,
+                  })}
+                  aria-label={
+                    collapsedSidebar ? "Expand sidebar" : "Collapse sidebar"
+                  }
                 >
-                  {collapsedSidebar ? '→' : '←'}
+                  {collapsedSidebar ? "→" : "←"}
                 </button>
               )}
             </GlassContainer>
@@ -220,7 +226,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
 
         {/* Main Content */}
         <main className="zspace-app-layout-main" style={mainStyles}>
-          <GlassContainer style={{ minHeight: '100%', padding: '20px' }}>
+          <GlassContainer style={{ minHeight: "100%", padding: "20px" }}>
             {children}
           </GlassContainer>
         </main>
@@ -228,7 +234,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
         {/* Footer */}
         {footer && (
           <div className="zspace-app-layout-footer" style={footerStyles}>
-            <GlassContainer style={{ width: '100%', height: '100%' }}>
+            <GlassContainer style={{ width: "100%", height: "100%" }}>
               {footer}
             </GlassContainer>
           </div>
@@ -237,7 +243,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
         {/* Overlay */}
         {overlay && (
           <div className="zspace-app-layout-overlay" style={overlayStyles}>
-            <GlassContainer style={{ width: '100%', height: '100%' }}>
+            <GlassContainer style={{ width: "100%", height: "100%" }}>
               {overlay}
             </GlassContainer>
           </div>
@@ -272,7 +278,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
 
           @media (max-width: 768px) {
             .zspace-app-layout-sidebar {
-              transform: translateX(${sidebarPosition === 'left' ? '-100%' : '100%'}) !important;
+              transform: translateX(${sidebarPosition === "left" ? "-100%" : "100%"}) !important;
             }
 
             .zspace-app-layout-sidebar.mobile-open {
@@ -290,4 +296,4 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
   }
 );
 
-ZSpaceAppLayout.displayName = 'ZSpaceAppLayout';
+ZSpaceAppLayout.displayName = "ZSpaceAppLayout";

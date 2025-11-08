@@ -1,20 +1,20 @@
-import React, { forwardRef, useState } from 'react';
-import { GlassButton, IconButton } from '@/components/button';
-import { cn } from '../../../lib/utilsComprehensive';
-import { GlassCard } from '@/components/card';
-import { GlassBadge } from '@/components/data-display';
-import { GlassGrid, GlassGridItem } from '@/components/layout';
-import { HStack, VStack } from '@/components/layout';
-import { Motion } from '@/primitives';
+import React, { forwardRef, useState } from "react";
+import { GlassButton, IconButton } from "@/components/button";
+import { cn } from "../../../lib/utilsComprehensive";
+import { GlassCard } from "@/components/card";
+import { GlassBadge } from "@/components/data-display";
+import { GlassGrid, GlassGridItem } from "@/components/layout";
+import { HStack, VStack } from "@/components/layout";
+import { Motion } from "@/primitives";
 
 export interface DetailField {
   id: string;
   label: string;
   value: any;
-  type?: 'text' | 'number' | 'date' | 'boolean' | 'badge' | 'link' | 'custom';
+  type?: "text" | "number" | "date" | "boolean" | "badge" | "link" | "custom";
   render?: (value: any) => React.ReactNode;
   copyable?: boolean;
-  width?: 'auto' | 'full' | 'half' | 'third' | 'quarter';
+  width?: "auto" | "full" | "half" | "third" | "quarter";
 }
 
 export interface DetailSection {
@@ -39,13 +39,14 @@ export interface DetailAction {
   id: string;
   label: string;
   icon?: React.ReactNode;
-  variant?: 'default' | 'primary' | 'secondary' | 'error';
+  variant?: "default" | "primary" | "secondary" | "error";
   onClick: () => void;
   disabled?: boolean;
   loading?: boolean;
 }
 
-export interface GlassDetailViewProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassDetailViewProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Detail item title
    */
@@ -59,7 +60,13 @@ export interface GlassDetailViewProps extends React.HTMLAttributes<HTMLDivElemen
    */
   status?: {
     label: string;
-    variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+    variant?:
+      | "default"
+      | "primary"
+      | "secondary"
+      | "success"
+      | "warning"
+      | "error";
   };
   /**
    * Breadcrumb navigation
@@ -88,7 +95,7 @@ export interface GlassDetailViewProps extends React.HTMLAttributes<HTMLDivElemen
   /**
    * Layout variant
    */
-  layout?: 'default' | 'sidebar' | 'tabs' | 'accordion';
+  layout?: "default" | "sidebar" | "tabs" | "accordion";
   /**
    * Sidebar content (for sidebar layout)
    */
@@ -131,7 +138,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       tabs = [],
       activeTab,
       onTabChange,
-      layout = 'default',
+      layout = "default",
       sidebar,
       loading = false,
       error,
@@ -145,7 +152,11 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     ref
   ) => {
     const [expandedSections, setExpandedSections] = useState<Set<string>>(
-      new Set(sections.filter((s: any) => s.defaultExpanded !== false).map((s: any) => s.id))
+      new Set(
+        sections
+          .filter((s: any) => s.defaultExpanded !== false)
+          .map((s: any) => s.id)
+      )
     );
     const [currentTab, setCurrentTab] = useState(activeTab || tabs[0]?.id);
 
@@ -173,19 +184,23 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       }
 
       switch (field.type) {
-        case 'boolean':
+        case "boolean":
           return (
-            <GlassBadge data-glass-component variant={field.value ? 'success' : 'error'} size="xs">
-              {field.value ? 'Yes' : 'No'}
+            <GlassBadge
+              data-glass-component
+              variant={field.value ? "success" : "error"}
+              size="xs"
+            >
+              {field.value ? "Yes" : "No"}
             </GlassBadge>
           );
-        case 'badge':
+        case "badge":
           return (
             <GlassBadge variant="outline" size="xs">
               {field.value}
             </GlassBadge>
           );
-        case 'link':
+        case "link":
           return (
             <a
               href={field.value}
@@ -196,10 +211,12 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               {field.value}
             </a>
           );
-        case 'date':
+        case "date":
           return new Date(field.value).toLocaleDateString();
-        case 'number':
-          return typeof field.value === 'number' ? field.value.toLocaleString() : field.value;
+        case "number":
+          return typeof field.value === "number"
+            ? field.value.toLocaleString()
+            : field.value;
         default:
           return field.value;
       }
@@ -208,20 +225,26 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     // Render field
     const renderField = (field: DetailField) => {
       const widthClasses = {
-        auto: 'w-auto',
-        full: 'w-full',
-        half: 'w-1/2',
-        third: 'w-1/3',
-        quarter: 'w-1/4',
+        auto: "w-auto",
+        full: "w-full",
+        half: "w-1/2",
+        third: "w-1/3",
+        quarter: "w-1/4",
       };
 
       return (
-        <div key={field.id} className={cn('glass-auto-gap glass-auto-gap-xs', widthClasses[field.width || 'auto'])}>
-          <label className="text-sm font-medium glass-text-secondary">
+        <div
+          key={field.id}
+          className={cn(
+            "glass-auto-gap glass-auto-gap-xs",
+            widthClasses[field.width || "auto"]
+          )}
+        >
+          <label className="glass-text-sm font-medium glass-text-secondary">
             {field.label}
           </label>
           <HStack space="sm" align="center">
-            <div className="text-sm text-primary">
+            <div className="glass-text-sm text-primary">
               {renderFieldValue(field)}
             </div>
             {field.copyable && (
@@ -229,7 +252,9 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 icon="📋"
                 variant="ghost"
                 size="xs"
-                onClick={(e) => navigator.clipboard?.writeText(String(field.value))}
+                onClick={(e) =>
+                  navigator.clipboard?.writeText(String(field.value))
+                }
                 aria-label="Copy to clipboard"
                 className="glass-focus glass-touch-target"
               />
@@ -249,17 +274,22 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
             {/* Section header */}
             <div
               className={cn(
-                'flex items-center justify-between',
-                section.collapsible && 'cursor-pointer glass-focus glass-touch-target'
+                "flex items-center justify-between",
+                section.collapsible &&
+                  "cursor-pointer glass-focus glass-touch-target"
               )}
-              onClick={section.collapsible ? () => toggleSection(section.id) : undefined}
+              onClick={
+                section.collapsible
+                  ? () => toggleSection(section.id)
+                  : undefined
+              }
             >
               <VStack space="xs">
-                <h3 className="text-lg font-semibold text-primary">
+                <h3 className="glass-text-lg font-semibold text-primary">
                   {section.title}
                 </h3>
                 {section.description && (
-                  <p className="text-sm glass-text-secondary">
+                  <p className="glass-text-sm glass-text-secondary">
                     {section.description}
                   </p>
                 )}
@@ -270,7 +300,9 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                   leftIcon={isExpanded ? "−" : "+"}
                   variant="ghost"
                   size="sm"
-                  aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
+                  aria-label={
+                    isExpanded ? "Collapse section" : "Expand section"
+                  }
                 />
               )}
             </div>
@@ -281,7 +313,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 {section.component ? (
                   section.component
                 ) : section.fields ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-6">
                     {section.fields.map(renderField)}
                   </div>
                 ) : null}
@@ -299,17 +331,17 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       return (
         <VStack space="md">
           {/* Tab navigation */}
-          <div className="border-b border-glass-border/20">
-            <nav className="flex space-x-8">
+          <div className="glass-border-b glass-border-glass-border/20">
+            <nav className="glass-flex space-x-8">
               {tabs.map((tab) => (
                 <GlassButton
                   key={tab.id}
                   onClick={(e) => handleTabChange(tab.id)}
                   className={cn(
-                    'flex items-center glass-gap-2 glass-py-2 glass-px-1 border-b-2 transition-colors glass-focus glass-touch-target',
+                    "flex items-center glass-gap-2 glass-py-2 glass-px-1 border-b-2 transition-colors glass-focus glass-touch-target",
                     currentTab === tab.id
-                      ? 'border-primary text-primary font-medium'
-                      : 'border-transparent glass-text-secondary hover:text-foreground'
+                      ? "border-primary text-primary font-medium"
+                      : "border-transparent glass-text-secondary hover:text-foreground"
                   )}
                 >
                   {tab.icon}
@@ -325,9 +357,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
           </div>
 
           {/* Tab content */}
-          <div>
-            {tabs.find(tab => tab.id === currentTab)?.content}
-          </div>
+          <div>{tabs.find((tab) => tab.id === currentTab)?.content}</div>
         </VStack>
       );
     };
@@ -337,9 +367,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       <VStack space="md">
         {/* Breadcrumb */}
         {breadcrumb && (
-          <div className="text-sm glass-text-secondary">
-            {breadcrumb}
-          </div>
+          <div className="glass-text-sm glass-text-secondary">{breadcrumb}</div>
         )}
 
         {/* Title section */}
@@ -358,7 +386,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
 
             <VStack space="xs">
               <HStack space="sm" align="center">
-                <h1 className="text-2xl font-bold text-primary">
+                <h1 className="glass-text-2xl font-bold text-primary">
                   {title}
                 </h1>
                 {status && (
@@ -369,9 +397,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               </HStack>
 
               {subtitle && (
-                <p className="text-lg glass-text-secondary">
-                  {subtitle}
-                </p>
+                <p className="glass-text-lg glass-text-secondary">{subtitle}</p>
               )}
             </VStack>
           </HStack>
@@ -423,15 +449,15 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     const renderContent = () => {
       if (loading) {
         return (
-          <div className="flex items-center justify-center h-64">
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
+          <div className="glass-flex glass-items-center glass-justify-center h-64">
+            <div className="w-8 h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
           </div>
         );
       }
 
       if (error) {
         return (
-          <GlassCard variant="default" className="p-8 text-center">
+          <GlassCard variant="default" className="glass-p-8 text-center">
             <div className="text-destructive font-medium mb-2">Error</div>
             <div className="glass-text-secondary">{error}</div>
           </GlassCard>
@@ -439,33 +465,31 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       }
 
       switch (layout) {
-        case 'sidebar':
+        case "sidebar":
           return (
             <GlassGrid cols={12} gap="lg">
               <GlassGridItem colSpan={8}>
                 <VStack space="lg">
-                  {tabs.length > 0 ? renderTabs() : (
-                    sections.map(renderSection)
-                  )}
+                  {tabs.length > 0 ? renderTabs() : sections.map(renderSection)}
                   {children}
                 </VStack>
               </GlassGridItem>
-              <GlassGridItem colSpan={4}>
-                {sidebar}
-              </GlassGridItem>
+              <GlassGridItem colSpan={4}>{sidebar}</GlassGridItem>
             </GlassGrid>
           );
 
-        case 'tabs':
+        case "tabs":
           return renderTabs();
 
-        case 'accordion':
+        case "accordion":
           return (
             <VStack space="md">
-              {sections.map((section: any) => ({
-                ...section,
-                collapsible: true,
-              })).map(renderSection)}
+              {sections
+                .map((section: any) => ({
+                  ...section,
+                  collapsible: true,
+                }))
+                .map(renderSection)}
               {children}
             </VStack>
           );
@@ -482,7 +506,11 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     };
 
     return (
-      <div ref={ref} className={cn('w-full glass-auto-gap glass-auto-gap-3xl', className)} {...props}>
+      <div
+        ref={ref}
+        className={cn("w-full glass-auto-gap glass-auto-gap-3xl", className)}
+        {...props}
+      >
         {/* Header */}
         {renderHeader()}
 
@@ -493,4 +521,4 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
   }
 );
 
-GlassDetailView.displayName = 'GlassDetailView';
+GlassDetailView.displayName = "GlassDetailView";

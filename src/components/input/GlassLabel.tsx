@@ -1,12 +1,13 @@
-import React, { forwardRef } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
-import { useA11yId } from '../../utils/a11y';
+import React, { forwardRef } from "react";
+import { cn } from "../../lib/utilsComprehensive";
+import { useA11yId } from "../../utils/a11y";
 
-export interface GlassLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface GlassLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   /** Size of the label */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: "xs" | "sm" | "md" | "lg";
   /** Visual variant */
-  variant?: 'default' | 'muted' | 'accent' | 'success' | 'warning' | 'error';
+  variant?: "default" | "muted" | "accent" | "success" | "warning" | "error";
   /** Whether the label is required */
   required?: boolean;
   /** Whether the label is for a disabled field */
@@ -22,8 +23,8 @@ export interface GlassLabelProps extends React.LabelHTMLAttributes<HTMLLabelElem
 export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
   (
     {
-      size = 'md',
-      variant = 'default',
+      size = "md",
+      variant = "default",
       required = false,
       disabled = false,
       icon,
@@ -36,22 +37,22 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
     },
     ref
   ) => {
-    const labelId = useA11yId('glass-label');
+    const labelId = useA11yId("glass-label");
     const finalId = id || labelId;
     const sizeConfig = {
-      xs: 'glass-text-xs',
-      sm: 'glass-text-sm',
-      md: 'glass-text-sm',
-      lg: 'glass-text-base',
+      xs: "glass-text-xs",
+      sm: "glass-text-sm",
+      md: "glass-text-sm",
+      lg: "glass-text-base",
     };
 
     const variantConfig = {
-      default: 'text-foreground',
-      muted: 'glass-text-secondary',
-      accent: 'text-primary',
-      success: 'text-green-400',
-      warning: 'text-amber-400',
-      error: 'text-red-400',
+      default: "text-foreground",
+      muted: "glass-text-secondary",
+      accent: "text-primary",
+      success: "text-green-400",
+      warning: "text-amber-400",
+      error: "text-red-400",
     };
 
     return (
@@ -60,51 +61,52 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
           ref={ref}
           id={finalId}
           className={cn(
-            'glass-label',
-            'font-medium leading-none transition-colors duration-200',
-            'peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-            
+            "glass-label",
+            "font-medium leading-none transition-colors duration-200",
+            "peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+
             // Size
             sizeConfig[size],
-            
+
             // Variant
             variantConfig[variant],
-            
+
             // Disabled state
-            disabled && 'opacity-50 cursor-not-allowed',
-            
+            disabled && "opacity-50 cursor-not-allowed",
+
             // Icon spacing
-            icon && 'flex items-center glass-gap-2',
-            
+            icon && "flex items-center glass-gap-2",
+
             // Enhanced styling
-            enhanced && 'glass-focus',
-            
+            enhanced && "glass-focus",
+
             className
           )}
           {...props}
         >
-        {icon && (
-          <span className="shrink-0">
-            {icon}
+          {icon && <span className="shrink-0">{icon}</span>}
+
+          <span>
+            {children}
+            {required && (
+              <span
+                className="text-destructive glass-ml-1"
+                aria-label="required"
+              >
+                *
+              </span>
+            )}
           </span>
-        )}
-        
-        <span>
-          {children}
-          {required && (
-            <span className="text-destructive glass-ml-1" aria-label="required">
-              *
-            </span>
-          )}
-        </span>
         </label>
-        
+
         {description && (
-          <p className={cn(
-            'glass-label-description glass-text-secondary glass-mt-1',
-            size === 'xs' ? 'glass-text-xs' : 'glass-text-sm',
-            disabled && 'opacity-50'
-          )}>
+          <p
+            className={cn(
+              "glass-label-description glass-text-secondary glass-mt-1",
+              size === "xs" ? "glass-text-xs" : "glass-text-sm",
+              disabled && "opacity-50"
+            )}
+          >
             {description}
           </p>
         )}
@@ -113,6 +115,6 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
   }
 );
 
-GlassLabel.displayName = 'GlassLabel';
+GlassLabel.displayName = "GlassLabel";
 
 export default GlassLabel;

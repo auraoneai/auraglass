@@ -3,8 +3,8 @@
  * Individual tab item with glassmorphic styling for tab navigation
  */
 
-import React, { CSSProperties, forwardRef, ReactNode } from 'react';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import React, { CSSProperties, forwardRef, ReactNode } from "react";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 /**
  * Glass Tab Item Props
@@ -38,7 +38,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       icon,
       badge,
       onClick,
-      className = '',
+      className = "",
       style = {},
       href,
       target,
@@ -54,52 +54,52 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         handleClick();
       }
     };
 
     const tabStyles: CSSProperties = {
-      position: 'relative',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '8px',
-      padding: '12px 20px',
-      border: 'none',
-      borderRadius: '8px',
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "8px",
+      padding: "12px 20px",
+      border: "none",
+      borderRadius: "8px",
       background: active
-        ? 'var(--aura-glass-bg-active, rgba(255, 255, 255, 0.15))'
-        : 'transparent',
-      backdropFilter: active ? 'var(--aura-glass-blur-md, blur(10px))' : 'none',
+        ? "var(--aura-glass-bg-active, rgba(255, 255, 255, 0.15))"
+        : "transparent",
+      // Use createGlassStyle() instead,
       color: active
-        ? 'var(--aura-text-primary, #ffffff)'
-        : 'var(--aura-text-secondary, rgba(255, 255, 255, 0.7))',
-      fontSize: '14px',
+        ? "var(--aura-text-primary, #ffffff)"
+        : "var(--aura-text-secondary, rgba(255, 255, 255, 0.7))",
+      fontSize: "14px",
       fontWeight: active ? 600 : 400,
-      cursor: disabled ? 'not-allowed' : 'pointer',
+      cursor: disabled ? "not-allowed" : "pointer",
       opacity: disabled ? 0.5 : 1,
       transition: prefersReducedMotion
-        ? 'none'
-        : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      textDecoration: 'none',
-      userSelect: 'none',
+        ? "none"
+        : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      textDecoration: "none",
+      userSelect: "none",
       ...style,
     };
 
-    const Component = href ? 'a' : 'button';
+    const Component = href ? "a" : "button";
 
     return (
       <Component
         ref={ref as any}
-        className={`glass-tab-item ${active ? 'active' : ''} ${disabled ? 'disabled' : ''} ${className}`}
+        className={`glass-tab-item ${active ? "active" : ""} ${disabled ? "disabled" : ""} ${className}`}
         style={tabStyles}
         onClick={href ? undefined : handleClick}
         onKeyDown={href ? undefined : handleKeyDown}
         disabled={href ? undefined : disabled}
         href={href}
         target={target}
-        role={href ? 'tab' : 'tab'}
+        role={href ? "tab" : "tab"}
         aria-selected={active}
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : 0}
@@ -119,16 +119,16 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
           <span
             className="glass-tab-item-badge"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minWidth: '20px',
-              height: '20px',
-              padding: '0 6px',
-              borderRadius: '10px',
-              background: 'var(--aura-accent-color, #00d4ff)',
-              color: 'var(--aura-text-on-accent, #000000)',
-              fontSize: '11px',
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: "20px",
+              height: "20px",
+              padding: "0 6px",
+              borderRadius: "10px",
+              background: "var(--aura-accent-color, #00d4ff)",
+              color: "var(--aura-text-on-accent, #000000)",
+              fontSize: "11px",
               fontWeight: 600,
             }}
           >
@@ -141,14 +141,14 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
           <span
             className="glass-tab-item-indicator"
             style={{
-              position: 'absolute',
+              position: "absolute",
               bottom: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '80%',
-              height: '2px',
-              background: 'var(--aura-accent-color, #00d4ff)',
-              borderRadius: '2px 2px 0 0',
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "80%",
+              height: "2px",
+              background: "var(--aura-accent-color, #00d4ff)",
+              borderRadius: "2px 2px 0 0",
             }}
             aria-hidden="true"
           />
@@ -195,4 +195,4 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
   }
 );
 
-GlassTabItem.displayName = 'GlassTabItem';
+GlassTabItem.displayName = "GlassTabItem";

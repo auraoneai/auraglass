@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils';
-import React, { forwardRef } from 'react';
-import { Glass, Motion } from '../../../../primitives';
-import { GlassBadge } from '../../../data-display/GlassBadge';
-import { HStack, VStack } from '../../../layout/GlassStack';
+import { cn } from "@/lib/utils";
+import React, { forwardRef } from "react";
+import { Glass, Motion } from "../../../../primitives";
+import { GlassBadge } from "../../../data-display/GlassBadge";
+import { HStack, VStack } from "../../../layout/GlassStack";
 
 export interface ChartDataPoint {
   label: string;
@@ -18,7 +18,7 @@ export interface ChartData {
   summary?: {
     total?: number;
     change?: number;
-    trend?: 'up' | 'down' | 'neutral';
+    trend?: "up" | "down" | "neutral";
   };
 }
 
@@ -30,19 +30,25 @@ export interface ChartWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Chart type
    */
-  type?: 'bar' | 'line' | 'area' | 'pie' | 'donut' | 'sparkline';
+  type?: "bar" | "line" | "area" | "pie" | "donut" | "sparkline";
   /**
    * Widget variant
    */
-  variant?: 'default' | 'minimal' | 'featured';
+  variant?: "default" | "minimal" | "featured";
   /**
    * Chart size
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Color scheme
    */
-  colorScheme?: 'default' | 'primary' | 'success' | 'warning' | 'destructive' | 'rainbow';
+  colorScheme?:
+    | "default"
+    | "primary"
+    | "success"
+    | "warning"
+    | "destructive"
+    | "rainbow";
   /**
    * Whether to show legend
    */
@@ -77,10 +83,10 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
   (
     {
       data,
-      type = 'bar',
-      variant = 'default',
-      size = 'md',
-      colorScheme = 'default',
+      type = "bar",
+      variant = "default",
+      size = "md",
+      colorScheme = "default",
       showLegend = true,
       showGrid = true,
       interactive = true,
@@ -94,32 +100,70 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
   ) => {
     const sizeClasses = {
       sm: {
-        height: 'h-32',
-        padding: 'glass-p-3',
-        title: 'glass-text-sm',
-        subtitle: 'glass-text-xs',
+        height: "h-32",
+        padding: "glass-p-3",
+        title: "glass-text-sm",
+        subtitle: "glass-text-xs",
       },
       md: {
-        height: 'h-48',
-        padding: 'glass-p-4',
-        title: 'glass-text-base',
-        subtitle: 'glass-text-sm',
+        height: "h-48",
+        padding: "glass-p-4",
+        title: "glass-text-base",
+        subtitle: "glass-text-sm",
       },
       lg: {
-        height: 'h-64',
-        padding: 'glass-p-6',
-        title: 'glass-text-lg',
-        subtitle: 'glass-text-base',
+        height: "h-64",
+        padding: "glass-p-6",
+        title: "glass-text-lg",
+        subtitle: "glass-text-base",
       },
     };
 
     const colorSchemes = {
-      default: ['var(--glass-color-primary)', '#8B5CF6', 'var(--glass-color-success)', 'var(--glass-color-warning)', 'var(--glass-color-danger)'],
-      primary: ['var(--glass-color-primary)', 'var(--glass-color-primary-light)', '#93C5FD', '#DBEAFE', '#EBF8FF'],
-      success: ['var(--glass-color-success)', 'var(--glass-color-success-light)', '#6EE7B7', '#A7F3D0', '#D1FAE5'],
-      warning: ['var(--glass-color-warning)', 'var(--glass-color-warning-light)', '#FCD34D', '#FDE68A', '#FEF3C7'],
-      destructive: ['var(--glass-color-danger)', 'var(--glass-color-danger-light)', '#FCA5A5', '#FECACA', '#FEE2E2'],
-      rainbow: ['var(--glass-color-primary)', '#8B5CF6', 'var(--glass-color-success)', 'var(--glass-color-warning)', 'var(--glass-color-danger)', '#EC4899', '#06B6D4'],
+      default: [
+        "var(--glass-color-primary)",
+        "#8B5CF6",
+        "var(--glass-color-success)",
+        "var(--glass-color-warning)",
+        "var(--glass-color-danger)",
+      ],
+      primary: [
+        "var(--glass-color-primary)",
+        "var(--glass-color-primary-light)",
+        "#93C5FD",
+        "#DBEAFE",
+        "#EBF8FF",
+      ],
+      success: [
+        "var(--glass-color-success)",
+        "var(--glass-color-success-light)",
+        "#6EE7B7",
+        "#A7F3D0",
+        "#D1FAE5",
+      ],
+      warning: [
+        "var(--glass-color-warning)",
+        "var(--glass-color-warning-light)",
+        "#FCD34D",
+        "#FDE68A",
+        "#FEF3C7",
+      ],
+      destructive: [
+        "var(--glass-color-danger)",
+        "var(--glass-color-danger-light)",
+        "#FCA5A5",
+        "#FECACA",
+        "#FEE2E2",
+      ],
+      rainbow: [
+        "var(--glass-color-primary)",
+        "#8B5CF6",
+        "var(--glass-color-success)",
+        "var(--glass-color-warning)",
+        "var(--glass-color-danger)",
+        "#EC4899",
+        "#06B6D4",
+      ],
     };
 
     const config = sizeClasses?.[size] || sizeClasses.md;
@@ -128,34 +172,41 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Simple bar chart renderer
     const renderBarChart = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
+        return (
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary">
+            No data available
+          </div>
+        );
       }
 
       const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
-      
+
       return (
-        <div data-glass-component className="flex items-end justify-between gap-2 h-full">
+        <div
+          data-glass-component
+          className="glass-flex glass-items-end glass-justify-between glass-gap-2 glass-h-full"
+        >
           {data?.dataPoints.map((point, index) => {
             const height = (point.value / maxValue) * 100;
             const color = point.color || colors[index % (colors?.length || 0)];
-            
+
             return (
               <Motion
                 key={point.label}
                 preset="slideUp"
                 delay={index * 100}
-                className="flex-1 flex flex-col items-center gap-2"
+                className="glass-flex-1 glass-flex glass-flex-col glass-items-center glass-gap-2"
               >
                 <div
-                  className="w-full glass-radius-t transition-all duration-300 hover:opacity-80 cursor-pointer"
+                  className="glass-w-full glass-radius-t transition-all duration-300 hover:opacity-80 cursor-pointer"
                   style={{
                     height: `${height}%`,
                     backgroundColor: color,
-                    minHeight: '4px',
+                    minHeight: "4px",
                   }}
                   title={`${point.label}: ${point.value}`}
                 />
-                <div className="text-xs glass-text-secondary text-center truncate w-full">
+                <div className="glass-text-xs glass-text-secondary text-center truncate glass-w-full">
                   {point.label}
                 </div>
               </Motion>
@@ -168,19 +219,29 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Simple line chart renderer
     const renderLineChart = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
+        return (
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary">
+            No data available
+          </div>
+        );
       }
 
       const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
-      const points = data?.dataPoints.map((point, index) => {
-        const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
-        const y = 100 - (point.value / maxValue) * 100;
-        return `${x},${y}`;
-      }).join(' ');
+      const points = data?.dataPoints
+        .map((point, index) => {
+          const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
+          const y = 100 - (point.value / maxValue) * 100;
+          return `${x},${y}`;
+        })
+        .join(" ");
 
       return (
-        <div className="relative h-full w-full">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <div className="relative glass-h-full glass-w-full">
+          <svg
+            className="glass-w-full glass-h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
             {/* Grid lines */}
             {showGrid && (
               <g>
@@ -197,38 +258,38 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                 ))}
               </g>
             )}
-            
+
             {/* Line */}
             <polyline
               points={points}
               fill="none"
-              stroke={colors?.[0] || 'var(--glass-color-primary)'}
+              stroke={colors?.[0] || "var(--glass-color-primary)"}
               strokeWidth="2"
               className="drop-shadow-sm"
             />
-            
+
             {/* Data points */}
             {data?.dataPoints.map((point, index) => {
               const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
               const y = 100 - (point.value / maxValue) * 100;
-              
+
               return (
                 <circle
                   key={index}
                   cx={x}
                   cy={y}
                   r="2"
-                  fill={colors?.[0] || 'var(--glass-color-primary)'}
+                  fill={colors?.[0] || "var(--glass-color-primary)"}
                   className="hover:r-3 transition-all cursor-pointer"
                 />
               );
             })}
           </svg>
-          
+
           {/* Labels */}
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between">
+          <div className="absolute bottom-0 left-0 right-0 glass-flex glass-justify-between">
             {data?.dataPoints.map((point, index) => (
-              <div key={index} className="text-xs text-primary/80">
+              <div key={index} className="glass-text-xs text-primary/80">
                 {point.label}
               </div>
             ))}
@@ -240,14 +301,18 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Simple pie chart renderer
     const renderPieChart = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="flex items-center justify-center h-full glass-text-secondary">No data available</div>;
+        return (
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary">
+            No data available
+          </div>
+        );
       }
 
       const total = data.dataPoints.reduce((sum, d) => sum + d.value, 0);
       let cumulative = 0;
-      
+
       return (
-        <div className="flex items-center justify-center h-full">
+        <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
           <div className="relative">
             <svg width="120" height="120" viewBox="0 0 120 120">
               {data?.dataPoints.map((point, index) => {
@@ -255,31 +320,32 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                 const angle = percentage * 360;
                 const startAngle = cumulative;
                 cumulative += angle;
-                
-                const color = point.color || colors[index % (colors?.length || 0)];
-                
+
+                const color =
+                  point.color || colors[index % (colors?.length || 0)];
+
                 // Calculate path for pie slice
                 const centerX = 60;
                 const centerY = 60;
                 const radius = 50;
-                
+
                 const startAngleRad = (startAngle * Math.PI) / 180;
                 const endAngleRad = ((startAngle + angle) * Math.PI) / 180;
-                
+
                 const x1 = centerX + radius * Math.cos(startAngleRad);
                 const y1 = centerY + radius * Math.sin(startAngleRad);
                 const x2 = centerX + radius * Math.cos(endAngleRad);
                 const y2 = centerY + radius * Math.sin(endAngleRad);
-                
+
                 const largeArcFlag = angle > 180 ? 1 : 0;
-                
+
                 const pathData = [
                   `M ${centerX} ${centerY}`,
                   `L ${x1} ${y1}`,
                   `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-                  'Z'
-                ].join(' ');
-                
+                  "Z",
+                ].join(" ");
+
                 return (
                   <path
                     key={index}
@@ -298,22 +364,32 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     // Sparkline renderer
     const renderSparkline = () => {
       if (!data?.dataPoints || data.dataPoints.length === 0) {
-        return <div className="flex items-center justify-center h-full glass-text-secondary text-xs">No data</div>;
+        return (
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary glass-text-xs">
+            No data
+          </div>
+        );
       }
 
       const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
-      const points = data?.dataPoints.map((point, index) => {
-        const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
-        const y = 100 - (point.value / maxValue) * 100;
-        return `${x},${y}`;
-      }).join(' ');
+      const points = data?.dataPoints
+        .map((point, index) => {
+          const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
+          const y = 100 - (point.value / maxValue) * 100;
+          return `${x},${y}`;
+        })
+        .join(" ");
 
       return (
-        <svg className="w-full h-8" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg
+          className="glass-w-full h-8"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
           <polyline
             points={points}
             fill="none"
-            stroke={colors?.[0] || 'var(--glass-color-primary)'}
+            stroke={colors?.[0] || "var(--glass-color-primary)"}
             strokeWidth="3"
             className="drop-shadow-sm"
           />
@@ -324,48 +400,83 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     const renderChartContent = () => {
       if (loading) {
         return (
-          <div className="flex items-center justify-center h-full">
-            <div className="w-6 h-6 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
+            <div className="w-6 h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
           </div>
         );
       }
 
       if (!data) {
-        return <div className="flex items-center justify-center h-full glass-text-secondary">No chart data provided</div>;
+        return (
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary">
+            No chart data provided
+          </div>
+        );
       }
 
       if (renderChart) {
-        return renderChart ? renderChart(data, { type, colorScheme, colors, showGrid, interactive }) : <div>Chart not available</div>;
+        return renderChart ? (
+          renderChart(data, {
+            type,
+            colorScheme,
+            colors,
+            showGrid,
+            interactive,
+          })
+        ) : (
+          <div>Chart not available</div>
+        );
       }
 
       switch (type) {
-        case 'line':
-        case 'area':
-          return renderLineChart ? renderLineChart() : <div>Line chart not available</div>;
-        case 'pie':
-        case 'donut':
-          return renderPieChart ? renderPieChart() : <div>Pie chart not available</div>;
-        case 'sparkline':
+        case "line":
+        case "area":
+          return renderLineChart ? (
+            renderLineChart()
+          ) : (
+            <div>Line chart not available</div>
+          );
+        case "pie":
+        case "donut":
+          return renderPieChart ? (
+            renderPieChart()
+          ) : (
+            <div>Pie chart not available</div>
+          );
+        case "sparkline":
           return renderSparkline();
         default:
-          return renderBarChart ? renderBarChart() : <div>Bar chart not available</div>;
+          return renderBarChart ? (
+            renderBarChart()
+          ) : (
+            <div>Bar chart not available</div>
+          );
       }
     };
 
     const renderLegend = () => {
-      if (!showLegend || type === 'sparkline' || !data?.dataPoints || data.dataPoints.length === 0) return null;
+      if (
+        !showLegend ||
+        type === "sparkline" ||
+        !data?.dataPoints ||
+        data.dataPoints.length === 0
+      )
+        return null;
 
       return (
-        <div className="flex flex-wrap gap-2">
+        <div className="glass-flex glass-flex-wrap glass-gap-2">
           {data.dataPoints.map((point, index) => {
             const color = point.color || colors[index % (colors?.length || 0)];
             return (
-              <div key={index} className="flex items-center gap-1">
+              <div
+                key={index}
+                className="glass-flex glass-items-center glass-gap-1"
+              >
                 <div
                   className="w-3 h-3 glass-radius-sm"
                   style={{ backgroundColor: color }}
                 />
-                <span className="text-xs glass-text-secondary">
+                <span className="glass-text-xs glass-text-secondary">
                   {point.label}
                 </span>
               </div>
@@ -378,51 +489,64 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     return (
       <Glass
         ref={ref}
-        className={cn('w-full h-full glass-radius-lg', config.padding, className)}
+        className={cn(
+          "w-full h-full glass-radius-lg",
+          config.padding,
+          className
+        )}
         {...props}
       >
-        <VStack space="md" className="h-full">
+        <VStack space="md" className="glass-h-full">
           {/* Header */}
           <HStack space="sm" align="center" justify="between">
             <VStack space="xs">
-              <h3 className={cn('font-medium text-foreground', config.title)}>
-                {data?.title || 'Chart'}
+              <h3 className={cn("font-medium text-foreground", config.title)}>
+                {data?.title || "Chart"}
               </h3>
               {data?.subtitle && (
-                <p className={cn('glass-text-secondary', config.subtitle)}>
+                <p className={cn("glass-text-secondary", config.subtitle)}>
                   {data?.subtitle}
                 </p>
               )}
             </VStack>
-            
-            {actions && (
-              <div className="flex-shrink-0">
-                {actions}
-              </div>
-            )}
+
+            {actions && <div className="glass-flex-shrink-0">{actions}</div>}
           </HStack>
 
           {/* Summary */}
-          {data?.summary && variant !== 'minimal' && (
+          {data?.summary && variant !== "minimal" && (
             <HStack space="sm" align="center">
               {data?.summary.total && (
-                <div className="text-lg font-bold text-primary">
+                <div className="glass-text-lg font-bold text-primary">
                   {data?.summary.total.toLocaleString()}
                 </div>
               )}
               {data?.summary.change && (
                 <GlassBadge
-                  variant={data?.summary.trend === 'up' ? 'success' : data?.summary.trend === 'down' ? 'error' : 'outline'}
+                  variant={
+                    data?.summary.trend === "up"
+                      ? "success"
+                      : data?.summary.trend === "down"
+                        ? "error"
+                        : "outline"
+                  }
                   size="xs"
                 >
-                  {data?.summary.change > 0 ? '+' : ''}{data?.summary.change}%
+                  {data?.summary.change > 0 ? "+" : ""}
+                  {data?.summary.change}%
                 </GlassBadge>
               )}
             </HStack>
           )}
 
           {/* Chart */}
-          <div className={cn('flex-1', config.height, type === 'sparkline' && 'h-auto')}>
+          <div
+            className={cn(
+              "flex-1",
+              config.height,
+              type === "sparkline" && "h-auto"
+            )}
+          >
             {renderChartContent()}
           </div>
 
@@ -434,4 +558,4 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
   }
 );
 
-ChartWidget.displayName = 'ChartWidget';
+ChartWidget.displayName = "ChartWidget";

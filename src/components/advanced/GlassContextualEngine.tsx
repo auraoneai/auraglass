@@ -1,47 +1,61 @@
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Contextual Engine
  * Hyper-contextual adaptation system that fuses biometrics, device sensors, and environment data
  * Part of Next-Wave Systems (10/10) - Hyper-Contextual Adaptation
  */
 
-import React, { useEffect, useRef, useState, useCallback, createContext, useContext } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../../lib/utils';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+} from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "../../lib/utils";
 
 // Context data types
 interface BiometricData {
-  heartRate?: number;        // BPM
+  heartRate?: number; // BPM
   heartRateVariability?: number; // RMSSD
-  skinConductance?: number;  // microsiemens
-  bodyTemperature?: number;  // Celsius
-  bloodOxygen?: number;      // SpO2 percentage
-  respiratoryRate?: number;  // breaths per minute
-  stressLevel?: number;      // 0-1 calculated metric
-  arousalLevel?: number;     // 0-1 calculated metric
+  skinConductance?: number; // microsiemens
+  bodyTemperature?: number; // Celsius
+  bloodOxygen?: number; // SpO2 percentage
+  respiratoryRate?: number; // breaths per minute
+  stressLevel?: number; // 0-1 calculated metric
+  arousalLevel?: number; // 0-1 calculated metric
 }
 
 interface EnvironmentData {
-  lightLevel: number;        // lux
-  lightTemperature: number;  // Kelvin
-  ambientNoise: number;      // dB
-  humidity: number;          // percentage
-  temperature: number;       // Celsius
-  pressure: number;          // hPa
-  uvIndex?: number;          // UV index
-  weather?: string;          // weather condition
-  timeOfDay: 'dawn' | 'morning' | 'noon' | 'afternoon' | 'evening' | 'dusk' | 'night';
-  season: 'spring' | 'summer' | 'autumn' | 'winter';
+  lightLevel: number; // lux
+  lightTemperature: number; // Kelvin
+  ambientNoise: number; // dB
+  humidity: number; // percentage
+  temperature: number; // Celsius
+  pressure: number; // hPa
+  uvIndex?: number; // UV index
+  weather?: string; // weather condition
+  timeOfDay:
+    | "dawn"
+    | "morning"
+    | "noon"
+    | "afternoon"
+    | "evening"
+    | "dusk"
+    | "night";
+  season: "spring" | "summer" | "autumn" | "winter";
 }
 
 interface DeviceSensorData {
   accelerometer: { x: number; y: number; z: number };
   gyroscope: { alpha: number; beta: number; gamma: number };
   magnetometer?: { x: number; y: number; z: number };
-  deviceMotion: 'static' | 'gentle' | 'moderate' | 'active';
-  batteryLevel: number;      // 0-1
-  networkQuality: 'excellent' | 'good' | 'fair' | 'poor' | 'offline';
-  screenBrightness: number;  // 0-1
+  deviceMotion: "static" | "gentle" | "moderate" | "active";
+  batteryLevel: number; // 0-1
+  networkQuality: "excellent" | "good" | "fair" | "poor" | "offline";
+  screenBrightness: number; // 0-1
   deviceTemperature?: number; // estimated device heat
 }
 
@@ -52,8 +66,14 @@ interface LocationContext {
   accuracy?: number;
   heading?: number;
   speed?: number;
-  locationType: 'indoor' | 'outdoor' | 'vehicle' | 'unknown';
-  activityType: 'stationary' | 'walking' | 'running' | 'cycling' | 'driving' | 'unknown';
+  locationType: "indoor" | "outdoor" | "vehicle" | "unknown";
+  activityType:
+    | "stationary"
+    | "walking"
+    | "running"
+    | "cycling"
+    | "driving"
+    | "unknown";
 }
 
 interface ContextualState {
@@ -71,35 +91,35 @@ interface ContextualAdaptation {
   contextMatch: number; // How well context matches 0-1
   adaptations: {
     visual: {
-      brightness: number;     // -1 to 1 adjustment
-      contrast: number;       // -1 to 1 adjustment
-      saturation: number;     // -1 to 1 adjustment
+      brightness: number; // -1 to 1 adjustment
+      contrast: number; // -1 to 1 adjustment
+      saturation: number; // -1 to 1 adjustment
       colorTemperature: number; // -1 to 1 (cooler to warmer)
-      blur: number;           // 0-1 blur intensity
-      opacity: number;        // 0-1 opacity
+      blur: number; // 0-1 blur intensity
+      opacity: number; // 0-1 opacity
     };
     animation: {
-      speed: number;          // 0-2 speed multiplier
-      intensity: number;      // 0-2 intensity multiplier
-      type: 'minimal' | 'standard' | 'enhanced' | 'disabled';
-      easing: 'linear' | 'ease' | 'ease-in' | 'ease-out' | 'bounce' | 'elastic';
+      speed: number; // 0-2 speed multiplier
+      intensity: number; // 0-2 intensity multiplier
+      type: "minimal" | "standard" | "enhanced" | "disabled";
+      easing: "linear" | "ease" | "ease-in" | "ease-out" | "bounce" | "elastic";
     };
     interaction: {
-      sensitivity: number;    // 0-2 touch/click sensitivity
+      sensitivity: number; // 0-2 touch/click sensitivity
       hapticFeedback: number; // 0-1 haptic intensity
-      responseDelay: number;  // 0-500ms additional delay
+      responseDelay: number; // 0-500ms additional delay
       gestureThreshold: number; // 0-1 gesture detection sensitivity
     };
     layout: {
-      density: 'sparse' | 'normal' | 'dense';
-      complexity: 'minimal' | 'standard' | 'detailed';
-      spacing: number;        // 0.5-2 spacing multiplier
-      fontSize: number;       // 0.8-1.5 font size multiplier
+      density: "sparse" | "normal" | "dense";
+      complexity: "minimal" | "standard" | "detailed";
+      spacing: number; // 0.5-2 spacing multiplier
+      fontSize: number; // 0.8-1.5 font size multiplier
     };
     sound: {
-      volume: number;         // 0-1 system sound volume
-      frequency: number;      // 0-1 frequency bias (lower-higher)
-      spatialAudio: boolean;  // 3D audio positioning
+      volume: number; // 0-1 system sound volume
+      frequency: number; // 0-1 frequency bias (lower-higher)
+      spatialAudio: boolean; // 3D audio positioning
       environmentalAudio: boolean; // Ambient sound integration
     };
   };
@@ -120,15 +140,21 @@ class SensorFusionSystem {
     this.sensorWeights = new Map();
     this.fusedData = new Map();
     this.dataQuality = new Map();
-    
+
     this.initializeFilters();
   }
 
   private initializeFilters(): void {
     // Initialize Kalman filters for key metrics
     const metrics = [
-      'lightLevel', 'ambientNoise', 'temperature', 'humidity',
-      'heartRate', 'stressLevel', 'batteryLevel', 'deviceMotion'
+      "lightLevel",
+      "ambientNoise",
+      "temperature",
+      "humidity",
+      "heartRate",
+      "stressLevel",
+      "batteryLevel",
+      "deviceMotion",
     ];
 
     metrics.forEach((metric: any) => {
@@ -143,23 +169,32 @@ class SensorFusionSystem {
 
     // Fuse biometric data
     if (context.biometrics.heartRate !== undefined) {
-      const filtered = this.kalmanFilters.get('heartRate')!.filter(context.biometrics.heartRate);
+      const filtered = this.kalmanFilters
+        .get("heartRate")!
+        .filter(context.biometrics.heartRate);
       fusedContext.biometrics.heartRate = filtered;
     }
 
     // Fuse environmental data
-    const lightFiltered = this.kalmanFilters.get('lightLevel')!.filter(context.environment.lightLevel);
+    const lightFiltered = this.kalmanFilters
+      .get("lightLevel")!
+      .filter(context.environment.lightLevel);
     fusedContext.environment.lightLevel = lightFiltered;
 
-    const noiseFiltered = this.kalmanFilters.get('ambientNoise')!.filter(context.environment.ambientNoise);
+    const noiseFiltered = this.kalmanFilters
+      .get("ambientNoise")!
+      .filter(context.environment.ambientNoise);
     fusedContext.environment.ambientNoise = noiseFiltered;
 
-    const tempFiltered = this.kalmanFilters.get('temperature')!.filter(context.environment.temperature);
+    const tempFiltered = this.kalmanFilters
+      .get("temperature")!
+      .filter(context.environment.temperature);
     fusedContext.environment.temperature = tempFiltered;
 
     // Calculate overall quality based on sensor reliability
     const qualityScores = Array.from(this.dataQuality.values());
-    fusedContext.quality = qualityScores.reduce((sum, q) => sum + q, 0) / qualityScores.length;
+    fusedContext.quality =
+      qualityScores.reduce((sum, q) => sum + q, 0) / qualityScores.length;
 
     return fusedContext;
   }
@@ -219,56 +254,56 @@ class ContextPatternRecognizer {
     this.patterns = new Map();
     this.historicalContexts = [];
     this.neuralNetwork = new ContextualNeuralNetwork();
-    
+
     this.initializeCommonPatterns();
   }
 
   private initializeCommonPatterns(): void {
     // Define common contextual patterns
-    this.patterns.set('focus-work', {
-      id: 'focus-work',
+    this.patterns.set("focus-work", {
+      id: "focus-work",
       conditions: {
         environment: { lightLevel: [400, 1000], ambientNoise: [30, 50] },
         biometrics: { heartRate: [60, 85], stressLevel: [0.3, 0.7] },
-        device: { deviceMotion: 'static', batteryLevel: [0.3, 1.0] },
-        timePattern: ['morning', 'afternoon']
+        device: { deviceMotion: "static", batteryLevel: [0.3, 1.0] },
+        timePattern: ["morning", "afternoon"],
       },
       confidence: 0.9,
-      adaptationPriority: 'high'
+      adaptationPriority: "high",
     });
 
-    this.patterns.set('relaxation', {
-      id: 'relaxation',
+    this.patterns.set("relaxation", {
+      id: "relaxation",
       conditions: {
         environment: { lightLevel: [50, 300], ambientNoise: [20, 40] },
         biometrics: { heartRate: [50, 75], stressLevel: [0.0, 0.4] },
-        device: { deviceMotion: 'static' },
-        timePattern: ['evening', 'dusk', 'night']
+        device: { deviceMotion: "static" },
+        timePattern: ["evening", "dusk", "night"],
       },
       confidence: 0.85,
-      adaptationPriority: 'medium'
+      adaptationPriority: "medium",
     });
 
-    this.patterns.set('high-stress', {
-      id: 'high-stress',
+    this.patterns.set("high-stress", {
+      id: "high-stress",
       conditions: {
         biometrics: { heartRate: [90, 150], stressLevel: [0.7, 1.0] },
         environment: { ambientNoise: [60, 120] },
-        device: { deviceMotion: 'active' }
+        device: { deviceMotion: "active" },
       },
       confidence: 0.8,
-      adaptationPriority: 'critical'
+      adaptationPriority: "critical",
     });
 
-    this.patterns.set('outdoor-bright', {
-      id: 'outdoor-bright',
+    this.patterns.set("outdoor-bright", {
+      id: "outdoor-bright",
       conditions: {
         environment: { lightLevel: [10000, 100000] },
-        location: { locationType: ['outdoor'] },
-        device: { screenBrightness: [0.8, 1.0] }
+        location: { locationType: ["outdoor"] },
+        device: { screenBrightness: [0.8, 1.0] },
       },
       confidence: 0.95,
-      adaptationPriority: 'high'
+      adaptationPriority: "high",
     });
   }
 
@@ -291,7 +326,10 @@ class ContextPatternRecognizer {
     return matchedPatterns;
   }
 
-  private calculatePatternMatch(context: ContextualState, pattern: ContextualPattern): number {
+  private calculatePatternMatch(
+    context: ContextualState,
+    pattern: ContextualPattern
+  ): number {
     let totalMatch = 0;
     let matchCount = 0;
 
@@ -338,7 +376,11 @@ class ContextPatternRecognizer {
 
     // Check time pattern
     if (pattern.conditions.timePattern) {
-      const match = pattern.conditions.timePattern.includes(context.environment.timeOfDay) ? 1 : 0;
+      const match = pattern.conditions.timePattern.includes(
+        context.environment.timeOfDay
+      )
+        ? 1
+        : 0;
       totalMatch += match;
       matchCount++;
     }
@@ -348,7 +390,7 @@ class ContextPatternRecognizer {
 
   learnFromContext(context: ContextualState, userSatisfaction: number): void {
     this.historicalContexts.push(context);
-    
+
     // Keep only recent contexts
     if (this.historicalContexts.length > 1000) {
       this.historicalContexts.shift();
@@ -369,7 +411,7 @@ interface ContextualPattern {
     timePattern?: string[];
   };
   confidence: number;
-  adaptationPriority: 'low' | 'medium' | 'high' | 'critical';
+  adaptationPriority: "low" | "medium" | "high" | "critical";
 }
 
 // Neural network for contextual pattern learning
@@ -393,13 +435,10 @@ class ContextualNeuralNetwork {
 
     this.weights = [
       this.randomMatrix(hiddenSize, inputSize),
-      this.randomMatrix(outputSize, hiddenSize)
+      this.randomMatrix(outputSize, hiddenSize),
     ];
 
-    this.biases = [
-      this.randomArray(hiddenSize),
-      this.randomArray(outputSize)
-    ];
+    this.biases = [this.randomArray(hiddenSize), this.randomArray(outputSize)];
   }
 
   private randomMatrix(rows: number, cols: number): number[][] {
@@ -431,37 +470,45 @@ class ContextualNeuralNetwork {
       context.location.longitude || 0 / 360,
       context.quality,
       // Time features
-      context.environment.timeOfDay === 'morning' ? 1 : 0,
-      context.environment.timeOfDay === 'afternoon' ? 1 : 0,
-      context.environment.timeOfDay === 'evening' ? 1 : 0,
-      context.environment.timeOfDay === 'night' ? 1 : 0,
+      context.environment.timeOfDay === "morning" ? 1 : 0,
+      context.environment.timeOfDay === "afternoon" ? 1 : 0,
+      context.environment.timeOfDay === "evening" ? 1 : 0,
+      context.environment.timeOfDay === "night" ? 1 : 0,
     ];
   }
 
   predict(context: ContextualState): { pattern: string; confidence: number } {
     const input = this.contextToVector(context);
     const output = this.forward(input);
-    
+
     const maxIndex = output.indexOf(Math.max(...output));
     const confidence = output[maxIndex];
-    
+
     const patterns = [
-      'focus-work', 'relaxation', 'high-stress', 'outdoor-bright', 'low-light',
-      'motion', 'travel', 'meeting', 'exercise', 'sleep'
+      "focus-work",
+      "relaxation",
+      "high-stress",
+      "outdoor-bright",
+      "low-light",
+      "motion",
+      "travel",
+      "meeting",
+      "exercise",
+      "sleep",
     ];
-    
+
     return {
-      pattern: patterns[maxIndex] || 'unknown',
-      confidence: Math.max(0, Math.min(1, confidence))
+      pattern: patterns[maxIndex] || "unknown",
+      confidence: Math.max(0, Math.min(1, confidence)),
     };
   }
 
   private forward(input: number[]): number[] {
     let activation = input;
-    
+
     for (let layer = 0; layer < this.weights.length; layer++) {
       const newActivation = [];
-      
+
       for (let node = 0; node < this.weights[layer].length; node++) {
         let sum = this.biases[layer][node];
         for (let prevNode = 0; prevNode < activation.length; prevNode++) {
@@ -469,10 +516,10 @@ class ContextualNeuralNetwork {
         }
         newActivation.push(this.sigmoid(sum));
       }
-      
+
       activation = newActivation;
     }
-    
+
     return activation;
   }
 
@@ -483,7 +530,7 @@ class ContextualNeuralNetwork {
   train(context: ContextualState, satisfaction: number): void {
     // Simplified training - in practice would use backpropagation
     const adjustmentRate = this.learningRate * (satisfaction - 0.5);
-    
+
     this.weights.forEach((layer: any) => {
       layer.forEach((node: any) => {
         node.forEach((weight: any, index: any) => {
@@ -510,7 +557,7 @@ class GlassContextualEngineCore {
     this.adaptations = [];
     this.contextHistory = [];
     this.sensors = new ContextualSensors();
-    
+
     this.startContextMonitoring();
   }
 
@@ -524,20 +571,20 @@ class GlassContextualEngineCore {
         humidity: 50,
         temperature: 22,
         pressure: 1013,
-        timeOfDay: 'afternoon',
-        season: 'summer',
+        timeOfDay: "afternoon",
+        season: "summer",
       },
       device: {
         accelerometer: { x: 0, y: 0, z: 9.8 },
         gyroscope: { alpha: 0, beta: 0, gamma: 0 },
-        deviceMotion: 'static',
+        deviceMotion: "static",
         batteryLevel: 1.0,
-        networkQuality: 'excellent',
+        networkQuality: "excellent",
         screenBrightness: 0.8,
       },
       location: {
-        locationType: 'indoor',
-        activityType: 'stationary',
+        locationType: "indoor",
+        activityType: "stationary",
       },
       timestamp: Date.now(),
       quality: 1.0,
@@ -547,7 +594,7 @@ class GlassContextualEngineCore {
   private async startContextMonitoring(): Promise<void> {
     // Start sensor data collection
     await this.sensors.initialize();
-    
+
     // Update context every 500ms
     setInterval(() => {
       this.updateContext();
@@ -574,7 +621,11 @@ class GlassContextualEngineCore {
         device: deviceData,
         location: locationData,
         timestamp: Date.now(),
-        quality: this.calculateContextQuality(environmentData, biometricData, deviceData),
+        quality: this.calculateContextQuality(
+          environmentData,
+          biometricData,
+          deviceData
+        ),
       };
 
       // Apply sensor fusion
@@ -585,31 +636,39 @@ class GlassContextualEngineCore {
       if (this.contextHistory.length > 200) {
         this.contextHistory.shift();
       }
-
     } catch (error) {
-      console.warn('Failed to update context:', error);
+      console.warn("Failed to update context:", error);
     }
   }
 
-  private calculateContextQuality(env: EnvironmentData, bio: BiometricData, device: DeviceSensorData): number {
+  private calculateContextQuality(
+    env: EnvironmentData,
+    bio: BiometricData,
+    device: DeviceSensorData
+  ): number {
     let quality = 1.0;
-    
+
     // Reduce quality based on sensor availability
     if (!bio.heartRate) quality -= 0.1;
     if (!env.lightLevel) quality -= 0.05;
-    if (device.networkQuality === 'poor') quality -= 0.2;
+    if (device.networkQuality === "poor") quality -= 0.2;
     if (device.batteryLevel < 0.2) quality -= 0.1;
-    
+
     return Math.max(0.1, quality);
   }
 
   private generateAdaptations(): void {
     // Analyze current context for patterns
-    const matchedPatterns = this.patternRecognizer.analyzeContext(this.currentContext);
-    
+    const matchedPatterns = this.patternRecognizer.analyzeContext(
+      this.currentContext
+    );
+
     // Generate adaptations for each pattern
     matchedPatterns.forEach((patternId: any) => {
-      const adaptation = this.createAdaptationForPattern(patternId, this.currentContext);
+      const adaptation = this.createAdaptationForPattern(
+        patternId,
+        this.currentContext
+      );
       if (adaptation) {
         this.adaptations.push(adaptation);
       }
@@ -617,23 +676,30 @@ class GlassContextualEngineCore {
 
     // Remove old adaptations
     const now = Date.now();
-    this.adaptations = this.adaptations.filter((adaptation: any) => 
-      !adaptation.appliedAt || (now - adaptation.appliedAt) < (adaptation.duration || 30000)
+    this.adaptations = this.adaptations.filter(
+      (adaptation: any) =>
+        !adaptation.appliedAt ||
+        now - adaptation.appliedAt < (adaptation.duration || 30000)
     );
 
     // Sort by priority and confidence
     this.adaptations.sort((a, b) => {
       const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 };
-      const priorityDiff = priorityWeight[this.getPriorityFromId(b.id)] - priorityWeight[this.getPriorityFromId(a.id)];
+      const priorityDiff =
+        priorityWeight[this.getPriorityFromId(b.id)] -
+        priorityWeight[this.getPriorityFromId(a.id)];
       return priorityDiff !== 0 ? priorityDiff : b.confidence - a.confidence;
     });
   }
 
-  private createAdaptationForPattern(patternId: string, context: ContextualState): ContextualAdaptation | null {
+  private createAdaptationForPattern(
+    patternId: string,
+    context: ContextualState
+  ): ContextualAdaptation | null {
     const adaptationId = `${patternId}-${Date.now()}`;
 
     switch (patternId) {
-      case 'focus-work':
+      case "focus-work":
         return {
           id: adaptationId,
           priority: 3,
@@ -650,8 +716,8 @@ class GlassContextualEngineCore {
             animation: {
               speed: 0.8,
               intensity: 0.6,
-              type: 'minimal',
-              easing: 'ease-out',
+              type: "minimal",
+              easing: "ease-out",
             },
             interaction: {
               sensitivity: 1.0,
@@ -660,8 +726,8 @@ class GlassContextualEngineCore {
               gestureThreshold: 0.8,
             },
             layout: {
-              density: 'normal',
-              complexity: 'standard',
+              density: "normal",
+              complexity: "standard",
               spacing: 1.1,
               fontSize: 1.0,
             },
@@ -676,7 +742,7 @@ class GlassContextualEngineCore {
           duration: 300000, // 5 minutes
         };
 
-      case 'high-stress':
+      case "high-stress":
         return {
           id: adaptationId,
           priority: 4,
@@ -693,8 +759,8 @@ class GlassContextualEngineCore {
             animation: {
               speed: 0.5,
               intensity: 0.3,
-              type: 'minimal',
-              easing: 'ease',
+              type: "minimal",
+              easing: "ease",
             },
             interaction: {
               sensitivity: 0.8,
@@ -703,8 +769,8 @@ class GlassContextualEngineCore {
               gestureThreshold: 0.6,
             },
             layout: {
-              density: 'sparse',
-              complexity: 'minimal',
+              density: "sparse",
+              complexity: "minimal",
               spacing: 1.5,
               fontSize: 1.1,
             },
@@ -719,7 +785,7 @@ class GlassContextualEngineCore {
           duration: 600000, // 10 minutes
         };
 
-      case 'outdoor-bright':
+      case "outdoor-bright":
         return {
           id: adaptationId,
           priority: 3,
@@ -736,8 +802,8 @@ class GlassContextualEngineCore {
             animation: {
               speed: 1.2,
               intensity: 1.5,
-              type: 'enhanced',
-              easing: 'ease-out',
+              type: "enhanced",
+              easing: "ease-out",
             },
             interaction: {
               sensitivity: 1.3,
@@ -746,8 +812,8 @@ class GlassContextualEngineCore {
               gestureThreshold: 0.9,
             },
             layout: {
-              density: 'normal',
-              complexity: 'standard',
+              density: "normal",
+              complexity: "standard",
               spacing: 1.2,
               fontSize: 1.2,
             },
@@ -762,7 +828,7 @@ class GlassContextualEngineCore {
           duration: 180000, // 3 minutes
         };
 
-      case 'relaxation':
+      case "relaxation":
         return {
           id: adaptationId,
           priority: 2,
@@ -779,8 +845,8 @@ class GlassContextualEngineCore {
             animation: {
               speed: 0.6,
               intensity: 0.4,
-              type: 'minimal',
-              easing: 'ease',
+              type: "minimal",
+              easing: "ease",
             },
             interaction: {
               sensitivity: 0.9,
@@ -789,8 +855,8 @@ class GlassContextualEngineCore {
               gestureThreshold: 0.7,
             },
             layout: {
-              density: 'sparse',
-              complexity: 'minimal',
+              density: "sparse",
+              complexity: "minimal",
               spacing: 1.3,
               fontSize: 1.0,
             },
@@ -809,11 +875,13 @@ class GlassContextualEngineCore {
     return null;
   }
 
-  private getPriorityFromId(id: string): 'low' | 'medium' | 'high' | 'critical' {
-    if (id.includes('stress') || id.includes('emergency')) return 'critical';
-    if (id.includes('focus') || id.includes('outdoor')) return 'high';
-    if (id.includes('relaxation') || id.includes('comfort')) return 'medium';
-    return 'low';
+  private getPriorityFromId(
+    id: string
+  ): "low" | "medium" | "high" | "critical" {
+    if (id.includes("stress") || id.includes("emergency")) return "critical";
+    if (id.includes("focus") || id.includes("outdoor")) return "high";
+    if (id.includes("relaxation") || id.includes("comfort")) return "medium";
+    return "low";
   }
 
   // Public API
@@ -854,38 +922,38 @@ class ContextualSensors {
   }
 
   private async initializeGeolocation(): Promise<void> {
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       this.geolocation = navigator.geolocation;
     }
   }
 
   private async initializeDeviceMotion(): Promise<void> {
-    if ('DeviceMotionEvent' in window) {
+    if ("DeviceMotionEvent" in window) {
       // Request permission for iOS 13+
-      if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+      if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permission = await (DeviceMotionEvent as any).requestPermission();
-        if (permission !== 'granted') return;
+        if (permission !== "granted") return;
       }
-      
-      window.addEventListener('devicemotion', (event) => {
+
+      window.addEventListener("devicemotion", (event) => {
         this.deviceMotion = event;
       });
     }
   }
 
   private async initializeAmbientLight(): Promise<void> {
-    if ('AmbientLightSensor' in window) {
+    if ("AmbientLightSensor" in window) {
       try {
         this.ambientLight = new (window as any).AmbientLightSensor();
         this.ambientLight.start();
       } catch (error) {
-        console.warn('Ambient light sensor not available:', error);
+        console.warn("Ambient light sensor not available:", error);
       }
     }
   }
 
   private async initializeBattery(): Promise<void> {
-    if ('getBattery' in navigator) {
+    if ("getBattery" in navigator) {
       this.battery = await (navigator as any).getBattery();
     }
   }
@@ -893,27 +961,28 @@ class ContextualSensors {
   async getEnvironmentData(): Promise<EnvironmentData> {
     const now = new Date();
     const hour = now.getHours();
-    
+
     // Determine time of day
-    let timeOfDay: EnvironmentData['timeOfDay'] = 'afternoon';
-    if (hour >= 5 && hour < 7) timeOfDay = 'dawn';
-    else if (hour >= 7 && hour < 12) timeOfDay = 'morning';
-    else if (hour >= 12 && hour < 14) timeOfDay = 'noon';
-    else if (hour >= 14 && hour < 18) timeOfDay = 'afternoon';
-    else if (hour >= 18 && hour < 20) timeOfDay = 'evening';
-    else if (hour >= 20 && hour < 22) timeOfDay = 'dusk';
-    else timeOfDay = 'night';
+    let timeOfDay: EnvironmentData["timeOfDay"] = "afternoon";
+    if (hour >= 5 && hour < 7) timeOfDay = "dawn";
+    else if (hour >= 7 && hour < 12) timeOfDay = "morning";
+    else if (hour >= 12 && hour < 14) timeOfDay = "noon";
+    else if (hour >= 14 && hour < 18) timeOfDay = "afternoon";
+    else if (hour >= 18 && hour < 20) timeOfDay = "evening";
+    else if (hour >= 20 && hour < 22) timeOfDay = "dusk";
+    else timeOfDay = "night";
 
     // Determine season (simplified for Northern Hemisphere)
     const month = now.getMonth();
-    let season: EnvironmentData['season'] = 'summer';
-    if (month >= 2 && month <= 4) season = 'spring';
-    else if (month >= 5 && month <= 7) season = 'summer';
-    else if (month >= 8 && month <= 10) season = 'autumn';
-    else season = 'winter';
+    let season: EnvironmentData["season"] = "summer";
+    if (month >= 2 && month <= 4) season = "spring";
+    else if (month >= 5 && month <= 7) season = "summer";
+    else if (month >= 8 && month <= 10) season = "autumn";
+    else season = "winter";
 
     return {
-      lightLevel: this.ambientLight?.illuminance || this.estimateLightLevel(timeOfDay),
+      lightLevel:
+        this.ambientLight?.illuminance || this.estimateLightLevel(timeOfDay),
       lightTemperature: this.estimateLightTemperature(timeOfDay),
       ambientNoise: this.estimateAmbientNoise(),
       humidity: 50, // Would come from weather API
@@ -968,32 +1037,36 @@ class ContextualSensors {
   }
 
   async getDeviceData(): Promise<DeviceSensorData> {
-    let deviceMotion: DeviceSensorData['deviceMotion'] = 'static';
-    
+    let deviceMotion: DeviceSensorData["deviceMotion"] = "static";
+
     if (this.deviceMotion) {
       const acceleration = this.deviceMotion.acceleration;
       if (acceleration) {
         const totalAccel = Math.sqrt(
           acceleration.x! ** 2 + acceleration.y! ** 2 + acceleration.z! ** 2
         );
-        
-        if (totalAccel > 5) deviceMotion = 'active';
-        else if (totalAccel > 2) deviceMotion = 'moderate';
-        else if (totalAccel > 0.5) deviceMotion = 'gentle';
+
+        if (totalAccel > 5) deviceMotion = "active";
+        else if (totalAccel > 2) deviceMotion = "moderate";
+        else if (totalAccel > 0.5) deviceMotion = "gentle";
       }
     }
 
     return {
-      accelerometer: this.deviceMotion?.acceleration ? {
-        x: this.deviceMotion.acceleration.x || 0,
-        y: this.deviceMotion.acceleration.y || 0,
-        z: this.deviceMotion.acceleration.z || 9.8,
-      } : { x: 0, y: 0, z: 9.8 },
-      gyroscope: this.deviceMotion?.rotationRate ? {
-        alpha: this.deviceMotion.rotationRate.alpha || 0,
-        beta: this.deviceMotion.rotationRate.beta || 0,
-        gamma: this.deviceMotion.rotationRate.gamma || 0,
-      } : { alpha: 0, beta: 0, gamma: 0 },
+      accelerometer: this.deviceMotion?.acceleration
+        ? {
+            x: this.deviceMotion.acceleration.x || 0,
+            y: this.deviceMotion.acceleration.y || 0,
+            z: this.deviceMotion.acceleration.z || 9.8,
+          }
+        : { x: 0, y: 0, z: 9.8 },
+      gyroscope: this.deviceMotion?.rotationRate
+        ? {
+            alpha: this.deviceMotion.rotationRate.alpha || 0,
+            beta: this.deviceMotion.rotationRate.beta || 0,
+            gamma: this.deviceMotion.rotationRate.gamma || 0,
+          }
+        : { alpha: 0, beta: 0, gamma: 0 },
       deviceMotion,
       batteryLevel: this.battery?.level || 1.0,
       networkQuality: this.estimateNetworkQuality(),
@@ -1001,17 +1074,22 @@ class ContextualSensors {
     };
   }
 
-  private estimateNetworkQuality(): DeviceSensorData['networkQuality'] {
+  private estimateNetworkQuality(): DeviceSensorData["networkQuality"] {
     const connection = (navigator as any).connection;
-    if (!connection) return 'good';
-    
+    if (!connection) return "good";
+
     const effectiveType = connection.effectiveType;
     switch (effectiveType) {
-      case '4g': return 'excellent';
-      case '3g': return 'good';
-      case '2g': return 'fair';
-      case 'slow-2g': return 'poor';
-      default: return 'good';
+      case "4g":
+        return "excellent";
+      case "3g":
+        return "good";
+      case "2g":
+        return "fair";
+      case "slow-2g":
+        return "poor";
+      default:
+        return "good";
     }
   }
 
@@ -1019,8 +1097,8 @@ class ContextualSensors {
     return new Promise((resolve) => {
       if (!this.geolocation) {
         resolve({
-          locationType: 'unknown',
-          activityType: 'unknown',
+          locationType: "unknown",
+          activityType: "unknown",
         });
         return;
       }
@@ -1034,14 +1112,14 @@ class ContextualSensors {
             accuracy: position.coords.accuracy,
             heading: position.coords.heading || undefined,
             speed: position.coords.speed || undefined,
-            locationType: 'unknown', // Would need additional logic
+            locationType: "unknown", // Would need additional logic
             activityType: this.estimateActivity(position),
           });
         },
         () => {
           resolve({
-            locationType: 'unknown',
-            activityType: 'unknown',
+            locationType: "unknown",
+            activityType: "unknown",
           });
         },
         { enableHighAccuracy: false, timeout: 5000 }
@@ -1049,14 +1127,16 @@ class ContextualSensors {
     });
   }
 
-  private estimateActivity(position: GeolocationPosition): LocationContext['activityType'] {
+  private estimateActivity(
+    position: GeolocationPosition
+  ): LocationContext["activityType"] {
     const speed = position.coords.speed || 0;
-    
-    if (speed < 0.5) return 'stationary';
-    if (speed < 2) return 'walking';
-    if (speed < 5) return 'running';
-    if (speed < 15) return 'cycling';
-    return 'driving';
+
+    if (speed < 0.5) return "stationary";
+    if (speed < 2) return "walking";
+    if (speed < 5) return "running";
+    if (speed < 15) return "cycling";
+    return "driving";
   }
 }
 
@@ -1087,9 +1167,12 @@ export function GlassContextualEngineProvider({
 }) {
   const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<GlassContextualEngineCore>();
-  const [context, setContext] = useState<ContextualState>({} as ContextualState);
+  const [context, setContext] = useState<ContextualState>(
+    {} as ContextualState
+  );
   const [adaptations, setAdaptations] = useState<ContextualAdaptation[]>([]);
-  const [topAdaptation, setTopAdaptation] = useState<ContextualAdaptation | null>(null);
+  const [topAdaptation, setTopAdaptation] =
+    useState<ContextualAdaptation | null>(null);
 
   // Initialize engine
   useEffect(() => {
@@ -1114,9 +1197,12 @@ export function GlassContextualEngineProvider({
     return () => clearInterval(updateInterval);
   }, [onContextUpdate, onAdaptationChange]);
 
-  const provideFeedback = useCallback((adaptationId: string, satisfaction: number) => {
-    engineRef.current?.provideFeedback(adaptationId, satisfaction);
-  }, []);
+  const provideFeedback = useCallback(
+    (adaptationId: string, satisfaction: number) => {
+      engineRef.current?.provideFeedback(adaptationId, satisfaction);
+    },
+    []
+  );
 
   const value = {
     engine: engineRef.current || null,
@@ -1137,7 +1223,9 @@ export function GlassContextualEngineProvider({
 export function useContextualEngine() {
   const context = useContext(ContextualEngineContext);
   if (!context) {
-    throw new Error('useContextualEngine must be used within GlassContextualEngineProvider');
+    throw new Error(
+      "useContextualEngine must be used within GlassContextualEngineProvider"
+    );
   }
   return context;
 }
@@ -1187,48 +1275,59 @@ export function GlassContextualDashboard({
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
           >
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-primary">
+            <div className="glass-flex glass-items-center glass-justify-between">
+              <h3 className="glass-text-sm font-medium text-primary">
                 Contextual Engine
               </h3>
               <button
                 onClick={() => setShowDashboard(false)}
-                className="text-xs glass-text-secondary hover:text-primary"
+                className="glass-text-xs glass-text-secondary hover:text-primary glass-focus glass-touch-target glass-contrast-guard"
               >
                 ✕
               </button>
             </div>
 
             {/* Current Context */}
-            <div className="gap-2">
-              <h4 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
+            <div className="glass-gap-2">
+              <h4 className="glass-text-xs font-medium glass-text-secondary uppercase tracking-wide">
                 Current Context
               </h4>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="glass-surface-secondary p-2 glass-radius-sm">
+              <div className="glass-grid glass-grid-cols-2 glass-gap-2 glass-text-xs">
+                <div className="glass-surface-secondary glass-p-2 glass-radius-sm">
                   <div className="glass-text-tertiary">Environment</div>
-                  <div className="text-primary">{context.environment?.timeOfDay}</div>
-                  <div className="glass-text-secondary">{context.environment?.lightLevel}lx</div>
+                  <div className="text-primary">
+                    {context.environment?.timeOfDay}
+                  </div>
+                  <div className="glass-text-secondary">
+                    {context.environment?.lightLevel}lx
+                  </div>
                 </div>
-                <div className="glass-surface-secondary p-2 glass-radius-sm">
+                <div className="glass-surface-secondary glass-p-2 glass-radius-sm">
                   <div className="glass-text-tertiary">Device</div>
-                  <div className="text-primary">{context.device?.deviceMotion}</div>
-                  <div className="glass-text-secondary">{((context.device?.batteryLevel || 0) * 100).toFixed(0)}%</div>
+                  <div className="text-primary">
+                    {context.device?.deviceMotion}
+                  </div>
+                  <div className="glass-text-secondary">
+                    {((context.device?.batteryLevel || 0) * 100).toFixed(0)}%
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Active Adaptation */}
             {topAdaptation && (
-              <div className="gap-2">
-                <h4 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
+              <div className="glass-gap-2">
+                <h4 className="glass-text-xs font-medium glass-text-secondary uppercase tracking-wide">
                   Active Adaptation
                 </h4>
-                <div className="p-3 glass-surface-secondary glass-radius-md">
-                  <div className="text-sm text-primary font-medium mb-1">
-                    {topAdaptation.id.split('-')[0].replace(/([A-Z])/g, ' $1').toLowerCase()}
+                <div className="glass-p-3 glass-surface-secondary glass-radius-md">
+                  <div className="glass-text-sm text-primary font-medium mb-1">
+                    {topAdaptation.id
+                      .split("-")[0]
+                      .replace(/([A-Z])/g, " $1")
+                      .toLowerCase()}
                   </div>
-                  <div className="text-xs glass-text-tertiary">
+                  <div className="glass-text-xs glass-text-tertiary">
                     Confidence: {(topAdaptation.confidence * 100).toFixed(0)}%
                   </div>
                 </div>

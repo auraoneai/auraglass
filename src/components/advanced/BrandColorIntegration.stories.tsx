@@ -39,7 +39,7 @@ const BrandShowcaseContent = () => {
           <button
             key={brand}
             onClick={() => setCurrentBrand(brand)}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard ${
               currentBrand === brand
                 ? 'glass-surface-primary glass-text-primary shadow-lg'
                 : 'glass-surface-secondary glass-text-secondary hover:glass-surface-hover'
@@ -300,7 +300,7 @@ export const BrandComparison: Story = {
                 <button
                   key={brand}
                   onClick={() => setActiveBrand(brand)}
-                  className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                  className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard ${
                     activeBrand === brand
                       ? 'glass-surface-primary glass-text-primary shadow-lg scale-105'
                       : 'glass-surface-secondary glass-text-primary/80 hover:glass-surface-accent'

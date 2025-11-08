@@ -1,11 +1,11 @@
-import { GlassButton } from '../button/GlassButton';
+import { GlassButton } from "../button/GlassButton";
 
 /**
  * Card Composition Patterns
  * Common card layouts and patterns
  */
 
-import React from 'react';
+import React from "react";
 import {
   GlassCard,
   CardHeader,
@@ -14,8 +14,8 @@ import {
   CardContent,
   CardFooter,
   CardActions,
-} from './GlassCard';
-import { cn } from '../../lib/utilsComprehensive';
+} from "./GlassCard";
+import { cn } from "../../lib/utilsComprehensive";
 
 /**
  * Basic Card Pattern
@@ -28,16 +28,22 @@ export interface BasicCardProps {
   className?: string;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
 }
 
-export function BasicCard({ title, description, children, actions, className }: BasicCardProps) {
+export function BasicCard({
+  title,
+  description,
+  children,
+  actions,
+  className,
+}: BasicCardProps) {
   return (
     <GlassCard data-glass-component className={className}>
       <CardHeader>
@@ -84,39 +90,44 @@ export function FeatureCard({
       hoverable
       clickable={!!onClick}
       onClick={onClick}
-      className={cn('group', className)}
+      className={cn("group", className)}
     >
       {image && (
         <div className="relative -m-6 mb-4 overflow-hidden glass-radius-t-lg">
           <img
             src={image}
             alt={title}
-            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+            className="glass-w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
           />
           {badge && (
-            <div className="absolute top-3 right-3 px-2 py-1 glass-surface-primary text-primary-foreground text-xs font-medium glass-radius-full">
+            <div className="absolute top-3 right-3 glass-px-2 glass-py-1 glass-surface-primary text-primary-foreground glass-text-xs font-medium glass-radius-full">
               {badge}
             </div>
           )}
         </div>
       )}
-      
+
       <CardHeader>
-        <div className="flex items-start gap-3">
+        <div className="glass-flex glass-items-start glass-gap-3">
           {icon && (
-            <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-primary">
+            <div className="glass-flex-shrink-0 w-8 h-8 glass-flex glass-items-center glass-justify-center text-primary">
               {icon}
             </div>
           )}
-          <div className="flex-1 min-w-0">
-            <CardTitle size="lg" className="group-hover:text-primary transition-colors">
+          <div className="glass-flex-1 glass-min-w-0">
+            <CardTitle
+              size="lg"
+              className="group-hover:text-primary transition-colors"
+            >
               {title}
             </CardTitle>
-            <CardDescription className="glass-mt-1">{description}</CardDescription>
+            <CardDescription className="glass-mt-1">
+              {description}
+            </CardDescription>
           </div>
         </div>
       </CardHeader>
-      
+
       {actions && (
         <CardFooter>
           <CardActions>{actions}</CardActions>
@@ -134,47 +145,63 @@ export interface StatCardProps {
   value: string | number;
   change?: {
     value: string | number;
-    trend: 'up' | 'down' | 'neutral';
+    trend: "up" | "down" | "neutral";
   };
   description?: string;
   icon?: React.ReactNode;
   className?: string;
 }
 
-export function StatCard({ title, value, change, description, icon, className }: StatCardProps) {
+export function StatCard({
+  title,
+  value,
+  change,
+  description,
+  icon,
+  className,
+}: StatCardProps) {
   const trendColors = {
-    up: 'text-green-500',
-    down: 'text-red-500',
-    neutral: 'glass-text-secondary',
+    up: "text-green-500",
+    down: "text-red-500",
+    neutral: "glass-text-secondary",
   };
 
   const trendIcons = {
-    up: '↗',
-    down: '↘',
-    neutral: '→',
+    up: "↗",
+    down: "↘",
+    neutral: "→",
   };
 
   return (
     <GlassCard variant="elevated" className={className}>
       <CardContent>
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <p className="text-sm font-medium glass-text-secondary">{title}</p>
-            <div className="flex items-baseline gap-2 glass-mt-1">
-              <p className="text-2xl font-bold">{value}</p>
+        <div className="glass-flex glass-items-start glass-justify-between">
+          <div className="glass-flex-1">
+            <p className="glass-text-sm font-medium glass-text-secondary">
+              {title}
+            </p>
+            <div className="glass-flex items-baseline glass-gap-2 glass-mt-1">
+              <p className="glass-text-2xl font-bold">{value}</p>
               {change && (
-                <span className={cn('glass-text-sm font-medium flex items-center glass-gap-1', trendColors?.[change.trend])}>
+                <span
+                  className={cn(
+                    "glass-text-sm font-medium flex items-center glass-gap-1",
+                    trendColors?.[change.trend]
+                  )}
+                >
                   {trendIcons?.[change.trend]}
                   {change.value}
                 </span>
               )}
             </div>
             {description && (
-              <p className="text-xs glass-text-secondary glass-mt-2">{description}</p>
+              <p className="glass-text-xs glass-text-secondary glass-mt-2">
+                {description}
+              </p>
             )}
           </div>
           {icon && (
-            <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center glass-text-secondary">
+            <div className="glass-flex-shrink-0 w-8 h-8 glass-flex glass-items-center glass-justify-center glass-text-secondary">
               {icon}
             </div>
           )}
@@ -197,11 +224,19 @@ export interface ProfileCardProps {
   className?: string;
 }
 
-export function ProfileCard({ name, role, avatar, bio, stats, actions, className }: ProfileCardProps) {
+export function ProfileCard({
+  name,
+  role,
+  avatar,
+  bio,
+  stats,
+  actions,
+  className,
+}: ProfileCardProps) {
   return (
     <GlassCard variant="elevated" className={className}>
       <CardContent>
-        <div className="flex flex-col items-center text-center">
+        <div className="glass-flex glass-flex-col glass-items-center text-center">
           {avatar ? (
             <img
               src={avatar}
@@ -209,28 +244,36 @@ export function ProfileCard({ name, role, avatar, bio, stats, actions, className
               className="w-16 h-16 glass-radius-full object-cover mb-4"
             />
           ) : (
-            <div className="w-16 h-16 glass-radius-full glass-surface-subtle flex items-center justify-center mb-4">
-              <span className="text-lg font-semibold">{name.charAt(0)}</span>
+            <div className="w-16 h-16 glass-radius-full glass-surface-subtle glass-flex glass-items-center glass-justify-center mb-4">
+              <span className="glass-text-lg font-semibold">
+                {name.charAt(0)}
+              </span>
             </div>
           )}
-          
+
           <CardTitle size="lg">{name}</CardTitle>
-          {role && <CardDescription className="glass-mt-1">{role}</CardDescription>}
-          {bio && <p className="text-sm glass-text-secondary mt-3">{bio}</p>}
-          
+          {role && (
+            <CardDescription className="glass-mt-1">{role}</CardDescription>
+          )}
+          {bio && (
+            <p className="glass-text-sm glass-text-secondary mt-3">{bio}</p>
+          )}
+
           {stats && (
-            <div className="flex justify-center gap-6 glass-mt-4 pt-4 border-t border-glass-border/20">
+            <div className="glass-flex glass-justify-center glass-gap-6 glass-mt-4 pt-4 glass-border-t glass-border-glass-border/20">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <p className="text-lg font-semibold">{stat.value}</p>
-                  <p className="text-xs glass-text-secondary">{stat.label}</p>
+                  <p className="glass-text-lg font-semibold">{stat.value}</p>
+                  <p className="glass-text-xs glass-text-secondary">
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
           )}
         </div>
       </CardContent>
-      
+
       {actions && (
         <CardFooter align="center">
           <CardActions>{actions}</CardActions>
@@ -246,7 +289,7 @@ export function ProfileCard({ name, role, avatar, bio, stats, actions, className
 export interface NotificationCardProps {
   title: string;
   message: string;
-  type?: 'info' | 'success' | 'warning' | 'error';
+  type?: "info" | "success" | "warning" | "error";
   timestamp?: string;
   read?: boolean;
   avatar?: string;
@@ -258,7 +301,7 @@ export interface NotificationCardProps {
 export function NotificationCard({
   title,
   message,
-  type = 'info',
+  type = "info",
   timestamp,
   read = false,
   avatar,
@@ -267,58 +310,66 @@ export function NotificationCard({
   className,
 }: NotificationCardProps) {
   const typeColors = {
-    info: 'border-l-blue-500',
-    success: 'border-l-green-500',
-    warning: 'border-l-yellow-500',
-    error: 'border-l-red-500',
+    info: "border-l-blue-500",
+    success: "border-l-green-500",
+    warning: "border-l-yellow-500",
+    error: "border-l-red-500",
   };
 
   const typeIcons = {
-    info: 'ℹ️',
-    success: '✅',
-    warning: '⚠️',
-    error: '❌',
+    info: "ℹ️",
+    success: "✅",
+    warning: "⚠️",
+    error: "❌",
   };
 
   return (
     <GlassCard
       className={cn(
-        'border-l-2',
+        "border-l-2",
         typeColors?.[type],
         {
-          'opacity-60': read,
+          "opacity-60": read,
         },
         className
       )}
     >
       <CardContent>
-        <div className="flex items-start gap-3">
+        <div className="glass-flex glass-items-start glass-gap-3">
           {avatar ? (
-            <img src={avatar} alt="" className="w-8 h-8 glass-radius-full object-cover" />
+            <img
+              src={avatar}
+              alt=""
+              className="w-8 h-8 glass-radius-full object-cover"
+            />
           ) : (
-            <span className="text-lg">{typeIcons?.[type]}</span>
+            <span className="glass-text-lg">{typeIcons?.[type]}</span>
           )}
-          
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="font-medium text-sm">{title}</p>
-                <p className="text-sm glass-text-secondary glass-mt-1">{message}</p>
+
+          <div className="glass-flex-1 glass-min-w-0">
+            <div className="glass-flex glass-items-start glass-justify-between">
+              <div className="glass-flex-1">
+                <p className="font-medium glass-text-sm">{title}</p>
+                <p className="glass-text-sm glass-text-secondary glass-mt-1">
+                  {message}
+                </p>
                 {timestamp && (
-                  <p className="text-xs glass-text-secondary glass-mt-2">{timestamp}</p>
+                  <p className="glass-text-xs glass-text-secondary glass-mt-2">
+                    {timestamp}
+                  </p>
                 )}
               </div>
-              
+
               {onDismiss && (
                 <GlassButton
                   onClick={onDismiss}
-                  className="flex-shrink-0 glass-text-secondary hover:text-primary"
+                  className="glass-flex-shrink-0 glass-text-secondary hover:text-primary"
                 >
                   ×
                 </GlassButton>
               )}
             </div>
-            
+
             {actions && <div className="mt-3">{actions}</div>}
           </div>
         </div>
@@ -353,46 +404,53 @@ export function PricingCard({
 }: PricingCardProps) {
   return (
     <GlassCard
-      variant={popular ? 'feature' : 'elevated'}
+      variant={popular ? "feature" : "elevated"}
       className={cn(
-        'relative',
+        "relative",
         {
-          'ring-2 ring-primary ring-offset-2': popular,
+          "ring-2 ring-primary ring-offset-2": popular,
         },
         className
       )}
     >
       {popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="glass-surface-primary text-primary-foreground px-3 py-1 text-xs font-medium glass-radius-full">
+          <span className="glass-surface-primary text-primary-foreground glass-px-3 glass-py-1 glass-text-xs font-medium glass-radius-full">
             Most Popular
           </span>
         </div>
       )}
-      
+
       <CardHeader bordered>
         <CardTitle size="lg">{name}</CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
-        <div className="flex items-baseline gap-1 mt-3">
-          <span className="text-3xl font-bold">{price}</span>
-          {period && <span className="text-sm glass-text-secondary">/{period}</span>}
+        <div className="glass-flex items-baseline glass-gap-1 mt-3">
+          <span className="glass-text-3xl font-bold">{price}</span>
+          {period && (
+            <span className="glass-text-sm glass-text-secondary">
+              /{period}
+            </span>
+          )}
         </div>
       </CardHeader>
-      
+
       <CardContent>
-        <ul className="gap-2">
+        <ul className="glass-gap-2">
           {features.map((feature, index) => (
-            <li key={index} className="flex items-center gap-2 text-sm">
+            <li
+              key={index}
+              className="glass-flex glass-items-center glass-gap-2 glass-text-sm"
+            >
               <span className="text-primary">✓</span>
               {feature}
             </li>
           ))}
         </ul>
       </CardContent>
-      
+
       {actions && (
         <CardFooter>
-          <CardActions align="center" className="w-full">
+          <CardActions align="center" className="glass-w-full">
             {actions}
           </CardActions>
         </CardFooter>
@@ -422,22 +480,31 @@ export function ActivityCard({ title, items, className }: ActivityCardProps) {
       <CardHeader bordered>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      
+
       <CardContent padding="none">
         <div className="divide-y divide-border/20">
           {items.map((item) => (
-            <div key={item?.id} className="p-4 hover:glass-surface-subtle transition-colors">
-              <div className="flex justify-between items-start">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">{item?.action}</p>
+            <div
+              key={item?.id}
+              className="glass-p-4 hover:glass-surface-subtle transition-colors"
+            >
+              <div className="glass-flex glass-justify-between glass-items-start">
+                <div className="glass-flex-1 glass-min-w-0">
+                  <p className="glass-text-sm font-medium">{item?.action}</p>
                   {item?.user && (
-                    <p className="text-xs glass-text-secondary">by {item?.user}</p>
+                    <p className="glass-text-xs glass-text-secondary">
+                      by {item?.user}
+                    </p>
                   )}
                   {item?.details && (
-                    <p className="text-xs glass-text-secondary glass-mt-1">{item?.details}</p>
+                    <p className="glass-text-xs glass-text-secondary glass-mt-1">
+                      {item?.details}
+                    </p>
                   )}
                 </div>
-                <time className="text-xs glass-text-secondary">{item?.timestamp}</time>
+                <time className="glass-text-xs glass-text-secondary">
+                  {item?.timestamp}
+                </time>
               </div>
             </div>
           ))}

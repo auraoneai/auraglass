@@ -1,18 +1,22 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useEffect, useState } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { GlassContainer } from './GlassContainer';
-import { VStack } from './GlassStack';
-import { useA11yId } from '@/utils/a11y';
-import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useEffect, useState } from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { GlassContainer } from "./GlassContainer";
+import { VStack } from "./GlassStack";
+import { useA11yId } from "@/utils/a11y";
+import { useMotionPreferenceContext } from "@/contexts/MotionPreferenceContext";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
-export interface GlassAppShellProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassAppShellProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * App shell variant
    */
-  variant?: 'default' | 'floating' | 'minimal';
+  variant?: "default" | "floating" | "minimal";
   /**
    * Header component
    */
@@ -36,7 +40,7 @@ export interface GlassAppShellProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * Sidebar width
    */
-  sidebarWidth?: 'sm' | 'md' | 'lg';
+  sidebarWidth?: "sm" | "md" | "lg";
   /**
    * Whether to show sidebar on mobile as overlay
    */
@@ -48,11 +52,11 @@ export interface GlassAppShellProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * Page padding
    */
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  padding?: "none" | "sm" | "md" | "lg" | "xl";
   /**
    * Content max width
    */
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "full";
   /**
    * Whether content should be centered
    */
@@ -80,7 +84,7 @@ export interface GlassAppShellProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * Accessibility label for the main application shell
    */
-  'aria-label'?: string;
+  "aria-label"?: string;
   /**
    * Accessibility role for the shell
    */
@@ -112,7 +116,7 @@ export interface PageHeaderProps {
   /**
    * Header variant
    */
-  variant?: 'default' | 'centered' | 'minimal';
+  variant?: "default" | "centered" | "minimal";
   className?: string;
 }
 
@@ -136,7 +140,7 @@ export interface ContentSectionProps {
   /**
    * Section variant
    */
-  variant?: 'default' | 'card' | 'minimal';
+  variant?: "default" | "card" | "minimal";
   /**
    * Glass elevation (for card variant)
    */
@@ -159,27 +163,27 @@ export interface ContentSectionProps {
 export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
   (
     {
-  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
+      // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
-      variant = 'default',
+      variant = "default",
       header,
       sidebar,
       footer,
       collapsible = true,
       defaultCollapsed = false,
-      sidebarWidth = 'md',
+      sidebarWidth = "md",
       mobileOverlay = true,
       mobileBreakpoint = 1024,
-      padding = 'lg',
-      maxWidth = 'full',
+      padding = "lg",
+      maxWidth = "full",
       centered = false,
       contentElevation = 0,
       loading = false,
       loadingComponent,
       pageTransition = true,
       respectMotionPreference = true,
-      'aria-label': ariaLabel = 'Application shell',
-      role = 'application',
+      "aria-label": ariaLabel = "Application shell",
+      role = "application",
       className,
       children,
       ...props
@@ -191,7 +195,8 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
     const [isMobile, setIsMobile] = useState(false);
     const shellId = useA11yId();
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
-    const shouldRespectMotion = respectMotionPreference && !prefersReducedMotion;
+    const shouldRespectMotion =
+      respectMotionPreference && !prefersReducedMotion;
 
     // Handle responsive behavior
     useEffect(() => {
@@ -204,41 +209,43 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
       };
 
       checkScreenSize();
-      window.addEventListener('resize', checkScreenSize);
-      return () => window.removeEventListener('resize', checkScreenSize);
+      window.addEventListener("resize", checkScreenSize);
+      return () => window.removeEventListener("resize", checkScreenSize);
     }, [mobileBreakpoint, mobileOverlay]);
 
     // Convert numeric elevation to level string
-    const getElevationLevel = (elev?: 0 | 1 | 2 | 3 | 4): 'level1' | 'level2' | 'level3' | 'level4' | 'level5' => {
-      if (elev === 0) return 'level1';
-      if (elev === 1) return 'level1';
-      if (elev === 2) return 'level2';
-      if (elev === 3) return 'level3';
-      if (elev === 4) return 'level4';
-      return 'level5'; // max level
+    const getElevationLevel = (
+      elev?: 0 | 1 | 2 | 3 | 4
+    ): "level1" | "level2" | "level3" | "level4" | "level5" => {
+      if (elev === 0) return "level1";
+      if (elev === 1) return "level1";
+      if (elev === 2) return "level2";
+      if (elev === 3) return "level3";
+      if (elev === 4) return "level4";
+      return "level5"; // max level
     };
 
     const paddingClasses = {
-      none: 'glass-p-0',
-      sm: 'glass-p-4',
-      md: 'glass-p-6',
-      lg: 'p-8',
-      xl: 'glass-p-12',
+      none: "glass-p-0",
+      sm: "glass-p-4",
+      md: "glass-p-6",
+      lg: "p-8",
+      xl: "glass-p-12",
     };
 
     const maxWidthClasses = {
-      sm: 'max-w-sm',
-      md: 'max-w-4xl',
-      lg: 'max-w-6xl',
-      xl: 'max-w-7xl',
-      '2xl': 'max-w-8xl',
-      full: 'max-w-full',
+      sm: "max-w-sm",
+      md: "max-w-4xl",
+      lg: "max-w-6xl",
+      xl: "max-w-7xl",
+      "2xl": "max-w-8xl",
+      full: "max-w-full",
     };
 
     const variantClasses = {
-      default: '',
-      floating: 'glass-p-4',
-      minimal: 'bg-transparent',
+      default: "",
+      floating: "glass-p-4",
+      minimal: "bg-transparent",
     };
 
     // Clone sidebar with props (align with GlassSidebar API)
@@ -248,17 +255,26 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
       width: sidebarWidth,
     };
     if (isMobile && mobileOverlay) {
-      sidebarExtraProps.variant = 'overlay';
+      sidebarExtraProps.variant = "overlay";
       sidebarExtraProps.open = sidebarOverlay;
       sidebarExtraProps.onOpenChange = setSidebarOverlay;
     }
-    const sidebarElement = sidebar ? React.cloneElement(sidebar as React.ReactElement, sidebarExtraProps) : null;
+    const sidebarElement = sidebar
+      ? React.cloneElement(sidebar as React.ReactElement, sidebarExtraProps)
+      : null;
 
     // Clone header with props (align with GlassHeader API)
-    const headerElement = header ? React.cloneElement(header as React.ReactElement, {
-      mobileMenuOpen: Boolean(isMobile && mobileOverlay && sidebarOverlay),
-      onMobileMenuToggle: () => setSidebarOverlay((v) => !v),
-    } as any) : null;
+    const headerElement = header
+      ? React.cloneElement(
+          header as React.ReactElement,
+          {
+            mobileMenuOpen: Boolean(
+              isMobile && mobileOverlay && sidebarOverlay
+            ),
+            onMobileMenuToggle: () => setSidebarOverlay((v) => !v),
+          } as any
+        )
+      : null;
 
     return (
       <div
@@ -267,10 +283,11 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
         role={role}
         aria-label={ariaLabel}
         className={cn(
-          'flex h-screen overflow-hidden',
-          'bg-gradient-to-br from-background via-background/95 to-surface/50',
+          "flex h-screen overflow-hidden",
+          "bg-gradient-to-br from-background via-background/95 to-surface/50",
           // Motion preferences
-          shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none',
+          shouldRespectMotion &&
+            "motion-safe:transition-all motion-reduce:transition-none",
           variantClasses?.[variant],
           className
         )}
@@ -280,24 +297,25 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
         {sidebarElement}
 
         {/* Main content area */}
-        <div className="flex flex-col flex-1 overflow-hidden">
+        <div className="glass-flex glass-flex-col glass-flex-1 overflow-hidden">
           {/* Header */}
           {headerElement}
 
           {/* Main content */}
-          <main 
+          <main
             role="main"
             aria-label="Main content"
             className={cn(
-              'flex-1 overflow-auto',
-              'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border/30',
-              'hover:scrollbar-thumb-border/50',
+              "flex-1 overflow-auto",
+              "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border/30",
+              "hover:scrollbar-thumb-border/50",
               // Motion preferences
-              shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none'
+              shouldRespectMotion &&
+                "motion-safe:transition-all motion-reduce:transition-none"
             )}
           >
             {loading && loadingComponent ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
                 {loadingComponent}
               </div>
             ) : (
@@ -307,17 +325,14 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
                 padding={padding}
                 glass={contentElevation > 0}
                 elevation={contentElevation}
-                radius={variant === 'floating' ? 'lg' : 'none'}
+                radius={variant === "floating" ? "lg" : "none"}
                 className={cn(
-                  'min-h-full',
-                  variant === 'floating' && 'glass-my-4'
+                  "min-h-full",
+                  variant === "floating" && "glass-my-4"
                 )}
               >
                 {pageTransition && shouldRespectMotion ? (
-                  <Motion
-                    preset="fadeIn"
-                    className="h-full"
-                  >
+                  <Motion preset="fadeIn" className="glass-h-full">
                     {children}
                   </Motion>
                 ) : (
@@ -329,12 +344,13 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
 
           {/* Footer */}
           {footer && (
-            <footer 
+            <footer
               role="contentinfo"
               className={cn(
-                'flex-shrink-0 border-t border-border/20',
+                "flex-shrink-0 border-t border-border/20",
                 // Motion preferences
-                shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none'
+                shouldRespectMotion &&
+                  "motion-safe:transition-all motion-reduce:transition-none"
               )}
             >
               {footer}
@@ -346,7 +362,7 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
   }
 );
 
-GlassAppShell.displayName = 'GlassAppShell';
+GlassAppShell.displayName = "GlassAppShell";
 
 /**
  * PageHeader component
@@ -359,23 +375,23 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
       description,
       breadcrumb,
       actions,
-      variant = 'default',
+      variant = "default",
       className,
       ...props
     },
     ref
   ) => {
     const variantClasses = {
-      default: 'text-left',
-      centered: 'text-center',
-      minimal: 'text-left border-none pb-4',
+      default: "text-left",
+      centered: "text-center",
+      minimal: "text-left border-none pb-4",
     };
 
     return (
       <div
         ref={ref}
         className={cn(
-          'glass-gap-4 pb-8 border-b border-border/20',
+          "glass-gap-4 pb-8 border-b border-border/20",
           variantClasses?.[variant],
           className
         )}
@@ -383,15 +399,15 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
       >
         {/* Breadcrumb */}
         {breadcrumb && (
-          <div className="text-sm glass-text-secondary">
+          <div className="glass-text-sm glass-text-secondary">
             {Array.isArray(breadcrumb) ? (
               <nav aria-label="Breadcrumb">
-                <ol className="flex items-center gap-2">
+                <ol className="glass-flex glass-items-center glass-gap-2">
                   {breadcrumb.map((item, index) => {
                     const isLast = index === breadcrumb.length - 1;
                     return (
-                      <li key={index} className="flex items-center">
-                        {index > 0 && <span className="mx-2">/</span>}
+                      <li key={index} className="glass-flex glass-items-center">
+                        {index > 0 && <span className="glass-mx-2">/</span>}
                         {item?.href && !isLast ? (
                           <a
                             href={item?.href}
@@ -400,7 +416,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                             {item?.label}
                           </a>
                         ) : (
-                          <span className={isLast ? 'text-foreground font-medium' : ''}>
+                          <span
+                            className={
+                              isLast ? "text-foreground font-medium" : ""
+                            }
+                          >
                             {item?.label}
                           </span>
                         )}
@@ -416,37 +436,37 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
         )}
 
         {/* Title section */}
-        <div className={cn(
-          'flex glass-gap-4',
-          variant === 'centered' ? 'flex-col items-center' : 'flex-col sm:flex-row sm:items-center sm:justify-between'
-        )}>
-          <div className="gap-2">
-            <h1 className="text-3xl font-bold text-primary">
-              {title}
-            </h1>
+        <div
+          className={cn(
+            "flex glass-gap-4",
+            variant === "centered"
+              ? "flex-col items-center"
+              : "flex-col sm:flex-row sm:items-center sm:justify-between"
+          )}
+        >
+          <div className="glass-gap-2">
+            <h1 className="glass-text-3xl font-bold text-primary">{title}</h1>
             {description && (
-              <p className={cn(
-                'glass-text-lg glass-text-secondary',
-                variant === 'centered' ? 'max-w-2xl' : 'max-w-3xl'
-              )}>
+              <p
+                className={cn(
+                  "glass-text-lg glass-text-secondary",
+                  variant === "centered" ? "max-w-2xl" : "max-w-3xl"
+                )}
+              >
                 {description}
               </p>
             )}
           </div>
 
           {/* Actions */}
-          {actions && (
-            <div className="flex-shrink-0">
-              {actions}
-            </div>
-          )}
+          {actions && <div className="glass-flex-shrink-0">{actions}</div>}
         </div>
       </div>
     );
   }
 );
 
-PageHeader.displayName = 'PageHeader';
+PageHeader.displayName = "PageHeader";
 
 /**
  * ContentSection component
@@ -459,8 +479,8 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
       description,
       actions,
       children,
-      variant = 'default',
-      elevation = 'level1',
+      variant = "default",
+      elevation = "level1",
       respectMotionPreference = true,
       id,
       className,
@@ -470,49 +490,51 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
   ) => {
     const sectionId = useA11yId();
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
-    const shouldRespectMotion = respectMotionPreference && !prefersReducedMotion;
+    const shouldRespectMotion =
+      respectMotionPreference && !prefersReducedMotion;
 
     const content = (
-      <VStack space="lg" className="w-full">
+      <VStack space="lg" className="glass-w-full">
         {/* Section header */}
         {(title || description || actions) && (
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="gap-1">
+          <div className="glass-flex glass-flex-col sm:flex-row sm:items-center sm:justify-between glass-gap-4">
+            <div className="glass-gap-1">
               {title && (
-                <h2 
+                <h2
                   id={`${id || sectionId}-title`}
-                  className="text-xl font-semibold text-primary"
+                  className="glass-text-xl font-semibold text-primary"
                 >
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="glass-text-secondary">
-                  {description}
-                </p>
+                <p className="glass-text-secondary">{description}</p>
               )}
             </div>
 
-            {actions && (
-              <div className="flex-shrink-0">
-                {actions}
-              </div>
-            )}
+            {actions && <div className="glass-flex-shrink-0">{actions}</div>}
           </div>
         )}
 
         {/* Section content */}
-        <div className="w-full">
-          {children}
-        </div>
+        <div className="glass-w-full">{children}</div>
       </VStack>
     );
 
-    if (variant === 'card') {
+    if (variant === "card") {
       return (
         <OptimizedGlass
           variant="frosted"
-          elevation={typeof elevation === 'number' ? `level${Math.min(5, Math.max(1, elevation + 1))}` as 'level1' | 'level2' | 'level3' | 'level4' | 'level5' : 'level1'}
+          elevation={
+            typeof elevation === "number"
+              ? (`level${Math.min(5, Math.max(1, elevation + 1))}` as
+                  | "level1"
+                  | "level2"
+                  | "level3"
+                  | "level4"
+                  | "level5")
+              : "level1"
+          }
           intensity="medium"
           depth={2}
           tint="neutral"
@@ -524,9 +546,10 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
           role="region"
           aria-labelledby={title ? `${id || sectionId}-title` : undefined}
           className={cn(
-            'glass-p-6 w-full',
+            "glass-p-6 w-full",
             // Motion preferences
-            shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none',
+            shouldRespectMotion &&
+              "motion-safe:transition-all motion-reduce:transition-none",
             className
           )}
           {...props}
@@ -543,9 +566,10 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
         role="region"
         aria-labelledby={title ? `${id || sectionId}-title` : undefined}
         className={cn(
-          'w-full',
+          "w-full",
           // Motion preferences
-          shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none',
+          shouldRespectMotion &&
+            "motion-safe:transition-all motion-reduce:transition-none",
           className
         )}
         {...props}
@@ -556,4 +580,4 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
   }
 );
 
-ContentSection.displayName = 'ContentSection';
+ContentSection.displayName = "ContentSection";

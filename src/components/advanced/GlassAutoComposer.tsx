@@ -1,20 +1,27 @@
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Auto Composer
  * On-demand generative UI layouts using LLMs + design tokens
  * Part of Next-Wave Systems (10/10) - Generative Design Systems
  */
 
-import React, { useEffect, useRef, useState, useCallback, createContext, useContext } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../../lib/utils';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+} from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "../../lib/utils";
 
 // Generative UI types
 interface UIPrompt {
   description: string;
   purpose: string;
   constraints?: string[];
-  style?: 'minimal' | 'standard' | 'detailed' | 'experimental';
+  style?: "minimal" | "standard" | "detailed" | "experimental";
   components?: string[];
   interactions?: string[];
 }
@@ -40,10 +47,10 @@ interface DesignTokens {
 }
 
 interface ComposerConfig {
-  model: 'claude' | 'gpt' | 'local';
+  model: "claude" | "gpt" | "local";
   temperature: number;
   maxTokens: number;
-  designSystem: 'material' | 'fluid' | 'glass' | 'custom';
+  designSystem: "material" | "fluid" | "glass" | "custom";
   accessibility: boolean;
   responsive: boolean;
 }
@@ -64,30 +71,32 @@ class AILayoutGenerator {
   private initializeDesignTokens(): DesignTokens {
     return {
       colors: {
-        primary: 'var(--glass-color-primary)',
-        secondary: 'var(--glass-color-success)',
-        accent: '#8b5cf6',
-        background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-        surface: 'var(--glass-bg-default)',
-        text: 'var(--glass-white)',
-        textSecondary: 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
+        primary: "var(--glass-color-primary)",
+        secondary: "var(--glass-color-success)",
+        accent: "#8b5cf6",
+        background:
+          '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+        surface: "var(--glass-bg-default)",
+        text: "var(--glass-white)",
+        textSecondary:
+          "rgba(var(--glass-color-white) / var(--glass-opacity-70))",
       },
       spacing: {
-        xs: '0.25rem',
-        sm: '0.5rem',
-        md: '1rem',
-        lg: '1.5rem',
-        xl: '2rem',
-        '2xl': '3rem',
+        xs: "0.25rem",
+        sm: "0.5rem",
+        md: "1rem",
+        lg: "1.5rem",
+        xl: "2rem",
+        "2xl": "3rem",
       },
       typography: {
         fontSize: {
-          xs: '0.75rem',
-          sm: '0.875rem',
-          base: '1rem',
-          lg: '1.125rem',
-          xl: '1.25rem',
-          '2xl': '1.5rem',
+          xs: "0.75rem",
+          sm: "0.875rem",
+          base: "1rem",
+          lg: "1.125rem",
+          xl: "1.25rem",
+          "2xl": "1.5rem",
         },
         fontWeight: {
           light: 300,
@@ -98,38 +107,43 @@ class AILayoutGenerator {
         },
       },
       shadows: {
-        sm: '0 1px 2px 0 rgba(var(--glass-color-black) / var(--glass-opacity-5))',
-        md: '0 4px 6px -1px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
-        lg: '0 10px 15px -3px rgba(var(--glass-color-black) / var(--glass-opacity-10))',
-        glass: '0 8px 32px rgba(31, 38, 135, 0.37)',
+        sm: "0 1px 2px 0 rgba(var(--glass-color-black) / var(--glass-opacity-5))",
+        md: "0 4px 6px -1px rgba(var(--glass-color-black) / var(--glass-opacity-10))",
+        lg: "0 10px 15px -3px rgba(var(--glass-color-black) / var(--glass-opacity-10))",
+        glass: "0 8px 32px rgba(31, 38, 135, 0.37)",
       },
       borders: {
-        radius: '0.375rem',
+        radius: "0.375rem",
       },
       animations: {
         duration: {
-          fast: '0.15s',
-          normal: '0.3s',
-          slow: '0.5s',
+          fast: "0.15s",
+          normal: "0.3s",
+          slow: "0.5s",
         },
         easing: {
-          ease: 'ease',
-          easeIn: 'ease-in',
-          easeOut: 'ease-out',
-          bounce: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+          ease: "ease",
+          easeIn: "ease-in",
+          easeOut: "ease-out",
+          bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
         },
       },
     };
   }
 
   private loadTemplateLibrary(): void {
-    this.templateLibrary.set('card', `
+    this.templateLibrary.set(
+      "card",
+      `
       <div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
         {children}
       </div>
-    `);
+    `
+    );
 
-    this.templateLibrary.set('button', `
+    this.templateLibrary.set(
+      "button",
+      `
       <motion.button
         className="glass-surface-secondary px-4 py-2 glass-radius-md text-primary"
         whileHover={{ scale: 1.05 }}
@@ -137,25 +151,29 @@ class AILayoutGenerator {
       >
         {children}
       </motion.button>
-    `);
+    `
+    );
 
-    this.templateLibrary.set('input', `
+    this.templateLibrary.set(
+      "input",
+      `
       <input
         className="glass-surface-secondary border glass-radius-md px-3 py-2 text-primary glass-touch-target glass-contrast-guard"
         placeholder={placeholder}
       />
-    `);
+    `
+    );
   }
 
   async generateLayout(prompt: UIPrompt): Promise<GeneratedLayout> {
     const startTime = Date.now();
-    
+
     // For demo, we'll use rule-based generation
     // In practice, this would call an LLM API
     const generatedJSX = await this.generateJSXFromPrompt(prompt);
     const generatedCSS = await this.generateCSSFromPrompt(prompt);
     const iterations = 1;
-    
+
     return {
       id: `layout-${Date.now()}`,
       prompt,
@@ -170,22 +188,22 @@ class AILayoutGenerator {
 
   private async generateJSXFromPrompt(prompt: UIPrompt): Promise<string> {
     // Simulate AI generation with template matching
-    const { description, purpose, style = 'standard' } = prompt;
-    
-    let jsx = '';
-    
-    if (description.toLowerCase().includes('dashboard')) {
+    const { description, purpose, style = "standard" } = prompt;
+
+    let jsx = "";
+
+    if (description.toLowerCase().includes("dashboard")) {
       jsx = this.generateDashboardLayout(prompt);
-    } else if (description.toLowerCase().includes('form')) {
+    } else if (description.toLowerCase().includes("form")) {
       jsx = this.generateFormLayout(prompt);
-    } else if (description.toLowerCase().includes('card')) {
+    } else if (description.toLowerCase().includes("card")) {
       jsx = this.generateCardLayout(prompt);
-    } else if (description.toLowerCase().includes('list')) {
+    } else if (description.toLowerCase().includes("list")) {
       jsx = this.generateListLayout(prompt);
     } else {
       jsx = this.generateGenericLayout(prompt);
     }
-    
+
     return jsx;
   }
 
@@ -417,8 +435,8 @@ class AILayoutGenerator {
   }
 
   private async generateCSSFromPrompt(prompt: UIPrompt): Promise<string> {
-    const { style = 'standard' } = prompt;
-    
+    const { style = "standard" } = prompt;
+
     const baseCSS = `
 .generated-component {
   /* Base glassmorphism styles */
@@ -453,10 +471,10 @@ class AILayoutGenerator {
 }
 `;
 
-    let styleSpecificCSS = '';
-    
+    let styleSpecificCSS = "";
+
     switch (style) {
-      case 'minimal':
+      case "minimal":
         styleSpecificCSS = `
 .generated-component {
   --glass-blur: 5px;
@@ -465,7 +483,7 @@ class AILayoutGenerator {
 }
 `;
         break;
-      case 'detailed':
+      case "detailed":
         styleSpecificCSS = `
 .generated-component {
   --glass-blur: 25px;
@@ -475,7 +493,7 @@ class AILayoutGenerator {
 }
 `;
         break;
-      case 'experimental':
+      case "experimental":
         styleSpecificCSS = `
 .generated-component {
   --glass-blur: 30px;
@@ -492,7 +510,7 @@ class AILayoutGenerator {
 `;
         break;
     }
-    
+
     return baseCSS + styleSpecificCSS;
   }
 }
@@ -509,7 +527,10 @@ class LayoutOptimizer {
     this.generationCount = 0;
   }
 
-  async optimizeLayout(baseLayout: GeneratedLayout, userFeedback: number[]): Promise<GeneratedLayout> {
+  async optimizeLayout(
+    baseLayout: GeneratedLayout,
+    userFeedback: number[]
+  ): Promise<GeneratedLayout> {
     // Initialize population if empty
     if (this.population.length === 0) {
       this.population = await this.createInitialPopulation(baseLayout);
@@ -526,38 +547,43 @@ class LayoutOptimizer {
     return this.getBestLayout();
   }
 
-  private async createInitialPopulation(baseLayout: GeneratedLayout): Promise<GeneratedLayout[]> {
+  private async createInitialPopulation(
+    baseLayout: GeneratedLayout
+  ): Promise<GeneratedLayout[]> {
     const population: GeneratedLayout[] = [baseLayout];
-    
+
     // Create variants
     for (let i = 0; i < 9; i++) {
       const variant = await this.createVariant(baseLayout);
       population.push(variant);
     }
-    
+
     return population;
   }
 
-  private async createVariant(layout: GeneratedLayout): Promise<GeneratedLayout> {
+  private async createVariant(
+    layout: GeneratedLayout
+  ): Promise<GeneratedLayout> {
     // Create variations in the layout
     const mutations = [
-      'spacing',
-      'colors',
-      'typography',
-      'shadows',
-      'animations',
+      "spacing",
+      "colors",
+      "typography",
+      "shadows",
+      "animations",
     ];
-    
-    const randomMutation = mutations[Math.floor(Math.random() * mutations.length)];
+
+    const randomMutation =
+      mutations[Math.floor(Math.random() * mutations.length)];
     const mutatedTokens = { ...layout.tokens };
-    
+
     // Apply random mutations
     switch (randomMutation) {
-      case 'colors':
+      case "colors":
         const hue = Math.floor(Math.random() * 360);
         mutatedTokens.colors.primary = `hsl(${hue}, 70%, 60%)`;
         break;
-      case 'spacing':
+      case "spacing":
         const scale = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
         Object.keys(mutatedTokens.spacing).forEach((key: any) => {
           const value = parseFloat(mutatedTokens.spacing[key]);
@@ -565,7 +591,7 @@ class LayoutOptimizer {
         });
         break;
     }
-    
+
     return {
       ...layout,
       id: `${layout.id}-variant-${Date.now()}`,
@@ -593,54 +619,69 @@ class LayoutOptimizer {
     // Tournament selection
     const selected: GeneratedLayout[] = [];
     const tournamentSize = 3;
-    
+
     while (selected.length < this.population.length / 2) {
       const tournament: GeneratedLayout[] = [];
-      
+
       for (let i = 0; i < tournamentSize; i++) {
         const randomIndex = Math.floor(Math.random() * this.population.length);
         tournament.push(this.population[randomIndex]);
       }
-      
+
       // Select the best from tournament
       const winner = tournament.reduce((best, current) => {
         const bestScore = this.fitnessScores.get(best.id) || 0;
         const currentScore = this.fitnessScores.get(current.id) || 0;
         return currentScore > bestScore ? current : best;
       });
-      
+
       selected.push(winner);
     }
-    
+
     return selected;
   }
 
-  private async crossover(parents: GeneratedLayout[]): Promise<GeneratedLayout[]> {
+  private async crossover(
+    parents: GeneratedLayout[]
+  ): Promise<GeneratedLayout[]> {
     const offspring: GeneratedLayout[] = [...parents];
-    
+
     // Create offspring by combining parent traits
     while (offspring.length < this.population.length) {
       const parent1 = parents[Math.floor(Math.random() * parents.length)];
       const parent2 = parents[Math.floor(Math.random() * parents.length)];
-      
+
       const child = await this.combineLayouts(parent1, parent2);
       offspring.push(child);
     }
-    
+
     return offspring;
   }
 
-  private async combineLayouts(parent1: GeneratedLayout, parent2: GeneratedLayout): Promise<GeneratedLayout> {
+  private async combineLayouts(
+    parent1: GeneratedLayout,
+    parent2: GeneratedLayout
+  ): Promise<GeneratedLayout> {
     // Combine design tokens from both parents
     const combinedTokens: DesignTokens = {
-      colors: Math.random() > 0.5 ? parent1.tokens.colors : parent2.tokens.colors,
-      spacing: Math.random() > 0.5 ? parent1.tokens.spacing : parent2.tokens.spacing,
-      typography: Math.random() > 0.5 ? parent1.tokens.typography : parent2.tokens.typography,
-      shadows: Math.random() > 0.5 ? parent1.tokens.shadows : parent2.tokens.shadows,
-      borders: Math.random() > 0.5 ? parent1.tokens.borders : parent2.tokens.borders,
-      animations: Math.random() > 0.5 ? parent1.tokens.animations : parent2.tokens.animations,
+      colors:
+        Math.random() > 0.5 ? parent1.tokens.colors : parent2.tokens.colors,
+      spacing:
+        Math.random() > 0.5 ? parent1.tokens.spacing : parent2.tokens.spacing,
+      typography:
+        Math.random() > 0.5
+          ? parent1.tokens.typography
+          : parent2.tokens.typography,
+      shadows:
+        Math.random() > 0.5 ? parent1.tokens.shadows : parent2.tokens.shadows,
+      borders:
+        Math.random() > 0.5 ? parent1.tokens.borders : parent2.tokens.borders,
+      animations:
+        Math.random() > 0.5
+          ? parent1.tokens.animations
+          : parent2.tokens.animations,
     };
-    
+
     return {
       id: `child-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       prompt: parent1.prompt,
@@ -655,7 +696,7 @@ class LayoutOptimizer {
 
   private mutation(population: GeneratedLayout[]): GeneratedLayout[] {
     const mutationRate = 0.1;
-    
+
     return population.map(async (layout) => {
       if (Math.random() < mutationRate) {
         return await this.createVariant(layout);
@@ -678,13 +719,16 @@ const AutoComposerContext = createContext<{
   generator: AILayoutGenerator | null;
   optimizer: LayoutOptimizer | null;
   generateLayout: (prompt: UIPrompt) => Promise<GeneratedLayout>;
-  optimizeLayout: (layout: GeneratedLayout, feedback: number[]) => Promise<GeneratedLayout>;
+  optimizeLayout: (
+    layout: GeneratedLayout,
+    feedback: number[]
+  ) => Promise<GeneratedLayout>;
   currentLayouts: GeneratedLayout[];
 }>({
   generator: null,
   optimizer: null,
-  generateLayout: async () => ({} as GeneratedLayout),
-  optimizeLayout: async () => ({} as GeneratedLayout),
+  generateLayout: async () => ({}) as GeneratedLayout,
+  optimizeLayout: async () => ({}) as GeneratedLayout,
   currentLayouts: [],
 });
 
@@ -692,10 +736,10 @@ const AutoComposerContext = createContext<{
 export function GlassAutoComposerProvider({
   children,
   config = {
-    model: 'claude',
+    model: "claude",
     temperature: 0.7,
     maxTokens: 2000,
-    designSystem: 'glass',
+    designSystem: "glass",
     accessibility: true,
     responsive: true,
   },
@@ -710,10 +754,10 @@ export function GlassAutoComposerProvider({
 
   useEffect(() => {
     const fullConfig: ComposerConfig = {
-      model: 'claude',
+      model: "claude",
       temperature: 0.7,
       maxTokens: 2000,
-      designSystem: 'glass',
+      designSystem: "glass",
       accessibility: true,
       responsive: true,
       ...config,
@@ -723,21 +767,33 @@ export function GlassAutoComposerProvider({
     optimizerRef.current = new LayoutOptimizer();
   }, [config]);
 
-  const generateLayout = useCallback(async (prompt: UIPrompt): Promise<GeneratedLayout> => {
-    if (!generatorRef.current) throw new Error('Generator not initialized');
-    
-    const layout = await generatorRef.current.generateLayout(prompt);
-    setCurrentLayouts((prev: any) => [...prev, layout]);
-    return layout;
-  }, []);
+  const generateLayout = useCallback(
+    async (prompt: UIPrompt): Promise<GeneratedLayout> => {
+      if (!generatorRef.current) throw new Error("Generator not initialized");
 
-  const optimizeLayout = useCallback(async (layout: GeneratedLayout, feedback: number[]): Promise<GeneratedLayout> => {
-    if (!optimizerRef.current) throw new Error('Optimizer not initialized');
-    
-    const optimized = await optimizerRef.current.optimizeLayout(layout, feedback);
-    setCurrentLayouts((prev: any) => [...prev, optimized]);
-    return optimized;
-  }, []);
+      const layout = await generatorRef.current.generateLayout(prompt);
+      setCurrentLayouts((prev: any) => [...prev, layout]);
+      return layout;
+    },
+    []
+  );
+
+  const optimizeLayout = useCallback(
+    async (
+      layout: GeneratedLayout,
+      feedback: number[]
+    ): Promise<GeneratedLayout> => {
+      if (!optimizerRef.current) throw new Error("Optimizer not initialized");
+
+      const optimized = await optimizerRef.current.optimizeLayout(
+        layout,
+        feedback
+      );
+      setCurrentLayouts((prev: any) => [...prev, optimized]);
+      return optimized;
+    },
+    []
+  );
 
   const value = {
     generator: generatorRef.current || null,
@@ -758,31 +814,38 @@ export function GlassAutoComposerProvider({
 export function useAutoComposer() {
   const context = useContext(AutoComposerContext);
   if (!context) {
-    throw new Error('useAutoComposer must be used within GlassAutoComposerProvider');
+    throw new Error(
+      "useAutoComposer must be used within GlassAutoComposerProvider"
+    );
   }
   return context;
 }
 
 // Auto composer interface
-export function GlassAutoComposerInterface({ className }: { className?: string }) {
+export function GlassAutoComposerInterface({
+  className,
+}: {
+  className?: string;
+}) {
   const { generateLayout } = useAutoComposer();
-  const [prompt, setPrompt] = useState('');
-  const [generatedLayout, setGeneratedLayout] = useState<GeneratedLayout | null>(null);
+  const [prompt, setPrompt] = useState("");
+  const [generatedLayout, setGeneratedLayout] =
+    useState<GeneratedLayout | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
-    
+
     setIsGenerating(true);
     try {
       const layout = await generateLayout({
         description: prompt,
-        purpose: 'user-requested',
-        style: 'standard',
+        purpose: "user-requested",
+        style: "standard",
       });
       setGeneratedLayout(layout);
     } catch (error) {
-      console.error('Failed to generate layout:', error);
+      console.error("Failed to generate layout:", error);
     } finally {
       setIsGenerating(false);
     }
@@ -790,58 +853,66 @@ export function GlassAutoComposerInterface({ className }: { className?: string }
 
   return (
     <div className={cn("space-y-6", className)}>
-      <div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
-        <h2 className="text-2xl font-bold text-primary mb-4">AI Layout Generator</h2>
-        
-        <div className="gap-4">
+      <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6">
+        <h2 className="glass-text-2xl font-bold text-primary mb-4">
+          AI Layout Generator
+        </h2>
+
+        <div className="glass-gap-4">
           <div>
-            <label className="block text-sm font-medium glass-text-secondary mb-2">
+            <label className="block glass-text-sm font-medium glass-text-secondary mb-2">
               Describe the layout you want
             </label>
             <textarea
-              className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary glass-touch-target glass-contrast-guard"
+              className="glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 text-primary glass-touch-target glass-contrast-guard"
               rows={3}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="e.g., Create a modern dashboard with charts, stats cards, and a sidebar navigation"
             />
           </div>
-          
+
           <motion.button
-            className="glass-surface-accent px-6 py-3 glass-radius-md font-medium"
+            className="glass-surface-accent glass-px-6 glass-py-3 glass-radius-md font-medium"
             onClick={handleGenerate}
             disabled={isGenerating || !prompt.trim()}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            {isGenerating ? 'Generating...' : 'Generate Layout'}
+            {isGenerating ? "Generating..." : "Generate Layout"}
           </motion.button>
         </div>
       </div>
 
       {/* Generated Layout Preview */}
       {generatedLayout && (
-        <div className="glass-surface-primary glass-elev-2 glass-radius-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold text-primary">Generated Layout</h3>
-            <div className="flex items-center gap-2">
-              <span className="text-sm glass-text-secondary">
+        <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6">
+          <div className="glass-flex glass-items-center glass-justify-between mb-4">
+            <h3 className="glass-text-xl font-semibold text-primary">
+              Generated Layout
+            </h3>
+            <div className="glass-flex glass-items-center glass-gap-2">
+              <span className="glass-text-sm glass-text-secondary">
                 Confidence: {(generatedLayout.confidence * 100).toFixed(0)}%
               </span>
             </div>
           </div>
-          
-          <div className="gap-4">
+
+          <div className="glass-gap-4">
             <div>
-              <h4 className="text-sm font-medium glass-text-secondary mb-2">JSX Code</h4>
-              <pre className="glass-surface-secondary glass-radius-md p-4 text-xs text-primary overflow-x-auto">
+              <h4 className="glass-text-sm font-medium glass-text-secondary mb-2">
+                JSX Code
+              </h4>
+              <pre className="glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs text-primary overflow-x-auto">
                 {generatedLayout.jsx}
               </pre>
             </div>
-            
+
             <div>
-              <h4 className="text-sm font-medium glass-text-secondary mb-2">CSS Styles</h4>
-              <pre className="glass-surface-secondary glass-radius-md p-4 text-xs text-primary overflow-x-auto">
+              <h4 className="glass-text-sm font-medium glass-text-secondary mb-2">
+                CSS Styles
+              </h4>
+              <pre className="glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs text-primary overflow-x-auto">
                 {generatedLayout.css}
               </pre>
             </div>
@@ -866,14 +937,14 @@ export function GlassGeneratedLayoutRenderer({
     // In a real implementation, this would safely execute the generated JSX
     // For demo purposes, we'll show a placeholder
     return (
-      <div className="generated-component p-6 text-center">
-        <h3 className="text-xl font-bold text-primary mb-2">
+      <div className="generated-component glass-p-6 text-center">
+        <h3 className="glass-text-xl font-bold text-primary mb-2">
           Generated Component Preview
         </h3>
         <p className="glass-text-secondary mb-4">
           Based on: "{layout.prompt.description}"
         </p>
-        <div className="text-xs glass-text-tertiary">
+        <div className="glass-text-xs glass-text-tertiary">
           Generated at: {new Date(layout.timestamp).toLocaleString()}
         </div>
       </div>
@@ -892,13 +963,16 @@ export function GlassGeneratedLayoutRenderer({
 export function useLayoutGenerator() {
   const { generateLayout, currentLayouts } = useAutoComposer();
 
-  const generateFromDescription = useCallback(async (description: string) => {
-    return generateLayout({
-      description,
-      purpose: 'user-generated',
-      style: 'standard',
-    });
-  }, [generateLayout]);
+  const generateFromDescription = useCallback(
+    async (description: string) => {
+      return generateLayout({
+        description,
+        purpose: "user-generated",
+        style: "standard",
+      });
+    },
+    [generateLayout]
+  );
 
   return {
     generateFromDescription,
@@ -911,22 +985,22 @@ export function useLayoutGenerator() {
 export const autoComposerPresets = {
   creative: {
     temperature: 0.9,
-    style: 'experimental',
+    style: "experimental",
     iterations: 5,
   },
   balanced: {
     temperature: 0.7,
-    style: 'standard',
+    style: "standard",
     iterations: 3,
   },
   conservative: {
     temperature: 0.3,
-    style: 'minimal',
+    style: "minimal",
     iterations: 1,
   },
   accessibility: {
     temperature: 0.5,
-    style: 'standard',
+    style: "standard",
     accessibility: true,
     iterations: 2,
   },

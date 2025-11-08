@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
-import { OptimizedGlass } from '../../primitives';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+import { OptimizedGlass } from "../../primitives";
 
 export interface MindMapNode {
   id: string;
@@ -8,8 +8,8 @@ export interface MindMapNode {
   children?: MindMapNode[];
   color?: string;
   position?: { x: number; y: number };
-  size?: 'sm' | 'md' | 'lg';
-  shape?: 'circle' | 'rectangle' | 'diamond';
+  size?: "sm" | "md" | "lg";
+  shape?: "circle" | "rectangle" | "diamond";
   icon?: React.ReactNode;
   data?: any;
 }
@@ -18,7 +18,7 @@ export interface MindMapConnection {
   from: string;
   to: string;
   label?: string;
-  type?: 'solid' | 'dashed' | 'dotted';
+  type?: "solid" | "dashed" | "dotted";
   color?: string;
 }
 
@@ -34,7 +34,7 @@ export interface GlassMindMapProps {
   /** Whether to enable zoom and pan */
   zoomable?: boolean;
   /** Layout direction */
-  direction?: 'horizontal' | 'vertical' | 'radial';
+  direction?: "horizontal" | "vertical" | "radial";
   /** Node spacing */
   nodeSpacing?: number;
   /** Custom className */
@@ -63,9 +63,9 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   editable = false,
   showMinimap = true,
   zoomable = true,
-  direction = 'horizontal',
+  direction = "horizontal",
   nodeSpacing = 120,
-  className='',
+  className = "",
   onNodeClick,
   onNodeDoubleClick,
   onNodeChange,
@@ -78,52 +78,59 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [editingNode, setEditingNode] = useState<string | null>(null);
-  const [editValue, setEditValue] = useState('');
+  const [editValue, setEditValue] = useState("");
 
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
 
   // Calculate positions for all nodes
-  const calculatePositions = useCallback((node: MindMapNode, level = 0, parentId?: string): PositionedNode[] => {
-    const positionedNodes: PositionedNode[] = [];
+  const calculatePositions = useCallback(
+    (node: MindMapNode, level = 0, parentId?: string): PositionedNode[] => {
+      const positionedNodes: PositionedNode[] = [];
 
-    // Calculate position based on direction and level
-    let x = 0, y = 0;
+      // Calculate position based on direction and level
+      let x = 0,
+        y = 0;
 
-    switch (direction) {
-      case 'horizontal':
-        x = level * nodeSpacing;
-        y = positionedNodes.length * 60 - (node.children?.length || 1) * 30;
-        break;
-      case 'vertical':
-        x = positionedNodes.length * 60 - (node.children?.length || 1) * 30;
-        y = level * nodeSpacing;
-        break;
-      case 'radial':
-        const angle = (positionedNodes.length / (node.children?.length || 1)) * Math.PI * 2;
-        const radius = level * nodeSpacing;
-        x = Math.cos(angle) * radius;
-        y = Math.sin(angle) * radius;
-        break;
-    }
+      switch (direction) {
+        case "horizontal":
+          x = level * nodeSpacing;
+          y = positionedNodes.length * 60 - (node.children?.length || 1) * 30;
+          break;
+        case "vertical":
+          x = positionedNodes.length * 60 - (node.children?.length || 1) * 30;
+          y = level * nodeSpacing;
+          break;
+        case "radial":
+          const angle =
+            (positionedNodes.length / (node.children?.length || 1)) *
+            Math.PI *
+            2;
+          const radius = level * nodeSpacing;
+          x = Math.cos(angle) * radius;
+          y = Math.sin(angle) * radius;
+          break;
+      }
 
-    const positionedNode: PositionedNode = {
-      ...node,
-      position: node.position || { x, y },
-      level,
-      parentId,
-    };
+      const positionedNode: PositionedNode = {
+        ...node,
+        position: node.position || { x, y },
+        level,
+        parentId,
+      };
 
-    positionedNodes.push(positionedNode);
+      positionedNodes.push(positionedNode);
 
-    // Process children
-    node.children?.forEach((child: any) => {
-      positionedNodes.push(...calculatePositions(child, level + 1, node.id));
-    });
+      // Process children
+      node.children?.forEach((child: any) => {
+        positionedNodes.push(...calculatePositions(child, level + 1, node.id));
+      });
 
-    return positionedNodes;
-  }, [direction, nodeSpacing]);
+      return positionedNodes;
+    },
+    [direction, nodeSpacing]
+  );
 
   const positionedNodes = calculatePositions(data);
 
@@ -148,12 +155,12 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       onNodeChange?.(editingNode, { label: editValue.trim() });
     }
     setEditingNode(null);
-    setEditValue('');
+    setEditValue("");
   };
 
   const handleEditCancel = () => {
     setEditingNode(null);
-    setEditValue('');
+    setEditValue("");
   };
 
   // Handle drag and drop
@@ -163,22 +170,25 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
     dragStartRef.current = { x: e.clientX, y: e.clientY };
   };
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!draggedNode || !dragStartRef.current) return;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!draggedNode || !dragStartRef.current) return;
 
-    const deltaX = e.clientX - dragStartRef.current.x;
-    const deltaY = e.clientY - dragStartRef.current.y;
+      const deltaX = e.clientX - dragStartRef.current.x;
+      const deltaY = e.clientY - dragStartRef.current.y;
 
-    const node = positionedNodes.find(n => n.id === draggedNode);
-    if (node) {
-      onNodeChange?.(draggedNode, {
-        position: {
-          x: node.position.x + deltaX,
-          y: node.position.y + deltaY,
-        },
-      });
-    }
-  }, [draggedNode, positionedNodes, onNodeChange]);
+      const node = positionedNodes.find((n) => n.id === draggedNode);
+      if (node) {
+        onNodeChange?.(draggedNode, {
+          position: {
+            x: node.position.x + deltaX,
+            y: node.position.y + deltaY,
+          },
+        });
+      }
+    },
+    [draggedNode, positionedNodes, onNodeChange]
+  );
 
   const handleMouseUp = useCallback(() => {
     setDraggedNode(null);
@@ -201,13 +211,16 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
     dragStartRef.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
   };
 
-  const handlePanMove = useCallback((e: MouseEvent) => {
-    if (!isPanning || !dragStartRef.current) return;
-    setPan({
-      x: e.clientX - dragStartRef.current.x,
-      y: e.clientY - dragStartRef.current.y,
-    });
-  }, [isPanning]);
+  const handlePanMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isPanning || !dragStartRef.current) return;
+      setPan({
+        x: e.clientX - dragStartRef.current.x,
+        y: e.clientY - dragStartRef.current.y,
+      });
+    },
+    [isPanning]
+  );
 
   const handlePanEnd = useCallback(() => {
     setIsPanning(false);
@@ -217,32 +230,48 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   // Event listeners
   useEffect(() => {
     if (draggedNode) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     }
 
     if (isPanning) {
-      document.addEventListener('mousemove', handlePanMove);
-      document.addEventListener('mouseup', handlePanEnd);
+      document.addEventListener("mousemove", handlePanMove);
+      document.addEventListener("mouseup", handlePanEnd);
     }
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mousemove', handlePanMove);
-      document.removeEventListener('mouseup', handlePanEnd);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousemove", handlePanMove);
+      document.removeEventListener("mouseup", handlePanEnd);
     };
-  }, [draggedNode, isPanning, handleMouseMove, handleMouseUp, handlePanMove, handlePanEnd]);
+  }, [
+    draggedNode,
+    isPanning,
+    handleMouseMove,
+    handleMouseUp,
+    handlePanMove,
+    handlePanEnd,
+  ]);
 
   // Render connection lines
   const renderConnections = () => {
     const lines: JSX.Element[] = [];
 
-    const addConnection = (fromNode: PositionedNode, toNode: PositionedNode) => {
-      const connection = connections.find(c => c.from === fromNode.id && c.to === toNode.id);
-      const color = connection?.color || 'var(--glass-white)40';
-      const strokeDasharray = connection?.type === 'dashed' ? '5,5' :
-                           connection?.type === 'dotted' ? '2,2' : 'none';
+    const addConnection = (
+      fromNode: PositionedNode,
+      toNode: PositionedNode
+    ) => {
+      const connection = connections.find(
+        (c) => c.from === fromNode.id && c.to === toNode.id
+      );
+      const color = connection?.color || "var(--glass-white)40";
+      const strokeDasharray =
+        connection?.type === "dashed"
+          ? "5,5"
+          : connection?.type === "dotted"
+            ? "2,2"
+            : "none";
 
       lines.push(
         <line
@@ -268,7 +297,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
             x={midX}
             y={midY - 5}
             textAnchor="middle"
-            className="text-xs fill-white/70"
+            className="glass-text-xs fill-white/70"
           >
             {connection.label}
           </text>
@@ -278,8 +307,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
     // Add connections from custom connections array
     connections.forEach((conn: any) => {
-      const fromNode = positionedNodes.find(n => n.id === conn.from);
-      const toNode = positionedNodes.find(n => n.id === conn.to);
+      const fromNode = positionedNodes.find((n) => n.id === conn.from);
+      const toNode = positionedNodes.find((n) => n.id === conn.to);
       if (fromNode && toNode) {
         addConnection(fromNode, toNode);
       }
@@ -288,7 +317,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
     // Add default parent-child connections
     const addParentChildConnections = (node: PositionedNode) => {
       node.children?.forEach((child: any) => {
-        const childNode = positionedNodes.find(n => n.id === child.id);
+        const childNode = positionedNodes.find((n) => n.id === child.id);
         if (childNode) {
           addConnection(node, childNode);
           addParentChildConnections(childNode);
@@ -307,31 +336,36 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       const isEditing = editingNode === node.id;
       const isDragged = draggedNode === node.id;
 
-      const nodeSize = node.size === 'lg' ? 100 : node.size === 'sm' ? 60 : 80;
+      const nodeSize = node.size === "lg" ? 100 : node.size === "sm" ? 60 : 80;
       const nodeHeight = nodeSize * 0.5;
 
       let nodeElement;
 
       if (isEditing) {
         nodeElement = (
-          <foreignObject x={node.position.x} y={node.position.y} width={nodeSize} height={nodeHeight}>
+          <foreignObject
+            x={node.position.x}
+            y={node.position.y}
+            width={nodeSize}
+            height={nodeHeight}
+          >
             <input
               autoFocus
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') handleEditSubmit();
-                if (e.key === 'Escape') handleEditCancel();
+                if (e.key === "Enter") handleEditSubmit();
+                if (e.key === "Escape") handleEditCancel();
               }}
               onBlur={handleEditSubmit}
-              className="w-full h-full px-2 py-1 bg-transparent border border-white/30 glass-radius-md text-primary text-sm focus:outline-none focus:border-white/60"
+              className="glass-w-full glass-h-full glass-px-2 glass-py-1 bg-transparent glass-border glass-border-white/30 glass-radius-md text-primary glass-text-sm focus:outline-none focus:border-white/60 glass-focus glass-touch-target glass-contrast-guard"
             />
           </foreignObject>
         );
       } else {
         let shapeElement;
         switch (node.shape) {
-          case 'rectangle':
+          case "rectangle":
             shapeElement = (
               <rect
                 x={node.position.x}
@@ -339,21 +373,25 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 width={nodeSize}
                 height={nodeHeight}
                 rx="8"
-                fill={node.color || 'var(--glass-white)20'}
-                stroke={isSelected ? 'var(--glass-white)60' : 'var(--glass-white)30'}
-                strokeWidth={isSelected ? '2' : '1'}
+                fill={node.color || "var(--glass-white)20"}
+                stroke={
+                  isSelected ? "var(--glass-white)60" : "var(--glass-white)30"
+                }
+                strokeWidth={isSelected ? "2" : "1"}
               />
             );
             break;
-          case 'diamond':
+          case "diamond":
             const centerX = node.position.x + nodeSize / 2;
             const centerY = node.position.y + nodeHeight / 2;
             shapeElement = (
               <polygon
-                points={`${centerX},${centerY - nodeHeight/2} ${centerX + nodeSize/2},${centerY} ${centerX},${centerY + nodeHeight/2} ${centerX - nodeSize/2},${centerY}`}
-                fill={node.color || 'var(--glass-white)20'}
-                stroke={isSelected ? 'var(--glass-white)60' : 'var(--glass-white)30'}
-                strokeWidth={isSelected ? '2' : '1'}
+                points={`${centerX},${centerY - nodeHeight / 2} ${centerX + nodeSize / 2},${centerY} ${centerX},${centerY + nodeHeight / 2} ${centerX - nodeSize / 2},${centerY}`}
+                fill={node.color || "var(--glass-white)20"}
+                stroke={
+                  isSelected ? "var(--glass-white)60" : "var(--glass-white)30"
+                }
+                strokeWidth={isSelected ? "2" : "1"}
               />
             );
             break;
@@ -363,16 +401,18 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 cx={node.position.x + nodeSize / 2}
                 cy={node.position.y + nodeHeight / 2}
                 r={Math.min(nodeSize, nodeHeight) / 2}
-                fill={node.color || 'var(--glass-white)20'}
-                stroke={isSelected ? 'var(--glass-white)60' : 'var(--glass-white)30'}
-                strokeWidth={isSelected ? '2' : '1'}
+                fill={node.color || "var(--glass-white)20"}
+                stroke={
+                  isSelected ? "var(--glass-white)60" : "var(--glass-white)30"
+                }
+                strokeWidth={isSelected ? "2" : "1"}
               />
             );
         }
 
         nodeElement = (
           <g
-            className={`cursor-pointer glass-focus glass-touch-target ${isDragged ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`cursor-pointer glass-focus glass-touch-target glass-contrast-guard ${isDragged ? "cursor-grabbing" : "cursor-grab"}`}
             onMouseDown={(e) => handleMouseDown(e, node.id)}
             onClick={(e) => handleNodeClick(node)}
             onDoubleClick={() => handleNodeDoubleClick(node)}
@@ -382,10 +422,20 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
               x={node.position.x + nodeSize / 2}
               y={node.position.y + nodeHeight / 2 + 4}
               textAnchor="middle"
-              className="text-sm fill-white font-medium pointer-events-none select-none"
+              className="glass-text-sm fill-white font-medium pointer-events-none select-none"
             >
-              {node.icon && <tspan x={node.position.x + nodeSize / 2 - 15}>{node.icon}</tspan>}
-              <tspan x={node.icon ? node.position.x + nodeSize / 2 + 15 : node.position.x + nodeSize / 2}>
+              {node.icon && (
+                <tspan x={node.position.x + nodeSize / 2 - 15}>
+                  {node.icon}
+                </tspan>
+              )}
+              <tspan
+                x={
+                  node.icon
+                    ? node.position.x + nodeSize / 2 + 15
+                    : node.position.x + nodeSize / 2
+                }
+              >
                 {node.label}
               </tspan>
             </text>
@@ -398,22 +448,23 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   };
 
   return (
-    <OptimizedGlass data-glass-component
+    <OptimizedGlass
+      data-glass-component
       className={`relative overflow-hidden ${className}`}
       intensity="medium"
       elevation="level1"
     >
       {/* Toolbar */}
-      <div className="absolute top-4 left-4 z-10 flex gap-2">
+      <div className="absolute top-4 left-4 z-10 glass-flex glass-gap-2">
         <OptimizedGlass
-          className="px-3 py-1 glass-radius-md text-sm cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target"
+          className="glass-px-3 glass-py-1 glass-radius-md glass-text-sm cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
           intensity="subtle"
           onClick={(e: React.MouseEvent) => setZoom(1)}
         >
           Reset Zoom
         </OptimizedGlass>
         <OptimizedGlass
-          className="px-3 py-1 glass-radius-md text-sm"
+          className="glass-px-3 glass-py-1 glass-radius-md glass-text-sm"
           intensity="subtle"
         >
           Zoom: {(zoom * 100).toFixed(0)}%
@@ -422,8 +473,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
       {/* Mini-map */}
       {showMinimap && (
-        <div className="absolute bottom-4 right-4 z-10 w-32 h-24 glass-surface-dark/20 glass-radius-md border border-white/20">
-          <svg className="w-full h-full" viewBox="0 0 320 240">
+        <div className="absolute bottom-4 right-4 z-10 w-32 h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20">
+          <svg className="glass-w-full glass-h-full" viewBox="0 0 320 240">
             {positionedNodes.map((node: any) => (
               <circle
                 key={`mini-${node.id}`}
@@ -440,17 +491,17 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       {/* Main SVG Canvas */}
       <div
         ref={containerRef}
-        className="w-full h-full overflow-hidden"
+        className="glass-w-full glass-h-full overflow-hidden"
         onWheel={handleWheel}
         onMouseDown={handlePanStart}
-        style={{ cursor: isPanning ? 'grabbing' : 'grab' }}
+        style={{ cursor: isPanning ? "grabbing" : "grab" }}
       >
         <svg
           ref={svgRef}
-          className="w-full h-full"
+          className="glass-w-full glass-h-full"
           style={{
             transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
-            transformOrigin: 'center',
+            transformOrigin: "center",
           }}
         >
           <defs>
@@ -462,10 +513,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
               refY="3.5"
               orient="auto"
             >
-              <polygon
-                points="0 0, 10 3.5, 0 7"
-                fill="var(--glass-white)40"
-              />
+              <polygon points="0 0, 10 3.5, 0 7" fill="var(--glass-white)40" />
             </marker>
           </defs>
 
@@ -519,10 +567,12 @@ export const useMindMap = (initialData: MindMapNode) => {
     const deleteNodeRecursive = (node: MindMapNode): MindMapNode => {
       return {
         ...node,
-        children: node.children?.filter((child: any) => {
-          if (child.id === nodeId) return false;
-          return true;
-        }).map(deleteNodeRecursive),
+        children: node.children
+          ?.filter((child: any) => {
+            if (child.id === nodeId) return false;
+            return true;
+          })
+          .map(deleteNodeRecursive),
       };
     };
 

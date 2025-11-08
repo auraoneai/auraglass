@@ -1,8 +1,9 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useState, useCallback } from 'react';
-import { OptimizedGlass } from '../../primitives';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useState, useCallback } from "react";
+import { OptimizedGlass } from "../../primitives";
 
-export interface GlassRatingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassRatingProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /**
    * Current rating value (0 to max)
    */
@@ -16,7 +17,7 @@ export interface GlassRatingProps extends Omit<React.HTMLAttributes<HTMLDivEleme
    * Size of the rating stars
    * @default 'md'
    */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   /**
    * Whether the rating can be changed
    * @default false
@@ -49,7 +50,7 @@ export interface GlassRatingProps extends Omit<React.HTMLAttributes<HTMLDivEleme
    * Color variant for stars
    * @default 'primary'
    */
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  variant?: "primary" | "secondary" | "success" | "warning" | "danger";
   /**
    * Callback when rating changes
    */
@@ -62,7 +63,7 @@ export interface GlassRatingProps extends Omit<React.HTMLAttributes<HTMLDivEleme
    * Glassmorphism elevation level
    * @default 'level1'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Enable glassmorphism effects
    * @default true
@@ -74,12 +75,18 @@ export interface GlassRatingProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   labels?: string[];
 }
 
-const StarIcon = ({ filled, halfFilled }: { filled: boolean; halfFilled?: boolean }) => (
+const StarIcon = ({
+  filled,
+  halfFilled,
+}: {
+  filled: boolean;
+  halfFilled?: boolean;
+}) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-full h-full"
+    className="glass-w-full glass-h-full"
   >
     <defs>
       {halfFilled && (
@@ -91,7 +98,7 @@ const StarIcon = ({ filled, halfFilled }: { filled: boolean; halfFilled?: boolea
     </defs>
     <path
       d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-      fill={halfFilled ? 'url(#halfFill)' : filled ? 'currentColor' : 'none'}
+      fill={halfFilled ? "url(#halfFill)" : filled ? "currentColor" : "none"}
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
@@ -106,17 +113,17 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
     {
       value = 0,
       max = 5,
-      size = 'md',
+      size = "md",
       readOnly = false,
       disabled = false,
       allowHalf = false,
       showValue = false,
       icon,
       emptyIcon,
-      variant = 'primary',
+      variant = "primary",
       onChange,
       onHoverChange,
-      elevation = 'level1',
+      elevation = "level1",
       glass = true,
       labels,
       className,
@@ -127,25 +134,25 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
     const [hoverValue, setHoverValue] = useState<number | null>(null);
 
     const sizeClasses = {
-      sm: 'w-4 h-4',
-      md: 'w-6 h-6',
-      lg: 'w-8 h-8',
-      xl: 'w-10 h-10',
+      sm: "w-4 h-4",
+      md: "w-6 h-6",
+      lg: "w-8 h-8",
+      xl: "w-10 h-10",
     };
 
     const variantClasses = {
-      primary: 'text-blue-500',
-      secondary: 'text-purple-500',
-      success: 'text-green-500',
-      warning: 'text-yellow-500',
-      danger: 'text-red-500',
+      primary: "text-blue-500",
+      secondary: "text-purple-500",
+      success: "text-green-500",
+      warning: "text-yellow-500",
+      danger: "text-red-500",
     };
 
     const textSizeClasses = {
-      sm: 'glass-text-sm',
-      md: 'glass-text-base',
-      lg: 'glass-text-lg',
-      xl: 'glass-text-xl',
+      sm: "glass-text-sm",
+      md: "glass-text-base",
+      lg: "glass-text-lg",
+      xl: "glass-text-xl",
     };
 
     const handleClick = useCallback(
@@ -194,22 +201,22 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
         if (readOnly || disabled) return;
 
         switch (event.key) {
-          case 'ArrowLeft':
-          case 'ArrowDown':
+          case "ArrowLeft":
+          case "ArrowDown":
             event.preventDefault();
             if (index > 0) {
               onChange?.(index);
             }
             break;
-          case 'ArrowRight':
-          case 'ArrowUp':
+          case "ArrowRight":
+          case "ArrowUp":
             event.preventDefault();
             if (index < max - 1) {
               onChange?.(index + 2);
             }
             break;
-          case 'Enter':
-          case ' ':
+          case "Enter":
+          case " ":
             event.preventDefault();
             onChange?.(index + 1);
             break;
@@ -221,11 +228,16 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
     const displayValue = hoverValue ?? value;
     const stars = Array.from({ length: max }, (_, index) => {
       const isFilled = index < Math.floor(displayValue);
-      const isHalfFilled = allowHalf && index === Math.floor(displayValue) && displayValue % 1 !== 0;
-      const label = labels?.[index] || `${index + 1} star${index !== 0 ? 's' : ''}`;
+      const isHalfFilled =
+        allowHalf &&
+        index === Math.floor(displayValue) &&
+        displayValue % 1 !== 0;
+      const label =
+        labels?.[index] || `${index + 1} star${index !== 0 ? "s" : ""}`;
 
       return (
-        <button data-glass-component
+        <button
+          data-glass-component
           key={index}
           type="button"
           onClick={() => handleClick(index)}
@@ -238,11 +250,13 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
           className={cn(
             sizeClasses[size],
             variantClasses[variant],
-            'transition-all duration-200 ease-out',
-            !readOnly && !disabled && 'cursor-pointer hover:scale-110 active:scale-95',
-            readOnly && 'cursor-default',
-            disabled && 'opacity-50 cursor-not-allowed',
-            'focus:outline-none glass-focus glass-touch-target glass-contrast-guard'
+            "transition-all duration-200 ease-out",
+            !readOnly &&
+              !disabled &&
+              "cursor-pointer hover:scale-110 active:scale-95",
+            readOnly && "cursor-default",
+            disabled && "opacity-50 cursor-not-allowed",
+            "focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
           )}
         >
           {icon && isFilled ? (
@@ -259,8 +273,8 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
     const content = (
       <div
         className={cn(
-          'flex items-center gap-1',
-          disabled && 'pointer-events-none'
+          "flex items-center gap-1",
+          disabled && "pointer-events-none"
         )}
         onMouseLeave={handleMouseLeave}
         role="radiogroup"
@@ -271,13 +285,11 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
         {stars}
         {showValue && (
           <span
-            className={cn(
-              'glass-text-secondary ml-2',
-              textSizeClasses[size]
-            )}
+            className={cn("glass-text-secondary ml-2", textSizeClasses[size])}
             aria-live="polite"
           >
-            {displayValue.toFixed(allowHalf && displayValue % 1 !== 0 ? 1 : 0)} / {max}
+            {displayValue.toFixed(allowHalf && displayValue % 1 !== 0 ? 1 : 0)}{" "}
+            / {max}
           </span>
         )}
       </div>
@@ -285,11 +297,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
 
     if (!glass) {
       return (
-        <div
-          ref={ref}
-          className={cn('inline-flex', className)}
-          {...props}
-        >
+        <div ref={ref} className={cn("inline-flex", className)} {...props}>
           {content}
         </div>
       );
@@ -299,10 +307,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
       <OptimizedGlass
         ref={ref}
         elevation={elevation}
-        className={cn(
-          'inline-flex glass-p-2 glass-radius-lg',
-          className
-        )}
+        className={cn("inline-flex glass-p-2 glass-radius-lg", className)}
         {...props}
       >
         {content}
@@ -311,6 +316,6 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
   }
 );
 
-GlassRating.displayName = 'GlassRating';
+GlassRating.displayName = "GlassRating";
 
 export default GlassRating;

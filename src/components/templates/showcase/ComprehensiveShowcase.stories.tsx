@@ -97,7 +97,7 @@ const ShowcaseDemo: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle bg-opacity-60 backdrop-blur border border-white border-opacity-20">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle bg-opacity-60 glass-backdrop-blur border border-white border-opacity-20">
               <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse" />
               <span className="text-sm font-medium tracking-wide glass-text-secondary">
                 COMPREHENSIVE GLASS SYSTEM

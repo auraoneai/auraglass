@@ -1,12 +1,18 @@
-import { GlassInput } from '../input/GlassInput';
+import { GlassInput } from "../input/GlassInput";
 
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { GlassButton, IconButton } from '../button/GlassButton';
-import { GlassBadge } from '../data-display/GlassBadge';
-import { GlassProgress } from '../data-display/GlassProgress';
+import { cn } from "../../lib/utilsComprehensive";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { GlassButton, IconButton } from "../button/GlassButton";
+import { GlassBadge } from "../data-display/GlassBadge";
+import { GlassProgress } from "../data-display/GlassProgress";
 
 export interface UploadedFile {
   id: string;
@@ -16,12 +22,13 @@ export interface UploadedFile {
   type: string;
   url?: string;
   preview?: string;
-  status: 'pending' | 'uploading' | 'completed' | 'error';
+  status: "pending" | "uploading" | "completed" | "error";
   progress?: number;
   error?: string;
 }
 
-export interface GlassFileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassFileUploadProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /**
    * File input accept attribute
    */
@@ -41,11 +48,11 @@ export interface GlassFileUploadProps extends Omit<React.HTMLAttributes<HTMLDivE
   /**
    * Upload variant
    */
-  variant?: 'default' | 'compact' | 'minimal' | 'grid';
+  variant?: "default" | "compact" | "minimal" | "grid";
   /**
    * Upload size
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Disabled state
    */
@@ -115,8 +122,8 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       multiple = false,
       maxSize = 10 * 1024 * 1024, // 10MB
       maxFiles = 10,
-      variant = 'default',
-      size = 'md',
+      variant = "default",
+      size = "md",
       disabled = false,
       files = [],
       onChange,
@@ -125,7 +132,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       onPreview,
       showPreviews = true,
       showProgress = true,
-      instruction = 'Drag and drop files here, or click to select',
+      instruction = "Drag and drop files here, or click to select",
       helperText,
       error,
       autoUpload = false,
@@ -143,16 +150,16 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
     const dropZoneRef = useRef<HTMLDivElement>(null);
 
     const sizeClasses = {
-      sm: 'glass-p-4 glass-text-sm',
-      md: 'glass-p-6 glass-text-base',
-      lg: 'p-8 glass-text-lg',
+      sm: "glass-p-4 glass-text-sm",
+      md: "glass-p-6 glass-text-base",
+      lg: "p-8 glass-text-lg",
     };
 
     const variantClasses = {
-      default: 'min-h-32',
-      compact: 'min-h-20',
-      minimal: 'min-h-16',
-      grid: 'min-h-40',
+      default: "min-h-32",
+      compact: "min-h-20",
+      minimal: "min-h-16",
+      grid: "min-h-40",
     };
 
     // Sync internal files with props
@@ -162,11 +169,11 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
     // Format file size
     const formatFileSize = (bytes: number): string => {
-      if (bytes === 0) return '0 Bytes';
+      if (bytes === 0) return "0 Bytes";
       const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const sizes = ["Bytes", "KB", "MB", "GB"];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
     };
 
     // Validate file
@@ -176,12 +183,12 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       }
 
       if (accept) {
-        const acceptedTypes = accept.split(',').map((type: any) => type.trim());
-        const isAccepted = acceptedTypes.some(type => {
-          if (type.startsWith('.')) {
+        const acceptedTypes = accept.split(",").map((type: any) => type.trim());
+        const isAccepted = acceptedTypes.some((type) => {
+          if (type.startsWith(".")) {
             return file.name.toLowerCase().endsWith(type.toLowerCase());
           }
-          return file.type.match(type.replace('*', '.*'));
+          return file.type.match(type.replace("*", ".*"));
         });
 
         if (!isAccepted) {
@@ -203,61 +210,81 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         name: file.name,
         size: file.size,
         type: file.type,
-        status: validationError ? 'error' : 'pending',
+        status: validationError ? "error" : "pending",
         error: validationError || undefined,
         progress: 0,
       };
     };
 
     // Handle file selection
-    const handleFiles = useCallback(async (fileList: FileList) => {
-      if (disabled) return;
+    const handleFiles = useCallback(
+      async (fileList: FileList) => {
+        if (disabled) return;
 
-      const newFiles = Array.from(fileList).map(createFileObject);
+        const newFiles = Array.from(fileList).map(createFileObject);
 
-      // Check max files limit
-      if (maxFiles && internalFiles.length + newFiles.length > maxFiles) {
-        console.warn(`Maximum ${maxFiles} files allowed`);
-        return;
-      }
+        // Check max files limit
+        if (maxFiles && internalFiles.length + newFiles.length > maxFiles) {
+          console.warn(`Maximum ${maxFiles} files allowed`);
+          return;
+        }
 
-      const updatedFiles = multiple ? [...internalFiles, ...newFiles] : newFiles;
-      setInternalFiles(updatedFiles);
-      onChange?.(updatedFiles);
+        const updatedFiles = multiple
+          ? [...internalFiles, ...newFiles]
+          : newFiles;
+        setInternalFiles(updatedFiles);
+        onChange?.(updatedFiles);
 
-      // Auto upload valid files
-      if (autoUpload && onUpload) {
-        for (const fileObj of newFiles) {
-          if (fileObj.status === 'pending') {
-            await handleUpload(fileObj.id);
+        // Auto upload valid files
+        if (autoUpload && onUpload) {
+          for (const fileObj of newFiles) {
+            if (fileObj.status === "pending") {
+              await handleUpload(fileObj.id);
+            }
           }
         }
-      }
-    }, [disabled, maxFiles, internalFiles, multiple, onChange, autoUpload, onUpload]);
+      },
+      [
+        disabled,
+        maxFiles,
+        internalFiles,
+        multiple,
+        onChange,
+        autoUpload,
+        onUpload,
+      ]
+    );
 
     // Handle file upload
     const handleUpload = async (fileId: string) => {
       if (!onUpload) return;
 
-      const fileIndex = internalFiles.findIndex(f => f.id === fileId);
+      const fileIndex = internalFiles.findIndex((f) => f.id === fileId);
       if (fileIndex === -1) return;
 
       const fileObj = internalFiles[fileIndex];
 
       // Update status to uploading
       const updatedFiles = [...internalFiles];
-      updatedFiles[fileIndex] = { ...fileObj, status: 'uploading', progress: 0 };
+      updatedFiles[fileIndex] = {
+        ...fileObj,
+        status: "uploading",
+        progress: 0,
+      };
       setInternalFiles(updatedFiles);
       onChange?.(updatedFiles);
 
       try {
         // Simulate upload progress
         const progressInterval = setInterval(() => {
-          setInternalFiles(current => {
+          setInternalFiles((current) => {
             const newFiles = [...current];
-            const currentFile = newFiles.find(f => f.id === fileId);
-            if (currentFile && currentFile.status === 'uploading') {
-              currentFile.progress = Math.min((currentFile.progress || 0) + 10, 90);
+            const currentFile = newFiles.find((f) => f.id === fileId);
+            if (currentFile && currentFile.status === "uploading") {
+              currentFile.progress = Math.min(
+                (currentFile.progress || 0) + 10,
+                90
+              );
             }
             return newFiles;
           });
@@ -269,11 +296,11 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
         // Update file with result
         const finalFiles = [...internalFiles];
-        const finalIndex = finalFiles.findIndex(f => f.id === fileId);
+        const finalIndex = finalFiles.findIndex((f) => f.id === fileId);
         if (finalIndex !== -1) {
           finalFiles[finalIndex] = {
             ...finalFiles[finalIndex],
-            status: 'completed',
+            status: "completed",
             progress: 100,
             url: result?.url,
           };
@@ -283,12 +310,12 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       } catch (error) {
         // Update file with error
         const errorFiles = [...internalFiles];
-        const errorIndex = errorFiles.findIndex(f => f.id === fileId);
+        const errorIndex = errorFiles.findIndex((f) => f.id === fileId);
         if (errorIndex !== -1) {
           errorFiles[errorIndex] = {
             ...errorFiles[errorIndex],
-            status: 'error',
-            error: error instanceof Error ? error.message : 'Upload failed',
+            status: "error",
+            error: error instanceof Error ? error.message : "Upload failed",
           };
           setInternalFiles(errorFiles);
           onChange?.(errorFiles);
@@ -350,30 +377,61 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         handleFiles(files);
       }
       // Reset input value to allow selecting the same file again
-      e.target.value = '';
+      e.target.value = "";
     };
 
     // Get file icon
     const getFileIcon = (type: string) => {
-      if (type.startsWith('image/')) {
+      if (type.startsWith("image/")) {
         return (
-          <svg data-glass-component className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <svg
+            data-glass-component
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
           </svg>
         );
       }
 
-      if (type.includes('pdf')) {
+      if (type.includes("pdf")) {
         return (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+            />
           </svg>
         );
       }
 
       return (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
         </svg>
       );
     };
@@ -396,40 +454,47 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
             animation="none"
             performanceMode="medium"
             className={cn(
-              'glass-p-3 border border-border/20',
-              file.status === 'error' && 'border-destructive/50 bg-destructive/5'
+              "glass-p-3 border border-border/20",
+              file.status === "error" &&
+                "border-destructive/50 bg-destructive/5"
             )}
           >
-            <div className="flex items-center gap-3">
+            <div className="glass-flex glass-items-center glass-gap-3">
               {/* File icon/preview */}
-              <div className="flex-shrink-0">
-                {showPreviews && file.type.startsWith('image/') && file.preview ? (
+              <div className="glass-flex-shrink-0">
+                {showPreviews &&
+                file.type.startsWith("image/") &&
+                file.preview ? (
                   <img
                     src={file.preview}
                     alt={file.name}
                     className="w-10 h-10 object-cover glass-radius-md"
                   />
                 ) : (
-                  <div className="w-10 h-10 glass-radius-md glass-surface-subtle flex items-center justify-center">
+                  <div className="w-10 h-10 glass-radius-md glass-surface-subtle glass-flex glass-items-center glass-justify-center">
                     {getFileIcon(file.type)}
                   </div>
                 )}
               </div>
 
               {/* File info */}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-primary truncate">
+              <div className="glass-flex-1 glass-min-w-0">
+                <p className="glass-text-sm font-medium text-primary truncate">
                   {file.name}
                 </p>
-                <div className="flex items-center gap-2 glass-mt-1">
-                  <span className="text-xs glass-text-secondary">
+                <div className="glass-flex glass-items-center glass-gap-2 glass-mt-1">
+                  <span className="glass-text-xs glass-text-secondary">
                     {formatFileSize(file.size)}
                   </span>
                   <GlassBadge
                     variant={
-                      file.status === 'completed' ? 'success' :
-                        file.status === 'error' ? 'error' :
-                          file.status === 'uploading' ? 'primary' : 'outline'
+                      file.status === "completed"
+                        ? "success"
+                        : file.status === "error"
+                          ? "error"
+                          : file.status === "uploading"
+                            ? "primary"
+                            : "outline"
                     }
                     size="xs"
                   >
@@ -438,7 +503,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                 </div>
 
                 {/* Progress bar */}
-                {file.status === 'uploading' && showProgress && (
+                {file.status === "uploading" && showProgress && (
                   <GlassProgress
                     value={file.progress}
                     size="xs"
@@ -448,13 +513,15 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
                 {/* Error message */}
                 {file.error && (
-                  <p className="text-xs text-destructive glass-mt-1">{file.error}</p>
+                  <p className="glass-text-xs text-destructive glass-mt-1">
+                    {file.error}
+                  </p>
                 )}
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-1">
-                {file.status === 'pending' && onUpload && (
+              <div className="glass-flex glass-items-center glass-gap-1">
+                {file.status === "pending" && onUpload && (
                   <IconButton
                     icon="↑"
                     variant="ghost"
@@ -464,7 +531,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                   />
                 )}
 
-                {file.status === 'completed' && onPreview && (
+                {file.status === "completed" && onPreview && (
                   <IconButton
                     icon="👁"
                     variant="ghost"
@@ -489,20 +556,22 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
     };
 
     return (
-      <div ref={ref} className={cn('w-full', className)} {...props}>
+      <div ref={ref} className={cn("w-full", className)} {...props}>
         {/* Hidden file input */}
-        <GlassInput ref={fileInputRef}
+        <GlassInput
+          ref={fileInputRef}
           type="file"
           accept={accept}
           multiple={multiple}
           onChange={handleInputChange}
           className="hidden"
-          disabled={disabled} />
+          disabled={disabled}
+        />
 
         {/* Drop zone */}
         <OptimizedGlass
           variant="frosted"
-          elevation={isDragOver ? 'level2' : 'level1'}
+          elevation={isDragOver ? "level2" : "level1"}
           intensity="medium"
           depth={2}
           tint="neutral"
@@ -511,15 +580,15 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           performanceMode="medium"
           ref={dropZoneRef}
           className={cn(
-            'relative border-2 border-dashed cursor-pointer transition-all',
-            'hover:border-primary/50 focus:border-primary focus:outline-none',
+            "relative border-2 border-dashed cursor-pointer transition-all",
+            "hover:border-primary/50 focus:border-primary focus:outline-none",
             sizeClasses[size],
             variantClasses[variant],
             {
-              'border-primary bg-primary/5': isDragOver,
-              'border-border/30': !isDragOver && !error,
-              'border-destructive bg-destructive/5': error,
-              'opacity-50 cursor-not-allowed': disabled,
+              "border-primary bg-primary/5": isDragOver,
+              "border-border/30": !isDragOver && !error,
+              "border-destructive bg-destructive/5": error,
+              "opacity-50 cursor-not-allowed": disabled,
             }
           )}
           onDragEnter={handleDragEnter}
@@ -532,11 +601,15 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           aria-label="File upload area"
         >
           {children || (
-            <div className="flex flex-col items-center justify-center text-center">
+            <div className="glass-flex glass-flex-col glass-items-center glass-justify-center text-center">
               <svg
                 className={cn(
-                  'mx-auto mb-3 glass-text-secondary',
-                  size === 'sm' ? 'w-8 h-8' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10'
+                  "mx-auto mb-3 glass-text-secondary",
+                  size === "sm"
+                    ? "w-8 h-8"
+                    : size === "lg"
+                      ? "w-12 h-12"
+                      : "w-10 h-10"
                 )}
                 fill="none"
                 stroke="currentColor"
@@ -550,18 +623,16 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                 />
               </svg>
 
-              <p className="text-primary font-medium mb-1">
-                {instruction}
-              </p>
+              <p className="text-primary font-medium mb-1">{instruction}</p>
 
               {helperText && (
-                <p className="text-sm glass-text-secondary">
+                <p className="glass-text-sm glass-text-secondary">
                   {helperText}
                 </p>
               )}
 
               {maxSize && (
-                <p className="text-xs glass-text-secondary glass-mt-2">
+                <p className="glass-text-xs glass-text-secondary glass-mt-2">
                   Max file size: {formatFileSize(maxSize)}
                 </p>
               )}
@@ -571,38 +642,42 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
         {/* Error message */}
         {error && (
-          <p className="text-sm text-destructive glass-mt-2">{error}</p>
+          <p className="glass-text-sm text-destructive glass-mt-2">{error}</p>
         )}
 
         {/* File list */}
         {internalFiles.length > 0 && (
-          <div className={cn('glass-mt-4 glass-gap-2', {
-            'grid grid-cols-2 md:grid-cols-3 glass-gap-3': variant === 'grid',
-          })}>
+          <div
+            className={cn("glass-mt-4 glass-gap-2", {
+              "grid grid-cols-2 md:grid-cols-3 glass-gap-3": variant === "grid",
+            })}
+          >
             {internalFiles.map((file, index) => renderFileItem(file, index))}
           </div>
         )}
 
         {/* Upload all button */}
-        {internalFiles.some(f => f.status === 'pending') && onUpload && !autoUpload && (
-          <div className="glass-mt-4 flex justify-end">
-            <GlassButton
-              variant="default"
-              size="sm"
-              onClick={(e) => {
-                internalFiles
-                  .filter((f: any) => f.status === 'pending')
-                  .forEach((f: any) => handleUpload(f.id));
-              }}
-              disabled={disabled}
-            >
-              Upload All
-            </GlassButton>
-          </div>
-        )}
+        {internalFiles.some((f) => f.status === "pending") &&
+          onUpload &&
+          !autoUpload && (
+            <div className="glass-mt-4 glass-flex glass-justify-end">
+              <GlassButton
+                variant="default"
+                size="sm"
+                onClick={(e) => {
+                  internalFiles
+                    .filter((f: any) => f.status === "pending")
+                    .forEach((f: any) => handleUpload(f.id));
+                }}
+                disabled={disabled}
+              >
+                Upload All
+              </GlassButton>
+            </div>
+          )}
       </div>
     );
   }
 );
 
-GlassFileUpload.displayName = 'GlassFileUpload';
+GlassFileUpload.displayName = "GlassFileUpload";

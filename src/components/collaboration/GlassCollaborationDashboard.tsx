@@ -1,25 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Glass } from '../../primitives';
-import { useCollaboration, CollaborationUser, CollaborationActivity } from './GlassCollaborationProvider';
-import { cn } from '../../lib/utilsComprehensive';
+import React, { useState, useEffect } from "react";
+import { Glass } from "../../primitives";
+import {
+  useCollaboration,
+  CollaborationUser,
+  CollaborationActivity,
+} from "./GlassCollaborationProvider";
+import { cn } from "../../lib/utilsComprehensive";
 
 interface CollaborationDashboardProps {
   className?: string;
-  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
   showUserList?: boolean;
   showActivityFeed?: boolean;
   showControls?: boolean;
 }
 
-const UserAvatar: React.FC<{ 
-  user: CollaborationUser; 
-  size?: 'sm' | 'md' | 'lg';
+const UserAvatar: React.FC<{
+  user: CollaborationUser;
+  size?: "sm" | "md" | "lg";
   showStatus?: boolean;
-}> = ({ user, size = 'md', showStatus = true }) => {
+}> = ({ user, size = "md", showStatus = true }) => {
   const sizeClasses = {
-    sm: 'w-6 h-6 text-xs',
-    md: 'w-8 h-8 text-sm',
-    lg: 'w-10 h-10 text-base'
+    sm: "w-6 h-6 text-xs",
+    md: "w-8 h-8 text-sm",
+    lg: "w-10 h-10 text-base",
   };
 
   const isActive = Date.now() - user.lastActive < 60000; // Active within last minute
@@ -48,7 +52,7 @@ const UserAvatar: React.FC<{
           {user.name[0]?.toUpperCase()}
         </div>
       )}
-      
+
       {showStatus && (
         <div
           className={cn(
@@ -61,17 +65,17 @@ const UserAvatar: React.FC<{
   );
 };
 
-const ActivityItem: React.FC<{ activity: CollaborationActivity; user?: CollaborationUser }> = ({ 
-  activity, 
-  user 
-}) => {
+const ActivityItem: React.FC<{
+  activity: CollaborationActivity;
+  user?: CollaborationUser;
+}> = ({ activity, user }) => {
   const formatTime = (timestamp: number) => {
     const now = Date.now();
     const diff = now - timestamp;
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
 
-    if (minutes < 1) return 'now';
+    if (minutes < 1) return "now";
     if (minutes < 60) return `${minutes}m`;
     if (hours < 24) return `${hours}h`;
     return new Date(timestamp).toLocaleDateString();
@@ -79,39 +83,50 @@ const ActivityItem: React.FC<{ activity: CollaborationActivity; user?: Collabora
 
   const getActivityIcon = () => {
     switch (activity.type) {
-      case 'join': return '🟢';
-      case 'leave': return '🔴';
-      case 'edit': return '✏️';
-      case 'comment': return '💬';
-      case 'cursor_move': return '👆';
-      default: return '•';
+      case "join":
+        return "🟢";
+      case "leave":
+        return "🔴";
+      case "edit":
+        return "✏️";
+      case "comment":
+        return "💬";
+      case "cursor_move":
+        return "👆";
+      default:
+        return "•";
     }
   };
 
   const getActivityColor = () => {
     switch (activity.type) {
-      case 'join': return 'text-green-600';
-      case 'leave': return 'text-red-600';
-      case 'edit': return 'text-blue-600';
-      case 'comment': return 'text-purple-600';
-      default: return 'text-gray-600';
+      case "join":
+        return "text-green-600";
+      case "leave":
+        return "text-red-600";
+      case "edit":
+        return "text-blue-600";
+      case "comment":
+        return "text-purple-600";
+      default:
+        return "text-gray-600";
     }
   };
 
   return (
-    <div className="flex items-center gap-3 p-2 glass-radius hover:glass-surface-subtle transition-colors">
-      <div className="flex items-center gap-2">
+    <div className="glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle transition-colors">
+      <div className="glass-flex glass-items-center glass-gap-2">
         {user && <UserAvatar user={user} size="sm" showStatus={false} />}
-        <span className="text-lg">{getActivityIcon()}</span>
+        <span className="glass-text-lg">{getActivityIcon()}</span>
       </div>
-      
-      <div className="flex-1 min-glass-w-0">
+
+      <div className="glass-flex-1 min-glass-w-0">
         <p className={cn("text-sm", getActivityColor())}>
           {activity.description}
         </p>
       </div>
-      
-      <span className="text-xs glass-text-secondary whitespace-nowrap">
+
+      <span className="glass-text-xs glass-text-secondary whitespace-nowrap">
         {formatTime(activity.timestamp)}
       </span>
     </div>
@@ -123,29 +138,44 @@ const ConnectionStatus: React.FC = () => {
 
   const getStatusColor = () => {
     switch (connectionStatus) {
-      case 'connected': return 'text-green-600';
-      case 'connecting': case 'reconnecting': return 'text-yellow-600';
-      case 'disconnected': return 'text-red-600';
-      default: return 'text-gray-600';
+      case "connected":
+        return "text-green-600";
+      case "connecting":
+      case "reconnecting":
+        return "text-yellow-600";
+      case "disconnected":
+        return "text-red-600";
+      default:
+        return "text-gray-600";
     }
   };
 
   const getStatusIcon = () => {
     switch (connectionStatus) {
-      case 'connected': return '🟢';
-      case 'connecting': case 'reconnecting': return '🟡';
-      case 'disconnected': return '🔴';
-      default: return '⚫';
+      case "connected":
+        return "🟢";
+      case "connecting":
+      case "reconnecting":
+        return "🟡";
+      case "disconnected":
+        return "🔴";
+      default:
+        return "⚫";
     }
   };
 
   const getStatusText = () => {
     switch (connectionStatus) {
-      case 'connected': return 'Connected';
-      case 'connecting': return 'Connecting...';
-      case 'reconnecting': return 'Reconnecting...';
-      case 'disconnected': return 'Disconnected';
-      default: return 'Unknown';
+      case "connected":
+        return "Connected";
+      case "connecting":
+        return "Connecting...";
+      case "reconnecting":
+        return "Reconnecting...";
+      case "disconnected":
+        return "Disconnected";
+      default:
+        return "Unknown";
     }
   };
 
@@ -157,37 +187,41 @@ const ConnectionStatus: React.FC = () => {
   );
 };
 
-export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> = ({
+export const GlassCollaborationDashboard: React.FC<
+  CollaborationDashboardProps
+> = ({
   className,
-  position = 'top-right',
+  position = "top-right",
   showUserList = true,
   showActivityFeed = true,
-  showControls = true
+  showControls = true,
 }) => {
-  const { 
-    users, 
-    currentUser, 
-    activities, 
+  const {
+    users,
+    currentUser,
+    activities,
     comments,
-    showCursors, 
-    showComments, 
+    showCursors,
+    showComments,
     showActivity,
-    toggleCursors, 
-    toggleComments, 
-    toggleActivity
+    toggleCursors,
+    toggleComments,
+    toggleActivity,
   } = useCollaboration();
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState<'users' | 'activity'>('users');
+  const [activeTab, setActiveTab] = useState<"users" | "activity">("users");
 
   const positionClasses = {
-    'top-left': 'top-4 left-4',
-    'top-right': 'top-4 right-4',
-    'bottom-left': 'bottom-4 left-4',
-    'bottom-right': 'bottom-4 right-4'
+    "top-left": "top-4 left-4",
+    "top-right": "top-4 right-4",
+    "bottom-left": "bottom-4 left-4",
+    "bottom-right": "bottom-4 right-4",
   };
 
-  const activeUsers = users.filter((user: any) => Date.now() - user.lastActive < 300000); // Active within 5 minutes
+  const activeUsers = users.filter(
+    (user: any) => Date.now() - user.lastActive < 300000
+  ); // Active within 5 minutes
   const recentActivities = activities.slice(0, 20);
   const unresolvedComments = comments.filter((c: any) => !c.resolved);
 
@@ -195,31 +229,31 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
     <div className={cn("fixed z-40", positionClasses[position], className)}>
       {!isExpanded ? (
         // Collapsed state
-        <Glass className="p-3 glass-contrast-guard">
+        <Glass className="glass-p-3 glass-contrast-guard">
           <button
             onClick={() => setIsExpanded(true)}
-            className="flex items-center gap-3 hover:glass-surface-subtle glass-radius p-2 transition-colors glass-focus glass-touch-target"
+            className="glass-flex glass-items-center glass-gap-3 hover:glass-surface-subtle glass-radius glass-p-2 transition-colors glass-focus glass-touch-target glass-contrast-guard"
           >
-            <div className="flex -space-x-2">
+            <div className="glass-flex -space-x-2">
               {activeUsers.slice(0, 3).map((user: any) => (
                 <UserAvatar key={user.id} user={user} size="sm" />
               ))}
               {activeUsers.length > 3 && (
-                <div className="w-6 h-6 glass-surface-subtle glass-text-secondary glass-radius-full flex items-center justify-center text-xs border-2 border-white">
+                <div className="w-6 h-6 glass-surface-subtle glass-text-secondary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-border-2 glass-border-white">
                   +{activeUsers.length - 3}
                 </div>
               )}
             </div>
-            
+
             <div className="text-left">
-              <div className="text-sm font-medium glass-text-secondary">
+              <div className="glass-text-sm font-medium glass-text-secondary">
                 {activeUsers.length} online
               </div>
               <ConnectionStatus />
             </div>
-            
+
             {unresolvedComments.length > 0 && (
-              <div className="w-5 h-5 glass-surface-red text-primary glass-radius-full flex items-center justify-center text-xs">
+              <div className="w-5 h-5 glass-surface-red text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs">
                 {unresolvedComments.length}
               </div>
             )}
@@ -229,29 +263,31 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
         // Expanded state
         <Glass className="w-80 max-h-96 overflow-hidden glass-contrast-guard">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-subtle">
-            <h3 className="font-semibold glass-text-secondary">Collaboration</h3>
+          <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">
+            <h3 className="font-semibold glass-text-secondary">
+              Collaboration
+            </h3>
             <button
               onClick={() => setIsExpanded(false)}
-              className="glass-text-secondary hover:glass-text-secondary p-1 glass-focus glass-touch-target"
+              className="glass-text-secondary hover:glass-text-secondary glass-p-1 glass-focus glass-touch-target glass-contrast-guard"
             >
               ✕
             </button>
           </div>
 
           {/* Connection Status */}
-          <div className="px-4 py-2 glass-surface-subtle border-b border-subtle">
+          <div className="glass-px-4 glass-py-2 glass-surface-subtle glass-border-b glass-border-subtle">
             <ConnectionStatus />
           </div>
 
           {/* Controls */}
           {showControls && (
-            <div className="p-4 border-b border-subtle">
-              <div className="grid glass-grid-cols-3 gap-2">
+            <div className="glass-p-4 glass-border-b glass-border-subtle">
+              <div className="glass-grid glass-grid-cols-3 glass-gap-2">
                 <button
                   onClick={toggleCursors}
                   className={cn(
-                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors glass-focus glass-touch-target",
+                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors glass-focus glass-touch-target glass-contrast-guard",
                     showCursors
                       ? "bg-blue-100 text-blue-700"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -260,11 +296,11 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                   <span>👆</span>
                   Cursors
                 </button>
-                
+
                 <button
                   onClick={toggleComments}
                   className={cn(
-                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors relative glass-focus glass-touch-target",
+                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors relative glass-focus glass-touch-target glass-contrast-guard",
                     showComments
                       ? "bg-purple-100 text-purple-700"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -273,16 +309,16 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                   <span>💬</span>
                   Comments
                   {unresolvedComments.length > 0 && (
-                    <div className="absolute glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full flex items-center justify-center text-xs">
+                    <div className="absolute glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs">
                       {unresolvedComments.length}
                     </div>
                   )}
                 </button>
-                
+
                 <button
                   onClick={toggleActivity}
                   className={cn(
-                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors glass-focus glass-touch-target",
+                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors glass-focus glass-touch-target glass-contrast-guard",
                     showActivity
                       ? "bg-green-100 text-green-700"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -296,12 +332,12 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
           )}
 
           {/* Tabs */}
-          <div className="flex border-b border-subtle">
+          <div className="glass-flex glass-border-b glass-border-subtle">
             <button
-              onClick={() => setActiveTab('users')}
+              onClick={() => setActiveTab("users")}
               className={cn(
-                "flex-1 px-4 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target",
-                activeTab === 'users'
+                "flex-1 px-4 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                activeTab === "users"
                   ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                   : "text-gray-600 hover:text-gray-900"
               )}
@@ -309,10 +345,10 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
               Users ({activeUsers.length})
             </button>
             <button
-              onClick={() => setActiveTab('activity')}
+              onClick={() => setActiveTab("activity")}
               className={cn(
-                "flex-1 px-4 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target",
-                activeTab === 'activity'
+                "flex-1 px-4 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                activeTab === "activity"
                   ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                   : "text-gray-600 hover:text-gray-900"
               )}
@@ -323,12 +359,12 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
 
           {/* Content */}
           <div className="glass-max-h-64 overflow-y-auto">
-            {activeTab === 'users' && showUserList && (
-              <div className="p-4 space-y-3">
+            {activeTab === "users" && showUserList && (
+              <div className="glass-p-4 space-y-3">
                 {activeUsers.map((user: any) => {
                   const isCurrentUser = user.id === currentUser?.id;
                   const isActive = Date.now() - user.lastActive < 60000;
-                  
+
                   return (
                     <div
                       key={user.id}
@@ -338,42 +374,44 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                       )}
                     >
                       <UserAvatar user={user} size="md" />
-                      
-                      <div className="flex-1 min-glass-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium glass-text-secondary truncate">
+
+                      <div className="glass-flex-1 min-glass-w-0">
+                        <div className="glass-flex glass-items-center glass-gap-2">
+                          <span className="glass-text-sm font-medium glass-text-secondary truncate">
                             {user.name}
                             {isCurrentUser && " (You)"}
                           </span>
                           {!isActive && (
-                            <span className="text-xs glass-text-secondary">Away</span>
+                            <span className="glass-text-xs glass-text-secondary">
+                              Away
+                            </span>
                           )}
                         </div>
-                        <span className="text-xs glass-text-secondary truncate">
+                        <span className="glass-text-xs glass-text-secondary truncate">
                           {user.email}
                         </span>
                       </div>
-                      
+
                       {user.cursor && (
-                        <span className="text-xs text-primary">📍</span>
+                        <span className="glass-text-xs text-primary">📍</span>
                       )}
                     </div>
                   );
                 })}
-                
+
                 {activeUsers.length === 0 && (
-                  <div className="text-center py-6 glass-text-secondary">
-                    <div className="text-2xl mb-2">👥</div>
-                    <p className="text-sm">No users online</p>
+                  <div className="text-center glass-py-6 glass-text-secondary">
+                    <div className="glass-text-2xl mb-2">👥</div>
+                    <p className="glass-text-sm">No users online</p>
                   </div>
                 )}
               </div>
             )}
 
-            {activeTab === 'activity' && showActivityFeed && (
-              <div className="p-4 space-y-1">
+            {activeTab === "activity" && showActivityFeed && (
+              <div className="glass-p-4 space-y-1">
                 {recentActivities.map((activity: any) => {
-                  const user = users.find(u => u.id === activity.userId);
+                  const user = users.find((u) => u.id === activity.userId);
                   return (
                     <ActivityItem
                       key={activity.id}
@@ -382,11 +420,11 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                     />
                   );
                 })}
-                
+
                 {recentActivities.length === 0 && (
-                  <div className="text-center py-6 glass-text-secondary">
-                    <div className="text-2xl mb-2">📊</div>
-                    <p className="text-sm">No recent activity</p>
+                  <div className="text-center glass-py-6 glass-text-secondary">
+                    <div className="glass-text-2xl mb-2">📊</div>
+                    <p className="glass-text-sm">No recent activity</p>
                   </div>
                 )}
               </div>
@@ -394,8 +432,8 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
           </div>
 
           {/* Footer Stats */}
-          <div className="px-4 py-2 glass-surface-subtle border-t border-subtle text-xs glass-text-secondary">
-            <div className="flex justify-between">
+          <div className="glass-px-4 glass-py-2 glass-surface-subtle glass-border-t glass-border-subtle glass-text-xs glass-text-secondary">
+            <div className="glass-flex glass-justify-between">
               <span>{comments.length} comments</span>
               <span>{activities.length} activities</span>
             </div>

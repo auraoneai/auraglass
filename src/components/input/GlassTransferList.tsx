@@ -1,6 +1,6 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useState, useCallback, useMemo } from 'react';
-import { OptimizedGlass } from '../../primitives';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useState, useCallback, useMemo } from "react";
+import { OptimizedGlass } from "../../primitives";
 
 export interface TransferListItem {
   /**
@@ -25,7 +25,8 @@ export interface TransferListItem {
   icon?: React.ReactNode;
 }
 
-export interface GlassTransferListProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassTransferListProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /**
    * All available items
    */
@@ -82,7 +83,7 @@ export interface GlassTransferListProps extends Omit<React.HTMLAttributes<HTMLDi
    * Glassmorphism elevation level
    * @default 'level2'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Whether the component is disabled
    * @default false
@@ -90,31 +91,38 @@ export interface GlassTransferListProps extends Omit<React.HTMLAttributes<HTMLDi
   disabled?: boolean;
 }
 
-export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListProps>(
+export const GlassTransferList = forwardRef<
+  HTMLDivElement,
+  GlassTransferListProps
+>(
   (
     {
       items,
       value = [],
       onChange,
-      leftTitle = 'Available',
-      rightTitle = 'Selected',
+      leftTitle = "Available",
+      rightTitle = "Selected",
       searchable = true,
-      leftSearchPlaceholder = 'Search available...',
-      rightSearchPlaceholder = 'Search selected...',
+      leftSearchPlaceholder = "Search available...",
+      rightSearchPlaceholder = "Search selected...",
       showCount = true,
-      minHeight = '300px',
-      maxHeight = '400px',
-      elevation = 'level2',
+      minHeight = "300px",
+      maxHeight = "400px",
+      elevation = "level2",
       disabled = false,
       className,
       ...props
     },
     ref
   ) => {
-    const [leftSearch, setLeftSearch] = useState('');
-    const [rightSearch, setRightSearch] = useState('');
-    const [leftChecked, setLeftChecked] = useState<Set<string | number>>(new Set());
-    const [rightChecked, setRightChecked] = useState<Set<string | number>>(new Set());
+    const [leftSearch, setLeftSearch] = useState("");
+    const [rightSearch, setRightSearch] = useState("");
+    const [leftChecked, setLeftChecked] = useState<Set<string | number>>(
+      new Set()
+    );
+    const [rightChecked, setRightChecked] = useState<Set<string | number>>(
+      new Set()
+    );
 
     const selectedItems = useMemo(
       () => items.filter((item) => value.includes(item.id)),
@@ -181,7 +189,9 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
     const handleMoveAllRight = useCallback(() => {
       if (disabled) return;
 
-      const allIds = availableItems.filter((item) => !item.disabled).map((item) => item.id);
+      const allIds = availableItems
+        .filter((item) => !item.disabled)
+        .map((item) => item.id);
       onChange?.([...value, ...allIds]);
       setLeftChecked(new Set());
     }, [disabled, availableItems, value, onChange]);
@@ -203,13 +213,15 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
       title: string,
       isLeft: boolean
     ) => (
-      <div className="flex-1 flex flex-col">
-        <div className="glass-p-3 border-b glass-border-subtle">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="glass-text-base font-semibold glass-text-primary">{title}</h3>
+      <div className="glass-flex-1 glass-flex glass-flex-col">
+        <div className="glass-p-3 glass-border-b glass-border-subtle">
+          <div className="glass-flex glass-items-center glass-justify-between mb-2">
+            <h3 className="glass-text-base font-semibold glass-text-primary">
+              {title}
+            </h3>
             {showCount && (
               <span className="glass-text-sm glass-text-secondary">
-                {listItems.length} item{listItems.length !== 1 ? 's' : ''}
+                {listItems.length} item{listItems.length !== 1 ? "s" : ""}
               </span>
             )}
           </div>
@@ -221,21 +233,21 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
               placeholder={searchPlaceholder}
               disabled={disabled}
               className={cn(
-                'w-full glass-p-2 glass-radius-md',
-                'glass-text-sm glass-text-primary',
-                'bg-white/5 border glass-border-subtle',
-                'focus:outline-none glass-focus',
-                'disabled:opacity-50 disabled:cursor-not-allowed'
+                "w-full glass-p-2 glass-radius-md",
+                "glass-text-sm glass-text-primary",
+                "bg-white/5 border glass-border-subtle",
+                "focus:outline-none glass-focus",
+                "disabled:opacity-50 disabled:cursor-not-allowed"
               )}
             />
           )}
         </div>
         <div
-          className="flex-1 overflow-y-auto glass-p-2"
+          className="glass-flex-1 overflow-y-auto glass-p-2"
           style={{ minHeight, maxHeight }}
         >
           {listItems.length === 0 ? (
-            <div className="flex items-center justify-center h-full glass-text-secondary glass-text-sm">
+            <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary glass-text-sm">
               No items
             </div>
           ) : (
@@ -244,11 +256,11 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
                 <label
                   key={item.id}
                   className={cn(
-                    'flex items-start gap-3 glass-p-2 glass-radius-md',
-                    'cursor-pointer transition-all duration-200',
-                    'hover:bg-white/5',
-                    checked.has(item.id) && 'bg-white/10',
-                    item.disabled && 'opacity-50 cursor-not-allowed'
+                    "flex items-start gap-3 glass-p-2 glass-radius-md",
+                    "cursor-pointer transition-all duration-200",
+                    "hover:bg-white/5",
+                    checked.has(item.id) && "bg-white/10",
+                    item.disabled && "opacity-50 cursor-not-allowed"
                   )}
                 >
                   <input
@@ -258,10 +270,10 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
                     disabled={disabled || item.disabled}
                     className="mt-0.5 glass-focus"
                   />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                  <div className="glass-flex-1 glass-min-w-0">
+                    <div className="glass-flex glass-items-center glass-gap-2">
                       {item.icon && (
-                        <span className="flex-shrink-0">{item.icon}</span>
+                        <span className="glass-flex-shrink-0">{item.icon}</span>
                       )}
                       <span className="glass-text-sm glass-text-primary font-medium truncate">
                         {item.label}
@@ -297,12 +309,12 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
         onClick={onClick}
         disabled={disabled || btnDisabled}
         className={cn(
-          'glass-p-2 glass-radius-md',
-          'transition-all duration-200',
-          'hover:bg-white/10 active:bg-white/20',
-          'disabled:opacity-50 disabled:cursor-not-allowed',
-          'glass-text-primary',
-          'glass-focus glass-touch-target glass-contrast-guard'
+          "glass-p-2 glass-radius-md",
+          "transition-all duration-200",
+          "hover:bg-white/10 active:bg-white/20",
+          "disabled:opacity-50 disabled:cursor-not-allowed",
+          "glass-text-primary",
+          "glass-focus glass-touch-target glass-contrast-guard"
         )}
         aria-label={label}
         title={label}
@@ -312,10 +324,11 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
     );
 
     return (
-      <OptimizedGlass data-glass-component
+      <OptimizedGlass
+        data-glass-component
         ref={ref}
         elevation={elevation}
-        className={cn('flex gap-4 glass-p-4 glass-radius-lg', className)}
+        className={cn("flex gap-4 glass-p-4 glass-radius-lg", className)}
         {...props}
       >
         {renderList(
@@ -329,14 +342,20 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
           true
         )}
 
-        <div className="flex flex-col justify-center gap-2 glass-p-2">
+        <div className="glass-flex glass-flex-col glass-justify-center glass-gap-2 glass-p-2">
           <TransferButton
             onClick={handleMoveAllRight}
             disabled={availableItems.length === 0}
             label="Move all to selected"
             icon={
               <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
-                <path d="M13 5l7 7-7 7M5 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             }
           />
@@ -346,7 +365,13 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
             label="Move selected to right"
             icon={
               <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
-                <path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M5 12h14m-7-7l7 7-7 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             }
           />
@@ -356,7 +381,13 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
             label="Move selected to left"
             icon={
               <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
-                <path d="M19 12H5m7 7l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M19 12H5m7 7l-7-7 7-7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             }
           />
@@ -366,7 +397,13 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
             label="Move all to available"
             icon={
               <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
-                <path d="M11 5l-7 7 7 7M19 5l-7 7 7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M11 5l-7 7 7 7M19 5l-7 7 7 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             }
           />
@@ -387,6 +424,6 @@ export const GlassTransferList = forwardRef<HTMLDivElement, GlassTransferListPro
   }
 );
 
-GlassTransferList.displayName = 'GlassTransferList';
+GlassTransferList.displayName = "GlassTransferList";
 
 export default GlassTransferList;

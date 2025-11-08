@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from "react";
 
 export interface ErrorInfo {
   componentStack: string;
@@ -20,7 +20,11 @@ export interface ErrorBoundaryOptions {
   resetTimeout?: number;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
   onReset?: () => void;
-  fallback?: React.ComponentType<{ error: Error; errorInfo: ErrorInfo; retry: () => void }>;
+  fallback?: React.ComponentType<{
+    error: Error;
+    errorInfo: ErrorInfo;
+    retry: () => void;
+  }>;
 }
 
 /**
@@ -44,7 +48,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
   });
 
   const resetTimeoutRef = useRef<NodeJS.Timeout>();
-  const propsHashRef = useRef<string>('');
+  const propsHashRef = useRef<string>("");
 
   // Generate error ID for tracking
   const generateErrorId = useCallback(() => {
@@ -52,46 +56,52 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
   }, []);
 
   // Capture error with enhanced information
-  const captureError = useCallback((error: Error, errorInfo?: Partial<ErrorInfo>) => {
-    const enhancedErrorInfo: ErrorInfo = {
-      componentStack: errorInfo?.componentStack || '',
-      errorBoundary: errorInfo?.errorBoundary || 'useErrorBoundary',
-      timestamp: Date.now(),
-    };
-
-    const errorId = generateErrorId();
-
-    setErrorState((prev: any) => {
-      const newErrorState = {
-        hasError: true,
-        error,
-        errorInfo: enhancedErrorInfo,
-        errorId,
-        retryCount: prev.retryCount,
+  const captureError = useCallback(
+    (error: Error, errorInfo?: Partial<ErrorInfo>) => {
+      const enhancedErrorInfo: ErrorInfo = {
+        componentStack: errorInfo?.componentStack || "",
+        errorBoundary: errorInfo?.errorBoundary || "useErrorBoundary",
+        timestamp: Date.now(),
       };
 
-      // Report error to external service
-      onError?.(error, enhancedErrorInfo);
+      const errorId = generateErrorId();
 
-      // Log error for development
-      if (process.env.NODE_ENV === 'development') {
-        console.group(`🚨 Error Boundary: ${errorId}`);
-        console.error('Error:', error);
-        console.error('Component Stack:', enhancedErrorInfo.componentStack);
-        console.error('Timestamp:', new Date(enhancedErrorInfo.timestamp).toISOString());
-        console.groupEnd();
-      }
+      setErrorState((prev: any) => {
+        const newErrorState = {
+          hasError: true,
+          error,
+          errorInfo: enhancedErrorInfo,
+          errorId,
+          retryCount: prev.retryCount,
+        };
 
-      // Auto-reset after timeout if retries available
-      if (resetTimeout > 0 && prev.retryCount < maxRetries) {
-        resetTimeoutRef.current = setTimeout(() => {
-          retry();
-        }, resetTimeout);
-      }
+        // Report error to external service
+        onError?.(error, enhancedErrorInfo);
 
-      return newErrorState;
-    });
-  }, [generateErrorId, onError, resetTimeout, maxRetries]);
+        // Log error for development
+        if (process.env.NODE_ENV === "development") {
+          console.group(`🚨 Error Boundary: ${errorId}`);
+          console.error("Error:", error);
+          console.error("Component Stack:", enhancedErrorInfo.componentStack);
+          console.error(
+            "Timestamp:",
+            new Date(enhancedErrorInfo.timestamp).toISOString()
+          );
+          console.groupEnd();
+        }
+
+        // Auto-reset after timeout if retries available
+        if (resetTimeout > 0 && prev.retryCount < maxRetries) {
+          resetTimeoutRef.current = setTimeout(() => {
+            retry();
+          }, resetTimeout);
+        }
+
+        return newErrorState;
+      });
+    },
+    [generateErrorId, onError, resetTimeout, maxRetries]
+  );
 
   // Reset error state
   const resetError = useCallback(() => {
@@ -134,50 +144,60 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
   }, [maxRetries, onReset]);
 
   // Create error boundary wrapper
-  const withErrorBoundary = useCallback(<P extends object>(
-    Component: React.ComponentType<P>,
-    fallback?: React.ComponentType<{ error: Error; errorInfo: ErrorInfo; retry: () => void }>
-  ) => {
-    return React.forwardRef<any, P>((props, ref) => {
-      try {
-        if (errorState.hasError && errorState.error && errorState.errorInfo) {
-          if (fallback) {
-            const FallbackComponent = fallback;
+  const withErrorBoundary = useCallback(
+    <P extends object>(
+      Component: React.ComponentType<P>,
+      fallback?: React.ComponentType<{
+        error: Error;
+        errorInfo: ErrorInfo;
+        retry: () => void;
+      }>
+    ) => {
+      return React.forwardRef<any, P>((props, ref) => {
+        try {
+          if (errorState.hasError && errorState.error && errorState.errorInfo) {
+            if (fallback) {
+              const FallbackComponent = fallback;
+              return (
+                <FallbackComponent
+                  error={errorState.error}
+                  errorInfo={errorState.errorInfo}
+                  retry={retry}
+                />
+              );
+            }
+
+            // Default fallback UI
             return (
-              <FallbackComponent
-                error={errorState.error}
-                errorInfo={errorState.errorInfo}
-                retry={retry}
-              />
+              <div className="glass-p-4 glass-border glass-border-red-500/20 glass-surface-danger/10 glass-radius-lg">
+                <h3 className="text-red-400 font-semibold mb-2">
+                  Something went wrong
+                </h3>
+                <p className="text-red-300 glass-text-sm mb-3">
+                  {errorState.error.message}
+                </p>
+                {errorState.retryCount < maxRetries && (
+                  <button
+                    onClick={retry}
+                    className="glass-px-3 glass-py-1 glass-surface-danger/20 text-red-300 glass-radius hover:bg-red-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                  >
+                    Try Again ({maxRetries - errorState.retryCount} attempts
+                    left)
+                  </button>
+                )}
+              </div>
             );
           }
 
-          // Default fallback UI
-          return (
-            <div className="p-4 border border-red-500/20 bg-red-500/10 rounded-lg">
-              <h3 className="text-red-400 font-semibold mb-2">Something went wrong</h3>
-              <p className="text-red-300 text-sm mb-3">
-                {errorState.error.message}
-              </p>
-              {errorState.retryCount < maxRetries && (
-                <button
-                  onClick={retry}
-                  className="px-3 py-1 bg-red-500/20 text-red-300 rounded hover:bg-red-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
-                >
-                  Try Again ({maxRetries - errorState.retryCount} attempts left)
-                </button>
-              )}
-            </div>
-          );
+          return <Component {...(props as any)} ref={ref} />;
+        } catch (error) {
+          captureError(error as Error);
+          return null;
         }
-
-        return <Component {...(props as any)} ref={ref} />;
-      } catch (error) {
-        captureError(error as Error);
-        return null;
-      }
-    });
-  }, [errorState, retry, maxRetries, captureError]);
+      });
+    },
+    [errorState, retry, maxRetries, captureError]
+  );
 
   // Reset on props change (if enabled)
   useEffect(() => {
@@ -219,36 +239,41 @@ export function useAsyncError() {
 
   const captureAsyncError = useCallback((error: Error) => {
     setError(error);
-    
+
     // Log async error
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Async Error:', error);
+    if (process.env.NODE_ENV === "development") {
+      console.error("Async Error:", error);
     }
   }, []);
 
-  const retryAsync = useCallback(async (asyncFn: () => Promise<any>, maxRetries: number = 3) => {
-    setIsRetrying(true);
-    setError(null);
+  const retryAsync = useCallback(
+    async (asyncFn: () => Promise<any>, maxRetries: number = 3) => {
+      setIsRetrying(true);
+      setError(null);
 
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
-      try {
-        const result = await asyncFn();
-        setIsRetrying(false);
-        retryCountRef.current = 0;
-        return result;
-      } catch (error) {
-        if (attempt === maxRetries) {
-          captureAsyncError(error as Error);
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+          const result = await asyncFn();
           setIsRetrying(false);
-          retryCountRef.current = attempt + 1;
-          throw error;
+          retryCountRef.current = 0;
+          return result;
+        } catch (error) {
+          if (attempt === maxRetries) {
+            captureAsyncError(error as Error);
+            setIsRetrying(false);
+            retryCountRef.current = attempt + 1;
+            throw error;
+          }
+
+          // Wait before retry with exponential backoff
+          await new Promise((resolve) =>
+            setTimeout(resolve, Math.pow(2, attempt) * 1000)
+          );
         }
-        
-        // Wait before retry with exponential backoff
-        await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
       }
-    }
-  }, [captureAsyncError]);
+    },
+    [captureAsyncError]
+  );
 
   const clearError = useCallback(() => {
     setError(null);
@@ -286,8 +311,8 @@ export function useGracefulDegradation<T>(
       const shouldUsePrimary = testCondition();
       setResult(shouldUsePrimary ? primaryFeature() : fallbackFeature());
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('Feature test failed, using fallback:', error);
+      if (process.env.NODE_ENV === "development") {
+        console.warn("Feature test failed, using fallback:", error);
       }
       setResult(fallbackFeature());
     }
@@ -299,13 +324,15 @@ export function useGracefulDegradation<T>(
 /**
  * Hook for error reporting and analytics
  */
-export function useErrorReporting(options: {
-  enableReporting?: boolean;
-  endpoint?: string;
-  apiKey?: string;
-  userId?: string;
-  sessionId?: string;
-} = {}) {
+export function useErrorReporting(
+  options: {
+    enableReporting?: boolean;
+    endpoint?: string;
+    apiKey?: string;
+    userId?: string;
+    sessionId?: string;
+  } = {}
+) {
   const {
     enableReporting = false,
     endpoint,
@@ -314,42 +341,45 @@ export function useErrorReporting(options: {
     sessionId,
   } = options;
 
-  const reportError = useCallback(async (
-    error: Error,
-    context: {
-      component?: string;
-      action?: string;
-      metadata?: Record<string, any>;
-    } = {}
-  ) => {
-    if (!enableReporting || !endpoint) return;
+  const reportError = useCallback(
+    async (
+      error: Error,
+      context: {
+        component?: string;
+        action?: string;
+        metadata?: Record<string, any>;
+      } = {}
+    ) => {
+      if (!enableReporting || !endpoint) return;
 
-    try {
-      const errorReport = {
-        message: error.message,
-        stack: error.stack,
-        timestamp: Date.now(),
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-        userId,
-        sessionId,
-        context,
-      };
+      try {
+        const errorReport = {
+          message: error.message,
+          stack: error.stack,
+          timestamp: Date.now(),
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+          userId,
+          sessionId,
+          context,
+        };
 
-      await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(apiKey && { 'Authorization': `Bearer ${apiKey}` }),
-        },
-        body: JSON.stringify(errorReport),
-      });
-    } catch (reportingError) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('Failed to report error:', reportingError);
+        await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(apiKey && { Authorization: `Bearer ${apiKey}` }),
+          },
+          body: JSON.stringify(errorReport),
+        });
+      } catch (reportingError) {
+        if (process.env.NODE_ENV === "development") {
+          console.warn("Failed to report error:", reportingError);
+        }
       }
-    }
-  }, [enableReporting, endpoint, apiKey, userId, sessionId]);
+    },
+    [enableReporting, endpoint, apiKey, userId, sessionId]
+  );
 
   return { reportError };
 }

@@ -309,7 +309,7 @@ export const MobileNavigation: Story = {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
                 onClick={() => handleSwipe('left')}
-                className="px-4 py-2 glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-radius-lg font-medium transition-colors"
+                className="px-4 py-2 glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 disabled={currentPage >= pages.length - 1}
               >
                 ← Left
@@ -317,7 +317,7 @@ export const MobileNavigation: Story = {
 
               <button
                 onClick={() => handleSwipe('right')}
-                className="px-4 py-2 glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-radius-lg font-medium transition-colors"
+                className="px-4 py-2 glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 disabled={currentPage <= 0}
               >
                 Right →
@@ -325,14 +325,14 @@ export const MobileNavigation: Story = {
 
               <button
                 onClick={() => handleSwipe('up')}
-                className="px-4 py-2 glass-surface-green/20 hover:glass-surface-green/30 text-primary glass-radius-lg font-medium transition-colors"
+                className="px-4 py-2 glass-surface-green/20 hover:glass-surface-green/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 ↑ Up
               </button>
 
               <button
                 onClick={() => handleSwipe('down')}
-                className="px-4 py-2 glass-surface-green/20 hover:glass-surface-green/30 text-primary glass-radius-lg font-medium transition-colors"
+                className="px-4 py-2 glass-surface-green/20 hover:glass-surface-green/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 Down ↓
               </button>
@@ -580,7 +580,7 @@ export const BottomSheet: Story = {
                 </p>
                 <button
                   onClick={() => openSheet('menu')}
-                  className="px-6 py-2 glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-radius-lg font-medium transition-colors"
+                  className="px-6 py-2 glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Open Menu
                 </button>
@@ -596,7 +596,7 @@ export const BottomSheet: Story = {
                 </p>
                 <button
                   onClick={() => openSheet('settings')}
-                  className="px-6 py-2 glass-surface-green/20 hover:glass-surface-green/30 text-primary glass-radius-lg font-medium transition-colors"
+                  className="px-6 py-2 glass-surface-green/20 hover:glass-surface-green/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Open Settings
                 </button>
@@ -612,7 +612,7 @@ export const BottomSheet: Story = {
                 </p>
                 <button
                   onClick={() => openSheet('profile')}
-                  className="px-6 py-2 glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-radius-lg font-medium transition-colors"
+                  className="px-6 py-2 glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Open Profile
                 </button>
@@ -630,19 +630,19 @@ export const BottomSheet: Story = {
             <div className="p-6">
               <h2 className="text-2xl font-bold text-primary mb-6">Navigation Menu</h2>
               <div className="space-y-4">
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   🏠 Home
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   🔍 Search
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   ❤️ Favorites
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   📱 Downloads
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   ⚙️ Settings
                 </button>
               </div>
@@ -681,7 +681,7 @@ export const BottomSheet: Story = {
                 </div>
 
                 <div className="pt-4 border-t border-white/20">
-                  <button className="w-full p-3 glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-radius-lg font-medium transition-colors">
+                  <button className="w-full p-3 glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard">
                     Clear Cache
                   </button>
                 </div>
@@ -706,21 +706,21 @@ export const BottomSheet: Story = {
               </div>
 
               <div className="space-y-4">
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   ✏️ Edit Profile
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   🔒 Privacy Settings
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   🔔 Notification Preferences
                 </button>
-                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left">
+                <button className="w-full p-4 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-radius-lg text-primary font-medium transition-colors text-left glass-focus glass-touch-target glass-contrast-guard">
                   💳 Subscription
                 </button>
 
                 <div className="pt-4 border-t border-white/20">
-                  <button className="w-full p-3 glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-radius-lg font-medium transition-colors">
+                  <button className="w-full p-3 glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard">
                     Sign Out
                   </button>
                 </div>

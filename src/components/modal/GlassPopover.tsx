@@ -1,15 +1,29 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { FocusTrap } from '../../primitives/focus/FocusTrap';
-import { OptimizedGlass } from '../../primitives';
-import { LiquidGlassMaterial } from '../../primitives/LiquidGlassMaterial';
-import { Motion } from '../../primitives';
+import { cn } from "../../lib/utilsComprehensive";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { FocusTrap } from "../../primitives/focus/FocusTrap";
+import { OptimizedGlass } from "../../primitives";
+import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
+import { Motion } from "../../primitives";
 
 export type PopoverPlacement =
-  | 'top' | 'top-start' | 'top-end'
-  | 'right' | 'right-start' | 'right-end'
-  | 'bottom' | 'bottom-start' | 'bottom-end'
-  | 'left' | 'left-start' | 'left-end';
+  | "top"
+  | "top-start"
+  | "top-end"
+  | "right"
+  | "right-start"
+  | "right-end"
+  | "bottom"
+  | "bottom-start"
+  | "bottom-end"
+  | "left"
+  | "left-start"
+  | "left-end";
 
 export interface GlassPopoverProps {
   /**
@@ -39,7 +53,7 @@ export interface GlassPopoverProps {
   /**
    * Trigger type
    */
-  trigger?: 'click' | 'hover' | 'focus' | 'manual';
+  trigger?: "click" | "hover" | "focus" | "manual";
   /**
    * Delay before showing (for hover trigger)
    */
@@ -67,7 +81,7 @@ export interface GlassPopoverProps {
   /**
    * Animation preset
    */
-  animation?: 'fade' | 'scale' | 'slide';
+  animation?: "fade" | "scale" | "slide";
   /**
    * Z-index
    */
@@ -77,7 +91,7 @@ export interface GlassPopoverProps {
    * glass: translucent glass effect (default)
    * solid: opaque panel (no bleed-through)
    */
-  appearance?: 'glass' | 'solid';
+  appearance?: "glass" | "solid";
   /**
    * Whether to apply radial reveal mask on open
    * Tooltips often should not be masked; defaults to true for popovers
@@ -98,7 +112,7 @@ export interface GlassPopoverProps {
   /**
    * Glass material variant
    */
-  material?: 'glass' | 'liquid';
+  material?: "glass" | "liquid";
   /**
    * Material properties for liquid glass
    */
@@ -106,8 +120,8 @@ export interface GlassPopoverProps {
     ior?: number;
     thickness?: number;
     tint?: { r: number; g: number; b: number; a: number };
-    variant?: 'regular' | 'clear';
-    quality?: 'ultra' | 'high' | 'balanced' | 'efficient';
+    variant?: "regular" | "clear";
+    quality?: "ultra" | "high" | "balanced" | "efficient";
   };
 }
 
@@ -123,20 +137,20 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
       defaultOpen = false,
       content,
       children,
-      placement = 'bottom',
-      material = 'glass',
+      placement = "bottom",
+      material = "glass",
       materialProps,
-      trigger: triggerType = 'click',
+      trigger: triggerType = "click",
       showDelay = 200,
       hideDelay = 200,
       showArrow = true,
       offset = 8,
       closeOnClickOutside = true,
       closeOnEscape = true,
-      animation = 'scale',
+      animation = "scale",
       zIndex = 9999,
       contentClassName,
-      appearance = 'glass',
+      appearance = "glass",
       radialReveal = true,
       title,
       description,
@@ -145,23 +159,27 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
     ref
   ) => {
     const [position, setPosition] = useState({ top: 0, left: 0 });
-    const [actualPlacement, setActualPlacement] = useState<PopoverPlacement>(placement);
+    const [actualPlacement, setActualPlacement] =
+      useState<PopoverPlacement>(placement);
     const triggerRef = useRef<HTMLElement>(null);
     const popoverRef = useRef<HTMLDivElement>(null);
     const showTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
     const hideTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
     // Support controlled and uncontrolled usage
-    const isControlled = typeof open === 'boolean';
+    const isControlled = typeof open === "boolean";
     const [internalOpen, setInternalOpen] = useState<boolean>(defaultOpen);
     const isOpen = isControlled ? (open as boolean) : internalOpen;
-    const setOpen = useCallback((value: boolean) => {
-      if (typeof onOpenChange === 'function') {
-        onOpenChange(value);
-      } else {
-        setInternalOpen(value);
-      }
-    }, [onOpenChange]);
+    const setOpen = useCallback(
+      (value: boolean) => {
+        if (typeof onOpenChange === "function") {
+          onOpenChange(value);
+        } else {
+          setInternalOpen(value);
+        }
+      },
+      [onOpenChange]
+    );
 
     // Calculate position
     const calculatePosition = useCallback(() => {
@@ -180,70 +198,76 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
 
       // Calculate initial position based on placement
       switch (placement) {
-        case 'top':
+        case "top":
           top = triggerRect.top - popoverRect.height - offset;
           left = triggerRect.left + (triggerRect.width - popoverRect.width) / 2;
           break;
-        case 'top-start':
+        case "top-start":
           top = triggerRect.top - popoverRect.height - offset;
           left = triggerRect.left;
           break;
-        case 'top-end':
+        case "top-end":
           top = triggerRect.top - popoverRect.height - offset;
           left = triggerRect.right - popoverRect.width;
           break;
-        case 'right':
+        case "right":
           top = triggerRect.top + (triggerRect.height - popoverRect.height) / 2;
           left = triggerRect.right + offset;
           break;
-        case 'right-start':
+        case "right-start":
           top = triggerRect.top;
           left = triggerRect.right + offset;
           break;
-        case 'right-end':
+        case "right-end":
           top = triggerRect.bottom - popoverRect.height;
           left = triggerRect.right + offset;
           break;
-        case 'bottom':
+        case "bottom":
           top = triggerRect.bottom + offset;
           left = triggerRect.left + (triggerRect.width - popoverRect.width) / 2;
           break;
-        case 'bottom-start':
+        case "bottom-start":
           top = triggerRect.bottom + offset;
           left = triggerRect.left;
           break;
-        case 'bottom-end':
+        case "bottom-end":
           top = triggerRect.bottom + offset;
           left = triggerRect.right - popoverRect.width;
           break;
-        case 'left':
+        case "left":
           top = triggerRect.top + (triggerRect.height - popoverRect.height) / 2;
           left = triggerRect.left - popoverRect.width - offset;
           break;
-        case 'left-start':
+        case "left-start":
           top = triggerRect.top;
           left = triggerRect.left - popoverRect.width - offset;
           break;
-        case 'left-end':
+        case "left-end":
           top = triggerRect.bottom - popoverRect.height;
           left = triggerRect.left - popoverRect.width - offset;
           break;
       }
 
       // Flip if out of bounds
-      if (top < 0 && placement.startsWith('top')) {
-        newPlacement = placement.replace('top', 'bottom') as PopoverPlacement;
+      if (top < 0 && placement.startsWith("top")) {
+        newPlacement = placement.replace("top", "bottom") as PopoverPlacement;
         top = triggerRect.bottom + offset;
-      } else if (top + popoverRect.height > viewport.height && placement.startsWith('bottom')) {
-        newPlacement = placement.replace('bottom', 'top') as PopoverPlacement;
+      } else if (
+        top + popoverRect.height > viewport.height &&
+        placement.startsWith("bottom")
+      ) {
+        newPlacement = placement.replace("bottom", "top") as PopoverPlacement;
         top = triggerRect.top - popoverRect.height - offset;
       }
 
-      if (left < 0 && placement.startsWith('left')) {
-        newPlacement = placement.replace('left', 'right') as PopoverPlacement;
+      if (left < 0 && placement.startsWith("left")) {
+        newPlacement = placement.replace("left", "right") as PopoverPlacement;
         left = triggerRect.right + offset;
-      } else if (left + popoverRect.width > viewport.width && placement.startsWith('right')) {
-        newPlacement = placement.replace('right', 'left') as PopoverPlacement;
+      } else if (
+        left + popoverRect.width > viewport.width &&
+        placement.startsWith("right")
+      ) {
+        newPlacement = placement.replace("right", "left") as PopoverPlacement;
         left = triggerRect.left - popoverRect.width - offset;
       }
 
@@ -268,7 +292,7 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
         hideTimeoutRef.current = undefined;
       }
 
-      if (triggerType === 'hover') {
+      if (triggerType === "hover") {
         showTimeoutRef.current = setTimeout(() => {
           setOpen(true);
         }, showDelay);
@@ -283,7 +307,7 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
         showTimeoutRef.current = undefined;
       }
 
-      if (triggerType === 'hover') {
+      if (triggerType === "hover") {
         hideTimeoutRef.current = setTimeout(() => {
           setOpen(false);
         }, hideDelay);
@@ -293,7 +317,7 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
     }, [triggerType, hideDelay, setOpen]);
 
     const handleClick = useCallback(() => {
-      if (triggerType === 'click') {
+      if (triggerType === "click") {
         setOpen(!isOpen);
       }
     }, [triggerType, isOpen, setOpen]);
@@ -306,12 +330,12 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
         const handleResize = () => calculatePosition();
         const handleScroll = () => calculatePosition();
 
-        window.addEventListener('resize', handleResize);
-        window.addEventListener('scroll', handleScroll, true);
+        window.addEventListener("resize", handleResize);
+        window.addEventListener("scroll", handleScroll, true);
 
         return () => {
-          window.removeEventListener('resize', handleResize);
-          window.removeEventListener('scroll', handleScroll, true);
+          window.removeEventListener("resize", handleResize);
+          window.removeEventListener("scroll", handleScroll, true);
         };
       }
     }, [isOpen, calculatePosition]);
@@ -331,30 +355,32 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
         setOpen(false);
       };
 
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }, [isOpen, closeOnClickOutside, setOpen]);
 
     // Get arrow position
     const getArrowClasses = () => {
-      const base = 'absolute w-2 h-2 bg-background border border-border/20 rotate-45';
+      const base =
+        "absolute w-2 h-2 bg-background border border-border/20 rotate-45";
 
       switch (actualPlacement) {
-        case 'top':
-        case 'top-start':
-        case 'top-end':
+        case "top":
+        case "top-start":
+        case "top-end":
           return `${base} -bottom-1 border-t-0 border-l-0`;
-        case 'right':
-        case 'right-start':
-        case 'right-end':
+        case "right":
+        case "right-start":
+        case "right-end":
           return `${base} -left-1 border-r-0 border-b-0`;
-        case 'bottom':
-        case 'bottom-start':
-        case 'bottom-end':
+        case "bottom":
+        case "bottom-start":
+        case "bottom-end":
           return `${base} -top-1 border-b-0 border-r-0`;
-        case 'left':
-        case 'left-start':
-        case 'left-end':
+        case "left":
+        case "left-start":
+        case "left-end":
           return `${base} -right-1 border-l-0 border-t-0`;
         default:
           return base;
@@ -363,24 +389,24 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
 
     const getArrowPosition = () => {
       switch (actualPlacement) {
-        case 'top':
-        case 'bottom':
-          return { left: '50%', transform: 'translateX(-50%)' };
-        case 'top-start':
-        case 'bottom-start':
-          return { left: '12px' };
-        case 'top-end':
-        case 'bottom-end':
-          return { right: '12px' };
-        case 'left':
-        case 'right':
-          return { top: '50%', transform: 'translateY(-50%)' };
-        case 'left-start':
-        case 'right-start':
-          return { top: '12px' };
-        case 'left-end':
-        case 'right-end':
-          return { bottom: '12px' };
+        case "top":
+        case "bottom":
+          return { left: "50%", transform: "translateX(-50%)" };
+        case "top-start":
+        case "bottom-start":
+          return { left: "12px" };
+        case "top-end":
+        case "bottom-end":
+          return { right: "12px" };
+        case "left":
+        case "right":
+          return { top: "50%", transform: "translateY(-50%)" };
+        case "left-start":
+        case "right-start":
+          return { top: "12px" };
+        case "left-end":
+        case "right-end":
+          return { bottom: "12px" };
         default:
           return {};
       }
@@ -388,18 +414,18 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
 
     const getAnimationPreset = () => {
       switch (animation) {
-        case 'fade':
-          return 'fadeIn';
-        case 'scale':
-          return 'scaleIn';
-        case 'slide':
-          if (actualPlacement.startsWith('top')) return 'slideUp';
-          if (actualPlacement.startsWith('bottom')) return 'slideDown';
-          if (actualPlacement.startsWith('left')) return 'slideLeft';
-          if (actualPlacement.startsWith('right')) return 'slideRight';
-          return 'slideDown';
+        case "fade":
+          return "fadeIn";
+        case "scale":
+          return "scaleIn";
+        case "slide":
+          if (actualPlacement.startsWith("top")) return "slideUp";
+          if (actualPlacement.startsWith("bottom")) return "slideDown";
+          if (actualPlacement.startsWith("left")) return "slideLeft";
+          if (actualPlacement.startsWith("right")) return "slideRight";
+          return "slideDown";
         default:
-          return 'scaleIn';
+          return "scaleIn";
       }
     };
 
@@ -412,19 +438,19 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
       },
       onMouseEnter: (e: MouseEvent) => {
         (children as any).props?.onMouseEnter?.(e);
-        if (triggerType === 'hover') handleShow();
+        if (triggerType === "hover") handleShow();
       },
       onMouseLeave: (e: MouseEvent) => {
         (children as any).props?.onMouseLeave?.(e);
-        if (triggerType === 'hover') handleHide();
+        if (triggerType === "hover") handleHide();
       },
       onFocus: (e: FocusEvent) => {
         (children as any).props?.onFocus?.(e);
-        if (triggerType === 'focus') handleShow();
+        if (triggerType === "focus") handleShow();
       },
       onBlur: (e: FocusEvent) => {
         (children as any).props?.onBlur?.(e);
-        if (triggerType === 'focus') handleHide();
+        if (triggerType === "focus") handleHide();
       },
     });
 
@@ -437,45 +463,61 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
             <Motion
               preset={getAnimationPreset()}
               className="pointer-events-auto"
-              style={{ position: 'absolute', top: position.top, left: position.left }}
+              style={{
+                position: "absolute",
+                top: position.top,
+                left: position.left,
+              }}
             >
-              {appearance === 'glass' ? (
-                material === 'liquid' ? (
+              {appearance === "glass" ? (
+                material === "liquid" ? (
                   <LiquidGlassMaterial
                     ior={materialProps?.ior || 1.42}
                     thickness={materialProps?.thickness || 6}
                     tint={materialProps?.tint || { r: 0, g: 0, b: 0, a: 0.04 }}
-                    variant={materialProps?.variant || 'clear'}
-                    quality={materialProps?.quality || 'balanced'}
+                    variant={materialProps?.variant || "clear"}
+                    quality={materialProps?.quality || "balanced"}
                     environmentAdaptation
                     motionResponsive={false}
                     ref={popoverRef}
                     className={cn(
-                      'relative max-w-xs liquid-glass-popover-surface',
-                      radialReveal && 'glass-radial-reveal',
+                      "relative max-w-xs liquid-glass-popover-surface",
+                      radialReveal && "glass-radial-reveal",
                       contentClassName
                     )}
-                    style={{
-                      '--liquid-glass-popover-density': '0.8',
-                      '--liquid-glass-micro-refraction': '0.3',
-                    } as React.CSSProperties}
+                    style={
+                      {
+                        "--liquid-glass-popover-density": "0.8",
+                        "--liquid-glass-micro-refraction": "0.3",
+                      } as React.CSSProperties
+                    }
                     data-liquid-glass-popover="true"
                     data-popover-placement={placement}
-                    onMouseEnter={triggerType === 'hover' ? handleShow : undefined}
-                    onMouseLeave={triggerType === 'hover' ? handleHide : undefined}
+                    onMouseEnter={
+                      triggerType === "hover" ? handleShow : undefined
+                    }
+                    onMouseLeave={
+                      triggerType === "hover" ? handleHide : undefined
+                    }
                     {...props}
                   >
-                  <FocusTrap
-                    active={isOpen && (triggerType === 'focus' || triggerType === 'click')}
-                    onEscape={closeOnEscape ? () => setOpen(false) : undefined}
-                  >
-                    <div className="p-4">
-                      {content}
-                    </div>
-                  </FocusTrap>
-                  {showArrow && (
-                    <div className={getArrowClasses()} style={getArrowPosition()} />
-                  )}
+                    <FocusTrap
+                      active={
+                        isOpen &&
+                        (triggerType === "focus" || triggerType === "click")
+                      }
+                      onEscape={
+                        closeOnEscape ? () => setOpen(false) : undefined
+                      }
+                    >
+                      <div className="glass-p-4">{content}</div>
+                    </FocusTrap>
+                    {showArrow && (
+                      <div
+                        className={getArrowClasses()}
+                        style={getArrowPosition()}
+                      />
+                    )}
                   </LiquidGlassMaterial>
                 ) : (
                   <OptimizedGlass
@@ -489,51 +531,80 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                     performanceMode="medium"
                     ref={popoverRef}
                     className={cn(
-                      'relative max-w-xs glass-lift glass-sheen',
-                      radialReveal && 'glass-radial-reveal',
-                      'bg-background/95 glass-backdrop-blur-md',
-                      'border border-border/20 shadow-lg',
+                      "relative max-w-xs glass-lift glass-sheen",
+                      radialReveal && "glass-radial-reveal",
+                      "bg-background/95 glass-backdrop-blur-md",
+                      "border border-border/20 shadow-lg",
                       contentClassName
                     )}
-                    onMouseEnter={triggerType === 'hover' ? handleShow : undefined}
-                    onMouseLeave={triggerType === 'hover' ? handleHide : undefined}
+                    onMouseEnter={
+                      triggerType === "hover" ? handleShow : undefined
+                    }
+                    onMouseLeave={
+                      triggerType === "hover" ? handleHide : undefined
+                    }
                     {...props}
                   >
-                  <FocusTrap
-                    active={isOpen && (triggerType === 'focus' || triggerType === 'click')}
-                    onEscape={closeOnEscape ? () => setOpen(false) : undefined}
-                  >
-                    <div className="p-3">
-                      {title && <h3 className="font-medium text-primary mb-1">{title}</h3>}
-                      {description && (
-                        <p className="text-sm glass-text-secondary mb-2">{description}</p>
-                      )}
-                      {content}
-                    </div>
-                  </FocusTrap>
-                  {showArrow && (
-                    <div className={getArrowClasses()} style={getArrowPosition()} />
-                  )}
+                    <FocusTrap
+                      active={
+                        isOpen &&
+                        (triggerType === "focus" || triggerType === "click")
+                      }
+                      onEscape={
+                        closeOnEscape ? () => setOpen(false) : undefined
+                      }
+                    >
+                      <div className="glass-p-3">
+                        {title && (
+                          <h3 className="font-medium text-primary mb-1">
+                            {title}
+                          </h3>
+                        )}
+                        {description && (
+                          <p className="glass-text-sm glass-text-secondary mb-2">
+                            {description}
+                          </p>
+                        )}
+                        {content}
+                      </div>
+                    </FocusTrap>
+                    {showArrow && (
+                      <div
+                        className={getArrowClasses()}
+                        style={getArrowPosition()}
+                      />
+                    )}
                   </OptimizedGlass>
                 )
               ) : (
                 <div
                   ref={popoverRef}
                   className={cn(
-                    'relative max-w-xs glass-radius-xl bg-background text-foreground',
-                    'border border-border/30 shadow-2xl',
+                    "relative max-w-xs glass-radius-xl bg-background text-foreground",
+                    "border border-border/30 shadow-2xl",
                     contentClassName
                   )}
-                  onMouseEnter={triggerType === 'hover' ? handleShow : undefined}
-                  onMouseLeave={triggerType === 'hover' ? handleHide : undefined}
+                  onMouseEnter={
+                    triggerType === "hover" ? handleShow : undefined
+                  }
+                  onMouseLeave={
+                    triggerType === "hover" ? handleHide : undefined
+                  }
                 >
                   <FocusTrap
-                    active={isOpen && (triggerType === 'focus' || triggerType === 'click')}
+                    active={
+                      isOpen &&
+                      (triggerType === "focus" || triggerType === "click")
+                    }
                     onEscape={closeOnEscape ? () => setOpen(false) : undefined}
                   >
-                    <div className="p-3">
+                    <div className="glass-p-3">
                       {title && <h3 className="font-medium mb-1">{title}</h3>}
-                      {description && <p className="text-sm glass-text-secondary mb-2">{description}</p>}
+                      {description && (
+                        <p className="glass-text-sm glass-text-secondary mb-2">
+                          {description}
+                        </p>
+                      )}
                       {content}
                     </div>
                   </FocusTrap>
@@ -547,12 +618,16 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
   }
 );
 
-GlassPopover.displayName = 'GlassPopover';
+GlassPopover.displayName = "GlassPopover";
 
 /**
  * Tooltip component (Simple popover for hover)
  */
-export interface GlassTooltipProps extends Omit<GlassPopoverProps, 'trigger' | 'content' | 'title' | 'description' | 'open' | 'onOpenChange'> {
+export interface GlassTooltipProps
+  extends Omit<
+    GlassPopoverProps,
+    "trigger" | "content" | "title" | "description" | "open" | "onOpenChange"
+  > {
   /**
    * Tooltip text
    */
@@ -564,22 +639,16 @@ export interface GlassTooltipProps extends Omit<GlassPopoverProps, 'trigger' | '
 }
 
 export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
-  (
-    {
-      content,
-      disabled = false,
-      ...props
-    },
-    ref
-  ) => {
+  ({ content, disabled = false, ...props }, ref) => {
     if (disabled) {
       return props?.children;
     }
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
 
     return (
-      <GlassPopover data-glass-component
+      <GlassPopover
+        data-glass-component
         ref={ref}
         open={open}
         onOpenChange={setOpen}
@@ -588,11 +657,7 @@ export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
         hideDelay={0}
         placement="top"
         radialReveal={false}
-        content={
-          <span className="text-sm text-primary">
-            {content}
-          </span>
-        }
+        content={<span className="glass-text-sm text-primary">{content}</span>}
         contentClassName="glass-px-2 glass-py-1"
         {...props}
       />
@@ -600,4 +665,4 @@ export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
   }
 );
 
-GlassTooltip.displayName = 'GlassTooltip';
+GlassTooltip.displayName = "GlassTooltip";

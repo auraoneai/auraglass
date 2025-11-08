@@ -1,14 +1,14 @@
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Ambient Mesh Gradients
  * Animated mesh gradients with glass overlay effects
  */
 
-import React, { useRef, useEffect, useMemo, forwardRef } from 'react';
-import { motion, useAnimationFrame } from 'framer-motion';
-import { cn } from '../../lib/utilsComprehensive';
-import { OptimizedGlass } from '../../primitives';
-import { useA11yId } from '../../utils/a11y';
+import React, { useRef, useEffect, useMemo, forwardRef } from "react";
+import { motion, useAnimationFrame } from "framer-motion";
+import { cn } from "../../lib/utilsComprehensive";
+import { OptimizedGlass } from "../../primitives";
+import { useA11yId } from "../../utils/a11y";
 
 interface MeshPoint {
   x: number;
@@ -28,35 +28,45 @@ interface GlassMeshGradientProps {
   opacity?: number;
   animate?: boolean;
   interactive?: boolean;
-  complexity?: 'simple' | 'moderate' | 'complex';
-  variant?: 'ambient' | 'vibrant' | 'subtle' | 'dark';
+  complexity?: "simple" | "moderate" | "complex";
+  variant?: "ambient" | "vibrant" | "subtle" | "dark";
 }
 
 export function GlassMeshGradient({
   className,
-  colors = ['var(--glass-color-primary)', '#8b5cf6', '#ec4899', 'var(--glass-color-warning)'],
+  colors = [
+    "var(--glass-color-primary)",
+    "#8b5cf6",
+    "#ec4899",
+    "var(--glass-color-warning)",
+  ],
   points = 4,
   speed = 0.5,
   blur = 100,
   opacity = 0.8,
   animate = true,
   interactive = false,
-  complexity = 'moderate',
-  variant = 'ambient',
+  complexity = "moderate",
+  variant = "ambient",
 }: GlassMeshGradientProps) {
   const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const meshPoints = useRef<MeshPoint[]>([]);
   const mousePos = useRef({ x: 0, y: 0 });
   const frame = useRef(0);
-  
+
   // Initialize mesh points
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    const numPoints = complexity === 'simple' ? 3 : complexity === 'moderate' ? points : points * 2;
-    
+
+    const numPoints =
+      complexity === "simple"
+        ? 3
+        : complexity === "moderate"
+          ? points
+          : points * 2;
+
     meshPoints.current = Array.from({ length: numPoints }, (_, i) => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -66,50 +76,50 @@ export function GlassMeshGradient({
       radius: 100 + Math.random() * 200,
     }));
   }, [colors, points, speed, complexity]);
-  
+
   // Handle mouse interaction
   useEffect(() => {
     if (!interactive) return;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      
+
       const rect = canvas.getBoundingClientRect();
       mousePos.current = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
       };
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [interactive]);
-  
+
   // Resize handler
   useEffect(() => {
     const handleResize = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      
+
       const parent = canvas.parentElement;
       if (!parent) return;
-      
+
       canvas.width = parent.clientWidth;
       canvas.height = parent.clientHeight;
     };
-    
+
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
+
   // Animation loop
   useAnimationFrame((time) => {
     if (!animate) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
+    const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
 
     frame.current += 1;
@@ -152,13 +162,23 @@ export function GlassMeshGradient({
 
       // Create gradient
       const gradient = ctx.createRadialGradient(
-        point.x, point.y, 0,
-        point.x, point.y, point.radius
+        point.x,
+        point.y,
+        0,
+        point.x,
+        point.y,
+        point.radius
       );
 
       const color = point.color;
-      gradient.addColorStop(0, `${color}${Math.floor(opacity * 255).toString(16)}`);
-      gradient.addColorStop(0.5, `${color}${Math.floor(opacity * 0.5 * 255).toString(16)}`);
+      gradient.addColorStop(
+        0,
+        `${color}${Math.floor(opacity * 255).toString(16)}`
+      );
+      gradient.addColorStop(
+        0.5,
+        `${color}${Math.floor(opacity * 0.5 * 255).toString(16)}`
+      );
       gradient.addColorStop(1, `${color}00`);
 
       // Draw gradient
@@ -167,52 +187,50 @@ export function GlassMeshGradient({
     });
 
     // Apply additional effects based on variant
-    if (variant === 'vibrant') {
-      ctx.globalCompositeOperation = 'screen';
-    } else if (variant === 'dark') {
-      ctx.globalCompositeOperation = 'multiply';
-    } else if (variant === 'subtle') {
+    if (variant === "vibrant") {
+      ctx.globalCompositeOperation = "screen";
+    } else if (variant === "dark") {
+      ctx.globalCompositeOperation = "multiply";
+    } else if (variant === "subtle") {
       ctx.globalAlpha = 0.5;
     }
   });
-  
+
   // Generate CSS filter based on variant
   const filterStyle = useMemo(() => {
     switch (variant) {
-      case 'vibrant':
-        return 'saturate(1.5) brightness(1.2)';
-      case 'subtle':
-        return 'saturate(0.8) brightness(0.9)';
-      case 'dark':
-        return 'saturate(1.2) brightness(0.7) contrast(1.2)';
+      case "vibrant":
+        return "saturate(1.5) brightness(1.2)";
+      case "subtle":
+        return "saturate(0.8) brightness(0.9)";
+      case "dark":
+        return "saturate(1.2) brightness(0.7) contrast(1.2)";
       default:
-        return 'saturate(1) brightness(1)';
+        return "saturate(1) brightness(1)";
     }
   }, [variant]);
-  
+
   return (
     <div className={cn("relative overflow-hidden", className)}>
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 glass-w-full glass-h-full"
         style={{
           filter: `blur(${blur}px) ${filterStyle}`,
           opacity,
         }}
       />
-
     </div>
   );
 }
 
 // Animated mesh gradient background component
-export const GlassMeshBackground = forwardRef<HTMLDivElement, GlassMeshGradientProps & { children?: React.ReactNode }>(function GlassMeshBackground({
-  children,
-  className,
-  ...meshProps
-}, ref) {
-  const backgroundId = useA11yId('mesh-background');
-  
+export const GlassMeshBackground = forwardRef<
+  HTMLDivElement,
+  GlassMeshGradientProps & { children?: React.ReactNode }
+>(function GlassMeshBackground({ children, className, ...meshProps }, ref) {
+  const backgroundId = useA11yId("mesh-background");
+
   return (
     <OptimizedGlass
       ref={ref}
@@ -224,13 +242,8 @@ export const GlassMeshBackground = forwardRef<HTMLDivElement, GlassMeshGradientP
       aria-label="Mesh gradient background"
       aria-hidden="true"
     >
-      <GlassMeshGradient
-        className="absolute inset-0"
-        {...meshProps}
-      />
-      <div className="relative z-10">
-        {children}
-      </div>
+      <GlassMeshGradient className="absolute inset-0" {...meshProps} />
+      <div className="relative z-10">{children}</div>
     </OptimizedGlass>
   );
 });
@@ -238,70 +251,80 @@ export const GlassMeshBackground = forwardRef<HTMLDivElement, GlassMeshGradientP
 // Preset configurations
 export const meshGradientPresets = {
   ocean: {
-    colors: ['#0891b2', '#06b6d4', '#0ea5e9', '#0284c7'],
-    variant: 'ambient' as const,
+    colors: ["#0891b2", "#06b6d4", "#0ea5e9", "#0284c7"],
+    variant: "ambient" as const,
     speed: 0.3,
     blur: 120,
   },
   sunset: {
-    colors: ['#f97316', '#fb923c', '#ec4899', '#f43f5e'],
-    variant: 'vibrant' as const,
+    colors: ["#f97316", "#fb923c", "#ec4899", "#f43f5e"],
+    variant: "vibrant" as const,
     speed: 0.4,
     blur: 100,
   },
   aurora: {
-    colors: ['var(--glass-color-success)', '#14b8a6', '#06b6d4', 'var(--glass-color-primary)', '#8b5cf6'],
-    variant: 'ambient' as const,
+    colors: [
+      "var(--glass-color-success)",
+      "#14b8a6",
+      "#06b6d4",
+      "var(--glass-color-primary)",
+      "#8b5cf6",
+    ],
+    variant: "ambient" as const,
     speed: 0.2,
     blur: 150,
     points: 5,
   },
   galaxy: {
-    colors: ['#6366f1', '#8b5cf6', '#a855f7', '#d946ef'],
-    variant: 'dark' as const,
+    colors: ["#6366f1", "#8b5cf6", "#a855f7", "#d946ef"],
+    variant: "dark" as const,
     speed: 0.15,
     blur: 200,
-    complexity: 'complex' as const,
+    complexity: "complex" as const,
   },
   minimal: {
-    colors: ['var(--glass-gray-200)', 'var(--glass-gray-300)', 'var(--glass-gray-400)'],
-    variant: 'subtle' as const,
+    colors: [
+      "var(--glass-gray-200)",
+      "var(--glass-gray-300)",
+      "var(--glass-gray-400)",
+    ],
+    variant: "subtle" as const,
     speed: 0.1,
     blur: 150,
-    complexity: 'simple' as const,
+    complexity: "simple" as const,
   },
 };
 
 // Hook for dynamic color generation
-export function useMeshGradientColors(baseColor: string, scheme: 'analogous' | 'complementary' | 'triadic' = 'analogous'): string[] {
+export function useMeshGradientColors(
+  baseColor: string,
+  scheme: "analogous" | "complementary" | "triadic" = "analogous"
+): string[] {
   return useMemo(() => {
     // Parse base color (simplified - would need proper color parsing)
     const colors: string[] = [baseColor];
-    
+
     // Generate color scheme (simplified logic)
     switch (scheme) {
-      case 'analogous':
+      case "analogous":
         colors.push(
           adjustHue(baseColor, 30),
           adjustHue(baseColor, -30),
           adjustHue(baseColor, 60)
         );
         break;
-      case 'complementary':
+      case "complementary":
         colors.push(
           adjustHue(baseColor, 180),
           adjustHue(baseColor, 150),
           adjustHue(baseColor, 210)
         );
         break;
-      case 'triadic':
-        colors.push(
-          adjustHue(baseColor, 120),
-          adjustHue(baseColor, 240)
-        );
+      case "triadic":
+        colors.push(adjustHue(baseColor, 120), adjustHue(baseColor, 240));
         break;
     }
-    
+
     return colors;
   }, [baseColor, scheme]);
 }

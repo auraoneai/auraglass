@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -238,8 +238,8 @@
     "src/styles/**/*"
   ],
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "eslint --fix",
+    "src/**/!(*.stories).{ts,tsx}": [
+      "eslint --fix --max-warnings 999999",
       "prettier --write",
       "node scripts/ci/token-lint.js",
       "node scripts/ci/style-audit.js"

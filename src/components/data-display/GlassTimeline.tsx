@@ -1,8 +1,11 @@
-import React, { forwardRef } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
-import { OptimizedGlass } from '../../primitives';
-import { useA11yId } from '../../utils/a11y';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import React, { forwardRef } from "react";
+import { cn } from "../../lib/utilsComprehensive";
+import { OptimizedGlass } from "../../primitives";
+import { useA11yId } from "../../utils/a11y";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 export interface TimelineItem {
   /**
@@ -43,7 +46,8 @@ export interface TimelineItem {
   onClick?: () => void;
 }
 
-export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassTimelineProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Timeline items to display
    */
@@ -51,15 +55,15 @@ export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * Timeline variant
    */
-  variant?: 'default' | 'bordered' | 'compact';
+  variant?: "default" | "bordered" | "compact";
   /**
    * Timeline size
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Timeline orientation
    */
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: "vertical" | "horizontal";
   /**
    * Whether to show connecting line
    */
@@ -67,7 +71,7 @@ export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * Position of time labels
    */
-  timePosition?: 'left' | 'right' | 'inline';
+  timePosition?: "left" | "right" | "inline";
   /**
    * Custom connector line color
    */
@@ -79,7 +83,7 @@ export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement>
   /**
    * ARIA label for the timeline
    */
-  'aria-label'?: string;
+  "aria-label"?: string;
 }
 
 /**
@@ -89,72 +93,76 @@ export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement>
 export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
   (
     {
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
       items,
-      variant = 'default',
-      size = 'md',
-      orientation = 'vertical',
+      variant = "default",
+      size = "md",
+      orientation = "vertical",
       showLine = true,
-      timePosition = 'right',
+      timePosition = "right",
       lineColor,
       dotColor,
-      'aria-label': ariaLabel,
+      "aria-label": ariaLabel,
       className,
       ...props
     },
     ref
   ) => {
-    const timelineId = useA11yId('timeline');
+    const timelineId = useA11yId("timeline");
     const sizeClasses = {
       sm: {
-        container: 'pl-4',
-        dot: 'w-2 h-2 -glass-ml-1',
-        line: 'left-1.5 w-px',
-        content: 'glass-p-2 glass-text-sm',
-        title: 'glass-text-sm',
-        subtitle: 'glass-text-xs',
-        time: 'glass-text-xs',
-        gap: 'glass-gap-3',
+        container: "pl-4",
+        dot: "w-2 h-2 -glass-ml-1",
+        line: "left-1.5 w-px",
+        content: "glass-p-2 glass-text-sm",
+        title: "glass-text-sm",
+        subtitle: "glass-text-xs",
+        time: "glass-text-xs",
+        gap: "glass-gap-3",
       },
       md: {
-        container: 'pl-6',
-        dot: 'w-3 h-3 -glass-ml-1.5',
-        line: 'left-2 w-px',
-        content: 'glass-p-3 glass-text-base',
-        title: 'glass-text-base',
-        subtitle: 'glass-text-sm',
-        time: 'glass-text-xs',
-        gap: 'glass-gap-4',
+        container: "pl-6",
+        dot: "w-3 h-3 -glass-ml-1.5",
+        line: "left-2 w-px",
+        content: "glass-p-3 glass-text-base",
+        title: "glass-text-base",
+        subtitle: "glass-text-sm",
+        time: "glass-text-xs",
+        gap: "glass-gap-4",
       },
       lg: {
-        container: 'pl-8',
-        dot: 'w-4 h-4 -glass-ml-2',
-        line: 'left-3 w-px',
-        content: 'glass-p-4 glass-text-lg',
-        title: 'glass-text-lg',
-        subtitle: 'glass-text-base',
-        time: 'glass-text-sm',
-        gap: 'space-y-6',
+        container: "pl-8",
+        dot: "w-4 h-4 -glass-ml-2",
+        line: "left-3 w-px",
+        content: "glass-p-4 glass-text-lg",
+        title: "glass-text-lg",
+        subtitle: "glass-text-base",
+        time: "glass-text-sm",
+        gap: "space-y-6",
       },
     };
 
     const variantClasses = {
-      default: 'border-0',
-      bordered: 'border border-border/20',
-      compact: 'border-0',
+      default: "border-0",
+      bordered: "border border-border/20",
+      compact: "border-0",
     };
 
     const config = sizeClasses[size];
 
-    if (orientation === 'horizontal') {
+    if (orientation === "horizontal") {
       return (
-        <div data-glass-component
+        <div
+          data-glass-component
           ref={ref}
           id={timelineId}
-          className={cn('flex items-start glass-gap-4 overflow-x-auto', className)}
+          className={cn(
+            "flex items-start glass-gap-4 overflow-x-auto",
+            className
+          )}
           role="list"
-          aria-label={ariaLabel || 'Timeline'}
+          aria-label={ariaLabel || "Timeline"}
           {...props}
         >
           {showLine && (
@@ -164,11 +172,15 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
             />
           )}
           {items.map((item, index) => (
-            <div key={item.id} className="relative flex-shrink-0 min-w-0" role="listitem">
+            <div
+              key={item.id}
+              className="relative glass-flex-shrink-0 glass-min-w-0"
+              role="listitem"
+            >
               {/* Dot */}
               <div
                 className={cn(
-                  'absolute top-6 left-1/2 -translate-x-1/2 glass-radius-full bg-primary shadow-lg',
+                  "absolute top-6 left-1/2 -translate-x-1/2 glass-radius-full bg-primary shadow-lg",
                   config.dot
                 )}
                 style={{ backgroundColor: dotColor }}
@@ -185,22 +197,37 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                   animation="none"
                   performanceMode="medium"
                   className={cn(
-                    'glass-radius-lg max-w-xs',
+                    "glass-radius-lg max-w-xs",
                     config.content,
                     variantClasses[variant]
                   )}
                 >
-                  <div className="min-w-0">
-                    <div className={cn('font-medium text-foreground truncate', config.title)}>
+                  <div className="glass-min-w-0">
+                    <div
+                      className={cn(
+                        "font-medium text-foreground truncate",
+                        config.title
+                      )}
+                    >
                       {item.title}
                     </div>
                     {item.subtitle && (
-                      <div className={cn('glass-text-secondary truncate glass-mt-1', config.subtitle)}>
+                      <div
+                        className={cn(
+                          "glass-text-secondary truncate glass-mt-1",
+                          config.subtitle
+                        )}
+                      >
                         {item.subtitle}
                       </div>
                     )}
                     {item.time && (
-                      <div className={cn('glass-text-secondary glass-mt-2', config.time)}>
+                      <div
+                        className={cn(
+                          "glass-text-secondary glass-mt-2",
+                          config.time
+                        )}
+                      >
                         {item.time}
                       </div>
                     )}
@@ -217,21 +244,25 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
       <div
         ref={ref}
         id={timelineId}
-        className={cn('relative', config.container, className)}
+        className={cn("relative", config.container, className)}
         role="list"
-        aria-label={ariaLabel || 'Timeline'}
+        aria-label={ariaLabel || "Timeline"}
         {...props}
       >
         {/* Connecting line */}
         {showLine && (
           <div
-            className={cn('absolute top-0 bottom-0', config.line, 'bg-border/20')}
+            className={cn(
+              "absolute top-0 bottom-0",
+              config.line,
+              "bg-border/20"
+            )}
             style={{ backgroundColor: lineColor }}
           />
         )}
 
         {/* Timeline items */}
-        <ul className={cn('relative', config.gap)} role="list">
+        <ul className={cn("relative", config.gap)} role="list">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
 
@@ -240,7 +271,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                 {/* Dot */}
                 <span
                   className={cn(
-                    'absolute top-2 glass-radius-full bg-primary shadow-lg',
+                    "absolute top-2 glass-radius-full bg-primary shadow-lg",
                     config.dot
                   )}
                   style={{ backgroundColor: dotColor }}
@@ -256,24 +287,34 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                   animation="none"
                   performanceMode="medium"
                   className={cn(
-                    'glass-radius-lg',
+                    "glass-radius-lg",
                     config.content,
                     variantClasses[variant]
                   )}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3 min-w-0 flex-1">
+                  <div className="glass-flex glass-items-start glass-justify-between glass-gap-4">
+                    <div className="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1">
                       {item.icon && (
-                        <div className="flex-shrink-0 glass-text-secondary glass-mt-0-5">
+                        <div className="glass-flex-shrink-0 glass-text-secondary glass-mt-0-5">
                           {item.icon}
                         </div>
                       )}
-                      <div className="min-w-0 flex-1">
-                        <div className={cn('font-medium text-foreground', config.title)}>
+                      <div className="glass-min-w-0 glass-flex-1">
+                        <div
+                          className={cn(
+                            "font-medium text-foreground",
+                            config.title
+                          )}
+                        >
                           {item.title}
                         </div>
                         {item.subtitle && (
-                          <div className={cn('glass-text-secondary glass-mt-1', config.subtitle)}>
+                          <div
+                            className={cn(
+                              "glass-text-secondary glass-mt-1",
+                              config.subtitle
+                            )}
+                          >
                             {item.subtitle}
                           </div>
                         )}
@@ -281,16 +322,26 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                     </div>
 
                     {/* Time */}
-                    {item.time && timePosition === 'right' && (
-                      <div className={cn('glass-text-secondary whitespace-nowrap', config.time)}>
+                    {item.time && timePosition === "right" && (
+                      <div
+                        className={cn(
+                          "glass-text-secondary whitespace-nowrap",
+                          config.time
+                        )}
+                      >
                         {item.time}
                       </div>
                     )}
                   </div>
 
                   {/* Inline time */}
-                  {item.time && timePosition === 'inline' && (
-                    <div className={cn('glass-text-secondary glass-mt-2', config.time)}>
+                  {item.time && timePosition === "inline" && (
+                    <div
+                      className={cn(
+                        "glass-text-secondary glass-mt-2",
+                        config.time
+                      )}
+                    >
                       {item.time}
                     </div>
                   )}
@@ -304,14 +355,15 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
   }
 );
 
-GlassTimeline.displayName = 'GlassTimeline';
+GlassTimeline.displayName = "GlassTimeline";
 
 export default GlassTimeline;
 
 /**
  * TimelineItem utility component for building timeline structures
  */
-export interface TimelineItemComponentProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TimelineItemComponentProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Timeline item data
    */
@@ -323,35 +375,40 @@ export interface TimelineItemComponentProps extends React.HTMLAttributes<HTMLDiv
   /**
    * Size variant
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
-export const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemComponentProps>(
-  ({ item, isLast = false, size = 'md', className, ...props }, ref) => {
-    return (
-      <div ref={ref} className={cn('timeline-item', className)} {...props}>
-        {/* Implementation would mirror the individual item logic from above */}
-        <OptimizedGlass
-          elevation="level1"
-          intensity="medium"
-          depth={2}
-          tint="neutral"
-          border="subtle"
-          animation="none"
-          performanceMode="medium"
-          className="glass-radius-lg p-3"
-        >
-          <div className="font-medium text-primary">{item.title}</div>
-          {item.subtitle && (
-            <div className="text-sm glass-text-secondary glass-mt-1">{item.subtitle}</div>
-          )}
-          {item.time && (
-            <div className="text-xs glass-text-secondary glass-mt-2">{item.time}</div>
-          )}
-        </OptimizedGlass>
-      </div>
-    );
-  }
-);
+export const TimelineItemComponent = forwardRef<
+  HTMLDivElement,
+  TimelineItemComponentProps
+>(({ item, isLast = false, size = "md", className, ...props }, ref) => {
+  return (
+    <div ref={ref} className={cn("timeline-item", className)} {...props}>
+      {/* Implementation would mirror the individual item logic from above */}
+      <OptimizedGlass
+        elevation="level1"
+        intensity="medium"
+        depth={2}
+        tint="neutral"
+        border="subtle"
+        animation="none"
+        performanceMode="medium"
+        className="glass-radius-lg glass-p-3"
+      >
+        <div className="font-medium text-primary">{item.title}</div>
+        {item.subtitle && (
+          <div className="glass-text-sm glass-text-secondary glass-mt-1">
+            {item.subtitle}
+          </div>
+        )}
+        {item.time && (
+          <div className="glass-text-xs glass-text-secondary glass-mt-2">
+            {item.time}
+          </div>
+        )}
+      </OptimizedGlass>
+    </div>
+  );
+});
 
-TimelineItemComponent.displayName = 'TimelineItemComponent';
+TimelineItemComponent.displayName = "TimelineItemComponent";

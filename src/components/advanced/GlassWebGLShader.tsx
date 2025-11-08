@@ -3,12 +3,12 @@
  * Advanced GPU-accelerated glass effects
  */
 
-import React, { useRef, useEffect, useState } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
+import React, { useRef, useEffect, useState } from "react";
+import { cn } from "../../lib/utilsComprehensive";
 
 interface ShaderProps {
   className?: string;
-  variant?: 'refraction' | 'dispersion' | 'frosted' | 'crystal' | 'prism';
+  variant?: "refraction" | "dispersion" | "frosted" | "crystal" | "prism";
   intensity?: number;
   animated?: boolean;
   interactive?: boolean;
@@ -61,7 +61,7 @@ const fragmentShaders = {
       gl_FragColor = vec4(r, g, b, 1.0);
     }
   `,
-  
+
   dispersion: `
     precision mediump float;
     
@@ -94,7 +94,7 @@ const fragmentShaders = {
       gl_FragColor = vec4(color, 1.0);
     }
   `,
-  
+
   frosted: `
     precision mediump float;
     
@@ -134,7 +134,7 @@ const fragmentShaders = {
       gl_FragColor = vec4(color, 1.0);
     }
   `,
-  
+
   crystal: `
     precision mediump float;
     
@@ -173,7 +173,7 @@ const fragmentShaders = {
       gl_FragColor = vec4(color, 1.0);
     }
   `,
-  
+
   prism: `
     precision mediump float;
     
@@ -225,11 +225,11 @@ const fragmentShaders = {
 
 export function GlassWebGLShader({
   className,
-  variant = 'refraction',
+  variant = "refraction",
   intensity = 1,
   animated = true,
   interactive = true,
-  backgroundColor = 'transparent',
+  backgroundColor = "transparent",
 }: ShaderProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glRef = useRef<WebGLRenderingContext | null>(null);
@@ -237,17 +237,19 @@ export function GlassWebGLShader({
   const animationRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0 });
   const [isSupported, setIsSupported] = useState(true);
-  
+
   // Initialize WebGL
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
+
+    const gl =
+      canvas.getContext("webgl") ||
+      (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
 
     if (!gl) {
       setIsSupported(false);
-      console.warn('WebGL not supported');
+      console.warn("WebGL not supported");
       return;
     }
 
@@ -260,75 +262,83 @@ export function GlassWebGLShader({
       gl.FRAGMENT_SHADER,
       fragmentShaders[variant]
     );
-    
+
     if (!vertexShader || !fragmentShader) {
       setIsSupported(false);
       return;
     }
-    
+
     // Create program
-    const program = createProgram(gl as WebGLRenderingContext, vertexShader, fragmentShader);
+    const program = createProgram(
+      gl as WebGLRenderingContext,
+      vertexShader,
+      fragmentShader
+    );
     if (!program) {
       setIsSupported(false);
       return;
     }
-    
+
     programRef.current = program;
-    
+
     // Set up geometry
     setupGeometry(gl as WebGLRenderingContext, program);
-    
+
     // Set up texture
     setupTexture(gl as WebGLRenderingContext);
-    
+
     // Start render loop
     if (animated) {
       render();
     }
-    
+
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
   }, [variant, animated]);
-  
+
   // Handle mouse interaction
   useEffect(() => {
     if (!interactive) return;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      
+
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
       };
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [interactive]);
-  
+
   // Create shader
-  function createShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null {
+  function createShader(
+    gl: WebGLRenderingContext,
+    type: number,
+    source: string
+  ): WebGLShader | null {
     const shader = gl.createShader(type);
     if (!shader) return null;
-    
+
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
-    
+
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+      console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
       gl.deleteShader(shader);
       return null;
     }
-    
+
     return shader;
   }
-  
+
   // Create program
   function createProgram(
     gl: WebGLRenderingContext,
@@ -337,134 +347,142 @@ export function GlassWebGLShader({
   ): WebGLProgram | null {
     const program = gl.createProgram();
     if (!program) return null;
-    
+
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
-    
+
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error('Program linking error:', gl.getProgramInfoLog(program));
+      console.error("Program linking error:", gl.getProgramInfoLog(program));
       gl.deleteProgram(program);
       return null;
     }
-    
+
     return program;
   }
-  
+
   // Set up geometry
   function setupGeometry(gl: WebGLRenderingContext, program: WebGLProgram) {
     // Positions
-    const positions = new Float32Array([
-      -1, -1,
-       1, -1,
-      -1,  1,
-       1,  1,
-    ]);
-    
+    const positions = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-    
-    const positionLocation = gl.getAttribLocation(program, 'a_position');
+
+    const positionLocation = gl.getAttribLocation(program, "a_position");
     gl.enableVertexAttribArray(positionLocation);
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-    
+
     // Texture coordinates
-    const texCoords = new Float32Array([
-      0, 1,
-      1, 1,
-      0, 0,
-      1, 0,
-    ]);
-    
+    const texCoords = new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]);
+
     const texCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, texCoords, gl.STATIC_DRAW);
-    
-    const texCoordLocation = gl.getAttribLocation(program, 'a_texCoord');
+
+    const texCoordLocation = gl.getAttribLocation(program, "a_texCoord");
     gl.enableVertexAttribArray(texCoordLocation);
     gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 0, 0);
   }
-  
+
   // Set up texture
   function setupTexture(gl: WebGLRenderingContext) {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    
+
     // Create gradient texture
     const width = 256;
     const height = 256;
     const pixels = new Uint8Array(width * height * 4);
-    
+
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const i = (y * width + x) * 4;
-        pixels[i] = (x / width) * 255;     // R
+        pixels[i] = (x / width) * 255; // R
         pixels[i + 1] = (y / height) * 255; // G
-        pixels[i + 2] = 128;                // B
-        pixels[i + 3] = 255;                // A
+        pixels[i + 2] = 128; // B
+        pixels[i + 3] = 255; // A
       }
     }
-    
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      width,
+      height,
+      0,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      pixels
+    );
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   }
-  
+
   // Render loop
   function render() {
     const gl = glRef.current;
     const program = programRef.current;
     const canvas = canvasRef.current;
-    
+
     if (!gl || !program || !canvas) return;
-    
+
     // Clear canvas
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    
+
     // Use program
     gl.useProgram(program);
-    
+
     // Set uniforms
-    const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+    const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
     gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
-    
-    const mouseLocation = gl.getUniformLocation(program, 'u_mouse');
+
+    const mouseLocation = gl.getUniformLocation(program, "u_mouse");
     gl.uniform2f(mouseLocation, mouseRef.current.x, mouseRef.current.y);
-    
-    const timeLocation = gl.getUniformLocation(program, 'u_time');
+
+    const timeLocation = gl.getUniformLocation(program, "u_time");
     gl.uniform1f(timeLocation, performance.now() / 1000);
-    
-    const intensityLocation = gl.getUniformLocation(program, 'u_intensity');
+
+    const intensityLocation = gl.getUniformLocation(program, "u_intensity");
     gl.uniform1f(intensityLocation, intensity);
-    
+
     // Draw
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    
+
     // Continue animation
     if (animated) {
       animationRef.current = requestAnimationFrame(render);
     }
   }
-  
+
   if (!isSupported) {
     return (
-      <div data-glass-component className={cn("OptimizedGlass intensity={0.2} glassBlur={6} glass-p-4", className)}>
+      <div
+        data-glass-component
+        className={cn(
+          "OptimizedGlass intensity={0.2} glassBlur={6} glass-p-4",
+          className
+        )}
+      >
         <p className="glass-text-secondary">WebGL not supported</p>
       </div>
     );
   }
-  
+
   return (
-    <div className={cn("relative overflow-hidden", className)} style={{ backgroundColor }}>
+    <div
+      className={cn("relative overflow-hidden", className)}
+      style={{ backgroundColor }}
+    >
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 glass-w-full glass-h-full"
         width={800}
         height={600}
       />
-
     </div>
   );
 }

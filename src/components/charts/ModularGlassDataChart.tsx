@@ -4,34 +4,49 @@
  * A modular implementation of the GlassDataChart component that uses separate
  * components for chart rendering, tooltips, filters, and KPI display.
  */
-import React, { useState, useRef, useEffect, useCallback, useImperativeHandle } from 'react';
-import { cn } from '@/lib/utils';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useImperativeHandle,
+} from "react";
+import { cn } from "@/lib/utils";
 
 // Consciousness interface imports
-import { usePredictiveEngine, useInteractionRecorder } from '../advanced/GlassPredictiveEngine';
-import { useAchievements } from '../advanced/GlassAchievementSystem';
-import { useBiometricAdaptation } from '../advanced/GlassBiometricAdaptation';
-import { useEyeTracking } from '../advanced/GlassEyeTracking';
-import { useSpatialAudio } from '../advanced/GlassSpatialAudio';
+import {
+  usePredictiveEngine,
+  useInteractionRecorder,
+} from "../advanced/GlassPredictiveEngine";
+import { useAchievements } from "../advanced/GlassAchievementSystem";
+import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useEyeTracking } from "../advanced/GlassEyeTracking";
+import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
 
 // Helper function to convert elevation strings to numbers
 const getNumericElevation = (elevation: string | number): number => {
-  if (typeof elevation === 'number') return elevation;
+  if (typeof elevation === "number") return elevation;
   switch (elevation) {
-    case 'level1': return 1;
-    case 'level2': return 2;
-    case 'level3': return 3;
-    case 'level4': return 4;
-    case 'level5': return 5;
-    default: return 3; // default to level3
+    case "level1":
+      return 1;
+    case "level2":
+      return 2;
+    case "level3":
+      return 3;
+    case "level4":
+      return 4;
+    case "level5":
+      return 5;
+    default:
+      return 3; // default to level3
   }
 };
 import {
   ChartContainer,
   ChartHeader,
   ChartTitle,
-  ChartSubtitle
-} from './styles/ChartContainerStyles';
+  ChartSubtitle,
+} from "./styles/ChartContainerStyles";
 
 import {
   ChartToolbar,
@@ -42,8 +57,8 @@ import {
   ChartLegend,
   LegendItem,
   LegendColor,
-  LegendLabel
-} from './styles/ChartElementStyles';
+  LegendLabel,
+} from "./styles/ChartElementStyles";
 
 // Import all types
 import {
@@ -51,43 +66,43 @@ import {
   DataPoint,
   ChartDataset,
   ChartType,
-  ChartQualityTier
-} from './types/ChartTypes';
+  ChartQualityTier,
+} from "./types/ChartTypes";
 
-import {
-  GlassDataChartProps,
-  GlassDataChartRef
-} from './types/ChartProps';
+import { GlassDataChartProps, GlassDataChartRef } from "./types/ChartProps";
 
 // Import hooks
-import { 
-  useQualityTier, 
-  QualityTier, 
+import {
+  useQualityTier,
+  QualityTier,
   PhysicsParams,
   getQualityBasedPhysicsParams,
-  getQualityBasedGlassParams
-} from './hooks/useQualityTier';
+  getQualityBasedGlassParams,
+} from "./hooks/useQualityTier";
 
 // import { usePhysicsAnimation } from './hooks/usePhysicsAnimation';
-import { useAccessibilitySettings } from '../../hooks/useAccessibilitySettings';
-import { useGlassTheme } from '../../hooks/useGlassTheme';
-import { createThemeContext } from '../../core/themeContext';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import { useAccessibilitySettings } from "../../hooks/useAccessibilitySettings";
+import { useGlassTheme } from "../../hooks/useGlassTheme";
+import { createThemeContext } from "../../core/themeContext";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 // Import modular components
 import {
   KpiChart,
   ChartTooltip,
   TooltipData,
-  ChartRenderer
-} from './components';
+  ChartRenderer,
+} from "./components";
 
 // Import utilities
-import { 
+import {
   calculateDamping,
   createAnimationOptions,
-  pathAnimationPlugin
-} from './utils/ChartAnimationUtils';
+  pathAnimationPlugin,
+} from "./utils/ChartAnimationUtils";
 
 // Import and register required Chart.js components
 import {
@@ -101,8 +116,8 @@ import {
   Tooltip as ChartJsTooltip,
   Legend as ChartJsLegend,
   Filler,
-  RadialLinearScale
-} from 'chart.js';
+  RadialLinearScale,
+} from "chart.js";
 
 Chart.register(
   CategoryScale,
@@ -119,44 +134,52 @@ Chart.register(
 
 /**
  * ModularGlassDataChart Component
- * 
+ *
  * An advanced glass-styled chart component with physics-based interactions,
  * smooth animations, and rich customization options. Enhanced with consciousness interface features.
  */
-export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDataChartProps & {
-  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
+export const ModularGlassDataChart = React.forwardRef<
+  GlassDataChartRef,
+  GlassDataChartProps & {
+    // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
 
-  // Consciousness interface features
-  predictive?: boolean;
-  preloadData?: boolean;
-  eyeTracking?: boolean;
-  gazeResponsive?: boolean;
-  adaptive?: boolean;
-  biometricResponsive?: boolean;
-  spatialAudio?: boolean;
-  audioFeedback?: boolean;
-  trackAchievements?: boolean;
-  achievementId?: string;
-  usageContext?: 'dashboard' | 'analytics' | 'report' | 'presentation' | 'exploration';
-}>((props, ref) => {
+    // Consciousness interface features
+    predictive?: boolean;
+    preloadData?: boolean;
+    eyeTracking?: boolean;
+    gazeResponsive?: boolean;
+    adaptive?: boolean;
+    biometricResponsive?: boolean;
+    spatialAudio?: boolean;
+    audioFeedback?: boolean;
+    trackAchievements?: boolean;
+    achievementId?: string;
+    usageContext?:
+      | "dashboard"
+      | "analytics"
+      | "report"
+      | "presentation"
+      | "exploration";
+  }
+>((props, ref) => {
   // Theme & accessibility hooks
   const theme = useGlassTheme();
   const isDarkMode = theme ? theme.isDarkMode : false;
   const { settings: accessibilitySettings } = useAccessibilitySettings();
   const isReducedMotion = accessibilitySettings?.reducedMotion || false;
   const themeContext = theme ? createThemeContext(theme.theme) : undefined;
-  
+
   // Extract all props with defaults
   const {
     title,
     subtitle,
-    variant = 'line',
+    variant = "line",
     datasets,
-    width = '100%',
+    width = "100%",
     height = 400,
-    glassVariant = 'frosted',
-    blurStrength = 'standard',
-    color = 'primary',
+    glassVariant = "frosted",
+    blurStrength = "standard",
+    color = "primary",
     // Consciousness features
     predictive = false,
     preloadData = false,
@@ -168,14 +191,14 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     audioFeedback = false,
     trackAchievements = false,
     achievementId,
-    usageContext = 'dashboard',
+    usageContext = "dashboard",
     animation = {
       physicsEnabled: true,
       duration: 1000,
       tension: 300,
       friction: 30,
       mass: 1,
-      easing: 'easeOutQuart',
+      easing: "easeOutQuart",
       staggerDelay: 100,
     },
     interaction = {
@@ -183,14 +206,14 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       physicsHoverEffects: true,
       hoverSpeed: 150,
       showTooltips: true,
-      tooltipStyle: 'frosted',
+      tooltipStyle: "frosted",
       tooltipFollowCursor: false,
     },
     legend = {
       show: true,
-      position: 'top',
-      align: 'center',
-      style: 'default',
+      position: "top",
+      align: "center",
+      style: "default",
       glassEffect: false,
     },
     axis = {
@@ -200,26 +223,26 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       showYLabels: true,
       axisColor: '${glassStyles.borderColor || "var(--glass-bg-hover)"}',
       gridColor: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
-      gridStyle: 'solid',
+      gridStyle: "solid",
     },
     initialSelection,
     showToolbar = true,
     allowDownload = true,
     palette = [
-      '#6366F1', // primary
-      '#8B5CF6', // secondary
-      'var(--glass-color-primary)', // blue
-      'var(--glass-color-success)', // green
-      'var(--glass-color-warning)', // yellow
-      'var(--glass-color-danger)', // red
-      '#EC4899', // pink
-      'var(--glass-gray-500)', // gray
+      "#6366F1", // primary
+      "#8B5CF6", // secondary
+      "var(--glass-color-primary)", // blue
+      "var(--glass-color-success)", // green
+      "var(--glass-color-warning)", // yellow
+      "var(--glass-color-danger)", // red
+      "#EC4899", // pink
+      "var(--glass-gray-500)", // gray
     ],
     allowTypeSwitch = true,
     backgroundColor,
     borderRadius = 12,
     borderColor,
-    elevation = 'level3',
+    elevation = "level3",
     className,
     style,
     onDataPointClick,
@@ -227,10 +250,10 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     onZoomPan,
     onTypeChange,
     exportOptions = {
-      filename: 'chart',
+      filename: "chart",
       quality: 0.9,
-      format: 'png',
-      backgroundColor: 'transparent',
+      format: "png",
+      backgroundColor: "transparent",
       includeTitle: true,
       includeTimestamp: true,
     },
@@ -238,41 +261,49 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     kpi,
     useAdaptiveQuality = true,
   } = props;
-  
+
   // Quality tier system integration
   const qualityTier = useQualityTier(
     {
-      dataPointCount: datasets?.reduce((sum, dataset) => sum + dataset.data.length, 0) || 0,
+      dataPointCount:
+        datasets?.reduce((sum, dataset) => sum + dataset.data.length, 0) || 0,
       seriesCount: datasets?.length || 0,
-      animationComplexity: 'medium',
-      interactionComplexity: 'medium',
+      animationComplexity: "medium",
+      interactionComplexity: "medium",
     },
     variant as any,
-    useAdaptiveQuality ? undefined : 'high'
+    useAdaptiveQuality ? undefined : "high"
   );
-  
+
   // State
-  const [chartType, setChartType] = useState<ChartVariant>(variant as ChartVariant);
+  const [chartType, setChartType] = useState<ChartVariant>(
+    variant as ChartVariant
+  );
   const [hoveredPoint, setHoveredPoint] = useState<TooltipData | null>(null);
   const [selectedIndices, setSelectedIndices] = useState<number[]>(
-    initialSelection !== undefined 
-      ? Array.isArray(initialSelection) 
-        ? initialSelection 
-        : [initialSelection] 
+    initialSelection !== undefined
+      ? Array.isArray(initialSelection)
+        ? initialSelection
+        : [initialSelection]
       : []
   );
-  
+
   // Consciousness features state
   const [chartInsights, setChartInsights] = useState<any[]>([]);
   const [dataPatterns, setDataPatterns] = useState<any[]>([]);
   const [isPreloading, setIsPreloading] = useState(false);
-  const [adaptiveComplexity, setAdaptiveComplexity] = useState<'low' | 'medium' | 'high'>('medium');
-  const [currentDataFocus, setCurrentDataFocus] = useState<{ seriesIndex: number; pointIndex: number } | null>(null);
-  
+  const [adaptiveComplexity, setAdaptiveComplexity] = useState<
+    "low" | "medium" | "high"
+  >("medium");
+  const [currentDataFocus, setCurrentDataFocus] = useState<{
+    seriesIndex: number;
+    pointIndex: number;
+  } | null>(null);
+
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
-  
+
   // Consciousness feature hooks - only initialize if features are enabled
   const predictiveEngine = predictive ? usePredictiveEngine() : null;
   const eyeTracker = eyeTracking ? useEyeTracking() : null;
@@ -280,69 +311,79 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
   const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
   const achievementTracker = trackAchievements ? useAchievements() : null;
   const { recordInteraction } = usePredictiveEngine();
-  const interactionRecorder = (predictive || trackAchievements) ? useInteractionRecorder(`modular-chart-${usageContext}`) : null;
-  
+  const interactionRecorder =
+    predictive || trackAchievements
+      ? useInteractionRecorder(`modular-chart-${usageContext}`)
+      : null;
+
   // Determine the active quality tier
-  const activeQuality = useAdaptiveQuality ? qualityTier : 'high';
-  
+  const activeQuality = useAdaptiveQuality ? qualityTier : "high";
+
   // Get physics and glass parameters based on quality tier
-  const qualityPhysicsParams = getQualityBasedPhysicsParams(activeQuality as any);
+  const qualityPhysicsParams = getQualityBasedPhysicsParams(
+    activeQuality as any
+  );
   const qualityGlassParams = getQualityBasedGlassParams(activeQuality as any);
 
   // Determine if we're using physics-based animations
   const enablePhysicsAnimation = animation.physicsEnabled && !isReducedMotion;
 
   // Animation state management with physics support
-  const [animationValues, setAnimationValues] = useState<Record<string, number>>({});
+  const [animationValues, setAnimationValues] = useState<
+    Record<string, number>
+  >({});
   const [isAnimating, setIsAnimating] = useState(false);
-  
-  const animate = React.useCallback((key: string, from: number, to: number, duration: number = 500) => {
-    setIsAnimating(true);
-    setAnimationValues((prev: any) => ({ ...prev, [key]: from }));
-    
-    if (enablePhysicsAnimation) {
-      // Use spring physics animation
-      const startTime = Date.now();
-      const animateFrame = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Spring easing function
-        const easeSpring = (t: number) => {
-          return 1 - Math.pow(1 - t, 3) * Math.cos(t * Math.PI * 2);
+
+  const animate = React.useCallback(
+    (key: string, from: number, to: number, duration: number = 500) => {
+      setIsAnimating(true);
+      setAnimationValues((prev: any) => ({ ...prev, [key]: from }));
+
+      if (enablePhysicsAnimation) {
+        // Use spring physics animation
+        const startTime = Date.now();
+        const animateFrame = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Spring easing function
+          const easeSpring = (t: number) => {
+            return 1 - Math.pow(1 - t, 3) * Math.cos(t * Math.PI * 2);
+          };
+
+          const currentValue = from + (to - from) * easeSpring(progress);
+          setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
+
+          if (progress < 1) {
+            requestAnimationFrame(animateFrame);
+          } else {
+            setIsAnimating(false);
+          }
         };
-        
-        const currentValue = from + (to - from) * easeSpring(progress);
-        setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
-        
-        if (progress < 1) {
-          requestAnimationFrame(animateFrame);
-        } else {
-          setIsAnimating(false);
-        }
-      };
-      requestAnimationFrame(animateFrame);
-    } else {
-      // Simple linear animation
-      const steps = 60;
-      const stepValue = (to - from) / steps;
-      let currentStep = 0;
-      
-      const interval = setInterval(() => {
-        currentStep++;
-        const currentValue = from + stepValue * currentStep;
-        setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
-        
-        if (currentStep >= steps) {
-          clearInterval(interval);
-          setIsAnimating(false);
-        }
-      }, duration / steps);
-    }
-  }, [enablePhysicsAnimation]);
-  
+        requestAnimationFrame(animateFrame);
+      } else {
+        // Simple linear animation
+        const steps = 60;
+        const stepValue = (to - from) / steps;
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+          currentStep++;
+          const currentValue = from + stepValue * currentStep;
+          setAnimationValues((prev: any) => ({ ...prev, [key]: currentValue }));
+
+          if (currentStep >= steps) {
+            clearInterval(interval);
+            setIsAnimating(false);
+          }
+        }, duration / steps);
+      }
+    },
+    [enablePhysicsAnimation]
+  );
+
   const getValue = (key: string) => animationValues[key] ?? 1;
-  
+
   // Chart insights and pattern analysis
   useEffect(() => {
     if (!predictive || !predictiveEngine || !datasets) return;
@@ -353,9 +394,9 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         // Note: analyzeDataPatterns and generateInsights methods not available in current predictive engine
         setDataPatterns([]);
         setChartInsights([]);
-        
+
         if (achievementTracker && trackAchievements) {
-          achievementTracker.recordAction('modular_chart_insights_generated', {
+          achievementTracker.recordAction("modular_chart_insights_generated", {
             chartType: chartType,
             insightsCount: 0,
             patternsFound: 0,
@@ -363,13 +404,21 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           });
         }
       } catch (error) {
-        console.warn('Modular chart insights analysis failed:', error);
+        console.warn("Modular chart insights analysis failed:", error);
       }
     };
 
     analyzeChartData();
-  }, [predictive, predictiveEngine, datasets, chartType, usageContext, achievementTracker, trackAchievements]);
-  
+  }, [
+    predictive,
+    predictiveEngine,
+    datasets,
+    chartType,
+    usageContext,
+    achievementTracker,
+    trackAchievements,
+  ]);
+
   // Biometric adaptation for chart complexity
   useEffect(() => {
     if (!biometricResponsive || !biometricAdapter) return;
@@ -378,14 +427,14 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       const stressLevel = biometricAdapter.currentStressLevel;
       const cognitiveLoad = biometricAdapter.currentStressLevel; // Use stress level as proxy for cognitive load
       const deviceCapabilities = {}; // Device capabilities not available in current adapter
-      
+
       // Adapt chart complexity based on biometric data
       if (stressLevel > 0.7 || cognitiveLoad > 0.8) {
-        setAdaptiveComplexity('low'); // Simplified chart when stressed
+        setAdaptiveComplexity("low"); // Simplified chart when stressed
       } else if (stressLevel < 0.3 && cognitiveLoad < 0.4) {
-        setAdaptiveComplexity('high'); // Full complexity when relaxed
+        setAdaptiveComplexity("high"); // Full complexity when relaxed
       } else {
-        setAdaptiveComplexity('medium'); // Balanced complexity
+        setAdaptiveComplexity("medium"); // Balanced complexity
       }
     };
 
@@ -396,28 +445,32 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     const interval = setInterval(adaptChartComplexity, 3000);
     return () => clearInterval(interval);
   }, [biometricResponsive, biometricAdapter]);
-  
+
   // Eye tracking for chart element focus
   useEffect(() => {
     if (!gazeResponsive || !eyeTracker || !containerRef.current) return;
 
     const handleGazeOnDataPoint = (element: HTMLElement) => {
       // Extract data point information from element attributes
-      const seriesIndex = parseInt(element.getAttribute('data-series-index') || '0');
-      const pointIndex = parseInt(element.getAttribute('data-point-index') || '0');
-      
+      const seriesIndex = parseInt(
+        element.getAttribute("data-series-index") || "0"
+      );
+      const pointIndex = parseInt(
+        element.getAttribute("data-point-index") || "0"
+      );
+
       setCurrentDataFocus({ seriesIndex, pointIndex });
-      
+
       if (spatialAudioEngine && audioFeedback) {
-        spatialAudioEngine.playGlassSound('data_focus', {
+        spatialAudioEngine.playGlassSound("data_focus", {
           x: element.offsetLeft,
           y: element.offsetTop,
           z: 0,
         });
       }
-      
+
       if (achievementTracker && trackAchievements) {
-        achievementTracker.recordAction('modular_chart_data_gaze_focus', {
+        achievementTracker.recordAction("modular_chart_data_gaze_focus", {
           seriesIndex,
           pointIndex,
           chartType: chartType,
@@ -428,9 +481,9 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
 
     const handleGazeOffDataPoint = () => {
       setCurrentDataFocus(null);
-      
+
       if (spatialAudioEngine && audioFeedback) {
-        spatialAudioEngine.playGlassSound('data_blur');
+        spatialAudioEngine.playGlassSound("data_blur");
       }
     };
 
@@ -444,8 +497,17 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         // eyeTracker.offGazeLeave?.(containerRef.current, handleGazeOffDataPoint);
       }
     };
-  }, [gazeResponsive, eyeTracker, spatialAudioEngine, audioFeedback, achievementTracker, trackAchievements, chartType, usageContext]);
-  
+  }, [
+    gazeResponsive,
+    eyeTracker,
+    spatialAudioEngine,
+    audioFeedback,
+    achievementTracker,
+    trackAchievements,
+    chartType,
+    usageContext,
+  ]);
+
   // Data preloading for chart interactions
   useEffect(() => {
     if (!preloadData || !predictiveEngine) return;
@@ -461,69 +523,81 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         //   patterns: dataPatterns
         // });
       } catch (error) {
-        console.warn('Modular chart data preloading failed:', error);
+        console.warn("Modular chart data preloading failed:", error);
       } finally {
         setIsPreloading(false);
       }
     };
 
     preloadChartData();
-  }, [preloadData, predictiveEngine, chartType, usageContext, datasets, dataPatterns]);
-  
+  }, [
+    preloadData,
+    predictiveEngine,
+    chartType,
+    usageContext,
+    datasets,
+    dataPatterns,
+  ]);
+
   // Apply initial animations based on quality tier
   useEffect(() => {
     if (enablePhysicsAnimation) {
       // Trigger a pop-in animation on mount for better visual impact
-      if (activeQuality !== ('low' as any)) {
+      if (activeQuality !== ("low" as any)) {
         // Start a simple animation from 0 to 1
-        animate('chart-mount', 0, 1, 500);
+        animate("chart-mount", 0, 1, 500);
       }
     }
   }, [enablePhysicsAnimation, activeQuality, animate]);
-  
+
   // Handle chart type change with consciousness features
   const handleTypeChange = (type: ChartType) => {
     const previousType = chartType;
     setChartType(type as ChartVariant);
-    
+
     // Consciousness-enhanced type change tracking
     if (recordInteraction) {
       recordInteraction({
-        type: 'click',
-        element: 'chart-type-selector',
+        type: "click",
+        element: "chart-type-selector",
         context: {
           viewport: { width: window.innerWidth, height: window.innerHeight },
           timeOfDay: new Date().getHours(),
-          deviceType: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+          deviceType:
+            window.innerWidth < 768
+              ? "mobile"
+              : window.innerWidth < 1024
+                ? "tablet"
+                : "desktop",
         },
-        metadata: { action: 'type-change' },
+        metadata: { action: "type-change" },
       });
     }
-    
+
     // Spatial audio feedback for type changes
     if (spatialAudioEngine && audioFeedback) {
-      spatialAudioEngine.playGlassSound('chart_type_change', {
+      spatialAudioEngine.playGlassSound("chart_type_change", {
         x: 0,
         y: 0,
         z: 0,
       });
     }
-    
+
     // Achievement tracking for chart exploration
     if (achievementTracker && trackAchievements) {
-      achievementTracker.recordAction('modular_chart_type_switch', {
+      achievementTracker.recordAction("modular_chart_type_switch", {
         fromType: previousType,
         toType: type,
         context: usageContext,
         timestamp: Date.now(),
       });
     }
-    
+
     if (onTypeChange) {
       onTypeChange(type);
     }
   };
-  
+
   // Handle data point click with consciousness features
   const handleDataPointClick = (datasetIndex: number, dataIndex: number) => {
     if (!onDataPointClick || !datasets) return;
@@ -532,34 +606,42 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     if (!dataset) return;
 
     const dataPoint = dataset.data[dataIndex];
-    
+
     // Spatial audio feedback for data point interactions
     if (spatialAudioEngine && audioFeedback) {
-      spatialAudioEngine.playGlassSound('data_point_click', {
+      spatialAudioEngine.playGlassSound("data_point_click", {
         x: 0,
         y: 0,
         z: 0,
       });
     }
-    
+
     // Track data point interactions
     if (recordInteraction && event) {
       recordInteraction({
-        type: 'click',
-        element: 'data-point',
+        type: "click",
+        element: "data-point",
         context: {
           viewport: { width: window.innerWidth, height: window.innerHeight },
           timeOfDay: new Date().getHours(),
-          deviceType: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-          location: { x: (event as MouseEvent).clientX, y: (event as MouseEvent).clientY },
+          deviceType:
+            window.innerWidth < 768
+              ? "mobile"
+              : window.innerWidth < 1024
+                ? "tablet"
+                : "desktop",
+          location: {
+            x: (event as MouseEvent).clientX,
+            y: (event as MouseEvent).clientY,
+          },
         },
-        metadata: { action: 'data-point-click' },
+        metadata: { action: "data-point-click" },
       });
     }
-    
+
     // Achievement tracking for data exploration
     if (achievementTracker && trackAchievements) {
-      achievementTracker.recordAction('modular_chart_data_point_interaction', {
+      achievementTracker.recordAction("modular_chart_data_point_interaction", {
         datasetIndex,
         dataIndex,
         datasetLabel: dataset.label,
@@ -569,14 +651,14 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         hasInsights: chartInsights.length > 0,
       });
     }
-    
+
     onDataPointClick(datasetIndex, dataIndex, dataPoint);
-    
+
     // Handle selection logic
     if (onSelectionChange) {
       const index = dataIndex;
       const newSelectedIndices = [...selectedIndices];
-      
+
       if (newSelectedIndices.includes(index)) {
         // Deselect
         const indexPosition = newSelectedIndices.indexOf(index);
@@ -585,12 +667,12 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         // Select
         newSelectedIndices.push(index);
       }
-      
+
       setSelectedIndices(newSelectedIndices);
       onSelectionChange(newSelectedIndices);
     }
   };
-  
+
   // Handle chart hover for tooltips
   const handleChartHover = (event: React.MouseEvent<HTMLCanvasElement>) => {
     if (!chartRef.current || !interaction.showTooltips || !datasets) return;
@@ -598,7 +680,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
     const chart = chartRef.current;
     const points = chart.getElementsAtEventForMode(
       event.nativeEvent,
-      'nearest',
+      "nearest",
       { intersect: false },
       false
     );
@@ -611,12 +693,12 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
 
       if (!dataset) return;
       const dataPoint = dataset.data[dataIndex];
-      
+
       // Get position in canvas coordinates
       const rect = chart.canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
-      
+
       setHoveredPoint({
         datasetIndex,
         dataIndex,
@@ -626,134 +708,154 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           dataset: dataset.label,
           label: dataPoint.label || dataPoint.x,
           value: dataPoint.y,
-          color: dataset.style?.lineColor || palette[datasetIndex % palette.length],
+          color:
+            dataset.style?.lineColor || palette[datasetIndex % palette.length],
           extra: dataPoint.extra,
-        }
+        },
       });
     } else {
       setHoveredPoint(null);
     }
   };
-  
+
   // Handle chart hover leave
   const handleChartLeave = () => {
     setHoveredPoint(null);
   };
-  
+
   // Handle chart export
   const handleExport = useCallback(() => {
     if (!chartRef.current) return;
-    
+
     // Get chart canvas
     const chart = chartRef.current;
     const canvas = chart.canvas;
-    
+
     // Create a temporary canvas to include title if needed
-    const tempCanvas = document.createElement('canvas');
-    const ctx = tempCanvas.getContext('2d');
+    const tempCanvas = document.createElement("canvas");
+    const ctx = tempCanvas.getContext("2d");
     if (!ctx) return;
-    
+
     // Set temp canvas dimensions
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
-    
+
     // Add extra space for title if needed
     const extraHeight = exportOptions.includeTitle && title ? 40 : 0;
-    
+
     tempCanvas.width = canvasWidth;
     tempCanvas.height = canvasHeight + extraHeight;
-    
+
     // Fill background
-    ctx.fillStyle = exportOptions.backgroundColor || 'transparent';
+    ctx.fillStyle = exportOptions.backgroundColor || "transparent";
     ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-    
+
     // Add title if needed
     if (exportOptions.includeTitle && title) {
-      ctx.fillStyle = 'var(--glass-white)';
-      ctx.font = 'bold 16px Inter, sans-serif';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = "var(--glass-white)";
+      ctx.font = "bold 16px Inter, sans-serif";
+      ctx.textAlign = "center";
       ctx.fillText(title, tempCanvas.width / 2, 25);
-      
+
       if (subtitle) {
-        ctx.fillStyle = '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
-        ctx.font = '12px Inter, sans-serif';
+        ctx.fillStyle =
+          '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
+        ctx.font = "12px Inter, sans-serif";
         ctx.fillText(subtitle, tempCanvas.width / 2, 45);
       }
     }
-    
+
     // Draw chart onto temp canvas
     ctx.drawImage(canvas, 0, extraHeight);
-    
+
     // Generate filename
-    let filename = exportOptions.filename || 'chart';
-    
+    let filename = exportOptions.filename || "chart";
+
     // Add timestamp if requested
     if (exportOptions.includeTimestamp) {
       const now = new Date();
-      const timestamp = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}`;
+      const timestamp = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")}_${now.getHours().toString().padStart(2, "0")}-${now.getMinutes().toString().padStart(2, "0")}`;
       filename = `${filename}_${timestamp}`;
     }
-    
+
     // Convert to data URL and download
-    const dataUrl = tempCanvas.toDataURL(`image/${exportOptions.format || 'png'}`, exportOptions.quality);
-    
-    const link = document.createElement('a');
-    link.download = `${filename}.${exportOptions.format || 'png'}`;
+    const dataUrl = tempCanvas.toDataURL(
+      `image/${exportOptions.format || "png"}`,
+      exportOptions.quality
+    );
+
+    const link = document.createElement("a");
+    link.download = `${filename}.${exportOptions.format || "png"}`;
     link.href = dataUrl;
     link.click();
   }, [chartRef, title, subtitle, exportOptions]);
-  
+
   // Expose chart methods via ref
-  useImperativeHandle(ref, () => ({
-    getChartInstance: () => chartRef.current,
-    exportChart: handleExport,
-    updateChart: () => {
-      if (chartRef.current) {
-        chartRef.current.update();
-      }
-    },
-    getContainerElement: () => containerRef.current,
-    switchChartType: (type: ChartType) => {
-      handleTypeChange(type);
-    },
-    getChartState: () => ({
+  useImperativeHandle(
+    ref,
+    () => ({
+      getChartInstance: () => chartRef.current,
+      exportChart: handleExport,
+      updateChart: () => {
+        if (chartRef.current) {
+          chartRef.current.update();
+        }
+      },
+      getContainerElement: () => containerRef.current,
+      switchChartType: (type: ChartType) => {
+        handleTypeChange(type);
+      },
+      getChartState: () => ({
+        hoveredPoint,
+        selectedIndices,
+        chartType,
+        qualityTier: activeQuality,
+      }),
+      forceUpdate: () => {
+        if (chartRef.current) {
+          chartRef.current.update("none");
+        }
+      },
+    }),
+    [
+      chartRef,
+      handleExport,
       hoveredPoint,
       selectedIndices,
       chartType,
-      qualityTier: activeQuality
-    }),
-    forceUpdate: () => {
-      if (chartRef.current) {
-        chartRef.current.update('none');
-      }
-    }
-  }), [chartRef, handleExport, hoveredPoint, selectedIndices, chartType, activeQuality]);
-  
+      activeQuality,
+    ]
+  );
+
   // Prepare axis options, adjusting color for clear variant
   const effectiveAxisOptions = {
     ...axis,
     // Use a more visible grid color for the clear variant
-    gridColor: glassVariant === 'clear' 
-      ? 'rgba(var(--glass-color-black) / var(--glass-opacity-15))' // Darker, semi-transparent
-      : axis.gridColor || '${glassStyles.surface?.base || "var(--glass-bg-default)"}', // Original default
+    gridColor:
+      glassVariant === "clear"
+        ? "rgba(var(--glass-color-black) / var(--glass-opacity-15))" // Darker, semi-transparent
+        : axis.gridColor ||
+          '${glassStyles.surface?.base || "var(--glass-bg-default)"}', // Original default
   };
-  
+
   // Special case for KPI chart type
-  if (chartType === ('kpi' as ChartVariant) && kpi) {
+  if (chartType === ("kpi" as ChartVariant) && kpi) {
     return (
       <ChartContainer
         className={cn(
           className,
-          gazeResponsive && currentDataFocus && 'glass-chart-gaze-focused',
-          isPreloading && 'glass-chart-preloading',
-          adaptiveComplexity === 'low' && 'glass-chart-simplified',
-          adaptiveComplexity === 'high' && 'glass-chart-enhanced'
+          gazeResponsive && currentDataFocus && "glass-chart-gaze-focused",
+          isPreloading && "glass-chart-preloading",
+          adaptiveComplexity === "low" && "glass-chart-simplified",
+          adaptiveComplexity === "high" && "glass-chart-enhanced"
         )}
-        data-preloading={isPreloading ? 'true' : undefined}
+        data-preloading={isPreloading ? "true" : undefined}
         $glassVariant={glassVariant}
         $blurStrength={blurStrength}
         $color={color}
-        $borderRadius={typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius}
+        $borderRadius={
+          typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius
+        }
         $borderColor={borderColor}
         $elevation={getNumericElevation(elevation)}
         ref={containerRef}
@@ -763,7 +865,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
         data-adaptive-complexity={adaptiveComplexity}
         data-insights-count={chartInsights.length}
         data-patterns-count={dataPatterns.length}
-        aria-label={`Interactive KPI chart${title ? ` titled ${title}` : ''}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ''}`}
+        aria-label={`Interactive KPI chart${title ? ` titled ${title}` : ""}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ""}`}
         role="img"
       >
         {/* Chart title with consciousness insights */}
@@ -771,20 +873,25 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           <ChartHeader>
             {title && <ChartTitle>{title}</ChartTitle>}
             {subtitle && <ChartSubtitle>{subtitle}</ChartSubtitle>}
-            
+
             {/* Predictive insights display */}
             {predictive && chartInsights.length > 0 && (
               <div
-                className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
+                className="mt-2 glass-px-3 glass-py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
                 data-insights-panel="true"
               >
-                <strong>💡 KPI Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
-                {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
+                <strong>💡 KPI Insights:</strong>{" "}
+                {chartInsights
+                  .slice(0, 2)
+                  .map((insight: any) => insight.title || insight.message)
+                  .join(", ")}
+                {chartInsights.length > 2 &&
+                  ` (+${chartInsights.length - 2} more)`}
               </div>
             )}
           </ChartHeader>
         )}
-        
+
         {/* KPI display */}
         <KpiChart
           kpi={kpi}
@@ -792,13 +899,17 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
             enabled: enablePhysicsAnimation,
             stiffness: qualityPhysicsParams.stiffness,
             dampingRatio: qualityPhysicsParams.dampingRatio,
-            mass: qualityPhysicsParams.mass
+            mass: qualityPhysicsParams.mass,
           }}
-          qualityTier={typeof activeQuality === 'object' ? activeQuality.tier : activeQuality}
+          qualityTier={
+            typeof activeQuality === "object"
+              ? activeQuality.tier
+              : activeQuality
+          }
           color={color}
           isReducedMotion={isReducedMotion}
         />
-        
+
         {/* Atmospheric effects */}
         {/* <AtmosphericEffects
           qualityTier={activeQuality}
@@ -808,22 +919,24 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       </ChartContainer>
     );
   }
-  
+
   // Render standard chart with consciousness enhancements
   return (
     <ChartContainer
       className={cn(
         className,
-        gazeResponsive && currentDataFocus && 'glass-chart-gaze-focused',
-        isPreloading && 'glass-chart-preloading',
-        adaptiveComplexity === 'low' && 'glass-chart-simplified',
-        adaptiveComplexity === 'high' && 'glass-chart-enhanced'
+        gazeResponsive && currentDataFocus && "glass-chart-gaze-focused",
+        isPreloading && "glass-chart-preloading",
+        adaptiveComplexity === "low" && "glass-chart-simplified",
+        adaptiveComplexity === "high" && "glass-chart-enhanced"
       )}
-      data-preloading={isPreloading ? 'true' : undefined}
+      data-preloading={isPreloading ? "true" : undefined}
       $glassVariant={glassVariant}
       $blurStrength={blurStrength}
       $color={color}
-      $borderRadius={typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius}
+      $borderRadius={
+        typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius
+      }
       $borderColor={borderColor}
       $elevation={getNumericElevation(elevation)}
       ref={containerRef}
@@ -833,7 +946,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       data-adaptive-complexity={adaptiveComplexity}
       data-insights-count={chartInsights.length}
       data-patterns-count={dataPatterns.length}
-      aria-label={`Interactive ${chartType} chart${title ? ` titled ${title}` : ''}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ''}`}
+      aria-label={`Interactive ${chartType} chart${title ? ` titled ${title}` : ""}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ""}`}
       role="img"
     >
       {/* SVG Filters */}
@@ -850,28 +963,33 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           isReducedMotion={isReducedMotion}
         />
       )} */}
-      
+
       {/* Chart header with consciousness insights */}
       {(title || subtitle || chartInsights.length > 0) && (
         <ChartHeader>
           {title && <ChartTitle>{title}</ChartTitle>}
           {subtitle && <ChartSubtitle>{subtitle}</ChartSubtitle>}
-          
+
           {/* Predictive insights display */}
           {predictive && chartInsights.length > 0 && (
             <div
-              className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
+              className="mt-2 glass-px-3 glass-py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
               data-insights-panel="true"
             >
-              <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
-              {chartInsights.length > 2 && ` (+${chartInsights.length - 2} more)`}
+              <strong>💡 Insights:</strong>{" "}
+              {chartInsights
+                .slice(0, 2)
+                .map((insight: any) => insight.title || insight.message)
+                .join(", ")}
+              {chartInsights.length > 2 &&
+                ` (+${chartInsights.length - 2} more)`}
             </div>
           )}
-          
+
           {/* Biometric adaptation indicator */}
-          {biometricResponsive && adaptiveComplexity !== 'medium' && (
+          {biometricResponsive && adaptiveComplexity !== "medium" && (
             <div
-              className="mt-1 text-xs glass-text-secondary"
+              className="mt-1 glass-text-xs glass-text-secondary"
               data-adaptation-indicator="true"
             >
               🧠 Adapted for {adaptiveComplexity} cognitive load
@@ -879,7 +997,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           )}
         </ChartHeader>
       )}
-      
+
       {/* Chart toolbar */}
       {showToolbar && (
         <ChartToolbar>
@@ -888,144 +1006,148 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
             <ChartTypeSelector>
               <TypeButton
                 type="button"
-                $active={chartType === ('line' as ChartVariant)}
-                onClick={(e) => handleTypeChange('line')}
+                $active={chartType === ("line" as ChartVariant)}
+                onClick={(e) => handleTypeChange("line")}
               >
                 Line
               </TypeButton>
               <TypeButton
                 type="button"
-                $active={chartType === ('bar' as ChartVariant)}
-                onClick={(e) => handleTypeChange('bar')}
+                $active={chartType === ("bar" as ChartVariant)}
+                onClick={(e) => handleTypeChange("bar")}
               >
                 Bar
               </TypeButton>
               <TypeButton
                 type="button"
-                $active={chartType === ('area' as ChartVariant)}
-                onClick={(e) => handleTypeChange('area')}
+                $active={chartType === ("area" as ChartVariant)}
+                onClick={(e) => handleTypeChange("area")}
               >
                 Area
               </TypeButton>
               <TypeButton
                 type="button"
-                $active={chartType === ('pie' as ChartVariant)}
-                onClick={(e) => handleTypeChange('pie')}
+                $active={chartType === ("pie" as ChartVariant)}
+                onClick={(e) => handleTypeChange("pie")}
               >
                 Pie
               </TypeButton>
             </ChartTypeSelector>
           )}
-          
+
           {/* Download button */}
-          {allowDownload && (
-            renderExportButton ? (
+          {allowDownload &&
+            (renderExportButton ? (
               renderExportButton(handleExport)
             ) : (
               <EnhancedExportButton onClick={handleExport}>
                 Export
               </EnhancedExportButton>
-            )
-          )}
+            ))}
         </ChartToolbar>
       )}
-      
+
       {/* Legend - Top position */}
-      {legend.show && legend.position === 'top' && (
-        <ChartLegend 
-          $position={legend.position} 
-          $style={legend.style || 'default'} 
+      {legend.show && legend.position === "top" && (
+        <ChartLegend
+          $position={legend.position}
+          $style={legend.style || "default"}
           $glassEffect={legend.glassEffect || false}
         >
           {datasets?.map((dataset, index) => {
-            const color = dataset.style?.lineColor || palette[index % palette.length];
+            const color =
+              dataset.style?.lineColor || palette[index % palette.length];
             const isActive = selectedIndices.includes(index);
             return (
-              <LegendItem 
+              <LegendItem
                 key={dataset.id || index}
                 $color={color}
-                $style={legend.style || 'default'}
+                $style={legend.style || "default"}
                 $active={isActive}
               >
-                <LegendColor 
-                  $color={color} 
-                  $active={isActive} 
-                />
-                <LegendLabel $active={isActive}>
-                  {dataset.label}
-                </LegendLabel>
+                <LegendColor $color={color} $active={isActive} />
+                <LegendLabel $active={isActive}>{dataset.label}</LegendLabel>
               </LegendItem>
             );
           })}
         </ChartLegend>
       )}
-      
+
       {/* Main Chart */}
       <ChartRenderer
         chartType={
-          chartType === 'default' ? 'line' :
-          chartType === 'minimal' ? 'line' :
-          chartType === 'detailed' ? 'area' :
-          chartType === 'heatmap' ? 'scatter' :
-          chartType === 'radar' ? 'line' :
-          (chartType as ChartType)
+          chartType === "default"
+            ? "line"
+            : chartType === "minimal"
+              ? "line"
+              : chartType === "detailed"
+                ? "area"
+                : chartType === "heatmap"
+                  ? "scatter"
+                  : chartType === "radar"
+                    ? "line"
+                    : (chartType as ChartType)
         }
         datasets={datasets || []}
         palette={palette}
-        qualityTier={typeof activeQuality === 'object' ? activeQuality.tier : activeQuality}
+        qualityTier={
+          typeof activeQuality === "object" ? activeQuality.tier : activeQuality
+        }
         animation={animation}
         interaction={interaction}
         axis={effectiveAxisOptions}
         isReducedMotion={isReducedMotion}
-        springValue={getValue('chart-mount')}
+        springValue={getValue("chart-mount")}
         enablePhysicsAnimation={enablePhysicsAnimation}
         onDataPointClick={handleDataPointClick}
         onChartHover={handleChartHover}
         onChartLeave={handleChartLeave}
-        chartRefCallback={(chart) => chartRef.current = chart}
+        chartRefCallback={(chart) => (chartRef.current = chart)}
         glassVariant={glassVariant}
       />
-      
+
       {/* Legend - Bottom position */}
-      {legend.show && legend.position === 'bottom' && (
-        <ChartLegend 
-          $position={legend.position} 
-          $style={legend.style || 'default'} 
+      {legend.show && legend.position === "bottom" && (
+        <ChartLegend
+          $position={legend.position}
+          $style={legend.style || "default"}
           $glassEffect={legend.glassEffect || false}
         >
           {datasets?.map((dataset, index) => {
-            const color = dataset.style?.lineColor || palette[index % palette.length];
+            const color =
+              dataset.style?.lineColor || palette[index % palette.length];
             const isActive = selectedIndices.includes(index);
             return (
-              <LegendItem 
+              <LegendItem
                 key={dataset.id || index}
                 $color={color}
-                $style={legend.style || 'default'}
+                $style={legend.style || "default"}
                 $active={isActive}
               >
-                <LegendColor 
-                  $color={color} 
-                  $active={isActive} 
-                />
-                <LegendLabel $active={isActive}>
-                  {dataset.label}
-                </LegendLabel>
+                <LegendColor $color={color} $active={isActive} />
+                <LegendLabel $active={isActive}>{dataset.label}</LegendLabel>
               </LegendItem>
             );
           })}
         </ChartLegend>
       )}
-      
+
       {/* Enhanced Tooltip with consciousness features */}
       <ChartTooltip
         tooltipData={hoveredPoint}
         datasets={datasets}
         color={color}
-        qualityTier={typeof activeQuality === 'object' ? activeQuality.tier : activeQuality}
-        tooltipStyle={(interaction.tooltipStyle === 'dynamic' ? 'frosted' : interaction.tooltipStyle) || 'frosted'}
+        qualityTier={
+          typeof activeQuality === "object" ? activeQuality.tier : activeQuality
+        }
+        tooltipStyle={
+          (interaction.tooltipStyle === "dynamic"
+            ? "frosted"
+            : interaction.tooltipStyle) || "frosted"
+        }
         followCursor={interaction.tooltipFollowCursor}
       />
-      
+
       {/* Eye tracking focus overlay */}
       {currentDataFocus && gazeResponsive && (
         <div
@@ -1033,25 +1155,24 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           data-gaze-overlay="true"
         />
       )}
-      
+
       {/* Preloading indicator */}
       {isPreloading && (
-        <div
-          className="glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary text-primary px-3 py-2 glass-radius glass-contrast-guard"
-        >
+        <div className="glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary text-primary glass-px-3 glass-py-2 glass-radius glass-contrast-guard">
           🔄 Analyzing data patterns...
         </div>
       )}
-      
+
       {/* Chart insights footer */}
       {(chartInsights.length > 0 || currentDataFocus) && (
         <div
-          className="glass-absolute px-2 py-1 glass-surface-primary/10 text-primary glass-radius glass-z-10 glass-contrast-guard"
+          className="glass-absolute glass-px-2 glass-py-1 glass-surface-primary/10 text-primary glass-radius glass-z-10 glass-contrast-guard"
           data-consciousness-footer="true"
         >
           {chartInsights.length > 0 && `📊 ${chartInsights.length} insights`}
-          {currentDataFocus && chartInsights.length > 0 && ' | '}
-          {currentDataFocus && `Focus: S${currentDataFocus.seriesIndex + 1}P${currentDataFocus.pointIndex + 1}`}
+          {currentDataFocus && chartInsights.length > 0 && " | "}
+          {currentDataFocus &&
+            `Focus: S${currentDataFocus.seriesIndex + 1}P${currentDataFocus.pointIndex + 1}`}
         </div>
       )}
     </ChartContainer>
@@ -1059,94 +1180,98 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
 });
 
 // Add display name for debugging
-ModularGlassDataChart.displayName = 'ModularGlassDataChart';
+ModularGlassDataChart.displayName = "ModularGlassDataChart";
 
 /**
  * Enhanced ModularGlassDataChart with consciousness features enabled by default
  * Use this for data-heavy charts that need intelligent insights
  */
-export const ConsciousModularGlassDataChart = React.forwardRef<GlassDataChartRef, Parameters<typeof ModularGlassDataChart>[0]>(
-  (props, ref) => (
-    <ModularGlassDataChart
-      ref={ref}
-      predictive={true}
-      preloadData={true}
-      adaptive={true}
-      biometricResponsive={true}
-      trackAchievements={true}
-      achievementId="conscious_modular_chart_usage"
-      {...props}
-    />
-  )
-);
+export const ConsciousModularGlassDataChart = React.forwardRef<
+  GlassDataChartRef,
+  Parameters<typeof ModularGlassDataChart>[0]
+>((props, ref) => (
+  <ModularGlassDataChart
+    ref={ref}
+    predictive={true}
+    preloadData={true}
+    adaptive={true}
+    biometricResponsive={true}
+    trackAchievements={true}
+    achievementId="conscious_modular_chart_usage"
+    {...props}
+  />
+));
 
-ConsciousModularGlassDataChart.displayName = 'ConsciousModularGlassDataChart';
+ConsciousModularGlassDataChart.displayName = "ConsciousModularGlassDataChart";
 
 /**
  * Predictive ModularGlassDataChart optimized for complex data analysis
  */
-export const PredictiveModularGlassDataChart = React.forwardRef<GlassDataChartRef, Parameters<typeof ModularGlassDataChart>[0]>(
-  (props, ref) => (
-    <ModularGlassDataChart
-      ref={ref}
-      predictive={true}
-      preloadData={true}
-      eyeTracking={true}
-      gazeResponsive={true}
-      trackAchievements={true}
-      achievementId="predictive_modular_chart_analysis"
-      usageContext="analytics"
-      {...props}
-    />
-  )
-);
+export const PredictiveModularGlassDataChart = React.forwardRef<
+  GlassDataChartRef,
+  Parameters<typeof ModularGlassDataChart>[0]
+>((props, ref) => (
+  <ModularGlassDataChart
+    ref={ref}
+    predictive={true}
+    preloadData={true}
+    eyeTracking={true}
+    gazeResponsive={true}
+    trackAchievements={true}
+    achievementId="predictive_modular_chart_analysis"
+    usageContext="analytics"
+    {...props}
+  />
+));
 
-PredictiveModularGlassDataChart.displayName = 'PredictiveModularGlassDataChart';
+PredictiveModularGlassDataChart.displayName = "PredictiveModularGlassDataChart";
 
 /**
  * Adaptive ModularGlassDataChart that responds to user cognitive load
  */
-export const AdaptiveModularGlassDataChart = React.forwardRef<GlassDataChartRef, Parameters<typeof ModularGlassDataChart>[0]>(
-  (props, ref) => (
-    <ModularGlassDataChart
-      ref={ref}
-      adaptive={true}
-      biometricResponsive={true}
-      spatialAudio={true}
-      audioFeedback={true}
-      trackAchievements={true}
-      achievementId="adaptive_modular_chart_usage"
-      {...props}
-    />
-  )
-);
+export const AdaptiveModularGlassDataChart = React.forwardRef<
+  GlassDataChartRef,
+  Parameters<typeof ModularGlassDataChart>[0]
+>((props, ref) => (
+  <ModularGlassDataChart
+    ref={ref}
+    adaptive={true}
+    biometricResponsive={true}
+    spatialAudio={true}
+    audioFeedback={true}
+    trackAchievements={true}
+    achievementId="adaptive_modular_chart_usage"
+    {...props}
+  />
+));
 
-AdaptiveModularGlassDataChart.displayName = 'AdaptiveModularGlassDataChart';
+AdaptiveModularGlassDataChart.displayName = "AdaptiveModularGlassDataChart";
 
 /**
  * Immersive ModularGlassDataChart for dashboard and presentation contexts
  */
-export const ImmersiveModularGlassDataChart = React.forwardRef<GlassDataChartRef, Parameters<typeof ModularGlassDataChart>[0]>(
-  (props, ref) => (
-    <ModularGlassDataChart
-      ref={ref}
-      predictive={true}
-      preloadData={true}
-      eyeTracking={true}
-      gazeResponsive={true}
-      adaptive={true}
-      biometricResponsive={true}
-      spatialAudio={true}
-      audioFeedback={true}
-      trackAchievements={true}
-      achievementId="immersive_modular_chart_experience"
-      usageContext="dashboard"
-      {...props}
-    />
-  )
-);
+export const ImmersiveModularGlassDataChart = React.forwardRef<
+  GlassDataChartRef,
+  Parameters<typeof ModularGlassDataChart>[0]
+>((props, ref) => (
+  <ModularGlassDataChart
+    ref={ref}
+    predictive={true}
+    preloadData={true}
+    eyeTracking={true}
+    gazeResponsive={true}
+    adaptive={true}
+    biometricResponsive={true}
+    spatialAudio={true}
+    audioFeedback={true}
+    trackAchievements={true}
+    achievementId="immersive_modular_chart_experience"
+    usageContext="dashboard"
+    {...props}
+  />
+));
 
-ImmersiveModularGlassDataChart.displayName = 'ImmersiveModularGlassDataChart';
+ImmersiveModularGlassDataChart.displayName = "ImmersiveModularGlassDataChart";
 
 /**
  * Pre-configured consciousness modular chart presets
@@ -1159,7 +1284,7 @@ export const ModularChartConsciousnessPresets = {
     predictive: true,
     trackAchievements: true,
   },
-  
+
   /**
    * Balanced consciousness features for general modular chart usage
    */
@@ -1169,7 +1294,7 @@ export const ModularChartConsciousnessPresets = {
     biometricResponsive: true,
     trackAchievements: true,
   },
-  
+
   /**
    * Full consciousness features for immersive modular chart experiences
    */
@@ -1184,7 +1309,7 @@ export const ModularChartConsciousnessPresets = {
     audioFeedback: true,
     trackAchievements: true,
   },
-  
+
   /**
    * Analytics-focused consciousness features for data exploration
    */
@@ -1194,8 +1319,8 @@ export const ModularChartConsciousnessPresets = {
     eyeTracking: true,
     gazeResponsive: true,
     trackAchievements: true,
-    usageContext: 'analytics' as const,
+    usageContext: "analytics" as const,
   },
 } as const;
 
-export default ModularGlassDataChart; 
+export default ModularGlassDataChart;

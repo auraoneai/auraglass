@@ -1,10 +1,16 @@
-import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { cn } from '../../lib/utilsComprehensive';
-import { useA11yId } from '../../utils/a11y';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { useGlassSound } from '../../utils/soundDesign';
+import React, {
+  forwardRef,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { cn } from "../../lib/utilsComprehensive";
+import { useA11yId } from "../../utils/a11y";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { useGlassSound } from "../../utils/soundDesign";
 
 export interface QuantumParticle {
   x: number;
@@ -43,7 +49,7 @@ export interface QuantumField {
     particle1: string;
     particle2: string;
     strength: number;
-    type: 'strong' | 'weak' | 'electromagnetic' | 'quantum';
+    type: "strong" | "weak" | "electromagnetic" | "quantum";
   }>;
   id: string;
 }
@@ -59,7 +65,8 @@ export interface QuantumState {
   id: string;
 }
 
-export interface GlassQuantumFieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassQuantumFieldProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /** Canvas width */
   width?: number;
   /** Canvas height */
@@ -87,7 +94,7 @@ export interface GlassQuantumFieldProps extends Omit<React.HTMLAttributes<HTMLDi
   /** Animation speed */
   animationSpeed?: number;
   /** Quantum simulation type */
-  simulationType?: 'particle' | 'wave' | 'field' | 'superposition';
+  simulationType?: "particle" | "wave" | "field" | "superposition";
   /** Time evolution */
   timeEvolution?: boolean;
   /** Planck constant scale */
@@ -110,7 +117,10 @@ export interface GlassQuantumFieldProps extends Omit<React.HTMLAttributes<HTMLDi
   respectMotionPreference?: boolean;
 }
 
-export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldProps>(
+export const GlassQuantumField = forwardRef<
+  HTMLDivElement,
+  GlassQuantumFieldProps
+>(
   (
     {
       width = 800,
@@ -126,7 +136,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       showEntanglement = true,
       showMeasurement = true,
       animationSpeed = 1,
-      simulationType = 'particle',
+      simulationType = "particle",
       timeEvolution = true,
       planckScale = 1,
       temperature = 0.1,
@@ -144,13 +154,17 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
   ) => {
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
     const { play } = useGlassSound();
-    
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationRef = useRef<number>();
-    const quantumFieldId = useA11yId('glass-quantum-field');
-    
+    const quantumFieldId = useA11yId("glass-quantum-field");
+
     const [particles, setParticles] = useState<QuantumParticle[]>([]);
-    const [quantumField, setQuantumField] = useState<QuantumField>({ nodes: [], interactions: [], id: 'field' });
+    const [quantumField, setQuantumField] = useState<QuantumField>({
+      nodes: [],
+      interactions: [],
+      id: "field",
+    });
     const [quantumState, setQuantumState] = useState<QuantumState>({
       superposition: true,
       entanglement: 0,
@@ -159,10 +173,12 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       measurement: false,
       uncertainty: uncertaintyLevel,
       energy: energyLevel,
-      id: 'quantum-state'
+      id: "quantum-state",
     });
     const [animationTime, setAnimationTime] = useState(0);
-    const [measurementEvents, setMeasurementEvents] = useState<Array<{ x: number; y: number; time: number }>>([]);
+    const [measurementEvents, setMeasurementEvents] = useState<
+      Array<{ x: number; y: number; time: number }>
+    >([]);
 
     // Initialize quantum particles
     const initializeParticles = useCallback(() => {
@@ -183,13 +199,13 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           entangled: false,
           waveFunction: {
             real: Math.random(),
-            imaginary: Math.random()
+            imaginary: Math.random(),
           },
           uncertainty: {
             position: Math.random() * uncertaintyLevel,
-            momentum: Math.random() * uncertaintyLevel
+            momentum: Math.random() * uncertaintyLevel,
           },
-          id: `particle-${i}`
+          id: `particle-${i}`,
         };
 
         newParticles.push(particle);
@@ -197,11 +213,13 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
       // Create entanglement pairs
       if (entanglementStrength > 0) {
-        const entanglementCount = Math.floor(particleCount * entanglementStrength / 2);
+        const entanglementCount = Math.floor(
+          (particleCount * entanglementStrength) / 2
+        );
         for (let i = 0; i < entanglementCount; i++) {
           const p1Index = Math.floor(Math.random() * newParticles.length);
           const p2Index = Math.floor(Math.random() * newParticles.length);
-          
+
           if (p1Index !== p2Index) {
             const entanglementId = `entanglement-${i}`;
             newParticles[p1Index].entangled = true;
@@ -229,7 +247,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         particle1: string;
         particle2: string;
         strength: number;
-        type: 'strong' | 'weak' | 'electromagnetic' | 'quantum';
+        type: "strong" | "weak" | "electromagnetic" | "quantum";
       }> = [];
 
       // Create field nodes
@@ -241,12 +259,12 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
             z: 0,
             fieldStrength: Math.random() * energyLevel,
             potential: Math.sin(x * 0.01) * Math.cos(y * 0.01) * externalField,
-            probability: Math.random()
+            probability: Math.random(),
           });
         }
       }
 
-      setQuantumField({ nodes, interactions, id: 'quantum-field' });
+      setQuantumField({ nodes, interactions, id: "quantum-field" });
     }, [width, height, fieldResolution, energyLevel, externalField]);
 
     // Initialize quantum system
@@ -256,188 +274,248 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
     }, [initializeParticles, initializeField]);
 
     // Update quantum particles
-    const updateParticles = useCallback((deltaTime: number) => {
-      setParticles(prevParticles => {
-        const updated = prevParticles.map((particle: any) => {
-          // Wave function evolution (Schrödinger equation approximation)
-          const energyTerm = particle.frequency * deltaTime * planckScale;
-          const newPhase = particle.phase + energyTerm;
-          
-          // Update wave function
-          const newReal = particle.waveFunction.real * Math.cos(energyTerm) - 
-                         particle.waveFunction.imaginary * Math.sin(energyTerm);
-          const newImaginary = particle.waveFunction.real * Math.sin(energyTerm) + 
-                              particle.waveFunction.imaginary * Math.cos(energyTerm);
+    const updateParticles = useCallback(
+      (deltaTime: number) => {
+        setParticles((prevParticles) => {
+          const updated = prevParticles.map((particle: any) => {
+            // Wave function evolution (Schrödinger equation approximation)
+            const energyTerm = particle.frequency * deltaTime * planckScale;
+            const newPhase = particle.phase + energyTerm;
 
-          // Normalize wave function
-          const norm = Math.sqrt(newReal * newReal + newImaginary * newImaginary);
-          const normalizedReal = norm > 0 ? newReal / norm : 0;
-          const normalizedImaginary = norm > 0 ? newImaginary / norm : 0;
+            // Update wave function
+            const newReal =
+              particle.waveFunction.real * Math.cos(energyTerm) -
+              particle.waveFunction.imaginary * Math.sin(energyTerm);
+            const newImaginary =
+              particle.waveFunction.real * Math.sin(energyTerm) +
+              particle.waveFunction.imaginary * Math.cos(energyTerm);
 
-          // Quantum uncertainty principle
-          const positionUncertainty = particle.uncertainty.position;
-          const momentumUncertainty = particle.uncertainty.momentum;
-          
-          // Heisenberg uncertainty relation: Δx * Δp ≥ ℏ/2
-          const minUncertaintyProduct = planckScale * 0.5;
-          if (positionUncertainty * momentumUncertainty < minUncertaintyProduct) {
-            particle.uncertainty.position = Math.sqrt(minUncertaintyProduct / momentumUncertainty);
-          }
+            // Normalize wave function
+            const norm = Math.sqrt(
+              newReal * newReal + newImaginary * newImaginary
+            );
+            const normalizedReal = norm > 0 ? newReal / norm : 0;
+            const normalizedImaginary = norm > 0 ? newImaginary / norm : 0;
 
-          // Position evolution with quantum fluctuations
-          const quantumNoise = (Math.random() - 0.5) * positionUncertainty;
-          let newX = particle.x + particle.vx * deltaTime * animationSpeed + quantumNoise;
-          let newY = particle.y + particle.vy * deltaTime * animationSpeed + quantumNoise;
+            // Quantum uncertainty principle
+            const positionUncertainty = particle.uncertainty.position;
+            const momentumUncertainty = particle.uncertainty.momentum;
 
-          // Boundary conditions (periodic for quantum systems)
-          newX = ((newX % width) + width) % width;
-          newY = ((newY % height) + height) % height;
-
-          // Decoherence effects
-          const decoherenceRate = temperature * 0.001;
-          const newCoherence = Math.max(0, particle.amplitude * (1 - decoherenceRate * deltaTime));
-
-          return {
-            ...particle,
-            x: newX,
-            y: newY,
-            phase: newPhase,
-            amplitude: newCoherence,
-            waveFunction: {
-              real: normalizedReal,
-              imaginary: normalizedImaginary
-            },
-            uncertainty: {
-              position: Math.min(1, positionUncertainty + (Math.random() - 0.5) * 0.01),
-              momentum: Math.min(1, momentumUncertainty + (Math.random() - 0.5) * 0.01)
+            // Heisenberg uncertainty relation: Δx * Δp ≥ ℏ/2
+            const minUncertaintyProduct = planckScale * 0.5;
+            if (
+              positionUncertainty * momentumUncertainty <
+              minUncertaintyProduct
+            ) {
+              particle.uncertainty.position = Math.sqrt(
+                minUncertaintyProduct / momentumUncertainty
+              );
             }
-          };
-        });
 
-        // Update entanglement correlations
-        const entanglementPairs = new Map<string, QuantumParticle[]>();
-        updated.forEach((particle: any) => {
-          if (particle.entangled && particle.entanglementId) {
-            if (!entanglementPairs.has(particle.entanglementId)) {
-              entanglementPairs.set(particle.entanglementId, []);
+            // Position evolution with quantum fluctuations
+            const quantumNoise = (Math.random() - 0.5) * positionUncertainty;
+            let newX =
+              particle.x +
+              particle.vx * deltaTime * animationSpeed +
+              quantumNoise;
+            let newY =
+              particle.y +
+              particle.vy * deltaTime * animationSpeed +
+              quantumNoise;
+
+            // Boundary conditions (periodic for quantum systems)
+            newX = ((newX % width) + width) % width;
+            newY = ((newY % height) + height) % height;
+
+            // Decoherence effects
+            const decoherenceRate = temperature * 0.001;
+            const newCoherence = Math.max(
+              0,
+              particle.amplitude * (1 - decoherenceRate * deltaTime)
+            );
+
+            return {
+              ...particle,
+              x: newX,
+              y: newY,
+              phase: newPhase,
+              amplitude: newCoherence,
+              waveFunction: {
+                real: normalizedReal,
+                imaginary: normalizedImaginary,
+              },
+              uncertainty: {
+                position: Math.min(
+                  1,
+                  positionUncertainty + (Math.random() - 0.5) * 0.01
+                ),
+                momentum: Math.min(
+                  1,
+                  momentumUncertainty + (Math.random() - 0.5) * 0.01
+                ),
+              },
+            };
+          });
+
+          // Update entanglement correlations
+          const entanglementPairs = new Map<string, QuantumParticle[]>();
+          updated.forEach((particle: any) => {
+            if (particle.entangled && particle.entanglementId) {
+              if (!entanglementPairs.has(particle.entanglementId)) {
+                entanglementPairs.set(particle.entanglementId, []);
+              }
+              entanglementPairs.get(particle.entanglementId)!.push(particle);
             }
-            entanglementPairs.get(particle.entanglementId)!.push(particle);
-          }
-        });
+          });
 
-        // Apply entanglement correlations
-        entanglementPairs.forEach((entangledParticles, entanglementId) => {
-          if (entangledParticles.length === 2) {
-            const [p1, p2] = entangledParticles;
-            // Spin correlation for entangled particles
-            if (Math.random() < entanglementStrength) {
-              p2.spin = -p1.spin;
-              p2.phase = Math.PI - p1.phase;
+          // Apply entanglement correlations
+          entanglementPairs.forEach((entangledParticles, entanglementId) => {
+            if (entangledParticles.length === 2) {
+              const [p1, p2] = entangledParticles;
+              // Spin correlation for entangled particles
+              if (Math.random() < entanglementStrength) {
+                p2.spin = -p1.spin;
+                p2.phase = Math.PI - p1.phase;
+              }
             }
-          }
-        });
+          });
 
-        return updated;
-      });
-    }, [animationSpeed, planckScale, temperature, width, height, entanglementStrength]);
+          return updated;
+        });
+      },
+      [
+        animationSpeed,
+        planckScale,
+        temperature,
+        width,
+        height,
+        entanglementStrength,
+      ]
+    );
 
     // Update quantum field
-    const updateQuantumField = useCallback((deltaTime: number) => {
-      setQuantumField(prevField => {
-        const updatedNodes = prevField.nodes.map((node: any) => {
-          // Field fluctuations
-          const fieldFluctuation = (Math.random() - 0.5) * 0.1 * energyLevel;
-          const newFieldStrength = Math.max(0, node.fieldStrength + fieldFluctuation);
-          
-          // Probability density calculation
-          let totalProbability = 0;
-          particles.forEach((particle: any) => {
-            const distance = Math.sqrt(
-              (particle.x - node.x) ** 2 + 
-              (particle.y - node.y) ** 2
+    const updateQuantumField = useCallback(
+      (deltaTime: number) => {
+        setQuantumField((prevField) => {
+          const updatedNodes = prevField.nodes.map((node: any) => {
+            // Field fluctuations
+            const fieldFluctuation = (Math.random() - 0.5) * 0.1 * energyLevel;
+            const newFieldStrength = Math.max(
+              0,
+              node.fieldStrength + fieldFluctuation
             );
-            const waveContribution = particle.amplitude * 
-              Math.exp(-distance / (50 * particle.uncertainty.position));
-            totalProbability += waveContribution * waveContribution;
+
+            // Probability density calculation
+            let totalProbability = 0;
+            particles.forEach((particle: any) => {
+              const distance = Math.sqrt(
+                (particle.x - node.x) ** 2 + (particle.y - node.y) ** 2
+              );
+              const waveContribution =
+                particle.amplitude *
+                Math.exp(-distance / (50 * particle.uncertainty.position));
+              totalProbability += waveContribution * waveContribution;
+            });
+
+            return {
+              ...node,
+              fieldStrength: newFieldStrength,
+              probability: Math.min(1, totalProbability),
+            };
           });
 
           return {
-            ...node,
-            fieldStrength: newFieldStrength,
-            probability: Math.min(1, totalProbability)
+            ...prevField,
+            nodes: updatedNodes,
           };
         });
-
-        return {
-          ...prevField,
-          nodes: updatedNodes
-        };
-      });
-    }, [energyLevel, particles]);
+      },
+      [energyLevel, particles]
+    );
 
     // Update quantum state
     const updateQuantumState = useCallback(() => {
       const entangledCount = particles.filter((p: any) => p.entangled).length;
-      const totalCoherence = particles.reduce((sum, p) => sum + p.amplitude, 0) / particles.length;
-      const avgUncertainty = particles.reduce((sum, p) => sum + p.uncertainty.position, 0) / particles.length;
+      const totalCoherence =
+        particles.reduce((sum, p) => sum + p.amplitude, 0) / particles.length;
+      const avgUncertainty =
+        particles.reduce((sum, p) => sum + p.uncertainty.position, 0) /
+        particles.length;
 
       const newState: QuantumState = {
-        superposition: simulationType === 'superposition' || totalCoherence > 0.5,
+        superposition:
+          simulationType === "superposition" || totalCoherence > 0.5,
         entanglement: entangledCount / particles.length,
         coherence: totalCoherence,
         decoherence: temperature * 0.1,
         measurement: measurementEvents.length > 0,
         uncertainty: avgUncertainty,
         energy: energyLevel,
-        id: quantumState.id
+        id: quantumState.id,
       };
 
       setQuantumState(newState);
       onQuantumStateChange?.(newState);
-    }, [particles, simulationType, temperature, measurementEvents, energyLevel, quantumState.id, onQuantumStateChange]);
+    }, [
+      particles,
+      simulationType,
+      temperature,
+      measurementEvents,
+      energyLevel,
+      quantumState.id,
+      onQuantumStateChange,
+    ]);
 
     // Perform quantum measurement
-    const performMeasurement = useCallback((x: number, y: number) => {
-      const measurementRadius = 50;
-      const measuredParticles = particles.filter((particle: any) => {
-        const distance = Math.sqrt((particle.x - x) ** 2 + (particle.y - y) ** 2);
-        return distance < measurementRadius;
-      });
+    const performMeasurement = useCallback(
+      (x: number, y: number) => {
+        const measurementRadius = 50;
+        const measuredParticles = particles.filter((particle: any) => {
+          const distance = Math.sqrt(
+            (particle.x - x) ** 2 + (particle.y - y) ** 2
+          );
+          return distance < measurementRadius;
+        });
 
-      if (measuredParticles.length > 0) {
-        setMeasurementEvents((prev: any) => [...prev, { x, y, time: Date.now() }]);
-        
-        // Collapse wave functions
-        setParticles(prevParticles => 
-          prevParticles.map((particle: any) => {
-            if (measuredParticles.includes(particle)) {
-              const measurementResult = {
-                position: { x: particle.x, y: particle.y },
-                momentum: { x: particle.vx, y: particle.vy },
-                spin: particle.spin
-              };
-              
-              onMeasurement?.(particle, measurementResult);
-              
-              return {
-                ...particle,
-                amplitude: 1, // Wave function collapse
-                uncertainty: { position: 0.01, momentum: 1 }, // Increased momentum uncertainty
-                waveFunction: { real: 1, imaginary: 0 }
-              };
-            }
-            return particle;
-          })
-        );
+        if (measuredParticles.length > 0) {
+          setMeasurementEvents((prev: any) => [
+            ...prev,
+            { x, y, time: Date.now() },
+          ]);
 
-        play('success');
-      }
-    }, [particles, onMeasurement, play]);
+          // Collapse wave functions
+          setParticles((prevParticles) =>
+            prevParticles.map((particle: any) => {
+              if (measuredParticles.includes(particle)) {
+                const measurementResult = {
+                  position: { x: particle.x, y: particle.y },
+                  momentum: { x: particle.vx, y: particle.vy },
+                  spin: particle.spin,
+                };
+
+                onMeasurement?.(particle, measurementResult);
+
+                return {
+                  ...particle,
+                  amplitude: 1, // Wave function collapse
+                  uncertainty: { position: 0.01, momentum: 1 }, // Increased momentum uncertainty
+                  waveFunction: { real: 1, imaginary: 0 },
+                };
+              }
+              return particle;
+            })
+          );
+
+          play("success");
+        }
+      },
+      [particles, onMeasurement, play]
+    );
 
     // Clear expired measurement events
     useEffect(() => {
       const interval = setInterval(() => {
-        setMeasurementEvents((prev: any) => 
+        setMeasurementEvents((prev: any) =>
           prev.filter((event: any) => Date.now() - event.time < 2000)
         );
       }, 100);
@@ -450,15 +528,15 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
       // Clear canvas
-      ctx.fillStyle = 'rgb(5, 5, 20)';
+      ctx.fillStyle = "rgb(5, 5, 20)";
       ctx.fillRect(0, 0, width, height);
 
       // Draw quantum field background
-      if (simulationType === 'field') {
+      if (simulationType === "field") {
         quantumField.nodes.forEach((node: any) => {
           if (node.probability > 0.1) {
             const alpha = node.probability * 0.3;
@@ -473,14 +551,20 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         particles.forEach((particle: any) => {
           const cloudRadius = particle.uncertainty.position * 40;
           const gradient = ctx.createRadialGradient(
-            particle.x, particle.y, 0,
-            particle.x, particle.y, cloudRadius
+            particle.x,
+            particle.y,
+            0,
+            particle.x,
+            particle.y,
+            cloudRadius
           );
-          
-          const probability = particle.waveFunction.real ** 2 + particle.waveFunction.imaginary ** 2;
+
+          const probability =
+            particle.waveFunction.real ** 2 +
+            particle.waveFunction.imaginary ** 2;
           gradient.addColorStop(0, `rgba(200, 100, 255, ${probability * 0.3})`);
-          gradient.addColorStop(1, 'rgba(200, 100, 255, 0)');
-          
+          gradient.addColorStop(1, "rgba(200, 100, 255, 0)");
+
           ctx.fillStyle = gradient;
           ctx.beginPath();
           ctx.arc(particle.x, particle.y, cloudRadius, 0, Math.PI * 2);
@@ -493,17 +577,21 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         particles.forEach((particle: any) => {
           const waveRadius = particle.amplitude * 30;
           const phaseColor = Math.floor((particle.phase / (Math.PI * 2)) * 360);
-          
+
           // Real part of wave function
           ctx.strokeStyle = `hsl(${phaseColor}, 70%, 60%)`;
           ctx.lineWidth = 2;
           ctx.globalAlpha = particle.amplitude;
-          
+
           ctx.beginPath();
           for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
-            const x = particle.x + Math.cos(angle) * waveRadius * particle.waveFunction.real;
-            const y = particle.y + Math.sin(angle) * waveRadius * particle.waveFunction.real;
-            
+            const x =
+              particle.x +
+              Math.cos(angle) * waveRadius * particle.waveFunction.real;
+            const y =
+              particle.y +
+              Math.sin(angle) * waveRadius * particle.waveFunction.real;
+
             if (angle === 0) {
               ctx.moveTo(x, y);
             } else {
@@ -512,16 +600,20 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           }
           ctx.closePath();
           ctx.stroke();
-          
+
           // Imaginary part
           ctx.strokeStyle = `hsl(${(phaseColor + 90) % 360}, 70%, 60%)`;
           ctx.setLineDash([5, 5]);
-          
+
           ctx.beginPath();
           for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
-            const x = particle.x + Math.cos(angle) * waveRadius * particle.waveFunction.imaginary;
-            const y = particle.y + Math.sin(angle) * waveRadius * particle.waveFunction.imaginary;
-            
+            const x =
+              particle.x +
+              Math.cos(angle) * waveRadius * particle.waveFunction.imaginary;
+            const y =
+              particle.y +
+              Math.sin(angle) * waveRadius * particle.waveFunction.imaginary;
+
             if (angle === 0) {
               ctx.moveTo(x, y);
             } else {
@@ -530,7 +622,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           }
           ctx.closePath();
           ctx.stroke();
-          
+
           ctx.setLineDash([]);
         });
       }
@@ -540,13 +632,14 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       particles.forEach((particle: any) => {
         // Particle core
         const coreRadius = 3;
-        const spinColor = particle.spin > 0 ? 'rgb(255, 100, 100)' : 'rgb(100, 100, 255)';
-        
+        const spinColor =
+          particle.spin > 0 ? "rgb(255, 100, 100)" : "rgb(100, 100, 255)";
+
         ctx.fillStyle = spinColor;
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, coreRadius, 0, Math.PI * 2);
         ctx.fill();
-        
+
         // Spin visualization
         ctx.strokeStyle = spinColor;
         ctx.lineWidth = 1;
@@ -570,16 +663,16 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         entanglementPairs.forEach((entangledParticles: any) => {
           if (entangledParticles.length === 2) {
             const [p1, p2] = entangledParticles;
-            
-            ctx.strokeStyle = 'rgba(255, 255, 100, 0.6)';
+
+            ctx.strokeStyle = "rgba(255, 255, 100, 0.6)";
             ctx.lineWidth = 2;
             ctx.setLineDash([5, 5]);
-            
+
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
-            
+
             ctx.setLineDash([]);
           }
         });
@@ -590,7 +683,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         const age = (Date.now() - event.time) / 2000;
         const alpha = Math.max(0, 1 - age);
         const radius = 30 + age * 20;
-        
+
         ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -601,36 +694,75 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       // Draw quantum info overlay
       if (showQuantumInfo) {
         ctx.save();
-        ctx.fillStyle = 'var(--glass-text-secondary-dark)';
+        ctx.fillStyle = "var(--glass-text-secondary-dark)";
         ctx.fillRect(10, 10, 300, 180);
-        
-        ctx.fillStyle = 'white';
-        ctx.font = '14px monospace';
+
+        ctx.fillStyle = "white";
+        ctx.font = "14px monospace";
         ctx.fillText(`Quantum State Information:`, 20, 30);
-        ctx.fillText(`Coherence: ${(quantumState.coherence * 100).toFixed(1)}%`, 20, 50);
-        ctx.fillText(`Entanglement: ${(quantumState.entanglement * 100).toFixed(1)}%`, 20, 70);
-        ctx.fillText(`Uncertainty: ${(quantumState.uncertainty * 100).toFixed(1)}%`, 20, 90);
-        ctx.fillText(`Decoherence: ${(quantumState.decoherence * 100).toFixed(1)}%`, 20, 110);
-        ctx.fillText(`Energy: ${(quantumState.energy * 100).toFixed(1)}%`, 20, 130);
+        ctx.fillText(
+          `Coherence: ${(quantumState.coherence * 100).toFixed(1)}%`,
+          20,
+          50
+        );
+        ctx.fillText(
+          `Entanglement: ${(quantumState.entanglement * 100).toFixed(1)}%`,
+          20,
+          70
+        );
+        ctx.fillText(
+          `Uncertainty: ${(quantumState.uncertainty * 100).toFixed(1)}%`,
+          20,
+          90
+        );
+        ctx.fillText(
+          `Decoherence: ${(quantumState.decoherence * 100).toFixed(1)}%`,
+          20,
+          110
+        );
+        ctx.fillText(
+          `Energy: ${(quantumState.energy * 100).toFixed(1)}%`,
+          20,
+          130
+        );
         ctx.fillText(`Particles: ${particles.length}`, 20, 150);
-        ctx.fillText(`Superposition: ${quantumState.superposition ? 'Yes' : 'No'}`, 20, 170);
+        ctx.fillText(
+          `Superposition: ${quantumState.superposition ? "Yes" : "No"}`,
+          20,
+          170
+        );
         ctx.restore();
       }
-    }, [width, height, simulationType, quantumField, showProbabilityClouds, particles, showWaveFunctions, showEntanglement, measurementEvents, showQuantumInfo, quantumState]);
+    }, [
+      width,
+      height,
+      simulationType,
+      quantumField,
+      showProbabilityClouds,
+      particles,
+      showWaveFunctions,
+      showEntanglement,
+      measurementEvents,
+      showQuantumInfo,
+      quantumState,
+    ]);
 
     // Handle canvas click for measurement
-    const handleCanvasClick = useCallback((event: React.MouseEvent<HTMLCanvasElement>) => {
-      if (!showMeasurement) return;
+    const handleCanvasClick = useCallback(
+      (event: React.MouseEvent<HTMLCanvasElement>) => {
+        if (!showMeasurement) return;
 
-      const canvas = canvasRef.current;
-      if (!canvas) return;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
 
-      const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-      performMeasurement(x, y);
-    }, [showMeasurement, performMeasurement]);
+        performMeasurement(x, y);
+      },
+      [showMeasurement, performMeasurement]
+    );
 
     // Animation loop
     useEffect(() => {
@@ -642,15 +774,15 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
       const animate = (currentTime: number) => {
         const deltaTime = 16; // 60fps
         setAnimationTime((prev: any) => prev + deltaTime);
-        
+
         if (timeEvolution) {
           updateParticles(deltaTime);
           updateQuantumField(deltaTime);
           updateQuantumState();
         }
-        
+
         render();
-        
+
         animationRef.current = requestAnimationFrame(animate);
       };
 
@@ -661,7 +793,15 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           cancelAnimationFrame(animationRef.current);
         }
       };
-    }, [prefersReducedMotion, respectMotionPreference, render, timeEvolution, updateParticles, updateQuantumField, updateQuantumState]);
+    }, [
+      prefersReducedMotion,
+      respectMotionPreference,
+      render,
+      timeEvolution,
+      updateParticles,
+      updateQuantumField,
+      updateQuantumState,
+    ]);
 
     // Canvas setup
     useEffect(() => {
@@ -683,14 +823,14 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-quantum-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
+          className="glass-quantum-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Type:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Type:</label>
             <select
               value={simulationType}
               onChange={(e) => {}}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
+              className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
             >
               <option value="particle">Particle</option>
               <option value="wave">Wave</option>
@@ -699,8 +839,8 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Coherence:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Coherence:</label>
             <input
               type="range"
               min="0"
@@ -712,8 +852,8 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Entanglement:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Entanglement:</label>
             <input
               type="range"
               min="0"
@@ -725,8 +865,8 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">Temperature:</label>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">Temperature:</label>
             <input
               type="range"
               min="0"
@@ -738,8 +878,8 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm">
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={showWaveFunctions}
@@ -748,7 +888,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               />
               Waves
             </label>
-            <label className="text-sm">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={showProbabilityClouds}
@@ -757,7 +897,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               />
               Probability
             </label>
-            <label className="text-sm">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={showEntanglement}
@@ -766,7 +906,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
               />
               Entanglement
             </label>
-            <label className="text-sm">
+            <label className="glass-text-sm">
               <input
                 type="checkbox"
                 checked={timeEvolution}
@@ -779,7 +919,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
 
           <button
             onClick={() => initializeParticles()}
-            className="px-3 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
+            className="glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
           >
             Reset
           </button>
@@ -797,25 +937,25 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-quantum-field relative glass-radius-lg glass-backdrop-blur-md border border-border/20',
+          "glass-quantum-field relative glass-radius-lg glass-backdrop-blur-md border border-border/20",
           className
         )}
         {...props}
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="flex flex-col gap-4 p-4"
+          className="glass-flex glass-flex-col glass-gap-4 glass-p-4"
         >
           {renderControls()}
-          
+
           <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}
               height={height}
               className={cn(
-                'border border-border/20 glass-radius-md bg-black',
-                showMeasurement && 'cursor-crosshair'
+                "border border-border/20 glass-radius-md bg-black",
+                showMeasurement && "cursor-crosshair"
               )}
               onClick={handleCanvasClick}
               style={{ width, height }}
@@ -827,6 +967,6 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
   }
 );
 
-GlassQuantumField.displayName = 'GlassQuantumField';
+GlassQuantumField.displayName = "GlassQuantumField";
 
 export default GlassQuantumField;

@@ -1,11 +1,11 @@
-import { GlassButton } from '../button/GlassButton';
+import { GlassButton } from "../button/GlassButton";
 
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { GlassBadge } from '../data-display/GlassBadge';
-import { GlassInput } from '../input/GlassInput';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { GlassBadge } from "../data-display/GlassBadge";
+import { GlassInput } from "../input/GlassInput";
 
 export interface CommandItem {
   /**
@@ -161,7 +161,10 @@ export interface GlassCommandPaletteProps {
  * GlassCommandPalette component
  * Modal command palette with search, keyboard navigation, and glassmorphism styling
  */
-export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPaletteProps>(
+export const GlassCommandPalette = forwardRef<
+  HTMLDivElement,
+  GlassCommandPaletteProps
+>(
   (
     {
       items = [],
@@ -169,11 +172,11 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
       open = false,
       onOpenChange,
       onSelect,
-      placeholder = 'Search commands...',
-      emptyMessage = 'No commands found',
+      placeholder = "Search commands...",
+      emptyMessage = "No commands found",
       maxResults = 50,
       enableRecents = true,
-      recentsKey = 'glass-command-palette-recents',
+      recentsKey = "glass-command-palette-recents",
       maxRecents = 5,
       filter,
       sort,
@@ -184,14 +187,14 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
       closeOnEscape = true,
       closeOnSelect = true,
       loading = false,
-      loadingMessage = 'Loading commands...',
+      loadingMessage = "Loading commands...",
       className,
       ...props
     },
     ref
   ) => {
     // State
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState("");
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [recentCommands, setRecentCommands] = useState<CommandItem[]>([]);
 
@@ -201,7 +204,7 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
 
     // Load recent commands from localStorage
     useEffect(() => {
-      if (!enableRecents || typeof window === 'undefined') return;
+      if (!enableRecents || typeof window === "undefined") return;
 
       try {
         const stored = localStorage.getItem(recentsKey);
@@ -209,24 +212,24 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
           setRecentCommands(JSON.parse(stored));
         }
       } catch (error) {
-        console.warn('Failed to load recent commands:', error);
+        console.warn("Failed to load recent commands:", error);
       }
     }, [enableRecents, recentsKey]);
 
     // Save recent commands to localStorage
     const saveRecentCommand = (item: CommandItem) => {
-      if (!enableRecents || typeof window === 'undefined') return;
+      if (!enableRecents || typeof window === "undefined") return;
 
       try {
         const newRecents = [
           item,
-          ...recentCommands.filter((cmd: any) => cmd.id !== item?.id)
+          ...recentCommands.filter((cmd: any) => cmd.id !== item?.id),
         ].slice(0, maxRecents);
 
         setRecentCommands(newRecents);
         localStorage.setItem(recentsKey, JSON.stringify(newRecents));
       } catch (error) {
-        console.warn('Failed to save recent command:', error);
+        console.warn("Failed to save recent command:", error);
       }
     };
 
@@ -235,10 +238,12 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
       const flatItems = [...items];
 
       groups.forEach((group: any) => {
-        flatItems.push(...group.items.map((item: any) => ({
-          ...item,
-          category: item?.category || group.label,
-        })));
+        flatItems.push(
+          ...group.items.map((item: any) => ({
+            ...item,
+            category: item?.category || group.label,
+          }))
+        );
       });
 
       return flatItems;
@@ -250,19 +255,26 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
 
       const normalizedSearch = searchTerm.toLowerCase();
       const label = item?.label.toLowerCase();
-      const description = (item?.description || '').toLowerCase();
-      const keywords = (item?.keywords || []).join(' ').toLowerCase();
+      const description = (item?.description || "").toLowerCase();
+      const keywords = (item?.keywords || []).join(" ").toLowerCase();
 
       if (fuzzySearch) {
         // Simple fuzzy search implementation
-        const searchRegex = new RegExp(normalizedSearch.split('').join('.*'), 'i');
-        return searchRegex.test(label) ||
+        const searchRegex = new RegExp(
+          normalizedSearch.split("").join(".*"),
+          "i"
+        );
+        return (
+          searchRegex.test(label) ||
           searchRegex.test(description) ||
-          searchRegex.test(keywords);
+          searchRegex.test(keywords)
+        );
       } else {
-        return label.includes(normalizedSearch) ||
+        return (
+          label.includes(normalizedSearch) ||
           description.includes(normalizedSearch) ||
-          keywords.includes(normalizedSearch);
+          keywords.includes(normalizedSearch)
+        );
       }
     };
 
@@ -278,7 +290,7 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
       } else if (enableRecents && (recentCommands?.length || 0) > 0) {
         // Show recent commands when no search
         result = recentCommands.filter((recent: any) =>
-          allItems.some(item => item?.id === recent.id)
+          allItems.some((item) => item?.id === recent.id)
         );
       }
 
@@ -289,8 +301,16 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
         // Default sort: exact matches first, then by relevance
         result.sort((a, b) => {
           if (search) {
-            const aExact = a.label.toLowerCase().startsWith(search.toLowerCase()) ? 1 : 0;
-            const bExact = b.label.toLowerCase().startsWith(search.toLowerCase()) ? 1 : 0;
+            const aExact = a.label
+              .toLowerCase()
+              .startsWith(search.toLowerCase())
+              ? 1
+              : 0;
+            const bExact = b.label
+              .toLowerCase()
+              .startsWith(search.toLowerCase())
+              ? 1
+              : 0;
             if (aExact !== bExact) return bExact - aExact;
           }
           return a.label.localeCompare(b.label);
@@ -299,18 +319,30 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
 
       // Limit results
       return result.slice(0, maxResults);
-    }, [allItems, search, filter, sort, maxResults, fuzzySearch, enableRecents, recentCommands]);
+    }, [
+      allItems,
+      search,
+      filter,
+      sort,
+      maxResults,
+      fuzzySearch,
+      enableRecents,
+      recentCommands,
+    ]);
 
     // Group filtered items by category
     const groupedItems = useMemo(() => {
-      if (!showCategories) return { 'All': filteredItems };
+      if (!showCategories) return { All: filteredItems };
 
-      const grouped = filteredItems.reduce((acc, item) => {
-        const category = item?.category || 'Other';
+      const grouped = filteredItems.reduce(
+        (acc, item) => {
+          const category = item?.category || "Other";
           if (!acc[category]) acc[category] = [];
-        acc[category].push(item);
-        return acc;
-      }, {} as Record<string, CommandItem[]>);
+          acc[category].push(item);
+          return acc;
+        },
+        {} as Record<string, CommandItem[]>
+      );
 
       return grouped;
     }, [filteredItems, showCategories]);
@@ -332,45 +364,45 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
       }
 
       // Reset search
-      setSearch('');
+      setSearch("");
       setSelectedIndex(0);
     };
 
     // Handle keyboard navigation
     const handleKeyDown = (e: React.KeyboardEvent) => {
       switch (e.key) {
-        case 'Escape':
+        case "Escape":
           if (closeOnEscape) {
             e.preventDefault();
             onOpenChange?.(false);
           }
           break;
 
-        case 'ArrowDown':
+        case "ArrowDown":
           e.preventDefault();
           setSelectedIndex((prev: any) =>
             prev < (filteredItems?.length || 0) - 1 ? prev + 1 : prev
           );
           break;
 
-        case 'ArrowUp':
+        case "ArrowUp":
           e.preventDefault();
-          setSelectedIndex((prev: any) => prev > 0 ? prev - 1 : prev);
+          setSelectedIndex((prev: any) => (prev > 0 ? prev - 1 : prev));
           break;
 
-        case 'Enter':
+        case "Enter":
           e.preventDefault();
           if (filteredItems[selectedIndex]) {
             handleSelect(filteredItems[selectedIndex]);
           }
           break;
 
-        case 'Home':
+        case "Home":
           e.preventDefault();
           setSelectedIndex(0);
           break;
 
-        case 'End':
+        case "End":
           e.preventDefault();
           setSelectedIndex((filteredItems?.length || 0) - 1);
           break;
@@ -392,11 +424,13 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
     // Scroll selected item into view
     useEffect(() => {
       if (selectedIndex >= 0 && listRef.current) {
-        const selectedElement = listRef.current.children?.[selectedIndex] as HTMLElement;
+        const selectedElement = listRef.current.children?.[
+          selectedIndex
+        ] as HTMLElement;
         if (selectedElement) {
           selectedElement.scrollIntoView({
-            block: 'nearest',
-            behavior: 'smooth',
+            block: "nearest",
+            behavior: "smooth",
           });
         }
       }
@@ -405,8 +439,9 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
     if (!open) return null;
 
     return (
-      <div data-glass-component
-        className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh]"
+      <div
+        data-glass-component
+        className="fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center pt-[10vh]"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             onOpenChange?.(false);
@@ -416,14 +451,19 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
         {/* Backdrop */}
         <div
           className={cn(
-            'absolute inset-0 bg-black/20',
-            backdropBlur && 'glass-backdrop-blur-md'
+            "absolute inset-0 bg-black/20",
+            backdropBlur && "glass-backdrop-blur-md"
           )}
         />
 
         {/* Command Palette */}
-        <Motion preset="scaleIn" duration={200} className="relative w-full max-w-2xl mx-4">
-          <OptimizedGlass ref={ref}
+        <Motion
+          preset="scaleIn"
+          duration={200}
+          className="relative glass-w-full max-w-2xl glass-mx-4"
+        >
+          <OptimizedGlass
+            ref={ref}
             intent="neutral"
             elevation="level4"
             intensity="strong"
@@ -433,14 +473,14 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
             animation="float"
             performanceMode="high"
             className={cn(
-              'w-full max-h-[80vh] overflow-hidden glass-radius-xl',
+              "w-full max-h-[80vh] overflow-hidden glass-radius-xl",
               className
             )}
             onKeyDown={handleKeyDown}
             {...props}
           >
             {/* Search Input */}
-            <div className="p-4 border-b border-glass-border/10">
+            <div className="glass-p-4 glass-border-b glass-border-glass-border/10">
               <GlassInput
                 ref={inputRef}
                 value={search}
@@ -448,24 +488,44 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
                 placeholder={placeholder}
                 size="lg"
                 leftIcon={
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 }
                 rightIcon={
                   search && (
                     <GlassButton
                       type="button"
-                      className="p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
-                      onClick={(e) => setSearch('')}
+                      className="glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
+                      onClick={(e) => setSearch("")}
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </GlassButton>
                   )
                 }
-                className="border-0 bg-transparent focus:ring-0"
+                className="glass-border-0 bg-transparent focus:ring-0"
               />
             </div>
 
@@ -476,108 +536,121 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
               role="listbox"
             >
               {loading ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-primary border-t-transparent glass-radius-full animate-spin" />
-                    <span className="glass-text-secondary">{loadingMessage}</span>
+                <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
+                  <div className="glass-flex glass-items-center glass-gap-3">
+                    <div className="w-5 h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
+                    <span className="glass-text-secondary">
+                      {loadingMessage}
+                    </span>
                   </div>
                 </div>
               ) : (filteredItems?.length || 0) === 0 ? (
-                <div className="py-8 text-center glass-text-secondary">
+                <div className="glass-py-8 text-center glass-text-secondary">
                   {emptyMessage}
                 </div>
               ) : (
-                Object.entries(groupedItems).map(([category, categoryItems]) => (
-                  <div key={category}>
-                    {showCategories && Object.keys(groupedItems).length > 1 && (
-                      <div className="px-4 py-2 text-xs font-medium glass-text-secondary glass-surface-subtle border-b border-glass-border/5">
-                        {search ? 'Results' : category}
-                      </div>
-                    )}
-
-                    {categoryItems.map((item, index) => {
-                      const globalIndex = filteredItems.indexOf(item);
-                      const isSelected = globalIndex === selectedIndex;
-
-                      if (item?.component) {
-                        const Component = item?.component;
-                        return (
-                          <Component
-                            key={item?.id}
-                            item={item}
-                            isSelected={isSelected}
-                          />
-                        );
-                      }
-
-                      return (
-                        <GlassButton
-                          key={item?.id}
-                          type="button"
-                          className={cn(
-                            'w-full flex items-center glass-gap-3 glass-px-4 glass-py-3 text-left transition-colors',
-                            'hover:bg-muted/20 focus:bg-muted/20 focus:outline-none',
-                            {
-                              'bg-primary/10 border-l-2 border-primary': isSelected,
-                              'opacity-50 cursor-not-allowed': item?.disabled,
-                            }
-                          )}
-                          onClick={(e) => handleSelect(item)}
-                          disabled={item?.disabled}
-                          role="option"
-                          aria-selected={isSelected}
-                        >
-                          {/* Icon */}
-                          {item?.icon && (
-                            <span className="flex-shrink-0 glass-text-secondary">
-                              {item?.icon}
-                            </span>
-                          )}
-
-                          {/* Content */}
-                          <div className="flex-1 min-w-0">
-                            <div className="font-medium text-primary">
-                              {item?.label}
-                            </div>
-                            {item?.description && (
-                              <div className="text-sm glass-text-secondary truncate">
-                                {item?.description}
-                              </div>
-                            )}
+                Object.entries(groupedItems).map(
+                  ([category, categoryItems]) => (
+                    <div key={category}>
+                      {showCategories &&
+                        Object.keys(groupedItems).length > 1 && (
+                          <div className="glass-px-4 glass-py-2 glass-text-xs font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5">
+                            {search ? "Results" : category}
                           </div>
+                        )}
 
-                          {/* Shortcut */}
-                          {showShortcuts && item?.shortcut && (
-                            <GlassBadge variant="secondary" size="sm">
-                              {item?.shortcut}
-                            </GlassBadge>
-                          )}
-                        </GlassButton>
-                      );
-                    })}
-                  </div>
-                ))
+                      {categoryItems.map((item, index) => {
+                        const globalIndex = filteredItems.indexOf(item);
+                        const isSelected = globalIndex === selectedIndex;
+
+                        if (item?.component) {
+                          const Component = item?.component;
+                          return (
+                            <Component
+                              key={item?.id}
+                              item={item}
+                              isSelected={isSelected}
+                            />
+                          );
+                        }
+
+                        return (
+                          <GlassButton
+                            key={item?.id}
+                            type="button"
+                            className={cn(
+                              "w-full flex items-center glass-gap-3 glass-px-4 glass-py-3 text-left transition-colors",
+                              "hover:bg-muted/20 focus:bg-muted/20 focus:outline-none",
+                              {
+                                "bg-primary/10 border-l-2 border-primary":
+                                  isSelected,
+                                "opacity-50 cursor-not-allowed": item?.disabled,
+                              }
+                            )}
+                            onClick={(e) => handleSelect(item)}
+                            disabled={item?.disabled}
+                            role="option"
+                            aria-selected={isSelected}
+                          >
+                            {/* Icon */}
+                            {item?.icon && (
+                              <span className="glass-flex-shrink-0 glass-text-secondary">
+                                {item?.icon}
+                              </span>
+                            )}
+
+                            {/* Content */}
+                            <div className="glass-flex-1 glass-min-w-0">
+                              <div className="font-medium text-primary">
+                                {item?.label}
+                              </div>
+                              {item?.description && (
+                                <div className="glass-text-sm glass-text-secondary truncate">
+                                  {item?.description}
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Shortcut */}
+                            {showShortcuts && item?.shortcut && (
+                              <GlassBadge variant="secondary" size="sm">
+                                {item?.shortcut}
+                              </GlassBadge>
+                            )}
+                          </GlassButton>
+                        );
+                      })}
+                    </div>
+                  )
+                )
               )}
             </div>
 
             {/* Footer */}
             {(filteredItems?.length || 0) > 0 && (
-              <div className="px-4 py-2 text-xs glass-text-secondary glass-surface-subtle border-t border-glass-border/5">
-                <div className="flex items-center justify-between">
+              <div className="glass-px-4 glass-py-2 glass-text-xs glass-text-secondary glass-surface-subtle glass-border-t glass-border-glass-border/5">
+                <div className="glass-flex glass-items-center glass-justify-between">
                   <span>
-                    {(filteredItems?.length || 0)} {(filteredItems?.length || 0) === 1 ? 'result' : 'results'}
+                    {filteredItems?.length || 0}{" "}
+                    {(filteredItems?.length || 0) === 1 ? "result" : "results"}
                   </span>
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1">
-                      <GlassBadge variant="secondary" size="sm">↑↓</GlassBadge>
+                  <div className="glass-flex glass-items-center glass-gap-4">
+                    <span className="glass-flex glass-items-center glass-gap-1">
+                      <GlassBadge variant="secondary" size="sm">
+                        ↑↓
+                      </GlassBadge>
                       Navigate
                     </span>
-                    <span className="flex items-center gap-1">
-                      <GlassBadge variant="secondary" size="sm">↵</GlassBadge>
+                    <span className="glass-flex glass-items-center glass-gap-1">
+                      <GlassBadge variant="secondary" size="sm">
+                        ↵
+                      </GlassBadge>
                       Select
                     </span>
-                    <span className="flex items-center gap-1">
-                      <GlassBadge variant="secondary" size="sm">Esc</GlassBadge>
+                    <span className="glass-flex glass-items-center glass-gap-1">
+                      <GlassBadge variant="secondary" size="sm">
+                        Esc
+                      </GlassBadge>
                       Close
                     </span>
                   </div>
@@ -591,7 +664,10 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
   }
 );
 
-GlassCommandPalette.displayName = 'GlassCommandPalette';
+GlassCommandPalette.displayName = "GlassCommandPalette";
 
 // Export types - using different names to avoid conflicts
-export type { CommandGroup as GlassCommandGroup, CommandItem as GlassCommandItem };
+export type {
+  CommandGroup as GlassCommandGroup,
+  CommandItem as GlassCommandItem,
+};

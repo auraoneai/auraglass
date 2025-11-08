@@ -1,23 +1,35 @@
 // Typography tokens available via typography.css (imported in index.css)
-import React, { forwardRef, useEffect, useState, useMemo, useCallback } from 'react';
-import styled from 'styled-components';
-import { cn } from '@/lib/utils';
+import React, {
+  forwardRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
+import styled from "styled-components";
+import { cn } from "@/lib/utils";
 
-import { createThemeContext } from '../../core/themeContext';
-import { glassTokenUtils } from '../../tokens/glass';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { Box } from '../layout/Box';
-import { GlassButton as Button } from '../button';
-import { Typography } from '../data-display/Typography';
+import { createThemeContext } from "../../core/themeContext";
+import { glassTokenUtils } from "../../tokens/glass";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { Box } from "../layout/Box";
+import { GlassButton as Button } from "../button";
+import { Typography } from "../data-display/Typography";
 // Import correct path for glowEffects
 
-import { GlobalCookieConsentProps as CookieConsentProps } from './types';
+import { GlobalCookieConsentProps as CookieConsentProps } from "./types";
 
 // Physics/Animation Imports
-import { useGalileoStateSpring, GalileoStateSpringOptions } from '../../hooks/useGalileoStateSpring';
-import { useAnimationContext } from '../../contexts/AnimationContext';
-import { SpringConfig, SpringPresets } from '../../animations/physics/springPhysics';
-import { AnimationProps } from '../../animations/types';
+import {
+  useGalileoStateSpring,
+  GalileoStateSpringOptions,
+} from "../../hooks/useGalileoStateSpring";
+import { useAnimationContext } from "../../contexts/AnimationContext";
+import {
+  SpringConfig,
+  SpringPresets,
+} from "../../animations/physics/springPhysics";
+import { AnimationProps } from "../../animations/types";
 
 // Cookie management utility
 const setCookie = (name: string, value: string, days: number): void => {
@@ -29,17 +41,17 @@ const setCookie = (name: string, value: string, days: number): void => {
 
 const getCookie = (name: string): string | null => {
   const nameEQ = `${name}=`;
-  const ca = document.cookie.split(';');
+  const ca = document.cookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    while (c.charAt(0) === " ") c = c.substring(1, c.length);
     if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
   return null;
 };
 
 const StyledCookieConsent = styled.div<{
-  $position: CookieConsentProps['position'];
+  $position: CookieConsentProps["position"];
   $glassIntensity: number;
 }>`
   position: fixed;
@@ -54,32 +66,32 @@ const StyledCookieConsent = styled.div<{
 
   ${({ $position }) => {
     switch ($position) {
-      case 'bottom':
+      case "bottom":
         return `
           bottom: 20px;
           left: 50%;
         `;
-      case 'top':
+      case "top":
         return `
           top: 20px;
           left: 50%;
         `;
-      case 'bottom-left':
+      case "bottom-left":
         return `
           bottom: 20px;
           left: 20px;
         `;
-      case 'bottom-right':
+      case "bottom-right":
         return `
           bottom: 20px;
           right: 20px;
         `;
-      case 'top-left':
+      case "top-left":
         return `
           top: 20px;
           left: 20px;
         `;
-      case 'top-right':
+      case "top-right":
         return `
           top: 20px;
           right: 20px;
@@ -97,7 +109,7 @@ const StyledCookieConsent = styled.div<{
   -webkit-backdrop-filter: var(--glass-backdrop-blur);
   border: 1px solid var(--glass-border-default);
   box-shadow: var(--glass-elev-2);
-  
+
   @media (max-width: 480px) {
     max-width: 100%;
     width: calc(100% - 40px);
@@ -106,7 +118,7 @@ const StyledCookieConsent = styled.div<{
     transform: none;
 
     ${({ $position }) =>
-      ($position === 'top' || $position === 'bottom') &&
+      ($position === "top" || $position === "bottom") &&
       `
         left: 20px;
         right: 20px;
@@ -138,19 +150,19 @@ const ButtonContainer = styled.div`
 export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
   (
     {
-      title = 'Cookie Consent',
-      message = 'We use cookies to improve your experience on our site.',
-      position = 'bottom-right',
-      acceptButtonText = 'Accept',
-      declineButtonText = 'Decline',
-      settingsButtonText = 'Customize',
+      title = "Cookie Consent",
+      message = "We use cookies to improve your experience on our site.",
+      position = "bottom-right",
+      acceptButtonText = "Accept",
+      declineButtonText = "Decline",
+      settingsButtonText = "Customize",
       onAccept,
       onDecline,
       onSettings,
       enableSettings = false,
       glassIntensity = 0.7,
       privacyPolicyUrl,
-      privacyPolicyText = 'Privacy Policy',
+      privacyPolicyText = "Privacy Policy",
       className,
       animate = true,
       delay = 500,
@@ -176,7 +188,7 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
 
     useEffect(() => {
       // Check if user has already made a choice
-      const consentValue = getCookie('cookie-consent');
+      const consentValue = getCookie("cookie-consent");
       if (!consentValue) {
         // Show the consent banner after delay
         const timer = setTimeout(() => {
@@ -204,22 +216,26 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       const baseConfig: SpringConfig = SpringPresets.default;
       let contextConfig: Partial<SpringConfig> = {};
       const contextSource = defaultSpring;
-      if (typeof contextSource === 'string' && contextSource in SpringPresets) {
-        contextConfig = SpringPresets[contextSource as keyof typeof SpringPresets];
-      } else if (typeof contextSource === 'object') {
+      if (typeof contextSource === "string" && contextSource in SpringPresets) {
+        contextConfig =
+          SpringPresets[contextSource as keyof typeof SpringPresets];
+      } else if (typeof contextSource === "object") {
         contextConfig = contextSource ?? {};
       }
       let propConfig = {};
       const propSource = animationConfig;
-      if (typeof propSource === 'string' && propSource in SpringPresets) {
-          propConfig = SpringPresets[propSource as keyof typeof SpringPresets];
-      } else if (typeof propSource === 'object' && ('tension' in propSource || 'friction' in propSource)) {
-          propConfig = propSource as Partial<SpringConfig>;
+      if (typeof propSource === "string" && propSource in SpringPresets) {
+        propConfig = SpringPresets[propSource as keyof typeof SpringPresets];
+      } else if (
+        typeof propSource === "object" &&
+        ("tension" in propSource || "friction" in propSource)
+      ) {
+        propConfig = propSource as Partial<SpringConfig>;
       }
       return { ...baseConfig, ...contextConfig, ...propConfig };
     }, [defaultSpring, animationConfig]);
 
-    const isTop = position?.startsWith('top');
+    const isTop = position?.startsWith("top");
     const exitY = isTop ? -20 : 20;
 
     const { value: animatedOpacity } = useGalileoStateSpring(visible ? 1 : 0, {
@@ -227,10 +243,13 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       immediate: !shouldAnimate,
     });
 
-    const { value: animatedTranslateY } = useGalileoStateSpring(visible ? 0 : exitY, {
-      ...finalSpringConfig,
-      immediate: !shouldAnimate,
-    });
+    const { value: animatedTranslateY } = useGalileoStateSpring(
+      visible ? 0 : exitY,
+      {
+        ...finalSpringConfig,
+        immediate: !shouldAnimate,
+      }
+    );
 
     useEffect(() => {
       if (visible) {
@@ -238,10 +257,10 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       }
     }, [visible]);
 
-    const isCentered = position === 'top' || position === 'bottom';
+    const isCentered = position === "top" || position === "bottom";
     const animatedStyle: React.CSSProperties = {
       opacity: animatedOpacity,
-      transform: `translateY(${animatedTranslateY}px)${isCentered ? ' translateX(-50%)' : ''}`,
+      transform: `translateY(${animatedTranslateY}px)${isCentered ? " translateX(-50%)" : ""}`,
     };
 
     if (!isRendered && !visible) {
@@ -269,8 +288,13 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
             {message}
             {privacyPolicyUrl && (
               <>
-                {' '}
-                <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="glass-focus glass-touch-target glass-contrast-guard">
+                {" "}
+                <a
+                  href={privacyPolicyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-focus glass-touch-target glass-contrast-guard"
+                >
                   {privacyPolicyText}
                 </a>
               </>
@@ -279,18 +303,33 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
 
           <ButtonContainer>
             {dismissible && (
-              <Button variant="outline" onClick={onDecline} size="sm" className="glass-focus glass-touch-target">
+              <Button
+                variant="outline"
+                onClick={onDecline}
+                size="sm"
+                className="glass-focus glass-touch-target"
+              >
                 {declineButtonText}
               </Button>
             )}
 
             {enableSettings && (
-              <Button variant="outline" onClick={onSettings} size="sm" className="glass-focus glass-touch-target">
+              <Button
+                variant="outline"
+                onClick={onSettings}
+                size="sm"
+                className="glass-focus glass-touch-target"
+              >
                 {settingsButtonText}
               </Button>
             )}
 
-            <Button variant="primary" onClick={onAccept} size="sm" className="glass-focus glass-touch-target">
+            <Button
+              variant="primary"
+              onClick={onAccept}
+              size="sm"
+              className="glass-focus glass-touch-target"
+            >
               {acceptButtonText}
             </Button>
           </ButtonContainer>
@@ -300,11 +339,14 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
   }
 );
 
-CookieConsent.displayName = 'CookieConsent';
+CookieConsent.displayName = "CookieConsent";
 
 // Glass version of the CookieConsent component
-export const GlassCookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
-  (props: CookieConsentProps, ref) => <CookieConsent ref={ref} glassIntensity={0.8} {...props} />
-);
+export const GlassCookieConsent = forwardRef<
+  HTMLDivElement,
+  CookieConsentProps
+>((props: CookieConsentProps, ref) => (
+  <CookieConsent ref={ref} glassIntensity={0.8} {...props} />
+));
 
-GlassCookieConsent.displayName = 'GlassCookieConsent';
+GlassCookieConsent.displayName = "GlassCookieConsent";

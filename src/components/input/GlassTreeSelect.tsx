@@ -1,6 +1,13 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useState, useCallback, useMemo, useRef, useEffect } from 'react';
-import { OptimizedGlass } from '../../primitives';
+import { cn } from "../../lib/utilsComprehensive";
+import React, {
+  forwardRef,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
 
 export interface TreeNode {
   /**
@@ -29,7 +36,8 @@ export interface TreeNode {
   parentId?: string | number;
 }
 
-export interface GlassTreeSelectProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassTreeSelectProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /**
    * Tree data
    */
@@ -81,7 +89,7 @@ export interface GlassTreeSelectProps extends Omit<React.HTMLAttributes<HTMLDivE
    * Glassmorphism elevation level
    * @default 'level3'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Whether the component is disabled
    * @default false
@@ -95,14 +103,14 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
       data,
       value = [],
       onChange,
-      placeholder = 'Select...',
+      placeholder = "Select...",
       multiple = false,
       searchable = true,
-      searchPlaceholder = 'Search...',
+      searchPlaceholder = "Search...",
       showCheckbox,
       defaultExpanded = false,
-      maxHeight = '300px',
-      elevation = 'level3',
+      maxHeight = "300px",
+      elevation = "level3",
       disabled = false,
       className,
       ...props
@@ -110,8 +118,10 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     ref
   ) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [search, setSearch] = useState('');
-    const [expandedNodes, setExpandedNodes] = useState<Set<string | number>>(new Set());
+    const [search, setSearch] = useState("");
+    const [expandedNodes, setExpandedNodes] = useState<Set<string | number>>(
+      new Set()
+    );
     const containerRef = useRef<HTMLDivElement>(null);
 
     const shouldShowCheckbox = showCheckbox ?? multiple;
@@ -134,30 +144,36 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
         }
       };
 
       if (isOpen) {
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
       }
 
       return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener("mousedown", handleClickOutside);
       };
     }, [isOpen]);
 
-    const flattenTree = useCallback((nodes: TreeNode[], parentId?: string | number): TreeNode[] => {
-      return nodes.reduce<TreeNode[]>((acc, node) => {
-        const nodeWithParent = { ...node, parentId };
-        acc.push(nodeWithParent);
-        if (node.children) {
-          acc.push(...flattenTree(node.children, node.id));
-        }
-        return acc;
-      }, []);
-    }, []);
+    const flattenTree = useCallback(
+      (nodes: TreeNode[], parentId?: string | number): TreeNode[] => {
+        return nodes.reduce<TreeNode[]>((acc, node) => {
+          const nodeWithParent = { ...node, parentId };
+          acc.push(nodeWithParent);
+          if (node.children) {
+            acc.push(...flattenTree(node.children, node.id));
+          }
+          return acc;
+        }, []);
+      },
+      []
+    );
 
     const flatNodes = useMemo(() => flattenTree(data), [data, flattenTree]);
 
@@ -179,8 +195,12 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
       const filterNodes = (nodes: TreeNode[]): TreeNode[] => {
         return nodes
           .map((node) => {
-            const matches = node.label.toLowerCase().includes(search.toLowerCase());
-            const filteredChildren = node.children ? filterNodes(node.children) : [];
+            const matches = node.label
+              .toLowerCase()
+              .includes(search.toLowerCase());
+            const filteredChildren = node.children
+              ? filterNodes(node.children)
+              : [];
 
             if (matches || filteredChildren.length > 0) {
               matchingIds.add(node.id);
@@ -189,7 +209,10 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               }
               return {
                 ...node,
-                children: filteredChildren.length > 0 ? filteredChildren : node.children,
+                children:
+                  filteredChildren.length > 0
+                    ? filteredChildren
+                    : node.children,
               } as TreeNode;
             }
             return null;
@@ -241,17 +264,17 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
         <div data-glass-component key={node.id}>
           <div
             className={cn(
-              'flex items-center gap-2 glass-p-2 glass-radius-md cursor-pointer',
-              'transition-all duration-200',
-              'hover:bg-white/5',
-              'glass-focus glass-touch-target glass-contrast-guard',
-              isSelected && 'bg-white/10',
-              node.disabled && 'opacity-50 cursor-not-allowed'
+              "flex items-center gap-2 glass-p-2 glass-radius-md cursor-pointer",
+              "transition-all duration-200",
+              "hover:bg-white/5",
+              "glass-focus glass-touch-target glass-contrast-guard",
+              isSelected && "bg-white/10",
+              node.disabled && "opacity-50 cursor-not-allowed"
             )}
             style={{ paddingLeft: `${level * 1.5 + 0.5}rem` }}
             onClick={() => !node.disabled && handleSelect(node.id)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 if (!node.disabled) handleSelect(node.id);
               }
@@ -266,14 +289,14 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                   e.stopPropagation();
                   toggleExpand(node.id);
                 }}
-                className="flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5"
+                className="glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5"
               >
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
                   className={cn(
-                    'w-4 h-4 transition-transform duration-200',
-                    isExpanded && 'rotate-90'
+                    "w-4 h-4 transition-transform duration-200",
+                    isExpanded && "rotate-90"
                   )}
                 >
                   <path
@@ -295,13 +318,15 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                 onChange={() => handleSelect(node.id)}
                 disabled={disabled || node.disabled}
                 onClick={(e) => e.stopPropagation()}
-                className="flex-shrink-0 glass-focus"
+                className="glass-flex-shrink-0 glass-focus"
               />
             )}
 
-            {node.icon && <span className="flex-shrink-0">{node.icon}</span>}
+            {node.icon && (
+              <span className="glass-flex-shrink-0">{node.icon}</span>
+            )}
 
-            <span className="flex-1 glass-text-sm glass-text-primary truncate">
+            <span className="glass-flex-1 glass-text-sm glass-text-primary truncate">
               {node.label}
             </span>
           </div>
@@ -318,31 +343,38 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     const selectedLabels = getSelectedLabels();
 
     return (
-      <div ref={containerRef} className={cn('relative', className)} {...props}>
+      <div ref={containerRef} className={cn("relative", className)} {...props}>
         <button
           type="button"
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
           className={cn(
-            'w-full flex items-center justify-between gap-2',
-            'glass-p-3 glass-radius-md',
-            'bg-white/5 border glass-border-subtle',
-            'transition-all duration-200',
-            'hover:bg-white/10',
-            'focus:outline-none glass-focus glass-touch-target glass-contrast-guard',
-            'disabled:opacity-50 disabled:cursor-not-allowed',
-            isOpen && 'ring-2 ring-blue-500/50'
+            "w-full flex items-center justify-between gap-2",
+            "glass-p-3 glass-radius-md",
+            "bg-white/5 border glass-border-subtle",
+            "transition-all duration-200",
+            "hover:bg-white/10",
+            "focus:outline-none glass-focus glass-touch-target glass-contrast-guard",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
+            isOpen && "ring-2 ring-blue-500/50"
           )}
         >
-          <span className={cn('glass-text-sm truncate', selectedLabels.length === 0 && 'glass-text-secondary')}>
-            {selectedLabels.length > 0 ? selectedLabels.join(', ') : placeholder}
+          <span
+            className={cn(
+              "glass-text-sm truncate",
+              selectedLabels.length === 0 && "glass-text-secondary"
+            )}
+          >
+            {selectedLabels.length > 0
+              ? selectedLabels.join(", ")
+              : placeholder}
           </span>
           <svg
             viewBox="0 0 24 24"
             fill="none"
             className={cn(
-              'w-4 h-4 glass-text-secondary flex-shrink-0 transition-transform duration-200',
-              isOpen && 'rotate-180'
+              "w-4 h-4 glass-text-secondary flex-shrink-0 transition-transform duration-200",
+              isOpen && "rotate-180"
             )}
           >
             <path
@@ -359,32 +391,29 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
           <OptimizedGlass
             elevation={elevation}
             className={cn(
-              'absolute top-full left-0 right-0 mt-2 z-50',
-              'glass-radius-lg overflow-hidden'
+              "absolute top-full left-0 right-0 mt-2 z-50",
+              "glass-radius-lg overflow-hidden"
             )}
           >
             {searchable && (
-              <div className="glass-p-2 border-b glass-border-subtle">
+              <div className="glass-p-2 glass-border-b glass-border-subtle">
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={searchPlaceholder}
                   className={cn(
-                    'w-full glass-p-2 glass-radius-md',
-                    'glass-text-sm glass-text-primary',
-                    'bg-white/5 border glass-border-subtle',
-                    'focus:outline-none glass-focus'
+                    "w-full glass-p-2 glass-radius-md",
+                    "glass-text-sm glass-text-primary",
+                    "bg-white/5 border glass-border-subtle",
+                    "focus:outline-none glass-focus"
                   )}
                   autoFocus
                 />
               </div>
             )}
 
-            <div
-              className="overflow-y-auto glass-p-2"
-              style={{ maxHeight }}
-            >
+            <div className="overflow-y-auto glass-p-2" style={{ maxHeight }}>
               {filteredData.length === 0 ? (
                 <div className="glass-p-4 text-center glass-text-sm glass-text-secondary">
                   No results found
@@ -400,6 +429,6 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
   }
 );
 
-GlassTreeSelect.displayName = 'GlassTreeSelect';
+GlassTreeSelect.displayName = "GlassTreeSelect";
 
 export default GlassTreeSelect;

@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { OpenAIService } from '../../services/ai/openai-service';
-import { SemanticSearchService } from '../../services/ai/semantic-search-service';
-import { VisionService } from '../../services/ai/vision-service';
-import { CollaborationService } from '../../services/websocket/collaboration-service';
-import { AuthService } from '../../services/auth/auth-service';
-import { defaultAIConfig } from '../../services/ai/config';
-import * as Sentry from '@sentry/react';
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { OpenAIService } from "../../services/ai/openai-service";
+import { SemanticSearchService } from "../../services/ai/semantic-search-service";
+import { VisionService } from "../../services/ai/vision-service";
+import { CollaborationService } from "../../services/websocket/collaboration-service";
+import { AuthService } from "../../services/auth/auth-service";
+import { defaultAIConfig } from "../../services/ai/config";
+import * as Sentry from "@sentry/react";
 
 interface ProductionAIIntegrationProps {
   authToken?: string;
   userId?: string;
 }
 
-export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = ({
-  authToken,
-  userId,
-}) => {
+export const ProductionAIIntegration: React.FC<
+  ProductionAIIntegrationProps
+> = ({ authToken, userId }) => {
   const prefersReducedMotion = useReducedMotion();
   const [isInitialized, setIsInitialized] = useState(false);
   const [formFields, setFormFields] = useState<any[]>([]);
@@ -49,56 +48,62 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
 
       if (authToken) {
         collaborationService.current = new CollaborationService(
-          process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:3001',
+          process.env.REACT_APP_WEBSOCKET_URL || "ws://localhost:3001",
           authToken
         );
         await collaborationService.current.connect();
 
-        collaborationService.current.on('user-joined', (user) => {
+        collaborationService.current.on("user-joined", (user) => {
           setCollaborators((prev: any) => [...prev, user]);
         });
 
-        collaborationService.current.on('user-left', (userId) => {
-          setCollaborators((prev: any) => prev.filter((c: any) => c.userId !== userId));
+        collaborationService.current.on("user-left", (userId) => {
+          setCollaborators((prev: any) =>
+            prev.filter((c: any) => c.userId !== userId)
+          );
         });
       }
 
       setIsInitialized(true);
     } catch (error) {
       Sentry.captureException(error);
-      setError('Failed to initialize AI services');
+      setError("Failed to initialize AI services");
     } finally {
       setLoading(false);
     }
   };
 
-  const generateSmartForm = useCallback(async (context: string) => {
-    if (!openAIService.current) return;
+  const generateSmartForm = useCallback(
+    async (context: string) => {
+      if (!openAIService.current) return;
 
-    try {
-      setLoading(true);
-      setError(null);
+      try {
+        setLoading(true);
+        setError(null);
 
-      const suggestions = await openAIService.current.generateFormFieldSuggestions(
-        context,
-        formFields
-      );
+        const suggestions =
+          await openAIService.current.generateFormFieldSuggestions(
+            context,
+            formFields
+          );
 
-      setFormFields(suggestions);
+        setFormFields(suggestions);
 
-      Sentry.addBreadcrumb({
-        category: 'ai',
-        message: 'Generated form fields',
-        level: 'info',
-        data: { context, fieldCount: suggestions.length },
-      });
-    } catch (error) {
-      Sentry.captureException(error);
-      setError('Failed to generate form fields');
-    } finally {
-      setLoading(false);
-    }
-  }, [formFields]);
+        Sentry.addBreadcrumb({
+          category: "ai",
+          message: "Generated form fields",
+          level: "info",
+          data: { context, fieldCount: suggestions.length },
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+        setError("Failed to generate form fields");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [formFields]
+  );
 
   const performSemanticSearch = useCallback(async (query: string) => {
     if (!searchService.current || !openAIService.current) return;
@@ -107,25 +112,26 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       setLoading(true);
       setError(null);
 
-      const { enhancedQuery, intent } = await openAIService.current.generateSemanticSearchQuery(query);
+      const { enhancedQuery, intent } =
+        await openAIService.current.generateSemanticSearchQuery(query);
 
       const results = await searchService.current.hybridSearch(enhancedQuery, {
-        semanticWeight: intent === 'search' ? 0.8 : 0.6,
-        keywordWeight: intent === 'navigation' ? 0.4 : 0.2,
+        semanticWeight: intent === "search" ? 0.8 : 0.6,
+        keywordWeight: intent === "navigation" ? 0.4 : 0.2,
         topK: 10,
       });
 
       setSearchResults(results);
 
       Sentry.addBreadcrumb({
-        category: 'search',
-        message: 'Performed semantic search',
-        level: 'info',
+        category: "search",
+        message: "Performed semantic search",
+        level: "info",
         data: { query, intent, resultCount: results.length },
       });
     } catch (error) {
       Sentry.captureException(error);
-      setError('Search failed');
+      setError("Search failed");
     } finally {
       setLoading(false);
     }
@@ -160,9 +166,9 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       setImageAnalysis(result);
 
       Sentry.addBreadcrumb({
-        category: 'vision',
-        message: 'Analyzed image',
-        level: 'info',
+        category: "vision",
+        message: "Analyzed image",
+        level: "info",
         data: {
           fileName: file.name,
           faceCount: faces.length,
@@ -171,7 +177,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       });
     } catch (error) {
       Sentry.captureException(error);
-      setError('Image analysis failed');
+      setError("Image analysis failed");
     } finally {
       setLoading(false);
     }
@@ -187,16 +193,19 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       const buffer = await file.arrayBuffer();
       const imageBuffer = Buffer.from(buffer);
 
-      const processedBuffer = await visionService.current.removeBackground(imageBuffer);
+      const processedBuffer =
+        await visionService.current.removeBackground(imageBuffer);
 
       // Convert Node Buffer to a Blob-compatible type for browsers
-      const blob = new Blob([new Uint8Array(processedBuffer)], { type: 'image/png' });
+      const blob = new Blob([new Uint8Array(processedBuffer)], {
+        type: "image/png",
+      });
       const url = URL.createObjectURL(blob);
 
       return url;
     } catch (error) {
       Sentry.captureException(error);
-      setError('Background removal failed');
+      setError("Background removal failed");
       return null;
     } finally {
       setLoading(false);
@@ -209,19 +218,19 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
     try {
       await collaborationService.current.joinRoom(roomId);
 
-      collaborationService.current.on('document-changed', (operation) => {
-        console.log('Document changed:', operation);
+      collaborationService.current.on("document-changed", (operation) => {
+        console.log("Document changed:", operation);
       });
 
-      collaborationService.current.on('cursor-moved', (cursor) => {
-        console.log('Cursor moved:', cursor);
+      collaborationService.current.on("cursor-moved", (cursor) => {
+        console.log("Cursor moved:", cursor);
       });
 
       const participants = collaborationService.current.getRoomParticipants();
       setCollaborators(participants);
     } catch (error) {
       Sentry.captureException(error);
-      setError('Failed to join collaboration room');
+      setError("Failed to join collaboration room");
     }
   }, []);
 
@@ -249,9 +258,12 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
 
   if (!isInitialized) {
     return (
-      <div data-glass-component className="flex items-center justify-center p-8">
+      <div
+        data-glass-component
+        className="glass-flex glass-items-center glass-justify-center glass-p-8"
+      >
         <div className="text-center">
-          <div className="animate-spin glass-radius-full h-12 w-12 border-b-2 border-blue mx-auto mb-4"></div>
+          <div className="animate-spin glass-radius-full h-12 w-12 glass-border-b-2 glass-border-blue glass-mx-auto mb-4"></div>
           <p className="glass-text-secondary">Initializing AI services...</p>
         </div>
       </div>
@@ -259,22 +271,22 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
   }
 
   return (
-    <div className="production-ai-integration p-6">
+    <div className="production-ai-integration glass-p-6">
       {error && (
-        <div className="glass-surface-subtle border border-red-200 text-primary px-4 py-3 glass-radius mb-4 glass-contrast-guard">
+        <div className="glass-surface-subtle glass-border glass-border-red-200 text-primary glass-px-4 glass-py-3 glass-radius mb-4 glass-contrast-guard">
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
-          <h2 className="text-xl font-bold mb-4">Smart Form Builder</h2>
+      <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-6">
+        <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
+          <h2 className="glass-text-xl font-bold mb-4">Smart Form Builder</h2>
           <input
             type="text"
             placeholder="Describe your form (e.g., 'user registration')"
-            className="w-full px-4 py-2 border glass-radius mb-4 glass-touch-target glass-contrast-guard"
+            className="glass-w-full glass-px-4 glass-py-2 glass-border glass-radius mb-4 glass-touch-target glass-contrast-guard"
             onKeyPress={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 generateSmartForm((e.target as HTMLInputElement).value);
               }
             }}
@@ -282,9 +294,14 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           {formFields.length > 0 && (
             <div className="space-y-2">
               {formFields.map((field, idx) => (
-                <div key={idx} className="p-3 glass-surface-subtle glass-radius glass-contrast-guard">
+                <div
+                  key={idx}
+                  className="glass-p-3 glass-surface-subtle glass-radius glass-contrast-guard"
+                >
                   <span className="font-medium">{field.label}</span>
-                  <span className="text-sm glass-text-secondary ml-2">({field.fieldType})</span>
+                  <span className="glass-text-sm glass-text-secondary ml-2">
+                    ({field.fieldType})
+                  </span>
                   {field.required && (
                     <span className="text-primary ml-1">*</span>
                   )}
@@ -294,14 +311,14 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
-          <h2 className="text-xl font-bold mb-4">Semantic Search</h2>
+        <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
+          <h2 className="glass-text-xl font-bold mb-4">Semantic Search</h2>
           <input
             type="text"
             placeholder="Search anything..."
-            className="w-full px-4 py-2 border glass-radius mb-4 glass-touch-target glass-contrast-guard"
+            className="glass-w-full glass-px-4 glass-py-2 glass-border glass-radius mb-4 glass-touch-target glass-contrast-guard"
             onKeyPress={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 performSemanticSearch((e.target as HTMLInputElement).value);
               }
             }}
@@ -309,17 +326,24 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           {searchResults.length > 0 && (
             <div className="space-y-2 glass-max-h-64 overflow-y-auto">
               {searchResults.map((result, idx) => (
-                <div key={idx} className="p-3 glass-surface-subtle glass-radius glass-contrast-guard">
-                  <div className="font-medium">{result.content.substring(0, 100)}...</div>
-                  <div className="text-sm glass-text-secondary">Score: {result.score.toFixed(3)}</div>
+                <div
+                  key={idx}
+                  className="glass-p-3 glass-surface-subtle glass-radius glass-contrast-guard"
+                >
+                  <div className="font-medium">
+                    {result.content.substring(0, 100)}...
+                  </div>
+                  <div className="glass-text-sm glass-text-secondary">
+                    Score: {result.score.toFixed(3)}
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
-          <h2 className="text-xl font-bold mb-4">Image Analysis</h2>
+        <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
+          <h2 className="glass-text-xl font-bold mb-4">Image Analysis</h2>
           <input
             type="file"
             accept="image/*"
@@ -330,30 +354,40 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
             }}
           />
           {imageAnalysis && (
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 glass-text-sm">
               <div>Faces detected: {imageAnalysis.faces?.length || 0}</div>
               <div>Objects detected: {imageAnalysis.objects?.length || 0}</div>
-              <div>Text extracted: {imageAnalysis.text?.text?.substring(0, 50) || 'None'}...</div>
-              <div>Labels: {imageAnalysis.labels?.map((l: any) => l.description).join(', ')}</div>
+              <div>
+                Text extracted:{" "}
+                {imageAnalysis.text?.text?.substring(0, 50) || "None"}...
+              </div>
+              <div>
+                Labels:{" "}
+                {imageAnalysis.labels
+                  ?.map((l: any) => l.description)
+                  .join(", ")}
+              </div>
             </div>
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
-          <h2 className="text-xl font-bold mb-4">Collaboration</h2>
+        <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
+          <h2 className="glass-text-xl font-bold mb-4">Collaboration</h2>
           <div className="mb-4">
             <input
               type="text"
               placeholder="Room ID"
-              className="w-full px-4 py-2 border glass-radius mb-2 glass-touch-target glass-contrast-guard"
+              className="glass-w-full glass-px-4 glass-py-2 glass-border glass-radius mb-2 glass-touch-target glass-contrast-guard"
               id="roomId"
             />
             <button
               onClick={() => {
-                const input = document.getElementById('roomId') as HTMLInputElement;
+                const input = document.getElementById(
+                  "roomId"
+                ) as HTMLInputElement;
                 if (input?.value) joinCollaborationRoom(input.value);
               }}
-              className="px-4 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-px-4 glass-py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard"
             >
               Join Room
             </button>
@@ -362,9 +396,12 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
             <div className="space-y-1">
               <div className="font-medium">Active Collaborators:</div>
               {collaborators.map((collab, idx) => (
-                <div key={idx} className="flex items-center gap-2">
+                <div
+                  key={idx}
+                  className="glass-flex glass-items-center glass-gap-2"
+                >
                   <div className="w-2 h-2 glass-surface-green glass-radius-full glass-contrast-guard"></div>
-                  <span className="text-sm">{collab.userName}</span>
+                  <span className="glass-text-sm">{collab.userName}</span>
                 </div>
               ))}
             </div>
@@ -373,9 +410,9 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       </div>
 
       {loading && (
-        <div className="fixed inset-0 glass-surface-dark glass-opacity-50 flex items-center justify-center z-50 glass-contrast-guard">
-          <div className="glass-surface-subtle glass-radius-lg p-6 glass-contrast-guard">
-            <div className="animate-spin glass-radius-full h-12 w-12 border-b-2 border-blue mx-auto"></div>
+        <div className="fixed inset-0 glass-surface-dark glass-opacity-50 glass-flex glass-items-center glass-justify-center z-50 glass-contrast-guard">
+          <div className="glass-surface-subtle glass-radius-lg glass-p-6 glass-contrast-guard">
+            <div className="animate-spin glass-radius-full h-12 w-12 glass-border-b-2 glass-border-blue glass-mx-auto"></div>
             <p className="mt-4">Processing...</p>
           </div>
         </div>

@@ -1,9 +1,10 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef } from 'react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { OptimizedGlass } from '../../primitives';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { OptimizedGlass } from "../../primitives";
 
-export interface GlassTypingIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassTypingIndicatorProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Whether the indicator is shown
    * @default true
@@ -27,22 +28,28 @@ export interface GlassTypingIndicatorProps extends React.HTMLAttributes<HTMLDivE
    * Size of the indicator
    * @default 'md'
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Glassmorphism elevation level
    * @default 'level1'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Dot variant style
    * @default 'bounce'
    */
-  variant?: 'bounce' | 'pulse' | 'wave' | 'fade';
+  variant?: "bounce" | "pulse" | "wave" | "fade";
   /**
    * Dot color
    * @default 'primary'
    */
-  dotColor?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral';
+  dotColor?:
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "danger"
+    | "neutral";
   /**
    * Number of dots
    * @default 3
@@ -55,17 +62,20 @@ export interface GlassTypingIndicatorProps extends React.HTMLAttributes<HTMLDivE
   glass?: boolean;
 }
 
-export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndicatorProps>(
+export const GlassTypingIndicator = forwardRef<
+  HTMLDivElement,
+  GlassTypingIndicatorProps
+>(
   (
     {
       isTyping = true,
       users,
       showUsers = true,
       text,
-      size = 'md',
-      elevation = 'level1',
-      variant = 'bounce',
-      dotColor = 'primary',
+      size = "md",
+      elevation = "level1",
+      variant = "bounce",
+      dotColor = "primary",
       dotCount = 3,
       glass = true,
       className,
@@ -73,7 +83,7 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
     },
     ref
   ) => {
-  const prefersReducedMotion = useReducedMotion();
+    const prefersReducedMotion = useReducedMotion();
     if (!isTyping) return null;
 
     const userList = Array.isArray(users) ? users : users ? [users] : [];
@@ -87,30 +97,45 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
       } else if (userList.length === 2) {
         return `${userList[0]} and ${userList[1]} are`;
       } else if (userList.length > 2) {
-        return `${userList[0]}, ${userList[1]} and ${userList.length - 2} other${userList.length - 2 > 1 ? 's' : ''} are`;
+        return `${userList[0]}, ${userList[1]} and ${userList.length - 2} other${userList.length - 2 > 1 ? "s" : ""} are`;
       }
       return null;
     };
 
     const displayText = text
       ? text
-          .replace('{users}', userList.join(', '))
-          .replace('{isAre}', userList.length === 1 ? 'is' : 'are')
+          .replace("{users}", userList.join(", "))
+          .replace("{isAre}", userList.length === 1 ? "is" : "are")
       : null;
 
     const sizeClasses = {
-      sm: { dot: 'w-1.5 h-1.5', text: 'glass-text-xs', gap: 'gap-1', padding: 'glass-px-2 glass-py-1' },
-      md: { dot: 'w-2 h-2', text: 'glass-text-sm', gap: 'gap-1.5', padding: 'glass-px-3 glass-py-2' },
-      lg: { dot: 'w-2.5 h-2.5', text: 'glass-text-base', gap: 'gap-2', padding: 'glass-px-4 glass-py-3' },
+      sm: {
+        dot: "w-1.5 h-1.5",
+        text: "glass-text-xs",
+        gap: "gap-1",
+        padding: "glass-px-2 glass-py-1",
+      },
+      md: {
+        dot: "w-2 h-2",
+        text: "glass-text-sm",
+        gap: "gap-1.5",
+        padding: "glass-px-3 glass-py-2",
+      },
+      lg: {
+        dot: "w-2.5 h-2.5",
+        text: "glass-text-base",
+        gap: "gap-2",
+        padding: "glass-px-4 glass-py-3",
+      },
     };
 
     const dotColorClasses = {
-      primary: 'bg-blue-500',
-      secondary: 'bg-purple-500',
-      success: 'bg-green-500',
-      warning: 'bg-yellow-500',
-      danger: 'bg-red-500',
-      neutral: 'glass-surface-subtle',
+      primary: "bg-blue-500",
+      secondary: "bg-purple-500",
+      success: "bg-green-500",
+      warning: "bg-yellow-500",
+      danger: "bg-red-500",
+      neutral: "glass-surface-subtle",
     };
 
     const getAnimationStyle = (index: number) => {
@@ -127,7 +152,7 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
         animationDelay: `${delay}ms`,
       };
 
-      if (variant === 'wave') {
+      if (variant === "wave") {
         styles.animation = `wave 1.4s ease-in-out infinite`;
         styles.animationDelay = `${delay}ms`;
       }
@@ -141,8 +166,8 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
         className={cn(
           sizeClasses[size].dot,
           dotColorClasses[dotColor],
-          'rounded-full',
-          variant !== 'wave' && animations[variant]
+          "rounded-full",
+          variant !== "wave" && animations[variant]
         )}
         style={getAnimationStyle(index)}
         aria-hidden="true"
@@ -152,17 +177,22 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
     const content = (
       <div
         className={cn(
-          'inline-flex items-center',
+          "inline-flex items-center",
           sizeClasses[size].gap,
           !glass && sizeClasses[size].padding
         )}
       >
         {showUsers && hasUsers && (
-          <span className={cn(sizeClasses[size].text, 'glass-text-secondary font-medium')}>
+          <span
+            className={cn(
+              sizeClasses[size].text,
+              "glass-text-secondary font-medium"
+            )}
+          >
             {displayText || (
               <>
                 {getUserText()} typing
-                <span className="inline-flex ml-1 gap-0.5">
+                <span className="glass-inline-flex ml-1 glass-gap-0.5">
                   {Array.from({ length: 3 }, (_, i) => (
                     <span
                       key={i}
@@ -178,7 +208,7 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
           </span>
         )}
         {(!showUsers || !hasUsers) && (
-          <div className={cn('flex items-center', sizeClasses[size].gap)}>
+          <div className={cn("flex items-center", sizeClasses[size].gap)}>
             {dots}
           </div>
         )}
@@ -187,15 +217,16 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
 
     if (!glass) {
       return (
-        <div data-glass-component
+        <div
+          data-glass-component
           ref={ref}
-          className={cn('inline-flex', className)}
+          className={cn("inline-flex", className)}
           role="status"
           aria-live="polite"
           aria-label={
             hasUsers && showUsers
-              ? `${userList.join(', ')} ${userList.length === 1 ? 'is' : 'are'} typing`
-              : 'Someone is typing'
+              ? `${userList.join(", ")} ${userList.length === 1 ? "is" : "are"} typing`
+              : "Someone is typing"
           }
           {...props}
         >
@@ -209,7 +240,7 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
         ref={ref}
         elevation={elevation}
         className={cn(
-          'inline-flex glass-radius-full',
+          "inline-flex glass-radius-full",
           sizeClasses[size].padding,
           className
         )}
@@ -217,8 +248,8 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
         aria-live="polite"
         aria-label={
           hasUsers && showUsers
-            ? `${userList.join(', ')} ${userList.length === 1 ? 'is' : 'are'} typing`
-            : 'Someone is typing'
+            ? `${userList.join(", ")} ${userList.length === 1 ? "is" : "are"} typing`
+            : "Someone is typing"
         }
         {...props}
       >
@@ -228,18 +259,21 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
   }
 );
 
-GlassTypingIndicator.displayName = 'GlassTypingIndicator';
+GlassTypingIndicator.displayName = "GlassTypingIndicator";
 
 const animations = {
-  bounce: 'animate-bounce',
-  pulse: 'animate-pulse',
-  wave: '',
-  fade: 'animate-pulse',
+  bounce: "animate-bounce",
+  pulse: "animate-pulse",
+  wave: "",
+  fade: "animate-pulse",
 };
 
-if (typeof document !== 'undefined' && !document.getElementById('typing-indicator-keyframes')) {
-  const style = document.createElement('style');
-  style.id = 'typing-indicator-keyframes';
+if (
+  typeof document !== "undefined" &&
+  !document.getElementById("typing-indicator-keyframes")
+) {
+  const style = document.createElement("style");
+  style.id = "typing-indicator-keyframes";
   style.textContent = `
     @keyframes wave {
       0%, 60%, 100% {

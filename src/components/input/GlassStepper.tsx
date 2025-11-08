@@ -1,11 +1,25 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { Motion, OptimizedGlass } from '../../primitives';
-import { announceToScreenReader, createFormFieldA11y, useA11yId } from '../../utils/a11y';
-import { useGlassSound } from '../../utils/soundDesign';
+import { cn } from "../../lib/utilsComprehensive";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { Motion, OptimizedGlass } from "../../primitives";
+import {
+  announceToScreenReader,
+  createFormFieldA11y,
+  useA11yId,
+} from "../../utils/a11y";
+import { useGlassSound } from "../../utils/soundDesign";
 
-export interface GlassStepperProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+export interface GlassStepperProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "defaultValue"
+  > {
   /** Current value of the stepper */
   value?: number;
   /** Default value (uncontrolled) */
@@ -23,11 +37,11 @@ export interface GlassStepperProps extends Omit<React.HTMLAttributes<HTMLDivElem
   /** Whether the stepper is disabled */
   disabled?: boolean;
   /** Size of the stepper */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /** Visual variant */
-  variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
+  variant?: "default" | "success" | "warning" | "error" | "info";
   /** Orientation of controls */
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
   /** Whether to show the input field */
   showInput?: boolean;
   /** Whether to allow manual input */
@@ -57,11 +71,11 @@ export interface GlassStepperProps extends Omit<React.HTMLAttributes<HTMLDivElem
   /** Respect user's motion preferences */
   respectMotionPreference?: boolean;
   /** Accessible label for the stepper */
-  'aria-label'?: string;
+  "aria-label"?: string;
   /** ID of element that labels the stepper */
-  'aria-labelledby'?: string;
+  "aria-labelledby"?: string;
   /** ID of element(s) that describe the stepper */
-  'aria-describedby'?: string;
+  "aria-describedby"?: string;
 }
 
 export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
@@ -75,9 +89,9 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       step = 1,
       precision = 0,
       disabled = false,
-      size = 'md',
-      variant = 'default',
-      orientation = 'horizontal',
+      size = "md",
+      variant = "default",
+      orientation = "horizontal",
       showInput = true,
       allowInput = true,
       label,
@@ -92,9 +106,9 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       longPressDelay = 500,
       longPressInterval = 100,
       respectMotionPreference = true,
-      'aria-label': ariaLabel,
-      'aria-labelledby': ariaLabelledBy,
-      'aria-describedby': ariaDescribedBy,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
       className,
       id,
       ...props
@@ -103,26 +117,28 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
   ) => {
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
     const { play } = useGlassSound();
-    
+
     // Generate unique IDs for accessibility
-    const stepperId = useA11yId('glass-stepper');
+    const stepperId = useA11yId("glass-stepper");
     const finalId = id || stepperId;
-    const labelId = label ? useA11yId('glass-stepper-label') : undefined;
-    const descriptionId = description ? useA11yId('glass-stepper-description') : undefined;
-    const errorId = error ? useA11yId('glass-stepper-error') : undefined;
-    
+    const labelId = label ? useA11yId("glass-stepper-label") : undefined;
+    const descriptionId = description
+      ? useA11yId("glass-stepper-description")
+      : undefined;
+    const errorId = error ? useA11yId("glass-stepper-error") : undefined;
+
     const inputRef = useRef<HTMLInputElement>(null);
     const longPressTimeoutRef = useRef<NodeJS.Timeout>();
     const longPressIntervalRef = useRef<NodeJS.Timeout>();
     const [isInputFocused, setIsInputFocused] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    
+    const [inputValue, setInputValue] = useState("");
+
     const isInvalid = !!error;
-    
+
     // Create accessibility attributes
     const a11yProps = createFormFieldA11y({
       id: finalId,
-      label: !ariaLabelledBy && !labelId ? (ariaLabel || label) : undefined,
+      label: !ariaLabelledBy && !labelId ? ariaLabel || label : undefined,
       description: description,
       error: error,
       required: required,
@@ -132,11 +148,11 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       descriptionId: ariaDescribedBy || descriptionId,
       errorId: errorId,
     });
-    
+
     // Announce error state changes
     useEffect(() => {
       if (error) {
-        announceToScreenReader(`Stepper error: ${error}`, 'assertive');
+        announceToScreenReader(`Stepper error: ${error}`, "assertive");
       }
     }, [error]);
 
@@ -153,55 +169,62 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
 
     const sizeConfig = {
       sm: {
-        button: 'h-6 w-6 glass-text-xs',
-        input: 'h-6 glass-px-2 glass-text-xs',
-        label: 'glass-text-xs',
-        container: orientation === 'horizontal' ? 'glass-gap-1' : 'glass-gap-0.5',
+        button: "h-6 w-6 glass-text-xs",
+        input: "h-6 glass-px-2 glass-text-xs",
+        label: "glass-text-xs",
+        container:
+          orientation === "horizontal" ? "glass-gap-1" : "glass-gap-0.5",
       },
       md: {
-        button: 'h-8 w-8 glass-text-sm',
-        input: 'h-8 glass-px-3 glass-text-sm',
-        label: 'glass-text-sm',
-        container: orientation === 'horizontal' ? 'glass-gap-2' : 'glass-gap-1',
+        button: "h-8 w-8 glass-text-sm",
+        input: "h-8 glass-px-3 glass-text-sm",
+        label: "glass-text-sm",
+        container: orientation === "horizontal" ? "glass-gap-2" : "glass-gap-1",
       },
       lg: {
-        button: 'h-10 w-10 glass-text-base',
-        input: 'h-10 glass-px-4 glass-text-base',
-        label: 'glass-text-base',
-        container: orientation === 'horizontal' ? 'glass-gap-3' : 'glass-gap-1.5',
+        button: "h-10 w-10 glass-text-base",
+        input: "h-10 glass-px-4 glass-text-base",
+        label: "glass-text-base",
+        container:
+          orientation === "horizontal" ? "glass-gap-3" : "glass-gap-1.5",
       },
     };
 
     const variantConfig = {
       default: {
-        button: 'border-border/20 hover:border-primary/30 focus:border-primary/50',
-        input: 'border-border/20 focus:border-primary/50',
-        buttonBg: 'bg-background/50',
-        inputBg: 'bg-background/30',
+        button:
+          "border-border/20 hover:border-primary/30 focus:border-primary/50",
+        input: "border-border/20 focus:border-primary/50",
+        buttonBg: "bg-background/50",
+        inputBg: "bg-background/30",
       },
       success: {
-        button: 'border-green-200/30 hover:border-green-300/40 focus:border-green-400/50',
-        input: 'border-green-200/30 focus:border-green-400/50',
-        buttonBg: 'bg-green-50/30',
-        inputBg: 'bg-green-50/20',
+        button:
+          "border-green-200/30 hover:border-green-300/40 focus:border-green-400/50",
+        input: "border-green-200/30 focus:border-green-400/50",
+        buttonBg: "bg-green-50/30",
+        inputBg: "bg-green-50/20",
       },
       warning: {
-        button: 'border-amber-200/30 hover:border-amber-300/40 focus:border-amber-400/50',
-        input: 'border-amber-200/30 focus:border-amber-400/50',
-        buttonBg: 'bg-amber-50/30',
-        inputBg: 'bg-amber-50/20',
+        button:
+          "border-amber-200/30 hover:border-amber-300/40 focus:border-amber-400/50",
+        input: "border-amber-200/30 focus:border-amber-400/50",
+        buttonBg: "bg-amber-50/30",
+        inputBg: "bg-amber-50/20",
       },
       error: {
-        button: 'border-red-200/30 hover:border-red-300/40 focus:border-red-400/50',
-        input: 'border-red-200/30 focus:border-red-400/50',
-        buttonBg: 'bg-red-50/30',
-        inputBg: 'bg-red-50/20',
+        button:
+          "border-red-200/30 hover:border-red-300/40 focus:border-red-400/50",
+        input: "border-red-200/30 focus:border-red-400/50",
+        buttonBg: "bg-red-50/30",
+        inputBg: "bg-red-50/20",
       },
       info: {
-        button: 'border-blue-200/30 hover:border-blue-300/40 focus:border-blue-400/50',
-        input: 'border-blue-200/30 focus:border-blue-400/50',
-        buttonBg: 'bg-blue-50/30',
-        inputBg: 'bg-blue-50/20',
+        button:
+          "border-blue-200/30 hover:border-blue-300/40 focus:border-blue-400/50",
+        input: "border-blue-200/30 focus:border-blue-400/50",
+        buttonBg: "bg-blue-50/30",
+        inputBg: "bg-blue-50/20",
       },
     };
 
@@ -209,48 +232,62 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     const colors = variantConfig[variant];
 
     // Utility functions
-    const clampValue = useCallback((val: number) => {
-      return Math.max(min, Math.min(max, val));
-    }, [min, max]);
-    
-    const roundToPrecision = useCallback((val: number) => {
-      return Math.round(val * Math.pow(10, precision)) / Math.pow(10, precision);
-    }, [precision]);
+    const clampValue = useCallback(
+      (val: number) => {
+        return Math.max(min, Math.min(max, val));
+      },
+      [min, max]
+    );
 
-    const updateValue = useCallback((newValue: number) => {
-      const clampedValue = clampValue(newValue);
-      const roundedValue = roundToPrecision(clampedValue);
-      
-      if (value === undefined) {
-        setInternalValue(roundedValue);
-      }
-      
-      onChange?.(roundedValue);
-      
-      // Announce value changes for screen readers
-      announceToScreenReader(`Value ${formatValue(roundedValue)}`, 'polite');
-    }, [value, onChange, clampValue, roundToPrecision, formatValue]);
+    const roundToPrecision = useCallback(
+      (val: number) => {
+        return (
+          Math.round(val * Math.pow(10, precision)) / Math.pow(10, precision)
+        );
+      },
+      [precision]
+    );
+
+    const updateValue = useCallback(
+      (newValue: number) => {
+        const clampedValue = clampValue(newValue);
+        const roundedValue = roundToPrecision(clampedValue);
+
+        if (value === undefined) {
+          setInternalValue(roundedValue);
+        }
+
+        onChange?.(roundedValue);
+
+        // Announce value changes for screen readers
+        announceToScreenReader(`Value ${formatValue(roundedValue)}`, "polite");
+      },
+      [value, onChange, clampValue, roundToPrecision, formatValue]
+    );
 
     const increment = useCallback(() => {
       if (disabled || currentValue >= max) return;
       updateValue(currentValue + step);
-      play('tap');
+      play("tap");
     }, [disabled, currentValue, max, step, updateValue, play]);
 
     const decrement = useCallback(() => {
       if (disabled || currentValue <= min) return;
       updateValue(currentValue - step);
-      play('tap');
+      play("tap");
     }, [disabled, currentValue, min, step, updateValue, play]);
 
-    const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
-    }, []);
+    const handleInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+      },
+      []
+    );
 
     const handleInputBlur = useCallback(() => {
       setIsInputFocused(false);
       const parsed = parseValue(inputValue);
-      
+
       if (!isNaN(parsed)) {
         updateValue(parsed);
       } else {
@@ -258,36 +295,42 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       }
     }, [inputValue, parseValue, updateValue, currentValue, formatValue]);
 
-    const handleInputKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-      switch (e.key) {
-        case 'ArrowUp':
-          e.preventDefault();
-          increment();
-          break;
-        case 'ArrowDown':
-          e.preventDefault();
-          decrement();
-          break;
-        case 'Enter':
-          e.preventDefault();
-          inputRef.current?.blur();
-          break;
-        case 'Escape':
-          e.preventDefault();
-          setInputValue(formatValue(currentValue));
-          inputRef.current?.blur();
-          break;
-      }
-    }, [increment, decrement, formatValue, currentValue]);
+    const handleInputKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLInputElement>) => {
+        switch (e.key) {
+          case "ArrowUp":
+            e.preventDefault();
+            increment();
+            break;
+          case "ArrowDown":
+            e.preventDefault();
+            decrement();
+            break;
+          case "Enter":
+            e.preventDefault();
+            inputRef.current?.blur();
+            break;
+          case "Escape":
+            e.preventDefault();
+            setInputValue(formatValue(currentValue));
+            inputRef.current?.blur();
+            break;
+        }
+      },
+      [increment, decrement, formatValue, currentValue]
+    );
 
     // Long press handlers
-    const startLongPress = useCallback((action: () => void) => {
-      if (!repeatOnLongPress) return;
-      
-      longPressTimeoutRef.current = setTimeout(() => {
-        longPressIntervalRef.current = setInterval(action, longPressInterval);
-      }, longPressDelay);
-    }, [repeatOnLongPress, longPressDelay, longPressInterval]);
+    const startLongPress = useCallback(
+      (action: () => void) => {
+        if (!repeatOnLongPress) return;
+
+        longPressTimeoutRef.current = setTimeout(() => {
+          longPressIntervalRef.current = setInterval(action, longPressInterval);
+        }, longPressDelay);
+      },
+      [repeatOnLongPress, longPressDelay, longPressInterval]
+    );
 
     const stopLongPress = useCallback(() => {
       if (longPressTimeoutRef.current) {
@@ -319,7 +362,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     const canDecrement = !disabled && currentValue > min;
 
     const renderButton = (
-      type: 'increment' | 'decrement',
+      type: "increment" | "decrement",
       icon: React.ReactNode,
       onMouseDown: () => void,
       canPerformAction: boolean
@@ -329,51 +372,63 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       >
         <OptimizedGlass
           elevation="level2"
-        intensity="medium"
-        depth={1}
-        tint="neutral"
-        border="subtle"
-        animation={isMotionSafe && respectMotionPreference ? "float" : "none"}
-        performanceMode="high"
-        liftOnHover={!disabled}
-        press
-        className={cn(
-          'glass-stepper-button flex items-center justify-center',
-          'glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard',
-          'focus:outline-none glass-focus select-none glass-touch-target',
-          config.button,
-          colors.button,
-          colors.buttonBg,
-          !canPerformAction && 'opacity-50 cursor-not-allowed',
-          canPerformAction && 'cursor-pointer hover:scale-105 active:scale-95'
-        )}
-        onMouseDown={canPerformAction ? onMouseDown : undefined}
-        onMouseUp={stopLongPress}
-        onMouseLeave={stopLongPress}
-        onTouchStart={canPerformAction ? onMouseDown : undefined}
-        onTouchEnd={stopLongPress}
-        tabIndex={disabled ? -1 : 0}
-        role="button"
-        aria-label={type === 'increment' ? 'Increase value' : 'Decrease value'}
-        onKeyDown={(e: React.KeyboardEvent) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            if (canPerformAction) {
-              type === 'increment' ? increment() : decrement();
-            }
+          intensity="medium"
+          depth={1}
+          tint="neutral"
+          border="subtle"
+          animation={isMotionSafe && respectMotionPreference ? "float" : "none"}
+          performanceMode="high"
+          liftOnHover={!disabled}
+          press
+          className={cn(
+            "glass-stepper-button flex items-center justify-center",
+            "glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard",
+            "focus:outline-none glass-focus select-none glass-touch-target",
+            config.button,
+            colors.button,
+            colors.buttonBg,
+            !canPerformAction && "opacity-50 cursor-not-allowed",
+            canPerformAction && "cursor-pointer hover:scale-105 active:scale-95"
+          )}
+          onMouseDown={canPerformAction ? onMouseDown : undefined}
+          onMouseUp={stopLongPress}
+          onMouseLeave={stopLongPress}
+          onTouchStart={canPerformAction ? onMouseDown : undefined}
+          onTouchEnd={stopLongPress}
+          tabIndex={disabled ? -1 : 0}
+          role="button"
+          aria-label={
+            type === "increment" ? "Increase value" : "Decrease value"
           }
-        }}
-      >
-        {icon}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              if (canPerformAction) {
+                type === "increment" ? increment() : decrement();
+              }
+            }
+          }}
+        >
+          {icon}
         </OptimizedGlass>
       </Motion>
     );
 
     const incrementButton = renderButton(
-      'increment',
+      "increment",
       incrementContent || (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 6v12m6-6H6"
+          />
         </svg>
       ),
       handleIncrementMouseDown,
@@ -381,10 +436,20 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     );
 
     const decrementButton = renderButton(
-      'decrement',
+      "decrement",
       decrementContent || (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M18 12H6"
+          />
         </svg>
       ),
       handleDecrementMouseDown,
@@ -398,10 +463,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
         depth={0.5}
         tint="neutral"
         border="subtle"
-        className={cn(
-          'glass-stepper-input',
-          colors.inputBg
-        )}
+        className={cn("glass-stepper-input", colors.inputBg)}
       >
         <input
           ref={inputRef}
@@ -413,12 +475,12 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
           onKeyDown={handleInputKeyDown}
           disabled={disabled || !allowInput}
           className={cn(
-            'w-full text-center glass-radius-md border glass-glass-backdrop-blur-md glass-contrast-guard',
-            'bg-transparent text-foreground placeholder:glass-text-secondary',
-            'focus:outline-none glass-focus transition-all duration-200',
+            "w-full text-center glass-radius-md border glass-glass-backdrop-blur-md glass-contrast-guard",
+            "bg-transparent text-foreground placeholder:glass-text-secondary",
+            "focus:outline-none glass-focus transition-all duration-200",
             config.input,
             colors.input,
-            disabled && 'cursor-not-allowed opacity-50'
+            disabled && "cursor-not-allowed opacity-50"
           )}
           {...a11yProps}
           aria-valuemin={min}
@@ -431,36 +493,37 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     );
 
     return (
-      <div className={cn('glass-stepper-container', className)}>
+      <div className={cn("glass-stepper-container", className)}>
         {/* Label */}
         {label && (
           <label
             id={labelId}
             htmlFor={finalId}
             className={cn(
-              'glass-stepper-label block font-medium text-foreground glass-mb-2',
+              "glass-stepper-label block font-medium text-foreground glass-mb-2",
               config.label,
-              required && 'after:content-["*"] after:glass-ml-1 after:text-destructive'
+              required &&
+                'after:content-["*"] after:glass-ml-1 after:text-destructive'
             )}
           >
             {label}
           </label>
         )}
-        
+
         {/* Stepper */}
         <div
           ref={ref}
           id={finalId}
           className={cn(
-            'glass-stepper inline-flex items-center',
-            orientation === 'horizontal' ? 'flex-row' : 'flex-col',
+            "glass-stepper inline-flex items-center",
+            orientation === "horizontal" ? "flex-row" : "flex-col",
             config.container,
-            disabled && 'opacity-50',
-            error && 'ring-2 ring-destructive/50 glass-radius-lg glass-p-1',
+            disabled && "opacity-50",
+            error && "ring-2 ring-destructive/50 glass-radius-lg glass-p-1"
           )}
           {...props}
         >
-          {orientation === 'horizontal' ? (
+          {orientation === "horizontal" ? (
             <>
               {decrementButton}
               {inputElement}
@@ -474,27 +537,27 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
             </>
           )}
         </div>
-        
+
         {/* Description */}
         {description && (
-          <p 
+          <p
             id={descriptionId}
             className={cn(
-              'glass-stepper-description glass-text-secondary glass-mt-1',
-              size === 'sm' ? 'glass-text-xs' : 'glass-text-sm'
+              "glass-stepper-description glass-text-secondary glass-mt-1",
+              size === "sm" ? "glass-text-xs" : "glass-text-sm"
             )}
           >
             {description}
           </p>
         )}
-        
+
         {/* Error message */}
         {error && (
-          <p 
+          <p
             id={errorId}
             className={cn(
-              'glass-stepper-error text-destructive glass-mt-1',
-              size === 'sm' ? 'glass-text-xs' : 'glass-text-sm'
+              "glass-stepper-error text-destructive glass-mt-1",
+              size === "sm" ? "glass-text-xs" : "glass-text-sm"
             )}
             role="alert"
             aria-live="polite"
@@ -507,6 +570,6 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
   }
 );
 
-GlassStepper.displayName = 'GlassStepper';
+GlassStepper.displayName = "GlassStepper";
 
 export default GlassStepper;

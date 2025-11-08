@@ -53,7 +53,7 @@ const TextureShowcase = () => {
           <button
             key={texture.name}
             onClick={() => setSelectedTexture(texture.name)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard ${
               selectedTexture === texture.name
                 ? 'bg-white/20 text-white shadow-lg'
                 : 'bg-white/10 text-white/80 hover:bg-white/15'
@@ -119,7 +119,7 @@ const EnvironmentalControls = () => {
           <select
             value={conditions.weather}
             onChange={(e) => setConditions(prev => ({ ...prev, weather: e.target.value as any }))}
-            className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary"
+            className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary glass-focus glass-touch-target glass-contrast-guard"
           >
             <option value="sunny">Sunny</option>
             <option value="cloudy">Cloudy</option>
@@ -137,7 +137,7 @@ const EnvironmentalControls = () => {
             max="40"
             value={conditions.temperature}
             onChange={(e) => setConditions(prev => ({ ...prev, temperature: parseInt(e.target.value) }))}
-            className="w-full"
+            className="w-full glass-focus glass-touch-target glass-contrast-guard"
           />
           <div className="text-primary/60 text-sm mt-1">{conditions.temperature}°C</div>
         </div>
@@ -150,7 +150,7 @@ const EnvironmentalControls = () => {
             max="23"
             value={conditions.timeOfDay}
             onChange={(e) => setConditions(prev => ({ ...prev, timeOfDay: parseInt(e.target.value) }))}
-            className="w-full"
+            className="w-full glass-focus glass-touch-target glass-contrast-guard"
           />
           <div className="text-primary/60 text-sm mt-1">{conditions.timeOfDay}:00</div>
         </div>
@@ -160,7 +160,7 @@ const EnvironmentalControls = () => {
           <select
             value={conditions.season}
             onChange={(e) => setConditions(prev => ({ ...prev, season: e.target.value as any }))}
-            className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary"
+            className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg text-primary glass-focus glass-touch-target glass-contrast-guard"
           >
             <option value="spring">Spring</option>
             <option value="summer">Summer</option>

@@ -5,22 +5,15 @@ declare global {
   }
 }
 
-import React from 'react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { motion } from 'framer-motion';
-import {
-    AlertCircle,
-    Eye,
-    EyeOff,
-    Hand,
-    Info,
-    Loader2
-} from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { cn } from '../../lib/utilsComprehensive';
+import React from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { motion } from "framer-motion";
+import { AlertCircle, Eye, EyeOff, Hand, Info, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
+import { cn } from "../../lib/utilsComprehensive";
 
 // Mock WebXR hook for demonstration - in real implementation this would use actual WebXR APIs
 const useWebXR = () => {
@@ -31,13 +24,23 @@ const useWebXR = () => {
     supportsHandTracking: false,
     supportsHitTest: false,
     supportsDomOverlay: false,
-    isARSupported: false
+    isARSupported: false,
   });
   const [handTracking, setHandTracking] = useState({
-    left: { isActive: false, position: new THREE.Vector3(), rotation: new THREE.Quaternion() },
-    right: { isActive: false, position: new THREE.Vector3(), rotation: new THREE.Quaternion() }
+    left: {
+      isActive: false,
+      position: new THREE.Vector3(),
+      rotation: new THREE.Quaternion(),
+    },
+    right: {
+      isActive: false,
+      position: new THREE.Vector3(),
+      rotation: new THREE.Quaternion(),
+    },
   });
-  const [hitTestResults, setHitTestResults] = useState<{ point: THREE.Vector3; distance: number }[]>([]);
+  const [hitTestResults, setHitTestResults] = useState<
+    { point: THREE.Vector3; distance: number }[]
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,8 +48,9 @@ const useWebXR = () => {
     // Mock WebXR detection
     const checkSupport = async () => {
       // In real implementation, check for 'xr' in navigator
-      const xrSupported = typeof navigator !== 'undefined' && 'xr' in navigator;
-      const arSupported = xrSupported && await navigator.xr?.isSessionSupported('immersive-ar');
+      const xrSupported = typeof navigator !== "undefined" && "xr" in navigator;
+      const arSupported =
+        xrSupported && (await navigator.xr?.isSessionSupported("immersive-ar"));
 
       setIsSupported(xrSupported);
       setIsARSupported(arSupported || false);
@@ -54,7 +58,7 @@ const useWebXR = () => {
         supportsHandTracking: arSupported || false,
         supportsHitTest: arSupported || false,
         supportsDomOverlay: arSupported || false,
-        isARSupported: arSupported || false
+        isARSupported: arSupported || false,
       });
     };
 
@@ -65,7 +69,7 @@ const useWebXR = () => {
     setIsLoading(true);
     try {
       // Mock AR session start
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setSession({ isActive: true });
       setIsLoading(false);
     } catch (err: unknown) {
@@ -77,35 +81,70 @@ const useWebXR = () => {
   const endARSession = useCallback(async () => {
     setSession({ isActive: false });
     setHandTracking({
-      left: { isActive: false, position: new THREE.Vector3(), rotation: new THREE.Quaternion() },
-      right: { isActive: false, position: new THREE.Vector3(), rotation: new THREE.Quaternion() }
+      left: {
+        isActive: false,
+        position: new THREE.Vector3(),
+        rotation: new THREE.Quaternion(),
+      },
+      right: {
+        isActive: false,
+        position: new THREE.Vector3(),
+        rotation: new THREE.Quaternion(),
+      },
     });
   }, []);
 
-  const onHitTest = useCallback((callback: (results: { point: THREE.Vector3; distance: number }[]) => void) => {
-    // Mock hit test callback
-    const mockResults = [
-      { point: new THREE.Vector3(0, 0, -2), distance: 2 }
-    ];
-    setHitTestResults(mockResults);
-    callback(mockResults);
-  }, []);
+  const onHitTest = useCallback(
+    (
+      callback: (results: { point: THREE.Vector3; distance: number }[]) => void
+    ) => {
+      // Mock hit test callback
+      const mockResults = [{ point: new THREE.Vector3(0, 0, -2), distance: 2 }];
+      setHitTestResults(mockResults);
+      callback(mockResults);
+    },
+    []
+  );
 
-  const onHandTracking = useCallback((callback: (hands: { left: { isActive: boolean; position: THREE.Vector3; rotation: THREE.Quaternion }; right: { isActive: boolean; position: THREE.Vector3; rotation: THREE.Quaternion } }) => void) => {
-    // Mock hand tracking callback
-    const mockHands = {
-      left: { isActive: true, position: new THREE.Vector3(-0.3, 1.2, -0.5), rotation: new THREE.Quaternion() },
-      right: { isActive: true, position: new THREE.Vector3(0.3, 1.2, -0.5), rotation: new THREE.Quaternion() }
-    };
-    setHandTracking(mockHands);
-    callback(mockHands);
-  }, []);
+  const onHandTracking = useCallback(
+    (
+      callback: (hands: {
+        left: {
+          isActive: boolean;
+          position: THREE.Vector3;
+          rotation: THREE.Quaternion;
+        };
+        right: {
+          isActive: boolean;
+          position: THREE.Vector3;
+          rotation: THREE.Quaternion;
+        };
+      }) => void
+    ) => {
+      // Mock hand tracking callback
+      const mockHands = {
+        left: {
+          isActive: true,
+          position: new THREE.Vector3(-0.3, 1.2, -0.5),
+          rotation: new THREE.Quaternion(),
+        },
+        right: {
+          isActive: true,
+          position: new THREE.Vector3(0.3, 1.2, -0.5),
+          rotation: new THREE.Quaternion(),
+        },
+      };
+      setHandTracking(mockHands);
+      callback(mockHands);
+    },
+    []
+  );
 
   const startVoiceRecognition = useCallback(() => {
     // Mock voice recognition
     return {
-      start: () => console.log('Voice recognition started'),
-      stop: () => console.log('Voice recognition stopped')
+      start: () => console.log("Voice recognition started"),
+      stop: () => console.log("Voice recognition stopped"),
     };
   }, []);
 
@@ -122,7 +161,7 @@ const useWebXR = () => {
     endARSession,
     onHitTest,
     onHandTracking,
-    startVoiceRecognition
+    startVoiceRecognition,
   };
 };
 
@@ -136,7 +175,7 @@ export const ARGlassMaterialFactory = {
         interactionRadius: { value: options.interactionRadius || 3.0 },
         glowIntensity: { value: options.glowIntensity || 1.0 },
         color: { value: options.color || new THREE.Color(0.3, 0.7, 1.0) },
-        opacity: { value: options.opacity || 0.8 }
+        opacity: { value: options.opacity || 0.8 },
       },
       vertexShader: `
         varying vec3 vPosition;
@@ -173,7 +212,7 @@ export const ARGlassMaterialFactory = {
         }
       `,
       transparent: true,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     });
   },
 
@@ -183,7 +222,7 @@ export const ARGlassMaterialFactory = {
         time: { value: 0 },
         color: { value: options.color || new THREE.Color(0.6, 0.8, 1.0) },
         opacity: { value: options.opacity || 0.9 },
-        fresnelPower: { value: options.fresnelPower || 1.5 }
+        fresnelPower: { value: options.fresnelPower || 1.5 },
       },
       vertexShader: `
         varying vec3 vNormal;
@@ -214,7 +253,7 @@ export const ARGlassMaterialFactory = {
         }
       `,
       transparent: true,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     });
   },
 
@@ -223,8 +262,10 @@ export const ARGlassMaterialFactory = {
       uniforms: {
         time: { value: 0 },
         lowColor: { value: options.lowColor || new THREE.Color(0.2, 0.4, 1.0) },
-        highColor: { value: options.highColor || new THREE.Color(1.0, 0.4, 0.2) },
-        dataValue: { value: options.dataValue || 0.5 }
+        highColor: {
+          value: options.highColor || new THREE.Color(1.0, 0.4, 0.2),
+        },
+        dataValue: { value: options.dataValue || 0.5 },
       },
       vertexShader: `
         varying vec3 vPosition;
@@ -253,9 +294,9 @@ export const ARGlassMaterialFactory = {
           gl_FragColor = vec4(finalColor, 0.8);
         }
       `,
-      transparent: true
+      transparent: true,
     });
-  }
+  },
 };
 
 // AR Glass Geometry Factory - creates optimized geometries for AR
@@ -304,46 +345,82 @@ export const ARGlassGeometryFactory = {
       colors[i * 3 + 2] = Math.random();
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     return geometry;
-  }
+  },
 };
 
 // AR Glass Animations - provides smooth animations for AR elements
 export const ARGlassAnimations = {
-  createFloatingAnimation: (object: THREE.Object3D, amplitude: number = 0.05, frequency: number = 0.5) => {
+  createFloatingAnimation: (
+    object: THREE.Object3D,
+    amplitude: number = 0.05,
+    frequency: number = 0.5
+  ) => {
     return (time: number) => {
       object.position.y += Math.sin(time * frequency) * amplitude;
     };
   },
 
-  createRotationAnimation: (object: THREE.Object3D, axis: THREE.Vector3, speed: number = 1) => {
+  createRotationAnimation: (
+    object: THREE.Object3D,
+    axis: THREE.Vector3,
+    speed: number = 1
+  ) => {
     return (time: number) => {
       object.rotateOnAxis(axis, speed * 0.01);
     };
   },
 
-  createScaleAnimation: (object: THREE.Object3D, minScale: number, maxScale: number, frequency: number = 2) => {
+  createScaleAnimation: (
+    object: THREE.Object3D,
+    minScale: number,
+    maxScale: number,
+    frequency: number = 2
+  ) => {
     return (time: number) => {
-      const scale = minScale + (maxScale - minScale) * (Math.sin(time * frequency) * 0.5 + 0.5);
+      const scale =
+        minScale +
+        (maxScale - minScale) * (Math.sin(time * frequency) * 0.5 + 0.5);
       object.scale.setScalar(scale);
     };
-  }
+  },
 };
 
 // AR Glass Interactions - handles user interactions in AR
 export const ARGlassInteractions = {
   createHapticFeedback: (intensity = 0.5, duration = 100) => {
-    if ('vibrate' in navigator) {
+    if ("vibrate" in navigator) {
       navigator.vibrate(duration * intensity);
     }
   },
 
-  setupHandTracking: (objects: THREE.Object3D[], callback: (object: THREE.Object3D, hand: { isActive: boolean; position: THREE.Vector3; rotation: THREE.Quaternion }) => void) => {
+  setupHandTracking: (
+    objects: THREE.Object3D[],
+    callback: (
+      object: THREE.Object3D,
+      hand: {
+        isActive: boolean;
+        position: THREE.Vector3;
+        rotation: THREE.Quaternion;
+      }
+    ) => void
+  ) => {
     // Mock hand tracking setup
-    const handleHandMove = (handData: { left: { isActive: boolean; position: THREE.Vector3; rotation: THREE.Quaternion }; right: { isActive: boolean; position: THREE.Vector3; rotation: THREE.Quaternion } }) => {
+    const handleHandMove = (handData: {
+      left: {
+        isActive: boolean;
+        position: THREE.Vector3;
+        rotation: THREE.Quaternion;
+      };
+      right: {
+        isActive: boolean;
+        position: THREE.Vector3;
+        rotation: THREE.Quaternion;
+      };
+    }) => {
       objects.forEach((obj: THREE.Object3D, index: number) => {
         if (obj && handData.left.isActive) {
           const distance = obj.position.distanceTo(handData.left.position);
@@ -355,7 +432,7 @@ export const ARGlassInteractions = {
     };
 
     return handleHandMove;
-  }
+  },
 };
 
 // AR Glass Utils - utility functions for AR glass effects
@@ -363,21 +440,22 @@ export const ARGlassUtils = {
   createAdaptiveScaling: (minScale: number, maxScale: number) => {
     return (distance: number) => {
       const normalizedDistance = Math.min(Math.max(distance, 1), 10);
-      const scale = maxScale - ((normalizedDistance - 1) / 9) * (maxScale - minScale);
+      const scale =
+        maxScale - ((normalizedDistance - 1) / 9) * (maxScale - minScale);
       return Math.max(scale, minScale);
     };
   },
 
   createDistanceBasedOpacity: (maxDistance: number = 5) => {
     return (distance: number) => {
-      return Math.max(0, 1 - (distance / maxDistance));
+      return Math.max(0, 1 - distance / maxDistance);
     };
-  }
+  },
 };
 
 // Main ARGlassEffects Component
 interface ARGlassEffectsProps {
-  mode?: 'ar' | 'preview' | 'demo';
+  mode?: "ar" | "preview" | "demo";
   content?: {
     title?: string;
     text?: string;
@@ -395,16 +473,16 @@ interface ARGlassEffectsProps {
 }
 
 export function ARGlassEffects({
-  mode = 'preview',
+  mode = "preview",
   content = {},
   onInteraction,
-  className='',
+  className = "",
   enablePhysics = false,
   enableHandTracking = false,
   enableVoiceControl = false,
   adaptiveScaling = true,
   showControls = true,
-  showInfo = true
+  showInfo = true,
 }: ARGlassEffectsProps) {
   const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -445,20 +523,32 @@ export function ARGlassEffects({
     if (enableHandTracking && capabilities.supportsHandTracking) {
       const handleHandTracking = ARGlassInteractions.setupHandTracking(
         [], // Objects will be populated from scene
-        (object: THREE.Object3D, hand: { isActive: boolean; position: THREE.Vector3; rotation: THREE.Quaternion }) => {
+        (
+          object: THREE.Object3D,
+          hand: {
+            isActive: boolean;
+            position: THREE.Vector3;
+            rotation: THREE.Quaternion;
+          }
+        ) => {
           if (onInteraction) {
-            onInteraction('hand_interaction', { object: object.uuid, hand });
+            onInteraction("hand_interaction", { object: object.uuid, hand });
           }
         }
       );
 
       onHandTracking(handleHandTracking);
     }
-  }, [enableHandTracking, capabilities.supportsHandTracking, onHandTracking, onInteraction]);
+  }, [
+    enableHandTracking,
+    capabilities.supportsHandTracking,
+    onHandTracking,
+    onInteraction,
+  ]);
 
   // Setup voice control
   useEffect(() => {
-    if (enableVoiceControl && mode === 'ar') {
+    if (enableVoiceControl && mode === "ar") {
       const recognition = startVoiceRecognition();
       return () => {
         if (recognition) {
@@ -475,11 +565,13 @@ export function ARGlassEffects({
     } else {
       try {
         await startARSession({
-          requiredFeatures: ['local-floor'],
-          optionalFeatures: enableHandTracking ? ['hand-tracking'] : [],
-          domOverlay: canvasRef.current?.parentElement ? {
-            root: canvasRef.current.parentElement
-          } : undefined,
+          requiredFeatures: ["local-floor"],
+          optionalFeatures: enableHandTracking ? ["hand-tracking"] : [],
+          domOverlay: canvasRef.current?.parentElement
+            ? {
+                root: canvasRef.current.parentElement,
+              }
+            : undefined,
         });
       } catch (error) {
         setError(`Failed to start AR session: ${error}`);
@@ -491,36 +583,43 @@ export function ARGlassEffects({
   useEffect(() => {
     onHitTest((results: { point: THREE.Vector3; distance: number }[]) => {
       if (onInteraction && results.length > 0) {
-        onInteraction('surface_detected', {
-          points: results.map((r: { point: THREE.Vector3; distance: number }) => r.point),
-          count: results.length
+        onInteraction("surface_detected", {
+          points: results.map(
+            (r: { point: THREE.Vector3; distance: number }) => r.point
+          ),
+          count: results.length,
         });
       }
     });
   }, [onHitTest, onInteraction]);
 
-  const handlePanelInteraction = useCallback((panelType: string) => {
-    if (onInteraction) {
-      onInteraction('panel_interaction', { type: panelType });
-    }
-  }, [onInteraction]);
+  const handlePanelInteraction = useCallback(
+    (panelType: string) => {
+      if (onInteraction) {
+        onInteraction("panel_interaction", { type: panelType });
+      }
+    },
+    [onInteraction]
+  );
 
   const handlePortalActivation = useCallback(() => {
     const prefersReducedMotion = useReducedMotion();
     setPortalActive(!portalActive);
     if (onInteraction) {
-      onInteraction('portal_toggle', { active: !portalActive });
+      onInteraction("portal_toggle", { active: !portalActive });
     }
   }, [portalActive, onInteraction]);
 
   if (error) {
     return (
-      <div className={cn(
-        'ar-glass-error glass-foundation-complete glass-surface-danger',
-        'glass-p-md glass-radius-lg glass-text-danger',
-        className
-      )}>
-        <div className="flex items-center gap-2">
+      <div
+        className={cn(
+          "ar-glass-error glass-foundation-complete glass-surface-danger",
+          "glass-p-md glass-radius-lg glass-text-danger",
+          className
+        )}
+      >
+        <div className="glass-flex glass-items-center glass-gap-2">
           <AlertCircle className="w-5 h-5" />
           <span>AR Glass Effects Error: {error}</span>
         </div>
@@ -530,12 +629,14 @@ export function ARGlassEffects({
 
   if (!isInitialized) {
     return (
-      <div className={cn(
-        'ar-glass-loading glass-foundation-complete glass-surface-info',
-        'glass-p-md glass-radius-lg glass-text-info',
-        className
-      )}>
-        <div className="flex items-center gap-2">
+      <div
+        className={cn(
+          "ar-glass-loading glass-foundation-complete glass-surface-info",
+          "glass-p-md glass-radius-lg glass-text-info",
+          className
+        )}
+      >
+        <div className="glass-flex glass-items-center glass-gap-2">
           <Loader2 className="w-5 h-5 animate-spin" />
           <span>Initializing AR Glass Effects...</span>
         </div>
@@ -544,23 +645,28 @@ export function ARGlassEffects({
   }
 
   return (
-    <div className={cn('ar-glass-effects glass-foundation-complete relative', className)}>
+    <div
+      className={cn(
+        "ar-glass-effects glass-foundation-complete relative",
+        className
+      )}
+    >
       {/* AR Controls */}
-      {mode === 'ar' && capabilities.isARSupported && showControls && (
+      {mode === "ar" && capabilities.isARSupported && showControls && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className="absolute glass-top-4 glass-right-4 z-10 flex gap-2"
+          className="absolute glass-top-4 glass-right-4 z-10 glass-flex glass-gap-2"
         >
           <button
             onClick={handleARToggle}
             disabled={isLoading}
             className={cn(
-              'glass-foundation-complete glass-surface-primary glass-text-primary',
-              'glass-px-md glass-py-sm glass-radius-lg glass-shadow-lg',
-              'hover:glass-surface-primary-hover disabled:opacity-50',
-              'flex items-center glass-gap-2 glass-transition glass-focus glass-touch-target glass-contrast-guard',
-              'glass-press glass-magnet'
+              "glass-foundation-complete glass-surface-primary glass-text-primary",
+              "glass-px-md glass-py-sm glass-radius-lg glass-shadow-lg",
+              "hover:glass-surface-primary-hover disabled:opacity-50",
+              "flex items-center glass-gap-2 glass-transition glass-focus glass-touch-target glass-contrast-guard",
+              "glass-press glass-magnet"
             )}
           >
             {isLoading ? (
@@ -570,11 +676,15 @@ export function ARGlassEffects({
             ) : (
               <Eye className="w-4 h-4" />
             )}
-            {isLoading ? 'Loading...' : session.isActive ? 'Exit AR' : 'Enter AR'}
+            {isLoading
+              ? "Loading..."
+              : session.isActive
+                ? "Exit AR"
+                : "Enter AR"}
           </button>
 
           {enableVoiceControl && (
-            <div className="px-3 py-2 glass-surface-green/20 text-primary glass-radius-lg text-sm glass-contrast-guard">
+            <div className="glass-px-3 glass-py-2 glass-surface-green/20 text-primary glass-radius-lg glass-text-sm glass-contrast-guard">
               🎤 Voice Active
             </div>
           )}
@@ -582,38 +692,60 @@ export function ARGlassEffects({
       )}
 
       {/* Capabilities Info */}
-      {mode === 'demo' && showInfo && (
+      {mode === "demo" && showInfo && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-          className="absolute top-4 left-4 z-10 p-4 glass-surface-dark/80 glass-glass-glass-backdrop-blur-lg glass-radius-lg text-primary text-sm max-w-xs glass-contrast-guard"
+          className="absolute top-4 left-4 z-10 glass-p-4 glass-surface-dark/80 glass-glass-glass-backdrop-blur-lg glass-radius-lg text-primary glass-text-sm max-w-xs glass-contrast-guard"
         >
-          <h3 className="font-semibold mb-2 flex items-center gap-2">
+          <h3 className="font-semibold mb-2 glass-flex glass-items-center glass-gap-2">
             <Info className="w-4 h-4" />
             AR Capabilities
           </h3>
           <ul className="space-y-1">
-            <li className="flex items-center gap-2">
-              <span className={capabilities.isARSupported ? 'text-green-400' : 'text-red-400'}>
-                {capabilities.isARSupported ? '✅' : '❌'}
+            <li className="glass-flex glass-items-center glass-gap-2">
+              <span
+                className={
+                  capabilities.isARSupported ? "text-green-400" : "text-red-400"
+                }
+              >
+                {capabilities.isARSupported ? "✅" : "❌"}
               </span>
               AR Supported
             </li>
-            <li className="flex items-center gap-2">
-              <span className={capabilities.supportsHandTracking ? 'text-green-400' : 'text-red-400'}>
-                {capabilities.supportsHandTracking ? '✅' : '❌'}
+            <li className="glass-flex glass-items-center glass-gap-2">
+              <span
+                className={
+                  capabilities.supportsHandTracking
+                    ? "text-green-400"
+                    : "text-red-400"
+                }
+              >
+                {capabilities.supportsHandTracking ? "✅" : "❌"}
               </span>
               Hand Tracking
             </li>
-            <li className="flex items-center gap-2">
-              <span className={capabilities.supportsHitTest ? 'text-green-400' : 'text-red-400'}>
-                {capabilities.supportsHitTest ? '✅' : '❌'}
+            <li className="glass-flex glass-items-center glass-gap-2">
+              <span
+                className={
+                  capabilities.supportsHitTest
+                    ? "text-green-400"
+                    : "text-red-400"
+                }
+              >
+                {capabilities.supportsHitTest ? "✅" : "❌"}
               </span>
               Hit Testing
             </li>
-            <li className="flex items-center gap-2">
-              <span className={capabilities.supportsDomOverlay ? 'text-green-400' : 'text-red-400'}>
-                {capabilities.supportsDomOverlay ? '✅' : '❌'}
+            <li className="glass-flex glass-items-center glass-gap-2">
+              <span
+                className={
+                  capabilities.supportsDomOverlay
+                    ? "text-green-400"
+                    : "text-red-400"
+                }
+              >
+                {capabilities.supportsDomOverlay ? "✅" : "❌"}
               </span>
               DOM Overlay
             </li>
@@ -626,33 +758,37 @@ export function ARGlassEffects({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className="absolute bottom-4 left-4 z-10 glass-surface-red text-primary p-3 glass-radius-lg max-w-xs glass-contrast-guard"
+          className="absolute bottom-4 left-4 z-10 glass-surface-red text-primary glass-p-3 glass-radius-lg max-w-xs glass-contrast-guard"
         >
-          <div className="flex items-center gap-2">
+          <div className="glass-flex glass-items-center glass-gap-2">
             <AlertCircle className="w-4 h-4" />
-            <span className="text-sm">{xrError}</span>
+            <span className="glass-text-sm">{xrError}</span>
           </div>
         </motion.div>
       )}
 
       {/* Hand Tracking Status */}
-      {enableHandTracking && (handTracking.left.isActive || handTracking.right.isActive) && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className="absolute bottom-4 right-4 z-10 glass-surface-green text-primary p-3 glass-radius-lg text-sm glass-contrast-guard"
-        >
-          <div className="flex items-center gap-2">
-            <Hand className="w-4 h-4" />
-            <span>Hands: {handTracking.left.isActive ? 'L' : ''} {handTracking.right.isActive ? 'R' : ''}</span>
-          </div>
-        </motion.div>
-      )}
+      {enableHandTracking &&
+        (handTracking.left.isActive || handTracking.right.isActive) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            className="absolute bottom-4 right-4 z-10 glass-surface-green text-primary glass-p-3 glass-radius-lg glass-text-sm glass-contrast-guard"
+          >
+            <div className="glass-flex glass-items-center glass-gap-2">
+              <Hand className="w-4 h-4" />
+              <span>
+                Hands: {handTracking.left.isActive ? "L" : ""}{" "}
+                {handTracking.right.isActive ? "R" : ""}
+              </span>
+            </div>
+          </motion.div>
+        )}
 
       {/* 3D Canvas */}
       <Canvas
         ref={canvasRef}
-        className="w-full h-full"
+        className="glass-w-full glass-h-full"
         camera={{ position: [0, 1.6, 3], fov: 75 }}
         gl={{
           antialias: true,
@@ -661,7 +797,13 @@ export function ARGlassEffects({
         }}
       >
         {/* Camera setup */}
-        {mode !== 'ar' && <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />}
+        {mode !== "ar" && (
+          <OrbitControls
+            enablePan={true}
+            enableZoom={true}
+            enableRotate={true}
+          />
+        )}
         <PerspectiveCamera makeDefault position={[0, 1.6, 3]} />
 
         {/* AR Scene */}
@@ -687,7 +829,7 @@ function ARScene({
   enablePhysics,
   portalActive,
   onPortalActivation,
-  onPanelInteraction
+  onPanelInteraction,
 }: any) {
   const { scene } = useThree();
 
@@ -697,7 +839,7 @@ function ARScene({
       scene.traverse((child) => {
         if (child instanceof THREE.Mesh && child.userData.physics) {
           // Add physics objects to the system
-          console.log('Physics object added:', child.uuid);
+          console.log("Physics object added:", child.uuid);
         }
       });
     }
@@ -720,18 +862,18 @@ function ARScene({
       {/* Main content panel */}
       <FloatingPanel
         position={[0, 1.5, -2]}
-        content={content?.title || 'AR Content'}
+        content={content?.title || "AR Content"}
         userPosition={userPosition}
-        onInteraction={() => onPanelInteraction('main')}
+        onInteraction={() => onPanelInteraction("main")}
       />
 
       {/* Secondary information panel */}
       <FloatingPanel
         position={[-2, 1, -2.5]}
         rotation={[0, 0.3, 0]}
-        content={content?.text || 'Additional Information'}
+        content={content?.text || "Additional Information"}
         userPosition={userPosition}
-        onInteraction={() => onPanelInteraction('secondary')}
+        onInteraction={() => onPanelInteraction("secondary")}
       />
 
       {/* Data visualization */}
@@ -766,20 +908,34 @@ function ARScene({
 }
 
 // Floating Panel Component
-function FloatingPanel({ position, rotation = [0, 0, 0], content, userPosition, onInteraction, isInteractive = true }: any) {
+function FloatingPanel({
+  position,
+  rotation = [0, 0, 0],
+  content,
+  userPosition,
+  onInteraction,
+  isInteractive = true,
+}: any) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const materialRef = useRef<THREE.ShaderMaterial>(null!);
   const [isHovered, setIsHovered] = useState(false);
   const [distance, setDistance] = useState(0);
 
-  const geometry = useMemo(() => ARGlassGeometryFactory.createCurvedPanel(2, 1.5, 0.2), []);
-  const material = useMemo(() => ARGlassMaterialFactory.createSpatialUI({
-    color: new THREE.Color(0.3, 0.7, 1.0),
-    opacity: 0.8,
-    userPosition,
-    interactionRadius: 3.0,
-    glowIntensity: isHovered ? 2.0 : 1.0,
-  }), [userPosition, isHovered]);
+  const geometry = useMemo(
+    () => ARGlassGeometryFactory.createCurvedPanel(2, 1.5, 0.2),
+    []
+  );
+  const material = useMemo(
+    () =>
+      ARGlassMaterialFactory.createSpatialUI({
+        color: new THREE.Color(0.3, 0.7, 1.0),
+        opacity: 0.8,
+        userPosition,
+        interactionRadius: 3.0,
+        glowIntensity: isHovered ? 2.0 : 1.0,
+      }),
+    [userPosition, isHovered]
+  );
 
   useFrame((state) => {
     if (!meshRef.current || !materialRef.current) return;
@@ -797,12 +953,19 @@ function FloatingPanel({ position, rotation = [0, 0, 0], content, userPosition, 
     mat.uniforms.userPosition.value.copy(userPosition);
 
     // Floating animation
-    const floatingAnimation = ARGlassAnimations.createFloatingAnimation(mesh, 0.05, 0.5);
+    const floatingAnimation = ARGlassAnimations.createFloatingAnimation(
+      mesh,
+      0.05,
+      0.5
+    );
     floatingAnimation(time);
 
     // Adaptive scaling
     if (isInteractive) {
-      const scale = ARGlassUtils.createAdaptiveScaling(1.0, 5.0)(currentDistance);
+      const scale = ARGlassUtils.createAdaptiveScaling(
+        1.0,
+        5.0
+      )(currentDistance);
       mesh.scale.setScalar(scale);
     }
 
@@ -889,7 +1052,8 @@ function DataVisualization({ data, position, userPosition }: any) {
           geometry={geometries[index]}
           material={dataMaterials[index]}
           ref={(ref) => {
-            if (ref) materials.current[index] = ref.material as THREE.ShaderMaterial;
+            if (ref)
+              materials.current[index] = ref.material as THREE.ShaderMaterial;
           }}
         />
       ))}
@@ -902,12 +1066,19 @@ function HolographicPortal({ position, isActive, onActivate }: any) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const materialRef = useRef<THREE.ShaderMaterial>(null!);
 
-  const geometry = useMemo(() => ARGlassGeometryFactory.createPortalGeometry(0.8, 1.2), []);
-  const material = useMemo(() => ARGlassMaterialFactory.createHolographicGlass({
-    color: new THREE.Color(0.6, 0.8, 1.0),
-    opacity: isActive ? 0.9 : 0.5,
-    fresnelPower: 1.5,
-  }), [isActive]);
+  const geometry = useMemo(
+    () => ARGlassGeometryFactory.createPortalGeometry(0.8, 1.2),
+    []
+  );
+  const material = useMemo(
+    () =>
+      ARGlassMaterialFactory.createHolographicGlass({
+        color: new THREE.Color(0.6, 0.8, 1.0),
+        opacity: isActive ? 0.9 : 0.5,
+        fresnelPower: 1.5,
+      }),
+    [isActive]
+  );
 
   useFrame((state) => {
     if (!meshRef.current || !materialRef.current) return;
@@ -930,7 +1101,12 @@ function HolographicPortal({ position, isActive, onActivate }: any) {
 
     // Scale animation when active
     if (isActive) {
-      const scaleAnimation = ARGlassAnimations.createScaleAnimation(mesh, 1.0, 1.1, 3);
+      const scaleAnimation = ARGlassAnimations.createScaleAnimation(
+        mesh,
+        1.0,
+        1.1,
+        3
+      );
       scaleAnimation(time);
     }
   });
@@ -950,14 +1126,21 @@ function HolographicPortal({ position, isActive, onActivate }: any) {
 function ParticleField({ position, count }: any) {
   const meshRef = useRef<THREE.Points>(null!);
 
-  const geometry = useMemo(() => ARGlassGeometryFactory.createParticleField(count), [count]);
-  const material = useMemo(() => new THREE.PointsMaterial({
-    size: 0.05,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.6,
-    blending: THREE.AdditiveBlending
-  }), []);
+  const geometry = useMemo(
+    () => ARGlassGeometryFactory.createParticleField(count),
+    [count]
+  );
+  const material = useMemo(
+    () =>
+      new THREE.PointsMaterial({
+        size: 0.05,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending,
+      }),
+    []
+  );
 
   useFrame((state) => {
     if (!meshRef.current) return;
@@ -974,7 +1157,12 @@ function ParticleField({ position, count }: any) {
   });
 
   return (
-    <points ref={meshRef} position={position} geometry={geometry} material={material} />
+    <points
+      ref={meshRef}
+      position={position}
+      geometry={geometry}
+      material={material}
+    />
   );
 }
 

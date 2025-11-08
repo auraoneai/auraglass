@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { cn } from '@/design-system/utilsCore';
+import React, { useEffect, useRef, useState } from "react";
+import { cn } from "@/design-system/utilsCore";
 
 export interface ScreenReaderProps {
   /**
@@ -9,7 +9,7 @@ export interface ScreenReaderProps {
   /**
    * ARIA live region politeness
    */
-  politeness?: 'polite' | 'assertive' | 'off';
+  politeness?: "polite" | "assertive" | "off";
   /**
    * Whether to clear announcements after a delay
    */
@@ -25,7 +25,7 @@ export interface ScreenReaderProps {
   /**
    * ARIA relevant - what changes to announce
    */
-  relevant?: 'additions' | 'removals' | 'text' | 'all' | 'additions text';
+  relevant?: "additions" | "removals" | "text" | "all" | "additions text";
 }
 
 /**
@@ -34,38 +34,38 @@ export interface ScreenReaderProps {
  */
 export function ScreenReader({
   children,
-  politeness = 'polite',
+  politeness = "polite",
   clearAfter,
   className,
   atomic = false,
-  relevant = 'additions text',
+  relevant = "additions text",
 }: ScreenReaderProps) {
   const [content, setContent] = useState(children);
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
-  
+
   useEffect(() => {
     setContent(children);
-    
+
     if (clearAfter) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      
+
       timeoutRef.current = setTimeout(() => {
-        setContent('');
+        setContent("");
       }, clearAfter);
     }
-    
+
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
   }, [children, clearAfter]);
-  
+
   return (
     <div
-      className={cn('sr-only', className)}
+      className={cn("sr-only", className)}
       role="status"
       aria-live={politeness}
       aria-atomic={atomic}
@@ -82,7 +82,7 @@ export function ScreenReader({
  */
 export function ScreenReaderOnly({
   children,
-  as: Component = 'span',
+  as: Component = "span",
   className,
   ...props
 }: {
@@ -90,7 +90,11 @@ export function ScreenReaderOnly({
   as?: React.ElementType;
   className?: string;
 } & React.HTMLAttributes<HTMLElement>) {
-  return React.createElement(Component as any, {className: cn('sr-only', className), ...props}, children);
+  return React.createElement(
+    Component as any,
+    { className: cn("sr-only", className), ...props },
+    children
+  );
 }
 
 /**
@@ -99,14 +103,14 @@ export function ScreenReaderOnly({
  */
 export function LiveRegion({
   children,
-  politeness = 'polite',
+  politeness = "polite",
   atomic = false,
-  relevant = 'additions text',
+  relevant = "additions text",
   className,
   ...props
 }: {
   children: React.ReactNode;
-  politeness?: 'polite' | 'assertive' | 'off';
+  politeness?: "polite" | "assertive" | "off";
   atomic?: boolean;
   relevant?: string;
   className?: string;
@@ -132,20 +136,20 @@ export function LiveRegion({
 let announcer: HTMLDivElement | null = null;
 
 function getAnnouncer() {
-  if (typeof document === 'undefined') return null;
-  
+  if (typeof document === "undefined") return null;
+
   if (!announcer) {
-    announcer = document.createElement('div');
-    announcer.setAttribute('aria-live', 'polite');
-    announcer.setAttribute('aria-atomic', 'true');
-    announcer.style.position = 'absolute';
-    announcer.style.left = '-10000px';
-    announcer.style.width = '1px';
-    announcer.style.height = '1px';
-    announcer.style.overflow = 'hidden';
+    announcer = document.createElement("div");
+    announcer.setAttribute("aria-live", "polite");
+    announcer.setAttribute("aria-atomic", "true");
+    announcer.style.position = "absolute";
+    announcer.style.left = "-10000px";
+    announcer.style.width = "1px";
+    announcer.style.height = "1px";
+    announcer.style.overflow = "hidden";
     document.body.appendChild(announcer);
   }
-  
+
   return announcer;
 }
 
@@ -155,29 +159,29 @@ function getAnnouncer() {
 export function announce(
   message: string,
   options: {
-    politeness?: 'polite' | 'assertive';
+    politeness?: "polite" | "assertive";
     clearAfter?: number;
   } = {}
 ) {
-  const { politeness = 'polite', clearAfter = 3000 } = options;
+  const { politeness = "polite", clearAfter = 3000 } = options;
   const announcer = getAnnouncer();
-  
+
   if (!announcer) return;
-  
+
   // Set politeness level
-  announcer.setAttribute('aria-live', politeness);
-  
+  announcer.setAttribute("aria-live", politeness);
+
   // Clear previous message
-  announcer.textContent = '';
-  
+  announcer.textContent = "";
+
   // Announce new message after a brief delay
   setTimeout(() => {
     announcer.textContent = message;
-    
+
     // Clear after delay
     if (clearAfter) {
       setTimeout(() => {
-        announcer.textContent = '';
+        announcer.textContent = "";
       }, clearAfter);
     }
   }, 100);
@@ -188,47 +192,50 @@ export function announce(
  */
 export function useAnnounce() {
   const announcerRef = useRef<HTMLDivElement | null>(null);
-  
+
   useEffect(() => {
-    if (typeof document === 'undefined') return;
-    
+    if (typeof document === "undefined") return;
+
     // Create local announcer
-    const div = document.createElement('div');
-    div.setAttribute('aria-live', 'polite');
-    div.setAttribute('aria-atomic', 'true');
-    div.className = 'sr-only';
+    const div = document.createElement("div");
+    div.setAttribute("aria-live", "polite");
+    div.setAttribute("aria-atomic", "true");
+    div.className = "sr-only";
     document.body.appendChild(div);
     announcerRef.current = div;
-    
+
     return () => {
-      if (announcerRef.current && document.body.contains(announcerRef.current)) {
+      if (
+        announcerRef.current &&
+        document.body.contains(announcerRef.current)
+      ) {
         document.body.removeChild(announcerRef.current);
       }
     };
   }, []);
-  
+
   const announceMessage = (
     message: string,
-    politeness: 'polite' | 'assertive' = 'polite'
+    politeness: "polite" | "assertive" = "polite"
   ) => {
     if (!announcerRef.current) return;
-    
-    announcerRef.current.setAttribute('aria-live', politeness);
-    announcerRef.current.textContent = '';
-    
+
+    announcerRef.current.setAttribute("aria-live", politeness);
+    announcerRef.current.textContent = "";
+
     setTimeout(() => {
       if (announcerRef.current) {
         announcerRef.current.textContent = message;
       }
     }, 100);
   };
-  
+
   const clearAnnouncement = () => {
     if (announcerRef.current) {
-      announcerRef.current.textContent = '';
+      announcerRef.current.textContent = "";
     }
   };
-  
+
   return {
     announce: announceMessage,
     clear: clearAnnouncement,
@@ -248,12 +255,13 @@ export function DescribedBy({
   description: string;
   id?: string;
 }) {
-  const descriptionId = id || `description-${Math.random().toString(36).substr(2, 9)}`;
-  
+  const descriptionId =
+    id || `description-${Math.random().toString(36).substr(2, 9)}`;
+
   return (
     <>
       {React.cloneElement(children as any, {
-        'aria-describedby': descriptionId,
+        "aria-describedby": descriptionId,
       })}
       <span id={descriptionId} className="sr-only">
         {description}
@@ -276,14 +284,14 @@ export function LabelledBy({
   id?: string;
 }) {
   const labelId = id || `label-${Math.random().toString(36).substr(2, 9)}`;
-  
+
   return (
     <>
       <span id={labelId} className="sr-only">
         {label}
       </span>
       {React.cloneElement(children as any, {
-        'aria-labelledby': labelId,
+        "aria-labelledby": labelId,
       })}
     </>
   );
@@ -294,29 +302,36 @@ export function LabelledBy({
  */
 export function LoadingAnnouncement({
   loading,
-  loadingMessage = 'Loading...',
-  completeMessage = 'Loading complete',
-  errorMessage = 'Loading failed',
+  loadingMessage = "Loading...",
+  completeMessage = "Loading complete",
+  errorMessage = "Loading failed",
   status,
 }: {
   loading: boolean;
   loadingMessage?: string;
   completeMessage?: string;
   errorMessage?: string;
-  status?: 'loading' | 'complete' | 'error';
+  status?: "loading" | "complete" | "error";
 }) {
   const { announce } = useAnnounce();
-  
+
   useEffect(() => {
     if (loading) {
       announce(loadingMessage);
-    } else if (status === 'complete') {
+    } else if (status === "complete") {
       announce(completeMessage);
-    } else if (status === 'error') {
-      announce(errorMessage, 'assertive');
+    } else if (status === "error") {
+      announce(errorMessage, "assertive");
     }
-  }, [loading, status, loadingMessage, completeMessage, errorMessage, announce]);
-  
+  }, [
+    loading,
+    status,
+    loadingMessage,
+    completeMessage,
+    errorMessage,
+    announce,
+  ]);
+
   return null;
 }
 
@@ -331,15 +346,15 @@ export function ValidationAnnouncement({
   successMessage?: string;
 }) {
   const { announce } = useAnnounce();
-  
+
   useEffect(() => {
-        if (errors && Array.isArray(errors) && errors.length > 0) {
-      const message = `${errors.length} error${errors.length > 1 ? 's' : ''}: ${errors.join(', ')}`;
-      announce(message, 'assertive');
+    if (errors && Array.isArray(errors) && errors.length > 0) {
+      const message = `${errors.length} error${errors.length > 1 ? "s" : ""}: ${errors.join(", ")}`;
+      announce(message, "assertive");
     } else if (successMessage) {
       announce(successMessage);
     }
   }, [errors, successMessage, announce]);
-  
+
   return null;
 }

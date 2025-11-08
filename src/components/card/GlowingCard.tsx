@@ -3,10 +3,13 @@
  * A glassmorphic card with animated glowing edges and hover effects
  */
 
-import React, { CSSProperties, forwardRef, ReactNode } from 'react';
-import { GlassCard } from './GlassCard';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import React, { CSSProperties, forwardRef, ReactNode } from "react";
+import { GlassCard } from "./GlassCard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 /**
  * Glowing Card Props
@@ -18,7 +21,7 @@ export interface GlowingCardProps {
   glowColor?: string;
   glowIntensity?: number; // 0-1
   animationDuration?: number; // milliseconds
-  variant?: 'default' | 'neon' | 'subtle' | 'rainbow';
+  variant?: "default" | "neon" | "subtle" | "rainbow";
   onClick?: () => void;
   interactive?: boolean;
   disabled?: boolean;
@@ -30,15 +33,15 @@ export interface GlowingCardProps {
 export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
   (
     {
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
       children,
-      className = '',
+      className = "",
       style = {},
-      glowColor = '#00d4ff',
+      glowColor = "#00d4ff",
       glowIntensity = 0.8,
       animationDuration = 3000,
-      variant = 'default',
+      variant = "default",
       onClick,
       interactive = true,
       disabled = false,
@@ -52,43 +55,43 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
      */
     const getGlowStyles = (): CSSProperties => {
       const baseGlow = {
-        '--glow-color': glowColor,
-        '--glow-intensity': glowIntensity,
-        '--animation-duration': `${animationDuration}ms`,
+        "--glow-color": glowColor,
+        "--glow-intensity": glowIntensity,
+        "--animation-duration": `${animationDuration}ms`,
       } as CSSProperties;
 
       switch (variant) {
-        case 'neon':
+        case "neon":
           return {
             ...baseGlow,
-            '--glow-color': glowColor,
-            '--glow-spread': '8px',
-            '--glow-blur': '20px',
+            "--glow-color": glowColor,
+            "--glow-spread": "8px",
+            "--glow-blur": "20px",
           } as CSSProperties;
 
-        case 'subtle':
+        case "subtle":
           return {
             ...baseGlow,
-            '--glow-spread': '2px',
-            '--glow-blur': '10px',
-            '--glow-intensity': glowIntensity * 0.5,
+            "--glow-spread": "2px",
+            "--glow-blur": "10px",
+            "--glow-intensity": glowIntensity * 0.5,
           } as CSSProperties;
 
-        case 'rainbow':
+        case "rainbow":
           return {
             ...baseGlow,
-            '--glow-color-1': '#ff006e',
-            '--glow-color-2': '#00d4ff',
-            '--glow-color-3': '#00ff88',
-            '--glow-spread': '4px',
-            '--glow-blur': '16px',
+            "--glow-color-1": "#ff006e",
+            "--glow-color-2": "#00d4ff",
+            "--glow-color-3": "#00ff88",
+            "--glow-spread": "4px",
+            "--glow-blur": "16px",
           } as CSSProperties;
 
         default:
           return {
             ...baseGlow,
-            '--glow-spread': '4px',
-            '--glow-blur': '16px',
+            "--glow-spread": "4px",
+            "--glow-blur": "16px",
           } as CSSProperties;
       }
     };
@@ -98,23 +101,23 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
      */
     const getAnimationClass = (): string => {
       if (prefersReducedMotion || disabled) {
-        return '';
+        return "";
       }
 
-      return 'glowing-card-animated';
+      return "glowing-card-animated";
     };
 
     const containerStyles: CSSProperties = {
       ...getGlowStyles(),
       ...style,
-      position: 'relative',
-      overflow: 'hidden',
-      cursor: interactive && !disabled ? 'pointer' : 'default',
+      position: "relative",
+      overflow: "hidden",
+      cursor: interactive && !disabled ? "pointer" : "default",
       transition: prefersReducedMotion
-        ? 'none'
-        : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        ? "none"
+        : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       opacity: disabled ? 0.6 : 1,
-      pointerEvents: disabled ? 'none' : 'auto',
+      pointerEvents: disabled ? "none" : "auto",
     };
 
     return (
@@ -123,12 +126,12 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
         className={`glowing-card ${variant} ${getAnimationClass()} ${className}`}
         style={containerStyles}
         onClick={!disabled ? onClick : undefined}
-        role={onClick ? 'button' : undefined}
+        role={onClick ? "button" : undefined}
         tabIndex={onClick && !disabled ? 0 : undefined}
         onKeyDown={
           onClick && !disabled
             ? (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   onClick();
                 }
@@ -142,7 +145,10 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
         )}
 
         {/* Content */}
-        <GlassCard className="glowing-card-content" style={{ position: 'relative', zIndex: 1 }}>
+        <GlassCard
+          className="glowing-card-content"
+          style={{ position: "relative", zIndex: 1 }}
+        >
           {children}
         </GlassCard>
 
@@ -239,4 +245,4 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
   }
 );
 
-GlowingCard.displayName = 'GlowingCard';
+GlowingCard.displayName = "GlowingCard";

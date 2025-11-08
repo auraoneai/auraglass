@@ -1,13 +1,25 @@
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Quantum States System
  * Probabilistic UI states that collapse into deterministic visuals based on user interaction
  * Part of Next-Wave Systems (10/10) - Meta-Systems Framework
  */
 
-import React, { useEffect, useRef, useState, useCallback, createContext, useContext } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+} from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import { cn } from "@/lib/utils";
 
 // Quantum state types
 interface QuantumState<T = any> {
@@ -34,7 +46,7 @@ interface QuantumEntanglement {
   state1: string;
   state2: string;
   strength: number;
-  correlationType: 'positive' | 'negative' | 'complex';
+  correlationType: "positive" | "negative" | "complex";
   created: number;
   lastInteraction: number;
 }
@@ -96,7 +108,9 @@ class QuantumStateVector {
 
   constructor(states: string[]) {
     this.stateLabels = states;
-    this.amplitudes = states.map(() => new ComplexNumber(1 / Math.sqrt(states.length), 0));
+    this.amplitudes = states.map(
+      () => new ComplexNumber(1 / Math.sqrt(states.length), 0)
+    );
   }
 
   setAmplitude(stateIndex: number, amplitude: ComplexNumber): void {
@@ -115,11 +129,18 @@ class QuantumStateVector {
   }
 
   normalize(): void {
-    const totalProbability = this.amplitudes.reduce((sum, amp) => sum + amp.magnitude() ** 2, 0);
+    const totalProbability = this.amplitudes.reduce(
+      (sum, amp) => sum + amp.magnitude() ** 2,
+      0
+    );
     const normalizationFactor = 1 / Math.sqrt(totalProbability);
-    
-    this.amplitudes = this.amplitudes.map((amp: any) => 
-      new ComplexNumber(amp.real * normalizationFactor, amp.imaginary * normalizationFactor)
+
+    this.amplitudes = this.amplitudes.map(
+      (amp: any) =>
+        new ComplexNumber(
+          amp.real * normalizationFactor,
+          amp.imaginary * normalizationFactor
+        )
     );
   }
 
@@ -131,16 +152,16 @@ class QuantumStateVector {
     for (let i = 0; i < this.amplitudes.length; i++) {
       const probability = this.getProbability(i);
       cumulativeProbability += probability;
-      
+
       if (random <= cumulativeProbability) {
         // Collapse to measured state
         this.amplitudes.fill(new ComplexNumber(0, 0));
         this.amplitudes[i] = new ComplexNumber(1, 0);
-        
+
         return {
           stateIndex: i,
           state: this.stateLabels[i],
-          probability
+          probability,
         };
       }
     }
@@ -150,35 +171,39 @@ class QuantumStateVector {
     return {
       stateIndex: lastIndex,
       state: this.stateLabels[lastIndex],
-      probability: this.getProbability(lastIndex)
+      probability: this.getProbability(lastIndex),
     };
   }
 
   evolve(hamiltonianMatrix: number[][], timeStep: number): void {
     // Simplified time evolution using Hamiltonian
     const newAmplitudes: ComplexNumber[] = [];
-    
+
     for (let i = 0; i < this.amplitudes.length; i++) {
       let sum = new ComplexNumber(0, 0);
-      
+
       for (let j = 0; j < this.amplitudes.length; j++) {
         const evolutionPhase = -hamiltonianMatrix[i][j] * timeStep;
         const evolutionFactor = ComplexNumber.fromPolar(1, evolutionPhase);
         sum = sum.add(evolutionFactor.multiply(this.amplitudes[j]));
       }
-      
+
       newAmplitudes.push(sum);
     }
-    
+
     this.amplitudes = newAmplitudes;
     this.normalize();
   }
 
-  getSuperposition(): Array<{ state: string; probability: number; amplitude: ComplexNumber }> {
+  getSuperposition(): Array<{
+    state: string;
+    probability: number;
+    amplitude: ComplexNumber;
+  }> {
     return this.stateLabels.map((state, index) => ({
       state,
       probability: this.getProbability(index),
-      amplitude: this.getAmplitude(index)
+      amplitude: this.getAmplitude(index),
     }));
   }
 }
@@ -192,13 +217,13 @@ class InterferencePatternGenerator {
   constructor(frequency: number = 1, wavelength: number = 10) {
     this.frequency = frequency;
     this.wavelength = wavelength;
-    this.waveFunction = (x: number, t: number) => 
+    this.waveFunction = (x: number, t: number) =>
       Math.sin(2 * Math.PI * (this.frequency * t - x / this.wavelength));
   }
 
   generatePattern(width: number, height: number, time: number): number[][] {
     const pattern: number[][] = [];
-    
+
     for (let y = 0; y < height; y++) {
       pattern[y] = [];
       for (let x = 0; x < width; x++) {
@@ -208,17 +233,21 @@ class InterferencePatternGenerator {
         pattern[y][x] = (interference + 1) / 2; // Normalize to 0-1
       }
     }
-    
+
     return pattern;
   }
 
   createConstructiveInterference(x: number, y: number, time: number): number {
     const distance1 = Math.sqrt(x * x + y * y);
     const distance2 = Math.sqrt((x - 50) * (x - 50) + (y - 50) * (y - 50));
-    
-    const wave1 = Math.sin(2 * Math.PI * (this.frequency * time - distance1 / this.wavelength));
-    const wave2 = Math.sin(2 * Math.PI * (this.frequency * time - distance2 / this.wavelength));
-    
+
+    const wave1 = Math.sin(
+      2 * Math.PI * (this.frequency * time - distance1 / this.wavelength)
+    );
+    const wave2 = Math.sin(
+      2 * Math.PI * (this.frequency * time - distance2 / this.wavelength)
+    );
+
     return Math.abs(wave1 + wave2) / 2;
   }
 }
@@ -246,10 +275,15 @@ class QuantumUISystem {
     possibleStates: T[],
     initialProbabilities?: number[]
   ): QuantumStateVector {
-    const stateLabels = possibleStates.map((state: any) => JSON.stringify(state));
+    const stateLabels = possibleStates.map((state: any) =>
+      JSON.stringify(state)
+    );
     const quantumState = new QuantumStateVector(stateLabels);
-    
-    if (initialProbabilities && initialProbabilities.length === possibleStates.length) {
+
+    if (
+      initialProbabilities &&
+      initialProbabilities.length === possibleStates.length
+    ) {
       // Set initial amplitudes based on probabilities
       const normalizedProbs = this.normalizeProbabilities(initialProbabilities);
       normalizedProbs.forEach((prob, index) => {
@@ -261,19 +295,22 @@ class QuantumUISystem {
     this.quantumStates.set(stateId, quantumState);
     this.createHamiltonianMatrix(stateId, possibleStates.length);
     this.startQuantumEvolution(stateId);
-    
+
     return quantumState;
   }
 
   private normalizeProbabilities(probabilities: number[]): number[] {
-    const sum = probabilities.reduce((total, prob) => total + Math.abs(prob), 0);
+    const sum = probabilities.reduce(
+      (total, prob) => total + Math.abs(prob),
+      0
+    );
     return probabilities.map((prob: any) => Math.abs(prob) / sum);
   }
 
   private createHamiltonianMatrix(stateId: string, dimension: number): void {
     // Create a random Hamiltonian matrix (Hermitian for proper quantum evolution)
     const matrix: number[][] = [];
-    
+
     for (let i = 0; i < dimension; i++) {
       matrix[i] = [];
       for (let j = 0; j < dimension; j++) {
@@ -286,7 +323,7 @@ class QuantumUISystem {
         }
       }
     }
-    
+
     this.hamiltonianMatrices.set(stateId, matrix);
   }
 
@@ -294,7 +331,7 @@ class QuantumUISystem {
     const evolveState = () => {
       const quantumState = this.quantumStates.get(stateId);
       const hamiltonian = this.hamiltonianMatrices.get(stateId);
-      
+
       if (quantumState && hamiltonian) {
         quantumState.evolve(hamiltonian, 0.01); // Small time step
       }
@@ -304,60 +341,79 @@ class QuantumUISystem {
     setInterval(evolveState, 50); // 20fps evolution
   }
 
-  measureState(stateId: string, observer: string = 'unknown'): QuantumMeasurement | null {
+  measureState(
+    stateId: string,
+    observer: string = "unknown"
+  ): QuantumMeasurement | null {
     const quantumState = this.quantumStates.get(stateId);
     if (!quantumState) return null;
 
     const measurement = quantumState.measure();
-    
+
     const quantumMeasurement: QuantumMeasurement = {
       stateId,
       measuredValue: JSON.parse(measurement.state),
       probability: measurement.probability,
       timestamp: Date.now(),
       observer,
-      causedCollapse: true
+      causedCollapse: true,
     };
 
     this.measurements.push(quantumMeasurement);
-    
+
     // Handle entangled states
     this.handleEntangledMeasurements(stateId, measurement.stateIndex);
-    
+
     // Start decoherence process
     this.scheduleDecoherence(stateId, 5000); // 5 seconds
-    
+
     return quantumMeasurement;
   }
 
-  private handleEntangledMeasurements(measuredStateId: string, measuredIndex: number): void {
+  private handleEntangledMeasurements(
+    measuredStateId: string,
+    measuredIndex: number
+  ): void {
     this.entanglements.forEach((entanglement: any) => {
-      if (entanglement.state1 === measuredStateId || entanglement.state2 === measuredStateId) {
-        const otherStateId = entanglement.state1 === measuredStateId ? entanglement.state2 : entanglement.state1;
+      if (
+        entanglement.state1 === measuredStateId ||
+        entanglement.state2 === measuredStateId
+      ) {
+        const otherStateId =
+          entanglement.state1 === measuredStateId
+            ? entanglement.state2
+            : entanglement.state1;
         const otherState = this.quantumStates.get(otherStateId);
-        
+
         if (otherState) {
           // Correlate the entangled state based on entanglement type
           let correlatedIndex: number;
-          
+
           switch (entanglement.correlationType) {
-            case 'positive':
+            case "positive":
               correlatedIndex = measuredIndex;
               break;
-            case 'negative':
-              correlatedIndex = (measuredIndex + Math.floor(otherState.getSuperposition().length / 2)) % otherState.getSuperposition().length;
+            case "negative":
+              correlatedIndex =
+                (measuredIndex +
+                  Math.floor(otherState.getSuperposition().length / 2)) %
+                otherState.getSuperposition().length;
               break;
-            case 'complex':
-              correlatedIndex = (measuredIndex * 2) % otherState.getSuperposition().length;
+            case "complex":
+              correlatedIndex =
+                (measuredIndex * 2) % otherState.getSuperposition().length;
               break;
             default:
               correlatedIndex = measuredIndex;
           }
-          
+
           // Collapse entangled state
           const superposition = otherState.getSuperposition();
           superposition.forEach((_, index) => {
-            const amplitude = index === correlatedIndex ? new ComplexNumber(1, 0) : new ComplexNumber(0, 0);
+            const amplitude =
+              index === correlatedIndex
+                ? new ComplexNumber(1, 0)
+                : new ComplexNumber(0, 0);
             otherState.setAmplitude(index, amplitude);
           });
         }
@@ -387,7 +443,7 @@ class QuantumUISystem {
     // Restore equal superposition
     const superposition = quantumState.getSuperposition();
     const equalAmplitude = 1 / Math.sqrt(superposition.length);
-    
+
     superposition.forEach((_, index) => {
       const randomPhase = Math.random() * 2 * Math.PI;
       const amplitude = ComplexNumber.fromPolar(equalAmplitude, randomPhase);
@@ -395,33 +451,44 @@ class QuantumUISystem {
     });
   }
 
-  createEntanglement(state1: string, state2: string, strength: number = 0.8, type: 'positive' | 'negative' | 'complex' = 'positive'): void {
+  createEntanglement(
+    state1: string,
+    state2: string,
+    strength: number = 0.8,
+    type: "positive" | "negative" | "complex" = "positive"
+  ): void {
     const entanglementId = `${state1}-${state2}`;
-    
+
     const entanglement: QuantumEntanglement = {
       state1,
       state2,
       strength,
       correlationType: type,
       created: Date.now(),
-      lastInteraction: Date.now()
+      lastInteraction: Date.now(),
     };
 
     this.entanglements.set(entanglementId, entanglement);
   }
 
-  getSuperposition(stateId: string): Array<{ state: any; probability: number; phase: number }> | null {
+  getSuperposition(
+    stateId: string
+  ): Array<{ state: any; probability: number; phase: number }> | null {
     const quantumState = this.quantumStates.get(stateId);
     if (!quantumState) return null;
 
     return quantumState.getSuperposition().map((item: any) => ({
       state: JSON.parse(item.state),
       probability: item.probability,
-      phase: item.amplitude.phase()
+      phase: item.amplitude.phase(),
     }));
   }
 
-  generateInterferencePattern(width: number, height: number, time: number): number[][] {
+  generateInterferencePattern(
+    width: number,
+    height: number,
+    time: number
+  ): number[][] {
     return this.interferenceGenerator.generatePattern(width, height, time);
   }
 
@@ -460,10 +527,10 @@ class QuantumUISystem {
       clearTimeout(timer);
       this.decoherenceTimer.delete(stateId);
     }
-    
+
     this.quantumStates.delete(stateId);
     this.hamiltonianMatrices.delete(stateId);
-    
+
     // Remove entanglements involving this state
     Array.from(this.entanglements.entries()).forEach(([id, entanglement]) => {
       if (entanglement.state1 === stateId || entanglement.state2 === stateId) {
@@ -476,10 +543,24 @@ class QuantumUISystem {
 // React Context for quantum states
 const QuantumStatesContext = createContext<{
   system: QuantumUISystem | null;
-  createQuantumState: <T>(stateId: string, possibleStates: T[], initialProbabilities?: number[]) => void;
-  measureState: (stateId: string, observer?: string) => QuantumMeasurement | null;
-  getSuperposition: (stateId: string) => Array<{ state: any; probability: number; phase: number }> | null;
-  createEntanglement: (state1: string, state2: string, strength?: number, type?: 'positive' | 'negative' | 'complex') => void;
+  createQuantumState: <T>(
+    stateId: string,
+    possibleStates: T[],
+    initialProbabilities?: number[]
+  ) => void;
+  measureState: (
+    stateId: string,
+    observer?: string
+  ) => QuantumMeasurement | null;
+  getSuperposition: (
+    stateId: string
+  ) => Array<{ state: any; probability: number; phase: number }> | null;
+  createEntanglement: (
+    state1: string,
+    state2: string,
+    strength?: number,
+    type?: "positive" | "negative" | "complex"
+  ) => void;
   getCoherence: (stateId: string) => number;
 }>({
   system: null,
@@ -506,31 +587,53 @@ export function GlassQuantumStatesProvider({
   // Initialize system
   useEffect(() => {
     systemRef.current = new QuantumUISystem();
-    
+
     return () => {
       // Cleanup would go here
     };
   }, []);
 
-  const createQuantumState = useCallback(<T,>(stateId: string, possibleStates: T[], initialProbabilities?: number[]) => {
-    systemRef.current?.createQuantumState(stateId, possibleStates, initialProbabilities);
-  }, []);
+  const createQuantumState = useCallback(
+    <T,>(
+      stateId: string,
+      possibleStates: T[],
+      initialProbabilities?: number[]
+    ) => {
+      systemRef.current?.createQuantumState(
+        stateId,
+        possibleStates,
+        initialProbabilities
+      );
+    },
+    []
+  );
 
-  const measureState = useCallback((stateId: string, observer: string = 'user') => {
-    const measurement = systemRef.current?.measureState(stateId, observer);
-    if (measurement) {
-      onMeasurement?.(measurement);
-    }
-    return measurement || null;
-  }, [onMeasurement]);
+  const measureState = useCallback(
+    (stateId: string, observer: string = "user") => {
+      const measurement = systemRef.current?.measureState(stateId, observer);
+      if (measurement) {
+        onMeasurement?.(measurement);
+      }
+      return measurement || null;
+    },
+    [onMeasurement]
+  );
 
   const getSuperposition = useCallback((stateId: string) => {
     return systemRef.current?.getSuperposition(stateId) || null;
   }, []);
 
-  const createEntanglement = useCallback((state1: string, state2: string, strength: number = 0.8, type: 'positive' | 'negative' | 'complex' = 'positive') => {
-    systemRef.current?.createEntanglement(state1, state2, strength, type);
-  }, []);
+  const createEntanglement = useCallback(
+    (
+      state1: string,
+      state2: string,
+      strength: number = 0.8,
+      type: "positive" | "negative" | "complex" = "positive"
+    ) => {
+      systemRef.current?.createEntanglement(state1, state2, strength, type);
+    },
+    []
+  );
 
   const getCoherence = useCallback((stateId: string) => {
     return systemRef.current?.getQuantumCoherence(stateId) || 0;
@@ -556,7 +659,9 @@ export function GlassQuantumStatesProvider({
 export function useQuantumStates() {
   const context = useContext(QuantumStatesContext);
   if (!context) {
-    throw new Error('useQuantumStates must be used within GlassQuantumStatesProvider');
+    throw new Error(
+      "useQuantumStates must be used within GlassQuantumStatesProvider"
+    );
   }
   return context;
 }
@@ -577,7 +682,8 @@ export function GlassQuantumButton({
   stateId?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const prefersReducedMotion = useReducedMotion();
-  const { createQuantumState, measureState, getSuperposition } = useQuantumStates();
+  const { createQuantumState, measureState, getSuperposition } =
+    useQuantumStates();
   const [currentState, setCurrentState] = useState<any>(null);
   const [superposition, setSuperposition] = useState<any[]>([]);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -586,7 +692,7 @@ export function GlassQuantumButton({
   // Initialize quantum state
   useEffect(() => {
     createQuantumState(buttonId, possibleStates);
-    
+
     // Update superposition display
     const updateSuperposition = () => {
       const currentSuperposition = getSuperposition(buttonId);
@@ -597,19 +703,19 @@ export function GlassQuantumButton({
 
     updateSuperposition();
     const interval = setInterval(updateSuperposition, 100);
-    
+
     return () => clearInterval(interval);
   }, [buttonId, createQuantumState, getSuperposition, possibleStates]);
 
   const handleClick = useCallback(() => {
-    const measurement = measureState(buttonId, 'user-click');
+    const measurement = measureState(buttonId, "user-click");
     if (measurement) {
       const prefersReducedMotion = useReducedMotion();
       setCurrentState(measurement.measuredValue);
       setIsCollapsed(true);
       onCollapse?.(measurement.measuredValue);
       measurement.measuredValue.action();
-      
+
       // Restore superposition after delay
       setTimeout(() => {
         setIsCollapsed(false);
@@ -630,25 +736,31 @@ export function GlassQuantumButton({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       {...Object.fromEntries(
-        Object.entries(props).filter(([key]) => key !== 'onAnimationStart')
+        Object.entries(props).filter(([key]) => key !== "onAnimationStart")
       )}
     >
       {/* Quantum superposition visualization */}
       <AnimatePresence>
         {!isCollapsed && superposition.length > 0 && (
-          <div className="absolute inset-0 flex">
+          <div className="absolute inset-0 glass-flex">
             {superposition.map((state, index) => (
               <motion.div
                 key={index}
-                className="flex-1 h-full opacity-30"
+                className="glass-flex-1 glass-h-full opacity-30"
                 style={{ backgroundColor: state.state.color }}
                 initial={{ opacity: 0 }}
-                animate={prefersReducedMotion ? {} : { 
-                  opacity: state.probability * 0.6,
-                  scale: 1 + state.phase * 0.1,
-                }}
+                animate={
+                  prefersReducedMotion
+                    ? {}
+                    : {
+                        opacity: state.probability * 0.6,
+                        scale: 1 + state.phase * 0.1,
+                      }
+                }
                 exit={{ opacity: 0 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2  }}
+                transition={
+                  prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+                }
               />
             ))}
           </div>
@@ -664,7 +776,9 @@ export function GlassQuantumButton({
             initial={{ scale: 0, opacity: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1, opacity: 0.8 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+            transition={
+              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+            }
           />
         )}
       </AnimatePresence>
@@ -676,10 +790,10 @@ export function GlassQuantumButton({
 
       {/* Quantum interference pattern */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <QuantumInterferencePattern 
-          width={100} 
-          height={40} 
-          speed={0.5} 
+        <QuantumInterferencePattern
+          width={100}
+          height={40}
+          speed={0.5}
           visible={!isCollapsed}
         />
       </div>
@@ -711,7 +825,7 @@ export function QuantumInterferencePattern({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     canvas.width = width;
@@ -720,9 +834,9 @@ export function QuantumInterferencePattern({
     let time = 0;
     const animate = () => {
       const pattern = system.generateInterferencePattern(width, height, time);
-      
+
       ctx.clearRect(0, 0, width, height);
-      
+
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const intensity = pattern[y][x];
@@ -731,7 +845,7 @@ export function QuantumInterferencePattern({
           ctx.fillRect(x, y, 1, 1);
         }
       }
-      
+
       time += speed * 0.01;
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -749,7 +863,7 @@ export function QuantumInterferencePattern({
     <canvas
       ref={canvasRef}
       className={cn("w-full h-full", className)}
-      style={{ display: visible ? 'block' : 'none' }}
+      style={{ display: visible ? "block" : "none" }}
     />
   );
 }
@@ -760,7 +874,7 @@ export function GlassQuantumEntangledPair({
   stateId1,
   stateId2,
   possibleStates,
-  entanglementType = 'positive',
+  entanglementType = "positive",
   entanglementStrength = 0.8,
   className,
 }: {
@@ -768,12 +882,17 @@ export function GlassQuantumEntangledPair({
   stateId1: string;
   stateId2: string;
   possibleStates: any[];
-  entanglementType?: 'positive' | 'negative' | 'complex';
+  entanglementType?: "positive" | "negative" | "complex";
   entanglementStrength?: number;
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
-  const { createQuantumState, createEntanglement, measureState, getSuperposition } = useQuantumStates();
+  const {
+    createQuantumState,
+    createEntanglement,
+    measureState,
+    getSuperposition,
+  } = useQuantumStates();
   const [state1Superposition, setState1Superposition] = useState<any[]>([]);
   const [state2Superposition, setState2Superposition] = useState<any[]>([]);
 
@@ -781,7 +900,12 @@ export function GlassQuantumEntangledPair({
   useEffect(() => {
     createQuantumState(stateId1, possibleStates);
     createQuantumState(stateId2, possibleStates);
-    createEntanglement(stateId1, stateId2, entanglementStrength, entanglementType);
+    createEntanglement(
+      stateId1,
+      stateId2,
+      entanglementStrength,
+      entanglementType
+    );
 
     // Update superpositions
     const updateSuperpositions = () => {
@@ -793,38 +917,53 @@ export function GlassQuantumEntangledPair({
 
     updateSuperpositions();
     const interval = setInterval(updateSuperpositions, 100);
-    
+
     return () => clearInterval(interval);
-  }, [stateId1, stateId2, possibleStates, entanglementType, entanglementStrength, createQuantumState, createEntanglement, getSuperposition]);
+  }, [
+    stateId1,
+    stateId2,
+    possibleStates,
+    entanglementType,
+    entanglementStrength,
+    createQuantumState,
+    createEntanglement,
+    getSuperposition,
+  ]);
 
   return (
     <div className={cn("flex glass-gap-4", className)}>
       const prefersReducedMotion = useReducedMotion();
-      <motion.div 
-        className="flex-1 relative"
-        animate={prefersReducedMotion ? {} : {
-          opacity: 0.5 + (state1Superposition[0]?.probability || 0) * 0.5,
-          scale: 0.95 + (state1Superposition[0]?.probability || 0) * 0.1,
-        }}
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1  }}
+      <motion.div
+        className="glass-flex-1 relative"
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                opacity: 0.5 + (state1Superposition[0]?.probability || 0) * 0.5,
+                scale: 0.95 + (state1Superposition[0]?.probability || 0) * 0.1,
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1 }}
       >
         {children[0]}
       </motion.div>
-      
-      <motion.div 
-        className="flex-1 relative"
-        animate={prefersReducedMotion ? {} : {
-          opacity: 0.5 + (state2Superposition[0]?.probability || 0) * 0.5,
-          scale: 0.95 + (state2Superposition[0]?.probability || 0) * 0.1,
-        }}
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1  }}
+      <motion.div
+        className="glass-flex-1 relative"
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                opacity: 0.5 + (state2Superposition[0]?.probability || 0) * 0.5,
+                scale: 0.95 + (state2Superposition[0]?.probability || 0) * 0.1,
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1 }}
       >
         {children[1]}
       </motion.div>
-
       {/* Entanglement visualization */}
       <div className="absolute inset-0 pointer-events-none">
-        <svg className="w-full h-full">
+        <svg className="glass-w-full glass-h-full">
           <motion.line
             x1="25%"
             y1="50%"
@@ -833,10 +972,14 @@ export function GlassQuantumEntangledPair({
             stroke="var(--glass-color-primary, 0.5)"
             strokeWidth="2"
             strokeDasharray="5,5"
-            animate={prefersReducedMotion ? {} : {
-              strokeDashoffset: [0, -10],
-              opacity: [0.3, 0.7, 0.3],
-            }}
+            animate={
+              prefersReducedMotion
+                ? {}
+                : {
+                    strokeDashoffset: [0, -10],
+                    opacity: [0.3, 0.7, 0.3],
+                  }
+            }
             transition={{
               strokeDashoffset: { duration: 1, repeat: Infinity },
               opacity: { duration: 2, repeat: Infinity },
@@ -867,21 +1010,23 @@ export function GlassQuantumCoherenceIndicator({
 
     updateCoherence();
     const interval = setInterval(updateCoherence, 200);
-    
+
     return () => clearInterval(interval);
   }, [stateId, getCoherence]);
 
   return (
     <div className={cn("flex items-center glass-gap-2", className)}>
-      <span className="text-xs glass-text-secondary">Coherence:</span>
+      <span className="glass-text-xs glass-text-secondary">Coherence:</span>
       <div className="w-20 h-2 glass-surface-subtle glass-radius-full overflow-hidden">
         <motion.div
-          className="h-full glass-surface-blue glass-radius-full"
+          className="glass-h-full glass-surface-blue glass-radius-full"
           animate={{ width: `${coherence * 100}%` }}
-          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
+          transition={
+            prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+          }
         />
       </div>
-      <span className="text-xs glass-text-secondary">
+      <span className="glass-text-xs glass-text-secondary">
         {(coherence * 100).toFixed(1)}%
       </span>
     </div>
@@ -889,10 +1034,17 @@ export function GlassQuantumCoherenceIndicator({
 }
 
 // Hook for creating quantum UI states
-export function useQuantumState<T>(stateId: string, possibleStates: T[], initialProbabilities?: number[]) {
-  const { createQuantumState, measureState, getSuperposition } = useQuantumStates();
+export function useQuantumState<T>(
+  stateId: string,
+  possibleStates: T[],
+  initialProbabilities?: number[]
+) {
+  const { createQuantumState, measureState, getSuperposition } =
+    useQuantumStates();
   const [currentMeasurement, setCurrentMeasurement] = useState<T | null>(null);
-  const [superposition, setSuperposition] = useState<Array<{ state: T; probability: number; phase: number }>>([]);
+  const [superposition, setSuperposition] = useState<
+    Array<{ state: T; probability: number; phase: number }>
+  >([]);
 
   // Initialize quantum state
   useEffect(() => {
@@ -910,18 +1062,21 @@ export function useQuantumState<T>(stateId: string, possibleStates: T[], initial
 
     updateSuperposition();
     const interval = setInterval(updateSuperposition, 100);
-    
+
     return () => clearInterval(interval);
   }, [stateId, getSuperposition]);
 
-  const measure = useCallback((observer: string = 'component') => {
-    const measurement = measureState(stateId, observer);
-    if (measurement) {
-      setCurrentMeasurement(measurement.measuredValue);
-      return measurement.measuredValue;
-    }
-    return null;
-  }, [stateId, measureState]);
+  const measure = useCallback(
+    (observer: string = "component") => {
+      const measurement = measureState(stateId, observer);
+      if (measurement) {
+        setCurrentMeasurement(measurement.measuredValue);
+        return measurement.measuredValue;
+      }
+      return null;
+    },
+    [stateId, measureState]
+  );
 
   const collapse = useCallback((targetState: T) => {
     // Force collapse to specific state
@@ -934,9 +1089,12 @@ export function useQuantumState<T>(stateId: string, possibleStates: T[], initial
     currentMeasurement,
     superposition,
     isInSuperposition: !currentMeasurement,
-    dominantState: superposition.length > 0 ? superposition.reduce((max, current) => 
-      current.probability > max.probability ? current : max
-    ) : null,
+    dominantState:
+      superposition.length > 0
+        ? superposition.reduce((max, current) =>
+            current.probability > max.probability ? current : max
+          )
+        : null,
   };
 }
 
@@ -948,17 +1106,17 @@ export const quantumStatePresets = {
     decoherenceTime: 3000,
   },
   ternary: {
-    states: ['low', 'medium', 'high'],
+    states: ["low", "medium", "high"],
     initialProbabilities: [0.33, 0.34, 0.33],
     decoherenceTime: 5000,
   },
   emotional: {
-    states: ['joy', 'calm', 'excited', 'focused'],
+    states: ["joy", "calm", "excited", "focused"],
     initialProbabilities: [0.25, 0.25, 0.25, 0.25],
     decoherenceTime: 4000,
   },
   interface: {
-    states: ['minimal', 'standard', 'detailed', 'expert'],
+    states: ["minimal", "standard", "detailed", "expert"],
     initialProbabilities: [0.2, 0.4, 0.3, 0.1],
     decoherenceTime: 10000,
   },

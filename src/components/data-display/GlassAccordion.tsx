@@ -1,11 +1,14 @@
-import { GlassButton } from '../button/GlassButton';
+import { GlassButton } from "../button/GlassButton";
 
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { useA11yId } from '../../utils/a11y';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import { OptimizedGlass } from "../../primitives";
+import { useA11yId } from "../../utils/a11y";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 export interface AccordionItem {
   /**
@@ -38,11 +41,11 @@ export interface GlassAccordionProps {
   /**
    * Accordion variant
    */
-  variant?: 'default' | 'bordered' | 'flush';
+  variant?: "default" | "bordered" | "flush";
   /**
    * Accordion size
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Whether multiple items can be open at once
    */
@@ -90,7 +93,7 @@ export interface GlassAccordionProps {
   /**
    * ARIA label for the accordion
    */
-  'aria-label'?: string;
+  "aria-label"?: string;
   className?: string;
 }
 
@@ -101,11 +104,11 @@ export interface GlassAccordionProps {
 export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
   (
     {
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
       items = [],
-      variant = 'default',
-      size = 'md',
+      variant = "default",
+      size = "md",
       multiple = false,
       value,
       defaultValue,
@@ -117,15 +120,16 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
       animated = true,
       collapsible = true,
       respectMotionPreference = true,
-      'aria-label': ariaLabel,
+      "aria-label": ariaLabel,
       className,
       ...props
     },
     ref
   ) => {
-    const accordionId = useA11yId('accordion');
+    const accordionId = useA11yId("accordion");
     const { prefersReducedMotion } = useMotionPreferenceContext();
-    const shouldAnimate = animated && (!respectMotionPreference || !prefersReducedMotion);
+    const shouldAnimate =
+      animated && (!respectMotionPreference || !prefersReducedMotion);
 
     // Normalize value to array for consistent handling
     const normalizeValue = (val: string | string[] | undefined): string[] => {
@@ -139,7 +143,8 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
     );
 
     // Determine current open items
-    const openItems = value !== undefined ? normalizeValue(value) : internalValue;
+    const openItems =
+      value !== undefined ? normalizeValue(value) : internalValue;
 
     // Handle value changes
     const handleValueChange = (newValue: string[]) => {
@@ -147,7 +152,7 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
         setInternalValue(newValue);
       }
 
-      const result = multiple ? newValue : newValue?.[0] || '';
+      const result = multiple ? newValue : newValue?.[0] || "";
       onValueChange?.(result);
     };
 
@@ -169,24 +174,24 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
     // Handle keyboard navigation
     const handleKeyDown = (event: React.KeyboardEvent, itemId: string) => {
       switch (event.key) {
-        case 'Enter':
-        case ' ':
+        case "Enter":
+        case " ":
           event.preventDefault();
           toggleItem(itemId);
           break;
-        case 'ArrowDown':
+        case "ArrowDown":
           event.preventDefault();
           focusNextItem(itemId);
           break;
-        case 'ArrowUp':
+        case "ArrowUp":
           event.preventDefault();
           focusPreviousItem(itemId);
           break;
-        case 'Home':
+        case "Home":
           event.preventDefault();
           focusFirstItem();
           break;
-        case 'End':
+        case "End":
           event.preventDefault();
           focusLastItem();
           break;
@@ -196,7 +201,9 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
     // Focus management helpers
     const focusNextItem = (currentId: string) => {
       if (!items || !Array.isArray(items) || (items?.length || 0) === 0) return;
-      const currentIndex = (items || []).findIndex(item => item?.id === currentId);
+      const currentIndex = (items || []).findIndex(
+        (item) => item?.id === currentId
+      );
       if (currentIndex === -1) return;
       const nextIndex = (currentIndex + 1) % (items?.length || 0);
       const nextButton = document.querySelector(
@@ -207,9 +214,12 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
 
     const focusPreviousItem = (currentId: string) => {
       if (!items || !Array.isArray(items) || (items?.length || 0) === 0) return;
-      const currentIndex = (items || []).findIndex(item => item?.id === currentId);
+      const currentIndex = (items || []).findIndex(
+        (item) => item?.id === currentId
+      );
       if (currentIndex === -1) return;
-      const prevIndex = currentIndex === 0 ? (items?.length || 0) - 1 : currentIndex - 1;
+      const prevIndex =
+        currentIndex === 0 ? (items?.length || 0) - 1 : currentIndex - 1;
       const prevButton = document.querySelector(
         `[data-accordion-trigger="${items[prevIndex].id}"]`
       ) as HTMLButtonElement;
@@ -233,42 +243,58 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
     // Size classes
     const sizeClasses = {
       sm: {
-        trigger: 'glass-px-3 glass-py-2 glass-text-sm',
-        content: 'glass-px-3 pb-2 glass-text-sm',
-        icon: 'w-4 h-4',
+        trigger: "glass-px-3 glass-py-2 glass-text-sm",
+        content: "glass-px-3 pb-2 glass-text-sm",
+        icon: "w-4 h-4",
       },
       md: {
-        trigger: 'glass-px-4 glass-py-3 glass-text-base',
-        content: 'glass-px-4 pb-3 glass-text-base',
-        icon: 'w-5 h-5',
+        trigger: "glass-px-4 glass-py-3 glass-text-base",
+        content: "glass-px-4 pb-3 glass-text-base",
+        icon: "w-5 h-5",
       },
       lg: {
-        trigger: 'glass-px-6 glass-py-4 glass-text-lg',
-        content: 'glass-px-6 pb-4 glass-text-lg',
-        icon: 'w-6 h-6',
+        trigger: "glass-px-6 glass-py-4 glass-text-lg",
+        content: "glass-px-6 pb-4 glass-text-lg",
+        icon: "w-6 h-6",
       },
     };
 
     // Default icons
     const defaultExpandIcon = (
       <svg
-        className={cn('transition-transform duration-200', sizeClasses[size].icon)}
+        className={cn(
+          "transition-transform duration-200",
+          sizeClasses[size].icon
+        )}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 9l-7 7-7-7"
+        />
       </svg>
     );
 
     const defaultCollapseIcon = (
       <svg
-        className={cn('transition-transform duration-200 rotate-180', sizeClasses[size].icon)}
+        className={cn(
+          "transition-transform duration-200 rotate-180",
+          sizeClasses[size].icon
+        )}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 9l-7 7-7-7"
+        />
       </svg>
     );
 
@@ -276,9 +302,9 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
       <div
         ref={ref}
         id={accordionId}
-        className={cn('glass-accordion w-full', className)}
+        className={cn("glass-accordion w-full", className)}
         role="tablist"
-        aria-label={ariaLabel || 'Accordion'}
+        aria-label={ariaLabel || "Accordion"}
         aria-multiselectable={multiple}
         {...props}
       >
@@ -289,7 +315,7 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
 
           return (
             <OptimizedGlass
-              elevation={variant === 'flush' ? undefined : 'level1'}
+              elevation={variant === "flush" ? undefined : "level1"}
               intensity="medium"
               depth={2}
               tint="neutral"
@@ -297,32 +323,26 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
               animation="none"
               performanceMode="medium"
               key={item?.id}
-
-
-
-              className={cn(
-                'overflow-hidden transition-all duration-200',
-                {
-                  'border-0': variant === 'flush',
-                  'border border-border/20': variant === 'bordered',
-                  'glass-mb-2': variant !== 'flush' && !isLast,
-                  'border-t-0': variant === 'flush' && !isFirst,
-                }
-              )}
+              className={cn("overflow-hidden transition-all duration-200", {
+                "border-0": variant === "flush",
+                "border border-border/20": variant === "bordered",
+                "glass-mb-2": variant !== "flush" && !isLast,
+                "border-t-0": variant === "flush" && !isFirst,
+              })}
             >
               {/* Accordion Header/Trigger */}
               <GlassButton
                 type="button"
                 className={cn(
-                  'w-full flex items-center justify-between text-left font-medium',
-                  'transition-colors duration-200',
-                  'hover:bg-muted/20 focus:bg-muted/20',
-                  'focus:outline-none focus:ring-2 focus:ring-primary/20',
+                  "w-full flex items-center justify-between text-left font-medium",
+                  "transition-colors duration-200",
+                  "hover:bg-muted/20 focus:bg-muted/20",
+                  "focus:outline-none focus:ring-2 focus:ring-primary/20",
                   sizeClasses[size].trigger,
                   {
-                    'bg-muted/10': isOpen,
-                    'opacity-50 cursor-not-allowed': item?.disabled,
-                    'border-b border-border/10': variant === 'flush' && isOpen,
+                    "bg-muted/10": isOpen,
+                    "opacity-50 cursor-not-allowed": item?.disabled,
+                    "border-b border-border/10": variant === "flush" && isOpen,
                   }
                 )}
                 onClick={(e) => !item?.disabled && toggleItem(item?.id)}
@@ -333,9 +353,9 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
                 data-accordion-trigger={item?.id}
                 role="tab"
               >
-                <div className="flex items-center gap-3">
+                <div className="glass-flex glass-items-center glass-gap-3">
                   {item?.icon && (
-                    <span className="flex-shrink-0 glass-text-secondary">
+                    <span className="glass-flex-shrink-0 glass-text-secondary">
                       {item?.icon}
                     </span>
                   )}
@@ -345,14 +365,13 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
                 {showIcons && !item?.disabled && (
                   <span
                     className={cn(
-                      'flex-shrink-0 glass-text-secondary transition-transform duration-200',
-                      isOpen && 'rotate-180'
+                      "flex-shrink-0 glass-text-secondary transition-transform duration-200",
+                      isOpen && "rotate-180"
                     )}
                   >
                     {isOpen
-                      ? (collapseIcon || defaultCollapseIcon)
-                      : (expandIcon || defaultExpandIcon)
-                    }
+                      ? collapseIcon || defaultCollapseIcon
+                      : expandIcon || defaultExpandIcon}
                   </span>
                 )}
               </GlassButton>
@@ -377,7 +396,7 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
   }
 );
 
-GlassAccordion.displayName = 'GlassAccordion';
+GlassAccordion.displayName = "GlassAccordion";
 
 // Accordion Content Component with smooth height animation
 interface AccordionContentProps {
@@ -388,17 +407,17 @@ interface AccordionContentProps {
   className?: string;
   children: React.ReactNode;
   role?: string;
-  'aria-labelledby'?: string;
+  "aria-labelledby"?: string;
 }
 
 const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
   ({ id, isOpen, animated, duration, className, children, ...props }, ref) => {
     const contentRef = useRef<HTMLDivElement>(null);
-    const [height, setHeight] = useState<number | 'auto'>(isOpen ? 'auto' : 0);
+    const [height, setHeight] = useState<number | "auto">(isOpen ? "auto" : 0);
 
     useEffect(() => {
       if (!animated) {
-        setHeight(isOpen ? 'auto' : 0);
+        setHeight(isOpen ? "auto" : 0);
         return;
       }
 
@@ -412,7 +431,7 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
 
         // After animation completes, set to auto for dynamic content
         const timer = setTimeout(() => {
-          setHeight('auto');
+          setHeight("auto");
         }, duration);
 
         return () => clearTimeout(timer);
@@ -429,26 +448,23 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
 
     const contentStyle: React.CSSProperties = animated
       ? {
-        height: height === 'auto' ? 'auto' : `${height}px`,
-        overflow: height === 'auto' ? 'visible' : 'hidden',
-        transition: `height ${duration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-      }
+          height: height === "auto" ? "auto" : `${height}px`,
+          overflow: height === "auto" ? "visible" : "hidden",
+          transition: `height ${duration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+        }
       : {
-        height: isOpen ? 'auto' : 0,
-        overflow: isOpen ? 'visible' : 'hidden',
-      };
+          height: isOpen ? "auto" : 0,
+          overflow: isOpen ? "visible" : "hidden",
+        };
 
     return (
-      <div
-        ref={contentRef}
-        id={id}
-        style={contentStyle}
-        {...props}
-      >
-        <div className={cn('transition-opacity duration-200', className, {
-          'opacity-0': !isOpen && animated,
-          'opacity-100': isOpen || !animated,
-        })}>
+      <div ref={contentRef} id={id} style={contentStyle} {...props}>
+        <div
+          className={cn("transition-opacity duration-200", className, {
+            "opacity-0": !isOpen && animated,
+            "opacity-100": isOpen || !animated,
+          })}
+        >
           {children}
         </div>
       </div>
@@ -456,6 +472,6 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
   }
 );
 
-AccordionContent.displayName = 'AccordionContent';
+AccordionContent.displayName = "AccordionContent";
 
 // AccordionItem interface is already exported above

@@ -1,5 +1,5 @@
-import React from 'react';
-import { cn } from '@/design-system/utilsCore';
+import React from "react";
+import { cn } from "@/design-system/utilsCore";
 
 export interface SkipLink {
   id: string;
@@ -19,7 +19,7 @@ export interface SkipLinksProps {
   /**
    * Position of skip links
    */
-  position?: 'top-left' | 'top-center' | 'top-right';
+  position?: "top-left" | "top-center" | "top-right";
   /**
    * Z-index for skip links
    */
@@ -32,19 +32,19 @@ export interface SkipLinksProps {
 
 const defaultLinks: SkipLink[] = [
   {
-    id: 'skip-to-main',
-    label: 'Skip to main content',
-    href: '#main-content',
+    id: "skip-to-main",
+    label: "Skip to main content",
+    href: "#main-content",
   },
   {
-    id: 'skip-to-nav',
-    label: 'Skip to navigation',
-    href: '#main-navigation',
+    id: "skip-to-nav",
+    label: "Skip to navigation",
+    href: "#main-navigation",
   },
   {
-    id: 'skip-to-search',
-    label: 'Skip to search',
-    href: '#search',
+    id: "skip-to-search",
+    label: "Skip to search",
+    href: "#search",
   },
 ];
 
@@ -55,47 +55,50 @@ const defaultLinks: SkipLink[] = [
 export function SkipLinks({
   links = defaultLinks,
   className,
-  position = 'top-left',
+  position = "top-left",
   zIndex = 9999,
   styles,
 }: SkipLinksProps) {
   const positionClasses = {
-    'top-left': 'left-4',
-    'top-center': 'left-1/2 -translate-x-1/2',
-    'top-right': 'right-4',
+    "top-left": "left-4",
+    "top-center": "left-1/2 -translate-x-1/2",
+    "top-right": "right-4",
   };
-  
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     event.preventDefault();
-    
+
     // Remove the # from href
-    const targetId = href.replace('#', '');
+    const targetId = href.replace("#", "");
     const targetElement = document.getElementById(targetId);
-    
+
     if (targetElement) {
       // Focus the target element
       targetElement.focus();
-      
+
       // If element can't be focused, add tabindex
       if (document.activeElement !== targetElement) {
-        targetElement.setAttribute('tabindex', '-1');
+        targetElement.setAttribute("tabindex", "-1");
         targetElement.focus();
       }
-      
+
       // Scroll to element
       targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+        behavior: "smooth",
+        block: "start",
       });
     }
   };
-  
+
   return (
     <nav
       className={cn(
-        'skip-links',
-        'fixed top-4',
-        'flex flex-col gap-2',
+        "skip-links",
+        "fixed top-4",
+        "flex flex-col gap-2",
         positionClasses[position],
         className
       )}
@@ -113,26 +116,28 @@ export function SkipLinks({
           onClick={(e) => handleClick(e, link.href)}
           className={cn(
             // Visually hidden by default
-            'absolute -left-[10000px] top-auto',
-            'w-[1px] h-[1px] overflow-hidden',
+            "absolute -left-[10000px] top-auto",
+            "w-[1px] h-[1px] overflow-hidden",
             // Visible on focus
-            'focus:static focus:w-auto focus:h-auto',
-            'focus:overflow-visible',
+            "focus:static focus:w-auto focus:h-auto",
+            "focus:overflow-visible",
             // Styling when visible
-            'focus:inline-block',
-            'focus:px-4 focus:py-2',
-            'focus:bg-primary focus:text-primary-foreground',
-            'focus:rounded-md',
-            'focus:shadow-lg',
-            'focus:no-underline',
-            'focus:outline-none',
-            'focus:ring-2 focus:ring-primary focus:ring-offset-2',
+            "focus:inline-block",
+            "focus:px-4 focus:py-2",
+            "focus:bg-primary focus:text-primary-foreground",
+            "focus:rounded-md",
+            "focus:shadow-lg",
+            "focus:no-underline",
+            "focus:outline-none",
+            "focus:ring-2 focus:ring-primary focus:ring-offset-2",
             // Animation
-            'transition-all duration-200 ease-out',
+            "transition-all duration-200 ease-out",
             // High contrast mode
-            'forced-colors:focus:forced-color-adjust-none',
-            'forced-colors:focus:outline forced-colors:focus:outline-2',
-            'forced-colors:focus:outline-[ButtonText]'
+            "forced-colors:focus:forced-color-adjust-none",
+            "forced-colors:focus:outline forced-colors:focus:outline-2",
+            "forced-colors:focus:outline-[ButtonText]",
+            // Glass classes
+            "glass-focus glass-touch-target glass-contrast-guard"
           )}
         >
           {link.label}
@@ -149,7 +154,7 @@ export function SkipLinks({
 export function MainContent({
   children,
   className,
-  id = 'main-content',
+  id = "main-content",
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   return (
@@ -173,8 +178,8 @@ export function MainContent({
 export function Navigation({
   children,
   className,
-  id = 'main-navigation',
-  label = 'Main navigation',
+  id = "main-navigation",
+  label = "Main navigation",
   ...props
 }: React.HTMLAttributes<HTMLElement> & { label?: string }) {
   return (
@@ -198,7 +203,7 @@ export function Navigation({
 export function SearchLandmark({
   children,
   className,
-  id = 'search',
+  id = "search",
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   return (
@@ -222,52 +227,52 @@ export function SearchLandmark({
 export function useSkipLinks() {
   const skipToElement = (elementId: string) => {
     const element = document.getElementById(elementId);
-    
+
     if (element) {
       // Add tabindex if needed
-      if (!element.hasAttribute('tabindex')) {
-        element.setAttribute('tabindex', '-1');
+      if (!element.hasAttribute("tabindex")) {
+        element.setAttribute("tabindex", "-1");
       }
-      
+
       // Focus and scroll
       element.focus();
       element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+        behavior: "smooth",
+        block: "start",
       });
     }
   };
-  
+
   const createSkipLink = (link: SkipLink) => {
-    const anchor = document.createElement('a');
+    const anchor = document.createElement("a");
     anchor.id = link.id;
     anchor.href = link.href;
     anchor.textContent = link.label;
-    anchor.className = 'skip-link';
-    
-    anchor.addEventListener('click', (e) => {
+    anchor.className = "skip-link";
+
+    anchor.addEventListener("click", (e) => {
       e.preventDefault();
-      const targetId = link.href.replace('#', '');
+      const targetId = link.href.replace("#", "");
       skipToElement(targetId);
     });
-    
+
     return anchor;
   };
-  
+
   const addSkipLink = (link: SkipLink, container?: HTMLElement) => {
     const target = container || document.body;
     const anchor = createSkipLink(link);
     target.insertBefore(anchor, target.firstChild);
     return anchor;
   };
-  
+
   const removeSkipLink = (linkId: string) => {
     const link = document.getElementById(linkId);
     if (link) {
       link.remove();
     }
   };
-  
+
   return {
     skipToElement,
     createSkipLink,

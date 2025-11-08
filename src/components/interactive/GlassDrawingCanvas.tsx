@@ -1,13 +1,19 @@
-import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { cn } from '../../lib/utilsComprehensive';
-import { useA11yId } from '../../utils/a11y';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { useGlassSound } from '../../utils/soundDesign';
+import React, {
+  forwardRef,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { cn } from "../../lib/utilsComprehensive";
+import { useA11yId } from "../../utils/a11y";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { useGlassSound } from "../../utils/soundDesign";
 
 export interface DrawingTool {
-  type: 'pen' | 'brush' | 'eraser' | 'line' | 'rectangle' | 'circle' | 'text';
+  type: "pen" | "brush" | "eraser" | "line" | "rectangle" | "circle" | "text";
   size: number;
   color: string;
   opacity: number;
@@ -20,7 +26,8 @@ export interface DrawingStroke {
   timestamp: number;
 }
 
-export interface GlassDrawingCanvasProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface GlassDrawingCanvasProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /** Canvas width */
   width?: number;
   /** Canvas height */
@@ -50,25 +57,28 @@ export interface GlassDrawingCanvasProps extends Omit<React.HTMLAttributes<HTMLD
   /** Stroke complete handler */
   onStrokeComplete?: (stroke: DrawingStroke) => void;
   /** Export handler */
-  onExport?: (dataUrl: string, format: 'png' | 'jpeg' | 'svg') => void;
+  onExport?: (dataUrl: string, format: "png" | "jpeg" | "svg") => void;
   /** Available tools */
-  availableTools?: DrawingTool['type'][];
+  availableTools?: DrawingTool["type"][];
   /** Tool panel position */
-  toolPanelPosition?: 'top' | 'bottom' | 'left' | 'right' | 'floating';
+  toolPanelPosition?: "top" | "bottom" | "left" | "right" | "floating";
   /** Whether to show tool panel */
   showToolPanel?: boolean;
   /** Respect user's motion preferences */
   respectMotionPreference?: boolean;
 }
 
-export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasProps>(
+export const GlassDrawingCanvas = forwardRef<
+  HTMLDivElement,
+  GlassDrawingCanvasProps
+>(
   (
     {
       width = 800,
       height = 600,
-      tool = { type: 'pen', size: 2, color: 'var(--glass-black)', opacity: 1 },
+      tool = { type: "pen", size: 2, color: "var(--glass-black)", opacity: 1 },
       readOnly = false,
-      backgroundColor = 'transparent',
+      backgroundColor = "transparent",
       backgroundImage,
       showGrid = false,
       gridSize = 20,
@@ -79,8 +89,15 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
       onChange,
       onStrokeComplete,
       onExport,
-      availableTools = ['pen', 'brush', 'eraser', 'line', 'rectangle', 'circle'],
-      toolPanelPosition = 'top',
+      availableTools = [
+        "pen",
+        "brush",
+        "eraser",
+        "line",
+        "rectangle",
+        "circle",
+      ],
+      toolPanelPosition = "top",
       showToolPanel = true,
       respectMotionPreference = true,
       className,
@@ -90,13 +107,15 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
   ) => {
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
     const { play } = useGlassSound();
-    
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
-    const drawingCanvasId = useA11yId('glass-drawing-canvas');
-    
+    const drawingCanvasId = useA11yId("glass-drawing-canvas");
+
     const [strokes, setStrokes] = useState<DrawingStroke[]>(data);
-    const [currentStroke, setCurrentStroke] = useState<DrawingStroke | null>(null);
+    const [currentStroke, setCurrentStroke] = useState<DrawingStroke | null>(
+      null
+    );
     const [isDrawing, setIsDrawing] = useState(false);
     const [history, setHistory] = useState<DrawingStroke[][]>([data]);
     const [historyIndex, setHistoryIndex] = useState(0);
@@ -107,110 +126,124 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       if (!context) return;
 
       contextRef.current = context;
-      
+
       // Set canvas size
       canvas.width = width;
       canvas.height = height;
-      
+
       // Configure context
-      context.lineCap = 'round';
-      context.lineJoin = 'round';
+      context.lineCap = "round";
+      context.lineJoin = "round";
       context.imageSmoothingEnabled = true;
     }, [width, height]);
 
     // Draw grid
-    const drawGrid = useCallback((context: CanvasRenderingContext2D) => {
-      if (!showGrid) return;
+    const drawGrid = useCallback(
+      (context: CanvasRenderingContext2D) => {
+        if (!showGrid) return;
 
-      context.save();
-      context.strokeStyle = 'rgba(200, 200, 200, 0.3)';
-      context.lineWidth = 0.5;
+        context.save();
+        context.strokeStyle = "rgba(200, 200, 200, 0.3)";
+        context.lineWidth = 0.5;
 
-      for (let x = 0; x <= width; x += gridSize) {
-        context.beginPath();
-        context.moveTo(x, 0);
-        context.lineTo(x, height);
-        context.stroke();
-      }
+        for (let x = 0; x <= width; x += gridSize) {
+          context.beginPath();
+          context.moveTo(x, 0);
+          context.lineTo(x, height);
+          context.stroke();
+        }
 
-      for (let y = 0; y <= height; y += gridSize) {
-        context.beginPath();
-        context.moveTo(0, y);
-        context.lineTo(width, y);
-        context.stroke();
-      }
+        for (let y = 0; y <= height; y += gridSize) {
+          context.beginPath();
+          context.moveTo(0, y);
+          context.lineTo(width, y);
+          context.stroke();
+        }
 
-      context.restore();
-    }, [showGrid, width, height, gridSize]);
+        context.restore();
+      },
+      [showGrid, width, height, gridSize]
+    );
 
     // Draw background
-    const drawBackground = useCallback((context: CanvasRenderingContext2D) => {
-      context.save();
-      
-      if (backgroundColor && backgroundColor !== 'transparent') {
-        context.fillStyle = backgroundColor;
-        context.fillRect(0, 0, width, height);
-      } else {
-        context.clearRect(0, 0, width, height);
-      }
+    const drawBackground = useCallback(
+      (context: CanvasRenderingContext2D) => {
+        context.save();
 
-      // TODO: Add background image support
-      if (backgroundImage) {
-        // Load and draw background image
-      }
+        if (backgroundColor && backgroundColor !== "transparent") {
+          context.fillStyle = backgroundColor;
+          context.fillRect(0, 0, width, height);
+        } else {
+          context.clearRect(0, 0, width, height);
+        }
 
-      context.restore();
-    }, [backgroundColor, backgroundImage, width, height]);
+        // TODO: Add background image support
+        if (backgroundImage) {
+          // Load and draw background image
+        }
+
+        context.restore();
+      },
+      [backgroundColor, backgroundImage, width, height]
+    );
 
     // Draw stroke
-    const drawStroke = useCallback((context: CanvasRenderingContext2D, stroke: DrawingStroke) => {
-      if (stroke.points.length < 2) return;
+    const drawStroke = useCallback(
+      (context: CanvasRenderingContext2D, stroke: DrawingStroke) => {
+        if (stroke.points.length < 2) return;
 
-      context.save();
-      context.globalAlpha = stroke.tool.opacity;
-      context.strokeStyle = stroke.tool.color;
-      context.lineWidth = stroke.tool.size;
+        context.save();
+        context.globalAlpha = stroke.tool.opacity;
+        context.strokeStyle = stroke.tool.color;
+        context.lineWidth = stroke.tool.size;
 
-      if (stroke.tool.type === 'eraser') {
-        context.globalCompositeOperation = 'destination-out';
-      }
-
-      context.beginPath();
-
-      if (smoothStrokes && stroke.points.length > 2) {
-        // Smooth the stroke using quadratic curves
-        context.moveTo(stroke.points[0].x, stroke.points[0].y);
-        
-        for (let i = 1; i < stroke.points.length - 1; i++) {
-          const current = stroke.points[i];
-          const next = stroke.points[i + 1];
-          const controlX = current.x;
-          const controlY = current.y;
-          const endX = (current.x + next.x) / 2;
-          const endY = (current.y + next.y) / 2;
-          
-          context.quadraticCurveTo(controlX, controlY, endX, endY);
+        if (stroke.tool.type === "eraser") {
+          context.globalCompositeOperation = "destination-out";
         }
-        
-        // Draw the last segment
-        const lastPoint = stroke.points[stroke.points.length - 1];
-        const secondLastPoint = stroke.points[stroke.points.length - 2];
-        context.quadraticCurveTo(secondLastPoint.x, secondLastPoint.y, lastPoint.x, lastPoint.y);
-      } else {
-        // Draw straight lines
-        context.moveTo(stroke.points[0].x, stroke.points[0].y);
-        for (let i = 1; i < stroke.points.length; i++) {
-          context.lineTo(stroke.points[i].x, stroke.points[i].y);
-        }
-      }
 
-      context.stroke();
-      context.restore();
-    }, [smoothStrokes]);
+        context.beginPath();
+
+        if (smoothStrokes && stroke.points.length > 2) {
+          // Smooth the stroke using quadratic curves
+          context.moveTo(stroke.points[0].x, stroke.points[0].y);
+
+          for (let i = 1; i < stroke.points.length - 1; i++) {
+            const current = stroke.points[i];
+            const next = stroke.points[i + 1];
+            const controlX = current.x;
+            const controlY = current.y;
+            const endX = (current.x + next.x) / 2;
+            const endY = (current.y + next.y) / 2;
+
+            context.quadraticCurveTo(controlX, controlY, endX, endY);
+          }
+
+          // Draw the last segment
+          const lastPoint = stroke.points[stroke.points.length - 1];
+          const secondLastPoint = stroke.points[stroke.points.length - 2];
+          context.quadraticCurveTo(
+            secondLastPoint.x,
+            secondLastPoint.y,
+            lastPoint.x,
+            lastPoint.y
+          );
+        } else {
+          // Draw straight lines
+          context.moveTo(stroke.points[0].x, stroke.points[0].y);
+          for (let i = 1; i < stroke.points.length; i++) {
+            context.lineTo(stroke.points[i].x, stroke.points[i].y);
+          }
+        }
+
+        context.stroke();
+        context.restore();
+      },
+      [smoothStrokes]
+    );
 
     // Redraw canvas
     const redrawCanvas = useCallback(() => {
@@ -235,49 +268,58 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
     }, [redrawCanvas]);
 
     // Get pointer position
-    const getPointerPos = useCallback((event: React.PointerEvent<HTMLCanvasElement>) => {
-      const canvas = canvasRef.current;
-      if (!canvas) return { x: 0, y: 0 };
+    const getPointerPos = useCallback(
+      (event: React.PointerEvent<HTMLCanvasElement>) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return { x: 0, y: 0 };
 
-      const rect = canvas.getBoundingClientRect();
-      return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-        pressure: (event as any).pressure || 1
-      };
-    }, []);
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+          pressure: (event as any).pressure || 1,
+        };
+      },
+      []
+    );
 
     // Start drawing
-    const handlePointerDown = useCallback((event: React.PointerEvent<HTMLCanvasElement>) => {
-      if (readOnly) return;
+    const handlePointerDown = useCallback(
+      (event: React.PointerEvent<HTMLCanvasElement>) => {
+        if (readOnly) return;
 
-      event.preventDefault();
-      setIsDrawing(true);
+        event.preventDefault();
+        setIsDrawing(true);
 
-      const pos = getPointerPos(event);
-      const newStroke: DrawingStroke = {
-        id: `stroke-${Date.now()}-${Math.random()}`,
-        tool: currentTool,
-        points: [pos],
-        timestamp: Date.now()
-      };
+        const pos = getPointerPos(event);
+        const newStroke: DrawingStroke = {
+          id: `stroke-${Date.now()}-${Math.random()}`,
+          tool: currentTool,
+          points: [pos],
+          timestamp: Date.now(),
+        };
 
-      setCurrentStroke(newStroke);
-      play('tap');
-    }, [readOnly, getPointerPos, currentTool, play]);
+        setCurrentStroke(newStroke);
+        play("tap");
+      },
+      [readOnly, getPointerPos, currentTool, play]
+    );
 
     // Continue drawing
-    const handlePointerMove = useCallback((event: React.PointerEvent<HTMLCanvasElement>) => {
-      if (!isDrawing || !currentStroke || readOnly) return;
+    const handlePointerMove = useCallback(
+      (event: React.PointerEvent<HTMLCanvasElement>) => {
+        if (!isDrawing || !currentStroke || readOnly) return;
 
-      const pos = getPointerPos(event);
-      const updatedStroke = {
-        ...currentStroke,
-        points: [...currentStroke.points, pos]
-      };
+        const pos = getPointerPos(event);
+        const updatedStroke = {
+          ...currentStroke,
+          points: [...currentStroke.points, pos],
+        };
 
-      setCurrentStroke(updatedStroke);
-    }, [isDrawing, currentStroke, readOnly, getPointerPos]);
+        setCurrentStroke(updatedStroke);
+      },
+      [isDrawing, currentStroke, readOnly, getPointerPos]
+    );
 
     // End drawing
     const handlePointerUp = useCallback(() => {
@@ -288,7 +330,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
       // Add completed stroke to strokes
       const newStrokes = [...strokes, currentStroke];
       setStrokes(newStrokes);
-      
+
       // Update history
       const newHistory = history.slice(0, historyIndex + 1);
       newHistory.push(newStrokes);
@@ -303,8 +345,18 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
       onStrokeComplete?.(currentStroke);
 
       setCurrentStroke(null);
-      play('success');
-    }, [isDrawing, currentStroke, strokes, history, historyIndex, maxHistory, onChange, onStrokeComplete, play]);
+      play("success");
+    }, [
+      isDrawing,
+      currentStroke,
+      strokes,
+      history,
+      historyIndex,
+      maxHistory,
+      onChange,
+      onStrokeComplete,
+      play,
+    ]);
 
     // Undo
     const undo = useCallback(() => {
@@ -313,7 +365,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
         setHistoryIndex(newIndex);
         setStrokes(history[newIndex]);
         onChange?.(history[newIndex]);
-        play('tap');
+        play("tap");
       }
     }, [historyIndex, history, onChange, play]);
 
@@ -324,7 +376,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
         setHistoryIndex(newIndex);
         setStrokes(history[newIndex]);
         onChange?.(history[newIndex]);
-        play('tap');
+        play("tap");
       }
     }, [historyIndex, history, onChange, play]);
 
@@ -332,24 +384,27 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
     const clear = useCallback(() => {
       const newStrokes: DrawingStroke[] = [];
       setStrokes(newStrokes);
-      
+
       const newHistory = [...history, newStrokes];
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-      
+
       onChange?.(newStrokes);
-      play('error');
+      play("error");
     }, [history, onChange, play]);
 
     // Export canvas
-    const exportCanvas = useCallback((format: 'png' | 'jpeg' | 'svg' = 'png') => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
+    const exportCanvas = useCallback(
+      (format: "png" | "jpeg" | "svg" = "png") => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
 
-      const dataUrl = canvas.toDataURL(`image/${format}`);
-      onExport?.(dataUrl, format);
-      play('success');
-    }, [onExport, play]);
+        const dataUrl = canvas.toDataURL(`image/${format}`);
+        onExport?.(dataUrl, format);
+        play("success");
+      },
+      [onExport, play]
+    );
 
     // Tool panel
     const renderToolPanel = () => {
@@ -362,72 +417,91 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-tool-panel flex items-center gap-2 p-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
+          className="glass-tool-panel glass-flex glass-items-center glass-gap-2 glass-p-2 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           {/* Tool selection */}
-          <div className="flex gap-1">
+          <div className="glass-flex glass-gap-1">
             {availableTools.map((toolType) => (
               <button
                 key={toolType}
-                onClick={() => setCurrentTool({ ...currentTool, type: toolType })}
+                onClick={() =>
+                  setCurrentTool({ ...currentTool, type: toolType })
+                }
                 className={cn(
-                  'glass-p-2 glass-radius-md transition-all duration-200',
-                  'hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50',
-                  currentTool.type === toolType && 'bg-primary/20 text-primary'
+                  "glass-p-2 glass-radius-md transition-all duration-200",
+                  "hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50",
+                  "glass-focus glass-touch-target glass-contrast-guard",
+                  currentTool.type === toolType && "bg-primary/20 text-primary"
                 )}
                 title={toolType.charAt(0).toUpperCase() + toolType.slice(1)}
               >
                 {/* Tool icons would go here */}
-                <span className="w-4 h-4 block">{toolType[0].toUpperCase()}</span>
+                <span className="w-4 h-4 block">
+                  {toolType[0].toUpperCase()}
+                </span>
               </button>
             ))}
           </div>
 
           {/* Size control */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm glass-text-secondary">Size:</span>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <span className="glass-text-sm glass-text-secondary">Size:</span>
             <input
               type="range"
               min="1"
               max="50"
               value={currentTool.size}
-              onChange={(e) => setCurrentTool({ ...currentTool, size: parseInt(e.target.value) })}
-              className="w-20"
+              onChange={(e) =>
+                setCurrentTool({
+                  ...currentTool,
+                  size: parseInt(e.target.value),
+                })
+              }
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
-            <span className="text-sm min-w-[2ch]">{currentTool.size}</span>
+            <span className="glass-text-sm min-w-[2ch]">
+              {currentTool.size}
+            </span>
           </div>
 
           {/* Color picker */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm glass-text-secondary">Color:</span>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <span className="glass-text-sm glass-text-secondary">Color:</span>
             <input
               type="color"
               value={currentTool.color}
-              onChange={(e) => setCurrentTool({ ...currentTool, color: e.target.value })}
-              className="w-8 h-8 glass-radius-md border border-glass-border/20"
+              onChange={(e) =>
+                setCurrentTool({ ...currentTool, color: e.target.value })
+              }
+              className="w-8 h-8 glass-radius-md glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
             />
           </div>
 
           {/* Opacity control */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm glass-text-secondary">Opacity:</span>
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <span className="glass-text-sm glass-text-secondary">Opacity:</span>
             <input
               type="range"
               min="0.1"
               max="1"
               step="0.1"
               value={currentTool.opacity}
-              onChange={(e) => setCurrentTool({ ...currentTool, opacity: parseFloat(e.target.value) })}
-              className="w-20"
+              onChange={(e) =>
+                setCurrentTool({
+                  ...currentTool,
+                  opacity: parseFloat(e.target.value),
+                })
+              }
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex gap-1 ml-auto">
+          <div className="glass-flex glass-gap-1 ml-auto">
             <button
               onClick={undo}
               disabled={historyIndex <= 0}
-              className="p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title="Undo"
             >
               ↶
@@ -435,21 +509,21 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
             <button
               onClick={redo}
               disabled={historyIndex >= history.length - 1}
-              className="p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
               title="Redo"
             >
               ↷
             </button>
             <button
               onClick={clear}
-              className="p-2 glass-radius-md hover:glass-surface-overlay text-primary glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay text-primary glass-focus glass-touch-target glass-contrast-guard"
               title="Clear"
             >
               🗑
             </button>
             <button
-              onClick={() => exportCanvas('png')}
-              className="p-2 glass-radius-md hover:glass-surface-overlay"
+              onClick={() => exportCanvas("png")}
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard"
               title="Export"
             >
               💾
@@ -469,22 +543,23 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-drawing-canvas relative glass-radius-lg glass-backdrop-blur-md border border-border/20',
+          "glass-drawing-canvas relative glass-radius-lg glass-backdrop-blur-md border border-border/20",
           className
         )}
         {...props}
       >
         <Motion
           preset={isMotionSafe && respectMotionPreference ? "fadeIn" : "none"}
-          className="flex flex-col gap-4 p-4"
+          className="glass-flex glass-flex-col glass-gap-4 glass-p-4"
         >
           {/* Tool panel - top/bottom */}
-          {(toolPanelPosition === 'top' || toolPanelPosition === 'bottom') && renderToolPanel()}
+          {(toolPanelPosition === "top" || toolPanelPosition === "bottom") &&
+            renderToolPanel()}
 
-          <div className="flex gap-4">
+          <div className="glass-flex glass-gap-4">
             {/* Tool panel - left */}
-            {toolPanelPosition === 'left' && (
-              <div className="flex flex-col">
+            {toolPanelPosition === "left" && (
+              <div className="glass-flex glass-flex-col">
                 {renderToolPanel()}
               </div>
             )}
@@ -496,9 +571,9 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
                 width={width}
                 height={height}
                 className={cn(
-                  'border border-border/20 glass-radius-md bg-white',
-                  !readOnly && 'cursor-crosshair',
-                  'touch-none' // Prevent touch scrolling
+                  "border border-border/20 glass-radius-md bg-white",
+                  !readOnly && "cursor-crosshair",
+                  "touch-none" // Prevent touch scrolling
                 )}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
@@ -506,9 +581,9 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
                 onPointerLeave={handlePointerUp}
                 style={{ width, height }}
               />
-              
+
               {/* Floating tool panel */}
-              {toolPanelPosition === 'floating' && (
+              {toolPanelPosition === "floating" && (
                 <div className="absolute top-4 right-4">
                   {renderToolPanel()}
                 </div>
@@ -516,21 +591,21 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
             </div>
 
             {/* Tool panel - right */}
-            {toolPanelPosition === 'right' && (
-              <div className="flex flex-col">
+            {toolPanelPosition === "right" && (
+              <div className="glass-flex glass-flex-col">
                 {renderToolPanel()}
               </div>
             )}
           </div>
 
           {/* Tool panel - bottom */}
-          {toolPanelPosition === 'bottom' && renderToolPanel()}
+          {toolPanelPosition === "bottom" && renderToolPanel()}
         </Motion>
       </OptimizedGlass>
     );
   }
 );
 
-GlassDrawingCanvas.displayName = 'GlassDrawingCanvas';
+GlassDrawingCanvas.displayName = "GlassDrawingCanvas";
 
 export default GlassDrawingCanvas;

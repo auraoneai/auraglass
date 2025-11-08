@@ -1,9 +1,13 @@
-import React, { forwardRef, useState, useEffect } from 'react';
-import { GlassMobileNav, MobileNavItem, MobileNavSection } from './GlassMobileNav';
-import { GlassBottomNav, BottomNavItem } from './GlassBottomNav';
-import { cn } from '../../lib/utilsComprehensive';
-import { useA11yId } from '@/utils/a11y';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import React, { forwardRef, useState, useEffect } from "react";
+import {
+  GlassMobileNav,
+  MobileNavItem,
+  MobileNavSection,
+} from "./GlassMobileNav";
+import { GlassBottomNav, BottomNavItem } from "./GlassBottomNav";
+import { cn } from "../../lib/utilsComprehensive";
+import { useA11yId } from "@/utils/a11y";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface ResponsiveNavConfig {
   /**
@@ -17,11 +21,11 @@ export interface ResponsiveNavConfig {
   /**
    * Navigation behavior on mobile
    */
-  mobileNavType?: 'drawer' | 'bottom' | 'both';
+  mobileNavType?: "drawer" | "bottom" | "both";
   /**
    * Navigation behavior on tablet
    */
-  tabletNavType?: 'drawer' | 'bottom' | 'sidebar';
+  tabletNavType?: "drawer" | "bottom" | "sidebar";
 }
 
 export interface GlassResponsiveNavProps {
@@ -76,7 +80,7 @@ export interface GlassResponsiveNavProps {
   /**
    * Glass elevation
    */
-  elevation?: 0 | 1 | 2 | 3 | 4 | 'float' | 'modal';
+  elevation?: 0 | 1 | 2 | 3 | 4 | "float" | "modal";
   /**
    * Custom classes
    */
@@ -95,7 +99,10 @@ export interface GlassResponsiveNavProps {
  * GlassResponsiveNav component
  * Adaptive navigation that switches between mobile drawer and bottom nav based on screen size
  */
-export const GlassResponsiveNav = forwardRef<HTMLDivElement, GlassResponsiveNavProps>(
+export const GlassResponsiveNav = forwardRef<
+  HTMLDivElement,
+  GlassResponsiveNavProps
+>(
   (
     {
       config = {},
@@ -103,14 +110,14 @@ export const GlassResponsiveNav = forwardRef<HTMLDivElement, GlassResponsiveNavP
       onMobileNavOpenChange,
       navigation = [],
       bottomNavItems = [],
-      activePath = '',
+      activePath = "",
       activeBottomNavId,
       onBottomNavActiveChange,
       isActive,
       logo,
       title,
       footer,
-      elevation = 'level2',
+      elevation = "level2",
       respectMotionPreference = true,
       className,
       children,
@@ -118,59 +125,67 @@ export const GlassResponsiveNav = forwardRef<HTMLDivElement, GlassResponsiveNavP
     ref
   ) => {
     // Accessibility and motion preferences
-    const navId = useA11yId('responsive-nav');
+    const navId = useA11yId("responsive-nav");
     const prefersReducedMotion = useReducedMotion();
     const shouldReduceMotion = respectMotionPreference && prefersReducedMotion;
     const {
       mobileBreakpoint = 768,
       tabletBreakpoint = 1024,
-      mobileNavType = 'both',
-      tabletNavType = 'sidebar',
+      mobileNavType = "both",
+      tabletNavType = "sidebar",
     } = config;
 
-    const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+    const [screenSize, setScreenSize] = useState<
+      "mobile" | "tablet" | "desktop"
+    >("desktop");
 
     // Handle responsive behavior
     useEffect(() => {
       const checkScreenSize = () => {
         const width = window.innerWidth;
         if (width < mobileBreakpoint) {
-          setScreenSize('mobile');
+          setScreenSize("mobile");
         } else if (width < tabletBreakpoint) {
-          setScreenSize('tablet');
+          setScreenSize("tablet");
         } else {
-          setScreenSize('desktop');
+          setScreenSize("desktop");
         }
       };
 
       checkScreenSize();
-      window.addEventListener('resize', checkScreenSize);
-      return () => window.removeEventListener('resize', checkScreenSize);
+      window.addEventListener("resize", checkScreenSize);
+      return () => window.removeEventListener("resize", checkScreenSize);
     }, [mobileBreakpoint, tabletBreakpoint]);
 
     // Determine which navigation to show
     const shouldShowMobileNav = () => {
-      if (screenSize === 'mobile') {
-        return mobileNavType === 'drawer' || mobileNavType === 'both';
+      if (screenSize === "mobile") {
+        return mobileNavType === "drawer" || mobileNavType === "both";
       }
-      if (screenSize === 'tablet') {
-        return tabletNavType === 'drawer';
+      if (screenSize === "tablet") {
+        return tabletNavType === "drawer";
       }
       return false;
     };
 
     const shouldShowBottomNav = () => {
-      if (screenSize === 'mobile') {
-        return mobileNavType === 'bottom' || mobileNavType === 'both';
+      if (screenSize === "mobile") {
+        return mobileNavType === "bottom" || mobileNavType === "both";
       }
-      if (screenSize === 'tablet') {
-        return tabletNavType === 'bottom';
+      if (screenSize === "tablet") {
+        return tabletNavType === "bottom";
       }
       return false;
     };
 
     return (
-      <div ref={ref} className={cn('relative', className)} id={navId} role="navigation" aria-label="Responsive navigation">
+      <div
+        ref={ref}
+        className={cn("relative", className)}
+        id={navId}
+        role="navigation"
+        aria-label="Responsive navigation"
+      >
         {/* Mobile/Drawer Navigation */}
         {shouldShowMobileNav() && (
           <GlassMobileNav
@@ -182,7 +197,7 @@ export const GlassResponsiveNav = forwardRef<HTMLDivElement, GlassResponsiveNavP
             logo={logo}
             title={title}
             footer={footer}
-            elevation={elevation as 0 | 1 | 2 | 3 | 4 | 'float' | 'modal'}
+            elevation={elevation as 0 | 1 | 2 | 3 | 4 | "float" | "modal"}
           />
         )}
 
@@ -192,7 +207,7 @@ export const GlassResponsiveNav = forwardRef<HTMLDivElement, GlassResponsiveNavP
             items={bottomNavItems}
             activeId={activeBottomNavId}
             onActiveChange={onBottomNavActiveChange}
-            elevation={elevation as 0 | 1 | 2 | 3 | 4 | 'float' | 'modal'}
+            elevation={elevation as 0 | 1 | 2 | 3 | 4 | "float" | "modal"}
             variant="default"
             className="z-40"
           />
@@ -205,4 +220,4 @@ export const GlassResponsiveNav = forwardRef<HTMLDivElement, GlassResponsiveNavP
   }
 );
 
-GlassResponsiveNav.displayName = 'GlassResponsiveNav';
+GlassResponsiveNav.displayName = "GlassResponsiveNav";

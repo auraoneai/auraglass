@@ -1,7 +1,14 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { createPortal } from 'react-dom';
+import { cn } from "../../lib/utilsComprehensive";
+import React, {
+  forwardRef,
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
+import { createPortal } from "react-dom";
 
 export interface SpotlightAction {
   /**
@@ -38,7 +45,8 @@ export interface SpotlightAction {
   onAction: () => void;
 }
 
-export interface GlassSpotlightSearchProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface GlassSpotlightSearchProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect"> {
   /**
    * Whether the spotlight is open
    */
@@ -65,7 +73,7 @@ export interface GlassSpotlightSearchProps extends Omit<React.HTMLAttributes<HTM
    * Glassmorphism elevation level
    * @default 'level5'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Show recent actions
    * @default true
@@ -88,15 +96,18 @@ export interface GlassSpotlightSearchProps extends Omit<React.HTMLAttributes<HTM
   groupByCategory?: boolean;
 }
 
-export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSearchProps>(
+export const GlassSpotlightSearch = forwardRef<
+  HTMLDivElement,
+  GlassSpotlightSearchProps
+>(
   (
     {
       open,
       onClose,
       actions,
-      placeholder = 'Search for actions...',
+      placeholder = "Search for actions...",
       maxResults = 10,
-      elevation = 'level5',
+      elevation = "level5",
       showRecent = true,
       maxRecent = 5,
       fuzzySearch = true,
@@ -106,7 +117,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
     },
     ref
   ) => {
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState("");
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [recentActions, setRecentActions] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -114,7 +125,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
 
     useEffect(() => {
       if (open) {
-        setQuery('');
+        setQuery("");
         setSelectedIndex(0);
         setTimeout(() => inputRef.current?.focus(), 100);
       }
@@ -125,19 +136,21 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
 
       const handleKeyDown = (e: KeyboardEvent) => {
         switch (e.key) {
-          case 'Escape':
+          case "Escape":
             e.preventDefault();
             onClose();
             break;
-          case 'ArrowDown':
+          case "ArrowDown":
             e.preventDefault();
-            setSelectedIndex((prev) => Math.min(prev + 1, filteredActions.length - 1));
+            setSelectedIndex((prev) =>
+              Math.min(prev + 1, filteredActions.length - 1)
+            );
             break;
-          case 'ArrowUp':
+          case "ArrowUp":
             e.preventDefault();
             setSelectedIndex((prev) => Math.max(prev - 1, 0));
             break;
-          case 'Enter':
+          case "Enter":
             e.preventDefault();
             if (filteredActions[selectedIndex]) {
               handleActionSelect(filteredActions[selectedIndex]);
@@ -146,15 +159,20 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
         }
       };
 
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }, [open, selectedIndex, onClose]);
 
     useEffect(() => {
       if (resultsRef.current && open) {
-        const selectedElement = resultsRef.current.children[selectedIndex] as HTMLElement;
+        const selectedElement = resultsRef.current.children[
+          selectedIndex
+        ] as HTMLElement;
         if (selectedElement) {
-          selectedElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          selectedElement.scrollIntoView({
+            block: "nearest",
+            behavior: "smooth",
+          });
         }
       }
     }, [selectedIndex, open]);
@@ -166,7 +184,11 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
       if (textLower.includes(queryLower)) return true;
 
       let queryIndex = 0;
-      for (let i = 0; i < textLower.length && queryIndex < queryLower.length; i++) {
+      for (
+        let i = 0;
+        i < textLower.length && queryIndex < queryLower.length;
+        i++
+      ) {
         if (textLower[i] === queryLower[queryIndex]) {
           queryIndex++;
         }
@@ -187,9 +209,9 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
       const matches = actions.filter((action) => {
         const searchText = [
           action.title,
-          action.description || '',
+          action.description || "",
           ...(action.keywords || []),
-        ].join(' ');
+        ].join(" ");
 
         return fuzzySearch
           ? fuzzyMatch(searchText, query)
@@ -197,19 +219,31 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
       });
 
       return matches.slice(0, maxResults);
-    }, [query, actions, showRecent, recentActions, maxRecent, maxResults, fuzzySearch, fuzzyMatch]);
+    }, [
+      query,
+      actions,
+      showRecent,
+      recentActions,
+      maxRecent,
+      maxResults,
+      fuzzySearch,
+      fuzzyMatch,
+    ]);
 
     const groupedActions = useMemo(() => {
-      if (!groupByCategory) return { '': filteredActions };
+      if (!groupByCategory) return { "": filteredActions };
 
-      return filteredActions.reduce<Record<string, SpotlightAction[]>>((acc, action) => {
-        const category = action.category || 'Other';
-        if (!acc[category]) {
-          acc[category] = [];
-        }
-        acc[category].push(action);
-        return acc;
-      }, {});
+      return filteredActions.reduce<Record<string, SpotlightAction[]>>(
+        (acc, action) => {
+          const category = action.category || "Other";
+          if (!acc[category]) {
+            acc[category] = [];
+          }
+          acc[category].push(action);
+          return acc;
+        },
+        {}
+      );
     }, [filteredActions, groupByCategory]);
 
     const handleActionSelect = useCallback(
@@ -217,8 +251,11 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
         action.onAction();
 
         setRecentActions((prev) => {
-          const updated = [action.id, ...prev.filter((id) => id !== action.id)].slice(0, maxRecent);
-          localStorage.setItem('spotlight-recent', JSON.stringify(updated));
+          const updated = [
+            action.id,
+            ...prev.filter((id) => id !== action.id),
+          ].slice(0, maxRecent);
+          localStorage.setItem("spotlight-recent", JSON.stringify(updated));
           return updated;
         });
 
@@ -228,13 +265,13 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
     );
 
     useEffect(() => {
-      if (typeof window !== 'undefined') {
-        const stored = localStorage.getItem('spotlight-recent');
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("spotlight-recent");
         if (stored) {
           try {
             setRecentActions(JSON.parse(stored));
           } catch (e) {
-            console.error('Failed to parse recent actions', e);
+            console.error("Failed to parse recent actions", e);
           }
         }
       }
@@ -244,7 +281,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
 
     const content = (
       <div
-        className="fixed inset-0 z-50 flex items-start justify-center glass-p-4 pt-24 bg-black/40 glass-glass-glass-backdrop-blur-sm glass-contrast-guard"
+        className="fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center glass-p-4 pt-24 glass-surface-dark/40 glass-glass-glass-backdrop-blur-sm glass-contrast-guard"
         onClick={onClose}
         role="presentation"
       >
@@ -252,9 +289,9 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
           ref={ref}
           elevation={elevation}
           className={cn(
-            'w-full max-w-2xl overflow-hidden glass-radius-2xl',
-            'transform transition-all duration-200 ease-out',
-            open ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+            "w-full max-w-2xl overflow-hidden glass-radius-2xl",
+            "transform transition-all duration-200 ease-out",
+            open ? "scale-100 opacity-100" : "scale-95 opacity-0",
             className
           )}
           onClick={(e: React.MouseEvent) => e.stopPropagation()}
@@ -263,11 +300,11 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
           aria-label="Command search"
           {...props}
         >
-          <div className="flex items-center gap-3 glass-p-4 border-b glass-border-subtle">
+          <div className="glass-flex glass-items-center glass-gap-3 glass-p-4 glass-border-b glass-border-subtle">
             <svg
               viewBox="0 0 24 24"
               fill="none"
-              className="w-5 h-5 glass-text-secondary flex-shrink-0"
+              className="w-5 h-5 glass-text-secondary glass-flex-shrink-0"
             >
               <path
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
@@ -286,20 +323,17 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
                 setSelectedIndex(0);
               }}
               placeholder={placeholder}
-              className="flex-1 bg-transparent glass-text-base glass-text-primary outline-none placeholder:glass-text-secondary"
+              className="glass-flex-1 bg-transparent glass-text-base glass-text-primary outline-none placeholder:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
             />
-            <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary bg-white/10 glass-radius-sm">
+            <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-surface-subtle/10 glass-radius-sm">
               ESC
             </kbd>
           </div>
 
-          <div
-            ref={resultsRef}
-            className="max-h-96 overflow-y-auto glass-p-2"
-          >
+          <div ref={resultsRef} className="max-h-96 overflow-y-auto glass-p-2">
             {filteredActions.length === 0 ? (
               <div className="glass-p-8 text-center glass-text-secondary">
-                {query ? 'No results found' : 'No actions available'}
+                {query ? "No results found" : "No actions available"}
               </div>
             ) : (
               <>
@@ -308,57 +342,60 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
                     Recent
                   </div>
                 )}
-                {Object.entries(groupedActions).map(([category, categoryActions]) => (
-                  <div key={category}>
-                    {groupByCategory && category && (
-                      <div className="glass-px-3 glass-py-2 glass-text-xs font-semibold glass-text-secondary uppercase tracking-wider">
-                        {category}
-                      </div>
-                    )}
-                    {categoryActions.map((action, index) => {
-                      const globalIndex = filteredActions.indexOf(action);
-                      const isSelected = globalIndex === selectedIndex;
+                {Object.entries(groupedActions).map(
+                  ([category, categoryActions]) => (
+                    <div key={category}>
+                      {groupByCategory && category && (
+                        <div className="glass-px-3 glass-py-2 glass-text-xs font-semibold glass-text-secondary uppercase tracking-wider">
+                          {category}
+                        </div>
+                      )}
+                      {categoryActions.map((action, index) => {
+                        const globalIndex = filteredActions.indexOf(action);
+                        const isSelected = globalIndex === selectedIndex;
 
-                      return (
-                        <button data-glass-component
-                          key={action.id}
-                          type="button"
-                          onClick={() => handleActionSelect(action)}
-                          onMouseEnter={() => setSelectedIndex(globalIndex)}
-                          className={cn(
-                            'w-full flex items-center gap-3 glass-p-3 glass-radius-lg',
-                            'transition-all duration-200',
-                            'text-left glass-focus glass-touch-target glass-contrast-guard',
-                            isSelected
-                              ? 'bg-white/15 shadow-lg'
-                              : 'hover:bg-white/5'
-                          )}
-                        >
-                          {action.icon && (
-                            <div className="flex-shrink-0 glass-text-primary">
-                              {action.icon}
-                            </div>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <div className="glass-text-sm font-medium glass-text-primary truncate">
-                              {action.title}
-                            </div>
-                            {action.description && (
-                              <div className="glass-text-xs glass-text-secondary truncate">
-                                {action.description}
+                        return (
+                          <button
+                            data-glass-component
+                            key={action.id}
+                            type="button"
+                            onClick={() => handleActionSelect(action)}
+                            onMouseEnter={() => setSelectedIndex(globalIndex)}
+                            className={cn(
+                              "w-full flex items-center gap-3 glass-p-3 glass-radius-lg",
+                              "transition-all duration-200",
+                              "text-left glass-focus glass-touch-target glass-contrast-guard",
+                              isSelected
+                                ? "bg-white/15 shadow-lg"
+                                : "hover:bg-white/5"
+                            )}
+                          >
+                            {action.icon && (
+                              <div className="glass-flex-shrink-0 glass-text-primary">
+                                {action.icon}
                               </div>
                             )}
-                          </div>
-                          {action.shortcut && (
-                            <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary bg-white/10 glass-radius-sm flex-shrink-0">
-                              {action.shortcut}
-                            </kbd>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ))}
+                            <div className="glass-flex-1 glass-min-w-0">
+                              <div className="glass-text-sm font-medium glass-text-primary truncate">
+                                {action.title}
+                              </div>
+                              {action.description && (
+                                <div className="glass-text-xs glass-text-secondary truncate">
+                                  {action.description}
+                                </div>
+                              )}
+                            </div>
+                            {action.shortcut && (
+                              <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-surface-subtle/10 glass-radius-sm glass-flex-shrink-0">
+                                {action.shortcut}
+                              </kbd>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )
+                )}
               </>
             )}
           </div>
@@ -370,6 +407,6 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
   }
 );
 
-GlassSpotlightSearch.displayName = 'GlassSpotlightSearch';
+GlassSpotlightSearch.displayName = "GlassSpotlightSearch";
 
 export default GlassSpotlightSearch;

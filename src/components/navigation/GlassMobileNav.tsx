@@ -1,10 +1,10 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useEffect, useState } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { GlassButton, IconButton } from '../button/GlassButton';
-import { GlassBadge } from '../data-display/GlassBadge';
-import { HStack, VStack } from '../layout/GlassStack';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useEffect, useState } from "react";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { GlassButton, IconButton } from "../button/GlassButton";
+import { GlassBadge } from "../data-display/GlassBadge";
+import { HStack, VStack } from "../layout/GlassStack";
 
 export interface MobileNavItem {
   id: string;
@@ -13,7 +13,13 @@ export interface MobileNavItem {
   href?: string;
   onClick?: () => void;
   badge?: string | number;
-  badgeVariant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  badgeVariant?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error";
   disabled?: boolean;
   children?: MobileNavItem[];
 }
@@ -24,7 +30,8 @@ export interface MobileNavSection {
   items: MobileNavItem[];
 }
 
-export interface GlassMobileNavProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassMobileNavProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Whether mobile nav is open
    */
@@ -36,15 +43,15 @@ export interface GlassMobileNavProps extends React.HTMLAttributes<HTMLDivElement
   /**
    * Navigation variant
    */
-  variant?: 'overlay' | 'push' | 'slide';
+  variant?: "overlay" | "push" | "slide";
   /**
    * Navigation position
    */
-  position?: 'left' | 'right' | 'top' | 'bottom';
+  position?: "left" | "right" | "top" | "bottom";
   /**
    * Glass elevation
    */
-  elevation?: 0 | 1 | 2 | 3 | 4 | 'float' | 'modal';
+  elevation?: 0 | 1 | 2 | 3 | 4 | "float" | "modal";
   /**
    * Logo/brand component
    */
@@ -92,13 +99,13 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
     {
       open = false,
       onOpenChange,
-      variant = 'overlay',
-      position = 'left',
-      elevation = 'modal',
+      variant = "overlay",
+      position = "left",
+      elevation = "modal",
       logo,
       title,
       navigation = [],
-      activePath = '',
+      activePath = "",
       isActive,
       footer,
       closeOnClick = true,
@@ -114,7 +121,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
     // Default active path matcher
     const defaultIsActive = (href: string, currentPath: string) => {
-      if (href === '/') return currentPath === '/';
+      if (href === "/") return currentPath === "/";
       return currentPath.startsWith(href);
     };
 
@@ -123,33 +130,33 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
     // Position classes
     const positionClasses = {
       left: {
-        overlay: 'fixed inset-y-0 left-0 w-80 max-w-[85vw]',
-        push: 'fixed inset-y-0 left-0 w-80 max-w-[85vw]',
-        slide: 'fixed inset-y-0 left-0 w-80 max-w-[85vw]',
+        overlay: "fixed inset-y-0 left-0 w-80 max-w-[85vw]",
+        push: "fixed inset-y-0 left-0 w-80 max-w-[85vw]",
+        slide: "fixed inset-y-0 left-0 w-80 max-w-[85vw]",
       },
       right: {
-        overlay: 'fixed inset-y-0 right-0 w-80 max-w-[85vw]',
-        push: 'fixed inset-y-0 right-0 w-80 max-w-[85vw]',
-        slide: 'fixed inset-y-0 right-0 w-80 max-w-[85vw]',
+        overlay: "fixed inset-y-0 right-0 w-80 max-w-[85vw]",
+        push: "fixed inset-y-0 right-0 w-80 max-w-[85vw]",
+        slide: "fixed inset-y-0 right-0 w-80 max-w-[85vw]",
       },
       top: {
-        overlay: 'fixed inset-x-0 top-0 h-96 max-h-[85vh]',
-        push: 'fixed inset-x-0 top-0 h-96 max-h-[85vh]',
-        slide: 'fixed inset-x-0 top-0 h-96 max-h-[85vh]',
+        overlay: "fixed inset-x-0 top-0 h-96 max-h-[85vh]",
+        push: "fixed inset-x-0 top-0 h-96 max-h-[85vh]",
+        slide: "fixed inset-x-0 top-0 h-96 max-h-[85vh]",
       },
       bottom: {
-        overlay: 'fixed inset-x-0 bottom-0 h-96 max-h-[85vh]',
-        push: 'fixed inset-x-0 bottom-0 h-96 max-h-[85vh]',
-        slide: 'fixed inset-x-0 bottom-0 h-96 max-h-[85vh]',
+        overlay: "fixed inset-x-0 bottom-0 h-96 max-h-[85vh]",
+        push: "fixed inset-x-0 bottom-0 h-96 max-h-[85vh]",
+        slide: "fixed inset-x-0 bottom-0 h-96 max-h-[85vh]",
       },
     };
 
     // Transform classes for animations
     const transformClasses = {
-      left: open ? 'translate-x-0' : '-translate-x-full',
-      right: open ? 'translate-x-0' : 'translate-x-full',
-      top: open ? 'translate-y-0' : '-translate-y-full',
-      bottom: open ? 'translate-y-0' : 'translate-y-full',
+      left: open ? "translate-x-0" : "-translate-x-full",
+      right: open ? "translate-x-0" : "translate-x-full",
+      top: open ? "translate-y-0" : "-translate-y-full",
+      bottom: open ? "translate-y-0" : "translate-y-full",
     };
 
     // Toggle item expansion
@@ -187,16 +194,14 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
       const itemContent = (
         <>
-          <div className="flex items-center gap-3 flex-1 min-glass-w-0">
-            <div className="flex-shrink-0 text-lg">
+          <div className="glass-flex glass-items-center glass-gap-3 glass-flex-1 min-glass-w-0">
+            <div className="glass-flex-shrink-0 glass-text-lg">
               {item?.icon}
             </div>
-            <span className="font-medium truncate">
-              {item?.label}
-            </span>
+            <span className="font-medium truncate">{item?.label}</span>
             {item?.badge && (
               <GlassBadge
-                variant={item?.badgeVariant || 'outline'}
+                variant={item?.badgeVariant || "outline"}
                 size="xs"
                 className="ml-auto"
               >
@@ -205,11 +210,13 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
             )}
           </div>
           {hasChildren && (
-            <div className="flex-shrink-0 glass-ml-2">
-              <div className={cn(
-                'transition-transform duration-200',
-                isExpanded && 'rotate-90'
-              )}>
+            <div className="glass-flex-shrink-0 glass-ml-2">
+              <div
+                className={cn(
+                  "transition-transform duration-200",
+                  isExpanded && "rotate-90"
+                )}
+              >
                 ▶
               </div>
             </div>
@@ -220,12 +227,12 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
       return (
         <div data-glass-component key={item?.id}>
           <GlassButton
-            variant={active ? 'primary' : 'ghost'}
+            variant={active ? "primary" : "ghost"}
             size="md"
             disabled={item?.disabled}
             className={cn(
-              'w-full justify-start h-12 glass-px-4',
-              level > 0 && 'ml-6 glass-mr-2'
+              "w-full justify-start h-12 glass-px-4",
+              level > 0 && "ml-6 glass-mr-2"
             )}
             onClick={(e) => handleItemClick(item)}
           >
@@ -252,8 +259,8 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
         <div key={section.id}>
           {/* Section header */}
           {section.label && (
-            <div className="px-4 py-2">
-              <h3 className="text-xs font-medium glass-text-secondary uppercase tracking-wide">
+            <div className="glass-px-4 glass-py-2">
+              <h3 className="glass-text-xs font-medium glass-text-secondary uppercase tracking-wide">
                 {section.label}
               </h3>
             </div>
@@ -275,13 +282,13 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
     // Prevent body scroll when open
     useEffect(() => {
       if (open) {
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = "hidden";
       } else {
-        document.body.style.overflow = '';
+        document.body.style.overflow = "";
       }
 
       return () => {
-        document.body.style.overflow = '';
+        document.body.style.overflow = "";
       };
     }, [open]);
 
@@ -298,7 +305,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
         {/* Navigation */}
         <OptimizedGlass
-            intent="neutral"
+          intent="neutral"
           elevation="level2"
           intensity="medium"
           depth={2}
@@ -308,7 +315,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           performanceMode="medium"
           ref={ref}
           className={cn(
-            'flex flex-col z-[101] transition-transform duration-300 ease-out',
+            "flex flex-col z-[101] transition-transform duration-300 ease-out",
             positionClasses?.[position][variant],
             transformClasses?.[position],
             className
@@ -316,15 +323,15 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           {...props}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-glass-border/20">
-            <HStack space="sm" align="center" className="flex-1 min-glass-w-0">
-              {logo && (
-                <div className="flex-shrink-0">
-                  {logo}
-                </div>
-              )}
+          <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-glass-border/20">
+            <HStack
+              space="sm"
+              align="center"
+              className="glass-flex-1 min-glass-w-0"
+            >
+              {logo && <div className="glass-flex-shrink-0">{logo}</div>}
               {title && (
-                <h1 className="font-bold text-lg text-primary truncate">
+                <h1 className="font-bold glass-text-lg text-primary truncate">
                   {title}
                 </h1>
               )}
@@ -341,7 +348,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           </div>
 
           {/* Navigation content */}
-          <nav className="flex-1 p-4 overflow-y-auto">
+          <nav className="glass-flex-1 glass-p-4 overflow-y-auto">
             <VStack space="lg">
               {navigation.map((section: any) => renderSection(section))}
               {children}
@@ -350,7 +357,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
           {/* Footer */}
           {footer && (
-            <div className="p-4 border-t border-glass-border/20">
+            <div className="glass-p-4 glass-border-t glass-border-glass-border/20">
               {footer}
             </div>
           )}
@@ -360,4 +367,4 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
   }
 );
 
-GlassMobileNav.displayName = 'GlassMobileNav';
+GlassMobileNav.displayName = "GlassMobileNav";

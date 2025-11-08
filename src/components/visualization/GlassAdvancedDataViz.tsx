@@ -1,7 +1,13 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { Glass } from '../../primitives';
-import { cn } from '../../lib/utilsComprehensive';
-import { useAccessibility } from '../../hooks/useAccessibility';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
+import { Glass } from "../../primitives";
+import { cn } from "../../lib/utilsComprehensive";
+import { useAccessibility } from "../../hooks/useAccessibility";
 
 export interface DataPoint {
   id: string | number;
@@ -18,7 +24,7 @@ export interface ChartSeries {
   name: string;
   data: DataPoint[];
   color?: string;
-  type?: 'line' | 'bar' | 'area' | 'scatter';
+  type?: "line" | "bar" | "area" | "scatter";
   visible?: boolean;
 }
 
@@ -26,18 +32,18 @@ export interface DrillDownLevel {
   id: string;
   name: string;
   dataKey: string;
-  aggregation?: 'sum' | 'avg' | 'count' | 'min' | 'max';
+  aggregation?: "sum" | "avg" | "count" | "min" | "max";
 }
 
 export interface ChartFilter {
   field: string;
-  operator: 'equals' | 'contains' | 'greaterThan' | 'lessThan' | 'between';
+  operator: "equals" | "contains" | "greaterThan" | "lessThan" | "between";
   value: any;
 }
 
 export interface AdvancedDataVizProps {
   data: ChartSeries[];
-  type?: 'line' | 'bar' | 'pie' | 'scatter' | 'heatmap' | 'combo';
+  type?: "line" | "bar" | "pie" | "scatter" | "heatmap" | "combo";
   title?: string;
   subtitle?: string;
   xAxisLabel?: string;
@@ -54,62 +60,83 @@ export interface AdvancedDataVizProps {
   filters?: ChartFilter[];
   onDataPointClick?: (point: DataPoint, series: ChartSeries) => void;
   onDrillDown?: (level: DrillDownLevel, filters: ChartFilter[]) => void;
-  onExport?: (format: 'png' | 'svg' | 'csv' | 'json') => void;
+  onExport?: (format: "png" | "svg" | "csv" | "json") => void;
   width?: number;
   height?: number;
   className?: string;
 }
 
 // Chart rendering utility functions
-const createSVGPath = (points: Array<{ x: number; y: number }>, type: 'line' | 'area' = 'line') => {
-  if (points.length === 0) return '';
-  
+const createSVGPath = (
+  points: Array<{ x: number; y: number }>,
+  type: "line" | "area" = "line"
+) => {
+  if (points.length === 0) return "";
+
   let path = `M ${points[0].x} ${points[0].y}`;
-  
+
   for (let i = 1; i < points.length; i++) {
     path += ` L ${points[i].x} ${points[i].y}`;
   }
-  
-  if (type === 'area') {
+
+  if (type === "area") {
     const firstPoint = points[0];
     const lastPoint = points[points.length - 1];
     path += ` L ${lastPoint.x} 100 L ${firstPoint.x} 100 Z`;
   }
-  
+
   return path;
 };
 
-const scaleValue = (value: number, domain: [number, number], range: [number, number]) => {
+const scaleValue = (
+  value: number,
+  domain: [number, number],
+  range: [number, number]
+) => {
   const [domainMin, domainMax] = domain;
   const [rangeMin, rangeMax] = range;
-  return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
+  return (
+    rangeMin +
+    ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin)
+  );
 };
 
 const generateColors = (count: number): string[] => {
   const colors = [
-    'var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8B5CF6',
-    '#EC4899', '#06B6D4', '#84CC16', '#F97316', '#6366F1'
+    "var(--glass-color-primary)",
+    "var(--glass-color-danger)",
+    "var(--glass-color-success)",
+    "var(--glass-color-warning)",
+    "#8B5CF6",
+    "#EC4899",
+    "#06B6D4",
+    "#84CC16",
+    "#F97316",
+    "#6366F1",
   ];
-  
+
   if (count <= colors.length) {
     return colors.slice(0, count);
   }
-  
+
   // Generate additional colors using HSL
   const additionalColors = [];
   for (let i = colors.length; i < count; i++) {
     const hue = (i * 137.508) % 360; // Golden angle approximation
     additionalColors.push(`hsl(${hue}, 70%, 50%)`);
   }
-  
+
   return [...colors, ...additionalColors];
 };
 
 const formatValue = (value: any, type?: string): string => {
-  if (typeof value === 'number') {
-    if (type === 'currency') {
-      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-    } else if (type === 'percentage') {
+  if (typeof value === "number") {
+    if (type === "currency") {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(value);
+    } else if (type === "percentage") {
       return `${(value * 100).toFixed(1)}%`;
     } else if (value > 1000000) {
       return `${(value / 1000000).toFixed(1)}M`;
@@ -118,17 +145,17 @@ const formatValue = (value: any, type?: string): string => {
     }
     return value.toLocaleString();
   }
-  
+
   if (value instanceof Date) {
     return value.toLocaleDateString();
   }
-  
+
   return String(value);
 };
 
 export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   data,
-  type = 'line',
+  type = "line",
   title,
   subtitle,
   xAxisLabel,
@@ -148,14 +175,14 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   onExport,
   width = 800,
   height = 400,
-  className
+  className,
 }) => {
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
     y: number;
     content: string;
-  }>({ visible: false, x: 0, y: 0, content: '' });
+  }>({ visible: false, x: 0, y: 0, content: "" });
 
   const [selectedSeries, setSelectedSeries] = useState<string[]>(
     data.map((s: any) => s.id)
@@ -173,29 +200,36 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
   // Filter and process data
   const processedData = useMemo(() => {
-    return data.map((series: any) => ({
-      ...series,
-      data: series.data.filter((point: any) => {
-        return appliedFilters.every(filter => {
-          const fieldValue = point.metadata?.[filter.field] ?? point.y;
-          
-          switch (filter.operator) {
-            case 'equals':
-              return fieldValue === filter.value;
-            case 'contains':
-              return String(fieldValue).toLowerCase().includes(String(filter.value).toLowerCase());
-            case 'greaterThan':
-              return Number(fieldValue) > Number(filter.value);
-            case 'lessThan':
-              return Number(fieldValue) < Number(filter.value);
-            case 'between':
-              return Number(fieldValue) >= Number(filter.value[0]) && Number(fieldValue) <= Number(filter.value[1]);
-            default:
-              return true;
-          }
-        });
-      })
-    })).filter((series: any) => selectedSeries.includes(series.id));
+    return data
+      .map((series: any) => ({
+        ...series,
+        data: series.data.filter((point: any) => {
+          return appliedFilters.every((filter) => {
+            const fieldValue = point.metadata?.[filter.field] ?? point.y;
+
+            switch (filter.operator) {
+              case "equals":
+                return fieldValue === filter.value;
+              case "contains":
+                return String(fieldValue)
+                  .toLowerCase()
+                  .includes(String(filter.value).toLowerCase());
+              case "greaterThan":
+                return Number(fieldValue) > Number(filter.value);
+              case "lessThan":
+                return Number(fieldValue) < Number(filter.value);
+              case "between":
+                return (
+                  Number(fieldValue) >= Number(filter.value[0]) &&
+                  Number(fieldValue) <= Number(filter.value[1])
+                );
+              default:
+                return true;
+            }
+          });
+        }),
+      }))
+      .filter((series: any) => selectedSeries.includes(series.id));
   }, [data, appliedFilters, selectedSeries]);
 
   // Calculate chart dimensions and scales
@@ -211,13 +245,16 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     const chartHeight = height - margin.top - margin.bottom;
 
     // Calculate data bounds
-    const allPoints = processedData.flatMap(s => s.data);
-    
-    let xMin = Infinity, xMax = -Infinity;
-    let yMin = Infinity, yMax = -Infinity;
+    const allPoints = processedData.flatMap((s) => s.data);
+
+    let xMin = Infinity,
+      xMax = -Infinity;
+    let yMin = Infinity,
+      yMax = -Infinity;
 
     allPoints.forEach((point: any) => {
-      const xVal = typeof point.x === 'number' ? point.x : new Date(point.x).getTime();
+      const xVal =
+        typeof point.x === "number" ? point.x : new Date(point.x).getTime();
       xMin = Math.min(xMin, xVal);
       xMax = Math.max(xMax, xVal);
       yMin = Math.min(yMin, point.y);
@@ -227,7 +264,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     // Add padding
     const xPadding = (xMax - xMin) * 0.05;
     const yPadding = (yMax - yMin) * 0.1;
-    
+
     xMin -= xPadding;
     xMax += xPadding;
     yMin -= yPadding;
@@ -244,7 +281,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       chartWidth,
       chartHeight,
       xDomain: [zoomedXMin, zoomedXMax] as [number, number],
-      yDomain: [zoomedYMin, zoomedYMax] as [number, number]
+      yDomain: [zoomedYMin, zoomedYMax] as [number, number],
     };
   }, [processedData, width, height, zoomLevel]);
 
@@ -252,107 +289,128 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   const seriesColors = useMemo(() => {
     const colors = generateColors(processedData.length);
     const colorMap: Record<string, string> = {};
-    
+
     processedData.forEach((series, index) => {
       colorMap[series.id] = series.color || colors[index];
     });
-    
+
     return colorMap;
   }, [processedData]);
 
-  const handleMouseMove = useCallback((event: React.MouseEvent<SVGSVGElement>) => {
-    if (!showTooltip) return;
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<SVGSVGElement>) => {
+      if (!showTooltip) return;
 
-    const svg = svgRef.current;
-    if (!svg) return;
+      const svg = svgRef.current;
+      if (!svg) return;
 
-    const rect = svg.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+      const rect = svg.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
 
-    // Find nearest data point
-    let nearestPoint: DataPoint | null = null;
-    let nearestSeries: ChartSeries | null = null;
-    let minDistance = Infinity;
+      // Find nearest data point
+      let nearestPoint: DataPoint | null = null;
+      let nearestSeries: ChartSeries | null = null;
+      let minDistance = Infinity;
 
-    processedData.forEach((series: any) => {
-      series.data.forEach((point: any) => {
-        const pointX = scaleValue(
-          typeof point.x === 'number' ? point.x : new Date(point.x).getTime(),
-          chartDimensions.xDomain,
-          [chartDimensions.margin.left, chartDimensions.margin.left + chartDimensions.chartWidth]
-        );
-        const pointY = scaleValue(
-          point.y,
-          chartDimensions.yDomain,
-          [chartDimensions.margin.top + chartDimensions.chartHeight, chartDimensions.margin.top]
-        );
+      processedData.forEach((series: any) => {
+        series.data.forEach((point: any) => {
+          const pointX = scaleValue(
+            typeof point.x === "number" ? point.x : new Date(point.x).getTime(),
+            chartDimensions.xDomain,
+            [
+              chartDimensions.margin.left,
+              chartDimensions.margin.left + chartDimensions.chartWidth,
+            ]
+          );
+          const pointY = scaleValue(point.y, chartDimensions.yDomain, [
+            chartDimensions.margin.top + chartDimensions.chartHeight,
+            chartDimensions.margin.top,
+          ]);
 
-        const distance = Math.sqrt(Math.pow(x - pointX, 2) + Math.pow(y - pointY, 2));
-        
-        if (distance < minDistance && distance < 50) { // 50px tolerance
-          minDistance = distance;
-          nearestPoint = point;
-          nearestSeries = series;
-        }
+          const distance = Math.sqrt(
+            Math.pow(x - pointX, 2) + Math.pow(y - pointY, 2)
+          );
+
+          if (distance < minDistance && distance < 50) {
+            // 50px tolerance
+            minDistance = distance;
+            nearestPoint = point;
+            nearestSeries = series;
+          }
+        });
       });
-    });
 
-    if (nearestPoint && nearestSeries) {
-      const s = nearestSeries as ChartSeries;
-      const p = nearestPoint as DataPoint;
-      setTooltip({
-        visible: true,
-        x: event.clientX,
-        y: event.clientY,
-        content: `${s.name}: ${formatValue(p.y)} (${formatValue(p.x)})`
+      if (nearestPoint && nearestSeries) {
+        const s = nearestSeries as ChartSeries;
+        const p = nearestPoint as DataPoint;
+        setTooltip({
+          visible: true,
+          x: event.clientX,
+          y: event.clientY,
+          content: `${s.name}: ${formatValue(p.y)} (${formatValue(p.x)})`,
+        });
+      } else {
+        setTooltip((prev: any) => ({ ...prev, visible: false }));
+      }
+    },
+    [showTooltip, processedData, chartDimensions]
+  );
+
+  const handleDataPointClick = useCallback(
+    (point: DataPoint, series: ChartSeries) => {
+      onDataPointClick?.(point, series);
+
+      if (enableDrillDown && currentDrillLevel < drillDownLevels.length - 1) {
+        const nextLevel = drillDownLevels[currentDrillLevel + 1];
+        const newFilter: ChartFilter = {
+          field: nextLevel.dataKey,
+          operator: "equals",
+          value: point.metadata?.[nextLevel.dataKey] || point.category,
+        };
+
+        setAppliedFilters((prev: any) => [...prev, newFilter]);
+        setCurrentDrillLevel((prev: any) => prev + 1);
+        onDrillDown?.(nextLevel, [...appliedFilters, newFilter]);
+      }
+    },
+    [
+      onDataPointClick,
+      enableDrillDown,
+      currentDrillLevel,
+      drillDownLevels,
+      appliedFilters,
+      onDrillDown,
+    ]
+  );
+
+  const handleZoom = useCallback(
+    (delta: number, centerX: number, centerY: number) => {
+      if (!enableZoom) return;
+
+      const zoomFactor = delta > 0 ? 0.9 : 1.1;
+      const xRange = zoomLevel.x[1] - zoomLevel.x[0];
+      const yRange = zoomLevel.y[1] - zoomLevel.y[0];
+
+      const newXRange = xRange * zoomFactor;
+      const newYRange = yRange * zoomFactor;
+
+      const xCenter = zoomLevel.x[0] + xRange * centerX;
+      const yCenter = zoomLevel.y[0] + yRange * centerY;
+
+      setZoomLevel({
+        x: [
+          Math.max(0, xCenter - newXRange / 2),
+          Math.min(1, xCenter + newXRange / 2),
+        ],
+        y: [
+          Math.max(0, yCenter - newYRange / 2),
+          Math.min(1, yCenter + newYRange / 2),
+        ],
       });
-    } else {
-      setTooltip((prev: any) => ({ ...prev, visible: false }));
-    }
-  }, [showTooltip, processedData, chartDimensions]);
-
-  const handleDataPointClick = useCallback((point: DataPoint, series: ChartSeries) => {
-    onDataPointClick?.(point, series);
-    
-    if (enableDrillDown && currentDrillLevel < drillDownLevels.length - 1) {
-      const nextLevel = drillDownLevels[currentDrillLevel + 1];
-      const newFilter: ChartFilter = {
-        field: nextLevel.dataKey,
-        operator: 'equals',
-        value: point.metadata?.[nextLevel.dataKey] || point.category
-      };
-      
-      setAppliedFilters((prev: any) => [...prev, newFilter]);
-      setCurrentDrillLevel((prev: any) => prev + 1);
-      onDrillDown?.(nextLevel, [...appliedFilters, newFilter]);
-    }
-  }, [onDataPointClick, enableDrillDown, currentDrillLevel, drillDownLevels, appliedFilters, onDrillDown]);
-
-  const handleZoom = useCallback((delta: number, centerX: number, centerY: number) => {
-    if (!enableZoom) return;
-
-    const zoomFactor = delta > 0 ? 0.9 : 1.1;
-    const xRange = zoomLevel.x[1] - zoomLevel.x[0];
-    const yRange = zoomLevel.y[1] - zoomLevel.y[0];
-    
-    const newXRange = xRange * zoomFactor;
-    const newYRange = yRange * zoomFactor;
-    
-    const xCenter = zoomLevel.x[0] + xRange * centerX;
-    const yCenter = zoomLevel.y[0] + yRange * centerY;
-    
-    setZoomLevel({
-      x: [
-        Math.max(0, xCenter - newXRange / 2),
-        Math.min(1, xCenter + newXRange / 2)
-      ],
-      y: [
-        Math.max(0, yCenter - newYRange / 2),
-        Math.min(1, yCenter + newYRange / 2)
-      ]
-    });
-  }, [enableZoom, zoomLevel]);
+    },
+    [enableZoom, zoomLevel]
+  );
 
   const resetZoom = useCallback(() => {
     setZoomLevel({ x: [0, 1], y: [0, 1] });
@@ -360,76 +418,86 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   }, []);
 
   const toggleSeries = useCallback((seriesId: string) => {
-    setSelectedSeries((prev: any) => 
-      prev.includes(seriesId) 
+    setSelectedSeries((prev: any) =>
+      prev.includes(seriesId)
         ? prev.filter((id: any) => id !== seriesId)
         : [...prev, seriesId]
     );
   }, []);
 
-  const exportChart = useCallback((format: 'png' | 'svg' | 'csv' | 'json') => {
-    if (format === 'csv' || format === 'json') {
-      const exportData = processedData.map((series: any) => ({
-        series: series.name,
-        data: series.data.map((point: any) => ({
-          x: point.x,
-          y: point.y,
-          category: point.category,
-          label: point.label,
-          ...point.metadata
-        }))
-      }));
+  const exportChart = useCallback(
+    (format: "png" | "svg" | "csv" | "json") => {
+      if (format === "csv" || format === "json") {
+        const exportData = processedData.map((series: any) => ({
+          series: series.name,
+          data: series.data.map((point: any) => ({
+            x: point.x,
+            y: point.y,
+            category: point.category,
+            label: point.label,
+            ...point.metadata,
+          })),
+        }));
 
-      const content = format === 'csv' 
-        ? convertToCSV(exportData)
-        : JSON.stringify(exportData, null, 2);
+        const content =
+          format === "csv"
+            ? convertToCSV(exportData)
+            : JSON.stringify(exportData, null, 2);
 
-      const blob = new Blob([content], { type: format === 'csv' ? 'text/csv' : 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `chart-data.${format}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-    
-    onExport?.(format);
-  }, [processedData, onExport]);
+        const blob = new Blob([content], {
+          type: format === "csv" ? "text/csv" : "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `chart-data.${format}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      onExport?.(format);
+    },
+    [processedData, onExport]
+  );
 
   const convertToCSV = (data: any[]): string => {
-    const rows: string[] = ['Series,X,Y,Category,Label'];
-    
+    const rows: string[] = ["Series,X,Y,Category,Label"];
+
     data.forEach((series: any) => {
       series.data.forEach((point: any) => {
-        rows.push(`${series.series},${point.x},${point.y},${point.category || ''},${point.label || ''}`);
+        rows.push(
+          `${series.series},${point.x},${point.y},${point.category || ""},${point.label || ""}`
+        );
       });
     });
-    
-    return rows.join('\n');
+
+    return rows.join("\n");
   };
 
   const renderLineChart = () => {
     return processedData.map((series: any) => {
       const points = series.data.map((point: any) => ({
         x: scaleValue(
-          typeof point.x === 'number' ? point.x : new Date(point.x).getTime(),
+          typeof point.x === "number" ? point.x : new Date(point.x).getTime(),
           chartDimensions.xDomain,
           [0, chartDimensions.chartWidth]
         ),
-        y: scaleValue(
-          point.y,
-          chartDimensions.yDomain,
-          [chartDimensions.chartHeight, 0]
-        )
+        y: scaleValue(point.y, chartDimensions.yDomain, [
+          chartDimensions.chartHeight,
+          0,
+        ]),
       }));
 
-      const pathD = createSVGPath(points, series.type === 'area' ? 'area' : 'line');
+      const pathD = createSVGPath(
+        points,
+        series.type === "area" ? "area" : "line"
+      );
 
       return (
         <g data-glass-component key={series.id}>
-          {series.type === 'area' && (
+          {series.type === "area" && (
             <path
               d={pathD}
               fill={seriesColors[series.id]}
@@ -444,7 +512,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
-            className={enableAnimation ? 'transition-all duration-300' : ''}
+            className={enableAnimation ? "transition-all duration-300" : ""}
           />
           {series.data.map((point: any, index: any) => (
             <circle
@@ -465,14 +533,21 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   };
 
   const renderBarChart = () => {
-    const barWidth = chartDimensions.chartWidth / (processedData[0]?.data.length || 1) * 0.8;
+    const barWidth =
+      (chartDimensions.chartWidth / (processedData[0]?.data.length || 1)) * 0.8;
     const barGroupWidth = barWidth / processedData.length;
 
     return processedData.map((series, seriesIndex) => (
       <g key={series.id}>
         {series.data.map((point: any, pointIndex: any) => {
-          const x = (pointIndex * barWidth) + (seriesIndex * barGroupWidth) + barGroupWidth / 2;
-          const y = scaleValue(point.y, chartDimensions.yDomain, [chartDimensions.chartHeight, 0]);
+          const x =
+            pointIndex * barWidth +
+            seriesIndex * barGroupWidth +
+            barGroupWidth / 2;
+          const y = scaleValue(point.y, chartDimensions.yDomain, [
+            chartDimensions.chartHeight,
+            0,
+          ]);
           const height = chartDimensions.chartHeight - y;
 
           return (
@@ -507,7 +582,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
           stroke="var(--glass-gray-200)"
           strokeWidth={1}
         />
-        
+
         {/* Y Axis */}
         <line
           x1={0}
@@ -521,8 +596,11 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         {/* X Axis Ticks */}
         {Array.from({ length: xTicks }, (_, i) => {
           const x = (i / (xTicks - 1)) * chartDimensions.chartWidth;
-          const value = chartDimensions.xDomain[0] + (chartDimensions.xDomain[1] - chartDimensions.xDomain[0]) * (i / (xTicks - 1));
-          
+          const value =
+            chartDimensions.xDomain[0] +
+            (chartDimensions.xDomain[1] - chartDimensions.xDomain[0]) *
+              (i / (xTicks - 1));
+
           return (
             <g key={i}>
               <line
@@ -537,7 +615,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 x={x}
                 y={chartDimensions.chartHeight + 20}
                 textAnchor="middle"
-                className="text-xs fill-gray-600"
+                className="glass-text-xs fill-gray-600"
               >
                 {formatValue(value)}
               </text>
@@ -547,9 +625,14 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* Y Axis Ticks */}
         {Array.from({ length: yTicks }, (_, i) => {
-          const y = chartDimensions.chartHeight - (i / (yTicks - 1)) * chartDimensions.chartHeight;
-          const value = chartDimensions.yDomain[0] + (chartDimensions.yDomain[1] - chartDimensions.yDomain[0]) * (i / (yTicks - 1));
-          
+          const y =
+            chartDimensions.chartHeight -
+            (i / (yTicks - 1)) * chartDimensions.chartHeight;
+          const value =
+            chartDimensions.yDomain[0] +
+            (chartDimensions.yDomain[1] - chartDimensions.yDomain[0]) *
+              (i / (yTicks - 1));
+
           return (
             <g key={i}>
               <line
@@ -564,7 +647,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 x={-10}
                 y={y + 4}
                 textAnchor="end"
-                className="text-xs fill-gray-600"
+                className="glass-text-xs fill-gray-600"
               >
                 {formatValue(value)}
               </text>
@@ -578,7 +661,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             x={chartDimensions.chartWidth / 2}
             y={chartDimensions.chartHeight + 45}
             textAnchor="middle"
-            className="text-sm font-medium fill-gray-700"
+            className="glass-text-sm font-medium fill-gray-700"
           >
             {xAxisLabel}
           </text>
@@ -589,7 +672,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             x={-40}
             y={chartDimensions.chartHeight / 2}
             textAnchor="middle"
-            className="text-sm font-medium fill-gray-700"
+            className="glass-text-sm font-medium fill-gray-700"
             transform={`rotate(-90, -40, ${chartDimensions.chartHeight / 2})`}
           >
             {yAxisLabel}
@@ -601,34 +684,40 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
-      <Glass className="p-6">
+      <Glass className="glass-p-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="glass-flex glass-items-center glass-justify-between mb-6">
           <div>
-            {title && <h2 className="text-xl font-semibold glass-text-secondary">{title}</h2>}
-            {subtitle && <p className="glass-text-secondary mt-1">{subtitle}</p>}
+            {title && (
+              <h2 className="glass-text-xl font-semibold glass-text-secondary">
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p className="glass-text-secondary mt-1">{subtitle}</p>
+            )}
           </div>
-          
-          <div className="flex items-center gap-2">
+
+          <div className="glass-flex glass-items-center glass-gap-2">
             {enableZoom && (
               <button
                 onClick={resetZoom}
-                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 Reset Zoom
               </button>
             )}
-            
-            <div className="flex border border-subtle glass-radius overflow-hidden">
+
+            <div className="glass-flex glass-border glass-border-subtle glass-radius overflow-hidden">
               <button
-                onClick={() => exportChart('csv')}
-                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle border-r border-subtle"
+                onClick={() => exportChart("csv")}
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-border-r glass-border-subtle glass-focus glass-touch-target glass-contrast-guard"
               >
                 CSV
               </button>
               <button
-                onClick={() => exportChart('json')}
-                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle"
+                onClick={() => exportChart("json")}
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-focus glass-touch-target glass-contrast-guard"
               >
                 JSON
               </button>
@@ -638,18 +727,22 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* Drill-down breadcrumbs */}
         {enableDrillDown && appliedFilters.length > 0 && (
-          <div className="flex items-center gap-2 mb-4 text-sm glass-text-secondary">
+          <div className="glass-flex glass-items-center glass-gap-2 mb-4 glass-text-sm glass-text-secondary">
             <span>📊</span>
             <span>Filtered by:</span>
             {appliedFilters.map((filter, index) => (
               <span
                 key={index}
-                className="px-2 py-1 glass-surface-subtle text-primary glass-radius flex items-center gap-1"
+                className="glass-px-2 glass-py-1 glass-surface-subtle text-primary glass-radius glass-flex glass-items-center glass-gap-1"
               >
                 {filter.field}: {filter.value}
                 <button
-                  onClick={() => setAppliedFilters((prev: any) => prev.filter((_: any, i: any) => i !== index))}
-                  className="text-primary hover:text-primary ml-1"
+                  onClick={() =>
+                    setAppliedFilters((prev: any) =>
+                      prev.filter((_: any, i: any) => i !== index)
+                    )
+                  }
+                  className="text-primary hover:text-primary ml-1 glass-focus glass-touch-target glass-contrast-guard"
                 >
                   ✕
                 </button>
@@ -665,45 +758,70 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             width={width}
             height={height}
             onMouseMove={handleMouseMove}
-            onMouseLeave={() => setTooltip((prev: any) => ({ ...prev, visible: false }))}
+            onMouseLeave={() =>
+              setTooltip((prev: any) => ({ ...prev, visible: false }))
+            }
             onWheel={(e) => {
               e.preventDefault();
               const rect = svgRef.current?.getBoundingClientRect();
               if (rect) {
-                const centerX = (e.clientX - rect.left - chartDimensions.margin.left) / chartDimensions.chartWidth;
-                const centerY = (e.clientY - rect.top - chartDimensions.margin.top) / chartDimensions.chartHeight;
+                const centerX =
+                  (e.clientX - rect.left - chartDimensions.margin.left) /
+                  chartDimensions.chartWidth;
+                const centerY =
+                  (e.clientY - rect.top - chartDimensions.margin.top) /
+                  chartDimensions.chartHeight;
                 handleZoom(e.deltaY, centerX, centerY);
               }
             }}
-            className="border border-subtle glass-radius"
+            className="glass-border glass-border-subtle glass-radius"
           >
-            <g transform={`translate(${chartDimensions.margin.left}, ${chartDimensions.margin.top})`}>
+            <g
+              transform={`translate(${chartDimensions.margin.left}, ${chartDimensions.margin.top})`}
+            >
               {renderAxes()}
-              
-              {type === 'line' || type === 'combo' ? renderLineChart() : null}
-              {type === 'bar' || type === 'combo' ? renderBarChart() : null}
-              
+
+              {type === "line" || type === "combo" ? renderLineChart() : null}
+              {type === "bar" || type === "combo" ? renderBarChart() : null}
+
               {/* Grid lines */}
               <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--glass-gray-100)" strokeWidth="1"/>
+                <pattern
+                  id="grid"
+                  width="40"
+                  height="40"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M 40 0 L 0 0 0 40"
+                    fill="none"
+                    stroke="var(--glass-gray-100)"
+                    strokeWidth="1"
+                  />
                 </pattern>
               </defs>
-              <rect width={chartDimensions.chartWidth} height={chartDimensions.chartHeight} fill="url(#grid)" opacity="0.5"/>
+              <rect
+                width={chartDimensions.chartWidth}
+                height={chartDimensions.chartHeight}
+                fill="url(#grid)"
+                opacity="0.5"
+              />
             </g>
           </svg>
         </div>
 
         {/* Legend */}
         {showLegend && (
-          <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-subtle">
+          <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4 mt-4 pt-4 glass-border-t glass-border-subtle">
             {processedData.map((series: any) => (
               <button
                 key={series.id}
                 onClick={() => toggleSeries(series.id)}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-1 rounded text-sm transition-opacity",
-                  selectedSeries.includes(series.id) ? "opacity-100" : "opacity-50"
+                  "flex items-center gap-2 px-3 py-1 rounded text-sm transition-opacity glass-focus glass-touch-target glass-contrast-guard",
+                  selectedSeries.includes(series.id)
+                    ? "opacity-100"
+                    : "opacity-50"
                 )}
               >
                 <div
@@ -720,11 +838,14 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className="fixed z-50 px-3 py-2 glass-surface-subtle text-primary text-sm glass-radius shadow-lg pointer-events-none"
+          className="fixed z-50 glass-px-3 glass-py-2 glass-surface-subtle text-primary glass-text-sm glass-radius glass-shadow-lg pointer-events-none"
           style={{
             left: tooltip.x + 10,
             top: tooltip.y - 10,
-            transform: tooltip.x > window.innerWidth - 200 ? 'translateX(-100%)' : 'none'
+            transform:
+              tooltip.x > window.innerWidth - 200
+                ? "translateX(-100%)"
+                : "none",
           }}
         >
           {tooltip.content}

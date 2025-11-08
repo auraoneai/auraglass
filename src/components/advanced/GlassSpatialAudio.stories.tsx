@@ -131,7 +131,7 @@ function SpatialAudioDemo() {
               step="0.1"
               value={masterVolume}
               onChange={(e) => setMasterVolume(parseFloat(e.target.value))}
-              className="w-20"
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
             <span className="text-xs glass-text-secondary">
               {(masterVolume * 100).toFixed(0)}%
@@ -147,7 +147,7 @@ function SpatialAudioDemo() {
 
         <button
           onClick={() => setShowVisualizer(!showVisualizer)}
-          className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
+          className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
         >
           {showVisualizer ? '🎵 Hide Audio Visualizer' : '🎵 Show Audio Visualizer'}
         </button>

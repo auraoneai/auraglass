@@ -1,20 +1,25 @@
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-    RotateCcw,
-    Triangle,
-    Zap
-} from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
-import * as THREE from 'three';
-import { SeededRandom } from '../../utils/random';
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { AnimatePresence, motion } from "framer-motion";
+import { RotateCcw, Triangle, Zap } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { cn } from "../../lib/utilsComprehensive";
+import * as THREE from "three";
+import { SeededRandom } from "../../utils/random";
 
 // Shatter geometry factory
 const ShatterGeometryFactory = {
-  createGlassShard: (size = 1, complexity = 3, random: SeededRandom = new SeededRandom()) => {
-    const geometry = new THREE.PlaneGeometry(size, size, complexity, complexity);
+  createGlassShard: (
+    size = 1,
+    complexity = 3,
+    random: SeededRandom = new SeededRandom()
+  ) => {
+    const geometry = new THREE.PlaneGeometry(
+      size,
+      size,
+      complexity,
+      complexity
+    );
 
     // Add random jagged edges
     const positions = geometry.attributes.position.array;
@@ -35,16 +40,24 @@ const ShatterGeometryFactory = {
     return geometry;
   },
 
-  createShatterField: (count = 20, spread = 5, random: SeededRandom = new SeededRandom()) => {
+  createShatterField: (
+    count = 20,
+    spread = 5,
+    random: SeededRandom = new SeededRandom()
+  ) => {
     const geometries = [];
     for (let i = 0; i < count; i++) {
       const size = 0.5 + random.next() * 1.5;
       const complexity = 2 + random.nextInt(0, 2);
-      const geometry = ShatterGeometryFactory.createGlassShard(size, complexity, random);
+      const geometry = ShatterGeometryFactory.createGlassShard(
+        size,
+        complexity,
+        random
+      );
       geometries.push(geometry);
     }
     return geometries;
-  }
+  },
 };
 
 // Shatter material factory
@@ -54,7 +67,7 @@ const ShatterMaterialFactory = {
       color = new THREE.Color(0.7, 0.9, 1.0),
       opacity = 0.8,
       refractionRatio = 1.5,
-      reflectivity = 0.8
+      reflectivity = 0.8,
     } = options;
 
     return new THREE.ShaderMaterial({
@@ -64,7 +77,7 @@ const ShatterMaterialFactory = {
         opacity: { value: opacity },
         refractionRatio: { value: refractionRatio },
         reflectivity: { value: reflectivity },
-        shatterProgress: { value: 0 }
+        shatterProgress: { value: 0 },
       },
       vertexShader: `
         varying vec3 vPosition;
@@ -113,7 +126,7 @@ const ShatterMaterialFactory = {
         }
       `,
       transparent: true,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     });
   },
 
@@ -125,7 +138,7 @@ const ShatterMaterialFactory = {
         time: { value: 0 },
         color: { value: color },
         intensity: { value: intensity },
-        refractionStrength: { value: 0.1 }
+        refractionStrength: { value: 0.1 },
       },
       vertexShader: `
         varying vec3 vPosition;
@@ -162,14 +175,19 @@ const ShatterMaterialFactory = {
           gl_FragColor = vec4(refractedColor, 0.8);
         }
       `,
-      transparent: true
+      transparent: true,
     });
-  }
+  },
 };
 
 // Shatter animation system
 const ShatterAnimations = {
-  createShardAnimation: (shard: THREE.Mesh, targetPosition: THREE.Vector3, targetRotation: THREE.Euler, duration: number = 2) => {
+  createShardAnimation: (
+    shard: THREE.Mesh,
+    targetPosition: THREE.Vector3,
+    targetRotation: THREE.Euler,
+    duration: number = 2
+  ) => {
     const startPosition = shard.position.clone();
     const startRotation = shard.rotation.clone();
     const startTime = Date.now();
@@ -187,16 +205,33 @@ const ShatterAnimations = {
       shard.position.lerpVectors(startPosition, targetPosition, easedProgress);
 
       // Interpolate rotation
-      shard.rotation.x = THREE.MathUtils.lerp(startRotation.x, targetRotation.x, easedProgress);
-      shard.rotation.y = THREE.MathUtils.lerp(startRotation.y, targetRotation.y, easedProgress);
-      shard.rotation.z = THREE.MathUtils.lerp(startRotation.z, targetRotation.z, easedProgress);
+      shard.rotation.x = THREE.MathUtils.lerp(
+        startRotation.x,
+        targetRotation.x,
+        easedProgress
+      );
+      shard.rotation.y = THREE.MathUtils.lerp(
+        startRotation.y,
+        targetRotation.y,
+        easedProgress
+      );
+      shard.rotation.z = THREE.MathUtils.lerp(
+        startRotation.z,
+        targetRotation.z,
+        easedProgress
+      );
 
       return progress >= 1;
     };
   },
 
-  createExplosionAnimation: (shards: THREE.Mesh[], center: THREE.Vector3, force: number = 10, duration: number = 1) => {
-  const prefersReducedMotion = useReducedMotion();
+  createExplosionAnimation: (
+    shards: THREE.Mesh[],
+    center: THREE.Vector3,
+    force: number = 10,
+    duration: number = 1
+  ) => {
+    const prefersReducedMotion = useReducedMotion();
     const animations = shards.map((shard: THREE.Mesh, index: number) => {
       const direction = new THREE.Vector3(
         (Math.random() - 0.5) * 2,
@@ -205,42 +240,62 @@ const ShatterAnimations = {
       ).normalize();
 
       const distance = 2 + Math.random() * 3;
-      const targetPosition = center.clone().add(direction.multiplyScalar(distance));
+      const targetPosition = center
+        .clone()
+        .add(direction.multiplyScalar(distance));
       const targetRotation = new THREE.Euler(
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2
       );
 
-      return ShatterAnimations.createShardAnimation(shard, targetPosition, targetRotation, duration);
-    }    );
+      return ShatterAnimations.createShardAnimation(
+        shard,
+        targetPosition,
+        targetRotation,
+        duration
+      );
+    });
 
     return () => {
-      const allComplete = animations.every((animation: () => boolean) => animation());
+      const allComplete = animations.every((animation: () => boolean) =>
+        animation()
+      );
       return allComplete;
     };
   },
 
-  createReformAnimation: (shards: THREE.Mesh[], originalPositions: THREE.Vector3[], duration: number = 2) => {
+  createReformAnimation: (
+    shards: THREE.Mesh[],
+    originalPositions: THREE.Vector3[],
+    duration: number = 2
+  ) => {
     const animations = shards.map((shard: THREE.Mesh, index: number) => {
       const targetPosition = originalPositions[index];
       const targetRotation = new THREE.Euler(0, 0, 0);
 
-      return ShatterAnimations.createShardAnimation(shard, targetPosition, targetRotation, duration);
+      return ShatterAnimations.createShardAnimation(
+        shard,
+        targetPosition,
+        targetRotation,
+        duration
+      );
     });
 
     return () => {
-      const allComplete = animations.every((animation: () => boolean) => animation());
+      const allComplete = animations.every((animation: () => boolean) =>
+        animation()
+      );
       return allComplete;
     };
-  }
+  },
 };
 
 // Main GlassShatterEffects Component
 export interface GlassShatterEffectsProps {
   children?: React.ReactNode;
   className?: string;
-  trigger?: 'click' | 'hover' | 'manual' | 'auto';
+  trigger?: "click" | "hover" | "manual" | "auto";
   duration?: number;
   intensity?: number;
   shardCount?: number;
@@ -255,8 +310,8 @@ export interface GlassShatterEffectsProps {
 
 export function GlassShatterEffects({
   children,
-  className='',
-  trigger = 'click',
+  className = "",
+  trigger = "click",
   duration = 2,
   intensity = 1,
   shardCount = 12,
@@ -266,7 +321,7 @@ export function GlassShatterEffects({
   onReform,
   disabled = false,
   showControls = false,
-  seed
+  seed,
 }: GlassShatterEffectsProps) {
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -274,22 +329,30 @@ export function GlassShatterEffects({
   const [isShattered, setIsShattered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [shards, setShards] = useState<THREE.Mesh[]>([]);
-  const [originalPositions, setOriginalPositions] = useState<THREE.Vector3[]>([]);
-  const [currentAnimation, setCurrentAnimation] = useState<(() => boolean) | null>(null);
+  const [originalPositions, setOriginalPositions] = useState<THREE.Vector3[]>(
+    []
+  );
+  const [currentAnimation, setCurrentAnimation] = useState<
+    (() => boolean) | null
+  >(null);
 
   // Initialize shards
   useEffect(() => {
     if (!canvasRef.current) return;
 
     const seededRandom = new SeededRandom(seed ?? `${shardCount}`);
-    const geometries = ShatterGeometryFactory.createShatterField(shardCount, 5, seededRandom);
+    const geometries = ShatterGeometryFactory.createShatterField(
+      shardCount,
+      5,
+      seededRandom
+    );
     const newShards: THREE.Mesh[] = [];
     const positions: THREE.Vector3[] = [];
 
     geometries.forEach((geometry, index) => {
       const material = ShatterMaterialFactory.createGlassShardMaterial({
         opacity: 0.8 - seededRandom.next() * 0.3,
-        refractionRatio: 1.3 + seededRandom.next() * 0.4
+        refractionRatio: 1.3 + seededRandom.next() * 0.4,
       });
 
       const shard = new THREE.Mesh(geometry, material);
@@ -337,7 +400,16 @@ export function GlassShatterEffects({
         triggerReform();
       }, reformDelay);
     }
-  }, [disabled, isAnimating, shards, intensity, duration, autoReform, reformDelay, onShatter]);
+  }, [
+    disabled,
+    isAnimating,
+    shards,
+    intensity,
+    duration,
+    autoReform,
+    reformDelay,
+    onShatter,
+  ]);
 
   // Trigger reform effect
   const triggerReform = useCallback(() => {
@@ -372,42 +444,50 @@ export function GlassShatterEffects({
     if (!element) return;
 
     const handleClick = () => {
-      if (trigger === 'click') {
+      if (trigger === "click") {
         handleManualTrigger();
       }
     };
 
     const handleMouseEnter = () => {
-      if (trigger === 'hover') {
+      if (trigger === "hover") {
         triggerShatter();
       }
     };
 
     const handleMouseLeave = () => {
-      if (trigger === 'hover' && autoReform) {
+      if (trigger === "hover" && autoReform) {
         setTimeout(() => {
           triggerReform();
         }, reformDelay);
       }
     };
 
-    if (trigger === 'click') {
-      element.addEventListener('click', handleClick);
-    } else if (trigger === 'hover') {
-      element.addEventListener('mouseenter', handleMouseEnter);
-      element.addEventListener('mouseleave', handleMouseLeave);
+    if (trigger === "click") {
+      element.addEventListener("click", handleClick);
+    } else if (trigger === "hover") {
+      element.addEventListener("mouseenter", handleMouseEnter);
+      element.addEventListener("mouseleave", handleMouseLeave);
     }
 
     return () => {
-      element.removeEventListener('click', handleClick);
-      element.removeEventListener('mouseenter', handleMouseEnter);
-      element.removeEventListener('mouseleave', handleMouseLeave);
+      element.removeEventListener("click", handleClick);
+      element.removeEventListener("mouseenter", handleMouseEnter);
+      element.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [trigger, disabled, handleManualTrigger, triggerShatter, triggerReform, autoReform, reformDelay]);
+  }, [
+    trigger,
+    disabled,
+    handleManualTrigger,
+    triggerShatter,
+    triggerReform,
+    autoReform,
+    reformDelay,
+  ]);
 
   // Auto trigger effect
   useEffect(() => {
-    if (trigger === 'auto' && !disabled) {
+    if (trigger === "auto" && !disabled) {
       const interval = setInterval(() => {
         const prefersReducedMotion = useReducedMotion();
         if (!isAnimating) {
@@ -422,15 +502,21 @@ export function GlassShatterEffects({
   return (
     <div
       ref={containerRef}
-      className={cn("glass-shatter-effects glass-relative glass-overflow-hidden", className)}
+      className={cn(
+        "glass-shatter-effects glass-relative glass-overflow-hidden",
+        className
+      )}
       style={{
-        position: 'relative',
-        cursor: trigger === 'click' ? 'pointer' : 'default'
+        position: "relative",
+        cursor: trigger === "click" ? "pointer" : "default",
       }}
     >
       {/* Main content */}
       <div
-        className={cn("content glass-transition-opacity glass-duration-300", isShattered ? "glass-opacity-0" : "glass-opacity-100")}
+        className={cn(
+          "content glass-transition-opacity glass-duration-300",
+          isShattered ? "glass-opacity-0" : "glass-opacity-100"
+        )}
       >
         {children}
       </div>
@@ -442,7 +528,9 @@ export function GlassShatterEffects({
             initial={{ opacity: 0 }}
             animate={prefersReducedMotion ? {} : { opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={cn("glass-absolute glass-inset-0 glass-pointer-events-none")}
+            className={cn(
+              "glass-absolute glass-inset-0 glass-pointer-events-none"
+            )}
           >
             <Canvas
               ref={canvasRef}
@@ -468,22 +556,38 @@ export function GlassShatterEffects({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className={cn("glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-gap-2")}
+          className={cn(
+            "glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-gap-2"
+          )}
         >
           <button
             onClick={handleManualTrigger}
             disabled={isAnimating}
-            className={cn("glass-p-2 glass-surface-subtle glass-foundation-complete glass-radius-lg glass-border glass-border-primary hover:glass-surface-hover glass-transition-colors disabled:glass-opacity-50")}
-            title={isShattered ? 'Reform' : 'Shatter'}
+            className={cn(
+              "glass-p-2 glass-surface-subtle glass-foundation-complete glass-radius-lg glass-border glass-border-primary hover:glass-surface-hover glass-transition-colors disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard"
+            )}
+            title={isShattered ? "Reform" : "Shatter"}
           >
-            {isShattered ? <RotateCcw className={cn("glass-w-4 glass-h-4")} /> : <Zap className={cn("glass-w-4 glass-h-4")} />}
+            {isShattered ? (
+              <RotateCcw className={cn("glass-w-4 glass-h-4")} />
+            ) : (
+              <Zap className={cn("glass-w-4 glass-h-4")} />
+            )}
           </button>
 
           {isAnimating && (
-            <div className={cn("glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-surface-info glass-foundation-complete glass-radius-lg glass-text-info glass-text-sm")}>
+            <div
+              className={cn(
+                "glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-surface-info glass-foundation-complete glass-radius-lg glass-text-info glass-text-sm"
+              )}
+            >
               <motion.div
                 animate={prefersReducedMotion ? {} : { rotate: 360 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { duration: 1, repeat: Infinity, ease: 'linear'  }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: 1, repeat: Infinity, ease: "linear" }
+                }
               >
                 <Triangle className={cn("glass-w-3 glass-h-3")} />
               </motion.div>
@@ -503,7 +607,7 @@ function ShatterScene({
   setCurrentAnimation,
   setIsAnimating,
   setIsShattered,
-  isShattered
+  isShattered,
 }: any) {
   const { scene } = useThree();
 
@@ -526,9 +630,23 @@ function ShatterScene({
 
     // Update shard materials
     shards.forEach((shard: THREE.Mesh, index: number) => {
-      if (shard.material && 'uniforms' in shard.material && shard.material.uniforms) {
-        if (typeof shard.material.uniforms === 'object' && 'time' in shard.material.uniforms) (shard.material.uniforms.time as any).value = time;
-        if (typeof shard.material.uniforms === 'object' && 'shatterProgress' in shard.material.uniforms) (shard.material.uniforms.shatterProgress as any).value = isShattered ? 1 : 0;
+      if (
+        shard.material &&
+        "uniforms" in shard.material &&
+        shard.material.uniforms
+      ) {
+        if (
+          typeof shard.material.uniforms === "object" &&
+          "time" in shard.material.uniforms
+        )
+          (shard.material.uniforms.time as any).value = time;
+        if (
+          typeof shard.material.uniforms === "object" &&
+          "shatterProgress" in shard.material.uniforms
+        )
+          (shard.material.uniforms.shatterProgress as any).value = isShattered
+            ? 1
+            : 0;
       }
     });
 
@@ -563,29 +681,29 @@ export const shatterPresets = {
     intensity: 0.5,
     shardCount: 8,
     autoReform: true,
-    reformDelay: 2000
+    reformDelay: 2000,
   },
   dramatic: {
     duration: 2.5,
     intensity: 1.2,
     shardCount: 16,
     autoReform: true,
-    reformDelay: 4000
+    reformDelay: 4000,
   },
   explosive: {
     duration: 3,
     intensity: 2,
     shardCount: 24,
     autoReform: false,
-    reformDelay: 6000
+    reformDelay: 6000,
   },
   subtle: {
     duration: 1,
     intensity: 0.3,
     shardCount: 6,
     autoReform: true,
-    reformDelay: 1500
-  }
+    reformDelay: 1500,
+  },
 };
 
 export default GlassShatterEffects;

@@ -1,9 +1,9 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { Glass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { GlassButton, IconButton } from '../button/GlassButton';
-import { GlassInput } from './GlassInput';
+import { cn } from "../../lib/utilsComprehensive";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import { Glass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { GlassButton, IconButton } from "../button/GlassButton";
+import { GlassInput } from "./GlassInput";
 
 export interface DateRange {
   from: Date | null;
@@ -26,7 +26,7 @@ export interface GlassDatePickerProps {
   /**
    * Date range mode
    */
-  mode?: 'single' | 'range';
+  mode?: "single" | "range";
   /**
    * Selected date range (for range mode)
    */
@@ -62,7 +62,7 @@ export interface GlassDatePickerProps {
   /**
    * Component size
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Whether the component is disabled
    */
@@ -102,7 +102,11 @@ export interface GlassDatePickerProps {
   /**
    * Custom date renderer
    */
-  renderDate?: (date: Date, isSelected: boolean, isDisabled: boolean) => React.ReactNode;
+  renderDate?: (
+    date: Date,
+    isSelected: boolean,
+    isDisabled: boolean
+  ) => React.ReactNode;
   /**
    * Locale for date formatting
    */
@@ -120,16 +124,16 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
       value,
       defaultValue,
       onChange,
-      mode = 'single',
+      mode = "single",
       rangeValue,
       defaultRangeValue,
       onRangeChange,
       minDate,
       maxDate,
       disabledDates,
-      format = 'MM/dd/yyyy',
-      placeholder = 'Select date...',
-      size = 'md',
+      format = "MM/dd/yyyy",
+      placeholder = "Select date...",
+      size = "md",
       disabled = false,
       required = false,
       error = false,
@@ -140,14 +144,16 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
       showTodayButton = true,
       showClearButton = true,
       renderDate,
-      locale = 'en-US',
+      locale = "en-US",
       className,
       ...props
     },
     ref
   ) => {
     // Internal state for uncontrolled mode
-    const [internalValue, setInternalValue] = useState<Date | null>(defaultValue || null);
+    const [internalValue, setInternalValue] = useState<Date | null>(
+      defaultValue || null
+    );
     const [internalRangeValue, setInternalRangeValue] = useState<DateRange>(
       defaultRangeValue || { from: null, to: null }
     );
@@ -155,7 +161,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
     // Calendar state
     const [isOpen, setIsOpen] = useState(false);
     const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState("");
 
     // Refs
     const containerRef = useRef<HTMLDivElement>(null);
@@ -163,14 +169,15 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Determine current values
     const currentDate = value !== undefined ? value : internalValue;
-    const currentRange = rangeValue !== undefined ? rangeValue : internalRangeValue;
+    const currentRange =
+      rangeValue !== undefined ? rangeValue : internalRangeValue;
 
     // Format date
     const formatDate = (date: Date): string => {
       return new Intl.DateTimeFormat(locale, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
       }).format(date);
     };
 
@@ -182,8 +189,8 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Update input value when date changes
     useEffect(() => {
-      if (mode === 'single') {
-        setInputValue(currentDate ? formatDate(currentDate) : '');
+      if (mode === "single") {
+        setInputValue(currentDate ? formatDate(currentDate) : "");
       } else {
         const { from, to } = currentRange;
         if (from && to) {
@@ -191,7 +198,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
         } else if (from) {
           setInputValue(formatDate(from));
         } else {
-          setInputValue('');
+          setInputValue("");
         }
       }
     }, [currentDate, currentRange, mode, locale]);
@@ -200,7 +207,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
     const handleDateSelect = (date: Date) => {
       if (isDateDisabled(date)) return;
 
-      if (mode === 'single') {
+      if (mode === "single") {
         const newValue = date;
         if (value === undefined) {
           setInternalValue(newValue);
@@ -219,9 +226,8 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
           onRangeChange?.(newRange);
         } else {
           // Complete range
-          const newRange = date < from
-            ? { from: date, to: from }
-            : { from, to: date };
+          const newRange =
+            date < from ? { from: date, to: from } : { from, to: date };
           if (rangeValue === undefined) {
             setInternalRangeValue(newRange);
           }
@@ -237,12 +243,12 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
       if (maxDate && date > maxDate) return true;
 
       if (Array.isArray(disabledDates)) {
-        return disabledDates.some(disabledDate =>
-          date.toDateString() === disabledDate.toDateString()
+        return disabledDates.some(
+          (disabledDate) => date.toDateString() === disabledDate.toDateString()
         );
       }
 
-      if (typeof disabledDates === 'function') {
+      if (typeof disabledDates === "function") {
         return disabledDates(date);
       }
 
@@ -251,8 +257,10 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Check if date is selected
     const isDateSelected = (date: Date): boolean => {
-      if (mode === 'single') {
-        return currentDate ? date.toDateString() === currentDate.toDateString() : false;
+      if (mode === "single") {
+        return currentDate
+          ? date.toDateString() === currentDate.toDateString()
+          : false;
       } else {
         const { from, to } = currentRange;
         if (from && to) {
@@ -264,7 +272,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Check if date is in range (for range mode)
     const isDateInRange = (date: Date): boolean => {
-      if (mode !== 'range') return false;
+      if (mode !== "range") return false;
       const { from, to } = currentRange;
       return from && to ? date > from && date < to : false;
     };
@@ -274,7 +282,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
       const newValue = e.target.value;
       setInputValue(newValue);
 
-      if (mode === 'single') {
+      if (mode === "single") {
         const parsedDate = parseDate(newValue);
         if (parsedDate && !isDateDisabled(parsedDate)) {
           if (value === undefined) {
@@ -288,7 +296,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Handle clear
     const handleClear = () => {
-      if (mode === 'single') {
+      if (mode === "single") {
         if (value === undefined) {
           setInternalValue(null);
         }
@@ -300,7 +308,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
         }
         onRangeChange?.(newRange);
       }
-      setInputValue('');
+      setInputValue("");
     };
 
     // Handle today button
@@ -316,10 +324,21 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
     // Generate calendar days
     const generateCalendarDays = () => {
-      const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-      const endOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+      const startOfMonth = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth(),
+        1
+      );
+      const endOfMonth = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth() + 1,
+        0
+      );
       const startOfWeek = new Date(startOfMonth);
-      startOfWeek.setDate(startOfMonth.getDate() - ((startOfMonth.getDay() - firstDayOfWeek + 7) % 7));
+      startOfWeek.setDate(
+        startOfMonth.getDate() -
+          ((startOfMonth.getDay() - firstDayOfWeek + 7) % 7)
+      );
 
       const days: Date[] = [];
       const current = new Date(startOfWeek);
@@ -336,7 +355,9 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
     // Get month names
     const getMonthNames = () => {
       return Array.from({ length: 12 }, (_, i) =>
-        new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(2000, i, 1))
+        new Intl.DateTimeFormat(locale, { month: "long" }).format(
+          new Date(2000, i, 1)
+        )
       );
     };
 
@@ -346,15 +367,17 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
       return Array.from({ length: 7 }, (_, i) => {
         const date = new Date(baseDate);
         date.setDate(baseDate.getDate() + ((i + firstDayOfWeek) % 7));
-        return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(date);
+        return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(
+          date
+        );
       });
     };
 
     // Navigate months
-    const navigateMonth = (direction: 'prev' | 'next') => {
+    const navigateMonth = (direction: "prev" | "next") => {
       setCurrentMonth((prev: any) => {
         const newMonth = new Date(prev);
-        newMonth.setMonth(prev.getMonth() + (direction === 'next' ? 1 : -1));
+        newMonth.setMonth(prev.getMonth() + (direction === "next" ? 1 : -1));
         return newMonth;
       });
     };
@@ -362,23 +385,27 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
     // Close on outside click
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
         }
       };
 
       if (isOpen) {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () =>
+          document.removeEventListener("mousedown", handleClickOutside);
       }
     }, [isOpen]);
 
     // Keyboard navigation
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsOpen(false);
         inputRef.current?.focus();
-      } else if (e.key === 'Enter') {
+      } else if (e.key === "Enter") {
         setIsOpen(true);
       }
     };
@@ -388,7 +415,12 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
     const dayNames = getDayNames();
 
     return (
-      <div data-glass-component ref={containerRef} className={cn('glass-datepicker relative', className)} {...props}>
+      <div
+        data-glass-component
+        ref={containerRef}
+        className={cn("glass-datepicker relative", className)}
+        {...props}
+      >
         <div ref={ref}>
           <GlassInput
             ref={inputRef}
@@ -399,21 +431,36 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
             size={size}
             disabled={disabled}
             required={required}
-            state={error ? 'error' : 'default'}
+            state={error ? "error" : "default"}
             helperText={error && errorMessage ? errorMessage : helperText}
             rightIcon={
               <GlassButton
                 type="button"
-                className="p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
+                className="glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
                 onClick={(e) => setIsOpen(!isOpen)}
                 disabled={disabled}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
               </GlassButton>
             }
-            clearable={showClearButton && (mode === 'single' ? !!currentDate : !!(currentRange.from || currentRange.to))}
+            clearable={
+              showClearButton &&
+              (mode === "single"
+                ? !!currentDate
+                : !!(currentRange.from || currentRange.to))
+            }
             onClear={handleClear}
           />
         </div>
@@ -421,24 +468,30 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
         {/* Calendar Popup */}
         {isOpen && (
           <Motion className="absolute top-full left-0 z-50 glass-mt-2">
-            <Glass
-              className="w-80 border border-glass-border/20 p-4 glass-radius-lg"
-            >
+            <Glass className="w-80 glass-border glass-border-glass-border/20 glass-p-4 glass-radius-lg">
               {/* Calendar Header */}
-              <div className="flex items-center justify-between mb-4">
+              <div className="glass-flex glass-items-center glass-justify-between mb-4">
                 <IconButton
                   icon="‹"
                   variant="ghost"
                   size="sm"
-                  onClick={(e) => navigateMonth('prev')}
+                  onClick={(e) => navigateMonth("prev")}
                   aria-label="Previous month"
                 />
 
-                <div className="flex items-center gap-2">
+                <div className="glass-flex glass-items-center glass-gap-2">
                   <select
                     value={currentMonth.getMonth()}
-                    onChange={(e) => setCurrentMonth(new Date(currentMonth.getFullYear(), parseInt(e.target.value), 1))}
-                    className="bg-transparent border border-glass-border/20 glass-radius-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary/20"
+                    onChange={(e) =>
+                      setCurrentMonth(
+                        new Date(
+                          currentMonth.getFullYear(),
+                          parseInt(e.target.value),
+                          1
+                        )
+                      )
+                    }
+                    className="bg-transparent glass-border glass-border-glass-border/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm focus:ring-2 focus:ring-primary/20"
                   >
                     {monthNames.map((month, index) => (
                       <option key={month} value={index}>
@@ -449,14 +502,24 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
                   <select
                     value={currentMonth.getFullYear()}
-                    onChange={(e) => setCurrentMonth(new Date(parseInt(e.target.value), currentMonth.getMonth(), 1))}
-                    className="bg-transparent border border-glass-border/20 glass-radius-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary/20"
+                    onChange={(e) =>
+                      setCurrentMonth(
+                        new Date(
+                          parseInt(e.target.value),
+                          currentMonth.getMonth(),
+                          1
+                        )
+                      )
+                    }
+                    className="bg-transparent glass-border glass-border-glass-border/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm focus:ring-2 focus:ring-primary/20"
                   >
-                    {Array.from({ length: 201 }, (_, i) => 1900 + i).map((year: any) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
+                    {Array.from({ length: 201 }, (_, i) => 1900 + i).map(
+                      (year: any) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
 
@@ -464,71 +527,85 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                   icon="›"
                   variant="ghost"
                   size="sm"
-                  onClick={(e) => navigateMonth('next')}
+                  onClick={(e) => navigateMonth("next")}
                   aria-label="Next month"
                 />
               </div>
 
               {/* Day Headers */}
-              <div className="grid grid-cols-7 gap-1 mb-2">
-                {showWeekNumbers && <div className="text-xs glass-text-secondary p-2 text-center">Wk</div>}
+              <div className="glass-grid glass-grid-cols-7 glass-gap-1 mb-2">
+                {showWeekNumbers && (
+                  <div className="glass-text-xs glass-text-secondary glass-p-2 text-center">
+                    Wk
+                  </div>
+                )}
                 {dayNames.map((day: any) => (
-                  <div key={day} className="text-xs glass-text-secondary p-2 text-center font-medium">
+                  <div
+                    key={day}
+                    className="glass-text-xs glass-text-secondary glass-p-2 text-center font-medium"
+                  >
                     {day}
                   </div>
                 ))}
               </div>
 
               {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-1">
+              <div className="glass-grid glass-grid-cols-7 glass-gap-1">
                 {Array.from({ length: 6 }, (_, weekIndex) => (
                   <React.Fragment key={weekIndex}>
                     {showWeekNumbers && (
-                      <div className="text-xs glass-text-secondary p-2 text-center">
+                      <div className="glass-text-xs glass-text-secondary glass-p-2 text-center">
                         {/* Week number calculation would go here */}
                         {weekIndex + 1}
                       </div>
                     )}
-                    {calendarDays.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date: any) => {
-                      const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
-                      const isSelected = isDateSelected(date);
-                      const isDisabled = isDateDisabled(date);
-                      const isInRange = isDateInRange(date);
-                      const isToday = date.toDateString() === new Date().toDateString();
+                    {calendarDays
+                      .slice(weekIndex * 7, (weekIndex + 1) * 7)
+                      .map((date: any) => {
+                        const isCurrentMonth =
+                          date.getMonth() === currentMonth.getMonth();
+                        const isSelected = isDateSelected(date);
+                        const isDisabled = isDateDisabled(date);
+                        const isInRange = isDateInRange(date);
+                        const isToday =
+                          date.toDateString() === new Date().toDateString();
 
-                      return (
-                        <GlassButton
-                          key={date.toISOString()}
-                          type="button"
-                          className={cn(
-                            'glass-p-2 glass-text-sm glass-radius-md transition-colors relative',
-                            'hover:bg-muted/20 focus:bg-muted/20 focus:outline-none focus:ring-2 focus:ring-primary/20',
-                            {
-                              'glass-text-secondary': !isCurrentMonth,
-                              'bg-primary text-primary-foreground': isSelected,
-                              'bg-primary/20': isInRange,
-                              'opacity-50 cursor-not-allowed': isDisabled,
-                              'font-bold': isToday,
-                            }
-                          )}
-                          onClick={(e) => handleDateSelect(date)}
-                          disabled={isDisabled}
-                          aria-label={formatDate(date)}
-                        >
-                          {renderDate ? renderDate(date, isSelected, isDisabled) : date.getDate()}
-                          {isToday && !isSelected && (
-                            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 glass-surface-primary glass-radius-full" />
-                          )}
-                        </GlassButton>
-                      );
-                    })}
+                        return (
+                          <GlassButton
+                            key={date.toISOString()}
+                            type="button"
+                            className={cn(
+                              "glass-p-2 glass-text-sm glass-radius-md transition-colors relative",
+                              "hover:bg-muted/20 focus:bg-muted/20 focus:outline-none focus:ring-2 focus:ring-primary/20",
+                              {
+                                "glass-text-secondary": !isCurrentMonth,
+                                "bg-primary text-primary-foreground":
+                                  isSelected,
+                                "bg-primary/20": isInRange,
+                                "opacity-50 cursor-not-allowed": isDisabled,
+                                "font-bold": isToday,
+                              }
+                            )}
+                            onClick={(e) => handleDateSelect(date)}
+                            disabled={isDisabled}
+                            aria-label={formatDate(date)}
+                          >
+                            {renderDate
+                              ? renderDate(date, isSelected, isDisabled)
+                              : date.getDate()}
+                            {isToday && !isSelected && (
+                              <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 glass-surface-primary glass-radius-full" />
+                            )}
+                          </GlassButton>
+                        );
+                      })}
                   </React.Fragment>
                 ))}
               </div>
 
               {/* Footer Actions */}
               {(showTodayButton || showClearButton) && (
-                <div className="flex items-center justify-between glass-mt-4 pt-4 border-t border-glass-border/20">
+                <div className="glass-flex glass-items-center glass-justify-between glass-mt-4 pt-4 glass-border-t glass-border-glass-border/20">
                   {showTodayButton && (
                     <GlassButton
                       variant="ghost"
@@ -558,6 +635,6 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
   }
 );
 
-GlassDatePicker.displayName = 'GlassDatePicker';
+GlassDatePicker.displayName = "GlassDatePicker";
 
 // DateRange interface is already exported above

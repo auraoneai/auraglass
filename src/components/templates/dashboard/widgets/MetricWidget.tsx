@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils';
-import React, { forwardRef } from 'react';
-import { Motion } from '../../../../primitives';
-import GlassCore from '../../../../primitives/GlassCore';
-import { GlassBadge } from '../../../data-display/GlassBadge';
-import { HStack, VStack } from '../../../layout/GlassStack';
+import { cn } from "@/lib/utils";
+import React, { forwardRef } from "react";
+import { Motion } from "../../../../primitives";
+import GlassCore from "../../../../primitives/GlassCore";
+import { GlassBadge } from "../../../data-display/GlassBadge";
+import { HStack, VStack } from "../../../layout/GlassStack";
 
 export interface MetricData {
   value: string | number;
@@ -11,13 +11,14 @@ export interface MetricData {
   change?: number;
   changeLabel?: string;
   icon?: React.ReactNode;
-  trend?: 'up' | 'down' | 'neutral';
+  trend?: "up" | "down" | "neutral";
   target?: number;
   unit?: string;
   description?: string;
 }
 
-export interface MetricWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MetricWidgetProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Metric data
    */
@@ -25,15 +26,15 @@ export interface MetricWidgetProps extends React.HTMLAttributes<HTMLDivElement> 
   /**
    * Widget variant
    */
-  variant?: 'default' | 'minimal' | 'featured' | 'compact';
+  variant?: "default" | "minimal" | "featured" | "compact";
   /**
    * Size variant
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /**
    * Color scheme
    */
-  colorScheme?: 'default' | 'primary' | 'success' | 'warning' | 'destructive';
+  colorScheme?: "default" | "primary" | "success" | "warning" | "destructive";
   /**
    * Whether to show trend indicator
    */
@@ -49,16 +50,16 @@ export interface MetricWidgetProps extends React.HTMLAttributes<HTMLDivElement> 
     up: React.ReactNode;
     down: React.ReactNode;
     neutral: React.ReactNode;
-  
-  /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
-  /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
-  /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
-};
+
+    /** Glass surface intent */
+    intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
+    /** Glass surface elevation */
+    elevation?: "level1" | "level2" | "level3" | "level4";
+
+    /** Performance tier */
+    tier?: "low" | "medium" | "high";
+  };
 }
 
 /**
@@ -69,9 +70,9 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
   (
     {
       data,
-      variant = 'default',
-      size = 'md',
-      colorScheme = 'default',
+      variant = "default",
+      size = "md",
+      colorScheme = "default",
       showTrend = true,
       showTarget = false,
       trendIcons,
@@ -82,75 +83,75 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
   ) => {
     const sizeClasses = {
       sm: {
-        value: 'glass-text-lg',
-        label: 'glass-text-xs',
-        icon: 'glass-text-lg',
-        padding: 'glass-p-3',
+        value: "glass-text-lg",
+        label: "glass-text-xs",
+        icon: "glass-text-lg",
+        padding: "glass-p-3",
       },
       md: {
-        value: 'glass-text-2xl',
-        label: 'glass-text-sm',
-        icon: 'glass-text-xl',
-        padding: 'glass-p-4',
+        value: "glass-text-2xl",
+        label: "glass-text-sm",
+        icon: "glass-text-xl",
+        padding: "glass-p-4",
       },
       lg: {
-        value: 'text-3xl',
-        label: 'glass-text-base',
-        icon: 'glass-text-2xl',
-        padding: 'glass-p-6',
+        value: "text-3xl",
+        label: "glass-text-base",
+        icon: "glass-text-2xl",
+        padding: "glass-p-6",
       },
     };
 
     const colorSchemes = {
       default: {
-        value: 'text-foreground',
+        value: "text-foreground",
         change: {
-          up: 'text-success',
-          down: 'text-destructive',
-          neutral: 'glass-text-secondary',
+          up: "text-success",
+          down: "text-destructive",
+          neutral: "glass-text-secondary",
         },
-        icon: 'glass-text-secondary',
-        background: '',
+        icon: "glass-text-secondary",
+        background: "",
       },
       primary: {
-        value: 'text-primary',
+        value: "text-primary",
         change: {
-          up: 'text-success',
-          down: 'text-destructive', 
-          neutral: 'glass-text-secondary',
+          up: "text-success",
+          down: "text-destructive",
+          neutral: "glass-text-secondary",
         },
-        icon: 'text-primary/70',
-        background: 'bg-primary/5',
+        icon: "text-primary/70",
+        background: "bg-primary/5",
       },
       success: {
-        value: 'text-success',
+        value: "text-success",
         change: {
-          up: 'text-success',
-          down: 'text-destructive',
-          neutral: 'glass-text-secondary',
+          up: "text-success",
+          down: "text-destructive",
+          neutral: "glass-text-secondary",
         },
-        icon: 'text-success/70',
-        background: 'bg-success/5',
+        icon: "text-success/70",
+        background: "bg-success/5",
       },
       warning: {
-        value: 'text-warning',
+        value: "text-warning",
         change: {
-          up: 'text-success',
-          down: 'text-destructive',
-          neutral: 'glass-text-secondary',
+          up: "text-success",
+          down: "text-destructive",
+          neutral: "glass-text-secondary",
         },
-        icon: 'text-warning/70',
-        background: 'bg-warning/5',
+        icon: "text-warning/70",
+        background: "bg-warning/5",
       },
       destructive: {
-        value: 'text-destructive',
+        value: "text-destructive",
         change: {
-          up: 'text-success',
-          down: 'text-destructive',
-          neutral: 'glass-text-secondary',
+          up: "text-success",
+          down: "text-destructive",
+          neutral: "glass-text-secondary",
         },
-        icon: 'text-destructive/70',
-        background: 'bg-destructive/5',
+        icon: "text-destructive/70",
+        background: "bg-destructive/5",
       },
     };
 
@@ -158,15 +159,15 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
     const colors = colorSchemes?.[colorScheme];
 
     const defaultTrendIcons = {
-      up: '↗️',
-      down: '↘️',
-      neutral: '→',
+      up: "↗️",
+      down: "↘️",
+      neutral: "→",
     };
 
     const icons = trendIcons || defaultTrendIcons;
 
     const formatValue = (value: string | number) => {
-      if (typeof value === 'number') {
+      if (typeof value === "number") {
         return new Intl.NumberFormat().format(value);
       }
       return value;
@@ -179,33 +180,32 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
 
     const getChangeColor = () => {
       if (!data?.change) return colors.change.neutral;
-      
+
       if (data?.change > 0) return colors.change.up;
       if (data?.change < 0) return colors.change.down;
       return colors.change.neutral;
     };
 
     const getTargetProgress = () => {
-      if (!data?.target || typeof data?.value !== 'number') return 0;
+      if (!data?.target || typeof data?.value !== "number") return 0;
       return Math.min((data?.value / data?.target) * 100, 100);
     };
 
     const renderContent = () => {
       switch (variant) {
-        case 'minimal':
+        case "minimal":
           return (
             <HStack data-glass-component space="sm" align="center">
               {data?.icon && (
-                <div className={cn(config.icon, colors.icon)}>
-                  {data?.icon}
-                </div>
+                <div className={cn(config.icon, colors.icon)}>{data?.icon}</div>
               )}
               <VStack space="none">
-                <div className={cn('font-bold', config.value, colors.value)}>
-                  {formatValue(data?.value)}{data?.unit}
+                <div className={cn("font-bold", config.value, colors.value)}>
+                  {formatValue(data?.value)}
+                  {data?.unit}
                 </div>
-                <div className={cn('glass-text-secondary', config.label)}>
-                  {data?.label || 'Metric'}
+                <div className={cn("glass-text-secondary", config.label)}>
+                  {data?.label || "Metric"}
                 </div>
               </VStack>
               {showTrend && data?.change && (
@@ -214,18 +214,19 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                   size="xs"
                   className={getChangeColor()}
                 >
-                  {getTrendIcon()} {data?.change > 0 ? '+' : ''}{data?.change}%
+                  {getTrendIcon()} {data?.change > 0 ? "+" : ""}
+                  {data?.change}%
                 </GlassBadge>
               )}
             </HStack>
           );
 
-        case 'featured':
+        case "featured":
           return (
             <VStack space="md">
               <HStack space="sm" align="center" justify="between">
-                <div className={cn('glass-text-secondary', config.label)}>
-                  {data?.label || 'Metric'}
+                <div className={cn("glass-text-secondary", config.label)}>
+                  {data?.label || "Metric"}
                 </div>
                 {data?.icon && (
                   <div className={cn(config.icon, colors.icon)}>
@@ -233,23 +234,26 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                   </div>
                 )}
               </HStack>
-              
+
               <VStack space="xs">
-                <div className={cn('font-bold', config.value, colors.value)}>
-                  {formatValue(data?.value)}{data?.unit}
+                <div className={cn("font-bold", config.value, colors.value)}>
+                  {formatValue(data?.value)}
+                  {data?.unit}
                 </div>
-                
+
                 {showTarget && data?.target && (
-                  <div className="w-full">
-                    <div className="flex justify-between text-xs glass-text-secondary mb-1">
+                  <div className="glass-w-full">
+                    <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary mb-1">
                       <span>Progress</span>
                       <span>{Math.round(getTargetProgress())}%</span>
                     </div>
-                    <div className="w-full glass-surface-subtle glass-radius-full h-2">
+                    <div className="glass-w-full glass-surface-subtle glass-radius-full h-2">
                       <Motion
                         className={cn(
-                          'h-full glass-radius-full transition-all duration-500',
-                          getTargetProgress() >= 100 ? 'bg-success' : 'bg-primary'
+                          "h-full glass-radius-full transition-all duration-500",
+                          getTargetProgress() >= 100
+                            ? "bg-success"
+                            : "bg-primary"
                         )}
                         style={{ width: `${getTargetProgress()}%` }}
                       />
@@ -261,13 +265,21 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
               {showTrend && (data?.change || data?.changeLabel) && (
                 <HStack space="sm" align="center">
                   {data?.change && (
-                    <div className={cn('glass-text-xs font-medium flex items-center glass-gap-1', getChangeColor())}>
+                    <div
+                      className={cn(
+                        "glass-text-xs font-medium flex items-center glass-gap-1",
+                        getChangeColor()
+                      )}
+                    >
                       <span>{getTrendIcon()}</span>
-                      <span>{data?.change > 0 ? '+' : ''}{data?.change}%</span>
+                      <span>
+                        {data?.change > 0 ? "+" : ""}
+                        {data?.change}%
+                      </span>
                     </div>
                   )}
                   {data?.changeLabel && (
-                    <div className="text-xs glass-text-secondary">
+                    <div className="glass-text-xs glass-text-secondary">
                       {data?.changeLabel}
                     </div>
                   )}
@@ -275,26 +287,27 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
               )}
 
               {data?.description && (
-                <div className="text-xs glass-text-secondary">
+                <div className="glass-text-xs glass-text-secondary">
                   {data?.description}
                 </div>
               )}
             </VStack>
           );
 
-        case 'compact':
+        case "compact":
           return (
             <HStack space="sm" align="center" justify="between">
               <VStack space="none">
-                <div className={cn('font-bold glass-text-lg', colors.value)}>
-                  {formatValue(data?.value)}{data?.unit}
+                <div className={cn("font-bold glass-text-lg", colors.value)}>
+                  {formatValue(data?.value)}
+                  {data?.unit}
                 </div>
-                <div className="text-xs glass-text-secondary">
-                  {data?.label || 'Metric'}
+                <div className="glass-text-xs glass-text-secondary">
+                  {data?.label || "Metric"}
                 </div>
               </VStack>
               {data?.icon && (
-                <div className={cn('glass-text-lg', colors.icon)}>
+                <div className={cn("glass-text-lg", colors.icon)}>
                   {data?.icon}
                 </div>
               )}
@@ -305,8 +318,8 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
           return (
             <VStack space="md">
               <HStack space="sm" align="center" justify="between">
-                <div className={cn('glass-text-secondary', config.label)}>
-                  {data?.label || 'Metric'}
+                <div className={cn("glass-text-secondary", config.label)}>
+                  {data?.label || "Metric"}
                 </div>
                 {data?.icon && (
                   <div className={cn(config.icon, colors.icon)}>
@@ -314,19 +327,28 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                   </div>
                 )}
               </HStack>
-              
-              <div className={cn('font-bold', config.value, colors.value)}>
-                {formatValue(data?.value)}{data?.unit}
+
+              <div className={cn("font-bold", config.value, colors.value)}>
+                {formatValue(data?.value)}
+                {data?.unit}
               </div>
 
               {showTrend && data?.change && (
                 <HStack space="sm" align="center">
-                  <div className={cn('glass-text-sm font-medium flex items-center glass-gap-1', getChangeColor())}>
+                  <div
+                    className={cn(
+                      "glass-text-sm font-medium flex items-center glass-gap-1",
+                      getChangeColor()
+                    )}
+                  >
                     <span>{getTrendIcon()}</span>
-                    <span>{data?.change > 0 ? '+' : ''}{data?.change}%</span>
+                    <span>
+                      {data?.change > 0 ? "+" : ""}
+                      {data?.change}%
+                    </span>
                   </div>
                   {data?.changeLabel && (
-                    <div className="text-sm glass-text-secondary">
+                    <div className="glass-text-sm glass-text-secondary">
                       {data?.changeLabel}
                     </div>
                   )}
@@ -341,7 +363,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
       <GlassCore
         ref={ref}
         className={cn(
-          'w-full h-full glass-radius-lg',
+          "w-full h-full glass-radius-lg",
           config.padding,
           colors.background,
           className
@@ -354,4 +376,4 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
   }
 );
 
-MetricWidget.displayName = 'MetricWidget';
+MetricWidget.displayName = "MetricWidget";

@@ -1,10 +1,10 @@
-import React, { useState, forwardRef } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
-import { GlassPopover } from '../modal/GlassPopover';
-import { GlassAvatar } from '../data-display/GlassAvatar';
-import { ChevronRight } from 'lucide-react';
-import { useA11yId } from '@/utils/a11y';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import React, { useState, forwardRef } from "react";
+import { cn } from "../../lib/utilsComprehensive";
+import { GlassPopover } from "../modal/GlassPopover";
+import { GlassAvatar } from "../data-display/GlassAvatar";
+import { ChevronRight } from "lucide-react";
+import { useA11yId } from "@/utils/a11y";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface HeaderUserMenuItem {
   id: string;
@@ -12,7 +12,7 @@ export interface HeaderUserMenuItem {
   icon?: React.ReactNode;
   href?: string;
   onClick?: () => void;
-  variant?: 'default' | 'danger';
+  variant?: "default" | "danger";
   separator?: boolean;
 }
 
@@ -21,7 +21,7 @@ export interface HeaderUserInfo {
   name: string;
   email?: string;
   avatar?: string;
-  status?: 'online' | 'away' | 'busy' | 'offline';
+  status?: "online" | "away" | "busy" | "offline";
 }
 
 export interface HeaderUserMenuProps {
@@ -30,35 +30,37 @@ export interface HeaderUserMenuProps {
   className?: string;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
   /**
    * Whether to respect motion preferences for animations
    */
   respectMotionPreference?: boolean;
 }
 
-export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>(({ 
-  user, 
-  items, 
-  respectMotionPreference = true,
-  className 
-}, ref) => {
+export const HeaderUserMenu = forwardRef<
+  HTMLButtonElement,
+  HeaderUserMenuProps
+>(({ user, items, respectMotionPreference = true, className }, ref) => {
   // Accessibility and motion preferences
-  const menuId = useA11yId('user-menu');
+  const menuId = useA11yId("user-menu");
   const prefersReducedMotion = useReducedMotion();
   const shouldReduceMotion = respectMotionPreference && prefersReducedMotion;
   const [open, setOpen] = useState(false);
 
   const statusColor =
-    user.status === 'online' ? 'bg-green-500' :
-    user.status === 'away' ? 'bg-yellow-500' :
-    user.status === 'busy' ? 'bg-red-500' : 'bg-gray-500';
+    user.status === "online"
+      ? "bg-green-500"
+      : user.status === "away"
+        ? "bg-yellow-500"
+        : user.status === "busy"
+          ? "bg-red-500"
+          : "bg-gray-500";
 
   return (
     <GlassPopover
@@ -71,21 +73,38 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
       content={
         <div className="w-80">
           {/* User header */}
-          <div className="px-4 pt-4">
+          <div className="glass-px-4 pt-4">
             <div
-              className="flex items-center gap-3 px-3 py-3 glass-gradient-primary glass-gradient-primary via-white/3 glass-gradient-primary border border-white/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+              className="glass-flex glass-items-center glass-gap-3 glass-px-3 glass-py-3 glass-gradient-primary glass-gradient-primary via-white/3 glass-gradient-primary glass-border glass-border-white/12 glass-shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
               style={{ borderRadius: 18 }}
             >
-              <GlassAvatar size="md" src={user.avatar} fallbackText={user.name} showStatus={!!user.status} status={user.status as any} />
+              <GlassAvatar
+                size="md"
+                src={user.avatar}
+                fallbackText={user.name}
+                showStatus={!!user.status}
+                status={user.status as any}
+              />
               <div className="min-glass-w-0">
-                <div className="font-semibold text-primary truncate">{user.name}</div>
+                <div className="font-semibold text-primary truncate">
+                  {user.name}
+                </div>
                 {user.email && (
-                  <div className="text-xs text-primary/80 truncate">{user.email}</div>
+                  <div className="glass-text-xs text-primary/80 truncate">
+                    {user.email}
+                  </div>
                 )}
                 {user.status && (
-                  <div className="flex items-center gap-1 glass-mt-1">
-                    <span className={cn('inline-block w-2 h-2 glass-radius-full', statusColor)} />
-                    <span className="text-xs text-primary/70 capitalize">{user.status}</span>
+                  <div className="glass-flex glass-items-center glass-gap-1 glass-mt-1">
+                    <span
+                      className={cn(
+                        "inline-block w-2 h-2 glass-radius-full",
+                        statusColor
+                      )}
+                    />
+                    <span className="glass-text-xs text-primary/70 capitalize">
+                      {user.status}
+                    </span>
                   </div>
                 )}
               </div>
@@ -93,24 +112,26 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
           </div>
 
           {/* Menu items */}
-          <div className="p-2">
+          <div className="glass-p-2">
             {items.map((item, idx) => (
               <React.Fragment key={item?.id}>
                 {item?.separator && idx > 0 && (
-                  <div className="my-2 border-t border-white/10" />
+                  <div className="glass-my-2 glass-border-t glass-border-white/10" />
                 )}
                 {item?.href ? (
                   <a
                     href={item?.href}
                     className={cn(
-                      'group w-full flex items-center justify-between glass-gap-3 rounded-[14px] glass-px-3 glass-py-2.5 transition-colors',
-                      'glass-text-primary/90 hover:glass-text-primary hover:bg-white/10',
-                      'glass-focus glass-touch-target glass-contrast-guard'
+                      "group w-full flex items-center justify-between glass-gap-3 rounded-[14px] glass-px-3 glass-py-2.5 transition-colors",
+                      "glass-text-primary/90 hover:glass-text-primary hover:bg-white/10",
+                      "glass-focus glass-touch-target glass-contrast-guard"
                     )}
                     onClick={(e) => setOpen(false)}
                   >
-                    <span className="glass-inline-flex items-center gap-3 truncate">
-                      {item?.icon && <span className="text-primary/80">{item?.icon}</span>}
+                    <span className="glass-inline-flex glass-items-center glass-gap-3 truncate">
+                      {item?.icon && (
+                        <span className="text-primary/80">{item?.icon}</span>
+                      )}
                       <span className="truncate">{item?.label}</span>
                     </span>
                     <ChevronRight className="w-4 h-4 text-primary/40 group-hover:text-primary/70" />
@@ -118,22 +139,33 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
                 ) : (
                   <button
                     type="button"
-                    onClick={(e) => { item?.onClick?.(); setOpen(false); }}
+                    onClick={(e) => {
+                      item?.onClick?.();
+                      setOpen(false);
+                    }}
                     className={cn(
-                      'w-full flex items-center justify-between glass-gap-3 rounded-[14px] glass-px-3 glass-py-2.5 transition-colors',
-                      'glass-focus glass-touch-target glass-contrast-guard',
-                      item?.variant === 'danger'
-                        ? 'text-red-300 hover:bg-red-500/10'
-                        : 'glass-text-primary/90 hover:glass-text-primary hover:bg-white/10'
+                      "w-full flex items-center justify-between glass-gap-3 rounded-[14px] glass-px-3 glass-py-2.5 transition-colors",
+                      "glass-focus glass-touch-target glass-contrast-guard",
+                      item?.variant === "danger"
+                        ? "text-red-300 hover:bg-red-500/10"
+                        : "glass-text-primary/90 hover:glass-text-primary hover:bg-white/10"
                     )}
                   >
-                    <span className="glass-inline-flex items-center gap-3 truncate">
+                    <span className="glass-inline-flex glass-items-center glass-gap-3 truncate">
                       {item?.icon && (
-                        <span className={cn(item?.variant === 'danger' ? 'text-red-400' : 'glass-text-primary/80')}>{item?.icon}</span>
+                        <span
+                          className={cn(
+                            item?.variant === "danger"
+                              ? "text-red-400"
+                              : "glass-text-primary/80"
+                          )}
+                        >
+                          {item?.icon}
+                        </span>
                       )}
                       <span className="truncate">{item?.label}</span>
                     </span>
-                    {item?.variant !== 'danger' && (
+                    {item?.variant !== "danger" && (
                       <ChevronRight className="w-4 h-4 text-primary/40 group-hover:text-primary/70" />
                     )}
                   </button>
@@ -148,10 +180,10 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
         ref={ref}
         type="button"
         className={cn(
-          'flex items-center glass-gap-2 glass-px-1.5 glass-py-1 glass-radius-full',
-          'bg-transparent text-foreground hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30',
-          'glass-focus glass-touch-target glass-contrast-guard',
-          !shouldReduceMotion && 'transition-all duration-200 hover:scale-105',
+          "flex items-center glass-gap-2 glass-px-1.5 glass-py-1 glass-radius-full",
+          "bg-transparent text-foreground hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30",
+          "glass-focus glass-touch-target glass-contrast-guard",
+          !shouldReduceMotion && "transition-all duration-200 hover:scale-105",
           className
         )}
         aria-label={user.name}
@@ -159,10 +191,16 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
         aria-expanded={open}
         id={menuId}
       >
-        <GlassAvatar size="sm" src={user.avatar} fallbackText={user.name} showStatus={!!user.status} status={user.status as any} />
+        <GlassAvatar
+          size="sm"
+          src={user.avatar}
+          fallbackText={user.name}
+          showStatus={!!user.status}
+          status={user.status as any}
+        />
       </button>
     </GlassPopover>
   );
 });
 
-HeaderUserMenu.displayName = 'HeaderUserMenu';
+HeaderUserMenu.displayName = "HeaderUserMenu";

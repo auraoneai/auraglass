@@ -3,9 +3,16 @@
  * Advanced dashboard container with 3D depth layers and Z-space positioning
  */
 
-import React, { CSSProperties, forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { GlassContainer } from '../layout/GlassContainer';
+import React, {
+  CSSProperties,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { GlassContainer } from "../layout/GlassContainer";
 
 /**
  * Dimensional Dashboard Container Props
@@ -26,11 +33,14 @@ export interface DimensionalDashboardContainerProps {
 /**
  * Dimensional Dashboard Container Component
  */
-export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, DimensionalDashboardContainerProps>(
+export const DimensionalDashboardContainer = forwardRef<
+  HTMLDivElement,
+  DimensionalDashboardContainerProps
+>(
   (
     {
       children,
-      className = '',
+      className = "",
       style = {},
       perspective = 1200,
       depth = 100,
@@ -116,9 +126,9 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
         setScrollPosition(window.scrollY);
       };
 
-      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener("scroll", handleScroll, { passive: true });
       return () => {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener("scroll", handleScroll);
       };
     }, [parallax, prefersReducedMotion]);
 
@@ -127,26 +137,26 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
      */
     const containerStyles: CSSProperties = {
       ...style,
-      position: 'relative',
+      position: "relative",
       perspective: `${perspective}px`,
-      transformStyle: 'preserve-3d',
+      transformStyle: "preserve-3d",
     };
 
     /**
      * Content wrapper styles
      */
     const contentStyles: CSSProperties = {
-      transformStyle: 'preserve-3d',
+      transformStyle: "preserve-3d",
       transform: prefersReducedMotion
-        ? 'none'
+        ? "none"
         : `
             rotateX(${rotation.x}deg)
             rotateY(${rotation.y}deg)
             translateZ(${parallax ? scrollPosition * -0.2 : 0}px)
           `,
       transition: autoRotate
-        ? 'none'
-        : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        ? "none"
+        : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
     };
 
     /**
@@ -180,22 +190,22 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
                   key={index}
                   className="dimensional-dashboard-layer"
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     top: 0,
                     left: 0,
-                    width: '100%',
-                    height: '100%',
+                    width: "100%",
+                    height: "100%",
                     transform: `translateZ(${zPosition}px)`,
-                    transformStyle: 'preserve-3d',
-                    cursor: onLayerClick ? 'pointer' : 'default',
+                    transformStyle: "preserve-3d",
+                    cursor: onLayerClick ? "pointer" : "default",
                   }}
                   onClick={() => onLayerClick?.(index)}
-                  role={onLayerClick ? 'button' : undefined}
+                  role={onLayerClick ? "button" : undefined}
                   tabIndex={onLayerClick ? 0 : undefined}
                   onKeyDown={
                     onLayerClick
                       ? (e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
+                          if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
                             onLayerClick(index);
                           }
@@ -205,8 +215,8 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
                 >
                   <GlassContainer
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: "100%",
+                      height: "100%",
                       opacity: 1 - Math.abs(zPosition) / (depth * 2),
                     }}
                   >
@@ -219,8 +229,8 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
             // Single content layer
             <GlassContainer
               style={{
-                width: '100%',
-                height: '100%',
+                width: "100%",
+                height: "100%",
               }}
             >
               {children}
@@ -261,4 +271,4 @@ export const DimensionalDashboardContainer = forwardRef<HTMLDivElement, Dimensio
   }
 );
 
-DimensionalDashboardContainer.displayName = 'DimensionalDashboardContainer';
+DimensionalDashboardContainer.displayName = "DimensionalDashboardContainer";

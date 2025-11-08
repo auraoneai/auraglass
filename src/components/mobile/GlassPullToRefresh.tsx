@@ -1,8 +1,15 @@
-import { cn } from '../../lib/utilsComprehensive';
-import React, { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
-import { OptimizedGlass } from '../../primitives';
+import { cn } from "../../lib/utilsComprehensive";
+import React, {
+  forwardRef,
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
 
-export interface GlassPullToRefreshProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassPullToRefreshProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Callback when refresh is triggered
    */
@@ -53,7 +60,7 @@ export interface GlassPullToRefreshProps extends React.HTMLAttributes<HTMLDivEle
    * Glassmorphism elevation level
    * @default 'level2'
    */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
   /**
    * Disable pull to refresh
    * @default false
@@ -67,7 +74,10 @@ const RefreshIcon = ({ rotation }: { rotation: number }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="w-6 h-6"
-    style={{ transform: `rotate(${rotation}deg)`, transition: 'transform 0.2s ease-out' }}
+    style={{
+      transform: `rotate(${rotation}deg)`,
+      transition: "transform 0.2s ease-out",
+    }}
   >
     <path
       d="M21.5 2V8H15.5"
@@ -114,7 +124,10 @@ const SpinnerIcon = () => (
   </svg>
 );
 
-export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshProps>(
+export const GlassPullToRefresh = forwardRef<
+  HTMLDivElement,
+  GlassPullToRefreshProps
+>(
   (
     {
       children,
@@ -125,10 +138,10 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
       showIndicator = true,
       indicator,
       loadingIndicator,
-      pullText = 'Pull to refresh',
-      releaseText = 'Release to refresh',
-      refreshingText = 'Refreshing...',
-      elevation = 'level2',
+      pullText = "Pull to refresh",
+      releaseText = "Release to refresh",
+      refreshingText = "Refreshing...",
+      elevation = "level2",
       disabled = false,
       className,
       ...props
@@ -201,7 +214,7 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
         try {
           await onRefresh();
         } catch (error) {
-          console.error('Refresh failed:', error);
+          console.error("Refresh failed:", error);
         } finally {
           setTimeout(() => {
             setIsRefreshing(false);
@@ -211,20 +224,31 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
       } else {
         setPullDistance(0);
       }
-    }, [isDragging, pullDistance, threshold, disabled, isRefreshing, onRefresh]);
+    }, [
+      isDragging,
+      pullDistance,
+      threshold,
+      disabled,
+      isRefreshing,
+      onRefresh,
+    ]);
 
     useEffect(() => {
       const container = containerRef.current;
       if (!container) return;
 
-      container.addEventListener('touchstart', handleTouchStart, { passive: false });
-      container.addEventListener('touchmove', handleTouchMove, { passive: false });
-      container.addEventListener('touchend', handleTouchEnd);
+      container.addEventListener("touchstart", handleTouchStart, {
+        passive: false,
+      });
+      container.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
+      container.addEventListener("touchend", handleTouchEnd);
 
       return () => {
-        container.removeEventListener('touchstart', handleTouchStart);
-        container.removeEventListener('touchmove', handleTouchMove);
-        container.removeEventListener('touchend', handleTouchEnd);
+        container.removeEventListener("touchstart", handleTouchStart);
+        container.removeEventListener("touchmove", handleTouchMove);
+        container.removeEventListener("touchend", handleTouchEnd);
       };
     }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
@@ -240,35 +264,40 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
     const indicatorText = isRefreshing
       ? refreshingText
       : pullDistance >= threshold
-      ? releaseText
-      : pullText;
+        ? releaseText
+        : pullText;
 
     return (
-      <div data-glass-component
+      <div
+        data-glass-component
         ref={ref}
-        className={cn('relative overflow-hidden', className)}
+        className={cn("relative overflow-hidden", className)}
         {...props}
       >
         {showIndicator && (pullDistance > 0 || isRefreshing) && (
           <OptimizedGlass
             elevation={elevation}
-            className="absolute left-0 right-0 top-0 z-50 flex items-center justify-center glass-p-4"
+            className="absolute left-0 right-0 top-0 z-50 glass-flex glass-items-center glass-justify-center glass-p-4"
             style={{
               transform: `translateY(${isRefreshing ? 0 : pullDistance - 60}px)`,
               opacity: isRefreshing ? 1 : opacity,
-              transition: isRefreshing || !isDragging ? 'transform 0.3s ease-out, opacity 0.3s ease-out' : 'none',
+              transition:
+                isRefreshing || !isDragging
+                  ? "transform 0.3s ease-out, opacity 0.3s ease-out"
+                  : "none",
             }}
           >
             <div
-              className="flex flex-col items-center gap-2"
+              className="glass-flex glass-flex-col glass-items-center glass-gap-2"
               style={{
                 transform: `scale(${isRefreshing ? 1 : scale})`,
-                transition: isRefreshing || !isDragging ? 'transform 0.3s ease-out' : 'none',
+                transition:
+                  isRefreshing || !isDragging
+                    ? "transform 0.3s ease-out"
+                    : "none",
               }}
             >
-              <div className="glass-text-primary">
-                {indicatorContent}
-              </div>
+              <div className="glass-text-primary">{indicatorContent}</div>
               <span className="glass-text-sm glass-text-secondary">
                 {indicatorText}
               </span>
@@ -279,12 +308,12 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
         <div
           ref={containerRef}
           className={cn(
-            'h-full overflow-auto',
-            (isDragging || isRefreshing) && 'overscroll-none'
+            "h-full overflow-auto",
+            (isDragging || isRefreshing) && "overscroll-none"
           )}
           style={{
             transform: `translateY(${isRefreshing ? 60 : 0}px)`,
-            transition: isRefreshing ? 'transform 0.3s ease-out' : 'none',
+            transition: isRefreshing ? "transform 0.3s ease-out" : "none",
           }}
         >
           {children}
@@ -294,6 +323,6 @@ export const GlassPullToRefresh = forwardRef<HTMLDivElement, GlassPullToRefreshP
   }
 );
 
-GlassPullToRefresh.displayName = 'GlassPullToRefresh';
+GlassPullToRefresh.displayName = "GlassPullToRefresh";
 
 export default GlassPullToRefresh;

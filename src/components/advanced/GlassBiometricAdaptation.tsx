@@ -3,12 +3,20 @@
  * Heart rate and stress-responsive UI with device sensors and ML analysis
  */
 
-import React, { useEffect, useRef, useState, useCallback, createContext, useContext, forwardRef } from 'react';
-import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
-import { cn } from '../../lib/utils';
-import { OptimizedGlass } from '../../primitives';
-import { useA11yId } from '@/utils/a11y';
-import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+  forwardRef,
+} from "react";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { cn } from "../../lib/utils";
+import { OptimizedGlass } from "../../primitives";
+import { useA11yId } from "@/utils/a11y";
+import { useMotionPreferenceContext } from "@/contexts/MotionPreferenceContext";
 
 // Biometric data types
 interface BiometricReading {
@@ -66,23 +74,34 @@ class BiometricSensorManager {
   async initialize(): Promise<boolean> {
     try {
       // Check for Generic Sensor API support
-      if ('Accelerometer' in window) {
-        this.accelerometer = new (window as any).Accelerometer({ frequency: 10 });
-        this.accelerometer.addEventListener('reading', this.handleAccelerometer.bind(this));
+      if ("Accelerometer" in window) {
+        this.accelerometer = new (window as any).Accelerometer({
+          frequency: 10,
+        });
+        this.accelerometer.addEventListener(
+          "reading",
+          this.handleAccelerometer.bind(this)
+        );
       }
 
-      if ('Gyroscope' in window) {
+      if ("Gyroscope" in window) {
         this.gyroscope = new (window as any).Gyroscope({ frequency: 10 });
-        this.gyroscope.addEventListener('reading', this.handleGyroscope.bind(this));
+        this.gyroscope.addEventListener(
+          "reading",
+          this.handleGyroscope.bind(this)
+        );
       }
 
-      if ('AmbientLightSensor' in window) {
+      if ("AmbientLightSensor" in window) {
         this.ambientLightSensor = new (window as any).AmbientLightSensor();
-        this.ambientLightSensor.addEventListener('reading', this.handleAmbientLight.bind(this));
+        this.ambientLightSensor.addEventListener(
+          "reading",
+          this.handleAmbientLight.bind(this)
+        );
       }
 
       // Check for Web Bluetooth (for heart rate monitors)
-      if ('bluetooth' in navigator) {
+      if ("bluetooth" in navigator) {
         this.isSupported = true;
       }
 
@@ -91,7 +110,10 @@ class BiometricSensorManager {
 
       return true;
     } catch (error) {
-      console.warn('Biometric sensors not available, using behavioral analysis:', error);
+      console.warn(
+        "Biometric sensors not available, using behavioral analysis:",
+        error
+      );
       this.setupBehavioralAnalysis();
       return true; // Still functional with behavioral analysis
     }
@@ -105,7 +127,7 @@ class BiometricSensorManager {
     let errorCount = 0;
 
     // Rapid clicking detection
-    document.addEventListener('click', () => {
+    document.addEventListener("click", () => {
       const now = Date.now();
       if (now - lastClickTime < 500) {
         clickCount++;
@@ -115,14 +137,18 @@ class BiometricSensorManager {
       lastClickTime = now;
 
       if (clickCount > 5) {
-        this.reportStressIndicator('rapidClicking', 0.8);
+        this.reportStressIndicator("rapidClicking", 0.8);
       }
     });
 
     // Mouse movement analysis
-    document.addEventListener('mousemove', (e) => {
-      mouseMovements.push({ x: e.clientX, y: e.clientY, timestamp: Date.now() });
-      
+    document.addEventListener("mousemove", (e) => {
+      mouseMovements.push({
+        x: e.clientX,
+        y: e.clientY,
+        timestamp: Date.now(),
+      });
+
       // Keep only recent movements
       if (mouseMovements.length > 10) {
         mouseMovements = mouseMovements.slice(-5);
@@ -134,24 +160,31 @@ class BiometricSensorManager {
         const distances = movements.map((point, i) => {
           if (i === 0) return 0;
           const prev = movements[i - 1];
-          return Math.sqrt(Math.pow(point.x - prev.x, 2) + Math.pow(point.y - prev.y, 2));
+          return Math.sqrt(
+            Math.pow(point.x - prev.x, 2) + Math.pow(point.y - prev.y, 2)
+          );
         });
 
-        const avgDistance = distances.reduce((sum, d) => sum + d, 0) / distances.length;
-        const timeDiff = movements[movements.length - 1].timestamp - movements[0].timestamp;
+        const avgDistance =
+          distances.reduce((sum, d) => sum + d, 0) / distances.length;
+        const timeDiff =
+          movements[movements.length - 1].timestamp - movements[0].timestamp;
         const speed = avgDistance / timeDiff;
 
         // Irregular, jittery movement indicates stress
         if (speed > 2 && avgDistance < 50) {
-          this.reportStressIndicator('irregularMovement', 0.6);
+          this.reportStressIndicator("irregularMovement", 0.6);
         }
       }
     });
 
     // Error detection (could be hooked into form validation, etc.)
-    window.addEventListener('error', () => {
+    window.addEventListener("error", () => {
       errorCount++;
-      this.reportStressIndicator('errorFrequency', Math.min(1, errorCount * 0.2));
+      this.reportStressIndicator(
+        "errorFrequency",
+        Math.min(1, errorCount * 0.2)
+      );
     });
 
     // Periodic behavioral analysis
@@ -165,7 +198,7 @@ class BiometricSensorManager {
 
     const { x, y, z } = this.accelerometer;
     const acceleration = Math.sqrt(x * x + y * y + z * z);
-    
+
     // High acceleration might indicate stress/agitation
     if (acceleration > 15) {
       this.reportBiometricReading({
@@ -181,10 +214,10 @@ class BiometricSensorManager {
 
     const { x, y, z } = this.gyroscope;
     const rotation = Math.sqrt(x * x + y * y + z * z);
-    
+
     // Rapid device rotation might indicate stress
     if (rotation > 5) {
-      this.reportStressIndicator('deviceMovement', Math.min(1, rotation / 10));
+      this.reportStressIndicator("deviceMovement", Math.min(1, rotation / 10));
     }
   }
 
@@ -192,10 +225,10 @@ class BiometricSensorManager {
     if (!this.ambientLightSensor) return;
 
     const { illuminance } = this.ambientLightSensor;
-    
+
     // Very low light might indicate late hours / stress
     if (illuminance < 10) {
-      this.reportStressIndicator('lowLight', 0.3);
+      this.reportStressIndicator("lowLight", 0.3);
     }
   }
 
@@ -209,13 +242,17 @@ class BiometricSensorManager {
 
   private analyzeBehavioralPatterns(): void {
     const now = Date.now();
-    const recentReadings = this.readings.filter((r: any) => now - r.timestamp < 30000); // Last 30 seconds
+    const recentReadings = this.readings.filter(
+      (r: any) => now - r.timestamp < 30000
+    ); // Last 30 seconds
 
     if (recentReadings.length === 0) return;
 
     // Calculate average stress level
-    const avgStress = recentReadings.reduce((sum, r) => sum + (r.stressLevel || 0), 0) / recentReadings.length;
-    
+    const avgStress =
+      recentReadings.reduce((sum, r) => sum + (r.stressLevel || 0), 0) /
+      recentReadings.length;
+
     // Generate composite reading
     this.reportBiometricReading({
       stressLevel: avgStress,
@@ -233,7 +270,7 @@ class BiometricSensorManager {
 
   private reportBiometricReading(reading: BiometricReading): void {
     this.readings.push(reading);
-    
+
     // Keep only recent readings
     if (this.readings.length > 100) {
       this.readings = this.readings.slice(-50);
@@ -245,34 +282,39 @@ class BiometricSensorManager {
 
   async connectHeartRateMonitor(): Promise<boolean> {
     try {
-      if (!('bluetooth' in navigator)) {
-        throw new Error('Web Bluetooth not supported');
+      if (!("bluetooth" in navigator)) {
+        throw new Error("Web Bluetooth not supported");
       }
 
       const device = await (navigator as any).bluetooth.requestDevice({
-        filters: [{ services: ['heart_rate'] }],
-        optionalServices: ['heart_rate']
+        filters: [{ services: ["heart_rate"] }],
+        optionalServices: ["heart_rate"],
       });
 
       const server = await device.gatt.connect();
-      const service = await server.getPrimaryService('heart_rate');
-      const characteristic = await service.getCharacteristic('heart_rate_measurement');
+      const service = await server.getPrimaryService("heart_rate");
+      const characteristic = await service.getCharacteristic(
+        "heart_rate_measurement"
+      );
 
       await characteristic.startNotifications();
-      characteristic.addEventListener('characteristicvaluechanged', (event: any) => {
-        const value = event.target.value;
-        const heartRate = value.getUint16(1, true);
-        
-        this.reportBiometricReading({
-          heartRate,
-          timestamp: Date.now(),
-          confidence: 0.9,
-        });
-      });
+      characteristic.addEventListener(
+        "characteristicvaluechanged",
+        (event: any) => {
+          const value = event.target.value;
+          const heartRate = value.getUint16(1, true);
+
+          this.reportBiometricReading({
+            heartRate,
+            timestamp: Date.now(),
+            confidence: 0.9,
+          });
+        }
+      );
 
       return true;
     } catch (error) {
-      console.warn('Failed to connect heart rate monitor:', error);
+      console.warn("Failed to connect heart rate monitor:", error);
       return false;
     }
   }
@@ -288,7 +330,9 @@ class BiometricSensorManager {
   }
 
   getLatestReading(): BiometricReading | null {
-    return this.readings.length > 0 ? this.readings[this.readings.length - 1] : null;
+    return this.readings.length > 0
+      ? this.readings[this.readings.length - 1]
+      : null;
   }
 
   getReadingHistory(duration: number = 300000): BiometricReading[] {
@@ -316,7 +360,10 @@ export class BiometricAdaptationEngine {
   private sensorManager: BiometricSensorManager;
   private settings: AdaptationSettings;
   private profile: BiometricProfile;
-  private adaptationCallbacks: Map<string, (reading: BiometricReading) => void> = new Map();
+  private adaptationCallbacks: Map<
+    string,
+    (reading: BiometricReading) => void
+  > = new Map();
   private currentAdaptations: Map<string, any> = new Map();
 
   constructor(settings: Partial<AdaptationSettings> = {}) {
@@ -334,14 +381,23 @@ export class BiometricAdaptationEngine {
     };
 
     this.profile = {
-      userId: 'default',
+      userId: "default",
       baselineHeartRate: 70,
       stressPatterns: [],
       preferences: {
-        calmingColors: ['var(--glass-color-primary)', '#06b6d4', 'var(--glass-color-success)', '#8b5cf6'],
-        stressColors: ['var(--glass-color-danger)', 'var(--glass-color-warning)', '#ec4899'],
-        calmingAnimations: ['gentle', 'slow', 'smooth'],
-        stressAnimations: ['fast', 'sharp', 'intense'],
+        calmingColors: [
+          "var(--glass-color-primary)",
+          "#06b6d4",
+          "var(--glass-color-success)",
+          "#8b5cf6",
+        ],
+        stressColors: [
+          "var(--glass-color-danger)",
+          "var(--glass-color-warning)",
+          "#ec4899",
+        ],
+        calmingAnimations: ["gentle", "slow", "smooth"],
+        stressAnimations: ["fast", "sharp", "intense"],
       },
       history: [],
     };
@@ -349,7 +405,7 @@ export class BiometricAdaptationEngine {
 
   async initialize(): Promise<boolean> {
     const success = await this.sensorManager.initialize();
-    
+
     if (success) {
       this.sensorManager.addListener(this.handleBiometricReading.bind(this));
       this.loadProfile();
@@ -360,7 +416,7 @@ export class BiometricAdaptationEngine {
 
   private handleBiometricReading(reading: BiometricReading): void {
     this.profile.history.push(reading);
-    
+
     // Keep history manageable
     if (this.profile.history.length > 1000) {
       this.profile.history = this.profile.history.slice(-500);
@@ -368,7 +424,7 @@ export class BiometricAdaptationEngine {
 
     // Determine adaptation needed
     const adaptations = this.determineAdaptations(reading);
-    
+
     // Apply adaptations with debouncing
     this.debounceAdaptations(adaptations);
   }
@@ -380,14 +436,14 @@ export class BiometricAdaptationEngine {
     // Color adaptations
     if (this.settings.enableColorAdaptation) {
       if (stressLevel > this.settings.stressThreshold) {
-        adaptations.set('color', {
-          type: 'calming',
+        adaptations.set("color", {
+          type: "calming",
           intensity: stressLevel,
           colors: this.profile.preferences.calmingColors,
         });
       } else if (stressLevel < this.settings.calmingThreshold) {
-        adaptations.set('color', {
-          type: 'energizing',
+        adaptations.set("color", {
+          type: "energizing",
           intensity: 1 - stressLevel,
           colors: this.profile.preferences.stressColors,
         });
@@ -397,14 +453,14 @@ export class BiometricAdaptationEngine {
     // Motion adaptations
     if (this.settings.enableMotionAdaptation) {
       if (stressLevel > this.settings.stressThreshold) {
-        adaptations.set('motion', {
-          type: 'calming',
+        adaptations.set("motion", {
+          type: "calming",
           speed: Math.max(0.5, 1 - stressLevel),
           amplitude: Math.max(0.3, 1 - stressLevel),
         });
       } else {
-        adaptations.set('motion', {
-          type: 'normal',
+        adaptations.set("motion", {
+          type: "normal",
           speed: 1,
           amplitude: 1,
         });
@@ -412,9 +468,12 @@ export class BiometricAdaptationEngine {
     }
 
     // Layout adaptations
-    if (this.settings.enableLayoutAdaptation && stressLevel > this.settings.stressThreshold) {
-      adaptations.set('layout', {
-        type: 'simplified',
+    if (
+      this.settings.enableLayoutAdaptation &&
+      stressLevel > this.settings.stressThreshold
+    ) {
+      adaptations.set("layout", {
+        type: "simplified",
         density: Math.max(0.5, 1 - stressLevel),
         spacing: Math.min(2, 1 + stressLevel),
       });
@@ -423,10 +482,10 @@ export class BiometricAdaptationEngine {
     // Audio adaptations
     if (this.settings.enableAudioAdaptation) {
       if (stressLevel > this.settings.stressThreshold) {
-        adaptations.set('audio', {
-          type: 'calming',
+        adaptations.set("audio", {
+          type: "calming",
           volume: Math.max(0.1, 0.5 - stressLevel * 0.3),
-          frequency: 'low',
+          frequency: "low",
         });
       }
     }
@@ -452,14 +511,17 @@ export class BiometricAdaptationEngine {
 
   private applyAdaptation(type: string, adaptation: any): void {
     this.currentAdaptations.set(type, adaptation);
-    
+
     const callback = this.adaptationCallbacks.get(type);
     if (callback) {
       callback(adaptation);
     }
   }
 
-  registerAdaptationCallback(type: string, callback: (adaptation: any) => void): void {
+  registerAdaptationCallback(
+    type: string,
+    callback: (adaptation: any) => void
+  ): void {
     this.adaptationCallbacks.set(type, callback);
   }
 
@@ -489,21 +551,24 @@ export class BiometricAdaptationEngine {
 
   private loadProfile(): void {
     try {
-      const stored = localStorage.getItem('auraglass-biometric-profile');
+      const stored = localStorage.getItem("auraglass-biometric-profile");
       if (stored) {
         const data = JSON.parse(stored);
         this.profile = { ...this.profile, ...data };
       }
     } catch (error) {
-      console.warn('Failed to load biometric profile:', error);
+      console.warn("Failed to load biometric profile:", error);
     }
   }
 
   private saveProfile(): void {
     try {
-      localStorage.setItem('auraglass-biometric-profile', JSON.stringify(this.profile));
+      localStorage.setItem(
+        "auraglass-biometric-profile",
+        JSON.stringify(this.profile)
+      );
     } catch (error) {
-      console.warn('Failed to save biometric profile:', error);
+      console.warn("Failed to save biometric profile:", error);
     }
   }
 
@@ -542,14 +607,16 @@ export function GlassBiometricAdaptationProvider({
 }) {
   const engineRef = useRef<BiometricAdaptationEngine>();
   const [isInitialized, setIsInitialized] = useState(false);
-  const [latestReading, setLatestReading] = useState<BiometricReading | null>(null);
+  const [latestReading, setLatestReading] = useState<BiometricReading | null>(
+    null
+  );
   const [currentStressLevel, setCurrentStressLevel] = useState(0);
 
   useEffect(() => {
     engineRef.current = new BiometricAdaptationEngine(settings);
 
     if (autoInitialize) {
-      engineRef.current.initialize().then(success => {
+      engineRef.current.initialize().then((success) => {
         setIsInitialized(success);
       });
     }
@@ -597,7 +664,9 @@ export function GlassBiometricAdaptationProvider({
 export function useBiometricAdaptation() {
   const context = useContext(BiometricAdaptationContext);
   if (!context) {
-    throw new Error('useBiometricAdaptation must be used within GlassBiometricAdaptationProvider');
+    throw new Error(
+      "useBiometricAdaptation must be used within GlassBiometricAdaptationProvider"
+    );
   }
   return context;
 }
@@ -613,59 +682,66 @@ export class BiometricStressDetector extends BiometricAdaptationEngine {
 }
 
 // Stress-responsive glass component
-export const GlassStressResponsive = forwardRef<HTMLDivElement, {
-  children: React.ReactNode;
-  className?: string;
-  adaptationType?: 'color' | 'motion' | 'layout' | 'all';
-  respectMotionPreference?: boolean;
-  'aria-label'?: string;
-  'aria-describedby'?: string;
-  role?: string;
-}>(function GlassStressResponsive({
-  children,
-  className,
-  adaptationType = 'all',
-  respectMotionPreference = true,
-  'aria-label': ariaLabel,
-  'aria-describedby': ariaDescribedBy,
-  role,
-  ...restProps
-}, ref) {
-  const { engine, currentStressLevel, latestReading } = useBiometricAdaptation();
+export const GlassStressResponsive = forwardRef<
+  HTMLDivElement,
+  {
+    children: React.ReactNode;
+    className?: string;
+    adaptationType?: "color" | "motion" | "layout" | "all";
+    respectMotionPreference?: boolean;
+    "aria-label"?: string;
+    "aria-describedby"?: string;
+    role?: string;
+  }
+>(function GlassStressResponsive(
+  {
+    children,
+    className,
+    adaptationType = "all",
+    respectMotionPreference = true,
+    "aria-label": ariaLabel,
+    "aria-describedby": ariaDescribedBy,
+    role,
+    ...restProps
+  },
+  ref
+) {
+  const { engine, currentStressLevel, latestReading } =
+    useBiometricAdaptation();
   const [adaptations, setAdaptations] = useState<Record<string, any>>({});
   const { prefersReducedMotion } = useMotionPreferenceContext();
-  const stressId = useA11yId('stress-responsive');
-  const descriptionId = useA11yId('stress-description');
+  const stressId = useA11yId("stress-responsive");
+  const descriptionId = useA11yId("stress-description");
 
   useEffect(() => {
     if (!engine) return;
 
     const handleColorAdaptation = (adaptation: any) => {
-      if (adaptationType === 'color' || adaptationType === 'all') {
+      if (adaptationType === "color" || adaptationType === "all") {
         setAdaptations((prev: any) => ({ ...prev, color: adaptation }));
       }
     };
 
     const handleMotionAdaptation = (adaptation: any) => {
-      if (adaptationType === 'motion' || adaptationType === 'all') {
+      if (adaptationType === "motion" || adaptationType === "all") {
         setAdaptations((prev: any) => ({ ...prev, motion: adaptation }));
       }
     };
 
     const handleLayoutAdaptation = (adaptation: any) => {
-      if (adaptationType === 'layout' || adaptationType === 'all') {
+      if (adaptationType === "layout" || adaptationType === "all") {
         setAdaptations((prev: any) => ({ ...prev, layout: adaptation }));
       }
     };
 
-    engine.registerAdaptationCallback('color', handleColorAdaptation);
-    engine.registerAdaptationCallback('motion', handleMotionAdaptation);
-    engine.registerAdaptationCallback('layout', handleLayoutAdaptation);
+    engine.registerAdaptationCallback("color", handleColorAdaptation);
+    engine.registerAdaptationCallback("motion", handleMotionAdaptation);
+    engine.registerAdaptationCallback("layout", handleLayoutAdaptation);
 
     return () => {
-      engine.unregisterAdaptationCallback('color');
-      engine.unregisterAdaptationCallback('motion');
-      engine.unregisterAdaptationCallback('layout');
+      engine.unregisterAdaptationCallback("color");
+      engine.unregisterAdaptationCallback("motion");
+      engine.unregisterAdaptationCallback("layout");
     };
   }, [engine, adaptationType]);
 
@@ -677,8 +753,9 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
   const adaptiveStyles: React.CSSProperties = {};
 
   if (colorAdaptation) {
-    if (colorAdaptation.type === 'calming') {
-      const calmColor = colorAdaptation.colors[0] || 'var(--glass-color-primary)';
+    if (colorAdaptation.type === "calming") {
+      const calmColor =
+        colorAdaptation.colors[0] || "var(--glass-color-primary)";
       adaptiveStyles.backgroundColor = `${calmColor}20`;
       adaptiveStyles.borderColor = `${calmColor}40`;
     }
@@ -692,22 +769,37 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
     <motion.div
       ref={ref}
       style={adaptiveStyles}
-      animate={shouldAnimate ? {
-        scale: 1 + (currentStressLevel > 0.7 ? -0.02 : 0.01) * currentStressLevel,
-        padding: `${8 * layoutSpacing}px`,
-      } : {}}
-      transition={shouldAnimate ? {
-        duration: 2 / motionSpeed,
-        ease: currentStressLevel > 0.7 ? "easeOut" : "easeInOut",
-      } : {}}
+      animate={
+        shouldAnimate
+          ? {
+              scale:
+                1 +
+                (currentStressLevel > 0.7 ? -0.02 : 0.01) * currentStressLevel,
+              padding: `${8 * layoutSpacing}px`,
+            }
+          : {}
+      }
+      transition={
+        shouldAnimate
+          ? {
+              duration: 2 / motionSpeed,
+              ease: currentStressLevel > 0.7 ? "easeOut" : "easeInOut",
+            }
+          : {}
+      }
       id={stressId}
-      role={role || 'region'}
-      aria-label={ariaLabel || `Stress-responsive interface (${Math.round(currentStressLevel * 100)}% stress level)`}
+      role={role || "region"}
+      aria-label={
+        ariaLabel ||
+        `Stress-responsive interface (${Math.round(currentStressLevel * 100)}% stress level)`
+      }
       aria-describedby={ariaDescribedBy || descriptionId}
       aria-live="polite"
       className={cn(
         "glass-surface glass-border glass-radius-md glass-glass-backdrop-blur-md glass-contrast-guard transition-all duration-1000",
-        currentStressLevel > 0.7 ? "glass-surface-subtle glass-border-subtle" : "glass-surface-medium glass-border-medium",
+        currentStressLevel > 0.7
+          ? "glass-surface-subtle glass-border-subtle"
+          : "glass-surface-medium glass-border-medium",
         currentStressLevel > 0.7 && "calming-mode",
         className
       )}
@@ -715,52 +807,53 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
     >
       <OptimizedGlass>
         {/* Screen reader description */}
-      <span id={descriptionId} className="sr-only">
-        Biometric adaptation interface responding to stress level {Math.round(currentStressLevel * 100)}%.
-        {adaptationType !== 'all' ? ` Adaptation type: ${adaptationType}` : ' All adaptations active.'}
-      </span>
-      {children}
+        <span id={descriptionId} className="sr-only">
+          Biometric adaptation interface responding to stress level{" "}
+          {Math.round(currentStressLevel * 100)}%.
+          {adaptationType !== "all"
+            ? ` Adaptation type: ${adaptationType}`
+            : " All adaptations active."}
+        </span>
+        {children}
 
-      {/* Stress level indicator */}
-      <div className="glass-absolute glass-top-2 glass-right-2 glass-opacity-30">
-        <div 
-          className={cn(
-            'glass-w-2 glass-h-2 glass-radius-full glass-transition',
-            currentStressLevel > 0.7 ? 'glass-surface-danger' :
-            currentStressLevel > 0.4 ? 'glass-surface-warning' :
-            'glass-surface-success'
-          )}
-          aria-hidden
-        />
-      </div>
-    </OptimizedGlass>
+        {/* Stress level indicator */}
+        <div className="glass-absolute glass-top-2 glass-right-2 glass-opacity-30">
+          <div
+            className={cn(
+              "glass-w-2 glass-h-2 glass-radius-full glass-transition",
+              currentStressLevel > 0.7
+                ? "glass-surface-danger"
+                : currentStressLevel > 0.4
+                  ? "glass-surface-warning"
+                  : "glass-surface-success"
+            )}
+            aria-hidden
+          />
+        </div>
+      </OptimizedGlass>
     </motion.div>
   );
 });
 
 // Biometric dashboard
-export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
-  className?: string;
-  show?: boolean;
-  'aria-label'?: string;
-  role?: string;
-}>(function GlassBiometricDashboard({
-  className,
-  show = true,
-  'aria-label': ariaLabel,
-  role,
-  ...restProps
-}, ref) {
-  const { 
-    latestReading, 
-    currentStressLevel, 
-    connectHeartRateMonitor, 
-    engine 
-  } = useBiometricAdaptation();
-  
+export const GlassBiometricDashboard = forwardRef<
+  HTMLDivElement,
+  {
+    className?: string;
+    show?: boolean;
+    "aria-label"?: string;
+    role?: string;
+  }
+>(function GlassBiometricDashboard(
+  { className, show = true, "aria-label": ariaLabel, role, ...restProps },
+  ref
+) {
+  const { latestReading, currentStressLevel, connectHeartRateMonitor, engine } =
+    useBiometricAdaptation();
+
   const [history, setHistory] = useState<BiometricReading[]>([]);
   const [showDetails, setShowDetails] = useState(false);
-  const dashboardId = useA11yId('biometric-dashboard');
+  const dashboardId = useA11yId("biometric-dashboard");
 
   useEffect(() => {
     if (!engine) return;
@@ -780,44 +873,50 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
   return (
     <OptimizedGlass
       ref={ref}
-      intensity={'subtle'}
-      glassBlur={'strong'}
+      intensity={"subtle"}
+      glassBlur={"strong"}
       className={cn("fixed top-4 left-4 glass-p-4 glass-radius-lg", className)}
       id={dashboardId}
-      role={role || 'region'}
-      aria-label={ariaLabel || 'Biometric monitoring dashboard'}
+      role={role || "region"}
+      aria-label={ariaLabel || "Biometric monitoring dashboard"}
       {...restProps}
     >
       <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
-        <h3 className="text-sm font-medium glass-text-secondary dark:glass-text-secondary">Biometrics</h3>
+        <h3 className="glass-text-sm font-medium glass-text-secondary dark:glass-text-secondary">
+          Biometrics
+        </h3>
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus"
+          className="glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
           aria-expanded={showDetails}
           aria-controls={`${dashboardId}-details`}
         >
-          {showDetails ? '−' : '+'}
+          {showDetails ? "−" : "+"}
         </button>
       </div>
 
       {/* Current status */}
       <div className="glass-gap-2">
         <div className="glass-flex glass-items-center glass-justify-between">
-          <span className="text-xs glass-text-secondary dark:glass-text-secondary">Stress Level</span>
+          <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+            Stress Level
+          </span>
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-w-16 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden">
               <motion.div
                 className={cn(
-                  'glass-h-full glass-radius-full glass-transition',
-                  currentStressLevel > 0.7 ? 'glass-surface-danger' :
-                  currentStressLevel > 0.4 ? 'glass-surface-warning' :
-                  'glass-surface-success'
+                  "glass-h-full glass-radius-full glass-transition",
+                  currentStressLevel > 0.7
+                    ? "glass-surface-danger"
+                    : currentStressLevel > 0.4
+                      ? "glass-surface-warning"
+                      : "glass-surface-success"
                 )}
                 animate={{ width: `${currentStressLevel * 100}%` }}
                 transition={{ duration: 0.5 }}
               />
             </div>
-            <span className="text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
               {(currentStressLevel * 100).toFixed(0)}%
             </span>
           </div>
@@ -825,8 +924,10 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
 
         {latestReading?.heartRate && (
           <div className="glass-flex glass-items-center glass-justify-between">
-            <span className="text-xs glass-text-secondary dark:glass-text-secondary">Heart Rate</span>
-            <span className="text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+              Heart Rate
+            </span>
+            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
               {latestReading.heartRate} bpm
             </span>
           </div>
@@ -838,15 +939,17 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
         {showDetails && (
           <motion.div
             id={`${dashboardId}-details`}
-            className="glass-mt-4 pt-4 border-t border-white/10 gap-3"
+            className="glass-mt-4 pt-4 glass-border-t glass-border-white/10 glass-gap-3"
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
             {/* Stress history chart */}
             <div>
-              <div className="glass-text-xs glass-text-secondary glass-mb-2">Stress History</div>
+              <div className="glass-text-xs glass-text-secondary glass-mb-2">
+                Stress History
+              </div>
               <div className="glass-relative glass-h-12 glass-surface-primary/50 glass-radius-md">
                 {history.map((reading, index) => (
                   <div
@@ -855,8 +958,12 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
                       if (!el) return;
                       el.style.left = `${(index / (history.length - 1)) * 100}%`;
                       el.style.height = `${(reading.stressLevel || 0) * 100}%`;
-                      el.style.backgroundColor = (reading.stressLevel || 0) > 0.7 ? 'var(--glass-color-danger)' :
-                        (reading.stressLevel || 0) > 0.4 ? 'var(--glass-color-warning)' : 'var(--glass-color-success)';
+                      el.style.backgroundColor =
+                        (reading.stressLevel || 0) > 0.7
+                          ? "var(--glass-color-danger)"
+                          : (reading.stressLevel || 0) > 0.4
+                            ? "var(--glass-color-warning)"
+                            : "var(--glass-color-success)";
                     }}
                     className="glass-absolute glass-bottom-0 glass-w-1 glass-radius-md"
                   />
@@ -869,8 +976,8 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
               <button
                 onClick={connectHeartRateMonitor}
                 className={cn(
-                  'glass-w-full glass-px-3 glass-py-2 glass-text-xs glass-surface-subtle glass-radius-md glass-focus',
-                  'glass-text-secondary hover:glass-surface-subtle glass-transition'
+                  "glass-w-full glass-px-3 glass-py-2 glass-text-xs glass-surface-subtle glass-radius-md glass-focus glass-touch-target glass-contrast-guard",
+                  "glass-text-secondary hover:glass-surface-subtle glass-transition"
                 )}
               >
                 Connect Heart Rate Monitor
@@ -880,14 +987,23 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
             {/* Current adaptations */}
             {engine && (
               <div>
-                <div className="text-xs glass-text-secondary dark:glass-text-secondary mb-2">Active Adaptations</div>
-                <div className="gap-1">
-                  {['color', 'motion', 'layout', 'audio'].map((type: any) => {
+                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary mb-2">
+                  Active Adaptations
+                </div>
+                <div className="glass-gap-1">
+                  {["color", "motion", "layout", "audio"].map((type: any) => {
                     const adaptation = engine.getCurrentAdaptation(type);
                     return adaptation ? (
-                      <div key={type} className="flex items-center justify-between text-xs">
-                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">{type}</span>
-                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">{adaptation.type}</span>
+                      <div
+                        key={type}
+                        className="glass-flex glass-items-center glass-justify-between glass-text-xs"
+                      >
+                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">
+                          {type}
+                        </span>
+                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">
+                          {adaptation.type}
+                        </span>
                       </div>
                     ) : null;
                   })}
@@ -898,11 +1014,13 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
             {/* Readings info */}
             {latestReading && (
               <div>
-                <div className="text-xs glass-text-secondary dark:glass-text-secondary mb-1">Last Reading</div>
-                <div className="text-xs glass-text-secondary dark:glass-text-secondary">
+                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary mb-1">
+                  Last Reading
+                </div>
+                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
                   {new Date(latestReading.timestamp).toLocaleTimeString()}
                 </div>
-                <div className="text-xs glass-text-secondary dark:glass-text-secondary">
+                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
                   Confidence: {(latestReading.confidence * 100).toFixed(0)}%
                 </div>
               </div>

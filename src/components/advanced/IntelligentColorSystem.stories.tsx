@@ -74,7 +74,7 @@ export const InteractiveDemo: Story = {
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <div className="mb-12">
-            <div className="glass-inline-flex items-center gap-3 mb-6 px-4 py-2 glass-radius-full glass-surface-subtle/5 backdrop-blur border border-white/10">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-4 py-2 glass-radius-full glass-surface-subtle/5 glass-backdrop-blur border border-white/10">
               <div className="w-2 h-2 bg-emerald-400 glass-radius-full animate-pulse" />
               <span className="text-sm text-primary/60 font-medium tracking-wide">INTELLIGENT ADAPTATION</span>
             </div>
@@ -86,7 +86,7 @@ export const InteractiveDemo: Story = {
             </p>
           </div>
 
-          <div className="glass-surface-subtle/[0.08] glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-10 shadow-2xl border border-white/10 relative group hover:glass-surface-subtle/[0.12] transition-all duration-700 glass-contrast-guard">
+          <div className="glass-surface-subtle/[0.08] glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-10 shadow-2xl border border-white/10 relative group hover:glass-surface-subtle/[0.12] transition-all duration-700 glass-contrast-guard">
             {/* Inner glow effect */}
             <div className="absolute inset-0 glass-radius-3xl glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
@@ -175,7 +175,7 @@ export const InteractiveDemo: Story = {
 
             {/* Subtle call-to-action */}
             <div className="mt-8 flex justify-center">
-              <button className="px-6 py-3 glass-surface-subtle/10 hover:glass-surface-subtle/15 backdrop-blur border border-white/20 glass-radius-xl text-primary font-medium transition-all duration-300 hover:scale-105">
+              <button className="px-6 py-3 glass-surface-subtle/10 hover:glass-surface-subtle/15 glass-backdrop-blur border border-white/20 glass-radius-xl text-primary font-medium transition-all duration-300 hover:scale-105 glass-focus glass-touch-target glass-contrast-guard">
                 Explore Adaptations
               </button>
             </div>
@@ -195,7 +195,7 @@ export const TimeBasedAdaptation: Story = {
 
       <div className="max-w-6xl mx-auto text-center relative z-10">
         <div className="mb-16">
-          <div className="glass-inline-flex items-center gap-2 mb-6 px-5 py-2 glass-radius-full glass-surface-subtle/5 backdrop-blur border border-white/10">
+          <div className="glass-inline-flex items-center gap-2 mb-6 px-5 py-2 glass-radius-full glass-surface-subtle/5 glass-backdrop-blur border border-white/10">
             <div className="w-2 h-2 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />
             <span className="text-sm text-primary/60 font-medium tracking-wider">CIRCADIAN ADAPTATION</span>
           </div>
@@ -213,7 +213,7 @@ export const TimeBasedAdaptation: Story = {
             <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
               <div className="glass-gradient-primary glass-gradient-primary via-rose-300 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-amber-500/30">
                 {/* Time indicator */}
-                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 glass-backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   5:30 AM
                 </div>
 
@@ -238,7 +238,7 @@ export const TimeBasedAdaptation: Story = {
           <div className="group cursor-pointer">
             <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
               <div className="glass-gradient-primary glass-gradient-primary via-cyan-300 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-blue-500/30">
-                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 glass-backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   12:00 PM
                 </div>
 
@@ -260,7 +260,7 @@ export const TimeBasedAdaptation: Story = {
           <div className="group cursor-pointer">
             <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
               <div className="glass-gradient-primary glass-gradient-primary via-red-400 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-orange-500/30">
-                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 glass-backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   7:30 PM
                 </div>
 
@@ -282,7 +282,7 @@ export const TimeBasedAdaptation: Story = {
           <div className="group cursor-pointer">
             <div className="relative overflow-hidden glass-radius-3xl transition-all duration-700 hover:scale-105">
               <div className="glass-gradient-primary glass-gradient-primary via-purple-500 glass-gradient-primary aspect-square relative shadow-2xl hover:shadow-indigo-500/30">
-                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
+                <div className="absolute top-4 left-4 text-xs glass-surface-dark/20 glass-backdrop-blur px-3 py-1 glass-radius-full text-primary/90 font-medium">
                   11:00 PM
                 </div>
 
@@ -303,17 +303,17 @@ export const TimeBasedAdaptation: Story = {
 
         {/* Feature highlights */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="glass-surface-subtle/5 backdrop-blur border border-white/10 glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/5 glass-backdrop-blur border border-white/10 glass-radius-2xl p-6">
             <div className="text-2xl mb-3">🌡️</div>
             <h4 className="text-primary font-semibold mb-2">Temperature Sync</h4>
             <p className="text-primary/60 text-sm">Matches color temperature to natural light cycles</p>
           </div>
-          <div className="glass-surface-subtle/5 backdrop-blur border border-white/10 glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/5 glass-backdrop-blur border border-white/10 glass-radius-2xl p-6">
             <div className="text-2xl mb-3">🧠</div>
             <h4 className="text-primary font-semibold mb-2">Circadian Support</h4>
             <p className="text-primary/60 text-sm">Optimizes colors for better sleep and focus</p>
           </div>
-          <div className="glass-surface-subtle/5 backdrop-blur border border-white/10 glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/5 glass-backdrop-blur border border-white/10 glass-radius-2xl p-6">
             <div className="text-2xl mb-3">⚡</div>
             <h4 className="text-primary font-semibold mb-2">Auto-Transition</h4>
             <p className="text-primary/60 text-sm">Seamlessly adapts throughout the day</p>
@@ -509,7 +509,7 @@ export const QuantumNeuromorphicDemo: Story = {
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/5 glass-glass-glass-backdrop-blur-xl glass-contrast-guard border border-white/10 glass-contrast-guard">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/5 glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard border border-white/10 glass-contrast-guard">
               <div className="w-3 h-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full animate-pulse" />
               <span className="text-sm text-primary/70 font-medium tracking-wider">
                 QUANTUM-NEUROMORPHIC CONSCIOUSNESS INTERFACE
@@ -527,7 +527,7 @@ export const QuantumNeuromorphicDemo: Story = {
           {/* Main interface grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             {/* Quantum State Panel */}
-            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
+            <div className="glass-surface-subtle/10 glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
               <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -582,7 +582,7 @@ export const QuantumNeuromorphicDemo: Story = {
             </div>
 
             {/* Biometric Adaptation Panel */}
-            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
+            <div className="glass-surface-subtle/10 glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
               <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -651,7 +651,7 @@ export const QuantumNeuromorphicDemo: Story = {
             </div>
 
             {/* Neural Network Panel */}
-            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
+            <div className="glass-surface-subtle/10 glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
               <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -717,7 +717,7 @@ export const QuantumNeuromorphicDemo: Story = {
           </div>
 
           {/* Consciousness Stream */}
-          <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 mb-12 relative overflow-hidden glass-contrast-guard">
+          <div className="glass-surface-subtle/10 glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 mb-12 relative overflow-hidden glass-contrast-guard">
             <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-purple-500/10 glass-gradient-primary opacity-50" />
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-6">
@@ -792,7 +792,7 @@ export const QuantumNeuromorphicDemo: Story = {
             ].map((feature, index) => (
               <div 
                 key={feature.title}
-                className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-2xl p-6 border border-white/20 text-center hover:glass-surface-subtle/15 transition-all duration-500 group glass-contrast-guard"
+                className="glass-surface-subtle/10 glass-glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-2xl p-6 border border-white/20 text-center hover:glass-surface-subtle/15 transition-all duration-500 group glass-contrast-guard"
                 style={{ 
                   animationDelay: `${index * 200}ms`,
                   animation: 'slideUpStagger 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
@@ -879,7 +879,7 @@ export const PracticalEnhancementsDemo: Story = {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/10 backdrop-blur border border-white/20">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/10 glass-backdrop-blur border border-white/20">
               <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse" />
               <span className={`text-sm font-medium tracking-wide ${
                 theme === 'light' ? 'text-gray-700' : 'text-white/70'
@@ -903,7 +903,7 @@ export const PracticalEnhancementsDemo: Story = {
           {/* Main Features Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
             {/* Performance Monitoring */}
-            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -990,7 +990,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Accessibility Controls */}
-            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1072,7 +1072,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* User Preferences */}
-            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1175,7 +1175,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Theme Controls */}
-            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1250,7 +1250,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Mobile Optimizations */}
-            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1324,7 +1324,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Developer Experience */}
-            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1391,7 +1391,7 @@ export const PracticalEnhancementsDemo: Story = {
           </div>
 
           {/* Summary Dashboard */}
-          <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-12 border transition-colors duration-300 ${
+          <div className={`glass-glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-12 border transition-colors duration-300 ${
             theme === 'light' 
               ? 'bg-white/80 border-gray-200' 
               : 'bg-white/10 border-white/20'
