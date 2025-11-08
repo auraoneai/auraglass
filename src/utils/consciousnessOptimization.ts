@@ -29,17 +29,17 @@ class ConsciousnessResourcePool {
       try {
         // Create workers with error handling to prevent build failures
         const eyeWorker = new Worker(
-          new URL("../workers/eyeTrackingWorker.ts", import.meta.url)
+          new URL("../workers/eyeTrackingWorker.js", import.meta.url)
         );
         this.eyeTrackingWorkers.push(eyeWorker);
 
         const bioWorker = new Worker(
-          new URL("../workers/biometricWorker.ts", import.meta.url)
+          new URL("../workers/biometricWorker.js", import.meta.url)
         );
         this.biometricProcessors.push(bioWorker);
 
         const predWorker = new Worker(
-          new URL("../workers/predictiveWorker.ts", import.meta.url)
+          new URL("../workers/predictiveWorker.js", import.meta.url)
         );
         this.predictiveAnalyzers.push(predWorker);
       } catch (error) {
