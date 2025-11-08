@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.20",
+  "version": "2.0.21",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -27,8 +27,8 @@
   ],
   "scripts": {
     "dev": "rollup -c --watch",
-    "copy:workers": "mkdir -p workers && cp -r src/workers/* workers/",
-    "build": "npm run copy:workers && rollup -c",
+    "build:workers": "node scripts/build-workers.js",
+    "build": "npm run build:workers && rollup -c",
     "build:server": "tsc --project tsconfig.server.json",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --fix",
@@ -162,6 +162,7 @@
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^5.0.2",
     "bundlesize": "^0.18.0",
+    "esbuild": "^0.25.12",
     "eslint": "^8.45.0",
     "eslint-plugin-jsx-a11y": "^6.7.0",
     "eslint-plugin-react": "^7.33.0",
