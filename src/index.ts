@@ -140,6 +140,7 @@ export { GlassComponentPlayground, createPlaygroundExample, usePlaygroundExample
 export { GlassMindMap, useMindMap } from './components/interactive/GlassMindMap';
 export { GlassWhiteboard } from './components/interactive/GlassWhiteboard';
 export { HoudiniGlassProvider, useGlassEffect, useHoudiniGlass } from './components/houdini/HoudiniGlassProvider';
+export { glassPresets } from './components/houdini/index';
 
 // Interactive Components
 export { GlassAdvancedSearch } from './components/interactive/GlassAdvancedSearch';
@@ -201,14 +202,44 @@ export { GlassFormWizardSteps } from './components/templates/forms/GlassFormWiza
 export { GlassWizardTemplate } from './components/templates/forms/GlassWizardTemplate';
 export { GlassListView } from './components/templates/list/GlassListView';
 
-// Additional Button Components  
+// Additional Button Components
 export { GlassFab } from './components/button/GlassFab';
 export { MagneticButton } from './components/button/GlassMagneticButton';
+
+// Missing Data Display Components (from README)
+export { GlassChip } from './components/data-display/GlassChip';
+export { GlassDivider } from './components/data-display/GlassDivider';
+export { GlassGanttChart } from './components/data-display/GlassGanttChart';
+export { GlassKanbanBoard } from './components/data-display/GlassKanbanBoard';
+export { GlassMetricsGrid } from './components/data-display/GlassMetricsGrid';
+export { GlassTreeView } from './components/data-display/GlassTreeView';
 
 // Specialized Components
 export { DynamicAtmosphere } from './components/backgrounds/GlassDynamicAtmosphere';
 export { SeasonalParticles } from './components/effects/SeasonalParticles';
 export { GlassShatterEffects } from './components/effects/GlassShatterEffects';
+
+// Missing Layout Components (from README)
+export { GlassMasonryGrid } from './components/layouts/GlassMasonryGrid';
+
+// Missing Editor & Chat Components (from README)
+export { GlassRichTextEditor } from './components/editor/GlassRichTextEditor';
+export { GlassTypingIndicator } from './components/chat/GlassTypingIndicator';
+
+// Missing Advanced Components (from README)
+export { ContrastGuard } from './components/accessibility/ContrastGuard';
+export { GlassA11y } from './components/accessibility/GlassA11y';
+export { LiquidGlassGPU } from './components/advanced/LiquidGlassGPU';
+export { GlassParallaxLayers } from './components/advanced/GlassParallaxLayers';
+export { GlassMeshGradient } from './components/advanced/GlassMeshGradient';
+export { GlassParticles } from './components/advanced/GlassParticles';
+export { GlassMagneticCursor } from './components/advanced/GlassMagneticCursor';
+export { GlassLiquidTransition } from './components/advanced/GlassLiquidTransition';
+export { GlassWebGLShader } from './components/advanced/GlassWebGLShader';
+export { GlassPredictiveEngineProvider as GlassPredictiveEngine, usePredictiveEngine } from './components/advanced/GlassPredictiveEngine';
+export { GlassEyeTrackingProvider, useEyeTracking } from './components/advanced/GlassEyeTracking';
+export { GlassAchievementProvider, useAchievements } from './components/advanced/GlassAchievementSystem';
+export { useBiometricAdaptation } from './components/advanced/GlassBiometricAdaptation';
 
 // Advanced & Experimental Components
 export { AIGlassThemeProvider } from './components/ai/AIGlassThemeProvider';
@@ -261,19 +292,25 @@ export { GlassSuperpositionalMenu } from './components/quantum/GlassSuperpositio
 export { GlassWaveFunction } from './components/quantum/GlassWaveFunction';
 export { QuantumEntanglementVisualizer } from './components/quantum/QuantumEntanglementVisualizer';
 export { QuantumNeuromorphicEngine, runQuantumNeuromorphicCycle } from './components/quantum/QuantumNeuromorphicEngine';
-export { GlassCollaborationProvider, GlassTeamCursors, GlassTeamCursorsWithEffects } from './components/collaboration/CollaborativeGlassWorkspace';
+export { CollaborativeGlassWorkspace, GlassCollaborationProvider, GlassTeamCursors, GlassTeamCursorsWithEffects } from './components/collaboration/CollaborativeGlassWorkspace';
 export { GlassCollaborativeCursor } from './components/collaboration/GlassCollaborativeCursor';
 export { MultiUserGlassEditor } from './components/collaboration/MultiUserGlassEditor';
 export { GlassDragDropProvider } from './components/cms/GlassDragDropProvider';
+export { GlassPageBuilder } from './components/cms/GlassPageBuilder';
 export { GlassEcommerceProvider } from './components/ecommerce/GlassEcommerceProvider';
+export { GlassSmartShoppingCart } from './components/ecommerce/GlassSmartShoppingCart';
+export { GlassProductRecommendations } from './components/ecommerce/GlassProductRecommendations';
 export { GlassImageProcessingProvider } from './components/image/GlassImageProcessingProvider';
+export { GlassIntelligentImageUploader } from './components/image/GlassIntelligentImageUploader';
 export { GlassMediaProvider } from './components/media/GlassMediaProvider';
+export { GlassAdvancedVideoPlayer } from './components/media/GlassAdvancedVideoPlayer';
+export { GlassAdvancedAudioPlayer } from './components/media/GlassAdvancedAudioPlayer';
 export { GlassPresenceIndicator } from './components/social/GlassPresenceIndicator';
 export { GlassReactionBubbles } from './components/social/GlassReactionBubbles';
 export { GlassSharedWhiteboard } from './components/social/GlassSharedWhiteboard';
 export { GlassSocialFeed } from './components/social/GlassSocialFeed';
 export { GlassVoiceWaveform } from './components/social/GlassVoiceWaveform';
-export { GlassVoiceCommands } from './components/voice/VoiceGlassControl';
+export { default as VoiceGlassControl, GlassVoiceCommands } from './components/voice/VoiceGlassControl';
 export { HoudiniGlassCard, HoudiniGlassShowcase } from './components/houdini/HoudiniGlassCard';
 export { ConsciousnessStreamProvider, useConsciousnessStream } from './contexts/ConsciousnessStreamProvider';
 export { component_inventory_json, COMPONENT_INVENTORY_JSON_PATH } from './reports/componentInventory';
@@ -360,8 +397,17 @@ export { useChartPhysicsInteraction } from './components/charts/hooks/useChartPh
 export { useTheme, useThemeVariant, useThemeProviderPresence } from './theme/ThemeProvider';
 export { AnimationProvider, useAnimation } from './contexts/AnimationContext';
 export { useA11yId } from './utils/a11y';
-export { useGlassSound } from './utils/soundDesign';
+export { useGlassSound, glassSoundDesign } from './utils/soundDesign';
+export { adaptiveAI, useAdaptiveAI } from './utils/adaptiveAI';
 export { AuraGlassClientBoundary } from './components/ssr/AuraGlassClientBoundary';
+
+// Note: The following components and services have server-side dependencies and are not included in the client bundle:
+// - ProductionAIIntegration: imports OpenAIService, SemanticSearchService, VisionService, CollaborationService, AuthService
+// - OpenAIService, SemanticSearchService, VisionService: require backend APIs (OpenAI, Pinecone, Google Vision)
+// - CollaborationService: requires WebSocket server infrastructure
+// - AuthService: requires jsonwebtoken and server-side auth
+// These are meant to be used in a Node.js backend environment, not in the browser.
+// They are available in the source code at src/components/ai/ and src/services/ for backend integration.
 
 // Physics & Transform Hooks
 export { usePhysicsEngine } from './hooks/physics/usePhysicsEngine';

@@ -1,11 +1,19 @@
 {
   "name": "aura-glass",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
-  "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/styles/index.css",
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "README.md",
