@@ -11,15 +11,20 @@ import { getSafeDocument, isBrowser, safeMatchMedia } from '../utils/env';
 
 /**
  * Hook to detect user's reduced motion preference
+ *
+ * CRITICAL: Defaults to `false` (no reduced motion) on both server and initial client render
+ * to prevent SSR hydration mismatches. The actual preference is detected after hydration.
+ *
  * @returns boolean - true if user prefers reduced motion
  */
 export function useReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
-    () => safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true
-  );
+  // CRITICAL FIX: Start with `false` on both server and client to prevent hydration mismatch
+  // The server cannot access matchMedia, so we default to false (motion allowed)
+  // This matches the first client render, preventing inline style mismatches
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    // Check if matchMedia is supported
+    // Detect actual motion preference after hydration
     if (!isBrowser()) {
       return;
     }
@@ -27,7 +32,7 @@ export function useReducedMotion(): boolean {
     const mediaQuery = safeMatchMedia('(prefers-reduced-motion: reduce)');
     if (!mediaQuery) return;
 
-    // Set initial value
+    // Update to actual preference
     setPrefersReducedMotion(mediaQuery.matches);
 
     // Listen for changes

@@ -620,6 +620,12 @@ export {
   useThemeProviderPresence,
 } from "./theme/ThemeProvider";
 export { AnimationProvider, useAnimation } from "./contexts/AnimationContext";
+export {
+  MotionPreferenceProvider,
+  useMotionPreferenceContext,
+  type MotionPreferenceContextType,
+  type MotionPreferenceProviderProps,
+} from "./contexts/MotionPreferenceContext";
 export { useA11yId } from "./utils/a11y";
 export { useGlassSound, glassSoundDesign } from "./utils/soundDesign";
 export { adaptiveAI, useAdaptiveAI } from "./utils/adaptiveAI";
