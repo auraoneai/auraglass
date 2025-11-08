@@ -72,9 +72,10 @@ export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(funct
   const animationFrame = useRef<number | null>(null);
 
   // Check if user prefers reduced motion
+  // CRITICAL SSR FIX: Default to false (motion allowed) to match client default
   const prefersReducedMotion = useCallback(() => {
     if (!respectReducedMotion) return false;
-    return safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true;
+    return safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? false;
   }, [respectReducedMotion]);
 
   // Accessibility: Announce when magnetic interaction becomes available
