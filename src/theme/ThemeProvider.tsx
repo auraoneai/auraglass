@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
   createContext,
   useContext,
@@ -1208,6 +1210,11 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
               <PreferencesContext.Provider value={preferencesContextValue}>
                 <ResponsiveContext.Provider value={responsiveContextValue}>
                   {(() => {
+                    // Server-side: skip styled-components entirely
+                    if (typeof window === 'undefined') {
+                      return children;
+                    }
+                    // Client-side only: load styled-components
                     const StyledThemeProvider = getStyledThemeProvider();
                     return StyledThemeProvider ? (
                       <StyledThemeProvider theme={theme}>
