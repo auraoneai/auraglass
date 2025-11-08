@@ -1,3 +1,4 @@
+'use client';
 /**
  * AI Demo Component
  *

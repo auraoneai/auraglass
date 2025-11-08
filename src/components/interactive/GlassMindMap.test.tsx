@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMindMap Component Tests
  *

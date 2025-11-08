@@ -1,3 +1,4 @@
+'use client';
 /**
  * ChartTooltip Component Tests
  *

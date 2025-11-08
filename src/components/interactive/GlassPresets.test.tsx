@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassPresets Component Tests
  *

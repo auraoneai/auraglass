@@ -1,3 +1,4 @@
+'use client';
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import React, {

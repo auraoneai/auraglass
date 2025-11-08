@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassA11yAuditor Component Tests
  *

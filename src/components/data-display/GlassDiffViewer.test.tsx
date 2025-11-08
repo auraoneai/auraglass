@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDiffViewer Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassScrollArea Component Tests
  *

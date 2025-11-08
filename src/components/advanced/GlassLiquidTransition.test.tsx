@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassLiquidTransition Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * VStack Component Tests
  *

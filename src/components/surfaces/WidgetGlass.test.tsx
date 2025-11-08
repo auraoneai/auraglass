@@ -1,3 +1,4 @@
+'use client';
 /**
  * WidgetGlass Component Tests
  *

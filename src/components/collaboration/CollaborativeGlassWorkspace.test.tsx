@@ -1,3 +1,4 @@
+'use client';
 /**
  * CollaborativeGlassWorkspace Component Tests
  *

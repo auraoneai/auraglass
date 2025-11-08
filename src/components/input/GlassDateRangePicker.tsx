@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import { Calendar, ChevronLeft, ChevronRight, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";

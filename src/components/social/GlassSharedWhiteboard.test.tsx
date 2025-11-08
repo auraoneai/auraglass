@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSharedWhiteboard Component Tests
  *

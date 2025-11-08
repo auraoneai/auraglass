@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassParticles Component Tests
  *

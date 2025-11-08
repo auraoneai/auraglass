@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCollaborativeComments Component Tests
  *

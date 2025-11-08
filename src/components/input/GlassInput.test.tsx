@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassInput Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * Accordion Component - Backward Compatibility Layer
  * 

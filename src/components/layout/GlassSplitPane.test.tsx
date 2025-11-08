@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSplitPane Component Tests
  *

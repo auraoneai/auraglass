@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTrophyCase Component Tests
  *

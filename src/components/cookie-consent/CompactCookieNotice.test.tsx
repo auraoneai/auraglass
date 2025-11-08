@@ -1,3 +1,4 @@
+'use client';
 /**
  * CompactCookieNotice Component Tests
  *

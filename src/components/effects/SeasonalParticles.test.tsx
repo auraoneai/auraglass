@@ -1,3 +1,4 @@
+'use client';
 /**
  * SeasonalParticles Component Tests
  *

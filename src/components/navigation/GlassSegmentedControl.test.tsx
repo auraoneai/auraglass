@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSegmentedControl Component Tests
  *

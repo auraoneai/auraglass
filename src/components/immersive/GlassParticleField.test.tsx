@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassParticleField Component Tests
  *

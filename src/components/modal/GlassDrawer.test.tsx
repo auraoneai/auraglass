@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDrawer Component Tests
  *

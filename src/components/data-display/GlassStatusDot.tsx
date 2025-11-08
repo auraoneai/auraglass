@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
@@ -16,4 +17,3 @@ export function GlassStatusDot({ status = 'ok', size = 8, className }: GlassStat
 }
 
 export default GlassStatusDot;
-

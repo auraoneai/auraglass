@@ -1,3 +1,4 @@
+'use client';
 /**
  * Glass3DEngine Component Tests
  *

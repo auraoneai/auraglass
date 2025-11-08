@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from "react";
 import { glassTokenUtils } from "../../tokens/glass";
 import { OptimizedGlass } from "../../primitives";

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassWeatherGlass Component Tests
  *

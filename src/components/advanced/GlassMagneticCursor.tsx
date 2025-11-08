@@ -1,3 +1,4 @@
+'use client';
 /**
  * AuraGlass Magnetic Cursor Effects
  * Interactive cursor with magnetic attraction and glass effects

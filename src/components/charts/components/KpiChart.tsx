@@ -1,3 +1,4 @@
+'use client';
 // Typography tokens available via typography.css (imported in index.css)
 import { cn } from '../../../lib/utilsComprehensive';
 import React from 'react';

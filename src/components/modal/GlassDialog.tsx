@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import { X } from "lucide-react";
 import React, {

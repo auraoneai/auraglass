@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTreeView Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSignaturePad Component Tests
  *

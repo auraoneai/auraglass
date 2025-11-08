@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useEffect, useState } from 'react';
 import { DEFAULT_DEVICE_INFO, DeviceInfo, detectDevice, refreshDeviceDetection } from '../utils/deviceCapabilities';
 import { isBrowser, runClientEffect } from '../utils/env';

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassVideoPlayer Component Tests
  *

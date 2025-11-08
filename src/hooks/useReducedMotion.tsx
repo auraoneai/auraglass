@@ -1,3 +1,4 @@
+'use client';
 /**
  * Reduced Motion Hook and Utilities
  * Respects user's prefers-reduced-motion preference

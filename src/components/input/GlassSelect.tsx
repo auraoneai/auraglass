@@ -1,3 +1,4 @@
+'use client';
 import { GlassButton } from "../button/GlassButton";
 import { GlassInput } from "./GlassInput";
 

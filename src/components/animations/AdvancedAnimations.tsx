@@ -1,3 +1,4 @@
+'use client';
 /**
 import { cn } from '../../lib/utilsComprehensive';
  * Advanced Animation Easing Functions

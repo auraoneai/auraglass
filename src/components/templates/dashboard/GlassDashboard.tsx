@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useState, useCallback } from "react";
 import { Glass } from "../../../primitives";
 import { Motion } from "../../../primitives";

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassKanban Component Tests
  *

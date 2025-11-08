@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSocialFeed Component Tests
  *

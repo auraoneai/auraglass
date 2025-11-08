@@ -1,3 +1,4 @@
+'use client';
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import {
   createMotionAwareInteractive,

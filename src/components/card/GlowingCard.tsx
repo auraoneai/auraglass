@@ -1,3 +1,4 @@
+'use client';
 /**
  * Glowing Card Component
  * A glassmorphic card with animated glowing edges and hover effects

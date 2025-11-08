@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTypingIndicator Component Tests
  *

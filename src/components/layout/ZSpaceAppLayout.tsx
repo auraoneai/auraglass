@@ -1,3 +1,4 @@
+'use client';
 /**
  * Z-Space App Layout
  * Full application layout with Z-space depth layers for navigation, content, and overlays

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAvatar Component Tests
  *

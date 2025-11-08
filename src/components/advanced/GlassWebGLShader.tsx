@@ -1,3 +1,4 @@
+'use client';
 /**
  * AuraGlass WebGL Glass Shaders
  * Advanced GPU-accelerated glass effects

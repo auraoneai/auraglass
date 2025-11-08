@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassGrid Component Tests
  *

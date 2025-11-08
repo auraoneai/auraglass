@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef, useState } from "react";
 import { useMotionPreference } from "../../hooks/useMotionPreference";

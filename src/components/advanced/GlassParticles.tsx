@@ -1,3 +1,4 @@
+'use client';
 /**
  * AuraGlass Glassmorphic Particles System
  * Interactive particle effects with glass aesthetics

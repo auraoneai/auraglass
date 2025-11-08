@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassBarChart Component Tests
  *

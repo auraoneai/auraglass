@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassGanttChart Component Tests
  *

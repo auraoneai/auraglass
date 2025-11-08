@@ -1,3 +1,4 @@
+'use client';
 /**
  * HoudiniGlassProvider Component Tests
  *

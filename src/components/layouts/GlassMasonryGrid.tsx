@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { motion, PanInfo } from "framer-motion";

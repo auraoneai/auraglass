@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSparkline Component Tests
  *

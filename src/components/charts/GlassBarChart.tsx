@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import React, { useMemo, useState } from "react";
 import { Motion } from "../../primitives";

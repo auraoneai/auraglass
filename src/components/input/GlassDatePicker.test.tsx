@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDatePicker Component Tests
  *

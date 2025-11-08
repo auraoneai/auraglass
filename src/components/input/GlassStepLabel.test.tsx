@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassStepLabel Component Tests
  *

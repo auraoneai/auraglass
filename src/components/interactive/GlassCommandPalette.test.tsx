@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCommandPalette Component Tests
  *

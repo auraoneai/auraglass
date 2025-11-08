@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMediaProvider Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCheckbox Component Tests
  *

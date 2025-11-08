@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassPopover Component Tests
  *

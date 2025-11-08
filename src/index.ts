@@ -1,3 +1,5 @@
+'use client';
+
 // AuraGlass Design System - Main Exports
 // A comprehensive collection of glassmorphism UI components
 

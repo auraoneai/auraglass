@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAdvancedDataViz Component Tests
  *

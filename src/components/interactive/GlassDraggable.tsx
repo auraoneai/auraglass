@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import { GripVertical, Move } from "lucide-react";
 import React, {

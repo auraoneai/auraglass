@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAdvancedAudioPlayer Component Tests
  *

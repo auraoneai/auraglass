@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useCallback, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Glass } from "../../primitives";

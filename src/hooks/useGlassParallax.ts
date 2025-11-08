@@ -1,3 +1,4 @@
+'use client';
 import { useEffect } from 'react';
 
 export interface UseGlassParallaxOptions {
@@ -67,4 +68,3 @@ export function useGlassParallax<T extends HTMLElement>(
 }
 
 export default useGlassParallax;
-

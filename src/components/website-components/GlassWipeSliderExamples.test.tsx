@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassWipeSliderExamples Component Tests
  *

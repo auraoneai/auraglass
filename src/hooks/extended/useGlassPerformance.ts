@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
 import { PerformanceMonitor, MemoryManager } from '../../utils/performanceOptimizations';

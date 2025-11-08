@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDynamicAtmosphere Component Tests
  *

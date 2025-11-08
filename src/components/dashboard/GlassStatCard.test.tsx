@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassStatCard Component Tests
  *

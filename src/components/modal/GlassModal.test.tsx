@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassModal Component Tests
  *

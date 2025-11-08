@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassWaveFunction Component Tests
  *

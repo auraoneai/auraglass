@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassGallery Component Tests
  *

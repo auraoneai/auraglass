@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMentionList Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlobalCookieConsent Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
 import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';

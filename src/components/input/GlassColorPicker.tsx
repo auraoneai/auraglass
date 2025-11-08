@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import { Check, Palette, RotateCcw } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";

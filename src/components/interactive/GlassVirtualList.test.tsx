@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassVirtualList Component Tests
  *

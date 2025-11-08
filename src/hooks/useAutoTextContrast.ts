@@ -1,3 +1,4 @@
+'use client';
 import { useEffect } from 'react';
 
 type Options = {
@@ -108,4 +109,3 @@ export function useAutoTextContrast(ref: React.RefObject<HTMLElement>, options: 
 }
 
 export default useAutoTextContrast;
-

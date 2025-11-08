@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassForm Component Tests
  *

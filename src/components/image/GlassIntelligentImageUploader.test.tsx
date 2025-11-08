@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassIntelligentImageUploader Component Tests
  *

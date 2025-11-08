@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassVoiceWaveform Component Tests
  *

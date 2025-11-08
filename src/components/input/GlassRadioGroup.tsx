@@ -1,3 +1,4 @@
+'use client';
 import { GlassInput } from "./GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";

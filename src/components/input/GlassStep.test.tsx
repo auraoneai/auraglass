@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassStep Component Tests
  *

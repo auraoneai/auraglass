@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassHeatmap Component Tests
  *

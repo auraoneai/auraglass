@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassRichTextEditor Component Tests
  *

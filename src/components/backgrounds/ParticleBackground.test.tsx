@@ -1,3 +1,4 @@
+'use client';
 /**
  * ParticleBackground Component Tests
  *

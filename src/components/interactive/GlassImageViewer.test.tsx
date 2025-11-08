@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassImageViewer Component Tests
  *

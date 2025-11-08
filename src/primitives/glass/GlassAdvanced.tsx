@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, HTMLAttributes, KeyboardEvent } from 'react';
 import { cn } from '@/design-system/utilsCore';
 import { useReducedMotion } from '../../hooks/useReducedMotion';

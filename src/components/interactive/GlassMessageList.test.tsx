@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMessageList Component Tests
  *

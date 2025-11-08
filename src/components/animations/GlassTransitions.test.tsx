@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTransitions Component Tests
  *

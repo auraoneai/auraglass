@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTabs Component Tests
  *

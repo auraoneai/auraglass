@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSchemaViewer Component Tests
  *

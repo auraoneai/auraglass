@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassEngine Component Tests
  *

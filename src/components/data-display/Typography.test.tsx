@@ -1,3 +1,4 @@
+'use client';
 /**
  * Typography Component Tests
  *

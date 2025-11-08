@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef } from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
 import { createGlassStyle } from '../../../core/mixins/glassMixins';

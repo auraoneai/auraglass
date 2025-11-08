@@ -1,3 +1,4 @@
+'use client';
 /**
  * DimensionalGlass Component Tests
  *

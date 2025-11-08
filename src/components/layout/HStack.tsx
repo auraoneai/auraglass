@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 
@@ -65,5 +66,3 @@ export const HStack = forwardRef<HTMLDivElement, HStackProps>(
 );
 
 HStack.displayName = 'HStack';
-
-

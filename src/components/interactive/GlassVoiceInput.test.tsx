@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassVoiceInput Component Tests
  *

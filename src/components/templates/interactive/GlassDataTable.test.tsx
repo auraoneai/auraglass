@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDataTable Component Tests
  *

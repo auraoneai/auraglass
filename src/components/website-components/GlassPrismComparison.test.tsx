@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassPrismComparison Component Tests
  *

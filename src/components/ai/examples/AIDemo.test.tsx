@@ -1,3 +1,4 @@
+'use client';
 /**
  * AIDemo Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDragDropProvider Component Tests
  *

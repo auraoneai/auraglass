@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAccordion Component Tests
  *

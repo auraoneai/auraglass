@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCoherenceIndicator Component Tests
  *

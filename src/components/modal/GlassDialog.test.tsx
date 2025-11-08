@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDialog Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMetricCard Component Tests
  *

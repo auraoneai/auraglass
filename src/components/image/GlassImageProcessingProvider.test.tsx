@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassImageProcessingProvider Component Tests
  *

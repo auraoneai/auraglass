@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';
@@ -91,4 +92,3 @@ export const GlassMasonry = forwardRef<HTMLDivElement, GlassMasonryProps>(
 GlassMasonry.displayName = 'GlassMasonry';
 
 export default GlassMasonry;
-

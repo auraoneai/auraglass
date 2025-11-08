@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDataGridPro Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * AuraGlass Progressive Glass Enhancement
  * Adaptive quality system that adjusts glass effects based on device capabilities

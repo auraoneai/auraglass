@@ -1,3 +1,4 @@
+'use client';
 /**
  * Glass Tab Item Component
  * Individual tab item with glassmorphic styling for tab navigation

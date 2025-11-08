@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassStepper Component Tests
  *

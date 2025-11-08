@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassHoverCard Component Tests
  *

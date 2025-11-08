@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassReactionBar Component Tests
  *

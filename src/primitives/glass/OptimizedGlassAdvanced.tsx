@@ -1,3 +1,4 @@
+'use client';
 import { cn } from '@/design-system/utilsCore';
 import React, { forwardRef, HTMLAttributes, useEffect, useMemo, useState } from 'react';
 

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassOrbitalMenu Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSelfHealingSystem Component Tests
  *

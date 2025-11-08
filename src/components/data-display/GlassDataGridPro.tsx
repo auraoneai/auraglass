@@ -1,3 +1,4 @@
+'use client';
 import { cn } from '../../lib/utilsComprehensive';
 
 import React from 'react';
@@ -19,4 +20,3 @@ export function GlassDataGridPro<T=any>({ columns, rows }: GlassDataGridProProps
 }
 
 export default GlassDataGridPro;
-

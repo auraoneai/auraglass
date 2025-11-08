@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassQuantumTunnel Component Tests
  *

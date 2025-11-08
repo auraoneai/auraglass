@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassBiomeSimulator Component Tests
  *

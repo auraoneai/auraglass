@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTreeSelect Component Tests
  *

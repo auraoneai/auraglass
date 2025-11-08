@@ -1,3 +1,4 @@
+'use client';
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { useState } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";

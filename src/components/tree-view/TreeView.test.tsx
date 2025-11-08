@@ -1,3 +1,4 @@
+'use client';
 /**
  * TreeView Component Tests
  *

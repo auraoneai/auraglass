@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useAccessibilitySettings } from './useAccessibilitySettings';
 import { useEnhancedPerformance } from './useEnhancedPerformance';

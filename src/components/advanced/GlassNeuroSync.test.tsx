@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassNeuroSync Component Tests
  *

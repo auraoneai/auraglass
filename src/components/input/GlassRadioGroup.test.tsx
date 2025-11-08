@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassRadioGroup Component Tests
  *

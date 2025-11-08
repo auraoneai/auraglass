@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { GlassButton } from "../button/GlassButton";
 import { cn } from "../../lib/utilsComprehensive";

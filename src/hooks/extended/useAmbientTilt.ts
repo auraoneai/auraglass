@@ -1,3 +1,4 @@
+'use client';
 /**
  * Ambient Tilt Hook
  * Provides subtle ambient tilting effects based on device orientation or cursor position

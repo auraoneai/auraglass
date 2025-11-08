@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useCallback } from "react";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";

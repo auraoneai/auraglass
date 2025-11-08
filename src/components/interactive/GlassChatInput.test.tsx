@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassChatInput Component Tests
  *

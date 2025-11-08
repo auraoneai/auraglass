@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAlert Component Tests
  *

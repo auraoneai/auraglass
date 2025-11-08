@@ -1,3 +1,4 @@
+'use client';
 /**
  * ChartFilters Component Tests
  *

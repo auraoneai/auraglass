@@ -1,3 +1,4 @@
+'use client';
 /**
  * ZSpaceAppLayout Component Tests
  *

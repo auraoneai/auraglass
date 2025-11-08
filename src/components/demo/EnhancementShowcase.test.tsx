@@ -1,3 +1,4 @@
+'use client';
 /**
  * EnhancementShowcase Component Tests
  *

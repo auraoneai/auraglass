@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassIntelligentFormBuilder Component Tests
  *

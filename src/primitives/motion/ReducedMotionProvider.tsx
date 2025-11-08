@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { MotionConfig } from 'framer-motion';
 
@@ -30,4 +31,3 @@ export default function ReducedMotionProvider({ children }: ReducedMotionProvide
     </MotionConfig>
   );
 }
-

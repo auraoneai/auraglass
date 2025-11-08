@@ -1,3 +1,4 @@
+'use client';
 /**
  * Physics Engine Hook
  * React hook for managing physics engine instance and body interactions

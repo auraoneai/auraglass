@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassNebulaClouds Component Tests
  *

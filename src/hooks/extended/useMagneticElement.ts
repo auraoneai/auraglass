@@ -1,3 +1,4 @@
+'use client';
 /**
  * Magnetic Element Hook
  * Creates magnetic attraction effect where elements follow the cursor

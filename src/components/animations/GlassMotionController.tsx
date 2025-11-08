@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useRef, createContext, useContext, forwardRef, ReactNode } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { OptimizedGlass } from '../../primitives';

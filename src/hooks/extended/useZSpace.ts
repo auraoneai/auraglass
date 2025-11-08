@@ -1,3 +1,4 @@
+'use client';
 /**
  * Z-Space Hook
  * Simplified alias for useZSpaceAnimation for easier imports

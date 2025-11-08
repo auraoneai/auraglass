@@ -1,3 +1,4 @@
+'use client';
 /**
  * Physics Layout Hook
  * Provides physics-based layout positioning and arrangement

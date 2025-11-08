@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassColorSchemeGenerator Component Tests
  *

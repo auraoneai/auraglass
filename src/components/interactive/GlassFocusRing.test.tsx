@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassFocusRing Component Tests
  *

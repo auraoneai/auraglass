@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassProgressiveEnhancement Component Tests
  *

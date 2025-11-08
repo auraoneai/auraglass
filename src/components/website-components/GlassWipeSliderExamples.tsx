@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useEffect } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { motion } from "framer-motion";

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassErrorBoundary Component Tests
  *

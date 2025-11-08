@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassReactions Component Tests
  *

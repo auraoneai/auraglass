@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSwitch Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCarousel Component Tests
  *

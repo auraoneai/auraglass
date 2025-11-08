@@ -1,3 +1,4 @@
+'use client';
 /**
  * KpiChart Component Tests
  *

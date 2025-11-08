@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassBadgeLine Component Tests
  *

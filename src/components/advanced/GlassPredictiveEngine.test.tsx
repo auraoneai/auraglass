@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassPredictiveEngine Component Tests
  *

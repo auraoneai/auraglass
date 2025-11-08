@@ -1,3 +1,4 @@
+'use client';
 /**
  * AuraGlass Parallax Glass Layers
  * Multi-depth glass layers with mouse/scroll parallax effects

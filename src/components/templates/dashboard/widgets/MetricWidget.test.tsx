@@ -1,3 +1,4 @@
+'use client';
 /**
  * MetricWidget Component Tests
  *

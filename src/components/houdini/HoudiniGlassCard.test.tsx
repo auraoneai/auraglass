@@ -1,3 +1,4 @@
+'use client';
 /**
  * HoudiniGlassCard Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMultiStepForm Component Tests
  *

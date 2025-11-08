@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassChip Component Tests
  *

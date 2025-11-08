@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { useRef, useCallback, useEffect, useState } from 'react';
 import { ZSpaceManager, zSpaceLayer } from '../../core/mixins/zSpaceLayer';

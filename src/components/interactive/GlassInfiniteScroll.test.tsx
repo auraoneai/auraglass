@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassInfiniteScroll Component Tests
  *

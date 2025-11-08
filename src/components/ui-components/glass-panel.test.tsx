@@ -1,3 +1,4 @@
+'use client';
 /**
  * glass-panel Component Tests
  *

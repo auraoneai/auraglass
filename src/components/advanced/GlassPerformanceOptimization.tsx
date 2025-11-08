@@ -1,3 +1,4 @@
+'use client';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '../../lib/utils'

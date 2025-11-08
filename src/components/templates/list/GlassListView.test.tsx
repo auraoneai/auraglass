@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassListView Component Tests
  *

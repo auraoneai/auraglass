@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAnimatedNumber Component Tests
  *

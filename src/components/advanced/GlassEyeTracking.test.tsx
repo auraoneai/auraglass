@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassEyeTracking Component Tests
  *

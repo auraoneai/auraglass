@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassConnectionStatus Component Tests
  *

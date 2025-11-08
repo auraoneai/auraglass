@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassLinkButton Component Tests
  *

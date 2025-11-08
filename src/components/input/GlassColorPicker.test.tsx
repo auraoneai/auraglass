@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassColorPicker Component Tests
  *

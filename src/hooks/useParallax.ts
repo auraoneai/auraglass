@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { useRef, useCallback, useEffect } from 'react';
 
@@ -41,4 +42,3 @@ export function useParallax<T extends HTMLElement = HTMLDivElement>(
 
   return { ref, onMouseMove, onMouseLeave } as const;
 }
-

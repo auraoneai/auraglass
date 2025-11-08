@@ -1,3 +1,4 @@
+'use client';
 /**
  * Glass360Viewer Component Tests
  *

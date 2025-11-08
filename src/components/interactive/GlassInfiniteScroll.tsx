@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import { AlertCircle, Loader2, RefreshCw } from "lucide-react";
 import React, {

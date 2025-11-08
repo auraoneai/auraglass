@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCommentThread Component Tests
  *

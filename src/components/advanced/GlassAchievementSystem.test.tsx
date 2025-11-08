@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassAchievementSystem Component Tests
  *

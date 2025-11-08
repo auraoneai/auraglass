@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassDetailView Component Tests
  *

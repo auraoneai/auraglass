@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassPresenceIndicator Component Tests
  *

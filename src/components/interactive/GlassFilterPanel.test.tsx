@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassFilterPanel Component Tests
  *

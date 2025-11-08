@@ -1,3 +1,4 @@
+'use client';
 /**
  * div Component Tests
  *

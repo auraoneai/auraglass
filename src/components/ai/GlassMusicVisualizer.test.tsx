@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMusicVisualizer Component Tests
  *

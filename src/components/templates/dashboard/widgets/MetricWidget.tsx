@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "@/lib/utils";
 import React, { forwardRef } from "react";
 import { Motion } from "../../../../primitives";

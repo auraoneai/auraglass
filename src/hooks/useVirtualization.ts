@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useEnhancedPerformance } from './useEnhancedPerformance';

@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { OpenAIService } from "../../services/ai/openai-service";

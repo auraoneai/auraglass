@@ -1,3 +1,4 @@
+'use client';
 /**
  * SpatialComputingEngine Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassPerformanceOptimization Component Tests
  *

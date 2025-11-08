@@ -1,3 +1,4 @@
+'use client';
 /**
  * Dimensional Dashboard Container
  * Advanced dashboard container with 3D depth layers and Z-space positioning

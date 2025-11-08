@@ -1,3 +1,4 @@
+'use client';
 /**
  * HeaderUserMenu Component Tests
  *

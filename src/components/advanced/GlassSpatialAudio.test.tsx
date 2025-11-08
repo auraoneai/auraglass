@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassSpatialAudio Component Tests
  *

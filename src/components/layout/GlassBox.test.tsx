@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassBox Component Tests
  *

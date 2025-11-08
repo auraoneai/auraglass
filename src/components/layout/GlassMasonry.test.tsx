@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMasonry Component Tests
  *

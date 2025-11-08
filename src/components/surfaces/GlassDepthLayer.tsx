@@ -1,3 +1,4 @@
+'use client';
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { HTMLMotionProps, motion } from "framer-motion";
 import React, { forwardRef, useMemo } from "react";

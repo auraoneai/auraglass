@@ -1,3 +1,4 @@
+'use client';
 /**
  * ChartLegend Component Tests
  *

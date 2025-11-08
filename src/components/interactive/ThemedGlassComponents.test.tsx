@@ -1,3 +1,4 @@
+'use client';
 /**
  * ThemedGlassComponents Component Tests
  *

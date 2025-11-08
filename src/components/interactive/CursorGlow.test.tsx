@@ -1,3 +1,4 @@
+'use client';
 /**
  * CursorGlow Component Tests
  *

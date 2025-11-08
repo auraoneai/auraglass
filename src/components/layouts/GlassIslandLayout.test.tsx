@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassIslandLayout Component Tests
  *

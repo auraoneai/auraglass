@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassTooltip Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useState, useCallback, useEffect, forwardRef, CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
 import { GlassButton, GlassButtonProps } from './GlassButton';

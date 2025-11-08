@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassGoldenRatioGrid Component Tests
  *

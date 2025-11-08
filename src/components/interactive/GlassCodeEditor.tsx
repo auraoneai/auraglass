@@ -1,3 +1,4 @@
+'use client';
 import { cn } from '@/lib/utils';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { OptimizedGlass } from '../../primitives';

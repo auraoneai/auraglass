@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassContextAware Component Tests
  *

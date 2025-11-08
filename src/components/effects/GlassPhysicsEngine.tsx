@@ -1,3 +1,4 @@
+'use client';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 /**
  * Advanced Physics-Based Glass Effects Engine

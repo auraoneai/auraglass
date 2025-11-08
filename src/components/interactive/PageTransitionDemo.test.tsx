@@ -1,3 +1,4 @@
+'use client';
 /**
  * PageTransitionDemo Component Tests
  *

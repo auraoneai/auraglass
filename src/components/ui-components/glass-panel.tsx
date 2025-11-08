@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 // PerformantGlass removed - using OptimizedGlass
 import { OptimizedGlassCore as OptimizedGlass, OptimizedGlassProps } from '../../primitives/OptimizedGlassCore';

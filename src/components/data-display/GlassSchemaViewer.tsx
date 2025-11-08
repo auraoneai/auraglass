@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { GlassJSONViewer } from './GlassJSONViewer';
@@ -9,4 +10,3 @@ export function GlassSchemaViewer({ schema, className }: GlassSchemaViewerProps)
 }
 
 export default GlassSchemaViewer;
-

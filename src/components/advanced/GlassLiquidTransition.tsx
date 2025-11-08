@@ -1,3 +1,4 @@
+'use client';
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Liquid Glass Transitions

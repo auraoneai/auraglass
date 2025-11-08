@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useRef, useEffect, useState, useMemo, createRef, useCallback, CSSProperties } from 'react';
 import { GlassDataGridProps, ColumnDefinition, SortState } from './types';
 import styled, { css } from 'styled-components';

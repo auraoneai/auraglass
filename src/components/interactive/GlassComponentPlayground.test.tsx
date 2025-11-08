@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassComponentPlayground Component Tests
  *

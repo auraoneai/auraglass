@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassMobileNav Component Tests
  *

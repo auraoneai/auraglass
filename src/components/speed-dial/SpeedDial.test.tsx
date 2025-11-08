@@ -1,3 +1,4 @@
+'use client';
 /**
  * SpeedDial Component Tests
  *

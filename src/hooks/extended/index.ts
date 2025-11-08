@@ -1,3 +1,4 @@
+'use client';
 // Extended Hooks Exports
 export * from './useGlassFocus';
 export * from './useGlassPerformance';

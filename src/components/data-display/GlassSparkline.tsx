@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
@@ -28,4 +29,3 @@ export function GlassSparkline({ data, width = 120, height = 32, stroke = 'curre
 }
 
 export default GlassSparkline;
-

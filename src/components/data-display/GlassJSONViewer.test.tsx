@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassJSONViewer Component Tests
  *

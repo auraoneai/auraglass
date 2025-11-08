@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { cn } from '../lib/utilsComprehensive';
 import { useMultiSpring } from '../animations/hooks/useMultiSpringBasic';

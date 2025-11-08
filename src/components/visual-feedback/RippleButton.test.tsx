@@ -1,3 +1,4 @@
+'use client';
 /**
  * RippleButton Component Tests
  *

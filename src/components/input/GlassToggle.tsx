@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import React, { createContext, useContext, useState } from "react";
 import { OptimizedGlass } from "../../primitives";

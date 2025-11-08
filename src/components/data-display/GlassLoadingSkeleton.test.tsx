@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassLoadingSkeleton Component Tests
  *

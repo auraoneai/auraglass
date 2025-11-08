@@ -1,3 +1,4 @@
+'use client';
 import { cn } from '../../lib/utilsComprehensive';
 
 import React from 'react';
@@ -30,4 +31,3 @@ export function GlassSpotlight({ targetRect, onClose }: GlassSpotlightProps) {
 }
 
 export default GlassSpotlight;
-

@@ -1,3 +1,4 @@
+'use client';
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Self-Healing Glass Components System

@@ -1,3 +1,4 @@
+'use client';
 /**
  * ContrastGuard Component
  * A React wrapper component that ensures WCAG contrast compliance

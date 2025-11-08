@@ -1,3 +1,4 @@
+'use client';
 /**
  * ChartWidget Component Tests
  *

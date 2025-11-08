@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassCoachmarks Component Tests
  *

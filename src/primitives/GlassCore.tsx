@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from 'react';
 import { cn } from '../lib/utilsComprehensive';
 import { createGlassStyle, GlassIntent, GlassElevation, QualityTier } from '../core/mixins/glassMixins';

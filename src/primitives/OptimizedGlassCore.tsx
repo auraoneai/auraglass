@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useMemo } from 'react';
 import { createGlassStyle, GlassOptions } from '../core/mixins/glassMixins';
 import { cn } from '../lib/utilsComprehensive';

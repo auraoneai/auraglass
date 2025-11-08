@@ -1,3 +1,4 @@
+'use client';
 /**
  * AuraGlass Biometric Adaptation System
  * Heart rate and stress-responsive UI with device sensors and ML analysis

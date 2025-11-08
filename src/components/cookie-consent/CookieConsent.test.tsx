@@ -1,3 +1,4 @@
+'use client';
 /**
  * CookieConsent Component Tests
  *

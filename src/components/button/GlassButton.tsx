@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "../../lib/utilsComprehensive";
 import { Slot } from "@radix-ui/react-slot";
 import React, {

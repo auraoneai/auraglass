@@ -1,3 +1,4 @@
+'use client';
 /**
  * 3D Transform Hook
  * Provides advanced 3D CSS transform capabilities with perspective and rotation

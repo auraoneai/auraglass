@@ -1,3 +1,4 @@
+'use client';
 /**
  * ProductionAIIntegration Component Tests
  *

@@ -1,3 +1,4 @@
+'use client';
 /**
  * VoiceGlassControl Component Tests
  *

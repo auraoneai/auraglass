@@ -1,3 +1,4 @@
+'use client';
 /**
  * glass-card-link Component Tests
  *

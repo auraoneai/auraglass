@@ -1,3 +1,4 @@
+'use client';
 /**
  * GlassBiometricAdaptation Component Tests
  *
