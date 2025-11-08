@@ -599,7 +599,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-voice-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-voice-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <button
@@ -618,7 +618,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
             
             <button
               onClick={clearTranscript}
-              className="px-3 py-2 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
+              className="px-3 py-2 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Clear
             </button>
@@ -701,7 +701,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-voice-input relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-voice-input relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20',
           className
         )}
         {...props}

@@ -116,13 +116,13 @@ const ShowcaseDemo: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             <button
               onClick={showPerformanceDemo}
-              className="glass-surface-blue hover:glass-surface-blue text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+              className="glass-surface-blue hover:glass-surface-blue text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               📊 Performance Check
             </button>
             <button
               onClick={showAccessibilityDemo}
-              className="glass-surface-green hover:glass-surface-green text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+              className="glass-surface-green hover:glass-surface-green text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               ♿ Accessibility Test
             </button>

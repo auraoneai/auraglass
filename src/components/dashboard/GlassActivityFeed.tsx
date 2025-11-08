@@ -355,7 +355,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                                             key={activity.id}
                                                             className={cn(
                                                                 'flex glass-gap-3 glass-p-3 glass-radius-lg border transition-all duration-200 animate-slide-in-up',
-                                                                'hover:bg-white/5 cursor-pointer glass-foundation-complete backdrop-blur-md bg-transparent border-white/40 shadow-2xl',
+                                                                'hover:bg-white/5 cursor-pointer glass-foundation-complete glass-backdrop-blur-md bg-transparent border-white/40 shadow-2xl',
                                                                 config.bgColor,
                                                                 config.borderColor,
                                                                 compact && 'glass-p-2'

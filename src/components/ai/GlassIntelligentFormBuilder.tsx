@@ -334,13 +334,13 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
           <div className="flex gap-3">
             <button
               onClick={exportSchema}
-              className="px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+              className="px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Export Schema
             </button>
             <button
               onClick={addField}
-              className="px-4 py-2 glass-surface-green text-primary glass-radius-lg hover:glass-surface-green transition-colors"
+              className="px-4 py-2 glass-surface-green text-primary glass-radius-lg hover:glass-surface-green transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               + Add Field
             </button>
@@ -725,13 +725,13 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                   <textarea
                     placeholder={field.placeholder}
                     required={field.required}
-                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
+                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus glass-touch-target glass-contrast-guard"
                     rows={3}
                   />
                 ) : field.type === 'select' ? (
                   <select
                     required={field.required}
-                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
+                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus glass-touch-target glass-contrast-guard"
                   >
                     <option value="">Choose an option...</option>
                     {(field.options || []).map((option, i) => (
@@ -745,7 +745,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                     <input
                       type="checkbox"
                       required={field.required}
-                      className="glass-radius border-subtle text-primary glass-focus"
+                      className="glass-radius border-subtle text-primary glass-focus glass-touch-target glass-contrast-guard"
                     />
                     <span className="text-sm glass-text-secondary">{field.placeholder || 'Check this option'}</span>
                   </label>
@@ -758,7 +758,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                           name={field.id}
                           value={option.value}
                           required={field.required}
-                          className="border-subtle text-primary glass-focus"
+                          className="border-subtle text-primary glass-focus glass-touch-target glass-contrast-guard"
                         />
                         <span className="text-sm glass-text-secondary">{option.label}</span>
                       </label>
@@ -769,7 +769,7 @@ export const GlassIntelligentFormBuilder: React.FC<IntelligentFormBuilderProps> 
                     type={field.type}
                     placeholder={field.placeholder}
                     required={field.required}
-                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus"
+                    className="w-full px-3 py-2 border border-subtle glass-radius-lg glass-focus glass-touch-target glass-contrast-guard"
                   />
                 )}
               </div>

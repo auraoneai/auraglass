@@ -463,7 +463,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             {renderCard ? renderCard(item, index) : (
               <GlassCard
                 variant="outlined"
-                className="glass-foundation-complete backdrop-blur-md bg-transparent border-white/40 shadow-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all"
+                className="glass-foundation-complete glass-glass-glass-backdrop-blur-md bg-transparent border-white/40 shadow-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all glass-focus glass-touch-target glass-contrast-guard"
                 onClick={(e) => onRowClick?.(item)}
               >
                 <HStack space="md" align="center">

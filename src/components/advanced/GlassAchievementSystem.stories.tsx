@@ -221,7 +221,7 @@ function AchievementSystemDemo() {
             <button
               key={item.id}
               className="glass-surface-primary glass-elev-2 glass-radius-lg p-6 text-center gap-4 
-                         hover:glass-elev-3 transition-all duration-300 cursor-pointer group"
+                        hover:glass-elev-3 transition-all duration-300 cursor-pointer group glass-focus glass-touch-target glass-contrast-guard"
               onClick={() => handleInteraction('click', item.id)}
               onMouseEnter={() => handleInteraction('hover', item.id)}
               onDoubleClick={() => handleInteraction('special', item.id)}
@@ -415,7 +415,7 @@ export const CasualMode: Story = {
             return (
               <button
                 key={action}
-                className="glass-surface-primary glass-elev-2 glass-radius-lg p-6 text-center hover:glass-elev-3 transition-all duration-300"
+                className="glass-surface-primary glass-elev-2 glass-radius-lg p-6 text-center hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
                 onClick={() => trackClick(`casual-action-${i}`)}
               >
                 <div className="text-2xl mb-2">🎮</div>
@@ -472,7 +472,7 @@ export const HardcoreMode: Story = {
               <button
                 key={challenge}
                 className="glass-surface-primary glass-elev-2 glass-radius-lg p-8 text-center hover:glass-elev-3 transition-all duration-300
-                          border-2 border-red/30 hover:border-red/50"
+                         border-2 border-red/30 hover:border-red/50 glass-focus glass-touch-target glass-contrast-guard"
                 onClick={() => {
                   trackClick(`hardcore-challenge-${i}`);
                   recordAction('hardcore_action', { challenge, difficulty: 'extreme' });
@@ -550,7 +550,7 @@ export const MinimalMode: Story = {
             return (
               <button
                 key={action}
-                className="glass-surface-primary glass-elev-1 glass-radius-lg p-4 text-center hover:glass-elev-2 transition-all duration-300"
+                className="glass-surface-primary glass-elev-1 glass-radius-lg p-4 text-center hover:glass-elev-2 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
                 onClick={() => trackClick(`minimal-${i}`)}
               >
                 <div className="text-lg mb-2">⚪</div>
@@ -607,7 +607,7 @@ export const NotificationsOnly: Story = {
               <button
                 key={i}
                 className="aspect-square glass-surface-primary glass-elev-2 glass-radius-lg 
-                          hover:glass-elev-3 transition-all duration-300 flex items-center justify-center"
+                         hover:glass-elev-3 transition-all duration-300 flex items-center justify-center glass-focus glass-touch-target glass-contrast-guard"
                 onClick={() => {
                   trackClick(`notification-trigger-${i}`);
                   if (i % 3 === 0) recordAction('special_trigger', { index: i });
@@ -663,7 +663,7 @@ export const DashboardOnly: Story = {
             return (
               <button
                 key={i}
-                className="glass-surface-primary glass-elev-2 glass-radius-lg p-3 hover:glass-elev-3 transition-all duration-300"
+                className="glass-surface-primary glass-elev-2 glass-radius-lg p-3 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
                 onClick={() => trackClick(`dashboard-test-${i}`)}
               >
                 <div className="text-sm text-primary">Test {i + 1}</div>

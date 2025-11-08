@@ -188,7 +188,7 @@ export const GlassToggle = React.forwardRef<HTMLButtonElement, GlassToggleProps>
         };
 
         const getVariantClasses = () => {
-            const baseClasses = 'backdrop-blur-md border border-white/20 transition-all duration-300';
+            const baseClasses = 'glass-backdrop-blur-md border border-white/20 transition-all duration-300';
 
             switch (variant) {
                 case 'outline':
@@ -337,7 +337,7 @@ export const GlassToggleGroup: React.FC<GlassToggleGroupProps> = ({
         <ToggleGroupContext.Provider value={contextValue}>
             <div
                 className={cn(
-                    'flex glass-gap-2 glass-p-1 backdrop-blur-md bg-white/5 border border-white/10 glass-radius-lg',
+                    'flex glass-gap-2 glass-p-1 glass-backdrop-blur-md bg-white/5 border border-white/10 glass-radius-lg',
                     {
                         'flex-row': orientation === 'horizontal',
                         'flex-col': orientation === 'vertical',

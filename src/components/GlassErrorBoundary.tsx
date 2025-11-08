@@ -106,7 +106,7 @@ export class GlassErrorBoundary extends Component<Props, State> {
             <div className="gap-4 flex">
               <button
                 onClick={this.handleReset}
-                className="glass-button glass-touch-target"
+                className="glass-button glass-touch-target glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 aria-label="Try again"
               >
                 Try Again

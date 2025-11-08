@@ -106,7 +106,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
       onClick={onClick}
       onKeyDown={handleKeyDown}
       disabled={disabled}
-    >
+     className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
       {icon && <span aria-hidden="true">{icon}</span>}
       <span>{label}</span>
       {badge && (

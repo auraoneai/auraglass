@@ -162,9 +162,9 @@ const GlassFacetSearch = React.forwardRef<HTMLDivElement, GlassFacetSearchProps>
         };
 
         const elevationClasses = {
-            low: 'backdrop-blur-md bg-white/10 border border-white/20',
-            medium: 'backdrop-blur-md bg-white/20 border border-white/30 shadow-lg',
-            high: 'backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl'
+            low: 'glass-backdrop-blur-md bg-white/10 border border-white/20',
+            medium: 'glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg',
+            high: 'glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl'
         };
 
         return (
@@ -432,7 +432,7 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
         <div className="border border-white/10 glass-radius-lg overflow-hidden">
             <button
                 onClick={onToggle}
-                className="w-full flex items-center justify-between p-3 text-left hover:glass-surface-subtle/5 transition-colors"
+                className="w-full flex items-center justify-between p-3 text-left hover:glass-surface-subtle/5 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
                 <span className="font-medium text-primary">{facet.label}</span>
                 {expanded ? (

@@ -683,7 +683,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-quantum-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-quantum-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <label className="text-sm">Type:</label>
@@ -797,7 +797,7 @@ export const GlassQuantumField = forwardRef<HTMLDivElement, GlassQuantumFieldPro
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-quantum-field relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-quantum-field relative glass-radius-lg glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

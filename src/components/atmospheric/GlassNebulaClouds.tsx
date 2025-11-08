@@ -641,14 +641,14 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-nebula-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-nebula-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <label className="text-sm">Type:</label>
             <select
               value={nebulaType}
               onChange={(e) => {}}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20 glass-contrast-guard"
             >
               <option value="emission">Emission</option>
               <option value="reflection">Reflection</option>
@@ -750,7 +750,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-nebula-clouds relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-nebula-clouds relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}
@@ -766,7 +766,7 @@ export const GlassNebulaClouds = forwardRef<HTMLDivElement, GlassNebulaCloudsPro
               ref={canvasRef}
               width={width}
               height={height}
-              className="border border-glass-border/20 glass-radius-md glass-surface-dark"
+              className="border border-glass-border/20 glass-radius-md glass-surface-dark glass-contrast-guard"
               style={{ width, height }}
             />
           </div>

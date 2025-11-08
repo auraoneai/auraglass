@@ -29,10 +29,10 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
           },
 
           {
-            "glass-text-primary bg-gradient-to-r from-blue-500/80 to-purple-500/80 border border-white/20 backdrop-blur-md-medium shadow-glass": variant === "primary",
+            "glass-text-primary bg-gradient-to-r from-blue-500/80 to-purple-500/80 border border-white/20 glass-backdrop-blur-md-medium shadow-glass": variant === "primary",
             "hover:shadow-glass-strong sm:hover:-translate-y-0.5": variant === "primary",
 
-            "glass-foundation-complete glass-text-primary border border-white/14 backdrop-blur-md-subtle": variant === "secondary",
+            "glass-foundation-complete glass-text-primary border border-white/14 glass-backdrop-blur-md-subtle": variant === "secondary",
             "hover:bg-white/10 hover:border-white/25": variant === "secondary",
 
             "bg-transparent glass-text-primary/88 border border-white/10": variant === "ghost",

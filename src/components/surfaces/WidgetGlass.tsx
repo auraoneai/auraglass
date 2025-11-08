@@ -133,7 +133,7 @@ export const WidgetGlass = React.memo(forwardRef<HTMLDivElement, WidgetGlassProp
             widgetType === 'card' && 'bg-gradient-to-br from-white/10 to-white/5',
             widgetType === 'panel' && 'bg-gradient-to-r from-white/8 to-white/12',
             widgetType === 'container' && 'bg-white/5',
-            widgetType === 'overlay' && 'bg-white/20 backdrop-blur-md',
+            widgetType === 'overlay' && 'bg-white/20 glass-glass-backdrop-blur-md',
             
             // Size
             fullWidth && 'w-full',
@@ -191,8 +191,8 @@ export const WidgetGlass = React.memo(forwardRef<HTMLDivElement, WidgetGlassProp
           
           {/* Pulse animation for high priority widgets */}
           {priority === 'high' && shouldAnimate && (
-            <div 
-              className="absolute inset-0 pointer-events-none glass-radius-inherit animate-pulse"
+            <div
+              className="absolute inset-0 pointer-events-none glass-radius-inherit glass-animate-pulse"
               style={{
                 boxShadow: '0 0 0 2px rgba(99, 102, 241, 0.2)',
                 opacity: isHovered ? 0.6 : 0.3,

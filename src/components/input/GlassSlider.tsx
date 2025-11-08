@@ -407,7 +407,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
               <div className={cn(
                 'absolute whitespace-nowrap glass-px-2 glass-py-1 glass-radius-md',
                 'bg-background/80 border border-border/20',
-                'text-foreground font-medium backdrop-blur-md',
+                'text-foreground font-medium glass-backdrop-blur-md',
                 config.label,
                 orientation === 'horizontal' ? '-top-10' : '-left-16'
               )}>
@@ -460,7 +460,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
           <div
             ref={trackRef}
             className={cn(
-              'glass-slider-track relative backdrop-blur-md glass-radius-full border border-border/20',
+              'glass-slider-track relative glass-backdrop-blur-md glass-radius-full border border-border/20',
               orientation === 'horizontal' ? 'w-full' : 'h-full',
               config.track,
               colors.track,

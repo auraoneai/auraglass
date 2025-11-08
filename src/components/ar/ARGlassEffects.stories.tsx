@@ -119,7 +119,7 @@ export const InteractiveDemo: Story = {
       <ARGlassEffects {...args} />
 
       {/* Demo instructions overlay */}
-      <div className="absolute top-4 left-4 glass-surface-dark/80 text-primary p-4 glass-radius-lg max-w-xs">
+      <div className="absolute top-4 left-4 glass-surface-dark/80 text-primary p-4 glass-radius-lg max-w-xs glass-contrast-guard">
         <h3 className="font-semibold mb-2">AR Demo Instructions</h3>
         <ul className="text-sm space-y-1">
           <li>• Use mouse to orbit camera</li>
@@ -152,15 +152,15 @@ export const HandTracking: Story = {
       <ARGlassEffects {...args} />
 
       {/* Hand tracking info */}
-      <div className="absolute bottom-4 right-4 glass-surface-dark/80 text-primary p-4 glass-radius-lg">
+      <div className="absolute bottom-4 right-4 glass-surface-dark/80 text-primary p-4 glass-radius-lg glass-contrast-guard">
         <h3 className="font-semibold mb-2">Hand Tracking</h3>
         <div className="text-sm space-y-1">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 glass-surface-green glass-radius-full"></div>
+            <div className="w-2 h-2 glass-surface-green glass-radius-full glass-contrast-guard"></div>
             <span>Left Hand: Active</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 glass-surface-green glass-radius-full"></div>
+            <div className="w-2 h-2 glass-surface-green glass-radius-full glass-contrast-guard"></div>
             <span>Right Hand: Active</span>
           </div>
         </div>
@@ -205,23 +205,23 @@ export const FullFeatured: Story = {
       <ARGlassEffects {...args} />
 
       {/* Feature showcase */}
-      <div className="absolute top-4 right-4 glass-surface-dark/80 text-primary p-4 glass-radius-lg max-w-sm">
+      <div className="absolute top-4 right-4 glass-surface-dark/80 text-primary p-4 glass-radius-lg max-w-sm glass-contrast-guard">
         <h3 className="font-semibold mb-3">Active Features</h3>
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 glass-surface-blue glass-radius-full"></div>
+            <div className="w-2 h-2 glass-surface-blue glass-radius-full glass-contrast-guard"></div>
             <span>Physics</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 glass-surface-green glass-radius-full"></div>
+            <div className="w-2 h-2 glass-surface-green glass-radius-full glass-contrast-guard"></div>
             <span>Hand Tracking</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 glass-surface-primary glass-radius-full"></div>
+            <div className="w-2 h-2 glass-surface-primary glass-radius-full glass-contrast-guard"></div>
             <span>Voice Control</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 glass-surface-yellow glass-radius-full"></div>
+            <div className="w-2 h-2 glass-surface-yellow glass-radius-full glass-contrast-guard"></div>
             <span>Adaptive UI</span>
           </div>
         </div>

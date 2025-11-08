@@ -255,7 +255,7 @@ export class GlassErrorBoundary extends Component<ErrorBoundaryProps, ErrorBound
               {retryCount < maxRetries && (
                 <button
                   onClick={this.handleRetry}
-                  className="px-4 py-2 bg-blue-500/20 text-blue-300 rounded hover:bg-blue-500/30 transition-colors"
+                  className="px-4 py-2 bg-blue-500/20 text-blue-300 rounded hover:bg-blue-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Try Again ({maxRetries - retryCount} attempts left)
                 </button>
@@ -508,7 +508,7 @@ export const GlassComponentErrorBoundary: React.FC<{
 
             <button
               onClick={retry}
-              className="px-3 py-1 bg-red-500/20 text-red-300 rounded text-xs hover:bg-red-500/30 transition-colors"
+              className="px-3 py-1 bg-red-500/20 text-red-300 rounded text-xs hover:bg-red-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Retry
             </button>

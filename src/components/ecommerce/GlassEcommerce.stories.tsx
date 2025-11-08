@@ -676,7 +676,7 @@ export const EcommerceShowcase: Story = {
               
               <button
                 onClick={() => setCartOpen(!cartOpen)}
-                className="relative p-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+                className="relative p-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 🛒 Cart
                 <span className="absolute -glass-top-2 -right-2 w-6 h-6 glass-surface-red text-primary text-xs glass-radius-full flex items-center justify-center">
@@ -752,7 +752,7 @@ export const EcommerceShowcase: Story = {
                   </div>
                   <button
                     onClick={() => setCartOpen(true)}
-                    className="w-full mt-3 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors"
+                    className="w-full mt-3 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
                   >
                     View Cart
                   </button>

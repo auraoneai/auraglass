@@ -177,7 +177,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
                         'relative overflow-hidden',
                         sizeClasses[size],
                         variantClasses[variant],
-                        'backdrop-blur-md bg-white/10 border border-white/20',
+                        'glass-backdrop-blur-md bg-white/10 border border-white/20',
                         className
                     )}
                     role="img"

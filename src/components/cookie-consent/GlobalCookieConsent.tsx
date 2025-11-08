@@ -487,7 +487,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
               {privacyPolicyUrl && (
                 <>
                   {' '}
-                  <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="glass-focus glass-touch-target glass-contrast-guard">
                     {privacyPolicyText}
                   </a>
                 </>
@@ -497,7 +497,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
             {customContent && <Box className="glass-mt-4">{customContent}</Box>}
 
             {!expanded && cookieCategories.length > 0 && (
-              <Button variant="ghost" onClick={handleShowDetails} size="sm">
+              <Button variant="ghost" onClick={handleShowDetails} size="sm" className="glass-focus glass-touch-target">
                 Customize settings
               </Button>
             )}
@@ -508,18 +508,18 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
 
             <ButtonContainer>
               {dismissible && (
-                <Button variant="outline" onClick={handleDeclineAll} size="sm">
+                <Button variant="outline" onClick={handleDeclineAll} size="sm" className="glass-focus glass-touch-target">
                   {declineButtonText}
                 </Button>
               )}
 
               {expanded && enableSettings && (
-                <Button variant="outline" onClick={handleSavePreferences} size="sm">
+                <Button variant="outline" onClick={handleSavePreferences} size="sm" className="glass-focus glass-touch-target">
                   {settingsButtonText}
                 </Button>
               )}
 
-              <Button variant="primary" onClick={handleAcceptAll} size="sm">
+              <Button variant="primary" onClick={handleAcceptAll} size="sm" className="glass-focus glass-touch-target">
                 {acceptButtonText}
               </Button>
             </ButtonContainer>
@@ -531,13 +531,13 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
             <div className="dialog-container">
               <div className="dialog-header">
                 <Typography variant="h6">Cookie Settings</Typography>
-                <Button variant="ghost" onClick={(e) => setShowDetailsModal(false)}>
+                <Button variant="ghost" onClick={(e) => setShowDetailsModal(false)} className="glass-focus glass-touch-target">
                   ×
                 </Button>
               </div>
               <div className="dialog-content">{renderCategories()}</div>
               <div className="dialog-actions">
-                <Button variant="outline" onClick={(e) => setShowDetailsModal(false)}>
+                <Button variant="outline" onClick={(e) => setShowDetailsModal(false)} className="glass-focus glass-touch-target">
                   Cancel
                 </Button>
                 <Button
@@ -546,6 +546,7 @@ export const GlobalCookieConsent = forwardRef<HTMLDivElement, GlobalCookieConsen
                     handleSavePreferences();
                     setShowDetailsModal(false);
                   }}
+                  className="glass-focus glass-touch-target"
                 >
                   Save Preferences
                 </Button>

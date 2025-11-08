@@ -68,7 +68,7 @@ export const Winter: Story = {
               Experience the magic of falling snow with realistic physics and beautiful winter ambiance.
               Watch the snowflakes gently drift down with natural wind effects.
             </p>
-            <div className="mt-8 p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+            <div className="mt-8 p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
               <p className="text-sm text-blue-200">
                 ❄️ Snow particles with realistic falling animation<br/>
                 🌬️ Wind effects that influence particle movement<br/>
@@ -102,7 +102,7 @@ export const Spring: Story = {
               Celebrate the arrival of spring with floating petals and gentle breezes.
               Experience the rebirth of nature through delicate particle animations.
             </p>
-            <div className="mt-8 p-4 glass-surface-subtle/80 backdrop-blur-lg glass-radius-xl border border-white/50">
+            <div className="mt-8 p-4 glass-surface-subtle/80 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/50 glass-contrast-guard">
               <p className="text-sm glass-text-secondary">
                 🌸 Floating flower petals with organic movement<br/>
                 🌬️ Gentle spring breezes affecting particles<br/>
@@ -136,7 +136,7 @@ export const Summer: Story = {
               Feel the warmth of summer with radiant sun rays and golden particles.
               Experience the energy and brightness of the summer season.
             </p>
-            <div className="mt-8 p-4 glass-surface-dark/20 backdrop-blur-lg glass-radius-xl border border-white/30">
+            <div className="mt-8 p-4 glass-surface-dark/20 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/30 glass-contrast-guard">
               <p className="text-sm text-orange-100">
                 ☀️ Radiant sun rays with pulsing light effects<br/>
                 🌟 Golden particles dancing in the summer breeze<br/>
@@ -170,7 +170,7 @@ export const Autumn: Story = {
               Witness the beauty of fall with gently falling leaves and crisp autumn winds.
               Experience the changing colors and peaceful descent of autumn foliage.
             </p>
-            <div className="mt-8 p-4 glass-surface-dark/20 backdrop-blur-lg glass-radius-xl border border-white/30">
+            <div className="mt-8 p-4 glass-surface-dark/20 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/30 glass-contrast-guard">
               <p className="text-sm text-orange-100">
                 🍂 Falling autumn leaves with realistic physics<br/>
                 🌬️ Crisp winds carrying particles naturally<br/>
@@ -205,7 +205,7 @@ export const AutoSeason: Story = {
               Embark on a journey through all four seasons automatically.
               Watch as the environment transforms with each seasonal change.
             </p>
-            <div className="mt-8 p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+            <div className="mt-8 p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
               <p className="text-sm text-purple-200">
                 🌈 Automatic seasonal progression every 8 seconds<br/>
                 🔄 Smooth transitions between different environments<br/>
@@ -296,7 +296,7 @@ export const SeasonalGallery: Story = {
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Winter ❄️</h3>
                 <p className="text-primary/80 text-sm mb-4">
                   Gentle snowfall with crystalline beauty and peaceful ambiance.
@@ -309,7 +309,7 @@ export const SeasonalGallery: Story = {
                 </div>
               </div>
 
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Spring 🌸</h3>
                 <p className="text-primary/80 text-sm mb-4">
                   Delicate flower petals dancing in the spring breeze.
@@ -322,7 +322,7 @@ export const SeasonalGallery: Story = {
                 </div>
               </div>
 
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Summer ☀️</h3>
                 <p className="text-primary/80 text-sm mb-4">
                   Radiant sun rays and golden particles filling the air.
@@ -335,7 +335,7 @@ export const SeasonalGallery: Story = {
                 </div>
               </div>
 
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Autumn 🍂</h3>
                 <p className="text-primary/80 text-sm mb-4">
                   Falling leaves in rich autumn colors with realistic physics.

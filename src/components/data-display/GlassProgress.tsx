@@ -143,7 +143,7 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
 
     const trackClasses = cn(
       'relative w-full overflow-hidden',
-      'bg-muted/30 backdrop-blur-md',
+      'bg-muted/30 glass-backdrop-blur-md',
       sizeClasses[size],
       shapeClasses[shape]
     );

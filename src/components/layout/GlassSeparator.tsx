@@ -75,7 +75,7 @@ export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
       dotted: 'border-dotted border-t border-border/20 bg-transparent',
       glow: cn(
         'bg-gradient-to-r from-transparent via-primary/30 to-transparent',
-        'shadow-lg shadow-primary/20 backdrop-blur-md'
+        'shadow-lg shadow-primary/20 glass-backdrop-blur-md'
       ),
     };
 

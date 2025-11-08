@@ -399,6 +399,7 @@ export const EnhancedGlassTabs = forwardRef<EnhancedGlassTabsRef, EnhancedGlassT
               className={cn(
                 'relative flex items-center glass-gap-2 whitespace-nowrap border-none cursor-pointer',
                 'outline-none transition-all duration-200 ease-out',
+                'glass-focus glass-touch-target glass-contrast-guard',
                 'focus-visible:ring-2 focus-visible:ring-offset-2',
                 sizeConfig.padding,
                 sizeConfig.text,

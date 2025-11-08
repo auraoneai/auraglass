@@ -77,21 +77,21 @@ const Toolbar: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={clearPage}
-            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors"
+            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <span>🗑️</span>
             New
           </button>
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors"
+            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <span>💾</span>
             Save
           </button>
           <button
             onClick={handleLoad}
-            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors"
+            className="flex items-center gap-2 px-3 py-2 text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <span>📁</span>
             Load

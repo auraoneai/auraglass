@@ -424,7 +424,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-color-wheel glass-p-4 glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-color-wheel glass-p-4 glass-radius-lg glass-backdrop-blur-md border border-border/20',
           config.container,
           disabled && 'opacity-50 pointer-events-none',
           className

@@ -131,7 +131,7 @@ const VideoControls: React.FC<ControlsProps> = ({
           {/* Play/Pause */}
           <button
             onClick={onPlayPause}
-            className="w-12 h-12 flex items-center justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full transition-colors"
+            className="w-12 h-12 flex items-center justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             {isPlaying ? (
               <div className="flex gap-1">
@@ -151,7 +151,7 @@ const VideoControls: React.FC<ControlsProps> = ({
           >
             <button
               onClick={onMuteToggle}
-              className="w-10 h-10 flex items-center justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors"
+              className="w-10 h-10 flex items-center justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               {isMuted || volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
             </button>
@@ -242,7 +242,7 @@ const VideoControls: React.FC<ControlsProps> = ({
           {/* Fullscreen */}
           <button
             onClick={onFullscreenToggle}
-            className="w-10 h-10 flex items-center justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors"
+            className="w-10 h-10 flex items-center justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             {isFullscreen ? '⊟' : '⊞'}
           </button>

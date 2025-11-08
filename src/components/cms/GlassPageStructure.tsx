@@ -83,9 +83,9 @@ const TreeItem: React.FC<TreeItemProps> = ({
         <button
           onClick={handleToggleExpand}
           className={cn(
-            "w-4 h-4 flex items-center justify-center text-xs transition-transform",
-            hasChildren 
-              ? "text-gray-500 hover:text-gray-700" 
+            "w-4 h-4 flex items-center justify-center text-xs transition-transform glass-focus glass-touch-target",
+            hasChildren
+              ? "text-gray-500 hover:text-gray-700"
               : "text-transparent",
             isExpanded ? "rotate-90" : "rotate-0"
           )}
@@ -133,7 +133,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 e.stopPropagation();
                 duplicateComponent(component.id);
               }}
-              className="w-6 h-6 flex items-center justify-center text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius"
+              className="w-6 h-6 flex items-center justify-center text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius glass-focus glass-touch-target"
               title="Duplicate"
             >
               📋
@@ -143,7 +143,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 e.stopPropagation();
                 deleteComponent(component.id);
               }}
-              className="w-6 h-6 flex items-center justify-center text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius"
+              className="w-6 h-6 flex items-center justify-center text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius glass-focus glass-touch-target"
               title="Delete"
             >
               🗑️
@@ -277,10 +277,10 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   if (collapsed) {
     return (
       <div className={cn("w-12", className)}>
-        <Glass className="h-full">
+        <Glass className="h-full glass-contrast-guard">
           <button
             onClick={onToggleCollapse}
-            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Expand Page Structure"
           >
             <div className="text-lg">🌳</div>
@@ -292,13 +292,13 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
 
   return (
     <div className={cn("w-80 h-full flex flex-col", className)}>
-      <Glass className="h-full flex flex-col">
+      <Glass className="h-full flex flex-col glass-contrast-guard">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-subtle">
           <h2 className="text-lg font-semibold glass-text-secondary">Structure</h2>
           <button
             onClick={onToggleCollapse}
-            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Collapse Structure"
           >
             ◀
@@ -322,7 +322,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary"
+                className="absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target"
               >
                 ✕
               </button>
@@ -334,14 +334,14 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={expandAll}
-                className="text-primary hover:text-primary"
+                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
               >
                 Expand All
               </button>
               <span className="text-gray-300">|</span>
               <button
                 onClick={collapseAll}
-                className="text-primary hover:text-primary"
+                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
               >
                 Collapse All
               </button>
@@ -349,21 +349,21 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={handleExport}
-                className="text-primary hover:text-primary"
+                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                 title="Export Structure"
               >
                 💾
               </button>
               <button
                 onClick={handleImport}
-                className="text-primary hover:text-primary"
+                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                 title="Import Structure"
               >
                 📁
               </button>
               <button
                 onClick={clearPage}
-                className="text-primary hover:text-primary"
+                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                 title="Clear All"
               >
                 🗑️

@@ -56,17 +56,17 @@ const TouchDemo = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6 text-center">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 text-center glass-contrast-guard">
           <div className="text-3xl font-bold text-primary mb-2">{tapCount}</div>
           <div className="text-primary/80">Taps</div>
         </div>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6 text-center">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 text-center glass-contrast-guard">
           <div className="text-3xl font-bold text-primary mb-2">{longPressCount}</div>
           <div className="text-primary/80">Long Presses</div>
         </div>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6 text-center">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 text-center glass-contrast-guard">
           <div className="text-2xl font-bold text-primary mb-2">
             {swipeDirection ? swipeDirection.toUpperCase() : '—'}
           </div>
@@ -75,7 +75,7 @@ const TouchDemo = () => {
       </div>
 
       <div className="text-center">
-        <div className="inline-block glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl px-6 py-3">
+        <div className="inline-block glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl px-6 py-3 glass-contrast-guard">
           <div className="text-primary/60 text-sm">Last Action:</div>
           <div className="text-primary font-medium">{lastAction || 'None'}</div>
         </div>
@@ -102,7 +102,7 @@ const TouchDemo = () => {
         </TouchOptimizedGlass>
       </div>
 
-      <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+      <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
         <h3 className="text-xl font-semibold text-primary mb-4">Touch Instructions</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-primary/80">
           <div className="space-y-2">
@@ -187,7 +187,7 @@ export const TouchFeedback: Story = {
           />
         </div>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
           <h3 className="text-xl font-semibold text-primary mb-4">Feedback Types</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
@@ -262,7 +262,7 @@ export const MobileNavigation: Story = {
             </div>
 
             <div className="text-center mb-6">
-              <div className="inline-block glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl px-6 py-3">
+              <div className="inline-block glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl px-6 py-3 glass-contrast-guard">
                 <div className="text-primary/60 text-sm">Current Page</div>
                 <div className="text-primary font-medium">{pages[currentPage].title}</div>
               </div>
@@ -286,7 +286,7 @@ export const MobileNavigation: Story = {
             </div>
           </MobileGlassNavigation>
 
-          <div className="mt-8 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+          <div className="mt-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-4">Swipe History</h3>
             <div className="flex flex-wrap gap-2">
               {swipeHistory.length === 0 ? (
@@ -304,7 +304,7 @@ export const MobileNavigation: Story = {
             </div>
           </div>
 
-          <div className="mt-8 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+          <div className="mt-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-4">Navigation Controls</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
@@ -408,7 +408,7 @@ export const AdaptiveDensity: Story = {
           </AdaptiveGlassDensity>
         </div>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
           <h3 className="text-xl font-semibold text-primary mb-6 text-center">Adaptive Features</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
@@ -461,7 +461,7 @@ export const RippleEffects: Story = {
             maxRipples={3}
             rippleDuration={600}
           >
-            <div className="p-8 text-center glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+            <div className="p-8 text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="text-4xl mb-3">🌊</div>
               <h3 className="text-xl font-semibold text-primary mb-2">Default Ripple</h3>
               <p className="text-primary/70 text-sm">
@@ -475,7 +475,7 @@ export const RippleEffects: Story = {
             maxRipples={5}
             rippleDuration={800}
           >
-            <div className="p-8 text-center glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+            <div className="p-8 text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="text-4xl mb-3">💙</div>
               <h3 className="text-xl font-semibold text-primary mb-2">Blue Ripple</h3>
               <p className="text-primary/70 text-sm">
@@ -489,7 +489,7 @@ export const RippleEffects: Story = {
             maxRipples={2}
             rippleDuration={400}
           >
-            <div className="p-8 text-center glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+            <div className="p-8 text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="text-4xl mb-3">💚</div>
               <h3 className="text-xl font-semibold text-primary mb-2">Green Ripple</h3>
               <p className="text-primary/70 text-sm">
@@ -503,7 +503,7 @@ export const RippleEffects: Story = {
             maxRipples={4}
             rippleDuration={1000}
           >
-            <div className="p-8 text-center glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+            <div className="p-8 text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="text-4xl mb-3">🧡</div>
               <h3 className="text-xl font-semibold text-primary mb-2">Orange Ripple</h3>
               <p className="text-primary/70 text-sm">
@@ -513,7 +513,7 @@ export const RippleEffects: Story = {
           </TouchRippleEffects>
         </div>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
           <h3 className="text-xl font-semibold text-primary mb-6 text-center">Ripple Effect Features</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -572,7 +572,7 @@ export const BottomSheet: Story = {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div className="text-center">
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl mb-4">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl mb-4 glass-contrast-guard">
                 <div className="text-4xl mb-3">🍽️</div>
                 <h3 className="text-xl font-semibold text-primary mb-2">Menu Sheet</h3>
                 <p className="text-primary/70 text-sm mb-4">
@@ -588,7 +588,7 @@ export const BottomSheet: Story = {
             </div>
 
             <div className="text-center">
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl mb-4">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl mb-4 glass-contrast-guard">
                 <div className="text-4xl mb-3">⚙️</div>
                 <h3 className="text-xl font-semibold text-primary mb-2">Settings Sheet</h3>
                 <p className="text-primary/70 text-sm mb-4">
@@ -604,7 +604,7 @@ export const BottomSheet: Story = {
             </div>
 
             <div className="text-center">
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl mb-4">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl mb-4 glass-contrast-guard">
                 <div className="text-4xl mb-3">👤</div>
                 <h3 className="text-xl font-semibold text-primary mb-2">Profile Sheet</h3>
                 <p className="text-primary/70 text-sm mb-4">
@@ -728,7 +728,7 @@ export const BottomSheet: Story = {
             </div>
           </MobileGlassBottomSheet>
 
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl p-6 glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-6 text-center">Bottom Sheet Features</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">

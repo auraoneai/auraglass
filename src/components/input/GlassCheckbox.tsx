@@ -180,7 +180,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
           checked={checked}
           onChange={handleChange}
           disabled={disabled || loading}
-          className="sr-only"
+          className="sr-only glass-touch-target glass-contrast-guard"
           {...props}
         />
 

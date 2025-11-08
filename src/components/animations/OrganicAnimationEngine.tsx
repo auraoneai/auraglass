@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
  */
 
 import React, { useRef, useEffect, useCallback, useState, useMemo } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { 
   motion, 
   useAnimation, 
@@ -189,7 +190,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
       scale: [0.8, 1.2, 1],
       opacity: [0.5, 1, 1],
       filter: [
-        'blur(var(--glass-blur-md)) brightness(0.8)',
+        'blur(var(--glass-glass-blur-md)) brightness(0.8)',
         'blur(0px) brightness(1.2)',
         'blur(0px) brightness(1)',
       ],
@@ -275,6 +276,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   onAnimationComplete,
   onEmotionalShift,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeSequences, setActiveSequences] = useState<Set<string>>(new Set());
   const [currentEmotion, setCurrentEmotion] = useState<EmotionalContext>(emotionalContext);
@@ -530,7 +532,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
       
       {/* Animation state indicators for debugging */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="animation-debug-info" style={{
+        <div className="animation-debug-info glass-focus glass-touch-target glass-contrast-guard" style={{
           position: 'absolute',
           top: 0,
           right: 0,

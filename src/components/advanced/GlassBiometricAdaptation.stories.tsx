@@ -192,7 +192,7 @@ function BiometricAdaptationDemo() {
           
           <button
             onClick={connectHeartRateMonitor}
-            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-4 py-2 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ❤️ Connect Heart Rate Monitor
           </button>
@@ -315,7 +315,7 @@ function BiometricAdaptationDemo() {
           <button
             onClick={handleRapidClick}
             className="glass-surface-secondary glass-elev-2 glass-radius-lg px-8 py-4 text-lg font-medium
-                       hover:glass-elev-3 transition-all duration-300 text-primary"
+                      hover:glass-elev-3 transition-all duration-300 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             🖱️ Stress Test Button
           </button>
@@ -573,7 +573,7 @@ export const DashboardOnly: Story = {
           {Array.from({ length: 8 }, (_, i) => (
             <button
               key={i}
-              className="glass-surface-primary glass-elev-2 glass-radius-lg p-4 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-primary glass-elev-2 glass-radius-lg p-4 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
               onClick={() => console.log(`Interaction ${i + 1}`)}
             >
               <div className="text-lg mb-2">🖱️</div>

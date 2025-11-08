@@ -378,7 +378,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                         aria-modal="true"
                         aria-label="Color picker"
                         className={cn(
-                            'glass-radius-xl border border-white/20 shadow-2xl backdrop-blur-md bg-black/20',
+                            'glass-radius-xl border border-white/20 shadow-2xl glass-backdrop-blur-md bg-black/20',
                             config.popover
                         )}
                     >

@@ -354,7 +354,7 @@ export const PredictionIndicatorOnly: Story = {
           {Array.from({ length: 8 }, (_, i) => (
             <button
               key={i}
-              className="glass-surface-primary glass-elev-2 glass-radius-lg p-4 hover:glass-elev-3 transition-all duration-300"
+              className="glass-surface-primary glass-elev-2 glass-radius-lg p-4 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
               onClick={() => console.log(`Button ${i + 1} clicked`)}
             >
               <div className="text-lg mb-2">🎯</div>

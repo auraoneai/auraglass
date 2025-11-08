@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               e.stopPropagation();
               onAddToWishlist(product.id);
             }}
-            className="p-1 glass-text-secondary hover:text-primary transition-colors"
+            className="p-1 glass-text-secondary hover:text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
             title="Add to wishlist"
           >
             ♡
@@ -108,7 +108,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               e.stopPropagation();
               onAddToCart(product.id);
             }}
-            className="p-1 glass-text-secondary hover:text-primary transition-colors"
+            className="p-1 glass-text-secondary hover:text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
             title="Add to cart"
           >
             🛒
@@ -173,7 +173,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   e.stopPropagation();
                   onAddToWishlist(product.id);
                 }}
-                className="px-3 py-1 text-sm glass-text-secondary hover:text-primary transition-colors"
+                className="px-3 py-1 text-sm glass-text-secondary hover:text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 ♡ Wishlist
               </button>
@@ -182,7 +182,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   e.stopPropagation();
                   onAddToCart(product.id);
                 }}
-                className="px-3 py-1 glass-surface-blue text-primary text-sm glass-radius hover:glass-surface-blue transition-colors"
+                className="px-3 py-1 glass-surface-blue text-primary text-sm glass-radius hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 Add to Cart
               </button>
@@ -257,7 +257,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 e.stopPropagation();
                 onAddToWishlist(product.id);
               }}
-              className="p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors"
+              className="p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
               title="Add to wishlist"
             >
               ♡
@@ -267,7 +267,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 e.stopPropagation();
                 onAddToCart(product.id);
               }}
-              className="p-2 glass-surface-blue text-primary glass-radius-full hover:glass-surface-blue transition-colors"
+              className="p-2 glass-surface-blue text-primary glass-radius-full hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
               title="Add to cart"
             >
               🛒
@@ -467,7 +467,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
           <div className="flex items-center gap-2">
             <button
               onClick={prevSlide}
-              className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+              className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               ←
             </button>
@@ -476,7 +476,7 @@ export const GlassProductRecommendations: React.FC<ProductRecommendationsProps> 
             </span>
             <button
               onClick={nextSlide}
-              className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+              className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               →
             </button>

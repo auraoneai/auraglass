@@ -33,7 +33,7 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({
             zIndex: 10,
           }}
           onClick={onScrollLeft}
-        >
+         className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
           ‹
         </button>
       )}
@@ -54,7 +54,7 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({
             zIndex: 10,
           }}
           onClick={onScrollRight}
-        >
+         className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
           ›
         </button>
       )}

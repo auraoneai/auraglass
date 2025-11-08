@@ -154,9 +154,9 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
         };
 
         const elevationClasses = {
-            low: 'backdrop-blur-md bg-white/10 border border-white/20',
-            medium: 'backdrop-blur-md bg-white/20 border border-white/30 shadow-lg',
-            high: 'backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl'
+            low: 'glass-glass-backdrop-blur-md bg-white/10 border border-white/20 glass-contrast-guard',
+            medium: 'glass-glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg glass-contrast-guard',
+            high: 'glass-glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl glass-contrast-guard'
         };
 
         return (
@@ -189,7 +189,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleClearAll}
-                                className="text-primary/70 hover:text-primary"
+                                className="text-primary/70 hover:text-primary glass-focus glass-touch-target"
                             >
                                 <RotateCcw className="w-4 h-4 glass-mr-1" />
                                 Clear
@@ -202,6 +202,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                 size="sm"
                                 onClick={handleApplyFilters}
                                 disabled={!hasActiveFilters}
+                                className="glass-focus glass-touch-target"
                             >
                                 Apply Filters
                             </GlassButton>
@@ -232,7 +233,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                     variant="ghost"
                                     size="sm"
                                     onClick={(e) => setShowPresetDialog(true)}
-                                    className="text-primary/70 hover:text-primary"
+                                    className="text-primary/70 hover:text-primary glass-focus glass-touch-target"
                                 >
                                     <Save className="w-4 h-4 glass-mr-1" />
                                     Save
@@ -247,7 +248,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                     variant="outline"
                                     size="sm"
                                     onClick={(e) => handlePresetSelect(preset)}
-                                    className="text-xs"
+                                    className="text-xs glass-focus glass-touch-target"
                                 >
                                     {preset.name}
                                 </GlassButton>
@@ -271,7 +272,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                 {collapsible && (
                                     <button
                                         onClick={(e) => toggleGroup(group.id)}
-                                        className="w-full flex items-center justify-between p-3 text-left hover:glass-surface-subtle/5 transition-colors"
+                                        className="w-full flex items-center justify-between p-3 text-left hover:glass-surface-subtle/5 transition-colors glass-focus glass-touch-target"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="font-medium text-primary">{group.label}</span>
@@ -311,8 +312,8 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
 
                 {/* Save Preset Dialog */}
                 {showPresetDialog && (
-                    <div className="fixed inset-0 glass-surface-dark/50 backdrop-blur-md z-50 flex items-center justify-center">
-                        <div className="glass-radius-lg p-6 max-w-md w-full mx-4 glass-surface-subtle/5 ring-1 ring-white/10">
+                    <div className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-50 flex items-center justify-center glass-contrast-guard">
+                        <div className="glass-radius-lg p-6 max-w-md w-full mx-4 glass-surface-subtle/5 ring-1 ring-white/10 glass-contrast-guard">
                             <h3 className="text-lg font-semibold text-primary mb-4">Save Filter Preset</h3>
                             <GlassInput
                                 placeholder="Preset name..."
@@ -324,7 +325,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                 <GlassButton
                                     variant="ghost"
                                     onClick={(e) => setShowPresetDialog(false)}
-                                    className="flex-1"
+                                    className="flex-1 glass-focus glass-touch-target"
                                 >
                                     Cancel
                                 </GlassButton>
@@ -332,7 +333,7 @@ const GlassFilterPanel = React.forwardRef<HTMLDivElement, GlassFilterPanelProps>
                                     variant="primary"
                                     onClick={handleSavePreset}
                                     disabled={!newPresetName.trim()}
-                                    className="flex-1"
+                                    className="flex-1 glass-focus glass-touch-target"
                                 >
                                     Save
                                 </GlassButton>

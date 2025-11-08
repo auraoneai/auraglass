@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { OpenAIService } from '../../services/ai/openai-service';
 import { SemanticSearchService } from '../../services/ai/semantic-search-service';
 import { VisionService } from '../../services/ai/vision-service';
@@ -16,6 +17,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
   authToken,
   userId,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const [isInitialized, setIsInitialized] = useState(false);
   const [formFields, setFormFields] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -259,18 +261,18 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
   return (
     <div className="production-ai-integration p-6">
       {error && (
-        <div className="glass-surface-subtle border border-red-200 text-primary px-4 py-3 glass-radius mb-4">
+        <div className="glass-surface-subtle border border-red-200 text-primary px-4 py-3 glass-radius mb-4 glass-contrast-guard">
           {error}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
           <h2 className="text-xl font-bold mb-4">Smart Form Builder</h2>
           <input
             type="text"
             placeholder="Describe your form (e.g., 'user registration')"
-            className="w-full px-4 py-2 border glass-radius mb-4"
+            className="w-full px-4 py-2 border glass-radius mb-4 glass-touch-target glass-contrast-guard"
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 generateSmartForm((e.target as HTMLInputElement).value);
@@ -280,7 +282,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           {formFields.length > 0 && (
             <div className="space-y-2">
               {formFields.map((field, idx) => (
-                <div key={idx} className="p-3 glass-surface-subtle glass-radius">
+                <div key={idx} className="p-3 glass-surface-subtle glass-radius glass-contrast-guard">
                   <span className="font-medium">{field.label}</span>
                   <span className="text-sm glass-text-secondary ml-2">({field.fieldType})</span>
                   {field.required && (
@@ -292,12 +294,12 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
           <h2 className="text-xl font-bold mb-4">Semantic Search</h2>
           <input
             type="text"
             placeholder="Search anything..."
-            className="w-full px-4 py-2 border glass-radius mb-4"
+            className="w-full px-4 py-2 border glass-radius mb-4 glass-touch-target glass-contrast-guard"
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 performSemanticSearch((e.target as HTMLInputElement).value);
@@ -307,7 +309,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           {searchResults.length > 0 && (
             <div className="space-y-2 glass-max-h-64 overflow-y-auto">
               {searchResults.map((result, idx) => (
-                <div key={idx} className="p-3 glass-surface-subtle glass-radius">
+                <div key={idx} className="p-3 glass-surface-subtle glass-radius glass-contrast-guard">
                   <div className="font-medium">{result.content.substring(0, 100)}...</div>
                   <div className="text-sm glass-text-secondary">Score: {result.score.toFixed(3)}</div>
                 </div>
@@ -316,12 +318,12 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
           <h2 className="text-xl font-bold mb-4">Image Analysis</h2>
           <input
             type="file"
             accept="image/*"
-            className="mb-4"
+            className="mb-4 glass-touch-target glass-contrast-guard"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) analyzeImage(file);
@@ -337,13 +339,13 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
           )}
         </div>
 
-        <div className="glass-surface-subtle glass-radius-lg shadow p-6">
+        <div className="glass-surface-subtle glass-radius-lg shadow p-6 glass-contrast-guard">
           <h2 className="text-xl font-bold mb-4">Collaboration</h2>
           <div className="mb-4">
             <input
               type="text"
               placeholder="Room ID"
-              className="w-full px-4 py-2 border glass-radius mb-2"
+              className="w-full px-4 py-2 border glass-radius mb-2 glass-touch-target glass-contrast-guard"
               id="roomId"
             />
             <button
@@ -351,7 +353,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
                 const input = document.getElementById('roomId') as HTMLInputElement;
                 if (input?.value) joinCollaborationRoom(input.value);
               }}
-              className="px-4 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue"
+              className="px-4 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard"
             >
               Join Room
             </button>
@@ -361,7 +363,7 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
               <div className="font-medium">Active Collaborators:</div>
               {collaborators.map((collab, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <div className="w-2 h-2 glass-surface-green glass-radius-full"></div>
+                  <div className="w-2 h-2 glass-surface-green glass-radius-full glass-contrast-guard"></div>
                   <span className="text-sm">{collab.userName}</span>
                 </div>
               ))}
@@ -371,8 +373,8 @@ export const ProductionAIIntegration: React.FC<ProductionAIIntegrationProps> = (
       </div>
 
       {loading && (
-        <div className="fixed inset-0 glass-surface-dark glass-opacity-50 flex items-center justify-center z-50">
-          <div className="glass-surface-subtle glass-radius-lg p-6">
+        <div className="fixed inset-0 glass-surface-dark glass-opacity-50 flex items-center justify-center z-50 glass-contrast-guard">
+          <div className="glass-surface-subtle glass-radius-lg p-6 glass-contrast-guard">
             <div className="animate-spin glass-radius-full h-12 w-12 border-b-2 border-blue mx-auto"></div>
             <p className="mt-4">Processing...</p>
           </div>

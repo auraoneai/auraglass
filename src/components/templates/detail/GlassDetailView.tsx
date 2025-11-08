@@ -191,7 +191,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               href={field.value}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline"
+              className="text-primary hover:underline glass-focus glass-touch-target glass-contrast-guard"
             >
               {field.value}
             </a>
@@ -231,6 +231,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 size="xs"
                 onClick={(e) => navigator.clipboard?.writeText(String(field.value))}
                 aria-label="Copy to clipboard"
+                className="glass-focus glass-touch-target"
               />
             )}
           </HStack>
@@ -249,7 +250,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
             <div
               className={cn(
                 'flex items-center justify-between',
-                section.collapsible && 'cursor-pointer'
+                section.collapsible && 'cursor-pointer glass-focus glass-touch-target'
               )}
               onClick={section.collapsible ? () => toggleSection(section.id) : undefined}
             >
@@ -305,7 +306,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                   key={tab.id}
                   onClick={(e) => handleTabChange(tab.id)}
                   className={cn(
-                    'flex items-center glass-gap-2 glass-py-2 glass-px-1 border-b-2 transition-colors',
+                    'flex items-center glass-gap-2 glass-py-2 glass-px-1 border-b-2 transition-colors glass-focus glass-touch-target',
                     currentTab === tab.id
                       ? 'border-primary text-primary font-medium'
                       : 'border-transparent glass-text-secondary hover:text-foreground'
@@ -351,6 +352,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 size="sm"
                 onClick={onBack}
                 aria-label="Go back"
+                className="glass-focus glass-touch-target"
               />
             )}
 
@@ -383,6 +385,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 size="sm"
                 onClick={onShare}
                 aria-label="Share"
+                className="glass-focus glass-touch-target"
               />
             )}
 
@@ -393,6 +396,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 size="sm"
                 onClick={onPrint}
                 aria-label="Print"
+                className="glass-focus glass-touch-target"
               />
             )}
 
@@ -405,6 +409,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 onClick={action.onClick}
                 disabled={action.disabled}
                 loading={action.loading}
+                className="glass-focus glass-touch-target"
               >
                 {action.label}
               </GlassButton>

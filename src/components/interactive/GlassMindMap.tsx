@@ -372,7 +372,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
         nodeElement = (
           <g
-            className={`cursor-pointer ${isDragged ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`cursor-pointer glass-focus glass-touch-target ${isDragged ? 'cursor-grabbing' : 'cursor-grab'}`}
             onMouseDown={(e) => handleMouseDown(e, node.id)}
             onClick={(e) => handleNodeClick(node)}
             onDoubleClick={() => handleNodeDoubleClick(node)}
@@ -406,7 +406,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       {/* Toolbar */}
       <div className="absolute top-4 left-4 z-10 flex gap-2">
         <OptimizedGlass
-          className="px-3 py-1 glass-radius-md text-sm cursor-pointer hover:glass-surface-subtle/10"
+          className="px-3 py-1 glass-radius-md text-sm cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target"
           intensity="subtle"
           onClick={(e: React.MouseEvent) => setZoom(1)}
         >

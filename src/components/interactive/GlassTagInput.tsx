@@ -26,7 +26,7 @@ export function GlassTagInput({ value, onChange, placeholder = 'Add tag…', sug
       {value.map((t) => (
         <span key={t} className="glass-inline-flex items-center gap-1 px-2 py-1 text-sm glass-radius-lg glass-surface-subtle/10 border border-white/20">
           {t}
-          <button onClick={(e) => remove(t)} className="text-primary/60 hover:text-primary">×</button>
+          <button onClick={(e) => remove(t)} className="text-primary/60 hover:text-primary glass-focus glass-touch-target">×</button>
         </span>
       ))}
       <input

@@ -308,7 +308,8 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
                   'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 glass-radius-full',
                   'flex items-center justify-center',
                   // Frosted surface
-                  'backdrop-blur-md2xl bg-white/55 border border-white/80',
+                  'glass-glass-backdrop-blur-md2xl bg-white/55 border border-white/80',
+                  'glass-focus glass-touch-target glass-contrast-guard',
                   'shadow-[0_6px_18px_rgba(var(--glass-color-black) / var(--glass-opacity-35)),inset_0_1px_2px_var(--glass-bg-active)] ring-1 ring-white/40',
                   'hover:bg-white/65 active:bg-white/70',
                 )}
@@ -328,7 +329,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
         {/* Overlay backdrop */}
         {variant === 'overlay' && open && (
           <div
-            className="fixed inset-0 glass-surface-dark/50 z-40"
+            className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-sm z-40 glass-contrast-guard"
             onClick={(e) => onOpenChange?.(false)}
           />
         )}
@@ -423,7 +424,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
             <span
               className={cn(
                 'flex-shrink-0 glass-px-2 glass-py-1 glass-text-xs glass-radius-full font-medium transition-all duration-200',
-                'bg-black/15 border border-black/20 shadow-md backdrop-blur-md',
+                'bg-black/15 border border-black/20 shadow-md glass-backdrop-blur-md',
                 'group-hover:bg-black/20 group-hover:border-black/25 group-hover:shadow-lg',
                 'relative z-10' // Ensure badge stays above any background effects
               )}

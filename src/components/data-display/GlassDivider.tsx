@@ -185,7 +185,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
             baseClass,
             sizeClass,
             colors.base,
-            'backdrop-blur-sm',
+            'glass-backdrop-blur-sm',
             opacityConfig[opacity]
           );
       }
@@ -245,7 +245,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           tint="neutral"
           border="subtle"
           className={cn(
-            'glass-divider-label flex-shrink-0 glass-radius-full backdrop-blur-md',
+            'glass-divider-label flex-shrink-0 glass-radius-full glass-backdrop-blur-md',
             'bg-background/50 border border-border/20',
             config.label,
             colors.text,

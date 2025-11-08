@@ -456,17 +456,17 @@ export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationPro
 
         {/* Info panel */}
         <div className="absolute bottom-4 left-4 flex flex-col gap-1 text-xs text-primary/70">
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Pattern: {tessellationType}
           </div>
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Tiles: {tiles.length}
           </div>
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Size: {tileSize}px
           </div>
           {morphPattern && (
-            <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+            <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
               Morph: {Math.round(morphPhase * 100)}%
             </div>
           )}
@@ -474,7 +474,7 @@ export const GlassTessellation = forwardRef<HTMLDivElement, GlassTessellationPro
 
         {/* Legend */}
         <div className="absolute top-4 right-4 text-xs text-primary/70">
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             {tessellationType.charAt(0).toUpperCase() + tessellationType.slice(1)} Tessellation
           </div>
         </div>

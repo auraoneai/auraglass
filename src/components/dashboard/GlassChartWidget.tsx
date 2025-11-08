@@ -335,7 +335,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
 
                                         {showActionMenu && (
                                             <Motion preset="fadeIn" className="absolute right-0 top-full glass-mt-2 z-10">
-                                                <div className="glass-surface-dark/80 backdrop-blur-md border border-white/20 glass-radius-lg shadow-xl glass-min-w-48">
+                                                <div className="glass-surface-dark/80 glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg shadow-xl glass-min-w-48 glass-contrast-guard">
                                                     {actions.map((action, index) => (
                                                         <button
                                                             key={index}

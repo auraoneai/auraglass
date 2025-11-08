@@ -476,14 +476,14 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
                     <button
                       onClick={handleUndo}
                       disabled={undoStack.length === 0}
-                      className="px-3 py-1 text-sm font-medium text-primary/70 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-3 py-1 text-sm font-medium text-primary/70 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       ↶ Undo
                     </button>
                     <button
                       onClick={handleRedo}
                       disabled={redoStack.length === 0}
-                      className="px-3 py-1 text-sm font-medium text-primary/70 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-3 py-1 text-sm font-medium text-primary/70 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       ↷ Redo
                     </button>
@@ -491,7 +491,7 @@ export const GlassSharedWhiteboard = forwardRef<HTMLDivElement, GlassSharedWhite
                 )}
                 <button
                   onClick={handleClear}
-                  className="px-3 py-1 text-sm font-medium text-primary hover:glass-text-secondary"
+                  className="px-3 py-1 text-sm font-medium text-primary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Clear
                 </button>

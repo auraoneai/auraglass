@@ -450,7 +450,7 @@ export function GlassWebGLShader({
   
   if (!isSupported) {
     return (
-      <div data-glass-component className={cn("OptimizedGlass intensity={0.2} blur={6} glass-p-4", className)}>
+      <div data-glass-component className={cn("OptimizedGlass intensity={0.2} glassBlur={6} glass-p-4", className)}>
         <p className="glass-text-secondary">WebGL not supported</p>
       </div>
     );

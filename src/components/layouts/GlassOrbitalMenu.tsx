@@ -204,7 +204,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
         >
           {/* Center Button */}
           <motion.button
-            className="relative z-20 flex items-center justify-center glass-surface glass-radius-full border border-white/20 backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 transition-colors"
+            className="relative z-20 flex items-center justify-center glass-surface glass-radius-full border border-white/20 glass-glass-backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 transition-colors glass-contrast-guard"
             style={{
               width: itemSize + 8,
               height: itemSize + 8
@@ -257,7 +257,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                     <motion.button
                       className={`
                         relative flex items-center justify-center glass-surface rounded-full
-                        border border-white/20 backdrop-blur-md transition-all duration-200
+                        border border-white/20 glass-backdrop-blur-md transition-all duration-200
                         ${item.disabled
                           ? 'bg-white/5 text-white/40 cursor-not-allowed'
                           : 'bg-white/10 hover:bg-white/15 text-white/90 hover:text-white'
@@ -283,7 +283,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                       )}
                       
                       {item.shortcut && (
-                        <div className="absolute -glass-top-2 -right-2 glass-surface-dark/50 text-primary/70 text-xs px-1 py-0.5 glass-radius text-[10px] backdrop-blur-sm">
+                        <div className="absolute -glass-top-2 -right-2 glass-surface-dark/50 text-primary/70 text-xs px-1 py-0.5 glass-radius text-[10px] glass-glass-backdrop-blur-sm glass-contrast-guard">
                           {item.shortcut}
                         </div>
                       )}
@@ -292,7 +292,7 @@ export const GlassOrbitalMenu = forwardRef<HTMLDivElement, GlassOrbitalMenuProps
                       <AnimatePresence>
                         {isHovered && !prefersReducedMotion && (
                           <motion.div
-                            className="absolute top-full mt-2 glass-surface-dark/80 text-primary text-xs px-2 py-1 glass-radius backdrop-blur-sm whitespace-nowrap"
+                            className="absolute top-full mt-2 glass-surface-dark/80 text-primary text-xs px-2 py-1 glass-radius glass-glass-backdrop-blur-sm whitespace-nowrap glass-contrast-guard"
                             initial={{ opacity: 0, y: -5 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -5 }}

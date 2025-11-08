@@ -591,7 +591,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
     <div className="flex items-center gap-4 p-4">
       <button
         onClick={handlePlayPause}
-        className="w-12 h-12 flex items-center justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors"
+        className="w-12 h-12 flex items-center justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         {isPlaying ? '⏸️' : '▶️'}
       </button>
@@ -665,7 +665,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
         
         <button
           onClick={handlePlayPause}
-          className="w-16 h-16 flex items-center justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors text-xl"
+          className="w-16 h-16 flex items-center justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors text-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           {isPlaying ? '⏸️' : '▶️'}
         </button>
@@ -683,7 +683,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={handleMuteToggle}
-            className="w-8 h-8 flex items-center justify-center hover:glass-surface-subtle glass-radius transition-colors"
+            className="w-8 h-8 flex items-center justify-center hover:glass-surface-subtle glass-radius transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             {isMuted ? '🔇' : '🔊'}
           </button>

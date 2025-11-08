@@ -106,7 +106,7 @@ const SampleForm = () => {
               <GlassFormLabel>Message</GlassFormLabel>
               <GlassFormControl>
                 <textarea
-                  className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg backdrop-blur-md text-primary placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg glass-glass-backdrop-blur-md text-primary placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 glass-contrast-guard glass-touch-target glass-contrast-guard"
                   rows={3}
                   placeholder="Enter your message"
                   {...field}

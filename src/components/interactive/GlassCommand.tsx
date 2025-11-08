@@ -350,7 +350,7 @@ export const GlassCommandDialog: React.FC<GlassCommandDialogProps> = ({
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 glass-surface-dark/50 backdrop-blur-md">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 glass-surface-dark/50 glass-glass-backdrop-blur-md glass-contrast-guard">
             <Motion
                 preset="scaleIn"
                 className="w-full max-w-lg"
@@ -391,7 +391,7 @@ export const GlassCommandInput: React.FC<GlassCommandInputProps> = ({
             <OptimizedGlass
                 variant="clear"
                 elevation={'level1'}
-                className="backdrop-blur-md glass-radius-lg"
+                className="glass-glass-backdrop-blur-md glass-radius-lg glass-contrast-guard"
             >
                 <GlassInput className={cn(
                     'w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none',

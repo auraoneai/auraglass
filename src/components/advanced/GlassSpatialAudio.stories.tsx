@@ -168,7 +168,7 @@ function SpatialAudioDemo() {
           <button
             key={`sound-${i}`}
             className="glass-surface-primary glass-elev-2 glass-radius-lg p-6 text-center gap-4 
-                       hover:glass-elev-3 transition-all duration-300 cursor-pointer group"
+                      hover:glass-elev-3 transition-all duration-300 cursor-pointer group glass-focus glass-touch-target glass-contrast-guard"
             onClick={(e) => playSpatialSound(item.sound, e.currentTarget)}
             onMouseEnter={(e) => playHover(e.currentTarget)}
           >
@@ -317,7 +317,7 @@ export const MinimalMode: Story = {
             return (
               <button
                 key={soundType}
-                className="glass-surface-primary glass-elev-1 glass-radius-lg p-4 text-center hover:glass-elev-2 transition-all duration-300"
+                className="glass-surface-primary glass-elev-1 glass-radius-lg p-4 text-center hover:glass-elev-2 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
                 onClick={(e) => sounds[soundType as keyof typeof sounds](e.currentTarget)}
               >
                 <div className="text-xl mb-2">🔊</div>
@@ -531,7 +531,7 @@ export const AudioReactiveOnly: Story = {
         
         <div className="text-center">
           <button
-            className="glass-surface-primary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300"
+            className="glass-surface-primary glass-elev-2 glass-radius-lg px-6 py-3 hover:glass-elev-3 transition-all duration-300 glass-focus glass-touch-target glass-contrast-guard"
             onClick={() => {
               const { playGlassSound } = useSpatialAudio();
               playGlassSound('ambientGlass', { x: 0, y: 0, z: 0 }, { loop: true, volume: 0.5 });

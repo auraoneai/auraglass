@@ -567,7 +567,7 @@ export function GlassTrophyCase({
 
         <div className="flex flex-wrap gap-4">
           {/* Stats */}
-          <div className="backdrop-blur-lg glass-surface-subtle/10 border border-white/20 glass-radius-xl p-4">
+          <div className="glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-surface-subtle/10 border border-white/20 glass-radius-xl p-4 glass-contrast-guard">
             <div className="flex items-center gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">{stats.unlocked}</div>
@@ -710,7 +710,7 @@ export function GlassTrophyCase({
         {selectedAchievement && (
           <>
             <motion.div
-              className="fixed inset-0 glass-surface-dark/50 backdrop-blur-sm z-50"
+              className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-sm glass-contrast-guard z-50 glass-contrast-guard"
               initial={{ opacity: 0 }}
               animate={prefersReducedMotion ? {} : { opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -723,7 +723,7 @@ export function GlassTrophyCase({
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
             >
-              <div className="max-w-lg w-full backdrop-blur-lg glass-surface-subtle/10 border border-white/20 glass-radius-xl p-8">
+              <div className="max-w-lg w-full glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-surface-subtle/10 border border-white/20 glass-radius-xl p-8 glass-contrast-guard">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-4">
                     <div
@@ -734,7 +734,7 @@ export function GlassTrophyCase({
                       }}
                     >
                       <selectedAchievement.icon
-                        className="w-12 h-12"
+                        className="w-12 h-12 glass-touch-target glass-contrast-guard"
                       />
                     </div>
                   </div>

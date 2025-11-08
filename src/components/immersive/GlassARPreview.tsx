@@ -546,7 +546,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-ar-preview relative glass-radius-lg backdrop-blur-md border border-border/20 overflow-hidden',
+          'glass-ar-preview relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden',
           className
         )}
         {...props}
@@ -615,7 +615,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                 depth={2}
                 tint="neutral"
                 border="subtle"
-                className="flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+                className="flex items-center gap-2 px-4 py-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
               >
                 <button
                   onClick={isTracking ? endARSession : startARSession}
@@ -654,7 +654,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className="absolute top-4 right-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20 max-w-xs"
+                className="absolute top-4 right-4 p-4 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 max-w-xs glass-contrast-guard"
               >
                 {(() => {
                   const object = objects.find(o => o.id === selectedObject);
@@ -693,7 +693,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className="px-3 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+                className="px-3 py-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
               >
                 <div className="flex items-center gap-2 text-xs">
                   <div className={cn(

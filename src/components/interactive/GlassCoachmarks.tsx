@@ -14,10 +14,10 @@ export function GlassCoachmarks({ steps, current, onNext, onPrev, onClose }: Gla
         <div className="glass-radius-2xl glass-surface-subtle/10 border border-white/20 p-4 mx-4 text-primary">
           <div className="mb-3">{step.content}</div>
           <div className="flex justify-between">
-            <button className="px-3 py-1 glass-radius-md glass-surface-subtle/10" onClick={onPrev} disabled={current===0}>Back</button>
+            <button className="px-3 py-1 glass-radius-md glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard" onClick={onPrev} disabled={current===0}>Back</button>
             <div className="gap-2">
-              <button className="px-3 py-1 glass-radius-md glass-surface-subtle/10" onClick={onClose}>Close</button>
-              <button className="px-3 py-1 glass-radius-md glass-surface-blue text-primary" onClick={onNext}>Next</button>
+              <button className="px-3 py-1 glass-radius-md glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard" onClick={onClose}>Close</button>
+              <button className="px-3 py-1 glass-radius-md glass-surface-blue text-primary glass-focus glass-touch-target glass-contrast-guard" onClick={onNext}>Next</button>
             </div>
           </div>
         </div>

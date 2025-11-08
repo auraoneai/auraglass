@@ -202,7 +202,7 @@ export const BiometricAdaptive: Story = {
             <label className="block text-sm font-medium mb-2">Adaptive Form Field</label>
             <input 
               type="text" 
-              className="w-full p-3 glass-surface-subtle/10 glass-radius-md border border-white/20 text-primary placeholder:text-primary/50"
+              className="w-full p-3 glass-surface-subtle/10 glass-radius-md border border-white/20 text-primary placeholder:text-primary/50 glass-touch-target glass-contrast-guard"
               placeholder="Touch targets adjust based on stress level"
             />
           </div>

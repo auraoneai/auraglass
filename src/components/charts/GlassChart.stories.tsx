@@ -54,9 +54,9 @@ export const ConsciousnessOverview: Story = {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-blue glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Predictive Engine</h3>
           </div>
           <ul className="text-sm glass-text-secondary gap-1 ml-5">
@@ -66,9 +66,9 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Eye Tracking</h3>
           </div>
           <ul className="text-sm glass-text-secondary gap-1 ml-5">
@@ -78,9 +78,9 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Biometric Adaptation</h3>
           </div>
           <ul className="text-sm glass-text-secondary gap-1 ml-5">
@@ -90,9 +90,9 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Spatial Audio</h3>
           </div>
           <ul className="text-sm glass-text-secondary gap-1 ml-5">
@@ -153,7 +153,7 @@ export const Variants: Story = {
 export const WithPredictiveFeatures: Story = {
   render: (args: any) => (
     <div className="gap-4">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Predictive Chart</h3>
         <p className="text-xs glass-text-secondary mb-4">Automatically preloads data and shows predictive insights</p>
         <PredictiveGlassChart {...args} />
@@ -176,7 +176,7 @@ export const WithPredictiveFeatures: Story = {
 export const WithEyeTracking: Story = {
   render: (args: any) => (
     <div className="gap-4">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Eye Tracking Enabled</h3>
         <p className="text-xs glass-text-secondary mb-4">Responds to user gaze and highlights data points</p>
         <GlassChart {...args} />
@@ -198,7 +198,7 @@ export const WithEyeTracking: Story = {
 export const AdaptiveChart: Story = {
   render: (args: any) => (
     <div className="gap-4">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Biometric Adaptive</h3>
         <p className="text-xs glass-text-secondary mb-4">Adjusts complexity based on user stress levels</p>
         <AdaptiveGlassChart {...args} />
@@ -221,7 +221,7 @@ export const AdaptiveChart: Story = {
 export const ImmersiveExperience: Story = {
   render: (args: any) => (
     <div className="gap-4">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Immersive with Spatial Audio</h3>
         <p className="text-xs glass-text-secondary mb-4">Full consciousness features with spatial audio feedback</p>
         <ImmersiveGlassChart {...args} />
@@ -242,11 +242,11 @@ export const ImmersiveExperience: Story = {
 export const ConsciousnessComparison: Story = {
   render: (args: any) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Standard Chart</h3>
         <GlassChart {...args} />
       </div>
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Consciousness Enhanced</h3>
         <ConsciousGlassChart {...args} />
       </div>

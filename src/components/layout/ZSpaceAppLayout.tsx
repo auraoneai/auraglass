@@ -187,7 +187,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
               {onSidebarToggle && (
                 <button
                   onClick={onSidebarToggle}
-                  className="zspace-sidebar-toggle"
+                  className="zspace-sidebar-toggle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                   style={{
                     position: 'absolute',
                     top: '50%',

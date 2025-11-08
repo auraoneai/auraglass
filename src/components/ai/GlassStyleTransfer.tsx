@@ -453,7 +453,7 @@ export const GlassStyleTransfer = forwardRef<HTMLDivElement, GlassStyleTransferP
                 type="file"
                 accept="image/*"
                 onChange={handleFileUpload}
-                className="hidden"
+                className="hidden glass-touch-target glass-contrast-guard"
               />
             </div>
           </div>

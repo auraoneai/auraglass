@@ -151,7 +151,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
           </div>
           <button
             onClick={performance.clearAlerts}
-            className="text-xs text-red-600 hover:text-red-800"
+            className="text-xs text-red-600 hover:text-red-800 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             Clear Alerts
           </button>
@@ -206,7 +206,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
           </button>
           <button
             onClick={accessibility.resetSettings}
-            className="text-xs bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
+            className="text-xs bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             Reset
           </button>

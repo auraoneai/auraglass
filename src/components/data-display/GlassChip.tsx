@@ -250,7 +250,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
           liftOnHover={isInteractive && !disabled}
         press={isInteractive ? true : false}
         className={cn(
-          'glass-chip relative inline-flex items-center glass-radius-full border backdrop-blur-md',
+          'glass-chip relative inline-flex items-center glass-radius-full border glass-backdrop-blur-md',
           'transition-all duration-200 select-none',
           config.height,
           config.padding,

@@ -63,6 +63,7 @@ export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
             className={cn(
               // Avoid text cropping and keep shape consistent
               'glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-text-primary/90 hover:bg-white/10 border border-white/10 whitespace-nowrap leading-normal',
+              'glass-focus glass-touch-target glass-contrast-guard',
               'focus:outline-none focus:ring-2 focus:ring-white/30',
               !shouldReduceMotion && 'transition-all duration-200 hover:scale-105',
               it.disabled && 'opacity-50 cursor-not-allowed'

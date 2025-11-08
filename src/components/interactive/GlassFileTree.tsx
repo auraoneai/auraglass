@@ -184,7 +184,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
         const handleDragStart = useCallback((event: React.DragEvent, node: TreeNode) => {
             setDraggedNode(node);
             const ghost = document.createElement('div');
-            ghost.className='pointer-events-none px-2 py-1 glass-radius-md glass-surface-dark/40 ring-1 ring-white/10 text-primary text-xs backdrop-blur-md shadow-xl';
+            ghost.className='pointer-events-none px-2 py-1 glass-radius-md glass-surface-dark/40 ring-1 ring-white/10 text-primary text-xs glass-glass-glass-backdrop-blur-md shadow-xl glass-contrast-guard';
             ghost.textContent = node.name;
             document.body.appendChild(ghost);
             event.dataTransfer.setDragImage(ghost, 8, 8);
@@ -309,9 +309,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
         };
 
         const elevationClasses = {
-            low: 'backdrop-blur-md bg-white/10 border border-white/20',
-            medium: 'backdrop-blur-md bg-white/20 border border-white/30 shadow-lg',
-            high: 'backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl'
+            low: 'glass-glass-backdrop-blur-md bg-white/10 border border-white/20 glass-contrast-guard',
+            medium: 'glass-glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg glass-contrast-guard',
+            high: 'glass-glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl glass-contrast-guard'
         };
 
         const TreeNodeComponent = ({ node, level = 0 }: { node: TreeNode; level?: number }) => {
@@ -344,7 +344,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                             <GlassButton
                                 variant="ghost"
                                 size="sm"
-                                className="w-4 h-4 p-0 hover:glass-surface-subtle/20"
+                                className="w-4 h-4 p-0 hover:glass-surface-subtle/20 glass-focus glass-touch-target"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleToggle(node);
@@ -388,7 +388,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                                         variant="ghost"
                                         size="sm"
                                         onClick={handleRenameSubmit}
-                                        className="w-6 h-6 p-0"
+                                        className="w-6 h-6 p-0 glass-focus glass-touch-target"
                                     >
                                         <Check className="w-3 h-3" />
                                     </GlassButton>
@@ -396,7 +396,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                                         variant="ghost"
                                         size="sm"
                                         onClick={(e) => setRenamingNode(null)}
-                                        className="w-6 h-6 p-0"
+                                        className="w-6 h-6 p-0 glass-focus glass-touch-target"
                                     >
                                         <X className="w-3 h-3" />
                                     </GlassButton>
@@ -424,7 +424,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                         <GlassButton
                             variant="ghost"
                             size="sm"
-                            className="w-6 h-6 p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20"
+                            className="w-6 h-6 p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20 glass-focus glass-touch-target"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 // Simple action for now
@@ -509,8 +509,8 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
 
                 {/* Create Node Dialog */}
                 {creatingNode && (
-                    <div className="fixed inset-0 glass-surface-dark/50 backdrop-blur-md z-50 flex items-center justify-center">
-                        <div className="glass-radius-lg p-6 max-w-md w-full mx-4 glass-surface-subtle/5 ring-1 ring-white/10">
+                    <div className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-50 flex items-center justify-center glass-contrast-guard">
+                        <div className="glass-radius-lg p-6 max-w-md w-full mx-4 glass-surface-subtle/5 ring-1 ring-white/10 glass-contrast-guard">
                             <h3 className="text-lg font-semibold text-primary mb-4">
                                 Create New {creatingNode.type === 'folder' ? 'Folder' : 'File'}
                             </h3>
@@ -526,7 +526,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                                 <GlassButton
                                     variant="ghost"
                                     onClick={(e) => setCreatingNode(null)}
-                                    className="flex-1"
+                                    className="flex-1 glass-focus glass-touch-target"
                                 >
                                     Cancel
                                 </GlassButton>
@@ -534,7 +534,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                                     variant="primary"
                                     onClick={handleCreateSubmit}
                                     disabled={!newNodeName.trim()}
-                                    className="flex-1"
+                                    className="flex-1 glass-focus glass-touch-target"
                                 >
                                     Create
                                 </GlassButton>

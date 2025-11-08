@@ -81,7 +81,7 @@ const CategorySection: React.FC<{
     <div className="mb-4">
       <button
         onClick={onToggle}
-        className="flex items-center justify-between w-full p-2 glass-radius-lg hover:glass-surface-subtle transition-colors"
+        className="flex items-center justify-between w-full p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
       >
         <div className="flex items-center gap-2">
           <CategoryIcon category={category} />
@@ -157,10 +157,10 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
   if (collapsed) {
     return (
       <div className={cn("w-12", className)}>
-        <Glass className="h-full">
+        <Glass className="h-full glass-contrast-guard">
           <button
             onClick={onToggleCollapse}
-            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Expand Component Palette"
           >
             <div className="text-lg">📦</div>
@@ -172,13 +172,13 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
 
   return (
     <div className={cn("w-80 h-full flex flex-col", className)}>
-      <Glass className="h-full flex flex-col">
+      <Glass className="h-full flex flex-col glass-contrast-guard">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-subtle">
           <h2 className="text-lg font-semibold glass-text-secondary">Components</h2>
           <button
             onClick={onToggleCollapse}
-            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Collapse Palette"
           >
             ◀
@@ -201,7 +201,7 @@ export const GlassComponentPalette: React.FC<ComponentPaletteProps> = ({
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary"
+                className="absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target"
               >
                 ✕
               </button>

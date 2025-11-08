@@ -439,7 +439,7 @@ export default function VoiceGlassControl({
     return (
       <div className={cn('fixed z-50', positionClasses[position], className)}>
         <motion.div
-          className="backdrop-blur-lg border border-red/20 glass-surface-red/10 p-3 glass-radius-lg"
+          className="glass-glass-glass-backdrop-blur-lg border border-red/20 glass-surface-red/10 p-3 glass-radius-lg glass-contrast-guard"
           whileHover={{ scale: 1.05 }}
         >
           <div className="flex items-center gap-2 text-primary">
@@ -457,7 +457,7 @@ export default function VoiceGlassControl({
         {/* Main Control */}
         <motion.div
           className={cn(
-            'backdrop-blur-lg border p-3 rounded-lg transition-all duration-300',
+            'glass-glass-backdrop-blur-lg border p-3 rounded-lg transition-all duration-300 glass-contrast-guard',
             getStateColor()
           )}
           whileHover={{ scale: 1.05 }}
@@ -466,7 +466,7 @@ export default function VoiceGlassControl({
             {/* State Icon */}
             <button
               onClick={actions.toggle}
-              className="flex items-center justify-center w-10 h-10 glass-radius-full glass-surface-subtle/10 hover:glass-surface-subtle/20 transition-colors"
+              className="flex items-center justify-center w-10 h-10 glass-radius-full glass-surface-subtle/10 hover:glass-surface-subtle/20 transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             >
               {getStateIcon()}
             </button>
@@ -525,7 +525,7 @@ export default function VoiceGlassControl({
                 <span>{state.error}</span>
                 <button
                   onClick={actions.clearError}
-                  className="p-0.5 hover:glass-surface-red/20 glass-radius"
+                  className="p-0.5 hover:glass-surface-red/20 glass-radius glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -613,12 +613,12 @@ export default function VoiceGlassControl({
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >
-              <div className="backdrop-blur-lg border border-white/20 glass-surface-subtle/10 p-4 glass-radius-lg w-80">
+              <div className="glass-glass-glass-backdrop-blur-lg border border-white/20 glass-surface-subtle/10 p-4 glass-radius-lg w-80 glass-contrast-guard">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-medium text-primary">Voice Settings</h3>
                   <button
                     onClick={() => setShowSettings(false)}
-                    className="p-1 hover:glass-surface-subtle/10 glass-radius transition-colors"
+                    className="p-1 hover:glass-surface-subtle/10 glass-radius transition-colors glass-focus glass-touch-target"
                   >
                     <X className="h-4 w-4 text-primary/70" />
                   </button>
@@ -634,7 +634,7 @@ export default function VoiceGlassControl({
                       type="text"
                       value={wakeWord}
                       readOnly
-                      className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius text-primary text-sm"
+                      className="w-full p-2 glass-surface-subtle/10 border border-white/20 glass-radius text-primary text-sm glass-touch-target glass-contrast-guard"
                     />
                     <div className="text-xs text-primary/60 mt-1">
                       Say this to activate voice control
@@ -690,7 +690,7 @@ export default function VoiceGlassControl({
                     </label>
                     <button
                       onClick={handleTestCommand}
-                      className="w-full p-2 glass-surface-blue/20 hover:glass-surface-blue/30 border border-blue/30 glass-radius text-primary text-sm transition-colors"
+                      className="w-full p-2 glass-surface-blue/20 hover:glass-surface-blue/30 border border-blue/30 glass-radius text-primary text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       Try Random Command
                     </button>
@@ -723,12 +723,12 @@ export default function VoiceGlassControl({
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >
-              <div className="backdrop-blur-lg border border-white/20 glass-surface-subtle/10 p-4 glass-radius-lg w-96 max-h-80 overflow-y-auto">
+              <div className="glass-glass-glass-backdrop-blur-lg border border-white/20 glass-surface-subtle/10 p-4 glass-radius-lg w-96 max-h-80 overflow-y-auto glass-contrast-guard">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-medium text-primary">Voice Commands</h3>
                   <button
                     onClick={() => setShowHelpPanel(false)}
-                    className="p-1 hover:glass-surface-subtle/10 glass-radius transition-colors"
+                    className="p-1 hover:glass-surface-subtle/10 glass-radius transition-colors glass-focus glass-touch-target"
                   >
                     <X className="h-4 w-4 text-primary/70" />
                   </button>

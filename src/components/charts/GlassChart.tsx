@@ -221,7 +221,7 @@ const ChartContainer = styled.div<{
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-backdrop-blur);
+  backdrop-filter: var(--glass-glass-backdrop-blur);
   border: 1px solid var(--glass-border-default);
   z-index: ${zSpaceLayers.content};
   

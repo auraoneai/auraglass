@@ -1,4 +1,5 @@
 import React, { forwardRef, useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 import { OptimizedGlass } from '../../primitives';
 import { Motion } from '../../primitives';
@@ -191,7 +192,7 @@ const getPositionClasses = (position: string) => {
 // Get color classes for variants
 const getColorClasses = (color: string, variant: string) => {
   if (variant === 'glass') {
-    return 'glass-text-primary bg-white/10 backdrop-blur-md border border-white/20';
+    return 'glass-text-primary bg-white/10 glass-glass-backdrop-blur-md border border-white/20';
   }
   
   switch (color) {
@@ -312,6 +313,7 @@ const FabWrapper: React.FC<{
  * A floating action button (FAB) performs the primary action in an application.
  */
 export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((props, ref) => {
+  const prefersReducedMotion = useReducedMotion();
   const {
     children,
     color = 'primary',
@@ -549,7 +551,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((
           {...a11yProps}
           {...rest}
         >
-          <span className="relative z-10">
+          <span className="relative z-10 glass-focus glass-touch-target glass-contrast-guard">
             {children}
           </span>
           {description && (
@@ -583,7 +585,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>((
         >
           {children}
           {description && (
-            <span id={descriptionId} className="sr-only">
+            <span id={descriptionId} className="sr-only glass-focus glass-touch-target glass-contrast-guard">
               {description}
             </span>
           )}

@@ -575,7 +575,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             duration={animationDuration}
             className={cn(
               'absolute inset-0 bg-black/20 cursor-pointer',
-              backdropBlur && 'backdrop-blur-md',
+              backdropBlur && 'glass-backdrop-blur-md',
               consciousness && 'consciousness-drawer-backdrop',
               adaptive && drawerInsights?.urgency === 'high' && 'consciousness-urgent-backdrop'
             )}

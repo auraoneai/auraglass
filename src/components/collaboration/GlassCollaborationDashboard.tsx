@@ -195,10 +195,10 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
     <div className={cn("fixed z-40", positionClasses[position], className)}>
       {!isExpanded ? (
         // Collapsed state
-        <Glass className="p-3">
+        <Glass className="p-3 glass-contrast-guard">
           <button
             onClick={() => setIsExpanded(true)}
-            className="flex items-center gap-3 hover:glass-surface-subtle glass-radius p-2 transition-colors"
+            className="flex items-center gap-3 hover:glass-surface-subtle glass-radius p-2 transition-colors glass-focus glass-touch-target"
           >
             <div className="flex -space-x-2">
               {activeUsers.slice(0, 3).map((user: any) => (
@@ -227,13 +227,13 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
         </Glass>
       ) : (
         // Expanded state
-        <Glass className="w-80 max-h-96 overflow-hidden">
+        <Glass className="w-80 max-h-96 overflow-hidden glass-contrast-guard">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-subtle">
             <h3 className="font-semibold glass-text-secondary">Collaboration</h3>
             <button
               onClick={() => setIsExpanded(false)}
-              className="glass-text-secondary hover:glass-text-secondary p-1"
+              className="glass-text-secondary hover:glass-text-secondary p-1 glass-focus glass-touch-target"
             >
               ✕
             </button>
@@ -251,9 +251,9 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                 <button
                   onClick={toggleCursors}
                   className={cn(
-                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors",
-                    showCursors 
-                      ? "bg-blue-100 text-blue-700" 
+                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors glass-focus glass-touch-target",
+                    showCursors
+                      ? "bg-blue-100 text-blue-700"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   )}
                 >
@@ -264,9 +264,9 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                 <button
                   onClick={toggleComments}
                   className={cn(
-                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors relative",
-                    showComments 
-                      ? "bg-purple-100 text-purple-700" 
+                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors relative glass-focus glass-touch-target",
+                    showComments
+                      ? "bg-purple-100 text-purple-700"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   )}
                 >
@@ -282,9 +282,9 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
                 <button
                   onClick={toggleActivity}
                   className={cn(
-                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors",
-                    showActivity 
-                      ? "bg-green-100 text-green-700" 
+                    "flex flex-col items-center gap-1 p-2 rounded text-xs transition-colors glass-focus glass-touch-target",
+                    showActivity
+                      ? "bg-green-100 text-green-700"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   )}
                 >
@@ -300,7 +300,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
             <button
               onClick={() => setActiveTab('users')}
               className={cn(
-                "flex-1 px-4 py-2 text-sm font-medium transition-colors",
+                "flex-1 px-4 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target",
                 activeTab === 'users'
                   ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                   : "text-gray-600 hover:text-gray-900"
@@ -311,7 +311,7 @@ export const GlassCollaborationDashboard: React.FC<CollaborationDashboardProps> 
             <button
               onClick={() => setActiveTab('activity')}
               className={cn(
-                "flex-1 px-4 py-2 text-sm font-medium transition-colors",
+                "flex-1 px-4 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target",
                 activeTab === 'activity'
                   ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                   : "text-gray-600 hover:text-gray-900"

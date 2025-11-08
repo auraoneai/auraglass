@@ -249,7 +249,7 @@ export function GlassOrientationEffects({
   // Permission request component
   if (isSupported && !permissionGranted) {
     return (
-      <div className={cn("relative OptimizedGlass intensity={0.2} blur={6} glass-p-6", className)}>
+      <div className={cn("relative OptimizedGlass intensity={0.2} glassBlur={6} glass-p-6", className)}>
         <div className="text-center">
           <h3 className="text-lg font-semibold mb-2">
             Enable Device Orientation
@@ -259,7 +259,7 @@ export function GlassOrientationEffects({
           </p>
           <button
             onClick={requestPermissions}
-            className="glass-button glass-button-primary"
+            className="glass-button glass-button-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             Enable Orientation Effects
           </button>
@@ -280,7 +280,7 @@ export function GlassOrientationEffects({
     <motion.div
       ref={containerRef}
       className={cn(
-        "relative OptimizedGlass intensity={0.2} blur={6} overflow-hidden",
+        "relative OptimizedGlass intensity={0.2} glassBlur={6} overflow-hidden",
         "transform-gpu will-change-transform",
         className
       )}
@@ -302,7 +302,7 @@ export function GlassOrientationEffects({
           {/* Background parallax layer */}
           {effectTypes.includes('parallax') && (
             <motion.div
-              className="absolute inset-0 OptimizedGlass intensity={0.2} blur={6} opacity-30"
+              className="absolute inset-0 OptimizedGlass intensity={0.2} glassBlur={6} opacity-30"
               style={{
                 x: backgroundX,
                 y: backgroundY,

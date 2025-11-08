@@ -197,9 +197,9 @@ const ActionButton: React.FC<{
   <button
     onClick={onClick}
     className={cn(
-      "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
-      variant === 'default' 
-        ? "bg-gray-100 text-gray-700 hover:bg-gray-200" 
+      "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors glass-focus glass-touch-target",
+      variant === 'default'
+        ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
         : "bg-red-50 text-red-700 hover:bg-red-100"
     )}
   >
@@ -240,10 +240,10 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
   if (collapsed) {
     return (
       <div className={cn("w-12", className)}>
-        <Glass className="h-full">
+        <Glass className="h-full glass-contrast-guard">
           <button
             onClick={onToggleCollapse}
-            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="flex items-center justify-center w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Expand Property Panel"
           >
             <div className="text-lg">⚙️</div>
@@ -255,13 +255,13 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
 
   return (
     <div className={cn("w-80 h-full flex flex-col", className)}>
-      <Glass className="h-full flex flex-col">
+      <Glass className="h-full flex flex-col glass-contrast-guard">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-subtle">
           <h2 className="text-lg font-semibold glass-text-secondary">Properties</h2>
           <button
             onClick={onToggleCollapse}
-            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors"
+            className="p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Collapse Panel"
           >
             ▶
@@ -336,7 +336,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
                   key={section.key}
                   onClick={() => setActiveSection(section.key as any)}
                   className={cn(
-                    "flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm font-medium transition-colors",
+                    "flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target",
                     activeSection === section.key
                       ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                       : "text-gray-600 hover:text-gray-900"

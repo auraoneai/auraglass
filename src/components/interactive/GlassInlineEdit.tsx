@@ -29,11 +29,11 @@ export function GlassInlineEdit({ value, onChange, placeholder = 'Edit…', clas
             aria-label={placeholder}
             className="bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none"
           />
-          <GlassButton size="sm" variant="primary" onClick={(e) => { onChange(draft); setEditing(false); }} aria-label="Save changes">Save</GlassButton>
-          <GlassButton size="sm" variant="ghost" onClick={(e) => { setDraft(value); setEditing(false); }} aria-label="Cancel editing">Cancel</GlassButton>
+          <GlassButton size="sm" variant="primary" onClick={(e) => { onChange(draft); setEditing(false); }} aria-label="Save changes" className="glass-focus glass-touch-target">Save</GlassButton>
+          <GlassButton size="sm" variant="ghost" onClick={(e) => { setDraft(value); setEditing(false); }} aria-label="Cancel editing" className="glass-focus glass-touch-target">Cancel</GlassButton>
         </>
       ) : (
-        <button className="px-2 py-1 glass-radius-lg hover:glass-surface-subtle/10 text-sm" onClick={(e) => setEditing(true)} aria-label={`Edit ${value || placeholder}`}>
+        <button className="px-2 py-1 glass-radius-lg hover:glass-surface-subtle/10 text-sm glass-focus glass-touch-target" onClick={(e) => setEditing(true)} aria-label={`Edit ${value || placeholder}`}>
           {value || <span className="text-primary/60">{placeholder}</span>}
         </button>
       )}

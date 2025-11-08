@@ -339,7 +339,7 @@ export const GlassA11yAuditor = forwardRef<HTMLDivElement, GlassA11yAuditorProps
           <button
             onClick={runAudit}
             disabled={isAuditing}
-            className="px-4 py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             aria-label={isAuditing ? 'Auditing accessibility issues' : 'Run accessibility audit'}
           >
             {isAuditing ? 'Auditing...' : 'Run Audit'}

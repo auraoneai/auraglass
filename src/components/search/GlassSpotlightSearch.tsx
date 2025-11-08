@@ -244,7 +244,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
 
     const content = (
       <div
-        className="fixed inset-0 z-50 flex items-start justify-center glass-p-4 pt-24 bg-black/40 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-start justify-center glass-p-4 pt-24 bg-black/40 glass-glass-glass-backdrop-blur-sm glass-contrast-guard"
         onClick={onClose}
         role="presentation"
       >
@@ -328,7 +328,7 @@ export const GlassSpotlightSearch = forwardRef<HTMLDivElement, GlassSpotlightSea
                           className={cn(
                             'w-full flex items-center gap-3 glass-p-3 glass-radius-lg',
                             'transition-all duration-200',
-                            'text-left',
+                            'text-left glass-focus glass-touch-target glass-contrast-guard',
                             isSelected
                               ? 'bg-white/15 shadow-lg'
                               : 'hover:bg-white/5'

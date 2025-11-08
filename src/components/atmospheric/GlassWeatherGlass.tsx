@@ -618,7 +618,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-weather-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-weather-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <label className="text-sm">Weather:</label>
@@ -629,7 +629,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
                 setCurrentWeather(newWeather);
                 onWeatherChange?.(newWeather);
               }}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20 glass-contrast-guard"
             >
               <option value="clear">Clear</option>
               <option value="sunny">Sunny</option>
@@ -708,7 +708,7 @@ export const GlassWeatherGlass = forwardRef<HTMLDivElement, GlassWeatherGlassPro
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-weather-glass relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-weather-glass relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20',
           className
         )}
         style={{

@@ -45,7 +45,7 @@ const PerformanceDashboardComponent = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+      <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold text-primary">Performance Mode</h3>
           <div className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -74,7 +74,7 @@ const PerformanceDashboardComponent = () => {
         </div>
       </div>
 
-      <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+      <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold text-primary">Battery Level</h3>
           <div className="text-2xl">🔋</div>
@@ -97,7 +97,7 @@ const PerformanceDashboardComponent = () => {
         </div>
       </div>
 
-      <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+      <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold text-primary">CPU Load</h3>
           <div className="text-2xl">⚡</div>
@@ -120,7 +120,7 @@ const PerformanceDashboardComponent = () => {
         </div>
       </div>
 
-      <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+      <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold text-primary">GPU Acceleration</h3>
           <div className="text-2xl">{gpuAcceleration ? '🚀' : '🐌'}</div>
@@ -164,7 +164,7 @@ export const PerformanceDashboard: Story = {
           <PerformanceDashboardComponent />
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
               <h3 className="text-xl font-semibold text-primary mb-4">Performance Modes</h3>
               <div className="space-y-4">
                 <div className="p-4 glass-surface-green/10 glass-radius-lg border border-green/20">
@@ -184,7 +184,7 @@ export const PerformanceDashboard: Story = {
               </div>
             </div>
 
-            <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
               <h3 className="text-xl font-semibold text-primary mb-4">Adaptive Features</h3>
               <div className="space-y-3 text-primary/80">
                 <div className="flex items-center gap-3">
@@ -311,7 +311,7 @@ export const LazyLoading: Story = {
               </p>
             </div>
 
-            <div className="mb-8 p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+            <div className="mb-8 p-6 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl glass-contrast-guard">
               <h3 className="text-xl font-semibold text-primary mb-4">Loading Status</h3>
               <div className="flex flex-wrap gap-2">
                 {['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5', 'Card 6'].map(card => (
@@ -358,7 +358,7 @@ export const LazyLoading: Story = {
               ))}
             </div>
 
-            <div className="mt-12 p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+            <div className="mt-12 p-6 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl glass-contrast-guard">
               <h3 className="text-xl font-semibold text-primary mb-4">Lazy Loading Benefits</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="text-center">
@@ -454,7 +454,7 @@ export const BatteryOptimization: Story = {
             </BatteryAwareGlass>
           </div>
 
-          <div className="mt-12 p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl">
+          <div className="mt-12 p-6 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-6 text-center">Battery Optimization Features</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
@@ -578,7 +578,7 @@ export const ProgressiveEnhancement: Story = {
             </ProgressiveGlassEnhancement>
           </div>
 
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-6 text-center">Progressive Enhancement Benefits</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">

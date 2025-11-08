@@ -265,7 +265,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleRandomGradient}
-                                className="p-2"
+                                className="p-2 glass-focus glass-touch-target"
                                 title="Random Gradient"
                             >
                                 <Shuffle className="w-4 h-4" />
@@ -275,7 +275,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleCopyGradient}
-                                className="p-2"
+                                className="p-2 glass-focus glass-touch-target"
                                 title="Copy Gradient"
                             >
                                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -301,7 +301,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleReset}
-                                className="p-2"
+                                className="p-2 glass-focus glass-touch-target"
                                 title="Reset"
                             >
                                 <RotateCcw className="w-4 h-4" />
@@ -320,7 +320,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                         variant={selectedType === type ? "primary" : "ghost"}
                                         size="sm"
                                         onClick={(e) => setSelectedType(type)}
-                                        className="capitalize"
+                                        className="capitalize glass-focus glass-touch-target"
                                     >
                                         {type}
                                     </GlassButton>
@@ -354,7 +354,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                         variant="ghost"
                                         size="sm"
                                         onClick={handleAddStop}
-                                        className="p-1"
+                                        className="p-1 glass-focus glass-touch-target"
                                     >
                                         <Upload className="w-4 h-4" />
                                     </GlassButton>
@@ -400,7 +400,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={(e) => handleRemoveStop(index)}
-                                                className="p-1 text-primary hover:glass-text-secondary"
+                                                className="p-1 text-primary hover:glass-text-secondary glass-focus glass-touch-target"
                                             >
                                                 <Download className="w-4 h-4" />
                                             </GlassButton>
@@ -419,7 +419,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                                 {allPresets.map((preset) => (
                                     <div
                                         key={preset.id}
-                                        className="cursor-pointer group"
+                                        className="cursor-pointer group glass-focus glass-touch-target"
                                         onClick={(e) => handlePresetSelect(preset)}
                                     >
                                         <div

@@ -513,7 +513,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-hologram relative glass-radius-lg backdrop-blur-md border border-border/20 overflow-hidden',
+          'glass-hologram relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden',
           className
         )}
         style={{
@@ -611,7 +611,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
                 depth={2}
                 tint="neutral"
                 border="subtle"
-                className="flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+                className="flex items-center gap-2 px-4 py-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
               >
                 <button
                   onClick={() => setCurrentProjection((prev: any) => ({ ...prev, angle: (prev.angle + 90) % 360 }))}
@@ -646,7 +646,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
               depth={1}
               tint="neutral"
               border="subtle"
-              className="absolute top-4 left-4 p-3 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+              className="absolute top-4 left-4 p-3 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
             >
               <div className="text-xs font-mono gap-1" style={{ color: colors.primary }}>
                 <div>Angle: {currentProjection.angle.toFixed(1)}°</div>

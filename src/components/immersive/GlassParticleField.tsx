@@ -530,7 +530,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-particle-field relative glass-radius-lg backdrop-blur-md border border-border/20 overflow-hidden',
+          'glass-particle-field relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden',
           className
         )}
         style={{ width: bounds.width, height: bounds.height }}
@@ -579,7 +579,7 @@ export const GlassParticleField = forwardRef<HTMLDivElement, GlassParticleFieldP
               depth={2}
               tint="neutral"
               border="subtle"
-              className="flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+              className="flex items-center gap-2 px-4 py-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
             >
               <button
                 onClick={() => setIsPlaying(!isPlaying)}

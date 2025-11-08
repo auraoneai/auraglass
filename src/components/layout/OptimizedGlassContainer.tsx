@@ -239,10 +239,10 @@ export const OptimizedGlassContainer = forwardRef<HTMLDivElement, OptimizedGlass
           'relative',
           // Apply different styling based on optimization level
           {
-            'backdrop-blur-xl': optimizationLevel === 'none' && preserveBlur,
-            'backdrop-blur-lg': optimizationLevel === 'light' && preserveBlur,
-            'backdrop-blur-md': optimizationLevel === 'moderate' && preserveBlur,
-            'backdrop-blur-sm': optimizationLevel === 'heavy' && preserveBlur,
+            'glass-backdrop-blur-xl': optimizationLevel === 'none' && preserveBlur,
+            'glass-backdrop-blur-lg': optimizationLevel === 'light' && preserveBlur,
+            'glass-backdrop-blur-md': optimizationLevel === 'moderate' && preserveBlur,
+            'glass-backdrop-blur-sm': optimizationLevel === 'heavy' && preserveBlur,
           },
           className
         )}

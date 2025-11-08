@@ -823,7 +823,7 @@ const AchievementNotificationCard = forwardRef<HTMLDivElement, {
           </div>
           <button
             onClick={onClose}
-            className="text-xs text-primary/60 hover:text-primary/90"
+            className="text-xs text-primary/60 hover:text-primary/90 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             aria-label="Close achievement notification"
           >
             ✕
@@ -933,7 +933,7 @@ export function GlassAchievementDashboard({
         </div>
         
         {/* XP Progress bar */}
-        <div className="w-full glass-surface-subtle/5 backdrop-blur-sm glass-radius-sm h-2 overflow-hidden">
+        <div className="w-full glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm h-2 overflow-hidden glass-contrast-guard">
           <motion.div
             className="h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary"
             animate={{ 
@@ -959,8 +959,8 @@ export function GlassAchievementDashboard({
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              "flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors",
-              activeTab === tab.id 
+              "flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard",
+              activeTab === tab.id
                 ? "glass-text-primary/90 bg-white/10" 
                 : "glass-text-primary/60 hover:glass-text-primary/90"
             )}
@@ -976,11 +976,11 @@ export function GlassAchievementDashboard({
         {activeTab === 'progress' && (
           <div className="gap-3">
             <div className="grid grid-cols-2 gap-2 text-center">
-              <div className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-md p-2">
+              <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-md p-2 glass-contrast-guard">
                 <div className="text-lg font-medium text-primary/90">{progress.level}</div>
                 <div className="text-xs text-primary/60">Level</div>
               </div>
-              <div className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-md p-2">
+              <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-md p-2 glass-contrast-guard">
                 <div className="text-lg font-medium text-primary/90">{progress.totalXP}</div>
                 <div className="text-xs text-primary/60">Total XP</div>
               </div>
@@ -990,7 +990,7 @@ export function GlassAchievementDashboard({
               <h4 className="text-sm font-medium text-primary/90 mb-2">In Progress</h4>
               <div className="gap-2">
                 {availableAchievements.slice(0, 3).map((achievement: any) => (
-                  <div key={achievement.id} className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-sm p-2">
+                  <div key={achievement.id} className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm p-2 glass-contrast-guard">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm text-primary/90">{achievement.title}</span>
                       <span className="text-xs text-primary/60">
@@ -1013,7 +1013,7 @@ export function GlassAchievementDashboard({
         {activeTab === 'achievements' && (
           <div className="gap-2">
             {unlockedAchievements.map((achievement: any) => (
-              <div key={achievement.id} className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-sm p-3">
+              <div key={achievement.id} className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm p-3 glass-contrast-guard">
                 <div className="flex items-center gap-3">
                   <div className="text-xl">{achievement.icon}</div>
                   <div className="flex-1">
@@ -1051,7 +1051,7 @@ export function GlassAchievementDashboard({
                 { label: 'Time Spent', value: `${Math.floor(progress.stats.timeSpent / 60000)}m` },
                 { label: 'Social', value: progress.stats.socialInteractions },
               ].map((stat: any) => (
-                <div key={stat.label} className="glass-surface-subtle/5 backdrop-blur-sm glass-radius-md p-2 text-center">
+                <div key={stat.label} className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-md p-2 text-center glass-contrast-guard">
                   <div className="text-lg font-medium text-primary/90">{stat.value}</div>
                   <div className="text-xs text-primary/60">{stat.label}</div>
                 </div>

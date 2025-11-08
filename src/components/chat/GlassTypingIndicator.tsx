@@ -1,5 +1,6 @@
 import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { OptimizedGlass } from '../../primitives';
 
 export interface GlassTypingIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -72,6 +73,7 @@ export const GlassTypingIndicator = forwardRef<HTMLDivElement, GlassTypingIndica
     },
     ref
   ) => {
+  const prefersReducedMotion = useReducedMotion();
     if (!isTyping) return null;
 
     const userList = Array.isArray(users) ? users : users ? [users] : [];

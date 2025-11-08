@@ -36,10 +36,10 @@ export function GlassKeyValueEditor({ value, onChange, className }: GlassKeyValu
             aria-label={`Value for pair ${i + 1}`}
             className="flex-1 bg-transparent border border-white/20 glass-radius-lg px-2 py-1 text-sm outline-none"
           />
-          <GlassButton size="sm" variant="ghost" onClick={(e) => remove(i)} aria-label={`Remove pair ${i + 1}`}>Remove</GlassButton>
+          <GlassButton size="sm" variant="ghost" onClick={(e) => remove(i)} aria-label={`Remove pair ${i + 1}`} className="glass-focus glass-touch-target">Remove</GlassButton>
         </div>
       ))}
-      <GlassButton size="sm" variant="secondary" onClick={add} aria-label="Add new key-value pair">Add</GlassButton>
+      <GlassButton size="sm" variant="secondary" onClick={add} aria-label="Add new key-value pair" className="glass-focus glass-touch-target">Add</GlassButton>
     </div>
   );
 }

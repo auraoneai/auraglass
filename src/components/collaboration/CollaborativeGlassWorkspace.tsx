@@ -441,7 +441,7 @@ function WorkspaceHeader({
             <button
               onClick={onUndo}
               disabled={!canUndo}
-              className="p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary"
+              className="p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title="Undo"
             >
               <Undo className="w-4 h-4" />
@@ -449,7 +449,7 @@ function WorkspaceHeader({
             <button
               onClick={onRedo}
               disabled={!canRedo}
-              className="p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary"
+              className="p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title="Redo"
             >
               <Redo className="w-4 h-4" />
@@ -539,14 +539,14 @@ function WorkspaceHeader({
         {/* Controls */}
         <button
           onClick={onToggleSidebar}
-          className="p-2 glass-radius hover:glass-surface-subtle/10 text-primary"
+          className="p-2 glass-radius hover:glass-surface-subtle/10 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           title="Toggle Sidebar"
         >
           <Layers className="w-4 h-4" />
         </button>
         <button
           onClick={onToggleFullscreen}
-          className="p-2 glass-radius hover:glass-surface-subtle/10 text-primary"
+          className="p-2 glass-radius hover:glass-surface-subtle/10 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           title="Toggle Fullscreen"
         >
           {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
@@ -652,15 +652,15 @@ function MultiUserGlassEditor({ target, showPreview, showHistory, showComments, 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="text-primary/60 text-sm w-20">Width:</span>
-                <input type="number" className="flex-1 p-2 glass-surface-subtle/10 glass-radius text-primary text-sm" placeholder="Auto" />
+                <input type="number" className="flex-1 p-2 glass-surface-subtle/10 glass-radius text-primary text-sm glass-touch-target glass-contrast-guard" placeholder="Auto" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-primary/60 text-sm w-20">Height:</span>
-                <input type="number" className="flex-1 p-2 glass-surface-subtle/10 glass-radius text-primary text-sm" placeholder="Auto" />
+                <input type="number" className="flex-1 p-2 glass-surface-subtle/10 glass-radius text-primary text-sm glass-touch-target glass-contrast-guard" placeholder="Auto" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-primary/60 text-sm w-20">Opacity:</span>
-                <input type="range" min="0" max="1" step="0.1" className="flex-1" />
+                <input type="range" min="0" max="1" step="0.1" className="flex-1 glass-touch-target glass-contrast-guard" />
               </div>
             </div>
           </div>
@@ -755,7 +755,7 @@ function VoiceChatPanel({ isActive, voiceUsers, onClose, onToggleVoice }: any) {
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-primary font-semibold">Voice Chat</h3>
-        <button onClick={onClose} className="text-primary/70 hover:text-primary">
+        <button onClick={onClose} className="glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/70">
           ✕
         </button>
       </div>
@@ -789,7 +789,7 @@ function VersionControlPanel({ onClose, onCreateSnapshot, canUndo, canRedo, onUn
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-primary font-semibold">Version Control</h3>
-        <button onClick={onClose} className="text-primary/70 hover:text-primary">
+        <button onClick={onClose} className="glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/70">
           ✕
         </button>
       </div>
@@ -799,7 +799,7 @@ function VersionControlPanel({ onClose, onCreateSnapshot, canUndo, canRedo, onUn
           <button
             onClick={onUndo}
             disabled={!canUndo}
-            className="flex-1 py-2 px-3 glass-radius glass-surface-subtle/10 text-primary disabled:opacity-50"
+            className="flex-1 py-2 px-3 glass-radius glass-surface-subtle/10 text-primary disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <Undo className="w-4 h-4 inline mr-1" />
             Undo
@@ -807,7 +807,7 @@ function VersionControlPanel({ onClose, onCreateSnapshot, canUndo, canRedo, onUn
           <button
             onClick={onRedo}
             disabled={!canRedo}
-            className="flex-1 py-2 px-3 glass-radius glass-surface-subtle/10 text-primary disabled:opacity-50"
+            className="flex-1 py-2 px-3 glass-radius glass-surface-subtle/10 text-primary disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             <Redo className="w-4 h-4 inline mr-1" />
             Redo
@@ -837,7 +837,7 @@ function WorkspaceFloatingActions({ isVoiceActive, onToggleVoice, onShowVoicePan
         {enableVoiceChat && (
           <button
             onClick={onShowVoicePanel}
-            className="w-12 h-12 glass-radius-full glass-surface-green text-primary flex items-center justify-center shadow-lg hover:glass-surface-green"
+            className="w-12 h-12 glass-radius-full glass-surface-green text-primary flex items-center justify-center shadow-lg hover:glass-surface-green glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             title="Voice Chat"
           >
             <Mic className="w-4 h-4" />
@@ -847,7 +847,7 @@ function WorkspaceFloatingActions({ isVoiceActive, onToggleVoice, onShowVoicePan
         {enableVersionControl && (
           <button
             onClick={onShowVersionPanel}
-            className="w-12 h-12 glass-radius-full glass-surface-blue text-primary flex items-center justify-center shadow-lg hover:glass-surface-blue"
+            className="w-12 h-12 glass-radius-full glass-surface-blue text-primary flex items-center justify-center shadow-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             title="Version Control"
           >
             <Settings className="w-4 h-4" />
@@ -856,7 +856,7 @@ function WorkspaceFloatingActions({ isVoiceActive, onToggleVoice, onShowVoicePan
 
         <button
           onClick={onToggleFullscreen}
-          className="w-12 h-12 glass-radius-full glass-surface-primary text-primary flex items-center justify-center shadow-lg hover:glass-surface-subtle"
+          className="w-12 h-12 glass-radius-full glass-surface-primary text-primary flex items-center justify-center shadow-lg hover:glass-surface-subtle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           title="Fullscreen"
         >
           <Maximize className="w-4 h-4" />
@@ -899,7 +899,7 @@ function WorkspaceConnectionError({ onRetry, error }: { onRetry: () => void; err
         <div className="text-primary/70">{error}</div>
         <button
           onClick={onRetry}
-          className="px-6 py-3 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors"
+          className="px-6 py-3 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           Retry Connection
         </button>

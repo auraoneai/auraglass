@@ -136,7 +136,7 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
           performanceMode="medium"
           
             className={cn(
-                'inline-flex items-center glass-px-3 glass-py-1.5 backdrop-blur-md ring-1 ring-white/10 bg-white/5',
+                'inline-flex items-center glass-px-3 glass-py-1.5 glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5',
                 sizeClasses?.[size],
                 className
             )}

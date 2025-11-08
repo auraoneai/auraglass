@@ -320,7 +320,7 @@ function ToggleButtonComponent(
     fullWidth && 'w-full',
     // Disabled state
     disabled && 'cursor-default pointer-events-none opacity-50',
-    !disabled && 'cursor-pointer',
+    !disabled && 'cursor-pointer glass-focus glass-touch-target',
     // Consciousness feature styles
     gazeResponsive && (isHovered /* || (eyeTracker?.isGazing && !disabled) */) && 'ring-2 ring-blue-400/40',
     className

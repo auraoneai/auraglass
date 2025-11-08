@@ -588,7 +588,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                         type="file"
                         multiple
                         onChange={handleFileChange}
-                        className="hidden"
+                        className="hidden glass-touch-target glass-contrast-guard"
                         accept={acceptedFileTypes}
                     />
                 </CardContent>

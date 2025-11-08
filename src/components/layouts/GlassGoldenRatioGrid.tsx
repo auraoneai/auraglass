@@ -369,7 +369,7 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
                     <div
                       className={`
                         w-full h-full glass-surface rounded-lg border border-white/20 
-                        backdrop-blur-md transition-all duration-200 p-3
+                        glass-backdrop-blur-md transition-all duration-200 p-3
                         flex items-center justify-center text-center
                         ${isHovered || isSelected
                           ? 'bg-white/20 border-white/40'
@@ -382,7 +382,7 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
                   ) : (
                     <div
                       className="w-full h-full border border-dashed border-white/10 glass-radius-lg
-                                flex items-center justify-center text-primary/30"
+                               flex items-center justify-center text-primary/30"
                     >
                       <div className="text-xs">Empty</div>
                     </div>
@@ -390,7 +390,7 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
 
                   {/* Section info overlay */}
                   {(showGrid || isHovered) && (
-                    <div className="absolute glass-top-1 left-1 glass-surface-dark/50 text-primary text-xs px-1 py-0.5 glass-radius backdrop-blur-sm">
+                    <div className="absolute glass-top-1 left-1 glass-surface-dark/50 text-primary text-xs px-1 py-0.5 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
                       {section.ratio.toFixed(2)}
                     </div>
                   )}
@@ -407,28 +407,28 @@ export const GlassGoldenRatioGrid = forwardRef<HTMLDivElement, GlassGoldenRatioG
 
         {/* Statistics panel */}
         <div className="absolute bottom-4 left-4 flex flex-col gap-1 text-xs text-primary/70">
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Sections: {sections.length}
           </div>
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Items: {items.length}
           </div>
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Golden Ratio: {goldenRatio}
           </div>
-          <div className="glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Levels: {subdivisionLevels}
           </div>
         </div>
 
         {/* Legend */}
         <div className="absolute top-4 right-4 flex flex-col gap-1 text-xs text-primary/70">
-          <div className="flex items-center gap-2 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="flex items-center gap-2 glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             <div className="w-2 h-2 glass-surface-yellow glass-radius-full" />
             Golden Ratio
           </div>
           {showRatioLines && (
-            <div className="flex items-center gap-2 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+            <div className="flex items-center gap-2 glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
               <div className="w-4 h-0-5 glass-surface-yellow opacity-50" style={{ background: 'repeating-linear-gradient(to right, var(--glass-color-warning-light) 0, var(--glass-color-warning-light) 3px, transparent 3px, transparent 6px)' }} />
               Spiral
             </div>

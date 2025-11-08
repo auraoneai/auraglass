@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Motion } from '../../primitives';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { GlassButton } from '../button';
 import { CardContent, GlassCard } from '../card';
 import { ChatMessage } from './GlassChat';
@@ -98,6 +99,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
     className,
     ...props
 }) => {
+    const prefersReducedMotion = useReducedMotion();
     const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [showSearch, setShowSearch] = useState(false);
@@ -200,10 +202,11 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                         <div
                                             key={message.id}
                                             className={cn(
-                                                'group relative cursor-pointer transition-all duration-200 animate-slide-in-up',
+                                                'group relative cursor-pointer glass-focus glass-touch-target',
+                                                !prefersReducedMotion && 'transition-all duration-200 animate-slide-in-up',
                                                 isSelected && 'ring-2 ring-primary glass-radius-lg'
                                             )}
-                                            style={{ 
+                                            style={{
                                                 animationDelay: `${Math.min(index, 20) * 20}ms`,
                                                 animationFillMode: 'both'
                                             }}
@@ -272,7 +275,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                             {message.attachments.map((attachment, attIndex) => (
                                                                 <div
                                                                     key={attIndex}
-                                                                    className="flex items-center gap-3 p-3 glass-surface-dark/20 glass-radius-lg hover:glass-surface-dark/30 transition-colors cursor-pointer border border-white/10 hover:border-white/20"
+                                                                    className="flex items-center gap-3 p-3 glass-surface-dark/20 glass-radius-lg hover:glass-surface-dark/30 transition-colors cursor-pointer border border-white/10 hover:border-white/20 glass-focus glass-touch-target"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation();
                                                                         handleAttachmentDownload({ url: attachment.url, name: attachment.name });
@@ -313,7 +316,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                                         e.stopPropagation();
                                                                         handleReaction(message.id, reaction.emoji);
                                                                     }}
-                                                                    className="h-6 px-2 text-xs glass-surface-subtle/10"
+                                                                    className="h-6 px-2 text-xs glass-surface-subtle/10 glass-focus glass-touch-target"
                                                                 >
                                                                     {reaction.emoji} {reaction.count}
                                                                 </GlassButton>
@@ -333,7 +336,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                                     e.stopPropagation();
                                                                     handleReaction(message.id, '👍');
                                                                 }}
-                                                                className="p-1"
+                                                                className="p-1 glass-focus glass-touch-target"
                                                             >
                                                                 <Heart className="w-3 h-3" />
                                                             </GlassButton>
@@ -347,7 +350,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                                     e.stopPropagation();
                                                                     handleReply(message.id);
                                                                 }}
-                                                                className="p-1"
+                                                                className="p-1 glass-focus glass-touch-target"
                                                             >
                                                                 <Reply className="w-3 h-3" />
                                                             </GlassButton>
@@ -357,7 +360,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={(e) => e.stopPropagation()}
-                                                            className="p-1"
+                                                            className="p-1 glass-focus glass-touch-target"
                                                         >
                                                             <MoreHorizontal className="w-3 h-3" />
                                                         </GlassButton>
@@ -395,7 +398,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                             variant="ghost"
                             size="sm"
                             onClick={() => setShowSearch(!showSearch)}
-                            className="w-full"
+                            className="w-full glass-focus glass-touch-target"
                         >
                             {showSearch ? 'Hide Search' : 'Search Messages'}
                         </GlassButton>

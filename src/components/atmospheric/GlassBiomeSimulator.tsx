@@ -886,7 +886,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-biome-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-biome-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <label className="text-sm">Biome:</label>
@@ -897,7 +897,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
                 setCurrentBiome(newBiome);
                 onBiomeChange?.(newBiome);
               }}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20 glass-contrast-guard"
             >
               <option value="forest">Forest</option>
               <option value="ocean">Ocean</option>
@@ -919,7 +919,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
                 setCurrentBiome(newBiome);
                 onSeasonChange?.(e.target.value as any);
               }}
-              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20"
+              className="px-2 py-1 glass-radius-md glass-surface-overlay border border-glass-border/20 glass-contrast-guard"
             >
               <option value="spring">Spring</option>
               <option value="summer">Summer</option>
@@ -979,7 +979,7 @@ export const GlassBiomeSimulator = forwardRef<HTMLDivElement, GlassBiomeSimulato
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-biome-simulator relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-biome-simulator relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

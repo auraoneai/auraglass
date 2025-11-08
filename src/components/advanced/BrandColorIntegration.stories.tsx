@@ -51,7 +51,7 @@ const BrandShowcaseContent = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
           <div className="flex items-center justify-center w-12 h-12 glass-radius-full mb-4"
                style={{ backgroundColor: brandColors?.primaryColor || '#007AFF' }}>
             <span className="text-primary font-bold text-lg">
@@ -73,7 +73,7 @@ const BrandShowcaseContent = () => {
           </div>
         </div>
 
-        <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
           <div className="flex items-center justify-center w-12 h-12 glass-radius-full mb-4"
                style={{ backgroundColor: brandColors?.secondaryColor || '#5856D6' }}>
             <span className="text-primary font-bold text-lg">
@@ -95,7 +95,7 @@ const BrandShowcaseContent = () => {
           </div>
         </div>
 
-        <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
           <div className="flex items-center justify-center w-12 h-12 glass-radius-full mb-4 glass-surface-accent">
             <span className="text-primary font-bold text-lg">
               {brandColors?.colorHistory?.length || 0}
@@ -119,7 +119,7 @@ const BrandShowcaseContent = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
           <h3 className="text-xl font-semibold text-primary mb-4">Brand Glass Button</h3>
           <div className="space-y-3">
             <BrandGlassButton variant="primary" className="w-full">
@@ -131,7 +131,7 @@ const BrandShowcaseContent = () => {
           </div>
         </div>
 
-        <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+        <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
           <h3 className="text-xl font-semibold text-primary mb-4">Brand Integration Features</h3>
           <div className="space-y-3 text-primary/80">
             <div className="flex items-center gap-3">
@@ -246,7 +246,7 @@ export const EntityShowcase: Story = {
             </BrandColorIntegration>
           </div>
 
-          <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-8">
+          <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-8 glass-contrast-guard">
             <h3 className="text-2xl font-bold text-primary mb-6 text-center">Brand Integration Benefits</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">
@@ -319,7 +319,7 @@ export const BrandComparison: Story = {
                   </h3>
 
                   <div className="space-y-6">
-                    <div className="glass-surface-secondary backdrop-blur-lg glass-radius-xl p-4">
+                    <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl p-4 glass-contrast-guard">
                       <h4 className="font-semibold text-primary mb-3">Color Palette</h4>
                       <div className="flex gap-3">
                         <div className="w-12 h-12 glass-radius-lg border border-white/20"
@@ -330,7 +330,7 @@ export const BrandComparison: Story = {
                       </div>
                     </div>
 
-                    <div className="glass-surface-secondary backdrop-blur-lg glass-radius-xl p-4">
+                    <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl p-4 glass-contrast-guard">
                       <h4 className="font-semibold text-primary mb-3">Glass Effects</h4>
                       <div className="space-y-3">
                         <BrandGlassButton variant="primary" className="w-full">
@@ -342,7 +342,7 @@ export const BrandComparison: Story = {
                       </div>
                     </div>
 
-                    <div className="glass-surface-secondary backdrop-blur-lg glass-radius-xl p-4">
+                    <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl p-4 glass-contrast-guard">
                       <h4 className="font-semibold text-primary mb-3">Brand Features</h4>
                       <div className="space-y-2 text-primary/80">
                         <div>• Dynamic color adaptation</div>
@@ -356,7 +356,7 @@ export const BrandComparison: Story = {
               </BrandColorIntegration>
 
               <div className="space-y-6">
-                <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+                <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
                   <h3 className="text-xl font-semibold text-primary mb-4">Integration Metrics</h3>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
@@ -391,7 +391,7 @@ export const BrandComparison: Story = {
                   </div>
                 </div>
 
-                <div className="glass-surface-secondary backdrop-blur-lg glass-radius-2xl p-6">
+                <div className="glass-surface-secondary glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
                   <h3 className="text-xl font-semibold text-primary mb-4">Usage Examples</h3>
                   <div className="space-y-3 text-primary/80">
                     <div className="p-3 glass-surface-muted glass-radius-lg">

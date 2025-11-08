@@ -190,14 +190,14 @@ export const AIDemo: React.FC = () => {
               <button
                 onClick={handleLogin}
                 disabled={loading || !email || !password}
-                className="flex-1 px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50"
+                className="flex-1 px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 {loading ? 'Logging in...' : 'Login'}
               </button>
               <button
                 onClick={handleRegister}
                 disabled={loading || !email || !password}
-                className="flex-1 px-4 py-2 border border-white/30 text-primary glass-radius-lg hover:bg-white/5 disabled:opacity-50"
+                className="flex-1 px-4 py-2 border border-white/30 text-primary glass-radius-lg hover:bg-white/5 disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 {loading ? 'Registering...' : 'Register'}
               </button>
@@ -208,7 +208,7 @@ export const AIDemo: React.FC = () => {
             <p className="text-primary/70">You are logged in as: <strong>{email}</strong></p>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 border border-red-500/30 text-red-400 glass-radius-lg hover:bg-red-500/10"
+              className="px-4 py-2 border border-red-500/30 text-red-400 glass-radius-lg hover:bg-red-500/10 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Logout
             </button>
@@ -236,7 +236,7 @@ export const AIDemo: React.FC = () => {
       <button
         onClick={handleGenerateForm}
         disabled={loading || !formContext}
-        className="w-full px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50"
+        className="w-full px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         {loading ? 'Generating with GPT-4...' : '🤖 Generate Smart Form Fields'}
       </button>
@@ -287,7 +287,7 @@ export const AIDemo: React.FC = () => {
       <button
         onClick={handleSearch}
         disabled={loading || !searchQuery}
-        className="w-full px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50"
+        className="w-full px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         {loading ? 'Searching with AI...' : '🔍 Semantic Search'}
       </button>
@@ -330,7 +330,7 @@ export const AIDemo: React.FC = () => {
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          className="w-full px-4 py-2 border border-white/20 glass-radius-lg bg-white/5 text-primary file:mr-4 file:py-2 file:px-4 file:glass-radius file:border-0 file:glass-surface-blue file:text-primary"
+          className="w-full px-4 py-2 border border-white/20 glass-radius-lg bg-white/5 text-primary file:mr-4 file:py-2 file:px-4 file:glass-radius file:border-0 file:glass-surface-blue file:text-primary glass-touch-target glass-contrast-guard"
         />
       </div>
 
@@ -343,7 +343,7 @@ export const AIDemo: React.FC = () => {
           <button
             onClick={handleRemoveBackground}
             disabled={loading}
-            className="w-full px-6 py-3 glass-surface-green text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50"
+            className="w-full px-6 py-3 glass-surface-green text-primary glass-radius-lg hover:opacity-90 disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             {loading ? 'Removing Background...' : '✂️ Remove Background'}
           </button>

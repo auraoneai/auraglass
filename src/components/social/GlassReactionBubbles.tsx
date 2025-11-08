@@ -304,8 +304,9 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
             className={`
               w-10 h-10 rounded-lg flex items-center justify-center text-xl
               transition-all duration-200 hover:scale-110
-              ${selectedEmoji === emoji 
-                ? 'bg-white/20 ring-2 ring-blue-400/50' 
+              glass-focus glass-touch-target glass-contrast-guard
+              ${selectedEmoji === emoji
+                ? 'bg-white/20 ring-2 ring-blue-400/50'
                 : 'hover:bg-white/10'
               }
             `}
@@ -426,7 +427,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
         {/* Real-time indicator */}
         {realTimeMode && (
           <div className={cn('glass-absolute glass-bottom-4 glass-right-4 glass-z-20 glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-muted')}>
-            <div className={cn('glass-w-2 glass-h-2 glass-surface-success glass-radius-full glass-animate-pulse')} />
+            <div className={cn('glass-w-2 glass-h-2 glass-surface-success glass-radius-full')} />
             <span>Live reactions</span>
           </div>
         )}

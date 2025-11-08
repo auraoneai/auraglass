@@ -536,9 +536,9 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
 
     const backdropBlurClasses = {
       none: '',
-      sm: 'backdrop-blur-md',
-      md: 'backdrop-blur-md',
-      lg: 'backdrop-blur-md',
+      sm: 'glass-backdrop-blur-md',
+      md: 'glass-backdrop-blur-md',
+      lg: 'glass-backdrop-blur-md',
     };
 
     const getAnimationPreset = () => {

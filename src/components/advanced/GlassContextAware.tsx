@@ -376,7 +376,7 @@ export function GlassContextAware({
     <motion.div
       ref={containerRef}
       className={cn(
-        "relative OptimizedGlass intensity={0.2} blur={6}",
+        "relative OptimizedGlass intensity={0.2} glassBlur={6}",
         "transform-gpu will-change-transform",
         className
       )}

@@ -55,17 +55,17 @@ const DemoForm = () => (
       </div>
       
       <div className="flex items-center space-x-2">
-        <input type="checkbox" id="checkbox1" className="focus:ring-2" />
+        <input type="checkbox" id="checkbox1" className="focus:ring-2 glass-touch-target glass-contrast-guard" />
         <label htmlFor="checkbox1">Checkbox option</label>
       </div>
       
       <div className="flex items-center space-x-2">
-        <input type="radio" id="radio1" name="demo" className="focus:ring-2" />
+        <input type="radio" id="radio1" name="demo" className="focus:ring-2 glass-touch-target glass-contrast-guard" />
         <label htmlFor="radio1">Radio option 1</label>
       </div>
       
       <div className="flex items-center space-x-2">
-        <input type="radio" id="radio2" name="demo" className="focus:ring-2" />
+        <input type="radio" id="radio2" name="demo" className="focus:ring-2 glass-touch-target glass-contrast-guard" />
         <label htmlFor="radio2">Radio option 2</label>
       </div>
     </div>

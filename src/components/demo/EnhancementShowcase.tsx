@@ -129,9 +129,9 @@ export const EnhancementShowcase: React.FC = () => {
               key={effect}
               interaction={effect as any}
               intensity={1.2}
-              className="p-4 glass-surface-subtle/10 backdrop-blur-sm glass-radius-lg border border-white/20"
+              className="p-4 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-sm glass-radius-lg border border-white/20 glass-contrast-guard"
             >
-              <button className="w-full h-16 text-primary font-medium capitalize">
+              <button className="w-full h-16 text-primary font-medium capitalize glass-focus glass-touch-target glass-contrast-guard">
                 {effect} Effect
               </button>
             </GlassPhysicsEngine>
@@ -221,10 +221,10 @@ export const EnhancementShowcase: React.FC = () => {
                 <h3 className="text-2xl font-bold mb-2">3D Glass Portal</h3>
                 <p className="text-primary/70">Move your mouse for 3D interaction</p>
                 <div className="glass-mt-4 gap-4">
-                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors glass-focus glass-touch-target glass-contrast-guard">
                     Interact
                   </button>
-                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors glass-focus glass-touch-target glass-contrast-guard">
                     Experience
                   </button>
                 </div>
@@ -402,10 +402,10 @@ export const EnhancementShowcase: React.FC = () => {
                 <h3 className="text-xl font-bold mb-2">Spatial Interface</h3>
                 <p className="text-primary/70 mb-4">Touch, pinch, or gesture to interact</p>
                 <div className="gap-4">
-                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors glass-focus glass-touch-target glass-contrast-guard">
                     Tap Gesture
                   </button>
-                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
+                  <button className="px-4 py-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors glass-focus glass-touch-target glass-contrast-guard">
                     Pinch Gesture
                   </button>
                 </div>
@@ -511,7 +511,7 @@ export const EnhancementShowcase: React.FC = () => {
   return (
     <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary">
       {/* Header */}
-      <div className="glass-surface-subtle/5 backdrop-blur-lg border-b border-white/10">
+      <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-lg border-b border-white/10 glass-contrast-guard">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
@@ -524,7 +524,7 @@ export const EnhancementShowcase: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsFullDemo(!isFullDemo)}
-                className="px-4 py-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 text-primary glass-radius-lg transition-colors"
+                className="px-4 py-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 text-primary glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 {isFullDemo ? 'Exit Full Demo' : 'Full Demo Mode'}
               </button>
@@ -534,14 +534,14 @@ export const EnhancementShowcase: React.FC = () => {
       </div>
 
       {/* Navigation */}
-      <div className="glass-surface-subtle/5 backdrop-blur-sm">
+      <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex space-x-8 overflow-x-auto py-4">
             {showcaseSections.map((section) => (
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
-                className={`whitespace-nowrap pb-2 glass-px-1 border-b-2 font-medium glass-text-sm transition-colors ${
+                className={`whitespace-nowrap pb-2 glass-px-1 border-b-2 font-medium glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard ${
                   activeSection === section.id
                     ? 'border-white glass-text-primary'
                     : 'border-transparent glass-text-primary/60 hover:glass-text-primary/80 hover:border-white/30'
@@ -588,7 +588,7 @@ export const EnhancementShowcase: React.FC = () => {
                 </div>
 
                 {/* Section Component */}
-                <div className="glass-surface-subtle/5 backdrop-blur-lg glass-radius-2xl border border-white/10 overflow-hidden">
+                <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-lg glass-radius-2xl border border-white/10 overflow-hidden glass-contrast-guard">
                   {section.component}
                 </div>
               </motion.div>
@@ -598,7 +598,7 @@ export const EnhancementShowcase: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="glass-surface-subtle/5 backdrop-blur-lg border-t border-white/10 glass-mt-16">
+      <div className="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-lg border-t border-white/10 glass-mt-16 glass-contrast-guard">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-primary/60">
             <p className="text-lg mb-2">

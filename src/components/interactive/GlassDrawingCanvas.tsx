@@ -362,7 +362,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-tool-panel flex items-center gap-2 p-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-tool-panel flex items-center gap-2 p-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           {/* Tool selection */}
           <div className="flex gap-1">
@@ -427,7 +427,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
             <button
               onClick={undo}
               disabled={historyIndex <= 0}
-              className="p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title="Undo"
             >
               ↶
@@ -435,14 +435,14 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
             <button
               onClick={redo}
               disabled={historyIndex >= history.length - 1}
-              className="p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
               title="Redo"
             >
               ↷
             </button>
             <button
               onClick={clear}
-              className="p-2 glass-radius-md hover:glass-surface-overlay text-primary"
+              className="p-2 glass-radius-md hover:glass-surface-overlay text-primary glass-focus glass-touch-target glass-contrast-guard"
               title="Clear"
             >
               🗑
@@ -469,7 +469,7 @@ export const GlassDrawingCanvas = forwardRef<HTMLDivElement, GlassDrawingCanvasP
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-drawing-canvas relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-drawing-canvas relative glass-radius-lg glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

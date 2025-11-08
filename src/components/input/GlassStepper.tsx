@@ -339,8 +339,8 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
         press
         className={cn(
           'glass-stepper-button flex items-center justify-center',
-          'glass-radius-md border backdrop-blur-md transition-all duration-200',
-          'focus:outline-none glass-focus select-none',
+          'glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard',
+          'focus:outline-none glass-focus select-none glass-touch-target',
           config.button,
           colors.button,
           colors.buttonBg,
@@ -413,7 +413,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
           onKeyDown={handleInputKeyDown}
           disabled={disabled || !allowInput}
           className={cn(
-            'w-full text-center glass-radius-md border backdrop-blur-md',
+            'w-full text-center glass-radius-md border glass-glass-backdrop-blur-md glass-contrast-guard',
             'bg-transparent text-foreground placeholder:glass-text-secondary',
             'focus:outline-none glass-focus transition-all duration-200',
             config.input,

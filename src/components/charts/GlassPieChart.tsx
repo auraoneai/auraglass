@@ -324,7 +324,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(func
                             {hoveredSegment && (
                                 <Motion preset="fadeIn" className="absolute z-10">
                                     <div
-                                        className={cn('absolute glass-radius-xl glass-p-3 shadow-xl', 'bg-black/70 backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift')}
+                                        className={cn('absolute glass-radius-xl glass-p-3 shadow-xl', 'bg-black/70 glass-backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift')}
                                         style={{
                                             left: hoveredSegment.x + 10,
                                             top: hoveredSegment.y - 10,

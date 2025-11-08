@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
+import { OptimizedGlass, Motion } from '../../primitives';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '../../utils/a11y';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
@@ -319,7 +319,7 @@ export const GlassSignaturePad = forwardRef<HTMLDivElement, GlassSignaturePadPro
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-signature-pad glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-signature-pad glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20',
           disabled && 'opacity-50 pointer-events-none',
           className
         )}

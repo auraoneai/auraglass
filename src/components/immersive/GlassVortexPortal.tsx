@@ -588,7 +588,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-portal-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-portal-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <button
@@ -708,7 +708,7 @@ export const GlassVortexPortal = forwardRef<HTMLDivElement, GlassVortexPortalPro
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-vortex-portal relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-vortex-portal relative glass-radius-lg glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

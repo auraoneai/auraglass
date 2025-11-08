@@ -599,7 +599,7 @@ export function applyContrastAdjustment(
   }
   
   if (modifications.backdropBlur !== undefined) {
-    element.style.setProperty('--glass-backdrop-blur-multiplier', String(modifications.backdropBlur));
+    element.style.setProperty('--glass-glass-backdrop-blur-multiplier', String(modifications.backdropBlur));
   }
   
   if (modifications.fallbackMode) {

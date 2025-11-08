@@ -246,7 +246,7 @@ export const GlassKanbanBoard = forwardRef<HTMLDivElement, GlassKanbanBoardProps
           border="subtle"
           className={cn(
             'glass-kanban-card relative cursor-pointer transition-all duration-200',
-            'backdrop-blur-md border border-border/20 glass-radius-md',
+            'glass-backdrop-blur-md border border-border/20 glass-radius-md',
             config.padding,
             config.minHeight,
             'hover:scale-[1.02] hover:shadow-lg',
@@ -431,7 +431,7 @@ export const GlassKanbanBoard = forwardRef<HTMLDivElement, GlassKanbanBoardProps
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-kanban-board glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-kanban-board glass-radius-lg glass-backdrop-blur-md border border-border/20',
           className
         )}
         style={maxHeight ? { maxHeight } : undefined}
@@ -479,7 +479,7 @@ export const GlassKanbanBoard = forwardRef<HTMLDivElement, GlassKanbanBoardProps
                       border="subtle"
                       className={cn(
                         'glass-kanban-column flex flex-col h-full',
-                        'backdrop-blur-md border border-border/20 glass-radius-lg',
+                        'glass-backdrop-blur-md border border-border/20 glass-radius-lg',
                         dragState.dragOverColumn === column.id && 'ring-2 ring-primary/50'
                       )}
                       style={{ width: columnWidth, minWidth: columnWidth }}

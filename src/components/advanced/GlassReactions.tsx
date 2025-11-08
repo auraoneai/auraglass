@@ -328,7 +328,7 @@ function ReactionComponent({
     <motion.div
       className={cn(
         "absolute select-none",
-        glassEffect && "OptimizedGlass intensity={0.2} blur={6} glass-blur-sm"
+        glassEffect && "OptimizedGlass intensity={0.2} glassBlur={6} glass-blur-sm"
       )}
       style={{
         x: enablePhysics ? x : position.x,

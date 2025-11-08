@@ -211,7 +211,7 @@ export const GlassCheckboxItem = forwardRef<HTMLDivElement, GlassCheckboxItemPro
         liftOnHover={!isDisabled}
         className={cn(
           'glass-checkbox-item flex items-center cursor-pointer',
-          'glass-p-3 glass-radius-lg border backdrop-blur-md transition-all duration-200',
+          'glass-p-3 glass-radius-lg border glass-backdrop-blur-md transition-all duration-200',
           'focus:outline-none glass-focus',
           config.gap,
           isDisabled && 'opacity-50 cursor-not-allowed',
@@ -238,7 +238,7 @@ export const GlassCheckboxItem = forwardRef<HTMLDivElement, GlassCheckboxItemPro
           tint="neutral"
           border="subtle"
           className={cn(
-            'glass-checkbox-square relative glass-radius-md border backdrop-blur-md',
+            'glass-checkbox-square relative glass-radius-md border glass-backdrop-blur-md',
             'flex items-center justify-center transition-all duration-200',
             config.checkbox,
             colors.checkbox,

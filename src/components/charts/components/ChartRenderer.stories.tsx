@@ -56,7 +56,7 @@ export const Default: Story = {
 export const Variants: Story = {
   render: (args) => (
     <div className="flex flex-col gap-4">
-      <div className="relative w-80 h-40 glass-surface-subtle/20 glass-radius-md border p-4">
+      <div className="relative w-80 h-40 glass-surface-subtle/20 glass-radius-md border p-4 glass-contrast-guard">
         <ChartRenderer
           {...args}
           datasets={[{

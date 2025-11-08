@@ -356,12 +356,12 @@ export function SeasonalParticles({
           className="absolute bottom-4 right-4 flex flex-col gap-2"
         >
           {/* Season selector */}
-          <div className="flex gap-2 p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10">
+          <div className="flex gap-2 p-2 glass-surface-dark/20 glass-glass-glass-backdrop-blur-lg glass-radius-lg border border-white/10 glass-contrast-guard">
             {seasons.map((seasonName: any) => (
               <button
                 key={seasonName}
                 onClick={() => changeSeason(seasonName)}
-                className={`p-2 rounded-lg transition-colors ${
+                className={`p-2 rounded-lg transition-colors glass-focus glass-touch-target glass-contrast-guard ${
                   currentSeason === seasonName
                     ? 'bg-white/20 text-white'
                     : 'text-white/60 hover:text-white hover:bg-white/10'
@@ -374,10 +374,10 @@ export function SeasonalParticles({
           </div>
 
           {/* Playback controls */}
-          <div className="flex gap-2 p-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10">
+          <div className="flex gap-2 p-2 glass-surface-dark/20 glass-glass-glass-backdrop-blur-lg glass-radius-lg border border-white/10 glass-contrast-guard">
             <button
               onClick={togglePlay}
-              className="p-2 glass-radius-lg text-primary hover:glass-surface-subtle/10 transition-colors"
+              className="p-2 glass-radius-lg text-primary hover:glass-surface-subtle/10 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -396,7 +396,7 @@ export function SeasonalParticles({
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-          className="absolute top-4 right-4 px-3 py-2 glass-surface-dark/20 backdrop-blur-lg glass-radius-lg border border-white/10"
+          className="absolute top-4 right-4 px-3 py-2 glass-surface-dark/20 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/10 glass-contrast-guard"
         >
           <div className="flex items-center gap-2 text-primary/60 text-sm">
             <motion.div

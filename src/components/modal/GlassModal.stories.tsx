@@ -54,19 +54,19 @@ export const ConsciousnessOverview: Story = {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
           <h3 className="font-medium text-primary mb-2">Predictive Content</h3>
           <p className="text-sm glass-text-secondary">Adapts modal content based on user context and behavior patterns.</p>
         </div>
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
           <h3 className="font-medium text-primary mb-2">Eye Tracking Focus</h3>
           <p className="text-sm glass-text-secondary">Manages focus states based on user gaze and attention patterns.</p>
         </div>
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
           <h3 className="font-medium text-primary mb-2">Biometric Adaptation</h3>
           <p className="text-sm glass-text-secondary">Adjusts modal complexity and timing based on stress levels.</p>
         </div>
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
           <h3 className="font-medium text-primary mb-2">Spatial Audio</h3>
           <p className="text-sm glass-text-secondary">Provides positional audio cues for modal interactions.</p>
         </div>

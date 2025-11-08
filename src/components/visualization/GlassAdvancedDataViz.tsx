@@ -613,7 +613,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             {enableZoom && (
               <button
                 onClick={resetZoom}
-                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle transition-colors"
+                className="px-3 py-1 text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 Reset Zoom
               </button>

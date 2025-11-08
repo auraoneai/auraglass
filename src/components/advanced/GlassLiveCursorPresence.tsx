@@ -397,7 +397,7 @@ function LiveCursorComponent({
           <div
             className={cn(
               "glass-radius-full",
-              glassEffect && "OptimizedGlass intensity={0.2} blur={6} glass-blur-sm"
+              glassEffect && "OptimizedGlass intensity={0.2} glassBlur={6} glass-blur-sm"
             )}
             style={{
               width: size * 0.5,
@@ -426,7 +426,7 @@ function LiveCursorComponent({
         <div
           className={cn(
             "relative",
-            glassEffect && "OptimizedGlass intensity={0.2} blur={6} glass-blur-sm glass-elev-2"
+            glassEffect && "OptimizedGlass intensity={0.2} glassBlur={6} glass-blur-sm glass-elev-2"
           )}
           style={{
             width: size,

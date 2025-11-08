@@ -527,9 +527,9 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
               onClick={startVoiceSearch}
               disabled={isListening}
               className={cn(
-                "px-3 py-3 rounded-lg transition-colors",
-                isListening 
-                  ? "bg-red-100 text-red-600 animate-pulse"
+                "px-3 py-3 rounded-lg transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                isListening
+                  ? "bg-red-100 text-red-600 glass-animate-pulse"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               )}
               title="Voice search"
@@ -540,7 +540,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
           <button
             onClick={handleSearchSubmit}
-            className="px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+            className="px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             Search
           </button>
@@ -554,7 +554,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                 key={`${suggestion.type}-${suggestion.text}`}
                 ref={el => suggestionRefs.current[index] = el}
                 onClick={() => handleSuggestionClick(suggestion)}
-                className="w-full px-4 py-2 text-left hover:glass-surface-subtle flex items-center justify-between border-b border-gray-100 last:border-b-0"
+                className="w-full px-4 py-2 text-left hover:glass-surface-subtle flex items-center justify-between border-b border-gray-100 last:border-b-0 glass-focus glass-touch-target glass-contrast-guard"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-sm">
@@ -622,7 +622,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
             {Object.keys(filters).length > 0 && (
               <button
                 onClick={clearFilters}
-                className="text-sm text-primary hover:text-primary"
+                className="text-sm text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
               >
                 Clear all
               </button>

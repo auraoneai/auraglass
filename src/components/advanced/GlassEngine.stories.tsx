@@ -110,7 +110,7 @@ const EnvironmentalControls = () => {
   };
 
   return (
-    <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+    <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
       <h3 className="text-xl font-semibold text-primary mb-4">Environmental Controls</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -172,7 +172,7 @@ const EnvironmentalControls = () => {
 
       <button
         onClick={handleAdapt}
-        className="mt-6 w-full px-6 py-3 glass-surface-subtle/20 hover:glass-surface-subtle/30 text-primary glass-radius-lg font-medium transition-colors"
+        className="mt-6 w-full px-6 py-3 glass-surface-subtle/20 hover:glass-surface-subtle/30 text-primary glass-radius-lg font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         Adapt to Environment
       </button>
@@ -203,7 +203,7 @@ export const InteractiveDemo: Story = {
             <EnvironmentalControls />
 
             <div className="space-y-6">
-              <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+              <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Engine Features</h3>
                 <div className="space-y-3 text-primary/80">
                   <div className="flex items-center gap-3">
@@ -233,7 +233,7 @@ export const InteractiveDemo: Story = {
                 </div>
               </div>
 
-              <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+              <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Usage Examples</h3>
                 <div className="space-y-3 text-primary/80 text-sm">
                   <div className="p-3 glass-surface-subtle/5 glass-radius-lg font-mono">
@@ -264,7 +264,7 @@ export const TextureVariations: Story = {
           <TextureShowcase />
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
               <h3 className="text-xl font-semibold text-primary mb-4">Texture Applications</h3>
               <div className="space-y-4">
                 <div className="p-4 glass-surface-subtle/5 glass-radius-lg">
@@ -294,7 +294,7 @@ export const TextureVariations: Story = {
               </div>
             </div>
 
-            <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
               <h3 className="text-xl font-semibold text-primary mb-4">Performance Characteristics</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-3 glass-surface-green/10 glass-radius-lg">
@@ -374,7 +374,7 @@ export const EnvironmentalAdaptation: Story = {
             <EnvironmentalControls />
 
             <div className="space-y-6">
-              <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+              <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Weather Adaptations</h3>
                 <div className="space-y-3">
                   <div className="p-3 glass-surface-blue/10 glass-radius-lg">
@@ -404,7 +404,7 @@ export const EnvironmentalAdaptation: Story = {
                 </div>
               </div>
 
-              <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+              <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">Time-Based Effects</h3>
                 <div className="space-y-3">
                   <div className="p-3 glass-surface-primary/10 glass-radius-lg">
@@ -585,7 +585,7 @@ export const ContentAdaptation: Story = {
             </GlassColorTinting>
           </div>
 
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-6 text-center">Content Adaptation Benefits</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">
@@ -669,7 +669,7 @@ export const OpacityEngine: Story = {
             </GlassOpacityEngine>
           </div>
 
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-2xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-2xl p-6 glass-contrast-guard">
             <h3 className="text-xl font-semibold text-primary mb-6 text-center">Opacity Engine Features</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>

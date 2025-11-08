@@ -67,7 +67,7 @@ export const GlassLoadingSkeleton = forwardRef<HTMLDivElement, GlassLoadingSkele
       'glass-skeleton',
       'glass-radius-md',
       shouldShimmer && shouldAnimate && 'animate-pulse',
-      'backdrop-blur-md'
+      'glass-backdrop-blur-md'
     );
 
     // Consistent glassmorphism styling for all skeleton elements

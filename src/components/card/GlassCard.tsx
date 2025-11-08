@@ -1,5 +1,6 @@
 import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { OptimizedGlassCore as OptimizedGlass, type OptimizedGlassProps } from '../../primitives';
 import { LiquidGlassMaterial } from '../../primitives/LiquidGlassMaterial';
 import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
@@ -75,6 +76,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     },
     ref
   ) => {
+  const prefersReducedMotion = useReducedMotion();
     const sizeClasses = {
       sm: 'glass-p-3',
       md: 'glass-p-4',
@@ -88,7 +90,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       elevated: '',
       interactive: 'transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]',
       feature: 'relative overflow-hidden',
-      minimal: 'backdrop-blur-md bg-transparent border-0',
+      minimal: 'glass-glass-backdrop-blur-md bg-transparent border-0',
       primary: '',
       outline: 'glass-focus glass-border-subtle',
     };
@@ -210,9 +212,9 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         <div className="relative z-10">
           {loading ? (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <div className="h-4 glass-surface-subtle/20 animate-pulse glass-radius-sm shimmer" />
-              <div className="h-4 glass-surface-subtle/15 animate-pulse glass-radius-sm w-3-4 shimmer" />
-              <div className="h-4 glass-surface-subtle/10 animate-pulse glass-radius-sm w-1-2 shimmer" />
+              <div className="h-4 glass-surface-subtle/20 animate-pulse glass-radius-sm shimmer glass-contrast-guard" />
+              <div className="h-4 glass-surface-subtle/15 animate-pulse glass-radius-sm w-3-4 shimmer glass-contrast-guard" />
+              <div className="h-4 glass-surface-subtle/10 animate-pulse glass-radius-sm w-1-2 shimmer glass-contrast-guard" />
             </div>
           ) : (
             children

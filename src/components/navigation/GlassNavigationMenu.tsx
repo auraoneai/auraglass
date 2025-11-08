@@ -164,9 +164,9 @@ export const GlassNavigationMenu: React.FC<GlassNavigationMenuProps> = ({
     };
 
     const variantClasses = {
-        default: 'backdrop-blur-md ring-1 ring-white/10 bg-white/5',
-        sidebar: 'backdrop-blur-md ring-0 border-r border-white/10 bg-white/5',
-        header: 'backdrop-blur-md ring-0 border-b border-white/10 bg-white/5',
+        default: 'glass-glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5',
+        sidebar: 'glass-glass-backdrop-blur-md ring-0 border-r border-white/10 bg-white/5',
+        header: 'glass-glass-backdrop-blur-md ring-0 border-b border-white/10 bg-white/5',
     };
 
     return (
@@ -332,6 +332,7 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                         'relative flex items-center justify-center w-full',
                         'glass-text-primary/70 hover:glass-text-primary transition-colors duration-200',
                         'hover:bg-white/10 glass-radius-lg',
+                        'glass-focus glass-touch-target glass-contrast-guard',
                         'focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent',
                         'disabled:opacity-50 disabled:cursor-not-allowed',
                         sizeClasses?.[size],
@@ -371,6 +372,7 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                     'relative flex items-center justify-between w-full',
                     'glass-text-primary/70 hover:glass-text-primary transition-all duration-200',
                     'hover:bg-white/10 glass-radius-lg',
+                    'glass-focus glass-touch-target glass-contrast-guard',
                     'focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent',
                     'disabled:opacity-50 disabled:cursor-not-allowed',
                     sizeClasses?.[size],
@@ -434,7 +436,7 @@ export const GlassNavigationMenuItem: React.FC<GlassNavigationMenuItemProps> = (
                     {item?.children && item?.children.length > 0 && (
                         <button
                             onClick={handleSubmenuToggle}
-                            className="p-1 hover:glass-surface-subtle/10 glass-radius-md transition-colors duration-200"
+                            className="p-1 hover:glass-surface-subtle/10 glass-radius-md transition-colors duration-200 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                             aria-label="Toggle submenu"
                         >
                             <Motion

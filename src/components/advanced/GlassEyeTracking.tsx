@@ -666,7 +666,7 @@ export function GlassGazeResponsive({
       ref={elementRef}
       className={cn(
         "transition-all duration-300",
-        glassIntensity && isGazed && "OptimizedGlassCore intensity={0.2} blur={6}",
+        glassIntensity && isGazed && "OptimizedGlassCore intensity={0.2} glassBlur={6}",
         className
       )}
       animate={{

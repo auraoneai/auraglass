@@ -244,7 +244,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
             // Create a lightweight glass ghost for drag image
             const ghost = document.createElement('div');
-            ghost.className='pointer-events-none px-3 py-1.5 glass-radius-lg glass-surface-dark/40 ring-1 ring-white/10 text-primary text-sm backdrop-blur-md shadow-xl';
+            ghost.className='pointer-events-none px-3 py-1.5 glass-radius-lg glass-surface-dark/40 ring-1 ring-white/10 text-primary text-sm glass-glass-backdrop-blur-md shadow-xl glass-contrast-guard';
             ghost.textContent = file.name;
             document.body.appendChild(ghost);
             event.dataTransfer.setDragImage(ghost, 10, 10);
@@ -335,9 +335,9 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
         };
 
         const elevationClasses = {
-            low: 'backdrop-blur-md bg-white/10 border border-white/20',
-            medium: 'backdrop-blur-md bg-white/20 border border-white/30 shadow-lg',
-            high: 'backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl'
+            low: 'glass-backdrop-blur-md bg-white/10 border border-white/20',
+            medium: 'glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg',
+            high: 'glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl'
         };
 
         return (
@@ -418,7 +418,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
                                         type="file"
                                         multiple
                                         onChange={handleFileUpload}
-                                        className="hidden"
+                                        className="hidden glass-touch-target glass-contrast-guard"
                                     />
                                 </>
                             )}
@@ -625,7 +625,7 @@ const GlassFileExplorer = React.forwardRef<HTMLDivElement, GlassFileExplorerProp
 
                 {/* Create Folder Dialog */}
                 {creatingFolder && (
-                    <div className="fixed inset-0 glass-surface-dark/50 backdrop-blur-md z-50 flex items-center justify-center">
+                    <div className="fixed inset-0 glass-surface-dark/50 glass-glass-backdrop-blur-md z-50 flex items-center justify-center glass-contrast-guard">
                         <OptimizedGlass elevation={'level2'} className="glass-radius-lg p-6 max-w-md w-full mx-4">
                             <h3 className="text-lg font-semibold text-primary mb-4">Create New Folder</h3>
                             <GlassInput

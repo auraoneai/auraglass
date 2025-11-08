@@ -181,7 +181,7 @@ export function GlassPrismComparison() {
         {/* Interactive Prism Comparison */}
         <motion.div
           ref={containerRef}
-          className="relative max-w-7xl mx-auto h-96 glass-foundation-complete backdrop-blur-md2xl glass-radius-3xl border border-white/20 overflow-hidden cursor-none"
+          className="relative max-w-7xl mx-auto h-96 glass-foundation-complete glass-glass-backdrop-blur-md2xl glass-radius-3xl border border-white/20 overflow-hidden cursor-none glass-contrast-guard"
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
@@ -297,7 +297,7 @@ export function GlassPrismComparison() {
             {/* Prism body */}
             <div className="relative w-full h-full">
               <motion.div
-                className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/40 glass-gradient-primary backdrop-blur-md border-l border-r border-white/60"
+                className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/40 glass-gradient-primary glass-glass-backdrop-blur-md border-l border-r border-white/60 glass-contrast-guard"
                 animate={prefersReducedMotion ? {} : {
                   background: [
                     "linear-gradient(90deg, transparent, rgba(0,245,255,0.4), transparent)",
@@ -366,7 +366,7 @@ export function GlassPrismComparison() {
               repeatType: "loop", ease: "linear" },
             }}
           >
-            <div className="w-8 h-8 glass-radius-full glass-surface-subtle/30 backdrop-blur-md border border-white/50 flex items-center justify-center">
+            <div className="w-8 h-8 glass-radius-full glass-surface-subtle/30 glass-glass-backdrop-blur-md border border-white/50 flex items-center justify-center glass-contrast-guard">
               <ArrowRight className="w-4 h-4 text-primary" />
             </div>
           </motion.div>

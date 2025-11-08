@@ -333,7 +333,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           {hasChildren ? (
             <button
               onClick={handleToggle}
-              className="p-1 glass-radius-md hover:glass-surface-overlay transition-colors"
+              className="p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               aria-label={isExpanded ? 'Collapse' : 'Expand'}
             >
               {isExpanded ? (collapseIcon || defaultCollapseIcon) : (expandIcon || defaultExpandIcon)}
@@ -521,7 +521,7 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
           tint="neutral"
           border="subtle"
           className={cn(
-            'glass-tree-view glass-p-2 glass-radius-lg backdrop-blur-md',
+            'glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md',
             'border border-border/20',
             className
           )}

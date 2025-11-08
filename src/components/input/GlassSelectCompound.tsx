@@ -58,7 +58,7 @@ const GlassSelectTrigger = React.forwardRef<
       className={cn(
         // Base styles
         'glass-select-trigger group flex w-full items-center justify-between',
-        'glass-radius-lg backdrop-blur-md transition-all duration-200',
+        'glass-radius-lg glass-backdrop-blur-md transition-all duration-200',
         'text-foreground placeholder:glass-text-secondary',
         'focus:outline-none focus:ring-offset-2 focus:ring-offset-background',
         'disabled:cursor-not-allowed disabled:opacity-50',
@@ -104,7 +104,7 @@ const GlassSelectContent = React.forwardRef<
           // Base styles
           'glass-select-content relative z-50 max-h-96 min-w-[8rem] overflow-hidden',
           // Darker, more legible surface for options
-          'backdrop-blur-md bg-black/70 ring-1 ring-white/12',
+          'glass-backdrop-blur-md bg-black/70 ring-1 ring-white/12',
           'glass-radius-xl shadow-2xl shadow-black/40',
           'text-foreground',
           

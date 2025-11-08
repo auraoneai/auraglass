@@ -104,7 +104,8 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
                     href={item?.href}
                     className={cn(
                       'group w-full flex items-center justify-between glass-gap-3 rounded-[14px] glass-px-3 glass-py-2.5 transition-colors',
-                      'glass-text-primary/90 hover:glass-text-primary hover:bg-white/10'
+                      'glass-text-primary/90 hover:glass-text-primary hover:bg-white/10',
+                      'glass-focus glass-touch-target glass-contrast-guard'
                     )}
                     onClick={(e) => setOpen(false)}
                   >
@@ -120,6 +121,7 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
                     onClick={(e) => { item?.onClick?.(); setOpen(false); }}
                     className={cn(
                       'w-full flex items-center justify-between glass-gap-3 rounded-[14px] glass-px-3 glass-py-2.5 transition-colors',
+                      'glass-focus glass-touch-target glass-contrast-guard',
                       item?.variant === 'danger'
                         ? 'text-red-300 hover:bg-red-500/10'
                         : 'glass-text-primary/90 hover:glass-text-primary hover:bg-white/10'
@@ -148,6 +150,7 @@ export const HeaderUserMenu = forwardRef<HTMLButtonElement, HeaderUserMenuProps>
         className={cn(
           'flex items-center glass-gap-2 glass-px-1.5 glass-py-1 glass-radius-full',
           'bg-transparent text-foreground hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30',
+          'glass-focus glass-touch-target glass-contrast-guard',
           !shouldReduceMotion && 'transition-all duration-200 hover:scale-105',
           className
         )}

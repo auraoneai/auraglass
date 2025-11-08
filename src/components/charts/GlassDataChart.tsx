@@ -6,6 +6,7 @@
  */
 // Typography tokens available via typography.css (imported in index.css)
 import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 import { cn } from '@/lib/utils';
 // import styled from 'styled-components'; // unused
@@ -245,7 +246,7 @@ const ChartContainer = styled.div<{
   width: 100%;
   height: 100%;
   background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-backdrop-blur);
+  backdrop-filter: var(--glass-glass-backdrop-blur);
   border-radius: ${props => props.$borderRadius || 12}px;
   border: 1px solid var(--glass-border-default);
   padding: 20px;
@@ -286,7 +287,7 @@ const ChartLegend = styled.div<{
   margin-top: 16px;
   padding: 12px;
   background: ${props => (props.$glassEffect ? 'var(--glass-bg-default)' : 'transparent')};
-  backdrop-filter: ${props => (props.$glassEffect ? 'var(--glass-backdrop-blur)' : 'none')};
+  backdrop-filter: ${props => (props.$glassEffect ? 'var(--glass-glass-backdrop-blur)' : 'none')};
   border-radius: 8px;
   justify-content: ${props => props.$position === 'top' ? 'center' : 'flex-start'};
 `;
@@ -328,7 +329,7 @@ const DynamicTooltip = styled.div<{
 }>`
   position: absolute;
   background: var(--glass-overlay-bg);
-  backdrop-filter: var(--glass-backdrop-blur);
+  backdrop-filter: var(--glass-glass-backdrop-blur);
   border-radius: 6px;
   padding: 12px;
   pointer-events: none;
@@ -530,7 +531,7 @@ const GlassButton = memo(({
       onClick={onClick}
       aria-label={ariaLabel}
       style={combinedStyle}
-    >
+     className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
       {children}
     </button>
   );

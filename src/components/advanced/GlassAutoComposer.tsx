@@ -141,7 +141,7 @@ class AILayoutGenerator {
 
     this.templateLibrary.set('input', `
       <input
-        className="glass-surface-secondary border glass-radius-md px-3 py-2 text-primary"
+        className="glass-surface-secondary border glass-radius-md px-3 py-2 text-primary glass-touch-target glass-contrast-guard"
         placeholder={placeholder}
       />
     `);
@@ -253,7 +253,7 @@ class AILayoutGenerator {
       </label>
       <input
         type="text"
-        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50"
+        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50 glass-touch-target glass-contrast-guard"
         placeholder="Enter your full name"
       />
     </div>
@@ -264,7 +264,7 @@ class AILayoutGenerator {
       </label>
       <input
         type="email"
-        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50"
+        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50 glass-touch-target glass-contrast-guard"
         placeholder="Enter your email"
       />
     </div>
@@ -275,7 +275,7 @@ class AILayoutGenerator {
       </label>
       <textarea
         rows={4}
-        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50"
+        className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary placeholder-opacity-50 glass-touch-target glass-contrast-guard"
         placeholder="Enter your message"
       />
     </div>
@@ -799,7 +799,7 @@ export function GlassAutoComposerInterface({ className }: { className?: string }
               Describe the layout you want
             </label>
             <textarea
-              className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary"
+              className="w-full glass-surface-secondary border glass-radius-md px-3 py-2 text-primary glass-touch-target glass-contrast-guard"
               rows={3}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}

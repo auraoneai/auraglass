@@ -1,4 +1,5 @@
 import React, { useRef, useCallback, useState } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { Glass } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
 import { useDragDrop, PageComponent } from './GlassDragDropProvider';
@@ -312,7 +313,7 @@ const ComponentRenderer: React.FC<{
             )}
           >
             {component.children.length === 0 ? (
-              <span className="glass-text-secondary text-sm">Card content goes here</span>
+              <span className="glass-text-secondary text-sm glass-focus glass-touch-target glass-contrast-guard">Card content goes here</span>
             ) : (
               component.children.map((child: any) => (
                 <ComponentRenderer
@@ -328,7 +329,7 @@ const ComponentRenderer: React.FC<{
 
       default:
         return (
-          <div style={baseStyle} className="p-4 border border-subtle glass-surface-subtle text-primary">
+          <div style={baseStyle} className="p-4 border border-subtle glass-surface-subtle text-primary glass-contrast-guard">
             Unknown component type: {component.type}
           </div>
         );
@@ -342,7 +343,7 @@ const ComponentRenderer: React.FC<{
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       className={cn(
-        "relative group transition-all duration-200",
+        "relative group transition-all duration-200 glass-focus glass-touch-target",
         isSelected && "ring-2 ring-blue-500 ring-opacity-50",
         dragDropState.draggedItem?.id === component.id && "opacity-50"
       )}
@@ -351,8 +352,8 @@ const ComponentRenderer: React.FC<{
       
       {/* Selection Overlay */}
       {isSelected && (
-        <div className="absolute inset-0 pointer-events-none border-2 glass-radius glass-surface-overlay">
-          <div className="absolute glass-top-2 left-0 glass-surface-overlay text-primary px-2 py-1 text-xs glass-radius-t font-medium">
+        <div className="absolute inset-0 pointer-events-none border-2 glass-radius glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard">
+          <div className="absolute glass-top-2 left-0 glass-surface-overlay text-primary px-2 py-1 text-xs glass-radius-t font-medium glass-contrast-guard">
             {component.type}
           </div>
         </div>
@@ -360,8 +361,8 @@ const ComponentRenderer: React.FC<{
       
       {/* Hover Overlay */}
       {!isSelected && (
-        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity border-2 border-blue glass-radius glass-surface-subtle bg-opacity-5">
-          <div className="absolute -top-6 left-0 glass-surface-subtle text-primary px-2 py-1 text-xs glass-radius-t font-medium">
+        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity border-2 border-blue glass-radius glass-surface-subtle bg-opacity-5 glass-contrast-guard">
+          <div className="absolute -top-6 left-0 glass-surface-subtle text-primary px-2 py-1 text-xs glass-radius-t font-medium glass-contrast-guard">
             {component.type}
           </div>
         </div>
@@ -371,6 +372,7 @@ const ComponentRenderer: React.FC<{
 };
 
 export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
+  const prefersReducedMotion = useReducedMotion();
   const { 
     pageState, 
     dragDropState, 
@@ -410,7 +412,7 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
 
   return (
     <div className={cn("flex-1 h-full flex flex-col overflow-hidden", className)}>
-      <Glass className="flex-1 flex flex-col">
+      <Glass className="flex-1 flex flex-col glass-contrast-guard">
         {/* Canvas Header */}
         <div className="flex items-center justify-between p-4 border-b border-subtle">
           <div className="flex items-center gap-2">
@@ -419,7 +421,7 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
               ({pageState.activeBreakpoint})
             </span>
             {pageState.previewMode && (
-              <span className="px-2 py-1 text-xs glass-surface-subtle text-primary glass-radius">
+              <span className="px-2 py-1 text-xs glass-surface-subtle text-primary glass-radius glass-contrast-guard">
                 Preview Mode
               </span>
             )}
@@ -432,7 +434,7 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
 
         {/* Canvas Content */}
         <div 
-          className="flex-1 overflow-auto p-6 glass-surface-subtle"
+          className="flex-1 overflow-auto p-6 glass-surface-subtle glass-contrast-guard"
           style={{
             backgroundImage: pageState.showGrid 
               ? 'radial-gradient(circle, var(--glass-gray-200) 1px, transparent 1px)'
@@ -441,7 +443,7 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
           }}
         >
           <div 
-            className="mx-auto glass-surface-subtle glass-min-h-full shadow-sm transition-all duration-300"
+            className="mx-auto glass-surface-subtle glass-min-h-full shadow-sm transition-all duration-300 glass-contrast-guard"
             style={breakpointStyles[pageState.activeBreakpoint]}
           >
             <div
@@ -450,13 +452,13 @@ export const GlassCanvas: React.FC<CanvasProps> = ({ className }) => {
               onDragOver={handleDragOver}
               onDrop={handleDrop}
               className={cn(
-                "min-h-full relative transition-all duration-200",
+                "min-h-full relative transition-all duration-200 glass-focus glass-touch-target",
                 dragDropState.isDragging && "bg-blue-50 bg-opacity-50"
               )}
             >
               {pageState.components.length === 0 ? (
                 // Empty State
-                <div className="flex items-center justify-center glass-min-glass-h-96 p-12">
+                <div className="flex items-center justify-center glass-min-glass-h-96 p-12 glass-focus glass-touch-target glass-contrast-guard">
                   <div className="text-center">
                     <div className="text-6xl mb-4">🎨</div>
                     <h3 className="text-lg font-medium glass-text-secondary mb-2">

@@ -305,7 +305,7 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
         variant === 'floating' ? 'squiricle' : '',
         // Consciousness feature styles
         {
-          'glass-backdrop-blur-sm': isScrolled && (predictive || gazeResponsive),
+          'glass-glass-backdrop-blur-sm': isScrolled && (predictive || gazeResponsive),
           'glass-shadow-lg': gazeResponsive,
         },
         className
@@ -1054,7 +1054,7 @@ export function HeaderBreadcrumbs({
             ) : item?.href ? (
               <a
                 href={item?.href}
-                className="glass-text-secondary hover:text-primary transition-colors"
+                className="glass-text-secondary hover:text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 {item?.label}
               </a>

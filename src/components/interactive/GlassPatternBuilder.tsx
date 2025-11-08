@@ -631,7 +631,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-pattern-tools flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-pattern-tools flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard border border-glass-border/20 glass-contrast-guard"
         >
           {/* Tools */}
           <div className="flex items-center gap-2">
@@ -641,7 +641,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
                 key={tool}
                 onClick={() => setCurrentTool(tool)}
                 className={cn(
-                  'glass-px-3 glass-py-1 glass-radius-md transition-colors capitalize',
+                  'glass-px-3 glass-py-1 glass-radius-md transition-colors capitalize glass-focus glass-touch-target',
                   currentTool === tool
                     ? 'bg-primary/20 text-primary'
                     : 'bg-background/20 hover:bg-background/30'
@@ -661,7 +661,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
                   key={`${color}-${i}`}
                   onClick={() => setCurrentColor(color)}
                   className={cn(
-                    'w-6 h-6 glass-radius-sm border-2 transition-all',
+                    'w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target',
                     currentColor === color ? 'border-primary' : 'border-border/30'
                   )}
                   style={{ backgroundColor: color }}
@@ -672,13 +672,13 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <button onClick={undo} className="px-3 py-1 glass-radius-md glass-surface-overlay hover:glass-surface-overlay">
+            <button onClick={undo} className="glass-contrast-guard glass-focus glass-radius-md glass-surface-overlay glass-touch-target hover:glass-surface-overlay px-3 py-1">
               Undo
             </button>
-            <button onClick={redo} className="px-3 py-1 glass-radius-md glass-surface-overlay hover:glass-surface-overlay">
+            <button onClick={redo} className="glass-contrast-guard glass-focus glass-radius-md glass-surface-overlay glass-touch-target hover:glass-surface-overlay px-3 py-1">
               Redo
             </button>
-            <button onClick={exportPattern} className="px-3 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary">
+            <button onClick={exportPattern} className="glass-contrast-guard glass-focus glass-radius-md glass-surface-primary/20 glass-touch-target hover:glass-surface-primary/30 px-3 py-1 text-primary">
               Export
             </button>
           </div>
@@ -712,13 +712,13 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-layer-panel p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-layer-panel p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-medium">Layers</span>
             <button
               onClick={addLayer}
-              className="px-2 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary text-xs"
+              className="px-2 py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary text-xs glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             >
               Add
             </button>
@@ -729,8 +729,8 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
               <div
                 key={layer.id}
                 className={cn(
-                  'glass-p-2 glass-radius-md border transition-colors cursor-pointer',
-                  index === activeLayer 
+                  'glass-p-2 glass-radius-md border transition-colors cursor-pointer glass-focus glass-touch-target',
+                  index === activeLayer
                     ? 'border-primary/50 bg-primary/10'
                     : 'border-border/20 bg-background/10 hover:bg-background/20'
                 )}
@@ -746,7 +746,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
                         updated[index] = { ...updated[index], visible: !updated[index].visible };
                         setCurrentLayers(updated);
                       }}
-                      className="text-xs px-1 hover:glass-surface-overlay glass-radius-sm"
+                      className="text-xs px-1 hover:glass-surface-overlay glass-radius-sm glass-focus glass-touch-target"
                     >
                       {layer.visible ? '👁' : '👁‍🗨'}
                     </button>
@@ -755,7 +755,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
                         e.stopPropagation();
                         deleteLayer(index);
                       }}
-                      className="text-xs px-1 hover:glass-surface-red/20 glass-radius-sm text-primary"
+                      className="text-xs px-1 hover:glass-surface-red/20 glass-radius-sm text-primary glass-focus glass-touch-target"
                     >
                       🗑
                     </button>
@@ -780,7 +780,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-templates p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-templates p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard border border-glass-border/20 glass-contrast-guard"
         >
           <div className="text-sm font-medium mb-3">Templates</div>
           <div className="space-y-2">
@@ -788,7 +788,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
               <button
                 key={template.id}
                 onClick={() => applyTemplate(template)}
-                className="w-full p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left"
+                className="w-full p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target"
               >
                 <div className="text-sm font-medium">{template.name}</div>
                 <div className="text-xs glass-text-secondary">{template.category}</div>
@@ -809,7 +809,7 @@ export const GlassPatternBuilder = forwardRef<HTMLDivElement, GlassPatternBuilde
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-pattern-builder relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-pattern-builder relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20',
           className
         )}
         {...props}

@@ -580,7 +580,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-fluid-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-fluid-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <button
@@ -591,7 +591,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
             </button>
             <button
               onClick={initializeParticles}
-              className="px-3 py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
+              className="px-3 py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Reset
             </button>
@@ -667,7 +667,7 @@ export const GlassFluidSimulation = forwardRef<HTMLDivElement, GlassFluidSimulat
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-fluid-simulation relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-fluid-simulation relative glass-radius-lg glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

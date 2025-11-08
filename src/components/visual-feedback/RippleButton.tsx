@@ -193,10 +193,10 @@ function RippleButtonComponent(
 
   return (
     // Apply ripple color CSS variable to the wrapper
-    <RippleWrapper 
-        ref={wrapperRef} 
+    <RippleWrapper
+        ref={wrapperRef}
         style={{ "--ripple-color-rgb": rippleColorRgb } as React.CSSProperties}
-        className={cn('glass-ripple-button', className)} // Pass className to wrapper for styling
+        className={cn('glass-ripple-button glass-contrast-guard', className)} // Pass className to wrapper for styling
     >
       <Button
         ref={ref} // Forward the ref to the underlying Button
@@ -204,7 +204,7 @@ function RippleButtonComponent(
         size={size}
         disabled={disabled}
         fullWidth={fullWidth}
-        // className={className} // Don't pass className here if it's on the wrapper
+        className="glass-focus glass-touch-target"
         style={style} // Pass style to Button
         onClick={onClick} // Pass original onClick
         onMouseDown={handleMouseDown} // Use our wrapper mouse down

@@ -555,7 +555,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           depth={2}
           tint="neutral"
           border="subtle"
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 px-4 py-2 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 px-4 py-2 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           {controls.autoRotate && (
             <button
@@ -586,7 +586,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           {controls.fullscreen && (
             <button
               onClick={toggleFullscreen}
-              className="p-2 glass-radius-md hover:glass-surface-overlay transition-all"
+              className="p-2 glass-radius-md hover:glass-surface-overlay transition-all glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title="Fullscreen"
             >
               {isFullscreen ? '🗗' : '🗖'}
@@ -626,7 +626,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-360-viewer relative glass-radius-lg backdrop-blur-md border border-border/20 overflow-hidden',
+          'glass-360-viewer relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden',
           className
         )}
         {...props}
@@ -698,7 +698,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className="absolute top-4 left-4 p-3 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+                className="absolute top-4 left-4 p-3 glass-radius-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
               >
                 <div className="text-xs font-mono gap-1">
                   <div>Yaw: {(currentView.yaw ?? 0).toFixed(1)}°</div>

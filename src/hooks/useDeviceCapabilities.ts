@@ -20,7 +20,7 @@ import { isBrowser, runClientEffect } from '../utils/env';
  *     <div>
  *       <p>Device Type: {deviceInfo.type}</p>
  *       <p>Performance Tier: {deviceInfo.performance.tier}</p>
- *       <button onClick={reload}>Refresh Detection</button>
+ *       <button onClick={reload} className="glass-focus glass-touch-target glass-contrast-guard">Refresh Detection</button>
  *     </div>
  *   );
  * }

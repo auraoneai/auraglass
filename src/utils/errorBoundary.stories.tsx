@@ -122,7 +122,7 @@ export const WithRetry: Story = {
             <div className="space-x-2">
               <button
                 onClick={retry}
-                className="glass-px-4 glass-py-2 glass-surface-primary rounded-lg hover:bg-blue-500/30 transition-colors"
+                className="glass-px-4 glass-py-2 glass-surface-primary rounded-lg hover:bg-blue-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 Retry
               </button>
@@ -163,7 +163,7 @@ export const WithCustomFallback: Story = {
           <div className="flex justify-center space-x-2">
             <button
               onClick={retry}
-              className="px-6 glass-py-2 glass-surface-primary rounded-lg hover:bg-blue-500/30 transition-colors font-medium"
+              className="px-6 glass-py-2 glass-surface-primary rounded-lg hover:bg-blue-500/30 transition-colors font-medium glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Try Again
             </button>

@@ -139,7 +139,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
                 <h3 className="text-lg font-semibold">{image.name}</h3>
                 <button
                   onClick={onClose}
-                  className="glass-text-secondary hover:glass-text-secondary p-1 glass-focus"
+                  className="glass-text-secondary hover:glass-text-secondary p-1 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   ✕
                 </button>
@@ -180,7 +180,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
                     <button
                       onClick={handleOptimize}
                       disabled={isProcessing}
-                      className="w-full py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue disabled:opacity-50 transition-colors glass-focus"
+                      className="w-full py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue disabled:opacity-50 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                       aria-label="Run smart optimization"
                     >
                       {isProcessing ? 'Optimizing...' : 'Smart Optimize'}
@@ -269,7 +269,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
                     <button
                       onClick={handleAIEnhance}
                       disabled={isProcessing}
-                      className="w-full py-3 glass-surface-primary text-primary glass-radius hover:glass-surface-subtle disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-3 glass-surface-primary text-primary glass-radius hover:glass-surface-subtle disabled:opacity-50 transition-colors flex items-center justify-center gap-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       <span>🤖</span>
                       AI Auto-Enhance
@@ -278,7 +278,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
                     <button
                       onClick={handleRemoveBackground}
                       disabled={isProcessing}
-                      className="w-full py-3 glass-surface-green text-primary glass-radius hover:glass-surface-green disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-3 glass-surface-green text-primary glass-radius hover:glass-surface-green disabled:opacity-50 transition-colors flex items-center justify-center gap-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       <span>✂️</span>
                       Remove Background
@@ -346,7 +346,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ image, onSave, onClose }) => 
             <div className="p-4 border-t border-subtle flex gap-2">
               <button
                 onClick={onClose}
-                className="flex-1 py-2 border border-subtle glass-radius hover:glass-surface-subtle transition-colors"
+                className="flex-1 py-2 border border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 Cancel
               </button>
@@ -556,7 +556,7 @@ export const GlassIntelligentImageUploader: React.FC<IntelligentImageUploaderPro
             multiple
             accept={acceptedFormats.join(',')}
             onChange={handleFileSelect}
-            className="hidden"
+            className="hidden glass-touch-target glass-contrast-guard"
           />
         </div>
 

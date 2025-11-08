@@ -78,9 +78,9 @@ export const ConsciousnessOverview: Story = {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Predictive Content</h3>
           </div>
           <ul className="text-sm text-primary-secondary gap-1 ml-5">
@@ -90,9 +90,9 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-success glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-success glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Eye Tracking</h3>
           </div>
           <ul className="text-sm text-primary-secondary gap-1 ml-5">
@@ -102,9 +102,9 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-info glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-info glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Biometric Adaptation</h3>
           </div>
           <ul className="text-sm text-primary-secondary gap-1 ml-5">
@@ -114,9 +114,9 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4 gap-3">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
+            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse glass-contrast-guard"></div>
             <h3 className="font-medium text-primary">Spatial Audio</h3>
           </div>
           <ul className="text-sm text-primary-secondary gap-1 ml-5">
@@ -186,7 +186,7 @@ export const InteractiveCards: Story = {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl">
       <GlassCard {...args} hoverable>
         <div className="p-6 text-center">
-          <div className="w-12 h-12 mx-auto mb-4 glass-radius-full glass-surface-primary/20 flex items-center justify-center">
+          <div className="w-12 h-12 mx-auto mb-4 glass-radius-full glass-surface-primary/20 flex items-center justify-center glass-contrast-guard">
             <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -198,7 +198,7 @@ export const InteractiveCards: Story = {
 
       <GlassCard {...args} clickable>
         <div className="p-6 text-center cursor-pointer">
-          <div className="w-12 h-12 mx-auto mb-4 glass-radius-full glass-surface-success/20 flex items-center justify-center">
+          <div className="w-12 h-12 mx-auto mb-4 glass-radius-full glass-surface-success/20 flex items-center justify-center glass-contrast-guard">
             <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
@@ -210,7 +210,7 @@ export const InteractiveCards: Story = {
 
       <GlassCard {...args} variant="interactive">
         <div className="p-6 text-center">
-          <div className="w-12 h-12 mx-auto mb-4 glass-radius-full glass-surface-info/20 flex items-center justify-center">
+          <div className="w-12 h-12 mx-auto mb-4 glass-radius-full glass-surface-info/20 flex items-center justify-center glass-contrast-guard">
             <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
             </svg>
@@ -248,9 +248,9 @@ export const ContentShowcase: Story = {
               with ultra intensity, extreme elevation, and interactive hover effects.
             </p>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 glass-surface-primary/20 glass-radius-full text-xs font-medium">Ultra Glass</span>
-              <span className="px-3 py-1 glass-surface-info/20 glass-radius-full text-xs font-medium">Interactive</span>
-              <span className="px-3 py-1 glass-surface-success/20 glass-radius-full text-xs font-medium">Responsive</span>
+              <span className="px-3 py-1 glass-surface-primary/20 glass-radius-full text-xs font-medium glass-contrast-guard">Ultra Glass</span>
+              <span className="px-3 py-1 glass-surface-info/20 glass-radius-full text-xs font-medium glass-contrast-guard">Interactive</span>
+              <span className="px-3 py-1 glass-surface-success/20 glass-radius-full text-xs font-medium glass-contrast-guard">Responsive</span>
             </div>
           </div>
         </div>
@@ -296,10 +296,10 @@ export const LoadingStates: Story = {
       <GlassCard {...args} loading>
         <div className="p-6">
           <div className="animate-pulse">
-            <div className="h-4 glass-surface-subtle/20 glass-radius-md w-3-4 mb-2"></div>
-            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-1-2 mb-4"></div>
-            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-full mb-2"></div>
-            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-2/3"></div>
+            <div className="h-4 glass-surface-subtle/20 glass-radius-md w-3-4 mb-2 glass-contrast-guard"></div>
+            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-1-2 mb-4 glass-contrast-guard"></div>
+            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-full mb-2 glass-contrast-guard"></div>
+            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-2/3 glass-contrast-guard"></div>
           </div>
         </div>
       </GlassCard>
@@ -307,14 +307,14 @@ export const LoadingStates: Story = {
         <div className="p-6">
           <div className="animate-pulse">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 glass-surface-subtle/20 glass-radius-full"></div>
+              <div className="w-10 h-10 glass-surface-subtle/20 glass-radius-full glass-contrast-guard"></div>
               <div className="flex-1">
-                <div className="h-3 glass-surface-subtle/10 glass-radius-md w-1-2 mb-1"></div>
-                <div className="h-2 glass-surface-subtle/10 glass-radius-md w-1/3"></div>
+                <div className="h-3 glass-surface-subtle/10 glass-radius-md w-1-2 mb-1 glass-contrast-guard"></div>
+                <div className="h-2 glass-surface-subtle/10 glass-radius-md w-1/3 glass-contrast-guard"></div>
               </div>
             </div>
-            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-full mb-2"></div>
-            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-3-4"></div>
+            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-full mb-2 glass-contrast-guard"></div>
+            <div className="h-3 glass-surface-subtle/10 glass-radius-md w-3-4 glass-contrast-guard"></div>
           </div>
         </div>
       </GlassCard>
@@ -356,7 +356,7 @@ export const ProductCard: Story = {
 export const WithPredictiveContent: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Predictive Content</h3>
         <p className="text-xs text-primary-secondary mb-4">Card content adapts based on user behavior patterns</p>
         <GlassCard
@@ -364,7 +364,7 @@ export const WithPredictiveContent: Story = {
         >
           <div className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-3 h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
+              <div className="w-3 h-3 glass-surface-blue glass-radius-full animate-pulse glass-contrast-guard"></div>
               <h4 className="font-medium">Predictive Card</h4>
             </div>
             <p className="text-sm text-primary-secondary">This content changes based on your usage patterns and preferences.</p>
@@ -382,7 +382,7 @@ export const WithPredictiveContent: Story = {
 export const WithEyeTracking: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Eye Tracking Cards</h3>
         <p className="text-xs text-primary-secondary mb-4">Cards respond to where you're looking</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -415,7 +415,7 @@ export const WithEyeTracking: Story = {
 export const BiometricAdaptive: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Biometric Adaptive Cards</h3>
         <p className="text-xs text-primary-secondary mb-4">Adjust complexity based on user stress levels</p>
         <div className="gap-4">
@@ -424,13 +424,13 @@ export const BiometricAdaptive: Story = {
           >
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse"></div>
+                <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse glass-contrast-guard"></div>
                 <h4 className="font-medium">Calm State</h4>
               </div>
               <p className="text-sm text-primary-secondary">Rich detailed content shown when user is relaxed</p>
               <div className="glass-mt-4 grid grid-cols-2 gap-3 text-xs">
-                <div className="glass-surface-overlay p-2 glass-radius-md">Detail 1</div>
-                <div className="glass-surface-overlay p-2 glass-radius-md">Detail 2</div>
+                <div className="glass-surface-overlay p-2 glass-radius-md glass-contrast-guard">Detail 1</div>
+                <div className="glass-surface-overlay p-2 glass-radius-md glass-contrast-guard">Detail 2</div>
               </div>
             </div>
           </GlassCard>
@@ -440,7 +440,7 @@ export const BiometricAdaptive: Story = {
           >
             <div className="p-4">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-3 h-3 glass-surface-yellow glass-radius-full animate-pulse"></div>
+                <div className="w-3 h-3 glass-surface-yellow glass-radius-full animate-pulse glass-contrast-guard"></div>
                 <h4 className="font-medium">Stressed State</h4>
               </div>
               <p className="text-sm text-primary-secondary">Simplified view for high stress</p>
@@ -458,7 +458,7 @@ export const BiometricAdaptive: Story = {
 export const WithSpatialAudio: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-4">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
         <h3 className="text-sm font-medium text-primary mb-2">Spatial Audio Cards</h3>
         <p className="text-xs text-primary-secondary mb-4">Provide audio feedback based on card position</p>
         <div className="grid grid-cols-3 gap-4">
@@ -466,7 +466,7 @@ export const WithSpatialAudio: Story = {
             {...args}
           >
             <div className="p-4 text-center">
-              <div className="w-8 h-8 mx-auto mb-2 glass-surface-primary/20 glass-radius-full flex items-center justify-center">
+              <div className="w-8 h-8 mx-auto mb-2 glass-surface-primary/20 glass-radius-full flex items-center justify-center glass-contrast-guard">
                 ←
               </div>
               <h4 className="text-sm font-medium">Left</h4>
@@ -476,7 +476,7 @@ export const WithSpatialAudio: Story = {
             {...args}
           >
             <div className="p-4 text-center">
-              <div className="w-8 h-8 mx-auto mb-2 glass-surface-success/20 glass-radius-full flex items-center justify-center">
+              <div className="w-8 h-8 mx-auto mb-2 glass-surface-success/20 glass-radius-full flex items-center justify-center glass-contrast-guard">
                 ●
               </div>
               <h4 className="text-sm font-medium">Center</h4>
@@ -486,7 +486,7 @@ export const WithSpatialAudio: Story = {
             {...args}
           >
             <div className="p-4 text-center">
-              <div className="w-8 h-8 mx-auto mb-2 glass-surface-info/20 glass-radius-full flex items-center justify-center">
+              <div className="w-8 h-8 mx-auto mb-2 glass-surface-info/20 glass-radius-full flex items-center justify-center glass-contrast-guard">
                 →
               </div>
               <h4 className="text-sm font-medium">Right</h4>
@@ -510,7 +510,7 @@ export const ConsciousnessShowcase: Story = {
         <p className="text-sm text-primary-secondary">Complete consciousness interface integration</p>
       </div>
       
-      <div className="glass-surface-overlay backdrop-blur-sm glass-radius-lg p-6">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-6 glass-contrast-guard">
         <GlassCard
           {...args}
           variant="feature"
@@ -521,7 +521,7 @@ export const ConsciousnessShowcase: Story = {
           <div className="p-8">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary flex items-center justify-center flex-shrink-0">
-                <div className="w-3 h-3 glass-surface-subtle glass-radius-full animate-pulse"></div>
+                <div className="w-3 h-3 glass-surface-subtle glass-radius-full animate-pulse glass-contrast-guard"></div>
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-bold mb-2">Consciousness-Enhanced Card</h3>
@@ -530,10 +530,10 @@ export const ConsciousnessShowcase: Story = {
                   eye tracking highlights, biometric responsiveness, and immersive spatial audio feedback.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 glass-surface-primary/20 glass-radius-full text-xs font-medium">Predictive</span>
-                  <span className="px-3 py-1 glass-surface-success/20 glass-radius-full text-xs font-medium">Eye Tracking</span>
-                  <span className="px-3 py-1 glass-surface-info/20 glass-radius-full text-xs font-medium">Adaptive</span>
-                  <span className="px-3 py-1 glass-surface-primary/20 glass-radius-full text-xs font-medium">Spatial Audio</span>
+                  <span className="px-3 py-1 glass-surface-primary/20 glass-radius-full text-xs font-medium glass-contrast-guard">Predictive</span>
+                  <span className="px-3 py-1 glass-surface-success/20 glass-radius-full text-xs font-medium glass-contrast-guard">Eye Tracking</span>
+                  <span className="px-3 py-1 glass-surface-info/20 glass-radius-full text-xs font-medium glass-contrast-guard">Adaptive</span>
+                  <span className="px-3 py-1 glass-surface-primary/20 glass-radius-full text-xs font-medium glass-contrast-guard">Spatial Audio</span>
                 </div>
               </div>
             </div>
@@ -542,7 +542,7 @@ export const ConsciousnessShowcase: Story = {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div className="glass-surface-overlay glass-radius-lg p-3">
+        <div className="glass-surface-overlay glass-radius-lg p-3 glass-contrast-guard">
           <h4 className="font-medium text-primary mb-2">Intelligence Features</h4>
           <ul className="text-primary-secondary gap-1">
             <li>• Predictive content adaptation</li>
@@ -551,7 +551,7 @@ export const ConsciousnessShowcase: Story = {
             <li>• Focus-aware expansion</li>
           </ul>
         </div>
-        <div className="glass-surface-overlay glass-radius-lg p-3">
+        <div className="glass-surface-overlay glass-radius-lg p-3 glass-contrast-guard">
           <h4 className="font-medium text-primary mb-2">Adaptive Features</h4>
           <ul className="text-primary-secondary gap-1">
             <li>• Biometric responsiveness</li>

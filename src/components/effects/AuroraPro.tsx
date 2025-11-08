@@ -440,7 +440,7 @@ export function AuroraPro({
                 key={mode}
                 onClick={() => changeAnimationMode(mode)}
                 className={cn(
-                  "glass-p-2 glass-radius-lg glass-transition-colors",
+                  "glass-p-2 glass-radius-lg glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
                   currentMode === mode
                     ? "glass-surface-subtle glass-text-white"
                     : "glass-text-secondary hover:glass-text-white hover:glass-surface-hover"
@@ -456,7 +456,7 @@ export function AuroraPro({
           <div className={cn("glass-flex glass-gap-2 glass-p-2 glass-surface-dark glass-foundation-complete glass-radius-lg glass-border glass-border-subtle")}>
             <button
               onClick={togglePlay}
-              className={cn("glass-p-2 glass-radius-lg glass-text-white hover:glass-surface-hover glass-transition-colors")}
+              className={cn("glass-p-2 glass-radius-lg glass-text-white hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard")}
               title={isPlaying ? 'Pause Aurora' : 'Play Aurora'}
             >
               {isPlaying ? <Pause className={cn("glass-w-4 glass-h-4")} /> : <Play className={cn("glass-w-4 glass-h-4")} />}
@@ -475,7 +475,7 @@ export function AuroraPro({
                 key={palette}
                 onClick={() => {/* Would update colorPalette prop */}}
                 className={cn(
-                  "glass-p-2 glass-radius-lg glass-transition-colors glass-text-xs",
+                  "glass-p-2 glass-radius-lg glass-transition-colors glass-text-xs glass-focus glass-touch-target glass-contrast-guard",
                   colorPalette === palette
                     ? "glass-surface-subtle glass-text-white"
                     : "glass-text-secondary hover:glass-text-white hover:glass-surface-hover"

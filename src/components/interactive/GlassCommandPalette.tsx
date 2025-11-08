@@ -417,7 +417,7 @@ export const GlassCommandPalette = forwardRef<HTMLDivElement, GlassCommandPalett
         <div
           className={cn(
             'absolute inset-0 bg-black/20',
-            backdropBlur && 'backdrop-blur-md'
+            backdropBlur && 'glass-backdrop-blur-md'
           )}
         />
 

@@ -84,28 +84,28 @@ const ToastDemo: React.FC<{ position?: any }> = ({ position = 'top-right' }) => 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <button
             onClick={handleSuccess}
-            className="glass-surface-green hover:glass-surface-green text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-green hover:glass-surface-green text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ✅ Success Toast
           </button>
 
           <button
             onClick={handleError}
-            className="glass-surface-red hover:glass-surface-red text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-red hover:glass-surface-red text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ❌ Error Toast
           </button>
 
           <button
             onClick={handleWarning}
-            className="glass-surface-yellow hover:glass-surface-yellow text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-yellow hover:glass-surface-yellow text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ⚠️ Warning Toast
           </button>
 
           <button
             onClick={handleInfo}
-            className="glass-surface-blue hover:glass-surface-blue text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-blue hover:glass-surface-blue text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ℹ️ Info Toast
           </button>
@@ -114,14 +114,14 @@ const ToastDemo: React.FC<{ position?: any }> = ({ position = 'top-right' }) => 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <button
             onClick={handleWithAction}
-            className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             🔗 Toast with Action
           </button>
 
           <button
             onClick={handlePersistent}
-            className="glass-surface-primary hover:glass-surface-subtle text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-primary hover:glass-surface-subtle text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             📌 Persistent Toast
           </button>
@@ -130,14 +130,14 @@ const ToastDemo: React.FC<{ position?: any }> = ({ position = 'top-right' }) => 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
             onClick={handleNonDismissible}
-            className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             🚫 Non-Dismissible Toast
           </button>
 
           <button
             onClick={handleMultiple}
-            className="bg-indigo-500 hover:bg-indigo-600 text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+            className="bg-indigo-500 hover:bg-indigo-600 text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             📚 Multiple Toasts
           </button>
@@ -271,13 +271,13 @@ export const RealWorldExample: Story = {
                 <h3 className="text-lg font-semibold glass-text-secondary mb-4">Document Management</h3>
                 <button
                   onClick={handleSave}
-                  className="w-full glass-surface-green hover:glass-surface-green text-primary font-medium py-2 px-4 glass-radius-lg transition-colors mb-3"
+                  className="w-full glass-surface-green hover:glass-surface-green text-primary font-medium py-2 px-4 glass-radius-lg transition-colors mb-3 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Save Document
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="w-full glass-surface-red hover:glass-surface-red text-primary font-medium py-2 px-4 glass-radius-lg transition-colors"
+                  className="w-full glass-surface-red hover:glass-surface-red text-primary font-medium py-2 px-4 glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Delete Document
                 </button>
@@ -287,13 +287,13 @@ export const RealWorldExample: Story = {
                 <h3 className="text-lg font-semibold glass-text-secondary mb-4">File Operations</h3>
                 <button
                   onClick={handleUpload}
-                  className="w-full glass-surface-blue hover:glass-surface-blue text-primary font-medium py-2 px-4 glass-radius-lg transition-colors mb-3"
+                  className="w-full glass-surface-blue hover:glass-surface-blue text-primary font-medium py-2 px-4 glass-radius-lg transition-colors mb-3 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Upload File
                 </button>
                 <button
                   onClick={handleMaintenance}
-                  className="w-full glass-surface-yellow hover:glass-surface-yellow text-primary font-medium py-2 px-4 glass-radius-lg transition-colors"
+                  className="w-full glass-surface-yellow hover:glass-surface-yellow text-primary font-medium py-2 px-4 glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   System Announcement
                 </button>

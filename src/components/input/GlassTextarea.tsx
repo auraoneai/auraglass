@@ -171,7 +171,7 @@ export const GlassTextarea = forwardRef<HTMLTextAreaElement, GlassTextareaProps>
             aria-invalid={hasError}
             className={cn(
               'glass-textarea',
-              'w-full resize-none glass-radius-lg backdrop-blur-md transition-all duration-200 glass-pulse-ring',
+              'w-full resize-none glass-radius-lg glass-backdrop-blur-md transition-all duration-200 glass-pulse-ring',
               'placeholder:glass-text-secondary',
               'focus:outline-none focus:ring-offset-2 focus:ring-offset-background',
               

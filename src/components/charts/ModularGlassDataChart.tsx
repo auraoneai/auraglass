@@ -775,7 +775,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
             {/* Predictive insights display */}
             {predictive && chartInsights.length > 0 && (
               <div
-                className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10"
+                className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
                 data-insights-panel="true"
               >
                 <strong>💡 KPI Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
@@ -860,7 +860,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
           {/* Predictive insights display */}
           {predictive && chartInsights.length > 0 && (
             <div
-              className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10"
+              className="mt-2 px-3 py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
               data-insights-panel="true"
             >
               <strong>💡 Insights:</strong> {chartInsights.slice(0, 2).map((insight: any) => insight.title || insight.message).join(', ')}
@@ -1029,7 +1029,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       {/* Eye tracking focus overlay */}
       {currentDataFocus && gazeResponsive && (
         <div
-          className="glass-absolute glass-inset-0 glass-surface-primary/10 pointer-events-none glass-z-10"
+          className="glass-absolute glass-inset-0 glass-surface-primary/10 pointer-events-none glass-z-10 glass-focus glass-touch-target glass-contrast-guard"
           data-gaze-overlay="true"
         />
       )}
@@ -1037,7 +1037,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       {/* Preloading indicator */}
       {isPreloading && (
         <div
-          className="glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary text-primary px-3 py-2 glass-radius"
+          className="glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary text-primary px-3 py-2 glass-radius glass-contrast-guard"
         >
           🔄 Analyzing data patterns...
         </div>
@@ -1046,7 +1046,7 @@ export const ModularGlassDataChart = React.forwardRef<GlassDataChartRef, GlassDa
       {/* Chart insights footer */}
       {(chartInsights.length > 0 || currentDataFocus) && (
         <div
-          className="glass-absolute px-2 py-1 glass-surface-primary/10 text-primary glass-radius glass-z-10"
+          className="glass-absolute px-2 py-1 glass-surface-primary/10 text-primary glass-radius glass-z-10 glass-contrast-guard"
           data-consciousness-footer="true"
         >
           {chartInsights.length > 0 && `📊 ${chartInsights.length} insights`}

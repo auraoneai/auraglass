@@ -706,7 +706,7 @@ export const GlassStressResponsive = forwardRef<HTMLDivElement, {
       aria-describedby={ariaDescribedBy || descriptionId}
       aria-live="polite"
       className={cn(
-        "glass-surface glass-border glass-radius-md backdrop-blur-md transition-all duration-1000",
+        "glass-surface glass-border glass-radius-md glass-glass-backdrop-blur-md glass-contrast-guard transition-all duration-1000",
         currentStressLevel > 0.7 ? "glass-surface-subtle glass-border-subtle" : "glass-surface-medium glass-border-medium",
         currentStressLevel > 0.7 && "calming-mode",
         className
@@ -781,7 +781,7 @@ export const GlassBiometricDashboard = forwardRef<HTMLDivElement, {
     <OptimizedGlass
       ref={ref}
       intensity={'subtle'}
-      blur={'strong'}
+      glassBlur={'strong'}
       className={cn("fixed top-4 left-4 glass-p-4 glass-radius-lg", className)}
       id={dashboardId}
       role={role || 'region'}

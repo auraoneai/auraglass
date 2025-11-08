@@ -80,17 +80,17 @@ export const ArcticAurora: Story = {
               dancing across the night sky. This arctic display captures the magic of polar light shows.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">❄️</div>
                 <div className="font-semibold">Arctic Colors</div>
                 <div className="glass-text-secondary">Cool blue & green palette</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🌊</div>
                 <div className="font-semibold">Flowing Waves</div>
                 <div className="glass-text-secondary">Smooth, organic movement</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">✨</div>
                 <div className="font-semibold">Particle Effects</div>
                 <div className="glass-text-secondary">Scattered light particles</div>
@@ -127,17 +127,17 @@ export const ForestAurora: Story = {
               Experience the tranquility of woodland aurora displays with pulsing light patterns.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🌿</div>
                 <div className="font-semibold">Forest Greens</div>
                 <div className="glass-text-secondary">Deep emerald & jade tones</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">💚</div>
                 <div className="font-semibold">Pulsing Rhythm</div>
                 <div className="glass-text-secondary">Organic breathing effect</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🌳</div>
                 <div className="font-semibold">Curtain Effect</div>
                 <div className="glass-text-secondary">Layered aurora curtains</div>
@@ -174,17 +174,17 @@ export const SunsetAurora: Story = {
               Experience shifting color palettes that dance like fire in the evening sky.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🔥</div>
                 <div className="font-semibold">Fiery Colors</div>
                 <div className="glass-text-secondary">Orange, pink & purple hues</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🌈</div>
                 <div className="font-semibold">Color Shifting</div>
                 <div className="glass-text-secondary">Dynamic color transitions</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">⭐</div>
                 <div className="font-semibold">Intense Display</div>
                 <div className="glass-text-secondary">High-intensity effects</div>
@@ -221,17 +221,17 @@ export const OceanAurora: Story = {
               Experience the gentle ebb and flow of underwater light patterns.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🏄‍♂️</div>
                 <div className="font-semibold">Ocean Blues</div>
                 <div className="glass-text-secondary">Deep sea & coastal colors</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🌊</div>
                 <div className="font-semibold">Wave Motion</div>
                 <div className="glass-text-secondary">Fluid, flowing animations</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🐚</div>
                 <div className="font-semibold">Serene Effect</div>
                 <div className="glass-text-secondary">Calming, peaceful display</div>
@@ -268,17 +268,17 @@ export const CosmicAurora: Story = {
               Experience the mystery and wonder of universal light displays.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🪐</div>
                 <div className="font-semibold">Cosmic Colors</div>
                 <div className="glass-text-secondary">Deep space color palette</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">🌟</div>
                 <div className="font-semibold">Mixed Effects</div>
                 <div className="glass-text-secondary">Combined animation modes</div>
               </div>
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 glass-contrast-guard">
                 <div className="text-2xl mb-2">✨</div>
                 <div className="font-semibold">Stellar Display</div>
                 <div className="glass-text-secondary">High particle density</div>
@@ -343,7 +343,7 @@ export const AuroraShowcase: Story = {
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">🌌 Dynamic Effects</h3>
                 <ul className="text-primary/80 space-y-2 text-sm">
                   <li>• Flowing aurora waves with organic movement</li>
@@ -353,7 +353,7 @@ export const AuroraShowcase: Story = {
                 </ul>
               </div>
 
-              <div className="p-6 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+              <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
                 <h3 className="text-xl font-semibold text-primary mb-4">✨ Visual Features</h3>
                 <ul className="text-primary/80 space-y-2 text-sm">
                   <li>• Multiple aurora wave layers</li>
@@ -365,25 +365,25 @@ export const AuroraShowcase: Story = {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20 text-center">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 text-center glass-contrast-guard">
                 <div className="text-3xl mb-2">🎨</div>
                 <div className="text-primary font-semibold">Color Palettes</div>
                 <div className="text-primary/60 text-sm">6+ themes</div>
               </div>
 
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20 text-center">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 text-center glass-contrast-guard">
                 <div className="text-3xl mb-2">🎭</div>
                 <div className="text-primary font-semibold">Animation Modes</div>
                 <div className="text-primary/60 text-sm">4 styles</div>
               </div>
 
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20 text-center">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 text-center glass-contrast-guard">
                 <div className="text-3xl mb-2">⚡</div>
                 <div className="text-primary font-semibold">Performance</div>
                 <div className="text-primary/60 text-sm">60fps</div>
               </div>
 
-              <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-lg border border-white/20 text-center">
+              <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-lg border border-white/20 text-center glass-contrast-guard">
                 <div className="text-3xl mb-2">🎛️</div>
                 <div className="text-primary font-semibold">Controls</div>
                 <div className="text-primary/60 text-sm">Interactive</div>
@@ -420,7 +420,7 @@ export const CustomAurora: Story = {
               Create your own aurora experience with custom color palettes.
               Mix and match colors to create unique atmospheric effects.
             </p>
-            <div className="p-4 glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl border border-white/20">
+            <div className="p-4 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
               <h3 className="text-lg font-semibold text-primary mb-4">Custom Colors</h3>
               <div className="flex justify-center gap-4 mb-4">
                 <div className="flex items-center gap-2">

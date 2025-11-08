@@ -378,7 +378,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
           border="subtle"
           className={cn(
             'absolute cursor-pointer transition-all duration-200',
-            'backdrop-blur-sm border border-border/20 glass-radius-md',
+            'glass-backdrop-blur-sm border border-border/20 glass-radius-md',
             task.priority && priorityColors[task.priority],
             isSelected && 'ring-2 ring-primary/50',
             isHovered && 'shadow-lg scale-[1.02]'
@@ -491,7 +491,7 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-gantt-chart glass-radius-lg backdrop-blur-md border border-border/20 overflow-hidden',
+          'glass-gantt-chart glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden',
           className
         )}
         style={{ height }}

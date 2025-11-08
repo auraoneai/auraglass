@@ -20,7 +20,7 @@ const glassTransitionVariants = {
     exit: {
       scale: [1, 1.02, 0.98, 1.1, 0],
       opacity: [1, 0.8, 0.6, 0.3, 0],
-      filter: ['blur(0px)', 'blur(1px)', 'blur(3px)', 'blur(var(--glass-blur-md))', 'blur(15px)'],
+      filter: ['blur(0px)', 'blur(1px)', 'blur(3px)', 'blur(var(--glass-glass-blur-md))', 'blur(15px)'],
       rotate: [0, -2, 4, -8, 15],
       transition: {
         duration: 0.8,
@@ -31,7 +31,7 @@ const glassTransitionVariants = {
     enter: {
       scale: [0, 0.8, 1.05, 1],
       opacity: [0, 0.3, 0.8, 1],
-      filter: ['blur(15px)', 'blur(var(--glass-blur-md))', 'blur(2px)', 'blur(0px)'],
+      filter: ['blur(15px)', 'blur(var(--glass-glass-blur-md))', 'blur(2px)', 'blur(0px)'],
       rotate: [15, -5, 2, 0],
       transition: {
         duration: 0.8,
@@ -148,8 +148,8 @@ const glassTransitionVariants = {
       filter: [
         'blur(0px) brightness(1)',
         'blur(2px) brightness(1.2)',
-        'blur(var(--glass-blur-md)) brightness(0.8)',
-        'blur(var(--glass-blur-lg)) brightness(0.5)'
+        'blur(var(--glass-glass-blur-md)) brightness(0.8)',
+        'blur(var(--glass-glass-blur-lg)) brightness(0.5)'
       ],
       transition: {
         duration: 0.8,
@@ -160,8 +160,8 @@ const glassTransitionVariants = {
       scale: [0, 0.9, 1.1, 1],
       opacity: [0, 0.4, 0.8, 1],
       filter: [
-        'blur(var(--glass-blur-lg)) brightness(0.5)',
-        'blur(var(--glass-blur-md)) brightness(0.8)',
+        'blur(var(--glass-glass-blur-lg)) brightness(0.5)',
+        'blur(var(--glass-glass-blur-md)) brightness(0.8)',
         'blur(2px) brightness(1.2)',
         'blur(0px) brightness(1)'
       ],
@@ -353,7 +353,7 @@ export function SwipeableGlassCards({
               setCurrentIndex(index);
             }}
             className={cn(
-              'glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300',
+              'glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard',
               index === currentIndex
                 ? 'glass-surface-white glass-scale-125'
                 : 'glass-surface-muted hover:glass-surface-secondary'
@@ -408,7 +408,7 @@ export function GlassAccordion({
           >
             <motion.button
               onClick={() => toggleItem(item.id)}
-              className={cn("glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors")}
+              className={cn("glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard")}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
             >
@@ -575,7 +575,7 @@ export function GlassTabs({
             key={tab.id}
             onClick={() => handleTabChange(tab.id)}
             className={cn(
-              'glass-relative glass-px-4 glass-py-2 glass-radius-md glass-transition-all glass-duration-300 glass-flex glass-items-center glass-gap-2',
+              'glass-relative glass-px-4 glass-py-2 glass-radius-md glass-transition-all glass-duration-300 glass-flex glass-items-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard',
               'glass-text-sm glass-font-medium glass-whitespace-nowrap',
               activeTab === tab.id
                 ? 'glass-text-white glass-surface-subtle'

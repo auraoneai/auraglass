@@ -67,7 +67,7 @@ type Story = StoryObj<typeof GlassHoverCard>;
 export const Default: Story = {
   args: {
     children: (
-      <button className="px-4 py-2 glass-surface-blue/20 backdrop-blur-md border border-white/20 glass-radius-lg hover:glass-surface-blue/30 transition-colors">
+      <button className="px-4 py-2 glass-surface-blue/20 glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg hover:glass-surface-blue/30 transition-colors glass-contrast-guard">
         Hover me
       </button>
     ),
@@ -90,7 +90,7 @@ export const Placements: Story = {
         placement="top"
         content={<div className="p-3"><Info className="w-4 h-4 inline glass-mr-2" />Top placement</div>}
       >
-        <button className="px-3 py-2 glass-surface-subtle/10 backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors">
+        <button className="px-3 py-2 glass-surface-subtle/10 glass-glass-backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors glass-contrast-guard">
           Top
         </button>
       </GlassHoverCard>
@@ -100,7 +100,7 @@ export const Placements: Story = {
         placement="right"
         content={<div className="p-3"><Info className="w-4 h-4 inline glass-mr-2" />Right placement</div>}
       >
-        <button className="px-3 py-2 glass-surface-subtle/10 backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors">
+        <button className="px-3 py-2 glass-surface-subtle/10 glass-glass-backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors glass-contrast-guard">
           Right
         </button>
       </GlassHoverCard>
@@ -110,7 +110,7 @@ export const Placements: Story = {
         placement="bottom"
         content={<div className="p-3"><Info className="w-4 h-4 inline glass-mr-2" />Bottom placement</div>}
       >
-        <button className="px-3 py-2 glass-surface-subtle/10 backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors">
+        <button className="px-3 py-2 glass-surface-subtle/10 glass-glass-backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors glass-contrast-guard">
           Bottom
         </button>
       </GlassHoverCard>
@@ -120,7 +120,7 @@ export const Placements: Story = {
         placement="left"
         content={<div className="p-3"><Info className="w-4 h-4 inline glass-mr-2" />Left placement</div>}
       >
-        <button className="px-3 py-2 glass-surface-subtle/10 backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors">
+        <button className="px-3 py-2 glass-surface-subtle/10 glass-glass-backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors glass-contrast-guard">
           Left
         </button>
       </GlassHoverCard>
@@ -130,7 +130,7 @@ export const Placements: Story = {
         placement="top-start"
         content={<div className="p-3"><Info className="w-4 h-4 inline glass-mr-2" />Top start</div>}
       >
-        <button className="px-3 py-2 glass-surface-subtle/10 backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors">
+        <button className="px-3 py-2 glass-surface-subtle/10 glass-glass-backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors glass-contrast-guard">
           Top-Start
         </button>
       </GlassHoverCard>
@@ -140,7 +140,7 @@ export const Placements: Story = {
         placement="bottom-end"
         content={<div className="p-3"><Info className="w-4 h-4 inline glass-mr-2" />Bottom end</div>}
       >
-        <button className="px-3 py-2 glass-surface-subtle/10 backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors">
+        <button className="px-3 py-2 glass-surface-subtle/10 glass-glass-backdrop-blur-md border border-white/20 glass-radius-md hover:glass-surface-subtle/20 transition-colors glass-contrast-guard">
           Bottom-End
         </button>
       </GlassHoverCard>
@@ -151,7 +151,7 @@ export const Placements: Story = {
 export const WithRichContent: Story = {
   args: {
     children: (
-      <div className="flex items-center gap-3 p-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer hover:glass-gradient-primary hover:glass-gradient-primary dark:hover:glass-gradient-primary dark:hover:glass-gradient-primary transition-all">
+      <div className="flex items-center gap-3 p-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer hover:glass-gradient-primary hover:glass-gradient-primary dark:hover:glass-gradient-primary dark:hover:glass-gradient-primary transition-all glass-contrast-guard">
         <User className="w-5 h-5" />
         <div>
           <div className="font-medium">John Doe</div>
@@ -195,7 +195,7 @@ export const WithRichContent: Story = {
 export const WithDelay: Story = {
   args: {
     children: (
-      <button className="px-4 py-2 glass-surface-green/20 backdrop-blur-md border border-white/20 glass-radius-lg hover:glass-surface-green/30 transition-colors">
+      <button className="px-4 py-2 glass-surface-green/20 glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg hover:glass-surface-green/30 transition-colors glass-contrast-guard">
         Hover with delay
       </button>
     ),

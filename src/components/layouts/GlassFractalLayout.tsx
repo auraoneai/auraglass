@@ -315,7 +315,7 @@ export const GlassFractalLayout = forwardRef<HTMLDivElement, GlassFractalLayoutP
                 >
                   <div
                     className={`
-                      glass-surface rounded-lg border border-white/20 backdrop-blur-md
+                      glass-surface rounded-lg border border-white/20 glass-backdrop-blur-md
                       transition-all duration-200 p-2 min-w-[40px] min-h-[40px]
                       flex items-center justify-center
                       ${isHovered || isSelected
@@ -365,17 +365,17 @@ export const GlassFractalLayout = forwardRef<HTMLDivElement, GlassFractalLayoutP
 
         {/* Controls */}
         <div className="absolute bottom-4 left-4 flex flex-col gap-2">
-          <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Type: {fractalType}
           </div>
-          <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Depth: {Math.floor(growthProgress * maxDepth)}/{maxDepth}
           </div>
-          <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+          <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Nodes: {allNodes.length}
           </div>
           {interactiveZoom && (
-            <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius backdrop-blur-sm">
+            <div className="text-xs text-primary/70 glass-surface-dark/20 px-2 py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
               Zoom: {(currentZoom * 100).toFixed(0)}%
             </div>
           )}
@@ -384,7 +384,7 @@ export const GlassFractalLayout = forwardRef<HTMLDivElement, GlassFractalLayoutP
         {/* Growth progress indicator */}
         {animateGrowth && growthProgress < 1 && (
           <div className="absolute top-4 right-4">
-            <div className="w-32 h-2 glass-surface-dark/20 glass-radius-full backdrop-blur-sm">
+            <div className="w-32 h-2 glass-surface-dark/20 glass-radius-full glass-glass-backdrop-blur-sm glass-contrast-guard">
               <div
                 className="h-full glass-surface-subtle/50 glass-radius-full transition-all duration-100"
                 style={{ width: `${growthProgress * 100}%` }}

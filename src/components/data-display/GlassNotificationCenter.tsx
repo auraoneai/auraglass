@@ -221,7 +221,7 @@ export const GlassNotificationCenter = forwardRef<HTMLDivElement, GlassNotificat
                 animation="none"
                 performanceMode="medium"
                 className={cn(
-                  'min-w-80 max-w-sm glass-p-4 glass-radius-lg border backdrop-blur-md',
+                  'min-w-80 max-w-sm glass-p-4 glass-radius-lg border glass-backdrop-blur-md',
                   typeStyles.bgClass
                 )}
               >
@@ -246,7 +246,7 @@ export const GlassNotificationCenter = forwardRef<HTMLDivElement, GlassNotificat
                 {notification.action && (
                   <button
                     onClick={notification.action.onClick}
-                    className="glass-mt-2 text-sm font-medium text-primary hover:glass-text-secondary transition-colors"
+                    className="glass-mt-2 text-sm font-medium text-primary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                   >
                     {notification.action.label}
                   </button>
@@ -321,7 +321,7 @@ export const GlassNotificationItem = forwardRef<HTMLDivElement, GlassNotificatio
           <h4 className="font-semibold">{notification.title}</h4>
           {notification.message && <p className="text-sm opacity-80">{notification.message}</p>}
         </div>
-        <button onClick={onClose} className="text-primary/60 hover:text-primary">✕</button>
+        <button onClick={onClose} className="glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/60">✕</button>
       </div>
       </OptimizedGlass>
     );

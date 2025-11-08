@@ -211,7 +211,7 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
             role={role}
             aria-label={ariaLabel}
             className={cn(
-                'relative backdrop-blur-md ring-1 ring-white/10 bg-white/5',
+                'relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5',
                 scrollbarPosition === 'outside' && 'glass-p-2',
                 smoothScrolling && 'scroll-smooth',
                 // Motion preferences
@@ -452,7 +452,7 @@ export const GlassScrollBar = forwardRef<HTMLDivElement, GlassScrollBarProps>((
                     ref={thumbRef}
                     className={cn(
                         thumbClasses,
-                        'backdrop-blur-md bg-white/30 border border-white/20',
+                        'glass-backdrop-blur-md bg-white/30 border border-white/20',
                         shouldRespectMotion ? 'hover:bg-white/40 transition-all duration-200' : 'hover:bg-white/40',
                         isDragging && 'bg-white/50 scale-110',
                         size === 'sm' && 'w-1 h-4',

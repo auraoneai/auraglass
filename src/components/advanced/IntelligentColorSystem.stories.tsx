@@ -86,7 +86,7 @@ export const InteractiveDemo: Story = {
             </p>
           </div>
 
-          <div className="glass-surface-subtle/[0.08] backdrop-blur-xl glass-radius-3xl p-10 shadow-2xl border border-white/10 relative group hover:glass-surface-subtle/[0.12] transition-all duration-700">
+          <div className="glass-surface-subtle/[0.08] glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-10 shadow-2xl border border-white/10 relative group hover:glass-surface-subtle/[0.12] transition-all duration-700 glass-contrast-guard">
             {/* Inner glow effect */}
             <div className="absolute inset-0 glass-radius-3xl glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
@@ -509,7 +509,7 @@ export const QuantumNeuromorphicDemo: Story = {
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/5 backdrop-blur-xl border border-white/10">
+            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle/5 glass-glass-glass-backdrop-blur-xl glass-contrast-guard border border-white/10 glass-contrast-guard">
               <div className="w-3 h-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full animate-pulse" />
               <span className="text-sm text-primary/70 font-medium tracking-wider">
                 QUANTUM-NEUROMORPHIC CONSCIOUSNESS INTERFACE
@@ -527,7 +527,7 @@ export const QuantumNeuromorphicDemo: Story = {
           {/* Main interface grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             {/* Quantum State Panel */}
-            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 relative overflow-hidden">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
               <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -573,7 +573,7 @@ export const QuantumNeuromorphicDemo: Story = {
                   <button
                     onClick={measureQuantumState}
                     disabled={quantumState.measurement}
-                    className="w-full py-3 glass-surface-blue/20 hover:glass-surface-blue/30 border border-blue/50 glass-radius-xl text-primary font-medium transition-all duration-300 disabled:opacity-50"
+                    className="w-full py-3 glass-surface-blue/20 hover:glass-surface-blue/30 border border-blue/50 glass-radius-xl text-primary font-medium transition-all duration-300 disabled:opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                   >
                     {quantumState.measurement ? 'Measuring...' : 'Collapse Wave Function'}
                   </button>
@@ -582,7 +582,7 @@ export const QuantumNeuromorphicDemo: Story = {
             </div>
 
             {/* Biometric Adaptation Panel */}
-            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 relative overflow-hidden">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
               <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -651,7 +651,7 @@ export const QuantumNeuromorphicDemo: Story = {
             </div>
 
             {/* Neural Network Panel */}
-            <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 relative overflow-hidden">
+            <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 relative overflow-hidden glass-contrast-guard">
               <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-50" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -717,7 +717,7 @@ export const QuantumNeuromorphicDemo: Story = {
           </div>
 
           {/* Consciousness Stream */}
-          <div className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-3xl p-8 border border-white/20 mb-12 relative overflow-hidden">
+          <div className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-3xl p-8 border border-white/20 mb-12 relative overflow-hidden glass-contrast-guard">
             <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-purple-500/10 glass-gradient-primary opacity-50" />
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-6">
@@ -792,7 +792,7 @@ export const QuantumNeuromorphicDemo: Story = {
             ].map((feature, index) => (
               <div 
                 key={feature.title}
-                className="glass-surface-subtle/10 backdrop-blur-xl glass-radius-2xl p-6 border border-white/20 text-center hover:glass-surface-subtle/15 transition-all duration-500 group"
+                className="glass-surface-subtle/10 glass-glass-glass-backdrop-blur-xl glass-contrast-guard glass-radius-2xl p-6 border border-white/20 text-center hover:glass-surface-subtle/15 transition-all duration-500 group glass-contrast-guard"
                 style={{ 
                   animationDelay: `${index * 200}ms`,
                   animation: 'slideUpStagger 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
@@ -903,7 +903,7 @@ export const PracticalEnhancementsDemo: Story = {
           {/* Main Features Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
             {/* Performance Monitoring */}
-            <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -990,7 +990,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Accessibility Controls */}
-            <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1072,7 +1072,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* User Preferences */}
-            <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1175,7 +1175,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Theme Controls */}
-            <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1250,7 +1250,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Mobile Optimizations */}
-            <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1324,7 +1324,7 @@ export const PracticalEnhancementsDemo: Story = {
             </div>
 
             {/* Developer Experience */}
-            <div className={`backdrop-blur-xl rounded-3xl p-8 border transition-colors duration-300 ${
+            <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-8 border transition-colors duration-300 ${
               theme === 'light' 
                 ? 'bg-white/80 border-gray-200' 
                 : 'bg-white/10 border-white/20'
@@ -1391,7 +1391,7 @@ export const PracticalEnhancementsDemo: Story = {
           </div>
 
           {/* Summary Dashboard */}
-          <div className={`backdrop-blur-xl rounded-3xl p-12 border transition-colors duration-300 ${
+          <div className={`glass-glass-backdrop-blur-xl glass-contrast-guard rounded-3xl p-12 border transition-colors duration-300 ${
             theme === 'light' 
               ? 'bg-white/80 border-gray-200' 
               : 'bg-white/10 border-white/20'

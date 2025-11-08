@@ -331,6 +331,12 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                                         <button
                                             key={step.id}
                                             onClick={(e) => !isDisabled && goToStep(index)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' || e.key === ' ') {
+                                                    e.preventDefault();
+                                                    if (!isDisabled) goToStep(index);
+                                                }
+                                            }}
                                             disabled={isDisabled}
                                             aria-label={`${step.title}${isActive ? ' (current step)' : ''}${isCompleted ? ' (completed)' : ''}`}
                                             aria-current={isActive ? 'step' : undefined}
@@ -338,6 +344,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                                             className={cn(
                                                 'flex items-center glass-gap-2 glass-px-3 glass-py-2 glass-radius-lg glass-text-sm font-medium transition-all duration-200 whitespace-nowrap',
                                                 'border border-white/20',
+                                                'glass-focus glass-touch-target glass-contrast-guard',
                                                 {
                                                     'bg-primary/20 text-primary-foreground border-primary/40': isActive,
                                                     'bg-green-500/20 text-green-400 border-green-500/40': isCompleted && !isActive,

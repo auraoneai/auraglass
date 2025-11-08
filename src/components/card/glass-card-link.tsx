@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 import { Motion } from '../../primitives';
 
@@ -13,6 +14,7 @@ export const GlassCardLink: React.FC<GlassCardLinkProps> = ({
   className,
   ...props
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   return (
     <Motion data-glass-component
       className="inline-block"

@@ -242,7 +242,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
             !readOnly && !disabled && 'cursor-pointer hover:scale-110 active:scale-95',
             readOnly && 'cursor-default',
             disabled && 'opacity-50 cursor-not-allowed',
-            'focus:outline-none glass-focus'
+            'focus:outline-none glass-focus glass-touch-target glass-contrast-guard'
           )}
         >
           {icon && isFilled ? (

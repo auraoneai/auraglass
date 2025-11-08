@@ -311,6 +311,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
         const itemClasses = cn(
           'flex items-center glass-gap-2 text-decoration-none border-none bg-transparent cursor-pointer transition-all duration-200',
           'glass-radius-md border-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50',
+          'glass-focus glass-touch-target glass-contrast-guard',
           {
             'glass-px-2 glass-py-1.5 glass-text-sm': variant === 'minimal',
             'glass-px-4 glass-py-2.5 glass-text-base': variant !== 'minimal',
@@ -469,6 +470,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
             'hidden md:hidden lg:hidden',
             'bg-transparent border-none cursor-pointer glass-p-2 text-inherit',
             'flex items-center justify-center',
+            'glass-focus glass-touch-target glass-contrast-guard',
             'max-md:flex'
           )}
           aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -555,6 +557,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
               'absolute top-1/2 -translate-y-1/2 w-6 h-6 glass-radius-full',
               'flex items-center justify-center cursor-pointer',
               'bg-white/10 border border-white/20 transition-all duration-200',
+              'glass-focus glass-touch-target glass-contrast-guard',
               'hover:bg-white/20',
               {
                 '-right-3': !collapsed,

@@ -924,7 +924,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                                 type="file"
                                 multiple
                                 onChange={handleFileChange}
-                                className="hidden"
+                                className="hidden glass-touch-target glass-contrast-guard"
                                 accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt"
                             />
                         </div>

@@ -338,7 +338,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                                 value={query}
                                 onChange={handleSearchInput}
                                 placeholder={placeholder}
-                                className="w-full pl-10 pr-4 py-3 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-lg text-primary placeholder-white/50 focus:outline-none focus:ring-white/30"
+                                className="w-full pl-10 pr-4 py-3 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-lg text-primary placeholder-white/50 focus:outline-none focus:ring-white/30 glass-touch-target glass-contrast-guard"
                             />
                             {query && (
                                 <GlassButton
@@ -360,7 +360,7 @@ export const GlassAdvancedSearch = forwardRef<HTMLDivElement, GlassAdvancedSearc
                             <Motion preset="slideDown" className="absolute top-full left-0 right-0 glass-mt-2 z-10">
                                 <div
                                     ref={suggestionsRef}
-                                    className="glass-surface-dark/80 backdrop-blur-md border border-white/20 glass-radius-lg shadow-xl glass-max-h-64 overflow-y-auto"
+                                    className="glass-surface-dark/80 glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg shadow-xl glass-max-h-64 overflow-y-auto glass-contrast-guard"
                                 >
                                     {suggestions.map((suggestion) => (
                                         <button

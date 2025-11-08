@@ -134,8 +134,8 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
                 'active:translate-y-0',
               ],
               
-              // Heat pulse animation
-              shouldAnimate && 'animate-heat-pulse',
+              // Heat pulse animation (respects reduced motion via shouldAnimate)
+              shouldAnimate && 'glass-animate-heat-pulse',
               
               className
             )}
@@ -162,7 +162,7 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
               className={cn(
                 'relative z-10',
                 shouldAnimate && [
-                  'animate-heat-distortion',
+                  'glass-animate-heat-distortion',
                   'will-change-auto', // Use will-change-auto instead of will-change-filter
                 ]
               )}

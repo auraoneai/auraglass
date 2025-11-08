@@ -291,7 +291,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
         {showBackdrop && open && (
           <Motion
             preset="fadeIn"
-            className="fixed inset-0 glass-surface-dark/50 backdrop-blur-md z-[100]"
+            className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-[100] glass-contrast-guard"
             onClick={handleBackdropClick}
           />
         )}
@@ -336,6 +336,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
               size="sm"
               onClick={(e) => onOpenChange?.(false)}
               aria-label="Close navigation"
+              className="glass-focus glass-touch-target"
             />
           </div>
 

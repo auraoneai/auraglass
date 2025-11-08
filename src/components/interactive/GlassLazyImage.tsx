@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Motion } from '../../primitives';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export interface GlassLazyImageProps {
     /**
@@ -237,7 +238,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
     // Default loading component
     const defaultLoadingComponent = (
         <Motion preset="fadeIn" className="absolute inset-0 flex items-center justify-center">
-            <div className="flex items-center gap-2 px-3 py-2 glass-surface-dark/50 backdrop-blur-md glass-radius-full">
+            <div className="flex items-center gap-2 px-3 py-2 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
                 <Loader2 className="w-4 h-4 animate-spin text-primary/80" />
                 <span className="text-primary/80 text-sm">Loading...</span>
             </div>
@@ -376,7 +377,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                                 e.stopPropagation();
                                 setShowActionsMenu(!showActionsMenu);
                             }}
-                            className="p-2 glass-surface-dark/50 backdrop-blur-md glass-radius-full hover:glass-surface-dark/70 transition-colors"
+                            className="p-2 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full hover:glass-surface-dark/70 transition-colors glass-contrast-guard"
                         >
                             <span className="text-primary text-lg">⋯</span>
                         </button>
@@ -384,7 +385,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                         {/* Actions Dropdown */}
                         {showActionsMenu && (
                             <Motion preset="slideDown" className="absolute top-full right-0 glass-mt-2">
-                                <div className="glass-surface-dark/80 backdrop-blur-md glass-radius-lg shadow-xl border border-white/20 glass-min-w-32">
+                                <div className="glass-surface-dark/80 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-lg shadow-xl border border-white/20 glass-min-w-32 glass-contrast-guard">
                                     {enableZoom && (
                                         <button
                                             onClick={(e) => {
@@ -431,7 +432,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
             {/* Image Dimensions Info (dev mode) */}
             {process.env.NODE_ENV === 'development' && imageDimensions.width > 0 && (
-                <div className="absolute glass-top-2 left-2 px-2 py-1 glass-surface-dark/50 backdrop-blur-md glass-radius-md text-primary/60 text-xs">
+                <div className="absolute glass-top-2 left-2 px-2 py-1 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-md text-primary/60 text-xs glass-contrast-guard">
                     {imageDimensions.width} × {imageDimensions.height}
                 </div>
             )}

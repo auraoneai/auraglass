@@ -160,7 +160,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>((
         onClick={handleClick}
         aria-label={defaultAriaLabel}
         aria-describedby={`${componentId}-description`}
-        className="block"
+        className="block glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         <OptimizedGlass
           intent="neutral"

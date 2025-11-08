@@ -157,12 +157,12 @@ export const Default: Story = {
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 1" dotColor="var(--glass-color-primary)" />
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 2" dotColor="var(--glass-color-success)" />
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer" label="Data Point 3" dotColor="#6366F1" />
+          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard" label="Data Point 1" dotColor="var(--glass-color-primary)" />
+          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard" label="Data Point 2" dotColor="var(--glass-color-success)" />
+          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard" label="Data Point 3" dotColor="#6366F1" />
         </div>
 
-        <div className="glass-surface-subtle/50 backdrop-blur-md border border-white/10 glass-radius-lg p-4">
+        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md border border-white/10 glass-radius-lg p-4 glass-contrast-guard">
           <h4 className="text-sm font-semibold mb-2">Plugin Status:</h4>
           <p className="text-xs opacity-75">
             Plugin created successfully with effects: Magnetic, Ripple, Glow
@@ -210,15 +210,15 @@ export const DisabledEffects: Story = {
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <div className="chart-element p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer">
+          <div className="chart-element p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard">
             <div className="text-center">
-              <div className="w-8 h-8 glass-surface-red glass-radius-full mx-auto mb-2"></div>
+              <div className="w-8 h-8 glass-surface-red glass-radius-full mx-auto mb-2 glass-contrast-guard"></div>
               <p className="text-sm font-medium">No Effects</p>
             </div>
           </div>
         </div>
 
-        <div className="glass-surface-subtle/50 backdrop-blur-md border border-white/10 glass-radius-lg p-4">
+        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md border border-white/10 glass-radius-lg p-4 glass-contrast-guard">
           <h4 className="text-sm font-semibold mb-2">Plugin Status:</h4>
           <p className="text-xs opacity-75">
             Plugin created with all effects disabled

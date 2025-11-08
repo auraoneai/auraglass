@@ -604,7 +604,7 @@ export function EnhancedGlass({
     <motion.div
       className={cn(
         "relative",
-        enableBackdropFilter && "OptimizedGlass intensity={0.2} blur={6}",
+        enableBackdropFilter && "OptimizedGlass intensity={0.2} glassBlur={6}",
         !enableBackdropFilter && "glass-surface-fallback",
         className
       )}

@@ -336,7 +336,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           depth={3}
           tint="neutral"
           border="strong"
-          className="glass-heatmap-tooltip p-3 glass-radius-lg shadow-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-heatmap-tooltip p-3 glass-radius-lg shadow-lg glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="text-sm gap-1">
             <div className="font-semibold">
@@ -374,7 +374,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           tint="neutral"
           border="subtle"
           className={cn(
-            'glass-heatmap-legend glass-p-3 glass-radius-lg backdrop-blur-md border border-border/20',
+            'glass-heatmap-legend glass-p-3 glass-radius-lg glass-backdrop-blur-md border border-border/20',
             isHorizontal ? 'flex items-center glass-gap-3' : 'flex flex-col glass-gap-3'
           )}
         >
@@ -441,7 +441,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-heatmap glass-radius-lg backdrop-blur-md border border-border/20 overflow-hidden',
+          'glass-heatmap glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden',
           className
         )}
         {...props}

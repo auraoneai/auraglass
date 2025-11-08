@@ -11,7 +11,7 @@ export function GlassMentionList({ items, onSelect, className }: GlassMentionLis
       <ul className="max-h-60 overflow-auto">
         {items.map((it: any) => (
           <li key={it.id}>
-            <button onClick={(e) =>onSelect(it.id)} className="w-full text-left px-3 py-2 glass-radius-md hover:glass-surface-subtle/10">
+            <button onClick={(e) => onSelect(it.id)} className="w-full text-left px-3 py-2 glass-radius-md hover:glass-surface-subtle/10 glass-focus glass-touch-target">
               <div className="text-sm text-primary">{it.label}</div>
               {it.meta && <div className="text-xs text-primary/60">{it.meta}</div>}
             </button>

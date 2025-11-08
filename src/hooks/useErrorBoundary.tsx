@@ -162,7 +162,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
               {errorState.retryCount < maxRetries && (
                 <button
                   onClick={retry}
-                  className="px-3 py-1 bg-red-500/20 text-red-300 rounded hover:bg-red-500/30 transition-colors"
+                  className="px-3 py-1 bg-red-500/20 text-red-300 rounded hover:bg-red-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Try Again ({maxRetries - errorState.retryCount} attempts left)
                 </button>

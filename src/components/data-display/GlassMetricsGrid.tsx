@@ -370,7 +370,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
           border="subtle"
           className={cn(
             'glass-metric-card relative transition-all duration-300',
-            'backdrop-blur-md border border-border/20 glass-radius-lg',
+            'glass-backdrop-blur-md border border-border/20 glass-radius-lg',
             config.padding,
             metric.status && statusColors[metric.status],
             metric.clickable && 'cursor-pointer hover:scale-[1.02] hover:shadow-lg',
@@ -524,7 +524,7 @@ export const GlassMetricsGrid = forwardRef<HTMLDivElement, GlassMetricsGridProps
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-metrics-grid glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-metrics-grid glass-radius-lg glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

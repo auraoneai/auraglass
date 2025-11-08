@@ -271,7 +271,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
               size="sm"
               leftIcon={widgetType.icon}
               onClick={(e) => handleAddWidget(widgetType.type)}
-              className="justify-start"
+              className="justify-start glass-focus glass-touch-target"
             >
               {widgetType.title}
             </GlassButton>
@@ -307,6 +307,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                   size="sm"
                   leftIcon={editMode ? '✓' : '✏️'}
                   onClick={(e) => onEditModeChange?.(!editMode)}
+                  className="glass-focus glass-touch-target"
                 >
                   {editMode ? 'Done' : 'Edit'}
                 </GlassButton>
@@ -368,6 +369,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                           size="xs"
                           onClick={(e) => onWidgetRemove?.(widget.id)}
                           aria-label="Remove widget"
+                          className="glass-focus glass-touch-target"
                         />
                       )}
                       <IconButton
@@ -378,6 +380,7 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
                           // Handle widget configuration
                         }}
                         aria-label="Configure widget"
+                        className="glass-focus glass-touch-target"
                       />
                     </HStack>
                   )}

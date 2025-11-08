@@ -221,7 +221,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
               intent="neutral"
               elevation={isHovered ? "level3" : "level1"}
               intensity="medium"
-              blur={finalBlur}
+              glassBlur={finalBlur}
               depth={Math.min(layer.depth, 5)}
               className={cn(
                 "absolute inset-0",
@@ -232,7 +232,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
             {layer.content}
             
             {debug && (
-              <div className="absolute glass-top-2 left-2 glass-surface-dark/20 backdrop-blur-sm p-2 glass-radius-sm text-xs text-primary/90">
+              <div className="absolute glass-top-2 left-2 glass-surface-dark/20 glass-glass-glass-backdrop-blur-sm glass-contrast-guard p-2 glass-radius-sm text-xs text-primary/90 glass-contrast-guard">
                 Layer {index + 1} | Depth: {layer.depth}
               </div>
             )}
@@ -244,7 +244,7 @@ export const GlassParallaxLayers = forwardRef<HTMLDivElement, GlassParallaxLayer
       {/* Interactive indicator */}
       {interactive && !prefersReducedMotion && (
         <motion.div
-          className="absolute bottom-4 right-4 text-primary/60 text-xs glass-surface-dark/20 backdrop-blur-sm p-2 glass-radius-md"
+          className="absolute bottom-4 right-4 text-primary/60 text-xs glass-surface-dark/20 glass-glass-glass-backdrop-blur-sm glass-contrast-guard p-2 glass-radius-md glass-contrast-guard"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0.5 }}
           role="status"

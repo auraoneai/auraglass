@@ -351,7 +351,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
           value={value}
           onChange={onChange}
           multiple={multiple}
-          className="sr-only"
+          className="sr-only glass-touch-target glass-contrast-guard"
           {...props}
         >
           {options.map((option: any) => (
@@ -374,7 +374,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
           <GlassButton
             ref={triggerRef}
             type="button"
-            className="w-full flex items-center justify-between glass-surface-dark/20 hover:glass-surface-dark/30 border border-white/20 hover:border-white/30 glass-radius-xl outline-none text-left text-primary/90 hover:text-primary backdrop-blur-sm"
+            className="w-full flex items-center justify-between glass-surface-dark/20 hover:glass-surface-dark/30 border border-white/20 hover:border-white/30 glass-radius-xl outline-none text-left text-primary/90 hover:text-primary glass-glass-glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
             disabled={disabled || loading}
             onClick={(e) => setIsOpen(!isOpen)}
             onKeyDown={handleKeyDown}
@@ -424,7 +424,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
             className={cn(
               'relative transition-all duration-200',
               sizeClasses[size],
-              'backdrop-blur-md bg-glass-fill ring-1 ring-white/10 hover:bg-white/15 focus-within:bg-white/20 focus-within:ring-2 focus-within:ring-white/30',
+              'glass-glass-backdrop-blur-md bg-glass-fill ring-1 ring-white/10 hover:bg-white/15 focus-within:bg-white/20 focus-within:ring-2 focus-within:ring-white/30 glass-contrast-guard',
               disabled && 'opacity-50',
               isOpen && 'bg-white/20 ring-2 ring-white/40 shadow-lg',
               className
@@ -433,7 +433,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
             <GlassButton
               ref={triggerRef}
               type="button"
-              className="w-full flex items-center justify-between bg-transparent border-0 outline-none text-left text-primary/90 hover:text-primary"
+              className="w-full flex items-center justify-between bg-transparent border-0 outline-none text-left text-primary/90 hover:text-primary glass-focus glass-touch-target glass-contrast-guard"
               disabled={disabled || loading}
               onClick={(e) => setIsOpen(!isOpen)}
               onKeyDown={handleKeyDown}
@@ -491,7 +491,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
 
               className={cn(
                 'max-h-60 overflow-hidden',
-                'backdrop-blur-md bg-black/20 border border-white/20',
+                'glass-glass-backdrop-blur-md bg-black/20 border border-white/20 glass-contrast-guard',
                 'shadow-2xl shadow-black/50',
                 'ring-1 ring-white/10'
               )}
@@ -509,7 +509,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                       }}
                       className={cn(
                         'w-full glass-px-3 glass-py-2 glass-radius-md outline-none',
-                        'backdrop-blur-md bg-glass-fill ring-1 ring-white/10',
+                        'glass-glass-backdrop-blur-md bg-glass-fill ring-1 ring-white/10',
                         'glass-text-primary/90 placeholder-white/50',
                         'focus:ring-2 focus:ring-white/30 focus:bg-white/15',
                         'transition-all duration-200'
@@ -543,8 +543,9 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                             key={option.value}
                             className={cn(
                               'glass-px-3 glass-py-2 cursor-pointer transition-all duration-200',
-                              'hover:bg-white/10 hover:backdrop-blur-md',
+                              'hover:bg-white/10 hover:glass-glass-backdrop-blur-md glass-contrast-guard',
                               'glass-text-primary/90',
+                              'glass-focus glass-touch-target',
                               {
                                 'bg-white/20 glass-text-primary shadow-md': isSelected,
                                 'bg-white/5 ring-1 ring-white/20': isFocused,
@@ -552,6 +553,12 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                               }
                             )}
                             onClick={(e) => handleOptionSelect(option)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleOptionSelect(option);
+                              }
+                            }}
                             role="option"
                             aria-selected={isSelected}
                           >

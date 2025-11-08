@@ -56,7 +56,7 @@ export const Default: Story = {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h3 className="text-xl font-semibold glass-text-secondary dark:text-primary mb-4">
               Interactive Content
             </h3>
@@ -69,7 +69,7 @@ export const Default: Story = {
             </button>
           </div>
 
-          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h3 className="text-xl font-semibold glass-text-secondary dark:text-primary mb-4">
               Form Elements
             </h3>
@@ -77,12 +77,12 @@ export const Default: Story = {
               <input
                 type="text"
                 placeholder="Enter text here"
-                className="w-full p-3 border border-subtle dark:border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:text-primary"
+                className="w-full p-3 border border-subtle dark:border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:text-primary glass-touch-target glass-contrast-guard"
               />
               <textarea
                 placeholder="Enter longer text here"
                 rows={3}
-                className="w-full p-3 border border-subtle dark:border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:text-primary"
+                className="w-full p-3 border border-subtle dark:border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:text-primary glass-touch-target glass-contrast-guard"
               />
             </div>
           </div>
@@ -109,7 +109,7 @@ export const TestingMode: Story = {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h4 className="font-semibold glass-text-secondary dark:text-primary mb-2">WCAG AA Compliance</h4>
             <div className="w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full h-2 mb-2">
               <div className="glass-surface-green h-2 glass-radius-full" style={{ width: '95%' }}></div>
@@ -117,7 +117,7 @@ export const TestingMode: Story = {
             <p className="text-sm glass-text-secondary dark:text-gray-300">95% compliant</p>
           </div>
 
-          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h4 className="font-semibold glass-text-secondary dark:text-primary mb-2">Keyboard Navigation</h4>
             <div className="w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full h-2 mb-2">
               <div className="glass-surface-blue h-2 glass-radius-full" style={{ width: '100%' }}></div>
@@ -125,7 +125,7 @@ export const TestingMode: Story = {
             <p className="text-sm glass-text-secondary dark:text-gray-300">Fully accessible</p>
           </div>
 
-          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h4 className="font-semibold glass-text-secondary dark:text-primary mb-2">Screen Reader Support</h4>
             <div className="w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full h-2 mb-2">
               <div className="glass-surface-primary h-2 glass-radius-full" style={{ width: '90%' }}></div>

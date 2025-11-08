@@ -558,7 +558,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                                 </svg>
                                 <Motion preset="fadeIn" className="absolute z-10">
                                     <div
-                                        className={cn('absolute glass-radius-xl glass-p-3 shadow-xl', 'bg-black/70 backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift')}
+                                        className={cn('absolute glass-radius-xl glass-p-3 shadow-xl', 'bg-black/70 glass-backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift')}
                                         style={{
                                             left: hoveredBar.x + 10,
                                             top: hoveredBar.y - 10,

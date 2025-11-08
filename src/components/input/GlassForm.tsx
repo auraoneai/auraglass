@@ -159,7 +159,7 @@ const GlassFormControl = React.forwardRef<
       className={cn(
         'glass-form-control',
         glass && [
-          'backdrop-blur-md bg-background/50',
+          'glass-backdrop-blur-md bg-background/50',
           'border border-border/20 glass-radius-lg'
         ],
         className

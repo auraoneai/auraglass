@@ -186,7 +186,7 @@ export const GlassToast: React.FC<GlassToastProps> = ({
           liftOnHover
           
                 className={cn(
-                    'relative min-w-80 max-w-md glass-p-4 backdrop-blur-md',
+                    'relative min-w-80 max-w-md glass-p-4 glass-backdrop-blur-md',
                     'border border-white/20 shadow-2xl',
                     bgColor,
                     className

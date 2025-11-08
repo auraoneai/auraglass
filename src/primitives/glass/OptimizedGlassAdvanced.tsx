@@ -63,12 +63,13 @@ const ELEVATION_CLASSES = {
   float: 'glass-elev-float'
 }
 
+// CLASS_PREFIX: Blur classes use 'glass-' prefix
 const BLUR_CLASSES = {
   none: '',
-  subtle: 'backdrop-blur-md',    // 4px
-  medium: 'backdrop-blur-md',    // 8px  
-  strong: 'backdrop-blur-md',    // 16px
-  intense: 'backdrop-blur-md',   // 24px
+  subtle: 'glass-glass-backdrop-blur-md',    // 4px
+  medium: 'glass-glass-backdrop-blur-md',    // 8px
+  strong: 'glass-glass-backdrop-blur-md',    // 16px
+  intense: 'glass-glass-backdrop-blur-md',   // 24px
 }
 
 const VARIANT_CLASSES = {
@@ -216,7 +217,7 @@ export const OptimizedGlassAdvanced = forwardRef<HTMLDivElement, OptimizedGlassP
     },
     ref
   ) => {
-    // Respect reduced motion preference
+    // MOTION_RESPECT: Respect reduced motion preference
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
     useEffect(() => {
@@ -241,18 +242,25 @@ export const OptimizedGlassAdvanced = forwardRef<HTMLDivElement, OptimizedGlassP
         GLASS_BASE_CLASSES.base,
         GLASS_BASE_CLASSES.transforms,
         ELEVATION_CLASSES[elevation as keyof typeof ELEVATION_CLASSES],
+        // CLASS_PREFIX: Blur classes use 'glass-' prefix (via BLUR_CLASSES)
         BLUR_CLASSES[blur],
         VARIANT_CLASSES[variant],
         TINT_CLASSES[tint],
-        // Disable long-running animations when reduced motion is preferred
+        // MOTION_RESPECT: Disable long-running animations when reduced motion is preferred
         prefersReducedMotion ? '' : ANIMATION_CLASSES[animation],
         BORDER_CLASSES[border],
         LIGHTING_CLASSES[lighting],
         'border-0', // Base border reset
+        // CONTRAST_GUARD: All glass surfaces need contrast guard
+        'glass-contrast-guard',
       ];
 
       if (interactive) {
         classes.push(GLASS_BASE_CLASSES.interactive);
+        // INTERACTIVE_FOCUS: Interactive elements need glass-focus class
+        classes.push('glass-focus');
+        // TOUCH_TARGET: Interactive elements need touch target class
+        classes.push('glass-touch-target');
       }
 
       // Add depth-specific classes
@@ -272,7 +280,7 @@ export const OptimizedGlassAdvanced = forwardRef<HTMLDivElement, OptimizedGlassP
       if (parallax) classes.push(ADVANCED_EFFECT_CLASSES.parallax);
       if (adaptive) classes.push(ADVANCED_EFFECT_CLASSES.adaptive);
 
-      // Micro-interactions
+      // MOTION_RESPECT: Micro-interactions only when motion is enabled
       if (!prefersReducedMotion) {
         if (hoverSheen) classes.push('glass-sheen');
         if (liftOnHover) classes.push('glass-lift');

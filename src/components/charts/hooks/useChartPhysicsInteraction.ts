@@ -111,7 +111,7 @@ const axisMatchesMode = (
  *   return (
  *     <div ref={wrapperRef}>
  *       <Chart ref={chartRef} {...chartProps} />
- *       <button onClick={resetZoom}>Reset</button>
+ *       <button onClick={resetZoom} className="glass-focus glass-touch-target glass-contrast-guard">Reset</button>
  *     </div>
  *   );
  * }

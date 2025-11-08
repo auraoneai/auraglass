@@ -102,6 +102,7 @@ export const GlassAdvanced = forwardRef<HTMLDivElement, GlassProps>(
     },
     ref
   ) => {
+    // MOTION_RESPECT: Check for reduced motion preference
     const prefersReducedMotion = useReducedMotion();
     
     // Handle keyboard accessibility for interactive elements
@@ -145,47 +146,47 @@ export const GlassAdvanced = forwardRef<HTMLDivElement, GlassProps>(
     const classes = cn(
       // Base glass foundation
       'glass-foundation-complete',
-      
+
       // Elevation
       elev > 0 && `glass-elev-${elev}`,
-      
+
       // Radius
       `glass-radius-${radius}`,
-      
-      // Blur
+
+      // CLASS_PREFIX: Blur classes use 'glass-' prefix
       blur !== 'lg' && `glass-blur-${blur}`,
-      
+
       // Variant surfaces
       variant !== 'default' && `glass-surface-${variant}`,
-      
-      // Motion (respect reduced motion)
+
+      // MOTION_RESPECT: Respect reduced motion preference for animations
       motion !== 'none' && !prefersReducedMotion && `glass-animate-${motion}`,
-      
+
       // Interactive states
       interactive && 'glass-state-hoverable glass-state-active',
-      
-      // Contrast guard
+
+      // CONTRAST_GUARD: Glass elements need contrast guard class
       contrast === 'auto' && 'glass-contrast-guard',
-      
+
       // Disabled state
       disabled && 'glass-state-disabled',
-      
+
       // Overlay effects
       noise && 'glass-overlay-noise',
       specular && 'glass-overlay-specular',
       edge && 'glass-edge',
-      
+
       // Glow effects
       glow !== 'none' && `glass-glow${glow !== 'default' ? `-${glow}` : ''}`,
-      
-      // Focus utilities
+
+      // INTERACTIVE_FOCUS: Interactive elements with onClick need glass-focus class
       (isClickable || interactive) && 'glass-focus',
-      
+
       // Custom classes
       className
     );
-    
-    // Ensure minimum touch target for interactive elements
+
+    // TOUCH_TARGET: Ensure minimum touch target for interactive elements
     const touchTargetClasses = (isClickable || interactive) ? 'glass-touch-target' : '';
     
     return React.createElement(

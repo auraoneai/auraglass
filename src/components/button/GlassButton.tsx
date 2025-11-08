@@ -1,6 +1,7 @@
 import { cn } from '../../lib/utilsComprehensive';
 import { Slot } from '@radix-ui/react-slot';
 import React, { forwardRef, useCallback, useEffect, useRef, useState, useImperativeHandle } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { OptimizedGlass, type OptimizedGlassProps } from '../../primitives';
 import { LiquidGlassMaterial } from '../../primitives/LiquidGlassMaterial';
 import { Motion } from '../../primitives';
@@ -195,6 +196,7 @@ export const GlassButton = forwardRef(function GlassButton(
   }: GlassButtonProps,
   ref: React.Ref<HTMLButtonElement>
 ) {
+  const prefersReducedMotion = useReducedMotion();
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [clickCount, setClickCount] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
@@ -638,7 +640,7 @@ export const GlassButton = forwardRef(function GlassButton(
           >
             {renderContent()}
             {description && (
-              <span id={descriptionId} className="sr-only">
+              <span id={descriptionId} className="sr-only glass-focus glass-touch-target glass-contrast-guard">
                 {description}
               </span>
             )}
@@ -720,7 +722,7 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
             {resolvedVariant === 'gradient' && (
-              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md" />
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
             )}
               <span className="relative z-10">
                 {renderContent()}
@@ -775,7 +777,7 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
             {resolvedVariant === 'gradient' && (
-              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md" />
+              <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
             )}
               <span className="relative z-10">
                 {renderContent()}

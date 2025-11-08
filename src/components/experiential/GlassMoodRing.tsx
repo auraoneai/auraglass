@@ -237,7 +237,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
         border="subtle"
         className={cn(
           'glass-mood-ring relative inline-flex flex-col items-center justify-center glass-p-6 glass-radius-lg',
-          'backdrop-blur-md border border-border/20',
+          'glass-backdrop-blur-md border border-border/20',
           className
         )}
         {...props}

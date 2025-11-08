@@ -175,7 +175,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           {/* Remove Button */}
           <button
             onClick={() => onRemove(item.id)}
-            className="glass-text-secondary hover:text-primary p-1"
+            className="glass-text-secondary hover:text-primary p-1 glass-focus glass-touch-target glass-contrast-guard"
             title="Remove from cart"
           >
             ✕
@@ -189,19 +189,19 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
               <button
                 onClick={() => handleQuantityChange(quantity - 1)}
                 disabled={quantity <= 1 || isUpdating}
-                className="px-3 py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
               >
                 −
               </button>
-              
+
               <span className="px-4 py-1 border-x border-subtle min-w-12 text-center">
                 {isUpdating ? '...' : quantity}
               </span>
-              
+
               <button
                 onClick={() => handleQuantityChange(quantity + 1)}
                 disabled={quantity >= item.product.stock || isUpdating}
-                className="px-3 py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
               >
                 +
               </button>
@@ -211,13 +211,13 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onSaveForLater(item.id)}
-                className="text-xs text-primary hover:text-primary underline"
+                className="text-xs text-primary hover:text-primary underline glass-focus glass-touch-target glass-contrast-guard"
               >
                 Save for later
               </button>
               <button
                 onClick={() => onMoveToWishlist(item.id)}
-                className="text-xs text-primary hover:text-primary underline"
+                className="text-xs text-primary hover:text-primary underline glass-focus glass-touch-target glass-contrast-guard"
               >
                 Move to wishlist
               </button>
@@ -341,7 +341,7 @@ const PromoCodeInput: React.FC<{
           <button
             onClick={handleApply}
             disabled={!promoCode.trim() || isApplying}
-            className="px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             {isApplying ? '...' : 'Apply'}
           </button>
@@ -433,7 +433,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           </p>
           <button
             onClick={onClose}
-            className="px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+            className="px-6 py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             Continue Shopping
           </button>
@@ -458,7 +458,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           {onClose && (
             <button
               onClick={onClose}
-              className="glass-text-secondary hover:glass-text-secondary p-2"
+              className="glass-text-secondary hover:glass-text-secondary p-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               ✕
             </button>
@@ -565,7 +565,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           {/* Checkout Button */}
           <button
             onClick={onCheckout}
-            className="w-full py-3 glass-surface-blue text-primary font-medium glass-radius-lg hover:glass-surface-blue transition-colors"
+            className="w-full py-3 glass-surface-blue text-primary font-medium glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             Proceed to Checkout
           </button>

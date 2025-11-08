@@ -635,24 +635,24 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-gesture-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg backdrop-blur-md border border-glass-border/20"
+          className="glass-gesture-controls flex flex-wrap items-center gap-4 p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md border border-glass-border/20 glass-contrast-guard"
         >
           <div className="flex items-center gap-2">
             <button
               onClick={() => {}}
               className={cn(
-                'glass-px-3 glass-py-1 glass-radius-md',
-                active 
+                'glass-px-3 glass-py-1 glass-radius-md glass-focus glass-touch-target',
+                active
                   ? 'bg-green-500/20 hover:bg-green-500/30 text-green-400'
                   : 'bg-red-500/20 hover:bg-red-500/30 text-red-400'
               )}
             >
               {active ? 'Active' : 'Inactive'}
             </button>
-            
+
             <button
               onClick={clearAll}
-              className="px-3 py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30"
+              className="px-3 py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             >
               Clear
             </button>
@@ -715,7 +715,7 @@ export const GlassGestureZone = forwardRef<HTMLDivElement, GlassGestureZoneProps
         tint="neutral"
         border="subtle"
         className={cn(
-          'glass-gesture-zone relative glass-radius-lg backdrop-blur-md border border-border/20',
+          'glass-gesture-zone relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20 glass-contrast-guard',
           className
         )}
         {...props}

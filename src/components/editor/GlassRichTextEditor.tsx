@@ -278,7 +278,7 @@ export const GlassRichTextEditor = forwardRef<HTMLDivElement, GlassRichTextEdito
                     'hover:bg-white/10 active:bg-white/20',
                     'disabled:opacity-50 disabled:cursor-not-allowed',
                     'glass-text-primary',
-                    'glass-focus'
+                    'glass-focus glass-touch-target glass-contrast-guard'
                   )}
                   title={config.label}
                   aria-label={config.label}

@@ -270,7 +270,7 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
             {privacyPolicyUrl && (
               <>
                 {' '}
-                <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer">
+                <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="glass-focus glass-touch-target glass-contrast-guard">
                   {privacyPolicyText}
                 </a>
               </>
@@ -279,18 +279,18 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
 
           <ButtonContainer>
             {dismissible && (
-              <Button variant="outline" onClick={onDecline} size="sm">
+              <Button variant="outline" onClick={onDecline} size="sm" className="glass-focus glass-touch-target">
                 {declineButtonText}
               </Button>
             )}
 
             {enableSettings && (
-              <Button variant="outline" onClick={onSettings} size="sm">
+              <Button variant="outline" onClick={onSettings} size="sm" className="glass-focus glass-touch-target">
                 {settingsButtonText}
               </Button>
             )}
 
-            <Button variant="primary" onClick={onAccept} size="sm">
+            <Button variant="primary" onClick={onAccept} size="sm" className="glass-focus glass-touch-target">
               {acceptButtonText}
             </Button>
           </ButtonContainer>

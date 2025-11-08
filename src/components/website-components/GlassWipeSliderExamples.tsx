@@ -32,7 +32,7 @@ export function AuraOneVsScaleAIComparison({ className }: { className?: string }
       <GlassWipeSlider
         beforeContent={
           <div className="relative w-full h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary flex flex-col items-center justify-center text-center p-8">
-            <div className="glass-foundation-complete bg-glass-gradient-subtle backdrop-blur-md-medium glass-radius-xl p-6 glass-container-md">
+            <div className="glass-foundation-complete bg-glass-gradient-subtle glass-glass-backdrop-blur-md-medium glass-radius-xl p-6 glass-container-md glass-contrast-guard">
               <div className="glass-text-secondary text-4xl font-bold mb-2">Scale AI</div>
               <div className="text-primary/80 text-sm glass-auto-gap glass-auto-gap-sm">
                 <div>• Complex setup process</div>
@@ -47,7 +47,7 @@ export function AuraOneVsScaleAIComparison({ className }: { className?: string }
         }
         afterContent={
           <div className="relative w-full h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary flex flex-col items-center justify-center text-center p-8">
-            <div className="glass-foundation-complete bg-glass-gradient-strong backdrop-blur-md-medium glass-radius-xl p-6 glass-container-md border border-cyan-400/20">
+            <div className="glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-radius-xl p-6 glass-container-md border border-cyan-400/20 glass-contrast-guard">
               <div className="glass-text-secondary text-4xl font-bold mb-2">AuraOne</div>
               <div className="text-primary/90 text-sm glass-auto-gap glass-auto-gap-sm">
                 <div>• One-click deployment</div>
@@ -190,7 +190,7 @@ export function PerformanceMetricsComparison({ className }: { className?: string
         beforeContent={
           <div className="relative w-full h-full glass-gradient-primary glass-gradient-primary via-red-900/50 glass-gradient-primary p-8">
             <div className="h-full flex items-center justify-center">
-              <div className="glass-foundation-complete bg-glass-gradient-subtle backdrop-blur-md-medium glass-radius-xl p-8 glass-container-md text-center">
+              <div className="glass-foundation-complete bg-glass-gradient-subtle glass-glass-backdrop-blur-md-medium glass-radius-xl p-8 glass-container-md text-center glass-contrast-guard">
                 <h4 className="text-xl font-bold glass-text-secondary glass-mb-6">Legacy Platform</h4>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="glass-auto-gap glass-auto-gap-xs">
@@ -218,7 +218,7 @@ export function PerformanceMetricsComparison({ className }: { className?: string
         afterContent={
           <div className="relative w-full h-full glass-gradient-primary glass-gradient-primary via-green-900/50 glass-gradient-primary p-8">
             <div className="h-full flex items-center justify-center">
-              <div className="glass-foundation-complete bg-glass-gradient-strong backdrop-blur-md-medium glass-radius-xl p-8 max-w-md text-center border border-green/20">
+              <div className="glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-radius-xl p-8 max-w-md text-center border border-green/20 glass-contrast-guard">
                 <h4 className="text-xl font-bold glass-text-secondary mb-6">AuraOne Platform</h4>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="glass-auto-gap glass-auto-gap-xs">
@@ -329,7 +329,7 @@ export function PresetPositionDemo({ className }: { className?: string }) {
               setTimeout(() => setActivePreset(null), 600);
             }}
             className={cn(
-              "glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle backdrop-blur-md-medium border border-white/20",
+              "glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium border border-white/20",
               "glass-text-primary/80 glass-text-sm font-medium transition-all duration-200",
               "hover:bg-white/10 hover:border-white/30 hover:scale-105",
               currentPosition === value && "bg-blue-500/20 border-blue-400/50 text-blue-300"

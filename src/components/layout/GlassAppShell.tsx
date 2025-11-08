@@ -395,7 +395,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                         {item?.href && !isLast ? (
                           <a
                             href={item?.href}
-                            className="hover:text-primary transition-colors"
+                            className="hover:text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
                           >
                             {item?.label}
                           </a>

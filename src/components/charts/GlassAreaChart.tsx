@@ -545,7 +545,7 @@ export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
                                 <div
                                     role="tooltip"
                                     aria-live="polite"
-                                    className={cn('absolute glass-radius-xl glass-p-3 shadow-xl', 'bg-black/70 backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift')}
+                                    className={cn('absolute glass-radius-xl glass-p-3 shadow-xl', 'bg-black/70 glass-backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift')}
                                     style={{
                                         left: hoveredPoint.x + 10,
                                         top: hoveredPoint.y - 10,

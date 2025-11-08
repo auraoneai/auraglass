@@ -61,7 +61,7 @@ export const Default: Story = {
         </h1>
 
         <div className="grid glass-grid-cols-1 md:glass-grid-cols-2 gap-6 mb-8">
-          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h3 className="text-xl font-semibold glass-text-secondary dark:text-primary mb-4">
               Voice Commands
             </h3>
@@ -75,7 +75,7 @@ export const Default: Story = {
             </div>
           </div>
 
-          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50">
+          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
             <h3 className="text-xl font-semibold glass-text-secondary dark:text-primary mb-4">
               Voice Features
             </h3>
@@ -118,7 +118,7 @@ export const MusicPlayer: Story = {
           Voice Music Player
         </h1>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl p-6 mb-8">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl p-6 mb-8 glass-contrast-guard">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-xl font-semibold text-primary">Now Playing</h3>
@@ -175,7 +175,7 @@ export const SmartHome: Story = {
         </h1>
 
         <div className="grid glass-grid-cols-1 md:glass-grid-cols-3 gap-6 mb-8">
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl p-6 glass-contrast-guard">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-primary">Living Room</h3>
               <div className="w-3 h-3 glass-surface-yellow glass-radius-full"></div>
@@ -187,7 +187,7 @@ export const SmartHome: Story = {
             </div>
           </div>
 
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl p-6 glass-contrast-guard">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-primary">Kitchen</h3>
               <div className="w-3 h-3 glass-surface-green glass-radius-full"></div>
@@ -199,7 +199,7 @@ export const SmartHome: Story = {
             </div>
           </div>
 
-          <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl p-6">
+          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl p-6 glass-contrast-guard">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-primary">Bedroom</h3>
               <div className="w-3 h-3 glass-surface-blue glass-radius-full"></div>
@@ -212,7 +212,7 @@ export const SmartHome: Story = {
           </div>
         </div>
 
-        <div className="glass-surface-subtle/10 backdrop-blur-lg glass-radius-xl p-6 mb-8">
+        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl p-6 mb-8 glass-contrast-guard">
           <h3 className="text-lg font-semibold text-primary mb-4">Voice Commands</h3>
           <div className="grid glass-grid-cols-2 md:glass-grid-cols-4 gap-4 text-sm text-primary/80">
             <div>"Turn on lights"</div>

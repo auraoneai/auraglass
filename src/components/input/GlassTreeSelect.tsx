@@ -244,11 +244,20 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               'flex items-center gap-2 glass-p-2 glass-radius-md cursor-pointer',
               'transition-all duration-200',
               'hover:bg-white/5',
+              'glass-focus glass-touch-target glass-contrast-guard',
               isSelected && 'bg-white/10',
               node.disabled && 'opacity-50 cursor-not-allowed'
             )}
             style={{ paddingLeft: `${level * 1.5 + 0.5}rem` }}
             onClick={() => !node.disabled && handleSelect(node.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (!node.disabled) handleSelect(node.id);
+              }
+            }}
+            tabIndex={0}
+            role="button"
           >
             {hasChildren && (
               <button
@@ -257,7 +266,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                   e.stopPropagation();
                   toggleExpand(node.id);
                 }}
-                className="flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-radius-sm glass-p-0.5"
+                className="flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -320,7 +329,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
             'bg-white/5 border glass-border-subtle',
             'transition-all duration-200',
             'hover:bg-white/10',
-            'focus:outline-none glass-focus',
+            'focus:outline-none glass-focus glass-touch-target glass-contrast-guard',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             isOpen && 'ring-2 ring-blue-500/50'
           )}

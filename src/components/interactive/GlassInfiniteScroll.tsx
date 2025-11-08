@@ -2,6 +2,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import { AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Motion } from '../../primitives';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export interface GlassInfiniteScrollProps {
     /**
@@ -166,7 +167,7 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
     // Default loading indicator
     const defaultLoadingIndicator = (
         <Motion preset="fadeIn" className="flex items-center justify-center py-8">
-            <div className="flex items-center gap-3 px-4 py-2 glass-surface-subtle/10 backdrop-blur-md glass-radius-full">
+            <div className="flex items-center gap-3 px-4 py-2 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
                 <Loader2 className="w-5 h-5 animate-spin text-primary" />
                 <span className="text-primary/80 text-sm">Loading more...</span>
             </div>
@@ -182,7 +183,7 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
             </div>
             <button
                 onClick={handleRetry}
-                className="flex items-center gap-2 px-4 py-2 glass-surface-dark/30 hover:glass-surface-dark/40 glass-radius-lg transition-colors border border-white/20 hover:border-white/30"
+                className="flex items-center gap-2 px-4 py-2 glass-surface-dark/30 hover:glass-surface-dark/40 glass-radius-lg transition-colors border border-white/20 hover:border-white/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
                 <RefreshCw className="w-4 h-4" />
                 <span className="text-sm">Try again</span>

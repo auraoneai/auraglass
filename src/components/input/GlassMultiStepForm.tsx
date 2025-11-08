@@ -352,7 +352,8 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                                                 className={cn(
                                                     'flex flex-col items-center cursor-pointer transition-all duration-200',
                                                     'hover:scale-105',
-                                                    isCurrent && 'scale-105'
+                                                    isCurrent && 'scale-105',
+                                                    'glass-focus glass-touch-target glass-contrast-guard'
                                                 )}
                                                 onClick={(e) => goToStep(index)}
                                                 onKeyDown={(e) => {

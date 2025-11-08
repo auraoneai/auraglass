@@ -181,7 +181,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
             {toast.dismissible && (
               <button
                 onClick={handleRemove}
-                className="flex-shrink-0 w-5 h-5 flex items-center justify-center glass-radius-full hover:glass-surface-dark/10 transition-colors text-xs opacity-70 hover:opacity-100"
+                className="flex-shrink-0 w-5 h-5 flex items-center justify-center glass-radius-full hover:glass-surface-dark/10 transition-colors text-xs opacity-70 hover:opacity-100 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 ✕
               </button>

@@ -364,8 +364,9 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
         $glass={Boolean(finalGlass)}
         $size={size || 'medium'}
         aria-disabled={finalDisabled}
+        className="glass-focus glass-touch-target glass-contrast-guard"
       >
-        <IconContainer onClick={hasChildren ? handleToggle : undefined} style={{ cursor: hasChildren ? 'pointer' : 'default' }}>
+        <IconContainer onClick={hasChildren ? handleToggle : undefined} style={{ cursor: hasChildren ? 'pointer' : 'default' }} className={hasChildren ? "glass-focus glass-touch-target" : ""}>
           {renderToggleIcon()}
         </IconContainer>
 

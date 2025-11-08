@@ -346,7 +346,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
             <div
                 ref={triggerRef}
                 className={cn(
-                    'relative flex items-center justify-between bg-white/10 backdrop-blur-md border border-white/20',
+                    'relative flex items-center justify-between bg-white/10 glass-backdrop-blur-md border border-white/20',
                     'glass-radius-lg cursor-pointer transition-all duration-200',
                     'hover:bg-white/15 hover:border-white/30 focus-within:bg-white/15 focus-within:border-white/30',
                     config.trigger,
@@ -386,7 +386,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                     <div
                         ref={popoverRef}
                         className={cn(
-                            'bg-black/20 backdrop-blur-md border border-white/20 glass-radius-xl shadow-2xl',
+                            'bg-black/20 glass-backdrop-blur-md border border-white/20 glass-radius-xl shadow-2xl',
                             config.calendar,
                             popoverClassName
                         )}

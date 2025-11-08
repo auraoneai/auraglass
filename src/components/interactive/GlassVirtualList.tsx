@@ -2,6 +2,7 @@ import { cn } from '../../lib/utilsComprehensive';
 import { Loader2 } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Motion } from '../../primitives';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export interface VirtualListItem {
     id: string;
@@ -196,7 +197,7 @@ export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
                 {/* Loading indicator */}
                 {loading && (
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                        <div className="flex items-center gap-2 px-4 py-2 glass-surface-dark/80 backdrop-blur-md glass-radius-full">
+                        <div className="flex items-center gap-2 px-4 py-2 glass-surface-dark/80 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
                             <Loader2 className="w-4 h-4 animate-spin" />
                             <span className="text-primary text-sm">Loading...</span>
                         </div>
