@@ -494,8 +494,10 @@ export const REDUCED_MOTION_100_COMPLETE_MD_PATH =
   "reports/REDUCED_MOTION_100_COMPLETE.md";
 
 // Additional Report Files
-export const TYPESCRIPT_FIX_PROGRESS_MD_PATH = "reports/TYPESCRIPT_FIX_PROGRESS.md";
-export const REDUCED_MOTION_FINAL_REPORT_JSON_PATH = "reports/reduced-motion-final-report.json";
+export const TYPESCRIPT_FIX_PROGRESS_MD_PATH =
+  "reports/TYPESCRIPT_FIX_PROGRESS.md";
+export const REDUCED_MOTION_FINAL_REPORT_JSON_PATH =
+  "reports/reduced-motion-final-report.json";
 export { GlassDepthLayer } from "./components/surfaces/GlassDepthLayer";
 export { GlassFractalLayout } from "./components/layouts/GlassFractalLayout";
 export { GlassGoldenRatioGrid } from "./components/layouts/GlassGoldenRatioGrid";
@@ -704,7 +706,10 @@ export {
 } from "./animations/orchestration/index";
 // Accessible animation utilities
 export * from "./animations/accessible";
-export { prefersReducedMotion, createAccessibleAnimation } from "./animations/accessible";
+export {
+  prefersReducedMotion,
+  createAccessibleAnimation,
+} from "./animations/accessible";
 
 // Additional Animation Hooks (explicit exports)
 export { useAnimationSequence as useAnimationSequenceBasic } from "./animations/hooks/useAnimationSequenceBasic";
@@ -753,6 +758,17 @@ export {
   storage,
   validate,
 } from "./utils/productionUtils";
+
+// Glass Probes Utilities (optional debugging tools)
+export {
+  startGlassProbes,
+  stopGlassProbes,
+  GlassStyleProbes,
+} from "./utils/glassStyleProbes";
+export type { GlassProbeResult } from "./utils/glassStyleProbes";
+
+// Consciousness Optimization Utilities
+export { getConsciousnessResourcePool } from "./utils/consciousnessOptimization";
 
 // Date Utilities
 export {

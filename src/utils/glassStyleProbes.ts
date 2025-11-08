@@ -498,8 +498,13 @@ export class GlassStyleProbes {
   }
 }
 
-// Auto-start monitoring in development mode
-if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+/**
+ * Utility to manually start probes (call from useEffect or initialization code)
+ * @param options - Configuration options
+ */
+export function startGlassProbes(options?: { exposeGlobally?: boolean }) {
+  if (!canUseDOM) return;
+
   const probes = GlassStyleProbes.getInstance();
 
   // Start monitoring after DOM is ready
@@ -511,8 +516,20 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     probes.startMonitoring();
   }
 
-  // Expose to global scope for debugging
-  (window as any).__auraglassProbes = probes;
+  // Expose to global scope for debugging if requested
+  if (options?.exposeGlobally && process.env.NODE_ENV === "development") {
+    (window as any).__auraglassProbes = probes;
+  }
+
+  return probes;
+}
+
+/**
+ * Utility to stop probes
+ */
+export function stopGlassProbes() {
+  if (!canUseDOM) return;
+  GlassStyleProbes.getInstance().stopMonitoring();
 }
 
 export default GlassStyleProbes;
