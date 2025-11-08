@@ -5,6 +5,31 @@
  * Components that use styled-components internally.
  * Import from 'aura-glass/styled' to use these components.
  * Requires styled-components as a peer dependency.
+ *
+ * REQUIRED SETUP FOR NEXT.JS APP ROUTER:
+ *
+ * 1. Install styled-components:
+ *    ```bash
+ *    npm install styled-components
+ *    ```
+ *
+ * 2. Wrap your app with StyledComponentsRegistry in app/layout.tsx:
+ *    ```tsx
+ *    import { StyledComponentsRegistry } from 'aura-glass/styled';
+ *
+ *    export default function RootLayout({ children }: { children: React.ReactNode }) {
+ *      return (
+ *        <html lang="en">
+ *          <body>
+ *            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+ *          </body>
+ *        </html>
+ *      );
+ *    }
+ *    ```
+ *
+ * This prevents "Cannot read properties of null (reading 'useState')" errors
+ * during Next.js build.
  */
 
 // Charts
@@ -53,6 +78,9 @@ export { default as FocusIndicator } from "../components/visual-feedback/FocusIn
 export { default as RippleButton } from "../components/visual-feedback/RippleButton";
 export { default as StateIndicator } from "../components/visual-feedback/StateIndicator";
 export { default as VisualFeedback } from "../components/visual-feedback/VisualFeedback";
+
+// Next.js App Router Registry (REQUIRED for styled-components)
+export { StyledComponentsRegistry } from "./StyledComponentsRegistry";
 
 // Re-export types
 export type { ChartDataset } from "../components/charts/GlassDataChart";
