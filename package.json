@@ -91,7 +91,7 @@
     "release": "npm run ci && npx semantic-release",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "NODE_OPTIONS='--max-old-space-size=8192' pnpm run build",
     "size-check": "bundlesize",
     "analyze": "npm run build && npx bundle-analyzer dist/index.esm.js"
   },
