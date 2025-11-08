@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.7] - 2025-11-07
 
+## [2.0.8] - 2025-11-08
+
+### 🚀 Highlights
+- Centralized SSR safety helpers (`utils/env`) with `isBrowser`, `safeMatchMedia`, `useClientEffect`, and companion `SeededRandom` utilities so deterministic effects render identically on server and client.
+- Hooks, ThemeProvider, production bootstrap, and device capability utilities now use the new guards, eliminating direct browser global access during SSR.
+- Restored and expanded the public export surface—over 150 previously missing symbols now resolved, including path constants for `component_inventory.json` and legacy reduced-motion documentation.
+- Released as `v2.0.8` and published to npm.
+
+### ✨ New Components & Utilities
+- `LivingEcosystemSimulator`, `MolecularBondingInterface`, `MultiDimensionalGestureRecognizer`
+- `NeuralWeightVisualization`, `NeuromorphicLearningNetwork`
+- `QuantumEntanglementVisualizer`, `QuantumNeuromorphicEngine`
+- `MultiUserGlassEditor`, `ConsciousnessStreamProvider`
+- `SeededRandom`, deterministic `SeasonalParticles` / `GlassShatterEffects`
+
+### ♻️ Maintenance
+- Added export-only constants for consumer introspection:
+  - `component_inventory_json` / `COMPONENT_INVENTORY_JSON_PATH`
+  - `GILDED_TOKENS_CATALOGUE_MD_PATH`, `REDUCED_MOTION_101_GUIDE_MD_PATH`, `REDUCED_MOTION_100_COMPLETE_MD_PATH`
+- Adjusted build artefacts to avoid bundling JSON directly, keeping the Rollup pipeline clean.
+
 ### 🌟 Major Accessibility Achievement
 
 #### 100% Reduced Motion Coverage (WCAG 2.1 AAA)

@@ -8,6 +8,13 @@ This is not just a design system—it's an adaptive, intelligent, multi-sensory 
 
 ## ✨ Revolutionary Capabilities
 
+### 🆕 What’s New in 2.0.8
+- **Universal SSR helpers** – Import from `@auraglass/utils/env` for `isBrowser`, `safeMatchMedia`, `getSafeWindow`, `useClientEffect`, and more to safely access browser globals during server rendering.
+- **Deterministic effects** – New `SeededRandom` utility and `seed` props on `SeasonalParticles`/`GlassShatterEffects` guarantee identical markup between SSR and hydration.
+- **Advanced & quantum components** – Added `LivingEcosystemSimulator`, `MolecularBondingInterface`, `MultiDimensionalGestureRecognizer`, `NeuralWeightVisualization`, `NeuromorphicLearningNetwork`, `QuantumEntanglementVisualizer`, and `MultiUserGlassEditor` for high-fidelity simulations.
+- **Consciousness streaming** – `ConsciousnessStreamProvider` centralizes configuration, event logging, and handler registration for consciousness-aware interfaces.
+- **Export introspection constants** – Access `component_inventory_json_path` and legacy reduced-motion guide constants directly from `@auraglass` for build-time tooling.
+
 ### 🧬 Next-Wave Systems (11/11) - Transformative Technologies
 - **🤖 GlassMetaEngine** - Self-evolving framework with quantum-inspired optimization and neural network healing
 - **🏥 Self-Healing Components** - Automatic detection and correction of visual glitches and accessibility issues
