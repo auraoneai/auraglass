@@ -23,17 +23,29 @@ class ConsciousnessResourcePool {
 
   // Initialize resource pools
   initialize() {
-    // TODO: Pre-create Web Workers for heavy computations
-    // Worker files (eyeTrackingWorker.ts, biometricWorker.ts, predictiveWorker.ts)
-    // need to be implemented before this can be enabled.
-    //
-    // For now, workers are disabled to prevent Next.js build errors.
-    // The resource pool will work but won't pre-create workers.
-    // Users can still call getEyeTrackingWorker(), etc., they'll just return null.
-
+    // Pre-create Web Workers for heavy computations
+    // Only runs in browser environment, not during SSR
     if (typeof Worker !== "undefined") {
-      // Workers disabled until worker files are implemented
-      // This prevents Next.js from trying to resolve non-existent worker files during build
+      try {
+        // Create workers with error handling to prevent build failures
+        const eyeWorker = new Worker(
+          new URL("../workers/eyeTrackingWorker.ts", import.meta.url)
+        );
+        this.eyeTrackingWorkers.push(eyeWorker);
+
+        const bioWorker = new Worker(
+          new URL("../workers/biometricWorker.ts", import.meta.url)
+        );
+        this.biometricProcessors.push(bioWorker);
+
+        const predWorker = new Worker(
+          new URL("../workers/predictiveWorker.ts", import.meta.url)
+        );
+        this.predictiveAnalyzers.push(predWorker);
+      } catch (error) {
+        // Workers not available in this environment (e.g., SSR, old browsers)
+        console.warn("Consciousness workers not available:", error);
+      }
     }
   }
 
@@ -263,26 +275,47 @@ export const useOptimizedPredictiveAnalysis = (
         return cacheRef.current.get(cacheKey);
       }
 
-      // TODO: Enable worker once predictiveWorker.ts is implemented
-      // For now, return a mock result to prevent Next.js build errors
       return new Promise((resolve) => {
-        // Mock predictive analysis result
-        const result = {
-          predictions: [],
-          confidence: 0,
-          message: "Predictive worker not yet implemented",
-        };
+        try {
+          const worker = new Worker(
+            new URL("../workers/predictiveWorker.ts", import.meta.url)
+          );
 
-        // Cache result
-        if (cacheRef.current.size >= cacheSize) {
-          const firstKey = cacheRef.current.keys().next().value;
-          if (firstKey !== undefined) {
-            cacheRef.current.delete(firstKey);
-          }
+          worker.onmessage = (event) => {
+            const result = event.data;
+
+            // Cache result
+            if (cacheRef.current.size >= cacheSize) {
+              const firstKey = cacheRef.current.keys().next().value;
+              if (firstKey !== undefined) {
+                cacheRef.current.delete(firstKey);
+              }
+            }
+            cacheRef.current.set(cacheKey, result);
+
+            worker.terminate();
+            resolve(result);
+          };
+
+          worker.onerror = (error) => {
+            console.error("Predictive worker error:", error);
+            worker.terminate();
+            resolve({
+              predictions: [],
+              confidence: 0,
+              message: "Worker unavailable",
+            });
+          };
+
+          worker.postMessage({ patterns });
+        } catch (error) {
+          // Worker not available (SSR or unsupported browser)
+          resolve({
+            predictions: [],
+            confidence: 0,
+            message: "Worker not available in this environment",
+          });
         }
-        cacheRef.current.set(cacheKey, result);
-
-        resolve(result);
       });
     },
     [getCacheKey, cacheSize]

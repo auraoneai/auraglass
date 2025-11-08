@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -21,6 +21,7 @@
   },
   "files": [
     "dist",
+    "src/workers",
     "README.md",
     "LICENSE"
   ],
