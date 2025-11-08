@@ -23,17 +23,17 @@ class ConsciousnessResourcePool {
 
   // Initialize resource pools
   initialize() {
-    // Pre-create Web Workers for heavy computations
+    // TODO: Pre-create Web Workers for heavy computations
+    // Worker files (eyeTrackingWorker.ts, biometricWorker.ts, predictiveWorker.ts)
+    // need to be implemented before this can be enabled.
+    //
+    // For now, workers are disabled to prevent Next.js build errors.
+    // The resource pool will work but won't pre-create workers.
+    // Users can still call getEyeTrackingWorker(), etc., they'll just return null.
+
     if (typeof Worker !== "undefined") {
-      this.eyeTrackingWorkers.push(
-        new Worker(new URL("../workers/eyeTrackingWorker.ts", import.meta.url))
-      );
-      this.biometricProcessors.push(
-        new Worker(new URL("../workers/biometricWorker.ts", import.meta.url))
-      );
-      this.predictiveAnalyzers.push(
-        new Worker(new URL("../workers/predictiveWorker.ts", import.meta.url))
-      );
+      // Workers disabled until worker files are implemented
+      // This prevents Next.js from trying to resolve non-existent worker files during build
     }
   }
 
@@ -263,28 +263,26 @@ export const useOptimizedPredictiveAnalysis = (
         return cacheRef.current.get(cacheKey);
       }
 
+      // TODO: Enable worker once predictiveWorker.ts is implemented
+      // For now, return a mock result to prevent Next.js build errors
       return new Promise((resolve) => {
-        const worker = new Worker(
-          new URL("../workers/predictiveWorker.ts", import.meta.url)
-        );
-
-        worker.onmessage = (event) => {
-          const result = event.data;
-
-          // Cache result
-          if (cacheRef.current.size >= cacheSize) {
-            const firstKey = cacheRef.current.keys().next().value;
-            if (firstKey !== undefined) {
-              cacheRef.current.delete(firstKey);
-            }
-          }
-          cacheRef.current.set(cacheKey, result);
-
-          worker.terminate();
-          resolve(result);
+        // Mock predictive analysis result
+        const result = {
+          predictions: [],
+          confidence: 0,
+          message: "Predictive worker not yet implemented",
         };
 
-        worker.postMessage({ patterns });
+        // Cache result
+        if (cacheRef.current.size >= cacheSize) {
+          const firstKey = cacheRef.current.keys().next().value;
+          if (firstKey !== undefined) {
+            cacheRef.current.delete(firstKey);
+          }
+        }
+        cacheRef.current.set(cacheKey, result);
+
+        resolve(result);
       });
     },
     [getCacheKey, cacheSize]
