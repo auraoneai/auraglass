@@ -1,8 +1,6 @@
 import React from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
-"use client";
-
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import useAutoTextContrast from '../../hooks/useAutoTextContrast';

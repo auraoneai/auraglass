@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-"use client";
-
 import { cn } from '../../lib/utilsComprehensive';
 import { motion } from 'framer-motion';
 import { useState } from 'react';

@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client';
-
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';

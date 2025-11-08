@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client'
-
 import { AnimatePresence, motion, PanInfo, useMotionValue } from 'framer-motion'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '../../lib/utilsComprehensive'

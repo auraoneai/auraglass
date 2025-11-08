@@ -1,7 +1,5 @@
 import React from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-"use client";
-
 import { useAnimationDuration, useMotionAwareAnimation } from '../../hooks/useMotionPreference';
 import { cn } from '@/lib/utils';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';

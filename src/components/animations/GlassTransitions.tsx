@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import {
     AnimatePresence,

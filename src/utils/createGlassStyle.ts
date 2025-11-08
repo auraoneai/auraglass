@@ -78,8 +78,6 @@ export function createGlassStyle(options: GlassStyleOptions = {}): React.CSSProp
     borderRadius: tokens.radius[radius],
     boxShadow: tokens.elev[elev],
     background: tokens.gradient[variant],
-    // Use createGlassStyle() instead,
-    // Use createGlassStyle() instead,
   };
   
   if (opacity !== undefined) {

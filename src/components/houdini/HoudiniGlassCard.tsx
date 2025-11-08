@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client';
-
 import { motion } from 'framer-motion';
 import {
     Droplets,

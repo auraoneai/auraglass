@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client';
-
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { motion } from 'framer-motion';
 import {

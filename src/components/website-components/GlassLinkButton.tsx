@@ -2,6 +2,7 @@ import React from 'react';
 
 import { forwardRef, AnchorHTMLAttributes } from "react";
 import { cn } from "../../lib/utilsComprehensive";
+import { createGlassStyle } from "../../utils/createGlassStyle";
 
 interface GlassLinkButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: "primary" | "secondary" | "ghost";
@@ -53,7 +54,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
             style={{
               borderRadius: 'inherit',
               padding: '1px',
-              background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+              ...createGlassStyle({ variant: 'default', elev: 3 }),
               mask: 'linear-gradient(var(--glass-black) 0 0) content-box, linear-gradient(var(--glass-black) 0 0)',
               WebkitMask: 'linear-gradient(var(--glass-black) 0 0) content-box, linear-gradient(var(--glass-black) 0 0)',
               WebkitMaskComposite: 'xor',
@@ -69,7 +70,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
             className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200"
             style={{
               borderRadius: 'inherit',
-              background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+              ...createGlassStyle({ variant: 'default', elev: 3 }),
             }}
           />
         )}

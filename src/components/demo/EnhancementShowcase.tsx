@@ -11,8 +11,6 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
  * - AI-powered personalization
  */
 
-'use client';
-
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../lib/utils';

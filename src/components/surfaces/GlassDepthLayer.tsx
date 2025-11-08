@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client';
-
 import { HTMLMotionProps, motion } from 'framer-motion';
 import React, { forwardRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';

@@ -11,8 +11,6 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
  * - AI Personalization for learned preferences
  */
 
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef, useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { motion, AnimationControls, useAnimation } from 'framer-motion';

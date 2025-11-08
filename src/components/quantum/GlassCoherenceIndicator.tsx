@@ -1,6 +1,4 @@
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-'use client'
-
 import React, { forwardRef, useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { OptimizedGlass } from '../../primitives'
