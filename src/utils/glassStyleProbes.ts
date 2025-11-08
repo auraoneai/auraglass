@@ -1,14 +1,15 @@
-import React from 'react';
+import React from "react";
 /**
  * Runtime Glass Style Probes
- * 
+ *
  * Monitors glass system performance, compliance, and usage patterns in real-time.
  * Provides telemetry for the unified glass system to ensure proper functioning.
- * 
+ *
  * Part of Phase 5: Quality & Testing
  */
 
-import { AURA_GLASS } from '../tokens/glass';
+import { AURA_GLASS } from "../tokens/glass";
+import { canUseDOM } from "./ssr";
 
 export interface GlassProbeResult {
   timestamp: number;
@@ -30,7 +31,7 @@ export interface GlassProbeResult {
     accessibilityScore: number;
   };
   usage: {
-    apiUsed: 'createGlassStyle' | 'css-classes' | 'legacy' | 'unknown';
+    apiUsed: "createGlassStyle" | "css-classes" | "legacy" | "unknown";
     deprecationWarnings: string[];
   };
 }
@@ -51,15 +52,16 @@ export class GlassStyleProbes {
 
   // Start monitoring glass elements
   startMonitoring(): void {
-    if (this.isMonitoring) return;
-    
-    console.log('🔍 Starting AuraGlass runtime probes...');
-    
+    // Skip monitoring during SSR
+    if (!canUseDOM || this.isMonitoring) return;
+
+    console.log("🔍 Starting AuraGlass runtime probes...");
+
     this.isMonitoring = true;
     this.setupMutationObserver();
     this.setupPerformanceObserver();
     this.schedulePeriodicProbes();
-    
+
     // Initial scan of existing glass elements
     this.scanExistingElements();
   }
@@ -67,16 +69,16 @@ export class GlassStyleProbes {
   // Stop monitoring
   stopMonitoring(): void {
     if (!this.isMonitoring) return;
-    
-    console.log('⏹️ Stopping AuraGlass runtime probes...');
-    
+
+    console.log("⏹️ Stopping AuraGlass runtime probes...");
+
     this.isMonitoring = false;
-    
+
     if (this.observer) {
       this.observer.disconnect();
       this.observer = null;
     }
-    
+
     if (this.performanceObserver) {
       this.performanceObserver.disconnect();
       this.performanceObserver = null;
@@ -84,16 +86,21 @@ export class GlassStyleProbes {
   }
 
   private setupMutationObserver(): void {
+    if (!canUseDOM) return;
+
     this.observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.type === 'childList') {
+        if (mutation.type === "childList") {
           mutation.addedNodes.forEach((node) => {
             if (node.nodeType === Node.ELEMENT_NODE) {
               this.probeElement(node as Element);
             }
           });
-        } else if (mutation.type === 'attributes') {
-          if (mutation.attributeName === 'class' || mutation.attributeName === 'style') {
+        } else if (mutation.type === "attributes") {
+          if (
+            mutation.attributeName === "class" ||
+            mutation.attributeName === "style"
+          ) {
             this.probeElement(mutation.target as Element);
           }
         }
@@ -104,27 +111,32 @@ export class GlassStyleProbes {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['class', 'style']
+      attributeFilter: ["class", "style"],
     });
   }
 
   private setupPerformanceObserver(): void {
-    if ('PerformanceObserver' in window) {
+    if (!canUseDOM) return;
+
+    if ("PerformanceObserver" in window) {
       try {
         this.performanceObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries();
           entries.forEach((entry) => {
-            if (entry.name.includes('glass') || entry.name.includes('backdrop')) {
-              console.log('🏃‍♂️ Glass performance entry:', entry);
+            if (
+              entry.name.includes("glass") ||
+              entry.name.includes("backdrop")
+            ) {
+              console.log("🏃‍♂️ Glass performance entry:", entry);
             }
           });
         });
 
-        this.performanceObserver.observe({ 
-          entryTypes: ['measure', 'paint', 'layout-shift'] 
+        this.performanceObserver.observe({
+          entryTypes: ["measure", "paint", "layout-shift"],
         });
       } catch (error) {
-        console.warn('⚠️ Performance observer setup failed:', error);
+        console.warn("⚠️ Performance observer setup failed:", error);
       }
     }
   }
@@ -139,6 +151,8 @@ export class GlassStyleProbes {
   }
 
   private scanExistingElements(): void {
+    if (!canUseDOM) return;
+
     const glassElements = document.querySelectorAll('[class*="glass-"]');
     glassElements.forEach((element) => {
       this.probeElement(element);
@@ -150,43 +164,47 @@ export class GlassStyleProbes {
 
     const result = this.analyzeElement(element);
     this.probeResults.push(result);
-    
+
     // Keep only last 100 results to prevent memory issues
     if (this.probeResults.length > 100) {
       this.probeResults = this.probeResults.slice(-100);
     }
-    
+
     // Report critical issues immediately
     if (result.compliance.accessibilityScore < 0.7) {
-      console.warn('⚠️ Glass accessibility issue detected:', result);
+      console.warn("⚠️ Glass accessibility issue detected:", result);
     }
-    
+
     if (!result.performance.backdropSupported) {
-      console.warn('⚠️ Backdrop filter not supported, glass effects disabled');
+      console.warn("⚠️ Backdrop filter not supported, glass effects disabled");
     }
   }
 
   private isGlassElement(element: Element): boolean {
-    const classes = element.className || '';
-    return classes.includes('glass-') || 
-           element.getAttribute('data-glass') !== null ||
-           this.hasGlassStyles(element);
+    const classes = element.className || "";
+    return (
+      classes.includes("glass-") ||
+      element.getAttribute("data-glass") !== null ||
+      this.hasGlassStyles(element)
+    );
   }
 
   private hasGlassStyles(element: Element): boolean {
     const computedStyle = window.getComputedStyle(element);
-    return computedStyle.backdropFilter !== 'none' || 
-           computedStyle.backdropFilter !== 'none';
+    return (
+      computedStyle.backdropFilter !== "none" ||
+      computedStyle.backdropFilter !== "none"
+    );
   }
 
   private analyzeElement(element: Element): GlassProbeResult {
     const startTime = performance.now();
-    
+
     const glassConfig = this.extractGlassConfiguration(element);
     const performanceData = this.analyzePerformance(element);
     const complianceData = this.analyzeCompliance(element);
     const usageData = this.analyzeUsage(element);
-    
+
     const endTime = performance.now();
     performanceData.renderTime = endTime - startTime;
 
@@ -196,107 +214,126 @@ export class GlassStyleProbes {
       glassConfiguration: glassConfig,
       performance: performanceData,
       compliance: complianceData,
-      usage: usageData
+      usage: usageData,
     };
   }
 
-  private extractGlassConfiguration(element: Element): GlassProbeResult['glassConfiguration'] {
-    const classes = element.className || '';
-    
+  private extractGlassConfiguration(
+    element: Element
+  ): GlassProbeResult["glassConfiguration"] {
+    const classes = element.className || "";
+
     // Extract intent from class names like "glass-primary-level2"
-    const intentMatch = classes.match(/glass-(neutral|primary|secondary|success|warning|danger|info)-/);
+    const intentMatch = classes.match(
+      /glass-(neutral|primary|secondary|success|warning|danger|info)-/
+    );
     const elevationMatch = classes.match(/glass-\w+-(level[1-4])/);
-    const tierMatch = classes.match(/glass-tier-(high|medium|low)/) || 
-                      classes.match(/tier-(high|medium|low)/);
-    
+    const tierMatch =
+      classes.match(/glass-tier-(high|medium|low)/) ||
+      classes.match(/tier-(high|medium|low)/);
+
     return {
-      intent: intentMatch ? intentMatch[1] : 'unknown',
-      elevation: elevationMatch ? elevationMatch[1] : 'unknown',
-      tier: tierMatch ? tierMatch[1] : 'high' // default to high
+      intent: intentMatch ? intentMatch[1] : "unknown",
+      elevation: elevationMatch ? elevationMatch[1] : "unknown",
+      tier: tierMatch ? tierMatch[1] : "high", // default to high
     };
   }
 
-  private analyzePerformance(element: Element): GlassProbeResult['performance'] {
+  private analyzePerformance(
+    element: Element
+  ): GlassProbeResult["performance"] {
     const computedStyle = window.getComputedStyle(element);
-    
+
     const backdropSupported = this.testBackdropSupport();
     const gpuAccelerated = this.testGPUAcceleration(computedStyle);
-    
+
     // Estimate memory usage (rough approximation)
     const memoryUsage = this.estimateMemoryUsage(element);
-    
+
     return {
       backdropSupported,
       gpuAccelerated,
-      memoryUsage
+      memoryUsage,
     };
   }
 
-  private analyzeCompliance(element: Element): GlassProbeResult['compliance'] {
+  private analyzeCompliance(element: Element): GlassProbeResult["compliance"] {
     const computedStyle = window.getComputedStyle(element);
-    
+
     const contrastRatio = this.calculateContrastRatio(element);
     const minVisibility = this.checkMinimumVisibility(computedStyle);
     const accessibilityScore = this.calculateAccessibilityScore(element);
-    
+
     return {
       wcagContrast: contrastRatio,
       minVisibility,
-      accessibilityScore
+      accessibilityScore,
     };
   }
 
-  private analyzeUsage(element: Element): GlassProbeResult['usage'] {
-    const classes = element.className || '';
-    const inlineStyles = element.getAttribute('style') || '';
+  private analyzeUsage(element: Element): GlassProbeResult["usage"] {
+    const classes = element.className || "";
+    const inlineStyles = element.getAttribute("style") || "";
     const warnings: string[] = [];
-    
+
     // Determine which API was used
-    let apiUsed: GlassProbeResult['usage']['apiUsed'] = 'unknown';
-    
+    let apiUsed: GlassProbeResult["usage"]["apiUsed"] = "unknown";
+
     if (classes.match(/glass-\w+-level[1-4]/)) {
-      apiUsed = 'css-classes'; // Using generated CSS classes
-    } else if (inlineStyles.includes('backdrop') || classes.includes('createGlassStyle')) {
-      apiUsed = 'createGlassStyle'; // Using unified API
-    } else if (classes.includes('glassSurface') || classes.includes('glassBorder')) {
-      apiUsed = 'legacy';
-      warnings.push('Using deprecated glass API - migrate to createGlassStyle()');
+      apiUsed = "css-classes"; // Using generated CSS classes
+    } else if (
+      inlineStyles.includes("backdrop") ||
+      classes.includes("createGlassStyle")
+    ) {
+      apiUsed = "createGlassStyle"; // Using unified API
+    } else if (
+      classes.includes("glassSurface") ||
+      classes.includes("glassBorder")
+    ) {
+      apiUsed = "legacy";
+      warnings.push(
+        "Using deprecated glass API - migrate to createGlassStyle()"
+      );
     }
-    
+
     // Check for deprecated patterns
-    if (inlineStyles.includes('backdrop-filter')) {
-      warnings.push('Inline backdrop-filter detected - should use unified token system');
+    if (inlineStyles.includes("backdrop-filter")) {
+      warnings.push(
+        "Inline backdrop-filter detected - should use unified token system"
+      );
     }
-    
+
     if (inlineStyles.match(/rgba\(\s*255,\s*255,\s*255,\s*0\.[0-9]/)) {
-      warnings.push('Hardcoded glass background - should use token system');
+      warnings.push("Hardcoded glass background - should use token system");
     }
-    
+
     return {
       apiUsed,
-      deprecationWarnings: warnings
+      deprecationWarnings: warnings,
     };
   }
 
   private testBackdropSupport(): boolean {
-    const testEl = document.createElement('div');
-    testEl.style.backdropFilter = 'blur(1px)';
-    return testEl.style.backdropFilter !== '';
+    const testEl = document.createElement("div");
+    testEl.style.backdropFilter = "blur(1px)";
+    return testEl.style.backdropFilter !== "";
   }
 
   private testGPUAcceleration(computedStyle: CSSStyleDeclaration): boolean {
-    return computedStyle.transform !== 'none' || 
-           computedStyle.willChange.includes('transform');
+    return (
+      computedStyle.transform !== "none" ||
+      computedStyle.willChange.includes("transform")
+    );
   }
 
   private estimateMemoryUsage(element: Element): number {
     // Rough estimation based on element complexity
     const rect = element.getBoundingClientRect();
     const area = rect.width * rect.height;
-    const complexity = (element.children.length + 1) * 
-                      (element.className.split(' ').length + 1);
-    
-    return Math.round(area * complexity / 1000); // KB estimate
+    const complexity =
+      (element.children.length + 1) * (element.className.split(" ").length + 1);
+
+    return Math.round((area * complexity) / 1000); // KB estimate
   }
 
   private calculateContrastRatio(element: Element): number {
@@ -304,14 +341,14 @@ export class GlassStyleProbes {
       const computedStyle = window.getComputedStyle(element);
       const backgroundColor = computedStyle.backgroundColor;
       const color = computedStyle.color;
-      
+
       // Simplified contrast calculation
       const bgLuminance = this.getColorLuminance(backgroundColor);
       const textLuminance = this.getColorLuminance(color);
-      
+
       const lighter = Math.max(bgLuminance, textLuminance);
       const darker = Math.min(bgLuminance, textLuminance);
-      
+
       return (lighter + 0.05) / (darker + 0.05);
     } catch {
       return 1; // Fallback if calculation fails
@@ -322,46 +359,52 @@ export class GlassStyleProbes {
     // Simplified luminance calculation
     const rgb = this.parseColor(color);
     if (!rgb) return 1;
-    
+
     const [r, g, b] = rgb.map((c: any) => {
       c = c / 255;
       return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
     });
-    
+
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   }
 
   private parseColor(color: string): number[] | null {
     const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-    return match ? [parseInt(match[1]), parseInt(match[2]), parseInt(match[3])] : null;
+    return match
+      ? [parseInt(match[1]), parseInt(match[2]), parseInt(match[3])]
+      : null;
   }
 
   private checkMinimumVisibility(computedStyle: CSSStyleDeclaration): boolean {
     const opacity = parseFloat(computedStyle.opacity);
-    const backgroundAlpha = this.extractAlphaFromBackground(computedStyle.backgroundColor);
-    
+    const backgroundAlpha = this.extractAlphaFromBackground(
+      computedStyle.backgroundColor
+    );
+
     return opacity >= 0.05 && backgroundAlpha >= 0.05;
   }
 
   private extractAlphaFromBackground(backgroundColor: string): number {
-    const match = backgroundColor.match(/rgba?\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/);
+    const match = backgroundColor.match(
+      /rgba?\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/
+    );
     return match ? parseFloat(match[1]) : 1;
   }
 
   private calculateAccessibilityScore(element: Element): number {
     let score = 1.0;
-    
+
     const contrastRatio = this.calculateContrastRatio(element);
     if (contrastRatio < 4.5) score -= 0.3; // WCAG AA failure
     if (contrastRatio < 3.0) score -= 0.3; // Severe contrast issue
-    
+
     const computedStyle = window.getComputedStyle(element);
     if (!this.checkMinimumVisibility(computedStyle)) score -= 0.2;
-    
-    if (!element.getAttribute('aria-label') && !element.textContent) {
+
+    if (!element.getAttribute("aria-label") && !element.textContent) {
       score -= 0.1; // Missing accessibility info
     }
-    
+
     return Math.max(0, score);
   }
 
@@ -373,19 +416,19 @@ export class GlassStyleProbes {
       compliance: {
         passed: 0,
         warning: 0,
-        failed: 0
+        failed: 0,
       },
       performance: {
         backdropSupported: this.testBackdropSupport(),
         averageRenderTime: 0,
-        memoryUsage: 0
+        memoryUsage: 0,
       },
       usage: {
         unified: 0,
         legacy: 0,
-        unknown: 0
+        unknown: 0,
       },
-      deprecationWarnings: [] as string[]
+      deprecationWarnings: [] as string[],
     };
 
     let totalRenderTime = 0;
@@ -393,18 +436,25 @@ export class GlassStyleProbes {
 
     this.probeResults.slice(-glassElements.length).forEach((result: any) => {
       // Compliance scoring
-      if (result.compliance.accessibilityScore >= 0.8) summary.compliance.passed++;
-      else if (result.compliance.accessibilityScore >= 0.6) summary.compliance.warning++;
+      if (result.compliance.accessibilityScore >= 0.8)
+        summary.compliance.passed++;
+      else if (result.compliance.accessibilityScore >= 0.6)
+        summary.compliance.warning++;
       else summary.compliance.failed++;
 
       // Performance aggregation
-      if (result.performance.renderTime) totalRenderTime += result.performance.renderTime;
-      if (result.performance.memoryUsage) totalMemory += result.performance.memoryUsage;
+      if (result.performance.renderTime)
+        totalRenderTime += result.performance.renderTime;
+      if (result.performance.memoryUsage)
+        totalMemory += result.performance.memoryUsage;
 
       // Usage patterns
-      if (result.usage.apiUsed === 'createGlassStyle' || result.usage.apiUsed === 'css-classes') {
+      if (
+        result.usage.apiUsed === "createGlassStyle" ||
+        result.usage.apiUsed === "css-classes"
+      ) {
         summary.usage.unified++;
-      } else if (result.usage.apiUsed === 'legacy') {
+      } else if (result.usage.apiUsed === "legacy") {
         summary.usage.legacy++;
       } else {
         summary.usage.unknown++;
@@ -414,18 +464,19 @@ export class GlassStyleProbes {
       summary.deprecationWarnings.push(...result.usage.deprecationWarnings);
     });
 
-    summary.performance.averageRenderTime = totalRenderTime / glassElements.length;
+    summary.performance.averageRenderTime =
+      totalRenderTime / glassElements.length;
     summary.performance.memoryUsage = totalMemory;
 
     // Remove duplicate warnings
     summary.deprecationWarnings = [...new Set(summary.deprecationWarnings)];
 
-    console.log('📊 AuraGlass Comprehensive Probe Summary:', summary);
+    console.log("📊 AuraGlass Comprehensive Probe Summary:", summary);
 
     // Store for potential reporting
     (window as any).__auraglassProbeData = {
       latestSummary: summary,
-      allResults: this.probeResults
+      allResults: this.probeResults,
     };
   }
 
@@ -442,24 +493,24 @@ export class GlassStyleProbes {
   probeElementById(elementId: string): GlassProbeResult | null {
     const element = document.getElementById(elementId);
     if (!element) return null;
-    
+
     return this.analyzeElement(element);
   }
 }
 
 // Auto-start monitoring in development mode
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
   const probes = GlassStyleProbes.getInstance();
-  
+
   // Start monitoring after DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
       probes.startMonitoring();
     });
   } else {
     probes.startMonitoring();
   }
-  
+
   // Expose to global scope for debugging
   (window as any).__auraglassProbes = probes;
 }
