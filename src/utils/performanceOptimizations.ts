@@ -1,4 +1,9 @@
-import React from 'react';
+import React from "react";
+import {
+  canUseDOM,
+  safeRequestAnimationFrame,
+  safeCancelAnimationFrame,
+} from "./ssr";
 // Performance optimization utilities
 
 export interface PerformanceMetrics {
@@ -34,7 +39,10 @@ export class PerformanceMonitor {
   private frameCount = 0;
   private lastTime = 0;
   private config: OptimizationConfig;
-  private measurements = new Map<string, { startTime: number; endTime?: number }>();
+  private measurements = new Map<
+    string,
+    { startTime: number; endTime?: number }
+  >();
 
   constructor(config: Partial<OptimizationConfig> = {}) {
     this.config = {
@@ -74,11 +82,14 @@ export class PerformanceMonitor {
   }
 
   private initializeMonitoring(): void {
+    // Skip monitoring during SSR
+    if (!canUseDOM) return;
+
     if (this.config.enableFPSMonitoring) {
       this.startFPSMonitoring();
     }
 
-    if (this.config.enableMemoryMonitoring && 'memory' in performance) {
+    if (this.config.enableMemoryMonitoring && "memory" in performance) {
       this.startMemoryMonitoring();
     }
 
@@ -99,7 +110,8 @@ export class PerformanceMonitor {
 
       const deltaTime = timestamp - this.lastTime;
 
-      if (deltaTime >= 1000) { // Update every second
+      if (deltaTime >= 1000) {
+        // Update every second
         this.metrics.fps = Math.round((this.frameCount * 1000) / deltaTime);
         this.metrics.frameTime = deltaTime / this.frameCount;
 
@@ -123,6 +135,9 @@ export class PerformanceMonitor {
   }
 
   private startNetworkMonitoring(): void {
+    // Skip during SSR - no fetch API available
+    if (!canUseDOM) return;
+
     // Monitor fetch requests
     const originalFetch = window.fetch;
     let requestCount = 0;
@@ -166,21 +181,22 @@ export class PerformanceMonitor {
     const suggestions: string[] = [];
 
     if (this.metrics.fps < this.config.targetFPS * 0.8) {
-      suggestions.push('Consider reducing animation complexity');
-      suggestions.push('Enable virtualization for large lists');
-      suggestions.push('Reduce particle effects or simplify shaders');
+      suggestions.push("Consider reducing animation complexity");
+      suggestions.push("Enable virtualization for large lists");
+      suggestions.push("Reduce particle effects or simplify shaders");
     }
 
     if (this.metrics.memoryUsage > this.config.maxMemoryUsage * 0.8) {
-      suggestions.push('Implement memory cleanup');
-      suggestions.push('Reduce texture sizes');
-      suggestions.push('Unload unused assets');
+      suggestions.push("Implement memory cleanup");
+      suggestions.push("Reduce texture sizes");
+      suggestions.push("Unload unused assets");
     }
 
-    if (this.metrics.renderTime > 16.67) { // 60 FPS threshold
-      suggestions.push('Optimize render pipeline');
-      suggestions.push('Use CSS transforms instead of layout properties');
-      suggestions.push('Implement object pooling');
+    if (this.metrics.renderTime > 16.67) {
+      // 60 FPS threshold
+      suggestions.push("Optimize render pipeline");
+      suggestions.push("Use CSS transforms instead of layout properties");
+      suggestions.push("Implement object pooling");
     }
 
     return suggestions;
@@ -196,7 +212,9 @@ export class PerformanceMonitor {
       if (!measurement.endTime) {
         measurement.endTime = performance.now();
         const duration = measurement.endTime - measurement.startTime;
-        console.log(`Performance measurement '${name}': ${duration.toFixed(2)}ms`);
+        console.log(
+          `Performance measurement '${name}': ${duration.toFixed(2)}ms`
+        );
       }
     }
     this.measurements.clear();
@@ -218,7 +236,8 @@ export class MemoryManager {
   private maxCacheSize: number;
   private currentCacheSize = 0;
 
-  constructor(maxCacheSize: number = 50 * 1024 * 1024) { // 50MB default
+  constructor(maxCacheSize: number = 50 * 1024 * 1024) {
+    // 50MB default
     this.maxCacheSize = maxCacheSize;
   }
 
@@ -262,8 +281,9 @@ export class MemoryManager {
   }
 
   private evictOldEntries(requiredSize: number): void {
-    const entries = Array.from(this.cache.entries())
-      .sort((a, b) => a[1].lastAccessed - b[1].lastAccessed);
+    const entries = Array.from(this.cache.entries()).sort(
+      (a, b) => a[1].lastAccessed - b[1].lastAccessed
+    );
 
     let freedSize = 0;
     for (const [key, entry] of entries) {
@@ -287,16 +307,21 @@ export class MemoryManager {
 // Rendering optimizations
 export const renderingOptimizations = {
   // Use transform instead of changing layout properties
-  useTransformForMovement: (element: HTMLElement, x: number, y: number): void => {
+  useTransformForMovement: (
+    element: HTMLElement,
+    x: number,
+    y: number
+  ): void => {
     element.style.transform = `translate(${x}px, ${y}px)`;
-    element.style.willChange = 'transform';
+    element.style.willChange = "transform";
   },
 
   // Optimize for 60fps animations
   optimizeFor60FPS: (callback: () => void): void => {
     let lastTime = 0;
     const animate = (timestamp: number) => {
-      if (timestamp - lastTime >= 16.67) { // ~60fps
+      if (timestamp - lastTime >= 16.67) {
+        // ~60fps
         callback();
         lastTime = timestamp;
       }
@@ -314,15 +339,15 @@ export const renderingOptimizations = {
 
   // Use CSS containment for performance
   enableCSSContainment: (element: HTMLElement): void => {
-    element.style.contain = 'layout style paint';
+    element.style.contain = "layout style paint";
   },
 
   // Optimize canvas rendering
   optimizeCanvasRendering: (canvas: HTMLCanvasElement): void => {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (ctx) {
       ctx.imageSmoothingEnabled = false;
-      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalCompositeOperation = "source-over";
     }
   },
 };
@@ -344,9 +369,12 @@ export const networkOptimizations = {
 
   // Preload critical resources
   preloadCriticalResources: (resources: string[]): void => {
+    // Skip during SSR - no document API available
+    if (!canUseDOM) return;
+
     resources.forEach((resource: any) => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
+      const link = document.createElement("link");
+      link.rel = "preload";
       link.href = resource;
       document.head.appendChild(link);
     });
@@ -355,15 +383,15 @@ export const networkOptimizations = {
   // Cache API wrapper
   cacheAPI: {
     async set(key: string, data: any): Promise<void> {
-      if ('caches' in window) {
-        const cache = await caches.open('glass-cache-v1');
+      if ("caches" in window) {
+        const cache = await caches.open("glass-cache-v1");
         await cache.put(key, new Response(JSON.stringify(data)));
       }
     },
 
     async get(key: string): Promise<any> {
-      if ('caches' in window) {
-        const cache = await caches.open('glass-cache-v1');
+      if ("caches" in window) {
+        const cache = await caches.open("glass-cache-v1");
         const response = await cache.match(key);
         if (response) {
           return response.json();
@@ -397,7 +425,7 @@ export class VirtualScroller {
   }
 
   private setupEventListeners(): void {
-    this.container.addEventListener('scroll', this.handleScroll.bind(this));
+    this.container.addEventListener("scroll", this.handleScroll.bind(this));
   }
 
   private handleScroll(): void {
@@ -407,13 +435,10 @@ export class VirtualScroller {
 
   private updateVisibleItems(): void {
     const startIndex = Math.floor(this.scrollTop / this.itemHeight);
-    const endIndex = Math.min(
-      startIndex + this.visibleItems,
-      this.totalItems
-    );
+    const endIndex = Math.min(startIndex + this.visibleItems, this.totalItems);
 
     // Dispatch custom event with visible range
-    const event = new CustomEvent('virtualScroll', {
+    const event = new CustomEvent("virtualScroll", {
       detail: { startIndex, endIndex },
     });
     this.container.dispatchEvent(event);
@@ -474,6 +499,7 @@ export class AdaptiveQuality {
 export const performanceUtils = {
   monitor: PerformanceMonitor.getInstance,
   memory: MemoryManager.getInstance,
-  adaptiveQuality: (monitor: PerformanceMonitor) => new AdaptiveQuality(monitor),
+  adaptiveQuality: (monitor: PerformanceMonitor) =>
+    new AdaptiveQuality(monitor),
   virtualScroller: VirtualScroller,
 };
