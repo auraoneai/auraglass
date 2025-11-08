@@ -107,6 +107,25 @@ export default [
         external: externalDeps,
         plugins: getPlugins(true),
     },
+    // Styled Components bundle (requires styled-components peer dependency)
+    {
+        input: 'src/styled/index.ts',
+        output: [
+            {
+                file: 'dist/styled/index.js',
+                format: 'cjs',
+                sourcemap: true,
+                exports: 'named',
+            },
+            {
+                file: 'dist/styled/index.mjs',
+                format: 'esm',
+                sourcemap: true,
+            },
+        ],
+        external: externalDeps,
+        plugins: getPlugins(false), // Don't extract CSS again for styled bundle
+    },
     // SSR bundle
     {
         input: 'src/ssr/index.ts',
