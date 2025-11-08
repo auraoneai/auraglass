@@ -135,7 +135,7 @@ const useVoiceGlassControl = () => {
 };
 
 // Mock voice commands helper
-const getVoiceCommandsHelp = (): string[] => {
+export const GlassVoiceCommands = (): string[] => {
   const commands = [
     `"Hey Genesis" - wake word to activate voice control`,
     `"Show navigation" - open main navigation menu`,
@@ -741,7 +741,7 @@ export default function VoiceGlassControl({
                   </div>
 
                   <div className="space-y-2">
-                    {getVoiceCommandsHelp().slice(0, 10).map((command, index) => (
+                    {GlassVoiceCommands().slice(0, 10).map((command, index) => (
                       <div key={index} className="p-2 glass-surface-subtle/5 glass-radius text-sm">
                         <div className="text-primary font-mono">"{command}"</div>
                       </div>

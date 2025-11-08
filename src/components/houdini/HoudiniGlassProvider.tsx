@@ -67,7 +67,7 @@ export const glassPresets = {
   }
 } as const;
 
-interface HoudiniGlassProviderProps {
+export interface HoudiniGlassProviderProps {
   children: React.ReactNode;
   defaultPreset?: keyof typeof glassPresets;
   defaultProperties?: Record<string, string>;

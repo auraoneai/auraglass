@@ -594,7 +594,7 @@ export function GlassA11y({
 }
 
 // Sub-components for accessibility sections
-function GlassHighContrast({ config, updateConfig, isHighContrast }: any) {
+export function GlassHighContrast({ config, updateConfig, isHighContrast }: any) {
   return (
     <div className="space-y-4">
       <h4 className="font-medium">High Contrast Settings</h4>
@@ -625,7 +625,7 @@ function GlassHighContrast({ config, updateConfig, isHighContrast }: any) {
   );
 }
 
-function GlassMotionControls({ config, updateConfig, isMotionReduced }: any) {
+export function GlassMotionControls({ config, updateConfig, isMotionReduced }: any) {
   return (
     <div className="space-y-4">
       <h4 className="font-medium">Motion & Animation</h4>
@@ -656,7 +656,7 @@ function GlassMotionControls({ config, updateConfig, isMotionReduced }: any) {
   );
 }
 
-function GlassScreenReader({ config, updateConfig }: any) {
+export function GlassScreenReader({ config, updateConfig }: any) {
   return (
     <div className="space-y-4">
       <h4 className="font-medium">Screen Reader Support</h4>
@@ -684,7 +684,7 @@ function GlassScreenReader({ config, updateConfig }: any) {
   );
 }
 
-function GlassKeyboardNav({ config, updateConfig }: any) {
+export function GlassKeyboardNav({ config, updateConfig }: any) {
   return (
     <div className="space-y-4">
       <h4 className="font-medium">Keyboard Navigation</h4>

@@ -858,6 +858,8 @@ export const EcommerceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   );
 };
 
+export { EcommerceProvider as GlassEcommerceProvider };
+
 export const useEcommerce = () => {
   const context = useContext(EcommerceContext);
   if (!context) {

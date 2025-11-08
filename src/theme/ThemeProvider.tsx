@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode, useRef, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode, useRef, useCallback, useId } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 // import { css, createGlobalStyle } from 'styled-components'; // Unused imports
 // Simple deep merge utility
@@ -27,6 +27,7 @@ import {
   GLOW_INTENSITIES,
 } from './themeConstants';
 import { AURA_GLASS } from '../tokens/glass';
+import { getSafeDocument, getSafeWindow, isBrowser, safeMatchMedia } from '../utils/env';
 
 // ------ ColorMode Context ------
 interface ColorModeContextType {
@@ -285,9 +286,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
   // State for whether the system prefers dark mode
   const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(
-    typeof window !== 'undefined' && window.matchMedia
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-      : false
+    () => safeMatchMedia('(prefers-color-scheme: dark)')?.matches ?? false
   );
 
   // ------ Theme Variant State ------
@@ -312,60 +311,67 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   const renderCount = useRef(0);
   const lastUpdateTime = useRef(Date.now());
   const pendingUpdates = useRef<Record<string, any>>({});
-  const commitTimerRef = useRef<number | null>(null);
+  const commitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ------ Initialize System Preferences ------
   useEffect(() => {
-    if (enableAutoDetection) {
-      // Detect dark mode preference
-      const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleDarkModeChange = (e: MediaQueryListEvent) => {
-        setSystemPrefersDark(e.matches);
-      };
+    if (!enableAutoDetection || !isBrowser()) return;
 
-      darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
+    const darkModeMediaQuery = safeMatchMedia('(prefers-color-scheme: dark)');
+    const motionMediaQuery = safeMatchMedia('(prefers-reduced-motion: reduce)');
+
+    const handleDarkModeChange = (event: MediaQueryListEvent) => {
+      setSystemPrefersDark(event.matches);
+    };
+
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      setPreferences((prev: any) => ({ ...prev, reducedMotion: event.matches }));
+    };
+
+    if (darkModeMediaQuery) {
       setSystemPrefersDark(darkModeMediaQuery.matches);
-
-      // Detect reduced motion preference
-      const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const handleMotionChange = (e: MediaQueryListEvent) => {
-        setPreferences((prev: any) => ({ ...prev, reducedMotion: e.matches }));
-      };
-
-      motionMediaQuery.addEventListener('change', handleMotionChange);
-      setPreferences((prev: any) => ({ ...prev, reducedMotion: motionMediaQuery.matches }));
-
-      // Clean up
-      return () => {
-        darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
-        motionMediaQuery.removeEventListener('change', handleMotionChange);
-      };
+      darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
     }
+
+    if (motionMediaQuery) {
+      setPreferences((prev: any) => ({ ...prev, reducedMotion: motionMediaQuery.matches }));
+      motionMediaQuery.addEventListener('change', handleMotionChange);
+    }
+
+    return () => {
+      if (darkModeMediaQuery) {
+        darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
+      }
+      if (motionMediaQuery) {
+        motionMediaQuery.removeEventListener('change', handleMotionChange);
+      }
+    };
   }, [enableAutoDetection]);
 
   // ------ Load Saved Preferences ------
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Load color mode
-      const savedColorMode = localStorage.getItem('glass-ui-color-mode');
+    if (!isBrowser()) return;
+
+    try {
+      const storage = getSafeWindow()?.localStorage;
+      if (!storage) return;
+
+      const savedColorMode = storage.getItem('glass-ui-color-mode');
       if (savedColorMode && !forceColorMode) {
         setColorModeState(savedColorMode as ColorMode);
       }
 
-      // Load theme variant
-      const savedThemeVariant = localStorage.getItem('glass-ui-theme-variant');
+      const savedThemeVariant = storage.getItem('glass-ui-theme-variant');
       if (savedThemeVariant) {
         setThemeVariantState(savedThemeVariant);
       }
 
-      // Load quality tier
-      const savedQualityTier = localStorage.getItem('glass-ui-quality-tier');
+      const savedQualityTier = storage.getItem('glass-ui-quality-tier');
       if (savedQualityTier) {
         setQualityTierState(savedQualityTier as any);
       }
 
-      // Load user preferences
-      const savedPreferences = localStorage.getItem('glass-ui-preferences');
+      const savedPreferences = storage.getItem('glass-ui-preferences');
       if (savedPreferences) {
         try {
           const parsedPreferences = JSON.parse(savedPreferences);
@@ -376,11 +382,20 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
           }
         }
       }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('ThemeProvider: failed to load saved preferences', error);
+      }
     }
   }, [forceColorMode]);
 
   // ------ Initialize Responsive Breakpoints ------
   useEffect(() => {
+    if (!isBrowser()) return;
+
+    const win = getSafeWindow();
+    if (!win) return;
+
     const breakpoints = {
       xs: 0,
       sm: 600,
@@ -390,7 +405,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     };
 
     const handleResize = () => {
-      const width = window.innerWidth;
+      const width = win.innerWidth;
       let newBreakpoint = 'xs';
 
       if (width >= breakpoints.xl) {
@@ -406,11 +421,11 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       setCurrentBreakpoint(newBreakpoint);
     };
 
-    window.addEventListener('resize', handleResize);
+    win.addEventListener('resize', handleResize);
     handleResize(); // Initial calculation
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      win.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -421,21 +436,23 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     (mode: ColorMode) => {
       if (forceColorMode) return; // Don't change if force mode is active
 
+      const storage = getSafeWindow()?.localStorage;
+
       if (contextUpdateThrottle > 0) {
         pendingUpdates.current.colorMode = mode;
 
         if (!commitTimerRef.current) {
-          commitTimerRef.current = window.setTimeout(() => {
+          commitTimerRef.current = setTimeout(() => {
             setColorModeState(pendingUpdates.current.colorMode);
             if (onColorModeChange) onColorModeChange(pendingUpdates.current.colorMode);
-            localStorage.setItem('glass-ui-color-mode', pendingUpdates.current.colorMode);
+            storage?.setItem('glass-ui-color-mode', pendingUpdates.current.colorMode);
             commitTimerRef.current = null;
           }, contextUpdateThrottle);
         }
       } else {
         setColorModeState(mode);
         if (onColorModeChange) onColorModeChange(mode);
-        localStorage.setItem('glass-ui-color-mode', mode);
+        storage?.setItem('glass-ui-color-mode', mode);
       }
     },
     [forceColorMode, contextUpdateThrottle, onColorModeChange]
@@ -461,7 +478,8 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     (variant: string) => {
       setThemeVariantState(variant);
       if (onThemeChange) onThemeChange(variant);
-      localStorage.setItem('glass-ui-theme-variant', variant);
+      const storage = getSafeWindow()?.localStorage;
+      storage?.setItem('glass-ui-theme-variant', variant);
     },
     [onThemeChange]
   );
@@ -469,14 +487,16 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   // Handle quality tier change
   const setQualityTier = useCallback((tier: 'ultra' | 'high' | 'medium' | 'low' | 'minimal') => {
     setQualityTierState(tier);
-    localStorage.setItem('glass-ui-quality-tier', tier);
+    const storage = getSafeWindow()?.localStorage;
+    storage?.setItem('glass-ui-quality-tier', tier);
   }, []);
 
   // Handle preference changes
   const setPreference = useCallback((key: string, value: boolean) => {
     setPreferences((prev: any) => {
       const newPreferences = { ...prev, [key]: value };
-      localStorage.setItem('glass-ui-preferences', JSON.stringify(newPreferences));
+      const storage = getSafeWindow()?.localStorage;
+      storage?.setItem('glass-ui-preferences', JSON.stringify(newPreferences));
       return newPreferences;
     });
   }, []);
@@ -751,7 +771,8 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     } = props;
     
     // Generate a unique ID for this surface
-    const surfaceId = useRef(`glass-surface-${Math.random().toString(36).substring(2, 9)}`);
+    const uniqueId = useId();
+    const surfaceId = useMemo(() => `glass-surface-${uniqueId.replace(/:/g, '-')}`, [uniqueId]);
     
     // Get the glass styles
     const cssString = createSurface({
@@ -761,9 +782,9 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     });
     
     return (
-      <div id={surfaceId.current} {...rest}>
+      <div id={surfaceId} {...rest}>
         <style dangerouslySetInnerHTML={{ __html: `
-          #${surfaceId.current} {
+          #${surfaceId} {
             ${cssString}
           }
         `}} />
@@ -1016,46 +1037,60 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
   // Prevent transitions during theme changes
   useEffect(() => {
-    if (disableTransitions) {
-      document.documentElement.classList.add('disable-transitions');
-      const timeout = setTimeout(() => {
-        document.documentElement.classList.remove('disable-transitions');
-      }, 100);
-      return () => clearTimeout(timeout);
+    if (!disableTransitions) {
+      return;
     }
+
+    const doc = getSafeDocument();
+    if (!doc) {
+      return;
+    }
+
+    doc.documentElement.classList.add('disable-transitions');
+    const timeout = setTimeout(() => {
+      doc.documentElement.classList.remove('disable-transitions');
+    }, 100);
+
+    return () => clearTimeout(timeout);
   }, [isDarkMode, themeVariant, disableTransitions]);
 
   // Apply scroll optimization
   useEffect(() => {
-    if (enableScrollOptimization) {
-      let scrollTimer: number | null = null;
-      let isScrolling = false;
-
-      const handleScroll = () => {
-        if (!isScrolling) {
-          isScrolling = true;
-          document.documentElement.classList.add('is-scrolling');
-        }
-
-        if (scrollTimer) {
-          clearTimeout(scrollTimer);
-        }
-
-        scrollTimer = window.setTimeout(() => {
-          isScrolling = false;
-          document.documentElement.classList.remove('is-scrolling');
-        }, 150);
-      };
-
-      window.addEventListener('scroll', handleScroll, { passive: true });
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-        if (scrollTimer) {
-          clearTimeout(scrollTimer);
-        }
-      };
+    if (!enableScrollOptimization || !isBrowser()) {
+      return;
     }
+    const doc = getSafeDocument();
+    const win = getSafeWindow();
+    if (!doc || !win) {
+      return;
+    }
+    let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+    let isScrolling = false;
+
+    const handleScroll = () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        doc.documentElement.classList.add('is-scrolling');
+      }
+
+      if (scrollTimer) {
+        clearTimeout(scrollTimer);
+      }
+
+      scrollTimer = setTimeout(() => {
+        isScrolling = false;
+        doc.documentElement.classList.remove('is-scrolling');
+      }, 150);
+    };
+
+    win.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      win.removeEventListener('scroll', handleScroll);
+      if (scrollTimer) {
+        clearTimeout(scrollTimer);
+      }
+    };
   }, [enableScrollOptimization]);
 
   // Render multi-context provider

@@ -2,6 +2,7 @@
  * AuraGlass Sound Design System
  * Haptic and audio feedback for glass interactions
  */
+import { getSafeDocument, getSafeNavigator, getSafeWindow, isBrowser } from './env';
 
 interface SoundConfig {
   url?: string;
@@ -55,20 +56,15 @@ export class GlassSoundDesign {
   };
   
   private constructor() {
-
-  
     // Do NOT create AudioContext at import time.
-
-  
-    // Set up gesture listeners to initialize audio lazily on first user interaction.
-
-  
-    this.setupGestureListeners();
-
-  
-    this.checkHapticSupport();
-
-  
+    if (isBrowser()) {
+      // Set up gesture listeners to initialize audio lazily on first user interaction.
+      this.setupGestureListeners();
+      this.checkHapticSupport();
+    } else {
+      this.enabled = false;
+      this.hapticEnabled = false;
+    }
   }
 
 
@@ -83,73 +79,36 @@ export class GlassSoundDesign {
 
   
   private setupGestureListeners() {
+    const doc = getSafeDocument();
+    const win = getSafeWindow();
+    if (!doc || !win) return;
 
-  
-    if (typeof window === 'undefined') return;
-
-
-  
     const enable = async () => {
+      const currentWin = getSafeWindow();
+      const currentDoc = getSafeDocument();
+      if (!currentWin || !currentDoc) return;
 
-  
       try {
-
-  
         if (!this.audioContext) {
-
-  
-          this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-
-  
+          this.audioContext = new (currentWin.AudioContext || (currentWin as any).webkitAudioContext)();
         }
 
-  
         if (this.audioContext?.state === 'suspended') {
-
-  
           await this.audioContext.resume();
-
-  
         }
-
-  
       } catch (e) {
-
-  
         console.warn('Failed to initialize audio after gesture:', e);
-
-  
       } finally {
-
-  
-        document.removeEventListener('click', enable, true);
-
-  
-        document.removeEventListener('touchstart', enable, true);
-
-  
-        document.removeEventListener('keydown', enable, true);
-
-  
+        currentDoc.removeEventListener('click', enable, true);
+        currentDoc.removeEventListener('touchstart', enable, true);
+        currentDoc.removeEventListener('keydown', enable, true);
       }
-
-  
     };
 
-
-  
     // Capture phase to run before most bubbling handlers, and once
-
-  
-    document.addEventListener('click', enable, { capture: true, once: true, passive: true } as any);
-
-  
-    document.addEventListener('touchstart', enable, { capture: true, once: true, passive: true } as any);
-
-  
-    document.addEventListener('keydown', enable, { capture: true, once: true, passive: true } as any);
-
-  
+    doc.addEventListener('click', enable, { capture: true, once: true, passive: true } as any);
+    doc.addEventListener('touchstart', enable, { capture: true, once: true, passive: true } as any);
+    doc.addEventListener('keydown', enable, { capture: true, once: true, passive: true } as any);
   }
 
   
@@ -178,10 +137,11 @@ export class GlassSoundDesign {
    * Initialize Web Audio API context
    */
   private initAudioContext() {
-    if (typeof window === 'undefined') return;
+    const win = getSafeWindow();
+    if (!win) return;
     try {
       if (!this.audioContext) {
-        this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        this.audioContext = new (win.AudioContext || (win as any).webkitAudioContext)();
       }
     } catch (error) {
       console.warn('Web Audio API not supported:', error);
@@ -193,7 +153,7 @@ export class GlassSoundDesign {
    * Allow callers to explicitly request audio enablement (e.g., from a button onClick)
    */
   async requestEnableAudio() {
-    if (typeof window === 'undefined') return false;
+    if (!isBrowser()) return false;
     try {
       this.initAudioContext();
       if (this.audioContext?.state === 'suspended') {
@@ -211,7 +171,8 @@ export class GlassSoundDesign {
    * Check if haptic feedback is supported
    */
   private checkHapticSupport() {
-    this.hapticEnabled = 'vibrate' in navigator;
+    const nav = getSafeNavigator();
+    this.hapticEnabled = !!nav && 'vibrate' in nav;
   }
   
   /**
@@ -378,10 +339,13 @@ export class GlassSoundDesign {
       : pattern;
     
     try {
+      const nav = getSafeNavigator();
+      if (!nav || typeof nav.vibrate !== 'function') return;
+
       if ('pattern' in config && config.pattern && Array.isArray(config.pattern)) {
-        navigator.vibrate(config.pattern);
+        nav.vibrate(config.pattern);
       } else {
-        navigator.vibrate(config.duration);
+        nav.vibrate(config.duration);
       }
     } catch (error) {
       console.warn('Error triggering haptic:', error);
@@ -436,7 +400,8 @@ export class GlassSoundDesign {
    * Enable/disable haptics
    */
   setHapticEnabled(enabled: boolean) {
-    this.hapticEnabled = enabled && 'vibrate' in navigator;
+    const nav = getSafeNavigator();
+    this.hapticEnabled = !!nav && enabled && 'vibrate' in nav;
   }
   
   /**

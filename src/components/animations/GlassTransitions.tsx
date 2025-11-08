@@ -621,3 +621,13 @@ export default {
   GlassTabs,
   glassTransitionVariants
 };
+
+export const GlassTransitions = {
+  GlassTransition,
+  GlassPageTransition,
+  SwipeableGlassCards,
+  GlassAccordion,
+  GlassModal,
+  GlassTabs,
+  glassTransitionVariants
+};

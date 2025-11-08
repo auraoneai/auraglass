@@ -11,10 +11,11 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import * as THREE from 'three';
+import { SeededRandom } from '../../utils/random';
 
 // Shatter geometry factory
 const ShatterGeometryFactory = {
-  createGlassShard: (size = 1, complexity = 3) => {
+  createGlassShard: (size = 1, complexity = 3, random: SeededRandom = new SeededRandom()) => {
     const geometry = new THREE.PlaneGeometry(size, size, complexity, complexity);
 
     // Add random jagged edges
@@ -26,9 +27,9 @@ const ShatterGeometryFactory = {
       // Add some randomness to edges
       const edgeFactor = Math.abs(x) + Math.abs(y);
       if (edgeFactor > 0.8) {
-        positions[i] += (Math.random() - 0.5) * 0.1;
-        positions[i + 1] += (Math.random() - 0.5) * 0.1;
-        positions[i + 2] += (Math.random() - 0.5) * 0.05;
+        positions[i] += random.nextSigned() * 0.1;
+        positions[i + 1] += random.nextSigned() * 0.1;
+        positions[i + 2] += random.nextSigned() * 0.05;
       }
     }
 
@@ -36,11 +37,12 @@ const ShatterGeometryFactory = {
     return geometry;
   },
 
-  createShatterField: (count = 20, spread = 5) => {
+  createShatterField: (count = 20, spread = 5, random: SeededRandom = new SeededRandom()) => {
     const geometries = [];
     for (let i = 0; i < count; i++) {
-      const size = 0.5 + Math.random() * 1.5;
-      const geometry = ShatterGeometryFactory.createGlassShard(size, 2 + Math.floor(Math.random() * 3));
+      const size = 0.5 + random.next() * 1.5;
+      const complexity = 2 + random.nextInt(0, 2);
+      const geometry = ShatterGeometryFactory.createGlassShard(size, complexity, random);
       geometries.push(geometry);
     }
     return geometries;
@@ -237,7 +239,7 @@ const ShatterAnimations = {
 };
 
 // Main GlassShatterEffects Component
-interface GlassShatterEffectsProps {
+export interface GlassShatterEffectsProps {
   children?: React.ReactNode;
   className?: string;
   trigger?: 'click' | 'hover' | 'manual' | 'auto';
@@ -250,6 +252,7 @@ interface GlassShatterEffectsProps {
   onReform?: () => void;
   disabled?: boolean;
   showControls?: boolean;
+  seed?: number | string;
 }
 
 export function GlassShatterEffects({
@@ -264,7 +267,8 @@ export function GlassShatterEffects({
   onShatter,
   onReform,
   disabled = false,
-  showControls = false
+  showControls = false,
+  seed
 }: GlassShatterEffectsProps) {
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -279,26 +283,27 @@ export function GlassShatterEffects({
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const geometries = ShatterGeometryFactory.createShatterField(shardCount, 5);
+    const seededRandom = new SeededRandom(seed ?? `${shardCount}`);
+    const geometries = ShatterGeometryFactory.createShatterField(shardCount, 5, seededRandom);
     const newShards: THREE.Mesh[] = [];
     const positions: THREE.Vector3[] = [];
 
     geometries.forEach((geometry, index) => {
       const material = ShatterMaterialFactory.createGlassShardMaterial({
-        opacity: 0.8 - Math.random() * 0.3,
-        refractionRatio: 1.3 + Math.random() * 0.4
+        opacity: 0.8 - seededRandom.next() * 0.3,
+        refractionRatio: 1.3 + seededRandom.next() * 0.4
       });
 
       const shard = new THREE.Mesh(geometry, material);
       shard.position.set(
-        (Math.random() - 0.5) * 2,
-        (Math.random() - 0.5) * 2,
+        seededRandom.nextSigned() * 2,
+        seededRandom.nextSigned() * 2,
         0
       );
       shard.rotation.set(
-        Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2
+        seededRandom.next() * Math.PI * 2,
+        seededRandom.next() * Math.PI * 2,
+        seededRandom.next() * Math.PI * 2
       );
 
       newShards.push(shard);
@@ -307,7 +312,7 @@ export function GlassShatterEffects({
 
     setShards(newShards);
     setOriginalPositions(positions);
-  }, [shardCount]);
+  }, [shardCount, seed]);
 
   // Trigger shatter effect
   const triggerShatter = useCallback(() => {

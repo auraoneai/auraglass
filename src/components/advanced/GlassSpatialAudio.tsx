@@ -556,6 +556,8 @@ export function GlassSpatialAudioProvider({
   );
 }
 
+export const GlassSpatialAudio = GlassSpatialAudioProvider;
+
 // Hook to use spatial audio
 export function useSpatialAudio() {
   const context = useContext(SpatialAudioContext);

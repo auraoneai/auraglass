@@ -723,6 +723,8 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   );
 };
 
+export { DragDropProvider as GlassDragDropProvider };
+
 export const useDragDrop = () => {
   const context = useContext(DragDropContext);
   if (!context) {

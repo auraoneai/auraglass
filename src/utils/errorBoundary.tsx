@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode, useState, useEffect } from 'react';
 import { OptimizedGlassCore as OptimizedGlass } from '../primitives';
+import { getSafeNavigator, getSafeWindow, isBrowser } from './env';
 
 export interface ErrorBoundaryState {
   hasError: boolean;
@@ -64,12 +65,15 @@ export class GlassErrorBoundary extends Component<ErrorBoundaryProps, ErrorBound
     const { errorId } = this.state;
 
     // Enhanced error info
+    const nav = getSafeNavigator();
+    const win = getSafeWindow();
+
     const enhancedErrorInfo = {
       ...errorInfo,
       componentName,
       timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      url: window.location.href,
+      userAgent: nav?.userAgent,
+      url: win?.location.href,
     };
 
     this.setState({ errorInfo });
@@ -258,7 +262,7 @@ export class GlassErrorBoundary extends Component<ErrorBoundaryProps, ErrorBound
               )}
 
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => getSafeWindow()?.location.reload?.()}
                 className="px-4 py-2 bg-white/10 text-white/70 rounded hover:bg-white/20 transition-colors"
               >
                 Reload Page
@@ -409,7 +413,7 @@ export class GlassAsyncErrorBoundary extends Component<
             </div>
 
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => getSafeWindow()?.location.reload?.()}
               className="px-4 py-2 bg-yellow-500/20 text-yellow-300 rounded hover:bg-yellow-500/30 transition-colors"
             >
               Reload Page
@@ -444,12 +448,16 @@ export const GlassLightErrorBoundary: React.FC<{
       onError?.(new Error(event.reason));
     };
 
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+    if (!isBrowser()) return;
 
+    const win = getSafeWindow();
+    if (!win) return;
+
+    win.addEventListener('error', handleError);
+    win.addEventListener('unhandledrejection', handleUnhandledRejection);
     return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+      win.removeEventListener('error', handleError);
+      win.removeEventListener('unhandledrejection', handleUnhandledRejection);
     };
   }, [onError]);
 

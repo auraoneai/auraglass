@@ -393,7 +393,7 @@ function WorkspaceContent({
 }
 
 // Mock provider components - in real implementation these would be actual providers
-function GlassCollaborationProvider({ children, ...props }: any) {
+export function GlassCollaborationProvider({ children, ...props }: any) {
   return <>{children}</>;
 }
 
@@ -741,11 +741,11 @@ function WorkspaceSidebar({ selectedElementId, onElementSelect, showMiniMap, sho
   );
 }
 
-function GlassTeamCursors({ showNames, showVoiceIndicators, cursorSize, glassLevel }: any) {
+export function GlassTeamCursors({ showNames, showVoiceIndicators, cursorSize, glassLevel }: any) {
   return null; // Mock component
 }
 
-function GlassTeamCursorsWithEffects({ showNames, showVoiceIndicators, cursorSize, glassLevel, enableRippleEffect, enableGlowEffect }: any) {
+export function GlassTeamCursorsWithEffects({ showNames, showVoiceIndicators, cursorSize, glassLevel, enableRippleEffect, enableGlowEffect }: any) {
   return null; // Mock component
 }
 

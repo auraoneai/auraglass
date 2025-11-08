@@ -16,6 +16,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import * as THREE from 'three';
+import { SeededRandom } from '../../utils/random';
 
 // Seasonal particle systems
 const SeasonalParticleFactory = {
@@ -66,7 +67,7 @@ const SeasonalParticleFactory = {
   },
 
   // Create particle field for season
-  createSeasonalField: (season: string, count = 50) => {
+  createSeasonalField: (season: string, count = 50, random: SeededRandom = new SeededRandom()) => {
     const particles = [];
 
     for (let i = 0; i < count; i++) {
@@ -75,19 +76,19 @@ const SeasonalParticleFactory = {
 
       switch (season) {
         case 'winter':
-          geometry = SeasonalParticleFactory.createSnowParticle(0.5 + Math.random() * 0.5);
+          geometry = SeasonalParticleFactory.createSnowParticle(0.5 + random.next() * 0.5);
           material = SeasonalParticleFactory.createSnowMaterial();
           break;
         case 'autumn':
-          geometry = SeasonalParticleFactory.createLeafParticle(0.3 + Math.random() * 0.4);
+          geometry = SeasonalParticleFactory.createLeafParticle(0.3 + random.next() * 0.4);
           material = SeasonalParticleFactory.createLeafMaterial();
           break;
         case 'spring':
-          geometry = SeasonalParticleFactory.createPetalParticle(0.2 + Math.random() * 0.3);
-          material = SeasonalParticleFactory.createPetalMaterial();
+          geometry = SeasonalParticleFactory.createPetalParticle(0.2 + random.next() * 0.3);
+          material = SeasonalParticleFactory.createPetalMaterial(random);
           break;
         case 'summer':
-          geometry = SeasonalParticleFactory.createSunRayParticle(1 + Math.random() * 2);
+          geometry = SeasonalParticleFactory.createSunRayParticle(1 + random.next() * 2);
           material = SeasonalParticleFactory.createSunRayMaterial();
           break;
         default:
@@ -97,22 +98,22 @@ const SeasonalParticleFactory = {
 
       const particle = new THREE.Mesh(geometry, material);
       particle.position.set(
-        (Math.random() - 0.5) * 20,
-        Math.random() * 15,
-        (Math.random() - 0.5) * 10
+        random.nextSigned() * 10,
+        random.next() * 15,
+        random.nextSigned() * 5
       );
       particle.rotation.set(
-        Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2
+        random.next() * Math.PI * 2,
+        random.next() * Math.PI * 2,
+        random.next() * Math.PI * 2
       );
 
       // Add custom properties for animation
       particle.userData = {
         originalY: particle.position.y,
-        fallSpeed: 0.01 + Math.random() * 0.05,
-        rotationSpeed: (Math.random() - 0.5) * 0.02,
-        windOffset: Math.random() * Math.PI * 2,
+        fallSpeed: 0.01 + random.next() * 0.05,
+        rotationSpeed: random.nextSigned() * 0.02,
+        windOffset: random.next() * Math.PI * 2,
         season
       };
 
@@ -137,8 +138,8 @@ const SeasonalParticleFactory = {
     side: THREE.DoubleSide
   }),
 
-  createPetalMaterial: () => new THREE.MeshPhongMaterial({
-    color: new THREE.Color().setHSL(Math.random() * 0.2 + 0.8, 0.8, 0.6),
+  createPetalMaterial: (random: SeededRandom) => new THREE.MeshPhongMaterial({
+    color: new THREE.Color().setHSL(random.nextInRange(0.8, 1.0), 0.8, 0.6),
     transparent: true,
     opacity: 0.8,
     side: THREE.DoubleSide
@@ -221,7 +222,7 @@ const SeasonalAnimations = {
 };
 
 // Main SeasonalParticles Component
-interface SeasonalParticlesProps {
+export interface SeasonalParticlesProps {
   season?: 'winter' | 'spring' | 'summer' | 'autumn' | 'auto';
   particleCount?: number;
   windStrength?: number;
@@ -231,6 +232,7 @@ interface SeasonalParticlesProps {
   autoSeason?: boolean;
   seasonDuration?: number;
   onSeasonChange?: (season: string) => void;
+  seed?: number | string;
   children?: React.ReactNode;
 }
 
@@ -244,7 +246,8 @@ export function SeasonalParticles({
   autoSeason = true,
   seasonDuration = 10000, // 10 seconds per season
   onSeasonChange,
-  children
+  children,
+  seed,
 }: SeasonalParticlesProps) {
   const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -257,11 +260,12 @@ export function SeasonalParticles({
 
   // Initialize particles for current season
   useEffect(() => {
-    const newParticles = SeasonalParticleFactory.createSeasonalField(currentSeason, particleCount);
+    const seededRandom = new SeededRandom(seed ?? `${currentSeason}-${particleCount}`);
+    const newParticles = SeasonalParticleFactory.createSeasonalField(currentSeason, particleCount, seededRandom);
     setParticles(newParticles);
 
     onSeasonChange?.(currentSeason);
-  }, [currentSeason, particleCount, onSeasonChange]);
+  }, [currentSeason, particleCount, onSeasonChange, seed]);
 
   // Auto season rotation
   useEffect(() => {

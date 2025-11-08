@@ -184,6 +184,13 @@ AuraGlass now includes complete production-ready AI services transforming demo c
 - **Advanced Type Exports** - Physics types, animation types, gesture types, and more
 - **Zero `any` Types** - Proper typing throughout the codebase
 
+## 🛡️ SSR Integration Guide (NEW!)
+- **Universal Imports** – AuraGlass now guards all browser globals (`window`, `document`, `navigator`, media queries) so components render on Next.js/Remix servers without dynamic imports or client-only wrappers by default.
+- **Client Bootstrap** – Invoke `initializeAuraGlassClient()` inside a client-side effect (e.g. Next.js `useEffect` in `_app.tsx`) to hydrate analytics, performance monitors, and production polyfills when needed.
+- **Environment Helpers** – Use utilities from `@auraglass/utils/env` (`isBrowser`, `getSafeWindow`, `safeMatchMedia`, `useClientEffect`) to safely access browser APIs inside custom extensions or consumer apps.
+- **Optional Client Boundary** – Wrap strictly client-interactive sections with `AuraGlassClientBoundary` when you must defer rendering until after hydration or need a server fallback.
+- **Deterministic Effects** – Pass `seed` props to `SeasonalParticles` and `GlassShatterEffects` (or use the exported `SeededRandom`) to guarantee identical markup between server render and client hydration.
+
 ## 🚀 Installation & Deployment
 
 ### Install Package (v2.0.0+)

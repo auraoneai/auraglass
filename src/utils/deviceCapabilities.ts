@@ -1,4 +1,4 @@
-import React from 'react';
+import { getSafeDocument, getSafeNavigator, getSafeWindow, isBrowser, safeMatchMedia } from './env';
 // Device capability detection and optimization
 
 export interface DeviceInfo {
@@ -61,6 +61,58 @@ export interface InputCapabilities {
   camera: boolean;
 }
 
+export const DEFAULT_DEVICE_INFO: DeviceInfo = {
+  type: 'unknown',
+  os: 'unknown',
+  browser: 'Unknown',
+  capabilities: {
+    touch: false,
+    multiTouch: false,
+    hover: false,
+    pointer: false,
+    gpu: false,
+    webgl: false,
+    webgl2: false,
+    hardwareAcceleration: false,
+    highDPI: false,
+    vibration: false,
+    geolocation: false,
+    camera: false,
+    microphone: false,
+    speakers: false,
+    bluetooth: false,
+    usb: false,
+  },
+  performance: {
+    memory: 4,
+    cores: 4,
+    clockSpeed: 2000,
+    battery: false,
+    network: 'unknown',
+    storage: 'medium',
+    tier: 'medium',
+  },
+  screen: {
+    width: 1920,
+    height: 1080,
+    pixelRatio: 1,
+    orientation: 'landscape',
+    colorDepth: 24,
+    refreshRate: 60,
+    touchScreen: false,
+    ppi: 96,
+  },
+  input: {
+    keyboard: true,
+    mouse: true,
+    touch: false,
+    stylus: false,
+    gamepad: false,
+    microphone: false,
+    camera: false,
+  },
+};
+
 // Device detection
 let __cachedDeviceInfo: DeviceInfo | null = null;
 let __lastDetectTs = 0;
@@ -68,11 +120,12 @@ const DETECT_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 // Safely probe WebGL support with minimal overhead and explicit cleanup
 const probeWebGLSupport = (): { webgl: boolean; webgl2: boolean; gpu: boolean } => {
-  if (typeof document === 'undefined') {
+  const doc = getSafeDocument();
+  if (!doc) {
     return { webgl: false, webgl2: false, gpu: false };
   }
 
-  const canvas = document.createElement('canvas');
+  const canvas = doc.createElement('canvas');
   // Keep it tiny and hint low-power
   canvas.width = 1;
   canvas.height = 1;
@@ -136,8 +189,16 @@ export const detectDevice = (): DeviceInfo => {
   if (__cachedDeviceInfo && now - __lastDetectTs < DETECT_CACHE_TTL_MS) {
     return __cachedDeviceInfo;
   }
-  const ua = navigator.userAgent;
-  const platform = navigator.platform;
+
+  if (!isBrowser()) {
+    __cachedDeviceInfo = { ...DEFAULT_DEVICE_INFO };
+    __lastDetectTs = now;
+    return __cachedDeviceInfo;
+  }
+
+  const navigatorRef = getSafeNavigator();
+  const ua = navigatorRef?.userAgent ?? '';
+  const platform = navigatorRef?.platform ?? '';
 
   // Detect device type
   const type = detectDeviceType(ua, platform);
@@ -241,29 +302,33 @@ const detectBrowser = (ua: string): string => {
 };
 
 const detectDeviceCapabilities = (): DeviceCapabilities => {
+  const win = getSafeWindow();
+  const nav = getSafeNavigator();
   const { webgl, webgl2, gpu } = probeWebGLSupport();
 
   return {
-    touch: 'ontouchstart' in window,
-    multiTouch: navigator.maxTouchPoints > 1,
-    hover: window.matchMedia('(hover: hover)').matches,
-    pointer: 'PointerEvent' in window,
+    touch: !!win && 'ontouchstart' in win,
+    multiTouch: (nav?.maxTouchPoints ?? 0) > 1,
+    hover: safeMatchMedia('(hover: hover)')?.matches ?? false,
+    pointer: !!win && 'PointerEvent' in win,
     gpu,
     webgl,
     webgl2,
     hardwareAcceleration: (() => {
-      const testElement = document.createElement('div');
+      const doc = getSafeDocument();
+      if (!doc) return false;
+      const testElement = doc.createElement('div');
       testElement.style.setProperty('transform', 'translateZ(0)');
       return testElement.style.getPropertyValue('transform') === 'translateZ(0)';
     })(),
-    highDPI: window.devicePixelRatio > 1,
-    vibration: 'vibrate' in navigator,
-    geolocation: 'geolocation' in navigator,
-    camera: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
-    microphone: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
-    speakers: 'AudioContext' in window || 'webkitAudioContext' in window,
-    bluetooth: 'bluetooth' in navigator,
-    usb: 'usb' in navigator,
+    highDPI: (win?.devicePixelRatio ?? 1) > 1,
+    vibration: !!nav && 'vibrate' in nav,
+    geolocation: !!nav && 'geolocation' in nav,
+    camera: !!(nav?.mediaDevices && nav.mediaDevices.getUserMedia),
+    microphone: !!(nav?.mediaDevices && nav.mediaDevices.getUserMedia),
+    speakers: !!win && ('AudioContext' in win || 'webkitAudioContext' in win),
+    bluetooth: !!nav && 'bluetooth' in nav,
+    usb: !!nav && 'usb' in nav,
   };
 };
 
@@ -275,16 +340,17 @@ export const refreshDeviceDetection = (): DeviceInfo => {
 
 const detectDevicePerformance = (): DevicePerformance => {
   // Estimate memory
-  const memory = (navigator as any).deviceMemory || 4; // Default to 4GB if not available
+  const nav = getSafeNavigator() as Navigator & { deviceMemory?: number };
+  const memory = nav?.deviceMemory || 4; // Default to 4GB if not available
 
   // Get CPU cores
-  const cores = navigator.hardwareConcurrency || 4; // Default to 4 cores
+  const cores = nav?.hardwareConcurrency || 4; // Default to 4 cores
 
   // Estimate clock speed (rough approximation)
   const clockSpeed = cores > 4 ? 3000 : cores > 2 ? 2500 : 2000;
 
   // Check battery
-  const battery = 'getBattery' in navigator;
+  const battery = !!nav && 'getBattery' in nav;
 
   // Estimate network speed
   const network = detectNetworkSpeed();
@@ -307,7 +373,8 @@ const detectDevicePerformance = (): DevicePerformance => {
 };
 
 const detectNetworkSpeed = (): 'slow' | 'fast' | 'unknown' => {
-  const connection = (navigator as any).connection;
+  const nav = getSafeNavigator() as Navigator & { connection?: { effectiveType?: string } };
+  const connection = nav?.connection;
   if (!connection) return 'unknown';
 
   const effectiveType = connection.effectiveType;
@@ -332,11 +399,13 @@ const calculatePerformanceTier = (
 };
 
 const detectScreenInfo = (): ScreenInfo => {
-  const width = window.screen.width;
-  const height = window.screen.height;
-  const pixelRatio = window.devicePixelRatio || 1;
+  const win = getSafeWindow();
+  const screen = win?.screen;
+  const width = screen?.width ?? DEFAULT_DEVICE_INFO.screen.width;
+  const height = screen?.height ?? DEFAULT_DEVICE_INFO.screen.height;
+  const pixelRatio = win?.devicePixelRatio ?? DEFAULT_DEVICE_INFO.screen.pixelRatio;
   const orientation = width > height ? 'landscape' : 'portrait';
-  const colorDepth = window.screen.colorDepth || 24;
+  const colorDepth = screen?.colorDepth ?? DEFAULT_DEVICE_INFO.screen.colorDepth;
   const refreshRate = 60; // Default, hard to detect accurately
 
   // Estimate PPI (pixels per inch)
@@ -349,7 +418,7 @@ const detectScreenInfo = (): ScreenInfo => {
     orientation,
     colorDepth,
     refreshRate,
-    touchScreen: 'ontouchstart' in window,
+    touchScreen: !!win && 'ontouchstart' in win,
     ppi,
   };
 };
@@ -363,14 +432,17 @@ const estimatePPI = (width: number, height: number, pixelRatio: number): number 
 };
 
 const detectInputCapabilities = (): InputCapabilities => {
+  const win = getSafeWindow();
+  const nav = getSafeNavigator();
+
   return {
     keyboard: true, // Assume keyboard support
-    mouse: window.matchMedia('(hover: hover)').matches,
-    touch: 'ontouchstart' in window,
-    stylus: navigator.maxTouchPoints > 1, // Rough approximation
-    gamepad: 'getGamepads' in navigator,
-    microphone: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
-    camera: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+    mouse: safeMatchMedia('(hover: hover)')?.matches ?? false,
+    touch: !!win && 'ontouchstart' in win,
+    stylus: (nav?.maxTouchPoints ?? 0) > 1, // Rough approximation
+    gamepad: !!nav && 'getGamepads' in nav,
+    microphone: !!(nav?.mediaDevices && nav.mediaDevices.getUserMedia),
+    camera: !!(nav?.mediaDevices && nav.mediaDevices.getUserMedia),
   };
 };
 
@@ -468,7 +540,7 @@ export const deviceOptimizations = {
   // Mobile optimizations
   mobile: {
     reduceMotion: () => ({
-      prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      prefersReducedMotion: safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true,
       disableParallax: true,
       simplifyAnimations: true,
       reduceParticleCount: true,

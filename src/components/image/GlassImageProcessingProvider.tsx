@@ -968,6 +968,8 @@ export const ImageProcessingProvider: React.FC<{ children: React.ReactNode }> = 
   );
 };
 
+export { ImageProcessingProvider as GlassImageProcessingProvider };
+
 export const useImageProcessing = () => {
   const context = useContext(ImageProcessingContext);
   if (!context) {

@@ -6,21 +6,25 @@
 
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { getSafeDocument, isBrowser, safeMatchMedia } from '../utils/env';
 
 /**
  * Hook to detect user's reduced motion preference
  * @returns boolean - true if user prefers reduced motion
  */
 export function useReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () => safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true
+  );
 
   useEffect(() => {
     // Check if matchMedia is supported
-    if (typeof window === 'undefined' || !window.matchMedia) {
+    if (!isBrowser()) {
       return;
     }
 
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = safeMatchMedia('(prefers-reduced-motion: reduce)');
+    if (!mediaQuery) return;
 
     // Set initial value
     setPrefersReducedMotion(mediaQuery.matches);
@@ -31,14 +35,14 @@ export function useReducedMotion(): boolean {
     };
 
     // Modern browsers
-    if (mediaQuery.addEventListener) {
+    if (typeof mediaQuery.addEventListener === 'function') {
       mediaQuery.addEventListener('change', handleChange);
       return () => mediaQuery.removeEventListener('change', handleChange);
     }
     // Fallback for older browsers
-    else if (mediaQuery.addListener) {
-      mediaQuery.addListener(handleChange);
-      return () => mediaQuery.removeListener(handleChange);
+    if (typeof (mediaQuery as any).addListener === 'function') {
+      (mediaQuery as any).addListener(handleChange);
+      return () => (mediaQuery as any).removeListener(handleChange);
     }
   }, []);
 
@@ -192,17 +196,18 @@ export const reducedMotionStyles = `
  * Add reduced motion CSS to document
  */
 export function injectReducedMotionStyles(): void {
-  if (typeof document === 'undefined') return;
+  const doc = getSafeDocument();
+  if (!doc) return;
 
   const styleId = 'reduced-motion-styles';
 
   // Check if already injected
-  if (document.getElementById(styleId)) return;
+  if (doc.getElementById(styleId)) return;
 
-  const styleElement = document.createElement('style');
+  const styleElement = doc.createElement('style');
   styleElement.id = styleId;
   styleElement.textContent = reducedMotionStyles;
-  document.head.appendChild(styleElement);
+  doc.head?.appendChild(styleElement);
 }
 
 /**

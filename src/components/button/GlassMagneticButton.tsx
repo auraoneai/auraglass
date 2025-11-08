@@ -4,6 +4,7 @@ import { GlassButton, GlassButtonProps } from './GlassButton';
 import { Slot } from '@radix-ui/react-slot';
 import { Motion } from '../../primitives';
 import { announceToScreenReader } from '../../utils/a11y';
+import { getSafeWindow, isBrowser, safeMatchMedia } from '../../utils/env';
 
 export interface MagneticButtonProps extends GlassButtonProps {
   /**
@@ -71,12 +72,14 @@ export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(funct
 
   // Check if user prefers reduced motion
   const prefersReducedMotion = useCallback(() => {
-    return respectReducedMotion && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!respectReducedMotion) return false;
+    return safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true;
   }, [respectReducedMotion]);
 
   // Accessibility: Announce when magnetic interaction becomes available
   const announceInteractionRef = useRef(false);
   useEffect(() => {
+    if (!isBrowser()) return;
     if (announceInteractions && !announceInteractionRef.current && !prefersReducedMotion()) {
       announceToScreenReader('Interactive magnetic button available', 'polite');
       announceInteractionRef.current = true;
@@ -130,7 +133,7 @@ export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(funct
   }, [magneticRadius, magneticStrength, prefersReducedMotion]);
 
   const handlePointerMove = useCallback((e: PointerEvent) => {
-      if (!elementRef.current || !isHovered) return;
+      if (!isBrowser() || !elementRef.current || !isHovered) return;
 
       const rect = elementRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
@@ -149,6 +152,9 @@ export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(funct
   }, [isHovered, calculateMagneticAttraction]);
 
   const returnToCenter = useCallback(() => {
+      const win = getSafeWindow();
+      if (!win) return;
+
       if (!isHovered && elementRef.current && (Math.abs(position.x) > 0.01 || Math.abs(position.y) > 0.01)) {
           // Smoother damping towards center
           const dampFactor = 0.15; // Controls speed of return (higher is faster damping)
@@ -156,40 +162,47 @@ export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(funct
           const nextY = position.y * (1 - dampFactor);
 
           setPosition({ x: nextX, y: nextY });
-          animationFrame.current = requestAnimationFrame(returnToCenter);
+          animationFrame.current = win.requestAnimationFrame(returnToCenter);
       } else if (!isHovered) {
           // Snap to center when close enough
           setPosition({ x: 0, y: 0 });
           if (animationFrame.current !== null) {
-              cancelAnimationFrame(animationFrame.current);
+              win.cancelAnimationFrame(animationFrame.current);
               animationFrame.current = null;
           }
       } else {
           // If hovered, ensure no return animation is running
            if (animationFrame.current !== null) {
-              cancelAnimationFrame(animationFrame.current);
+              win.cancelAnimationFrame(animationFrame.current);
               animationFrame.current = null;
           }
       }
   }, [isHovered, position.x, position.y]);
 
   useEffect(() => {
-      if (typeof window !== 'undefined') {
-          // Use capture phase to potentially get events slightly earlier if needed
-          window.addEventListener('pointermove', handlePointerMove, { capture: false, passive: true });
-          return () => {
-              window.removeEventListener('pointermove', handlePointerMove, { capture: false });
-              if (animationFrame.current !== null) {
-                  cancelAnimationFrame(animationFrame.current);
-              }
-          };
+    if (!isBrowser()) {
+      return;
+    }
+
+    const win = getSafeWindow();
+    if (!win) return;
+
+    win.addEventListener('pointermove', handlePointerMove, { capture: false, passive: true });
+    return () => {
+      win.removeEventListener('pointermove', handlePointerMove, { capture: false });
+      if (animationFrame.current !== null) {
+        cancelAnimationFrame(animationFrame.current);
       }
+    };
   }, [handlePointerMove]);
 
   useEffect(() => {
       // Stop any ongoing return animation if we start hovering
       if (isHovered && animationFrame.current !== null) {
-          cancelAnimationFrame(animationFrame.current);
+          const win = getSafeWindow();
+          if (win && animationFrame.current !== null) {
+              win.cancelAnimationFrame(animationFrame.current);
+          }
           animationFrame.current = null;
       }
       // Start return animation if we stop hovering
@@ -198,13 +211,17 @@ export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(funct
            if (animationFrame.current !== null) {
                cancelAnimationFrame(animationFrame.current);
            }
-          animationFrame.current = requestAnimationFrame(returnToCenter);
+          const win = getSafeWindow();
+          if (win) {
+              animationFrame.current = win.requestAnimationFrame(returnToCenter);
+          }
       }
 
       // Cleanup function for the effect
       return () => {
-          if (animationFrame.current !== null) {
-              cancelAnimationFrame(animationFrame.current);
+          const win = getSafeWindow();
+          if (win && animationFrame.current !== null) {
+              win.cancelAnimationFrame(animationFrame.current);
           }
       };
   }, [isHovered, returnToCenter]);

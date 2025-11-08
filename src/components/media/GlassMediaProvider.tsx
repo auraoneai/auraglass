@@ -598,6 +598,8 @@ export const MediaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 };
 
+export { MediaProvider as GlassMediaProvider };
+
 export const useMedia = () => {
   const context = useContext(MediaContext);
   if (!context) {

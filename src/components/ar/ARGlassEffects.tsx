@@ -129,7 +129,7 @@ const useWebXR = () => {
 };
 
 // AR Glass Material Factory - creates glass materials optimized for AR
-const ARGlassMaterialFactory = {
+export const ARGlassMaterialFactory = {
   createSpatialUI: (options: any) => {
     return new THREE.ShaderMaterial({
       uniforms: {
@@ -261,7 +261,7 @@ const ARGlassMaterialFactory = {
 };
 
 // AR Glass Geometry Factory - creates optimized geometries for AR
-const ARGlassGeometryFactory = {
+export const ARGlassGeometryFactory = {
   createCurvedPanel: (width: number, height: number, depth: number) => {
     const geometry = new THREE.PlaneGeometry(width, height, 32, 32);
 
@@ -314,7 +314,7 @@ const ARGlassGeometryFactory = {
 };
 
 // AR Glass Animations - provides smooth animations for AR elements
-const ARGlassAnimations = {
+export const ARGlassAnimations = {
   createFloatingAnimation: (object: THREE.Object3D, amplitude: number = 0.05, frequency: number = 0.5) => {
     return (time: number) => {
       object.position.y += Math.sin(time * frequency) * amplitude;
@@ -336,7 +336,7 @@ const ARGlassAnimations = {
 };
 
 // AR Glass Interactions - handles user interactions in AR
-const ARGlassInteractions = {
+export const ARGlassInteractions = {
   createHapticFeedback: (intensity = 0.5, duration = 100) => {
     if ('vibrate' in navigator) {
       navigator.vibrate(duration * intensity);
@@ -361,7 +361,7 @@ const ARGlassInteractions = {
 };
 
 // AR Glass Utils - utility functions for AR glass effects
-const ARGlassUtils = {
+export const ARGlassUtils = {
   createAdaptiveScaling: (minScale: number, maxScale: number) => {
     return (distance: number) => {
       const normalizedDistance = Math.min(Math.max(distance, 1), 10);

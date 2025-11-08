@@ -312,7 +312,7 @@ class BiometricSensorManager {
 }
 
 // Adaptive UI engine
-class BiometricAdaptationEngine {
+export class BiometricAdaptationEngine {
   private sensorManager: BiometricSensorManager;
   private settings: AdaptationSettings;
   private profile: BiometricProfile;
@@ -600,6 +600,16 @@ export function useBiometricAdaptation() {
     throw new Error('useBiometricAdaptation must be used within GlassBiometricAdaptationProvider');
   }
   return context;
+}
+
+export class BiometricStressDetector extends BiometricAdaptationEngine {
+  getStressLevel(): number {
+    return this.getLatestReading()?.stressLevel ?? 0;
+  }
+
+  getConfidence(): number {
+    return this.getLatestReading()?.confidence ?? 0;
+  }
 }
 
 // Stress-responsive glass component

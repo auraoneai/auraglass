@@ -1,6 +1,8 @@
 // Accessible animation utilities
+import { safeMatchMedia } from '../utils/env';
+
 export const prefersReducedMotion = () => {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true;
 };
 
 export const createAccessibleAnimation = (animation: any) => {
