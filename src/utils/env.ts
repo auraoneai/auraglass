@@ -2,16 +2,22 @@ import type { DependencyList, EffectCallback } from 'react';
 
 /**
  * Environment helpers to centralize SSR/browser detection and safe global access.
+ *
+ * CRITICAL: These must check dynamically, NOT cache at module load time,
+ * to handle polyfills and avoid locking in server environment values.
  */
 
-const hasWindow = typeof window !== 'undefined';
-const hasDocument = typeof document !== 'undefined';
-const hasNavigator = typeof navigator !== 'undefined';
+/**
+ * Dynamic check - re-evaluates on every call to support polyfills
+ */
+const hasWindow = (): boolean => typeof window !== 'undefined';
+const hasDocument = (): boolean => typeof document !== 'undefined';
+const hasNavigator = (): boolean => typeof navigator !== 'undefined';
 
 /**
  * Returns true when executed in a browser-like environment.
  */
-export const isBrowser = (): boolean => hasWindow && hasDocument;
+export const isBrowser = (): boolean => hasWindow() && hasDocument();
 
 /**
  * Convenience inverse helper.
@@ -21,17 +27,17 @@ export const isServer = (): boolean => !isBrowser();
 /**
  * Safely access the `window` object when available.
  */
-export const getSafeWindow = (): typeof window | undefined => (hasWindow ? window : undefined);
+export const getSafeWindow = (): typeof window | undefined => (hasWindow() ? window : undefined);
 
 /**
  * Safely access the `document` object when available.
  */
-export const getSafeDocument = (): Document | undefined => (hasDocument ? document : undefined);
+export const getSafeDocument = (): Document | undefined => (hasDocument() ? document : undefined);
 
 /**
  * Safely access the `navigator` object when available.
  */
-export const getSafeNavigator = (): Navigator | undefined => (hasNavigator ? navigator : undefined);
+export const getSafeNavigator = (): Navigator | undefined => (hasNavigator() ? navigator : undefined);
 
 /**
  * Helper to guard feature detection against SSR environments.

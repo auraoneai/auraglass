@@ -1,8 +1,9 @@
 'use client';
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, useMemo, useState, useEffect } from 'react';
 import { createGlassStyle, GlassOptions } from '../core/mixins/glassMixins';
 import { cn } from '../lib/utilsComprehensive';
 import { detectDevice } from '../utils/deviceCapabilities';
+import { isBrowser } from '../utils/env';
 
 // Polymorphic component type helper
 type PolymorphicRef<T extends React.ElementType> = React.ComponentPropsWithRef<T>['ref'];
@@ -142,22 +143,36 @@ const OptimizedGlassCore = forwardRef<
     style,
     ...restProps
   } = props;
-    // Detect device capabilities for auto tier selection
-    const device = useMemo(() => detectDevice(), []);
+    // CRITICAL FIX for SSR hydration: Defer tier detection until after initial render
+    // This prevents className mismatches between server and client
+    const [computedTier, setComputedTier] = useState<'high' | 'medium' | 'low'>(() => {
+      // If tier is explicitly set (not default 'high'), respect it immediately
+      if (tier !== 'high') return tier;
+      // Start with 'medium' for both server and initial client render
+      return 'medium';
+    });
 
-    // Automatically determine performance tier based on device capabilities
-    const computedTier = useMemo(() => {
-      if (tier !== 'high') return tier; // Respect explicitly set tier
-
-      // Auto-detect performance tier
-      if (device.capabilities.gpu && device.capabilities.hardwareAcceleration) {
-        return 'high';
-      } else if (device.capabilities.webgl) {
-        return 'medium';
-      } else {
-        return 'low';
+    // Auto-detect performance tier on client AFTER hydration
+    useEffect(() => {
+      // Only auto-detect if using default tier
+      if (tier !== 'high') {
+        setComputedTier(tier);
+        return;
       }
-    }, [tier, device.capabilities]);
+
+      // Skip detection on server
+      if (!isBrowser()) return;
+
+      // Detect device capabilities and update tier
+      const device = detectDevice();
+      if (device.capabilities.gpu && device.capabilities.hardwareAcceleration) {
+        setComputedTier('high');
+      } else if (device.capabilities.webgl) {
+        setComputedTier('medium');
+      } else {
+        setComputedTier('low');
+      }
+    }, [tier]);
 
     // Use unified glass system with performance tier
     const glassStyles = useMemo(() => {
