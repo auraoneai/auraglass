@@ -138,6 +138,10 @@ const ParticleBackgroundComponent = (
   // State for mouse position
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
 
+  // CRITICAL SSR FIX: Initialize particles as empty array, populate in useEffect
+  // This prevents Math.random() from generating different values on server vs client
+  const [particles, setParticles] = useState<Particle[]>([]);
+
   // Use correct property names with fallbacks
   const actualCount = count ?? particleCount ?? 50;
   const actualSize = size ?? particleSize ?? 2;
@@ -161,8 +165,9 @@ const ParticleBackgroundComponent = (
     return { r: 255, g: 255, b: 255, a: 1 };
   };
 
-  // Create particles
-  const particles = useMemo(() => {
+  // CRITICAL SSR FIX: Generate particles only on client-side mount
+  // This ensures deterministic behavior and prevents server/client mismatches
+  useEffect(() => {
     const newParticles: Particle[] = [];
 
     for (let i = 0; i < actualCount; i++) {
@@ -177,7 +182,7 @@ const ParticleBackgroundComponent = (
       });
     }
 
-    return newParticles;
+    setParticles(newParticles);
   }, [actualCount, actualSize, actualSpeed, actualColor]);
 
   // Handle canvas animation

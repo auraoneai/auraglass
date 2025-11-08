@@ -165,7 +165,10 @@ export const MotionFramer = forwardRef<HTMLDivElement, MotionProps>(
     },
     ref
   ) => {
-    const [reduced, setReduced] = useState(false);
+    // CRITICAL SSR FIX: Default to true (reduced motion) on server to prevent hydration mismatch
+    // Server-side can't detect actual preference, so we assume reduced motion for safety
+    // This prevents flash of animated content for users who prefer reduced motion
+    const [reduced, setReduced] = useState(true);
     useEffect(() => {
       if (typeof window === 'undefined' || !('matchMedia' in window)) return;
       const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
