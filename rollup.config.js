@@ -126,6 +126,25 @@ export default [
         external: externalDeps,
         plugins: getPlugins(false), // Don't extract CSS again for styled bundle
     },
+    // Registry bundle (StyledComponentsRegistry only - no styled-components imports)
+    {
+        input: 'src/registry/index.ts',
+        output: [
+            {
+                file: 'dist/registry/index.js',
+                format: 'cjs',
+                sourcemap: true,
+                exports: 'named',
+            },
+            {
+                file: 'dist/registry/index.mjs',
+                format: 'esm',
+                sourcemap: true,
+            },
+        ],
+        external: [...externalDeps, 'next/navigation'], // Also externalize next/navigation
+        plugins: getPlugins(false), // Don't extract CSS for registry bundle
+    },
     // SSR bundle
     {
         input: 'src/ssr/index.ts',
