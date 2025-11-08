@@ -1,0 +1,54 @@
+# Prevent packaging any node_modules (belt and suspenders - files field should prevent this too)
+node_modules/
+
+# Source files (we ship dist/ only)
+src/
+*.ts
+*.tsx
+!dist/**/*.d.ts
+
+# Build configuration
+tsconfig.json
+tsconfig.*.json
+rollup.config.js
+.rollup.cache/
+
+# Testing
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+*.stories.tsx
+tests/
+.storybook/
+playwright.config.ts
+jest.config.js
+
+# Development
+.git/
+.github/
+.vscode/
+.idea/
+*.log
+*.tgz
+
+# Documentation (keep README.md and LICENSE)
+docs/
+SSR_ROADMAP.md
+CHANGELOG.md
+
+# Scripts and tools
+scripts/
+tools/
+
+# Environment and cache
+.env
+.env.*
+.cache/
+.next/
+.turbo/
+
+# OS files
+.DS_Store
+Thumbs.db
