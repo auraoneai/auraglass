@@ -220,7 +220,48 @@ yarn add aura-glass
 pnpm add aura-glass
 ```
 
+**Step 3:** Import CSS (Required)
+```tsx
+// Add this to your root layout/app file (required for styling)
+import 'aura-glass/styles';
+```
+
+**For Next.js App Router** (`app/layout.tsx`):
+```tsx
+import 'aura-glass/styles';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+**For Next.js Pages Router** (`pages/_app.tsx`):
+```tsx
+import 'aura-glass/styles';
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+
+export default MyApp;
+```
+
+**Step 4 (Optional):** Add SSR Provider for styled-components
+```tsx
+import { AuraGlassSSRProvider } from 'aura-glass/ssr';
+
+// Wrap your app
+<AuraGlassSSRProvider>
+  {children}
+</AuraGlassSSRProvider>
+```
+
 📘 **See [INSTALLATION.md](./INSTALLATION.md) for upgrade guide from v1.x and troubleshooting**
+📘 **See [docs/SSR_SETUP.md](./docs/SSR_SETUP.md) for complete SSR setup guide**
 
 ### Production Deployment
 ```bash

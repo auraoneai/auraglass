@@ -346,6 +346,9 @@ export { GlassFoldableSupport } from "./components/advanced/GlassFoldableSupport
 export { GlassOrientationEffects } from "./components/advanced/GlassOrientationEffects";
 export { GlassContextAware } from "./components/advanced/GlassContextAware";
 
+// Spatial Computing Components
+export { default as SpatialComputingEngine } from "./components/spatial/SpatialComputingEngine";
+
 // Advanced & Experimental Components
 export { AIGlassThemeProvider } from "./components/ai/AIGlassThemeProvider";
 export { GlassDeepDreamGlass } from "./components/ai/GlassDeepDreamGlass";
@@ -463,6 +466,8 @@ export {
   default as VoiceGlassControl,
   GlassVoiceCommands,
 } from "./components/voice/VoiceGlassControl";
+// Alias for demo purposes
+export { default as VoiceGlassDemo } from "./components/voice/VoiceGlassControl";
 export {
   HoudiniGlassCard,
   HoudiniGlassShowcase,
@@ -487,6 +492,10 @@ export const REDUCED_MOTION_101_GUIDE_MD_PATH =
   "reports/REDUCED_MOTION_101_GUIDE.md";
 export const REDUCED_MOTION_100_COMPLETE_MD_PATH =
   "reports/REDUCED_MOTION_100_COMPLETE.md";
+
+// Additional Report Files
+export const TYPESCRIPT_FIX_PROGRESS_MD_PATH = "reports/TYPESCRIPT_FIX_PROGRESS.md";
+export const REDUCED_MOTION_FINAL_REPORT_JSON_PATH = "reports/reduced-motion-final-report.json";
 export { GlassDepthLayer } from "./components/surfaces/GlassDepthLayer";
 export { GlassFractalLayout } from "./components/layouts/GlassFractalLayout";
 export { GlassGoldenRatioGrid } from "./components/layouts/GlassGoldenRatioGrid";
@@ -635,7 +644,13 @@ export {
   useZSpaceAnimation,
   useParallaxZSpace,
   useCardStackZSpace,
+  useDepthNavigation,
 } from "./hooks/extended/useZSpaceAnimation";
+export { useGlassFocus } from "./hooks/extended/useGlassFocus";
+export { useGlassPerformance } from "./hooks/extended/useGlassPerformance";
+export { useSortableData } from "./hooks/extended/useSortableData";
+export { useDraggableListPhysics } from "./hooks/extended/useDraggableListPhysics";
+export { useGalileoSprings } from "./hooks/extended/useGalileoSprings";
 
 // Gesture Physics Hooks
 export { useGesturePhysics } from "./animations/physics/gesturePhysics";
@@ -689,6 +704,14 @@ export {
 } from "./animations/orchestration/index";
 // Accessible animation utilities
 export * from "./animations/accessible";
+export { prefersReducedMotion, createAccessibleAnimation } from "./animations/accessible";
+
+// Additional Animation Hooks (explicit exports)
+export { useAnimationSequence as useAnimationSequenceBasic } from "./animations/hooks/useAnimationSequenceBasic";
+export { useAnimationSequence as useAnimationSequenceOrchestrator } from "./animations/orchestration/useAnimationSequenceOrchestrator";
+export { useMouseMagneticEffect } from "./animations/hooks/useMouseMagneticEffect";
+export { useMultiSpring as useMultiSpringBasic } from "./animations/hooks/useMultiSpringBasic";
+export { useMultiSpring as useMultiSpringPhysics } from "./animations/physics/useMultiSpringPhysics";
 
 // Gesture Physics System
 export {
@@ -786,6 +809,9 @@ export {
 
 // Design Tokens
 export * from "./tokens/glass";
+export { constants } from "./tokens/designConstants";
+export { glassTokens } from "./tokens/glass";
+export { lightTheme, themeUtils } from "./tokens/themeTokens";
 
 // Primitives
 export * from "./primitives";

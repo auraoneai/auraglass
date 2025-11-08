@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { OptimizedGlass } from '../../primitives';
@@ -84,7 +86,7 @@ const GlassFormItem = React.forwardRef<HTMLDivElement, GlassFormItemProps>(
             performanceMode="medium"
             ref={ref}
             className={cn(
-              'glass-form-item',
+              'glass-form-item glass-contrast-guard',
               spacingConfig?.[spacing],
               className
             )}

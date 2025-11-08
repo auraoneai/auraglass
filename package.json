@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -12,6 +12,11 @@
       "types": "./dist/index.d.ts"
     },
     "./styles": "./dist/styles/index.css",
+    "./ssr": {
+      "import": "./dist/ssr/index.mjs",
+      "require": "./dist/ssr/index.js",
+      "types": "./dist/ssr/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -106,6 +111,8 @@
     "framer-motion": ">=10.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
+    "react-hook-form": "^7.0.0",
+    "styled-components": "^6.0.0",
     "three": "^0.150.0 || ^0.160.0"
   },
   "peerDependenciesMeta": {
@@ -113,6 +120,9 @@
       "optional": true
     },
     "framer-motion": {
+      "optional": true
+    },
+    "react-hook-form": {
       "optional": true
     }
   },
@@ -198,8 +208,7 @@
     "zod": "^3.22.0"
   },
   "optionalDependencies": {
-    "@sentry/react": "^7.100.0",
-    "styled-components": "^6.1.19"
+    "@sentry/react": "^7.100.0"
   },
   "overrides": {
     "react-reconciler": "0.27.0",
