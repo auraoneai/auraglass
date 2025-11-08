@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '../../lib/utilsComprehensive';

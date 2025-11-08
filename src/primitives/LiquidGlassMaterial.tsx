@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { cn } from '../lib/utilsComprehensive';

@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import { Slot } from '@radix-ui/react-slot';
 import React, { forwardRef, useCallback, useEffect, useRef, useState, useImperativeHandle } from 'react';

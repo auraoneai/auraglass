@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * EnhancedGlassTabs Component
  *

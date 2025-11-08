@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import { Activity, DollarSign, Minus, Target, TrendingDown, TrendingUp, Users } from 'lucide-react';
 import React, { forwardRef } from 'react';

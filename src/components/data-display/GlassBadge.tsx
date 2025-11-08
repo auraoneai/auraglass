@@ -1,5 +1,3 @@
-'use client';
-
 // Avoid importing DS aggregator within DS; keep relative
 import { GlassButton } from '../button/GlassButton';
 

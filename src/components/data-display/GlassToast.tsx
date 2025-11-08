@@ -1,5 +1,3 @@
-'use client';
-
 import { GlassButton } from '../button/GlassButton';
 
 import { cn } from '../../lib/utilsComprehensive';

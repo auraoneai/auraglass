@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import { Loader2 } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';

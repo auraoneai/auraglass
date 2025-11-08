@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import { useCollaboration } from './GlassCollaborationProvider';
 import { cn } from '../../lib/utilsComprehensive';

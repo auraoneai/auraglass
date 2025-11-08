@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { useA11yId } from '@/utils/a11y';

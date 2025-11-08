@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePerformance } from '../hooks/usePerformance';
 import { useAccessibility } from '../hooks/useAccessibility';

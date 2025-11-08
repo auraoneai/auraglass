@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, forwardRef } from 'react';
 import { cn } from '../../lib/utilsComprehensive';
 import { GlassPopover } from '../modal/GlassPopover';

@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * Glass ToggleButton Component
  *

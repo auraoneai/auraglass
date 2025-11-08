@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef, useState, useEffect } from 'react';
 import { GlassMobileNav, MobileNavItem, MobileNavSection } from './GlassMobileNav';
 import { GlassBottomNav, BottomNavItem } from './GlassBottomNav';

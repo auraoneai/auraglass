@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import { Glass } from '../../primitives';
 import { useCollaboration, CollaborationUser, CollaborationActivity } from './GlassCollaborationProvider';

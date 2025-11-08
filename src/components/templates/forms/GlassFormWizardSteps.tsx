@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef } from 'react';
 import { Motion } from '../../../primitives';
 import { GlassProgress } from '../../../components/data-display/GlassProgress';

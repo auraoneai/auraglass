@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';

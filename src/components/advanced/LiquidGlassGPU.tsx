@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useRef, useEffect, useCallback, useMemo, useState } from 'react';
 import { cn } from '../../lib/utils';
 import { LIQUID_GLASS, type LiquidGlassMaterial, type MaterialVariant } from '../../tokens/glass';

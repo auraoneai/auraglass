@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef, HTMLAttributes, useEffect, useMemo, useState } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { cn } from '@/design-system/utilsCore';

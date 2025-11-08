@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import { GripVertical, Move } from 'lucide-react';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';

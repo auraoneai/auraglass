@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Motion, OptimizedGlass } from '../../primitives';

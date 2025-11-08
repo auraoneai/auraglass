@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import { X } from 'lucide-react';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';

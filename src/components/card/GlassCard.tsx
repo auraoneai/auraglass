@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '../../lib/utilsComprehensive';
 import React, { forwardRef } from 'react';
 import { OptimizedGlassCore as OptimizedGlass, type OptimizedGlassProps } from '../../primitives';

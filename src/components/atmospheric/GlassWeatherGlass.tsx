@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react';
 import { OptimizedGlass } from '../../primitives';
 import { Motion } from '../../primitives';

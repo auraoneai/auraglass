@@ -1,5 +1,3 @@
-'use client';
-
 // WebXR API type declarations - extend existing XR types
 declare global {
   interface Navigator {

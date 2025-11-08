@@ -3,6 +3,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default {
     input: 'src/index.ts',
@@ -20,22 +21,18 @@ export default {
         },
     ],
     external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        'framer-motion',
+        // Only list non-peer dependencies that should be external
         '@radix-ui/react-slot',
         '@radix-ui/react-dropdown-menu',
         '@radix-ui/react-label',
         '@radix-ui/react-select',
-        'three',
-        '@react-three/fiber',
-        '@react-three/drei',
         'lucide-react',
         'clsx',
         'tailwind-merge',
     ],
     plugins: [
+        // This plugin must come first to externalize peer dependencies
+        peerDepsExternal(),
         nodeResolve({
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),

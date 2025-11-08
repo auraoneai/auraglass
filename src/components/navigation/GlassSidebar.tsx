@@ -1,5 +1,3 @@
-'use client';
-
 import { GlassButton } from '../button/GlassButton';
 import { GlassTooltip } from '../modal/GlassPopover';
 

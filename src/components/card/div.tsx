@@ -1,4 +1,3 @@
-'use client';
 /**
  * Glass Card Components with div wrapper
  * Provides glassmorphism-styled card components for the design system

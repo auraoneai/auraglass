@@ -1,5 +1,3 @@
-'use client';
-
 // Removed circular import - using regular button element
 
 import { cn } from '../../lib/utilsComprehensive';

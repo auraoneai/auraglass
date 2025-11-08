@@ -1,0 +1,95 @@
+
+> aura-glass@2.0.9 build
+> rollup -c
+
+[36m
+[1msrc/index.ts[22m → [1mdist/index.js, dist/index.mjs[22m...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/ai/GlassDeepDreamGlass.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/ai/GlassDeepDreamGlass.tsx" was ignored.[39m[22m
+[1msrc/components/ai/GlassDeepDreamGlass.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/ai/GlassGANGenerator.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/ai/GlassGANGenerator.tsx" was ignored.[39m[22m
+[1msrc/components/ai/GlassGANGenerator.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/ai/GlassGenerativeArt.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/ai/GlassGenerativeArt.tsx" was ignored.[39m[22m
+[1msrc/components/ai/GlassGenerativeArt.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/ai/GlassMusicVisualizer.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/ai/GlassMusicVisualizer.tsx" was ignored.[39m[22m
+[1msrc/components/ai/GlassMusicVisualizer.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/layouts/GlassFractalLayout.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/layouts/GlassFractalLayout.tsx" was ignored.[39m[22m
+[1msrc/components/layouts/GlassFractalLayout.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/layouts/GlassGoldenRatioGrid.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/layouts/GlassGoldenRatioGrid.tsx" was ignored.[39m[22m
+[1msrc/components/layouts/GlassGoldenRatioGrid.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/layouts/GlassIslandLayout.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/layouts/GlassIslandLayout.tsx" was ignored.[39m[22m
+[1msrc/components/layouts/GlassIslandLayout.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/layouts/GlassOrbitalMenu.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/layouts/GlassOrbitalMenu.tsx" was ignored.[39m[22m
+[1msrc/components/layouts/GlassOrbitalMenu.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/layouts/GlassTessellation.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/layouts/GlassTessellation.tsx" was ignored.[39m[22m
+[1msrc/components/layouts/GlassTessellation.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/website-components/GlassLinkButton.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/website-components/GlassLinkButton.tsx" was ignored.[39m[22m
+[1msrc/components/website-components/GlassLinkButton.tsx (1:0)[22m
+[90m1: "use client";
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[1m[33m(!) Error when using sourcemap for reporting an error: Can't resolve original location of error.[39m[22m
+[1msrc/components/layouts/GlassMasonryGrid.tsx (1:0)[22m
+[1m[33m(!) Module level directives cause errors when bundled, "use client" in "src/components/layouts/GlassMasonryGrid.tsx" was ignored.[39m[22m
+[1msrc/components/layouts/GlassMasonryGrid.tsx (1:0)[22m
+[90m1: 'use client';
+   ^
+2: 
+3: import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _objectSpread } from "\0rollupPluginBa...[39m
+[32mcreated [1mdist/index.js, dist/index.mjs[22m in [1m1m 19.7s[22m[39m

@@ -1,5 +1,3 @@
-'use client';
-
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
 import { createMotionAwareInteractive, createMotionAwareVariants } from '../../lib/motionPrimitives';
 import { cn } from '../../lib/utilsComprehensive';

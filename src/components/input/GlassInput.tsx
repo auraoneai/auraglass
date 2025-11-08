@@ -1,5 +1,3 @@
-'use client';
-
 // Removed circular imports - components import directly from source
 
 import { cn } from '../../lib/utilsComprehensive';

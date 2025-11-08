@@ -1,5 +1,3 @@
-'use client';
-
 import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 
 export interface ImageFile {

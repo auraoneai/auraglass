@@ -1,5 +1,3 @@
-'use client';
-
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { GlassButton } from '@/components/button';
 import { cn } from '../../../lib/utilsComprehensive';
