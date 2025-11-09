@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.35",
+  "version": "2.0.37",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,6 +22,16 @@
       "import": "./dist/registry/index.mjs",
       "require": "./dist/registry/index.js"
     },
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.mjs",
+      "require": "./dist/client/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js"
+    },
     "./ssr": {
       "types": "./dist/ssr/index.d.ts",
       "import": "./dist/ssr/index.mjs",
@@ -38,7 +48,7 @@
   "scripts": {
     "dev": "rollup -c --watch",
     "build:workers": "node scripts/build-workers.js",
-    "build": "npm run build:workers && rollup -c",
+    "build": "node scripts/build-all.js",
     "build:server": "tsc --project tsconfig.server.json",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --fix",
@@ -76,6 +86,7 @@
     "test:visual:a11y": "node scripts/visual-test-runner.js --grep 'accessibility|a11y'",
     "test:visual:tokens": "node scripts/visual-test-runner.js --grep 'design-system|tokens'",
     "test:all": "npm run test:coverage && npm run test:e2e",
+    "test:integration:next": "node scripts/ci/run-next-integration.js",
     "glass:generate-css": "node scripts/generate-glass-css-simple.js",
     "glass:validate": "node scripts/verify-glass-pipeline.js",
     "glass:visual-tests": "node scripts/glass-visual-test-generator.js",
@@ -91,7 +102,8 @@
     "release": "npm run ci && npx semantic-release",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "NODE_OPTIONS='--max-old-space-size=8192' pnpm run build",
+    "prepublishOnly": "pnpm run build && pnpm run verify:pack",
+    "verify:pack": "node scripts/ci/verify-pack.js",
     "size-check": "bundlesize",
     "analyze": "npm run build && npx bundle-analyzer dist/index.esm.js"
   },
