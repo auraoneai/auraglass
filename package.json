@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.33",
+  "version": "2.0.34",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -126,7 +126,7 @@
     "@react-three/fiber": "^8.15.0",
     "@sentry/react": "^7.100.0",
     "framer-motion": ">=10.0.0",
-    "lucide-react": "^0.263.0",
+    "lucide-react": "^0.400.0",
     "react": ">=18.0.0",
     "react-chartjs-2": "^5.0.0",
     "react-dom": ">=18.0.0",
