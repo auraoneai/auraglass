@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.0.37",
+  "version": "2.0.38",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -102,7 +102,7 @@
     "release": "npm run ci && npx semantic-release",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "pnpm run build && pnpm run verify:pack",
+    "prepublishOnly": "pnpm run build && pnpm run verify:pack && pnpm run test:integration:next -- --skip-build",
     "verify:pack": "node scripts/ci/verify-pack.js",
     "size-check": "bundlesize",
     "analyze": "npm run build && npx bundle-analyzer dist/index.esm.js"
