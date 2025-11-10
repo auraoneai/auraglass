@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassReactionBubbles matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-overflow-hidden"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 600px; height: 400px;"
+>
+  <div
+    class="glass-absolute glass-inset-0 glass-cursor-crosshair"
+    style="width: 600px; height: 400px;"
+  >
+    <div
+      class="glass-absolute glass-w-2 glass-h-2 glass-surface-muted glass-radius-full"
+      style="left: 100px; top: 66.66666666666667px;"
+    />
+    <div
+      class="glass-absolute glass-w-2 glass-h-2 glass-surface-muted glass-radius-full"
+      style="left: 200px; top: 133.33333333333334px;"
+    />
+    <div
+      class="glass-absolute glass-w-2 glass-h-2 glass-surface-muted glass-radius-full"
+      style="left: 300px; top: 200px;"
+    />
+    <div
+      class="glass-absolute glass-w-2 glass-h-2 glass-surface-muted glass-radius-full"
+      style="left: 400px; top: 266.6666666666667px;"
+    />
+    <div
+      class="glass-absolute glass-w-2 glass-h-2 glass-surface-muted glass-radius-full"
+      style="left: 500px; top: 333.33333333333337px;"
+    />
+  </div>
+  <div
+    class="glass-absolute glass-top-4 glass-left-4 glass-z-20"
+  >
+    <div
+      class="
+          flex flex-wrap gap-2 p-3 rounded-lg max-w-xs
+          linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
+        "
+      style="opacity: 0; transform: translateY(20px);"
+    >
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              bg-white/20 ring-2 ring-blue-400/50
+            "
+      >
+        ❤️
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        😀
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        😂
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        🎉
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        👏
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        🔥
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        💯
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        ⭐
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        👍
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        👎
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        😍
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        🤔
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        😮
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        😢
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        💪
+      </button>
+      <button
+        class="
+              w-10 h-10 rounded-lg flex items-center justify-center text-xl
+              transition-all duration-200 hover:scale-110
+              glass-focus glass-touch-target glass-contrast-guard
+              hover:bg-white/10
+            "
+      >
+        🙌
+      </button>
+    </div>
+  </div>
+  <div
+    class="
+            absolute top-4 right-4 z-20 p-3 rounded-lg
+            linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
+          "
+    style="opacity: 0; transform: translateX(20px);"
+  >
+    <div
+      class="glass-text-sm glass-text-secondary glass-space-y-1"
+    >
+      <div
+        class="glass-flex glass-items-center glass-space-x-2"
+      >
+        <span>
+          0
+        </span>
+        <span
+          class="glass-text-muted"
+        >
+          total
+        </span>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-space-x-2"
+      >
+        <span>
+          0
+        </span>
+        <span
+          class="glass-text-muted"
+        >
+          recent
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="
+              absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20
+              px-4 py-2 rounded-lg text-sm text-white/70
+              linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
+            "
+    style="opacity: 0; transform: translateY(20px);"
+  >
+    Click anywhere to add 
+    ❤️
+     • Click bubbles to multiply them
+  </div>
+</div>
+`;

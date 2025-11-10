@@ -519,12 +519,12 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
           className="glass-gap-4"
         >
           {/* Color Wheel */}
-          <div className="relative glass-flex glass-justify-center">
+          <div className='relative glass-flex glass-justify-center'>
             <canvas
               ref={wheelRef}
               width={config.wheel}
               height={config.wheel}
-              className="cursor-crosshair glass-radius-full"
+              className='cursor-crosshair glass-radius-full'
               onClick={handleWheelInteraction}
               onMouseDown={() => setIsDragging("wheel")}
               onMouseMove={(e) =>
@@ -535,7 +535,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
 
             {/* Hue indicator */}
             <div
-              className="absolute w-4 h-4 glass-border-2 glass-border-white glass-radius-full glass-shadow-lg pointer-events-none"
+              className='absolute w-4 h-4 glass-border-2 glass-border-white glass-radius-full glass-shadow-lg pointer-events-none'
               style={{
                 left: "50%",
                 top: "50%",
@@ -545,12 +545,12 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
           </div>
 
           {/* Saturation/Brightness Area */}
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={saturationRef}
               width={config.saturation}
               height={config.saturation * 0.6}
-              className="glass-w-full cursor-crosshair glass-radius-md glass-border glass-border-glass-border/20"
+              className='glass-w-full cursor-crosshair glass-radius-md glass-border glass-border-glass-border/20'
               onClick={handleSaturationInteraction}
               onMouseDown={() => setIsDragging("saturation")}
               onMouseMove={(e) =>
@@ -561,7 +561,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
 
             {/* Saturation/Brightness indicator */}
             <div
-              className="absolute w-3 h-3 glass-border-2 glass-border-white glass-radius-full glass-shadow-lg pointer-events-none"
+              className='absolute w-3 h-3 glass-border-2 glass-border-white glass-radius-full glass-shadow-lg pointer-events-none'
               style={{
                 left: `${hsv.s}%`,
                 top: `${100 - hsv.v}%`,
@@ -572,12 +572,12 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
 
           {/* Alpha Slider */}
           {showAlpha && (
-            <div className="relative">
+            <div className='relative'>
               <canvas
                 ref={alphaRef}
                 width={config.alpha}
                 height={20}
-                className="glass-w-full cursor-crosshair glass-radius-md glass-border glass-border-glass-border/20"
+                className='glass-w-full cursor-crosshair glass-radius-md glass-border glass-border-glass-border/20'
                 onClick={handleAlphaInteraction}
                 onMouseDown={() => setIsDragging("alpha")}
                 onMouseMove={(e) =>
@@ -588,7 +588,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
 
               {/* Alpha indicator */}
               <div
-                className="absolute w-3 h-6 glass-border-2 glass-border-white glass-radius-md glass-shadow-lg pointer-events-none"
+                className='absolute w-3 h-6 glass-border-2 glass-border-white glass-radius-md glass-shadow-lg pointer-events-none'
                 style={{
                   left: `${currentAlpha * 100}%`,
                   top: "50%",
@@ -601,7 +601,7 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
           {/* Color Preview */}
           <div className="glass-flex glass-items-center glass-gap-2">
             <div
-              className="w-12 h-8 glass-radius-md glass-border glass-border-glass-border/20 glass-shadow-inner"
+              className='w-12 h-8 glass-radius-md glass-border glass-border-glass-border/20 glass-shadow-inner'
               style={{
                 backgroundColor: showAlpha
                   ? `${currentColor}${Math.round(currentAlpha * 255)

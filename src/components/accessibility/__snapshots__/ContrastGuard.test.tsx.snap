@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContrastGuard matches snapshot 1`] = `
+<span
+  class="contrast-guard"
+  data-contrast-level="AA"
+  data-glass-component="true"
+/>
+`;

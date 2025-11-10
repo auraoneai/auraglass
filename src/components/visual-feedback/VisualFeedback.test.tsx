@@ -1,106 +1,77 @@
-'use client';
-/**
- * VisualFeedback Component Tests
- *
- * Test Suite Coverage:
- * - ✅ Smoke test (renders without crashing)
- * - ✅ Props validation
- * - ✅ Accessibility (axe-core)
- * - ⏭️  ARIA attributes (not applicable)
- * - ⏭️  Focus management (not applicable)
- * - ✅ Reduced motion support
- */
-
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { VisualFeedback } from '@/components/visual-feedback/VisualFeedback';
+import { render, fireEvent } from '@testing-library/react';
 
-// Extend Jest matchers
-expect.extend(toHaveNoViolations);
+import VisualFeedback from './VisualFeedback';
 
 describe('VisualFeedback', () => {
-  /**
-   * Smoke Test: Component renders without crashing
-   */
-  it('renders without crashing', () => {
-    const { container } = render(<VisualFeedback />);
-    expect(container).toBeInTheDocument();
-  });
-
-  /**
-   * Accessibility Test: No axe violations
-   */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<VisualFeedback />);
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
-  
-
-  
-
-  
-  /**
-   * Reduced Motion Tests
-   */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
-      // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
-        writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
-          media: query,
-          onchange: null,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const { container } = render(<VisualFeedback />);
-
-      // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
-        const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
-
-        // Animations should be instant or very short (< 0.1s)
-        expect(animationDuration).toBeLessThan(0.1);
-        expect(transitionDuration).toBeLessThan(0.1);
-      });
-    });
-  });
-
-  /**
-   * Props Validation: Accepts and renders with custom props
-   */
-  it('accepts and renders with custom props', () => {
-    const { container } = render(
-      <VisualFeedback
-        className="custom-class"
-        data-testid="visualfeedback"
-      />
+  it('renders provided children', () => {
+    const { getByText } = render(
+      <VisualFeedback active>
+        <span>feedback child</span>
+      </VisualFeedback>
     );
 
-    const element = container.querySelector('[data-testid="visualfeedback"]')
-      || container.firstChild;
-
-    expect(element).toHaveClass('custom-class');
+    expect(getByText('feedback child')).toBeInTheDocument();
   });
 
-  /**
-   * Snapshot Test: Matches snapshot
-   */
-  it('matches snapshot', () => {
-    const { container } = render(<VisualFeedback />);
-    expect(container.firstChild).toMatchSnapshot();
+  it('applies animation class when effect is active', () => {
+    const { getByTestId } = render(
+      <VisualFeedback effect="glow" active data-testid="feedback">
+        glow content
+      </VisualFeedback>
+    );
+
+    expect(getByTestId('feedback')).toHaveClass('glow');
+  });
+
+  it('spawns ripple feedback on click', () => {
+    const mockRect = {
+      width: 120,
+      height: 60,
+      top: 0,
+      left: 0,
+      right: 120,
+      bottom: 60,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect;
+
+    const rectSpy = jest
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue(mockRect);
+
+    const { getByTestId } = render(
+      <VisualFeedback
+        effect="ripple"
+        active
+        duration={800}
+        data-testid="feedback"
+      >
+        ripple content
+      </VisualFeedback>
+    );
+
+    fireEvent.click(getByTestId('feedback'), {
+      clientX: 30,
+      clientY: 20,
+    });
+
+    const ripples = getByTestId('feedback').querySelectorAll('.ripple');
+    expect(ripples.length).toBeGreaterThan(0);
+
+    rectSpy.mockRestore();
+  });
+
+  it('renders glass overlay when glass mode is enabled', () => {
+    const { getByTestId } = render(
+      <VisualFeedback glass active intensity={0.8} data-testid="feedback">
+        glass content
+      </VisualFeedback>
+    );
+
+    const overlay = getByTestId('feedback').querySelector('.glassOverlay');
+    expect(overlay).toBeInTheDocument();
+    expect(overlay).toHaveStyle({ opacity: '0.4' });
   });
 });

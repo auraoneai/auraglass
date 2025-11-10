@@ -192,11 +192,11 @@ export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
       >
         <div
           ref={contentRef}
-          className="relative"
+          className='relative'
           style={{ height: totalHeight }}
         >
           <div
-            className="absolute top-0 left-0 right-0"
+            className='absolute top-0 left-0 right-0'
             style={{ transform: `translateY(${offsetY}px)` }}
           >
             {visibleItems.map((item, index) => {
@@ -219,10 +219,10 @@ export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
 
         {/* Loading indicator */}
         {loading && (
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2'>
             <div className="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-surface-dark/80 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span className="text-primary glass-text-sm">Loading...</span>
+              <Loader2 className='w-4 h-4 animate-spin' />
+              <span className='text-primary glass-text-sm'>Loading...</span>
             </div>
           </div>
         )}
@@ -342,9 +342,9 @@ export const GlassVirtualGrid: React.FC<GlassVirtualGridProps> = ({
         onScroll={handleScroll}
         {...props}
       >
-        <div className="relative" style={{ height: totalRows * rowHeight }}>
+        <div className='relative' style={{ height: totalRows * rowHeight }}>
           <div
-            className="absolute top-0 left-0 right-0"
+            className='absolute top-0 left-0 right-0'
             style={{ transform: `translateY(${offsetY}px)` }}
           >
             <div

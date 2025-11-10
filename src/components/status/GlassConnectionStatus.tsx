@@ -284,11 +284,11 @@ export const GlassConnectionStatus = forwardRef<
         aria-atomic="true"
         {...props}
       >
-        <div className="relative glass-flex glass-items-center glass-gap-2">
+        <div className='relative glass-flex glass-items-center glass-gap-2'>
           {config.icon ? (
             <div className={config.textColor}>{config.icon}</div>
           ) : (
-            <div className="relative glass-flex glass-items-center glass-justify-center">
+            <div className='relative glass-flex glass-items-center glass-justify-center'>
               <div
                 className={cn(
                   sizeClasses[size].dot,

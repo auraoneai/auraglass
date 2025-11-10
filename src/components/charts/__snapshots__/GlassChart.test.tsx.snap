@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassChart matches snapshot 1`] = `
+<div
+  aria-label="Interactive bar chart"
+  class="container"
+  data-adaptive-complexity="medium"
+  data-chart-type="bar"
+  data-consciousness-level="0"
+  data-insights-count="0"
+  data-patterns-count="0"
+  data-usage-context="dashboard"
+  role="img"
+  style="width: 100%; height: 400px; box-shadow: 0 18px 48px rgba(15, 23, 42, 0.24);"
+>
+  <div
+    style="padding: 16px; height: 100%; display: flex; flex-direction: column; opacity: 1; transition: opacity 0.3s ease;"
+  >
+    <div
+      class="content"
+      data-adaptive-complexity="medium"
+      style="transition: filter 0.3s ease; position: relative;"
+    >
+      <div
+        class="motion-primitive glass-w-full"
+      >
+        <div
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <div
+            class="relative z-10"
+          >
+            <div
+              class="glass-text-primary glass-auto-gap glass-auto-gap-md glass-p-4"
+            >
+              <div
+                class="relative"
+              >
+                <svg
+                  class="overflow-visible"
+                  height="100%"
+                  width="100%"
+                >
+                  <g
+                    class="opacity-20"
+                  />
+                  <line
+                    class="text-primary/50"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    x1="60"
+                    x2="NaN"
+                    y1="NaN"
+                    y2="NaN"
+                  />
+                  <line
+                    class="text-primary/50"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    x1="60"
+                    x2="60"
+                    y1="20"
+                    y2="NaN"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

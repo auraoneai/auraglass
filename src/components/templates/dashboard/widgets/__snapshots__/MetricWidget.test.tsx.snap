@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetricWidget matches snapshot 1`] = `
+<div
+  class="glass-foundation-basic w-full h-full glass-radius-lg glass-p-4"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+  >
+    <div
+      class="flex flex-row glass-gap-2 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
+    >
+      <div
+        class="glass-text-secondary glass-text-sm"
+      >
+        Metric
+      </div>
+    </div>
+    <div
+      class="font-bold glass-text-2xl text-foreground"
+    />
+  </div>
+</div>
+`;

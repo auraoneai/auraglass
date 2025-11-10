@@ -574,15 +574,15 @@ export const GlassEngineDemo: React.FC = () => {
   const { config, updateConfig, createGlassStyle } = useGlassEngine();
 
   return (
-    <div className="space-y-6 glass-p-6">
-      <div className="glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4">
+    <div className='space-y-6 glass-p-6'>
+      <div className='glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4'>
         {/* Different texture types */}
         {(["smooth", "frosted", "rippled", "crystalline"] as const).map(
           (texture) => (
             <AdaptiveGlass
               key={texture}
               textureOverride={texture}
-              className="glass-p-4 text-center"
+              className='glass-p-4 text-center'
             >
               <h3
                 className={cn(
@@ -599,7 +599,7 @@ export const GlassEngineDemo: React.FC = () => {
         )}
       </div>
 
-      <div className="glass-grid glass-grid-cols-1 md:grid-cols-3 glass-gap-4">
+      <div className='glass-grid glass-grid-cols-1 md:grid-cols-3 glass-gap-4'>
         {/* Opacity Engine */}
         <GlassOpacityEngine trigger="hover" className="glass-p-4">
           <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>
@@ -637,7 +637,7 @@ export const GlassEngineDemo: React.FC = () => {
           Glass Engine Controls
         </h3>
 
-        <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4">
+        <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4'>
           <div>
             <label
               className={cn(
@@ -687,11 +687,11 @@ export const GlassEngineDemo: React.FC = () => {
           </div>
         </div>
 
-        <div className="glass-flex glass-items-center glass-justify-between mt-4">
+        <div className='glass-flex glass-items-center glass-justify-between mt-4'>
           <span className={cn("glass-text-secondary")}>
             Environmental Reactions
           </span>
-          <label className="glass-flex glass-items-center space-x-2">
+          <label className='glass-flex glass-items-center space-x-2'>
             <input
               type="checkbox"
               checked={config.environment.weatherReactive}
@@ -714,3 +714,31 @@ export const GlassEngineDemo: React.FC = () => {
     </div>
   );
 };
+
+export interface GlassEngineProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  initialConfig?: Partial<GlassEngineConfig>;
+  renderDemo?: boolean;
+  children?: React.ReactNode;
+}
+
+export const GlassEngine: React.FC<GlassEngineProps> = ({
+  initialConfig,
+  renderDemo = true,
+  children,
+  className,
+  ...rest
+}) => {
+  return (
+    <GlassEngineProvider initialConfig={initialConfig}>
+      <div
+        className={cn("glass-engine-wrapper glass-space-y-6", className)}
+        {...rest}
+      >
+        {children ?? (renderDemo ? <GlassEngineDemo /> : null)}
+      </div>
+    </GlassEngineProvider>
+  );
+};
+
+export default GlassEngine;

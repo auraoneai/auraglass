@@ -156,7 +156,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
         active && item?.activeIcon ? item?.activeIcon : item?.icon;
 
       return (
-        <div key={item?.id} className="relative glass-flex-1">
+        <div key={item?.id} className='relative glass-flex-1'>
           <GlassButton
             variant={active ? "primary" : "ghost"}
             size="sm"
@@ -200,7 +200,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             {active && !showLabels && (
               <Motion
                 preset={respectMotionPreference ? "scaleIn" : "none"}
-                className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 glass-surface-primary glass-radius-full"
+                className='absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 glass-surface-primary glass-radius-full'
               />
             )}
           </GlassButton>
@@ -210,7 +210,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             <GlassBadge
               variant={item?.badgeVariant || "error"}
               size="xs"
-              className="absolute glass-top-1 -right-1 min-w-[1.25rem] h-5 glass-flex glass-items-center glass-justify-center"
+              className='absolute glass-top-1 -right-1 min-w-[1.25rem] h-5 glass-flex glass-items-center glass-justify-center'
             >
               {item?.badge}
             </GlassBadge>

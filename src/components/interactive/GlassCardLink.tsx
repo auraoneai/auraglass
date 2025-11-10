@@ -82,7 +82,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
 
     const ArrowIcon = () => (
       <svg
-        className="w-4 h-4 glass-ml-1 transition-transform duration-300 group-hover:translate-x-1"
+        className='w-4 h-4 glass-ml-1 transition-transform duration-300 group-hover:translate-x-1'
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="none"
@@ -114,34 +114,34 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
         <>
           {/* Header */}
           {icon && (
-            <div className="relative z-10 mb-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-105">
-              <div className="relative">
+            <div className='relative z-10 mb-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-105'>
+              <div className='relative'>
                 {icon}
                 {/* Glow effect */}
-                <div className="absolute inset-0 -inset-2 glass-radius-lg bg-gradient-radial glass-gradient-primary via-blue-500/10 glass-gradient-primary opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
+                <div className='absolute inset-0 -inset-2 glass-radius-lg bg-gradient-radial glass-gradient-primary via-blue-500/10 glass-gradient-primary opacity-0 transition-opacity duration-400 group-hover:opacity-100' />
               </div>
             </div>
           )}
 
           {/* Content */}
-          <div className="relative z-10 mb-6">
-            <h3 className="mb-2 glass-text-xl font-semibold text-primary transition-colors duration-200">
+          <div className='relative z-10 mb-6'>
+            <h3 className='mb-2 glass-text-xl font-semibold text-primary transition-colors duration-200'>
               {title}
             </h3>
-            <p className="mb-4 glass-text-sm text-primary/70 transition-colors duration-200">
+            <p className='mb-4 glass-text-sm text-primary/70 transition-colors duration-200'>
               {description}
             </p>
 
             {customPreview && (
-              <div className="custom-preview-container">{customPreview}</div>
+              <div className='custom-preview-container'>{customPreview}</div>
             )}
           </div>
 
           {/* Footer */}
-          <div className="relative z-10 mt-auto pt-4 glass-border-t glass-border-white/10">
+          <div className='relative z-10 mt-auto pt-4 glass-border-t glass-border-white/10'>
             <div className="glass-flex glass-items-center glass-justify-between">
               <div
-                className="glass-flex glass-items-center glass-text-sm font-medium text-primary/90 group transition-colors duration-300 group-hover:text-primary"
+                className='glass-flex glass-items-center glass-text-sm font-medium text-primary/90 group transition-colors duration-300 group-hover:text-primary'
                 aria-hidden="true"
               >
                 <span>{buttonText}</span>
@@ -154,7 +154,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
     };
 
     return (
-      <Motion preset="fadeIn" className="group block">
+      <Motion preset="fadeIn" className='group block'>
         <a
           ref={ref}
           id={componentId}
@@ -162,7 +162,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
           onClick={handleClick}
           aria-label={defaultAriaLabel}
           aria-describedby={`${componentId}-description`}
-          className="block glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          className='block glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
         >
           <OptimizedGlass
             intent="neutral"
@@ -201,10 +201,10 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
             }}
             {...props}
           >
-            <div id={`${componentId}-description`} className="sr-only">
+            <div id={`${componentId}-description`} className='sr-only'>
               Interactive card link: {title}. {description}
             </div>
-            <div className="relative z-10 glass-flex glass-h-full min-h-[200px] glass-flex-col">
+            <div className='relative z-10 glass-flex glass-h-full min-h-[200px] glass-flex-col'>
               {renderCardContent()}
             </div>
           </OptimizedGlass>

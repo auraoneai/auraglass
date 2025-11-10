@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassNotificationCenter matches snapshot 1`] = `
+<div
+  aria-live="polite"
+  class="fixed z-50 glass-gap-2 top-4 right-4"
+  data-empty="true"
+>
+  <span
+    class="sr-only"
+  >
+    No notifications
+  </span>
+</div>
+`;

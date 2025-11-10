@@ -127,17 +127,19 @@ describe('Contrast Utilities - WCAG 2.1 Compliance', () => {
   describe('Text Color Selection', () => {
     it('selects white text for dark background', () => {
       const textColor = getTextColorForBackground('#000000');
-      expect(textColor).toContain('255'); // white or close to white
+      expect(textColor).toBe('var(--glass-text-primary)');
     });
 
     it('selects dark text for light background', () => {
       const textColor = getTextColorForBackground('#ffffff');
-      expect(textColor).toContain('0'); // black or close to black
+      expect(textColor).toBe('rgba(0, 0, 0, 0.90)');
     });
 
     it('selects appropriate text for mid-tone background', () => {
       const textColor = getTextColorForBackground('#808080');
-      expect(textColor).toBeTruthy();
+      expect(["var(--glass-text-primary)", 'rgba(0, 0, 0, 0.90)']).toContain(
+        textColor
+      );
     });
   });
 

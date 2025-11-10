@@ -31,7 +31,7 @@ interface BrandColorIntegrationProps {
   children: React.ReactNode;
 }
 
-export default function BrandColorIntegration({
+export function BrandColorIntegration({
   entityId,
   brandColors,
   fallbackColors = {
@@ -230,7 +230,7 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {isLoading && (
           <motion.div
-            className="absolute inset-0 glass-flex glass-items-center glass-justify-center z-50"
+            className='absolute inset-0 glass-flex glass-items-center glass-justify-center z-50'
             style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
             initial={{ opacity: 0 }}
             animate={prefersReducedMotion ? {} : { opacity: 1 }}
@@ -264,7 +264,7 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {entityColors && !isLoading && (
           <motion.div
-            className="absolute glass-top-2 glass-right-2 z-10"
+            className='absolute glass-top-2 glass-right-2 z-10'
             initial={{ opacity: 0, scale: 0, y: -10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0, y: -10 }}
@@ -284,7 +284,7 @@ export default function BrandColorIntegration({
               })}
             >
               <div
-                className="w-2 h-2 glass-radius-full"
+                className='w-2 h-2 glass-radius-full'
                 style={{ backgroundColor: entityColors.primaryColor }}
               />
               <span>Brand</span>
@@ -297,7 +297,7 @@ export default function BrandColorIntegration({
       <AnimatePresence>
         {colorTransition && entityColors && (
           <motion.div
-            className="absolute inset-0 pointer-events-none"
+            className='absolute inset-0 pointer-events-none'
             style={{
               background: `radial-gradient(circle at center, ${entityColors.primaryColor}20 0%, transparent 70%)`,
               borderRadius: "inherit",
@@ -409,7 +409,7 @@ export function BrandGlassButton({
 
       {/* Brand color pulse effect */}
       <motion.div
-        className="absolute inset-0 glass-radius-lg pointer-events-none"
+        className='absolute inset-0 glass-radius-lg pointer-events-none'
         style={{
           background: `radial-gradient(circle at center, var(--brand-${variant}, var(--glass-color-primary, 0.2)) 0%, transparent 70%)`,
         }}
@@ -472,3 +472,5 @@ export function useBrandColors(entityId?: string) {
 
   return brandColors;
 }
+
+export default BrandColorIntegration;

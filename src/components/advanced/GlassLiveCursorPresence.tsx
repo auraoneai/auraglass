@@ -367,7 +367,7 @@ export function GlassLiveCursorPresence({
       </AnimatePresence>
 
       {/* Connection status indicator */}
-      <div className="absolute glass-top-2 left-2 glass-flex glass-items-center glass-gap-2">
+      <div className='absolute glass-top-2 left-2 glass-flex glass-items-center glass-gap-2'>
         <div
           className={cn(
             "w-2 h-2 glass-radius-full transition-colors",
@@ -406,7 +406,7 @@ function LiveCursorComponent({
         cursor.trail.map((trailPoint, index) => (
           <motion.div
             key={`trail-${cursor.id}-${index}`}
-            className="absolute pointer-events-none"
+            className='absolute pointer-events-none'
             initial={{ opacity: 0, scale: 0 }}
             animate={
               prefersReducedMotion
@@ -440,7 +440,7 @@ function LiveCursorComponent({
 
       {/* Main cursor */}
       <motion.div
-        className="absolute pointer-events-none z-50"
+        className='absolute pointer-events-none z-50'
         initial={{ opacity: 0, scale: 0, rotate: 0 }}
         animate={
           prefersReducedMotion
@@ -483,7 +483,7 @@ function LiveCursorComponent({
           {/* Typing indicator */}
           {cursor.isTyping && (
             <motion.div
-              className="absolute glass--top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full"
+              className='absolute glass--top-1 -right-1 w-3 h-3 glass-surface-green glass-radius-full'
               animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
               transition={
                 prefersReducedMotion
@@ -514,7 +514,7 @@ function LiveCursorComponent({
               <img
                 src={cursor.avatar}
                 alt={cursor.name}
-                className="inline-block w-3 h-3 glass-radius-full glass-mr-1"
+                className='inline-block w-3 h-3 glass-radius-full glass-mr-1'
               />
             )}
             {cursor.name}

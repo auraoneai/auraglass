@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassA11y matches snapshot 1`] = `
+<div
+  class="glass-a11y-controller "
+  style="position: fixed; top: 20px; right: 20px; z-index: 1000;"
+>
+  <button
+    aria-label="Toggle accessibility controls"
+    class="glass-foundation-complete glass-w-14 glass-h-14 glass-radius-full flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl glass-transition glass-focus glass-press glass-magnet glass-surface-transparent glass-text-secondary glass-border-subtle"
+    tabindex="0"
+    title="Accessibility Settings"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-accessibility w-6 h-6"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="16"
+        cy="4"
+        r="1"
+      />
+      <path
+        d="m18 19 1-7-6 1"
+      />
+      <path
+        d="m5 8 3-3 5.5 3-2.36 3.5"
+      />
+      <path
+        d="M4.24 14.5a5 5 0 0 0 6.88 6"
+      />
+      <path
+        d="M13.76 17.5a5 5 0 0 0-6.88-6"
+      />
+    </svg>
+  </button>
+  <div
+    aria-live="polite"
+    class="sr-only"
+    role="region"
+  >
+    Press Alt+A to open accessibility controls
+  </div>
+</div>
+`;

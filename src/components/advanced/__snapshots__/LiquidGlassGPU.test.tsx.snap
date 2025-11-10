@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiquidGlassGPU matches snapshot 1`] = `
+<div
+  class="glass-surface-primary glass-blur-backdrop glass-relative glass-overflow-hidden"
+  data-glass-component="true"
+  style="border: 1px solid rgba(255,255,255,0.4);"
+/>
+`;

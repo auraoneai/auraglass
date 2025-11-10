@@ -345,7 +345,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                   iconSize?.[size]
                 )}
               >
-                <div className="animate-spin">⟳</div>
+                <div className='animate-spin'>⟳</div>
               </GlassButton>
             )}
 

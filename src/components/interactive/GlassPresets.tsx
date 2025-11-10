@@ -346,3 +346,47 @@ export const ModalGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassP
 );
 
 ModalGlassContainer.displayName = 'ModalGlassContainer';
+
+export type GlassPresetVariant =
+  | 'clean'
+  | 'frosted'
+  | 'textured'
+  | 'subtle'
+  | 'standard'
+  | 'immersive'
+  | 'dashboard'
+  | 'form'
+  | 'modal';
+
+export interface GlassPresetsProps extends ContextAwareGlassProps {
+  variant?: GlassPresetVariant;
+  extraDark?: boolean;
+}
+
+export const GlassPresets = forwardRef<HTMLDivElement, GlassPresetsProps>(
+  ({ variant = 'clean', extraDark, ...rest }, ref) => {
+    switch (variant) {
+      case 'clean':
+        return <CleanGlassContainer ref={ref} extraDark={extraDark} {...rest} />;
+      case 'frosted':
+        return <FrostedGlassContainer ref={ref} {...rest} />;
+      case 'textured':
+        return <TexturedGlassContainer ref={ref} {...rest} />;
+      case 'subtle':
+        return <SubtleGlassContainer ref={ref} {...rest} />;
+      case 'immersive':
+        return <ImmersiveGlassContainer ref={ref} {...rest} />;
+      case 'dashboard':
+        return <DashboardGlassContainer ref={ref} {...rest} />;
+      case 'form':
+        return <FormGlassContainer ref={ref} {...rest} />;
+      case 'modal':
+        return <ModalGlassContainer ref={ref} {...rest} />;
+      case 'standard':
+      default:
+        return <StandardGlassContainer ref={ref} {...rest} />;
+    }
+  }
+);
+
+GlassPresets.displayName = 'GlassPresets';

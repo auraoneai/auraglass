@@ -4,21 +4,14 @@
  *
  * A component that visually indicates the current state of a UI element.
  */
-import React, { forwardRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { forwardRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { createGlassStyle } from '../../utils/createGlassStyle';
 
 import { StateIndicatorProps } from './types';
-
-// Animation keyframes
-const pulseAnimation = keyframes`
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
-`;
+import styles from './StateIndicator.module.css';
 
 // Convert color string to RGB values
 const colorToRgb = (color: string): string => {
@@ -58,7 +51,7 @@ const getStateColor = (state: string, color: string): string => {
     case 'focus':
       return `rgba(${userColor}, 0.2)`;
     case 'disabled':
-      return '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
+      return 'rgba(148, 163, 184, 0.2)';
     case 'loading':
       return `rgba(${userColor}, 0.2)`;
     case 'success':
@@ -71,57 +64,6 @@ const getStateColor = (state: string, color: string): string => {
   }
 };
 
-// Styled components
-const IndicatorContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const StateOverlay = styled.div<{
-  $state: 'default' | 'hover' | 'active' | 'focus' | 'disabled' | 'loading' | 'success' | 'error' | 'warning' | 'info';
-  $glass: boolean;
-  $blend: boolean;
-  $intensity: number;
-  $color: string;
-  $duration: number;
-  $reducedMotion: boolean;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  z-index: 1;
-  background-color: ${props => getStateColor(props.$state, props.$color)};
-  opacity: ${props => props.$intensity};
-  mix-blend-mode: ${props => (props.$blend ? 'overlay' : 'normal')};
-
-  /* Apply glass effect */
-  ${props =>
-    props.$glass &&
-    `
-    ${createGlassStyle({ elev: 2, variant: 'default' })};
-    -webkit-${createGlassStyle({ elev: 2, variant: 'default' })};
-  `}
-
-  /* Animate loading state */
-  ${props =>
-    props.$state === 'loading' &&
-    !props.$reducedMotion &&
-    `
-    animation: ${pulseAnimation} ${props.$duration}ms infinite;
-  `}
-  
-  /* Ensure proper stacking */
-  ${props =>
-    props.$state === 'disabled' &&
-    `
-    z-index: 5;
-  `}
-`;
-
 /**
  * StateIndicator Component Implementation
  */
@@ -129,9 +71,6 @@ function StateIndicatorComponent(
   props: StateIndicatorProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
-  // Unified glass styles
-  const glassStyles = createGlassStyle({ elev: 2, variant: 'default' });
-
   const {
     children,
     state = 'default',
@@ -148,22 +87,48 @@ function StateIndicatorComponent(
   // Check if reduced motion is preferred
   const prefersReducedMotion = useReducedMotion();
 
+  const overlayStyle = useMemo<React.CSSProperties>(() => {
+    if (state === 'default') {
+      return {};
+    }
+
+    const glassBase = glass ? createGlassStyle({ elev: 2, variant: 'default' }) : undefined;
+    const { position, overflow, ...rest } = glassBase ?? {};
+
+    const style: React.CSSProperties = {
+      ...rest,
+      backgroundColor: getStateColor(state, color),
+      opacity: intensity,
+      mixBlendMode: blend ? 'overlay' : 'normal',
+    };
+
+    if (state === 'loading') {
+      style.animationDuration = `${animationDuration}ms`;
+    }
+
+    return style;
+  }, [state, color, intensity, blend, glass, animationDuration]);
+
   return (
-    <IndicatorContainer ref={ref} className={cn('glass-state-indicator', className)} style={style} {...rest}>
+    <div
+      ref={ref}
+      className={cn(styles.container, 'glass-state-indicator', className)}
+      style={style}
+      {...rest}
+    >
       {children}
 
       {state !== 'default' && (
-        <StateOverlay
-          $state={state}
-          $glass={glass}
-          $blend={blend}
-          $intensity={intensity}
-          $color={color}
-          $duration={animationDuration}
-          $reducedMotion={prefersReducedMotion}
+        <div
+          className={cn(
+            styles.overlay,
+            state === 'loading' && !prefersReducedMotion && styles.loading,
+            state === 'disabled' && styles.disabled
+          )}
+          style={overlayStyle}
         />
       )}
-    </IndicatorContainer>
+    </div>
   );
 }
 

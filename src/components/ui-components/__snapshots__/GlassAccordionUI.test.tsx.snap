@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAccordionUI matches snapshot 1`] = `
+<div
+  aria-label="Accordion"
+  aria-multiselectable="false"
+  class="glass-accordion w-full"
+  id="accordion-:r3:"
+  role="tablist"
+/>
+`;

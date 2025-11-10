@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageTransitionDemo matches snapshot 1`] = `
+<div
+  style="position: relative; width: 520px; height: 320px;"
+>
+  <div
+    style="display: flex; gap: 8px; margin-bottom: 12px;"
+  >
+    <button
+      class="glass-focus glass-touch-target glass-contrast-guard"
+      style="padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.18); color: white;"
+    >
+      Overview
+    </button>
+    <button
+      class="glass-focus glass-touch-target glass-contrast-guard"
+      style="padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); color: white;"
+    >
+      Details
+    </button>
+    <button
+      class="glass-focus glass-touch-target glass-contrast-guard"
+      style="padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); color: white;"
+    >
+      Insights
+    </button>
+  </div>
+  <div
+    style="position: relative; border-radius: 16px; overflow: hidden; height: 260px;"
+  >
+    <div
+      style="position: absolute; inset: 0; opacity: 0; filter: blur(var(--glass-blur-md)); transform: translateY(10px);"
+    >
+      <div
+        style="position: absolute; inset: 0; display: grid; place-items: center;"
+      >
+        <div
+          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <div
+            style="position: absolute; inset: 0; pointer-events: none;"
+          />
+          <h3
+            style="position: relative; margin: 0px; z-index: 1;"
+          >
+            Overview
+          </h3>
+          <p
+            style="position: relative; z-index: 1; opacity: 0.8;"
+          >
+            Glass page transition demo
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

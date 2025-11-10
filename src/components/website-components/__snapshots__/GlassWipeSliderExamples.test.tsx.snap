@@ -1,0 +1,1960 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassWipeSliderExamples matches snapshot 1`] = `
+<div>
+  <div
+    class="w-full glass-auto-gap glass-auto-gap-4xl py-8"
+  >
+    <div
+      class="text-center glass-auto-gap glass-auto-gap-lg glass-mb-12"
+    >
+      <h2
+        class="glass-text-3xl font-bold text-primary"
+      >
+        GlassWipe Slider Showcase
+      </h2>
+      <p
+        class="text-primary/70 max-w-2xl glass-mx-auto"
+      >
+        Production-ready comparison sliders with smooth animations, accessibility, and competitive analysis features for AuraOne.
+      </p>
+    </div>
+    <div
+      aria-label="AuraOne vs Scale AI wipe slider comparison"
+      class="glass-w-full glass-auto-gap glass-auto-gap-2xl glass-focus"
+      role="region"
+    >
+      <div
+        class="text-center glass-auto-gap glass-auto-gap-sm"
+      >
+        <h3
+          class="glass-text-2xl font-bold text-primary"
+        >
+          AuraOne vs Scale AI
+        </h3>
+        <p
+          class="text-primary/70"
+        >
+          See the dramatic performance improvements
+        </p>
+      </div>
+      <div
+        aria-describedby="slider-metrics"
+        aria-label="Scale AI vs AuraOne comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow="75"
+        class="relative w-full overflow-hidden glass-radius-lg select-none glass-card-motion-aware cursor-col-resize h-[500px] glass-shadow-2xl"
+        role="slider"
+        style="height: 24rem;"
+        tabindex="0"
+      >
+        <div
+          class="absolute inset-0 glass-w-full glass-h-full"
+        >
+          <div
+            class="relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-flex glass-flex-col glass-items-center glass-justify-center text-center glass-p-8"
+          >
+            <div
+              class="glass-foundation-complete bg-glass-gradient-subtle glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-6 glass-container-md glass-contrast-guard"
+            >
+              <div
+                class="glass-text-secondary glass-text-4xl font-bold mb-2"
+              >
+                Scale AI
+              </div>
+              <div
+                class="text-primary/80 glass-text-sm glass-auto-gap glass-auto-gap-sm"
+              >
+                <div>
+                  • Complex setup process
+                </div>
+                <div>
+                  • 2-4 week training cycles
+                </div>
+                <div>
+                  • High infrastructure costs
+                </div>
+                <div>
+                  • Limited scalability
+                </div>
+              </div>
+              <div
+                class="glass-mt-4 glass-text-xs glass-text-secondary"
+              >
+                Traditional ML Platform
+              </div>
+            </div>
+            <div
+              class="absolute glass-bottom-4 glass-left-4 glass-text-secondary/60 glass-text-xs"
+            >
+              Legacy Approach
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
+          style="clip-path: inset(0 25% 0 0); width: 100%; height: 100%;"
+        >
+          <div
+            class="relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-flex glass-flex-col glass-items-center glass-justify-center text-center glass-p-8"
+          >
+            <div
+              class="glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-6 glass-container-md glass-border glass-border-cyan-400/20 glass-contrast-guard"
+            >
+              <div
+                class="glass-text-secondary glass-text-4xl font-bold mb-2"
+              >
+                AuraOne
+              </div>
+              <div
+                class="text-primary/90 glass-text-sm glass-auto-gap glass-auto-gap-sm"
+              >
+                <div>
+                  • One-click deployment
+                </div>
+                <div>
+                  • Sub-week training cycles
+                </div>
+                <div>
+                  • 80% cost reduction
+                </div>
+                <div>
+                  • Infinite scalability
+                </div>
+              </div>
+              <div
+                class="glass-mt-4 glass-text-xs glass-text-secondary"
+              >
+                Next-Gen AI Platform
+              </div>
+            </div>
+            <div
+              class="absolute glass-bottom-4 glass-right-4 glass-text-secondary/60 glass-text-xs"
+            >
+              Future-Ready
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute pointer-events-none transition-opacity duration-300"
+          style="left: 75%; top: 0px; bottom: 0px; width: 20px; transform: translateX(-50%); opacity: 0.2;"
+        />
+        <div
+          class="absolute glass-backdrop-blur-md shadow-lg transition-all duration-200 ease-out top-0 bottom-0 bg-gradient-to-b from-white/40 via-white/60 to-white/40 w-1"
+          style="left: 75%; transform: translateX(-50%); box-shadow: 0 0 10px \${glassStyles.borderColor || "var(--glass-bg-hover)"};"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          />
+          <div
+            class="absolute inset-0 transition-opacity duration-300 bg-gradient-to-r from-cyan-500/20 via-blue-500/30 to-cyan-500/20"
+            style="opacity: 0;"
+          />
+        </div>
+        <div
+          class="absolute cursor-grab active:cursor-grabbing touch-target z-20 w-12 h-12 top-1/2 -translate-y-1/2"
+          style="left: 75%; transform: translateX(-50%) translateY(-50%);"
+          tabindex="0"
+        >
+          <div
+            class="glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard"
+          >
+            <div
+              class="flex items-center glass-gap-1 glass-text-primary/70 group-hover:glass-text-primary/90 transition-colors duration-200 relative z-10 flex-row"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <div
+                class="w-1 h-1 glass-radius-full bg-transparent opacity-50"
+              />
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200"
+              style="opacity: 0;"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200"
+              style="transform: scale(0); opacity: 0;"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 left-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            AuraOne
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Next-gen platform
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 right-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            Scale AI
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Traditional approach
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-xs pointer-events-none z-10 bottom-4 left-1/2 transform -translate-x-1/2"
+          style="opacity: 0; transform: translateY(10px);"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <div
+              class="font-mono font-medium"
+            >
+              75
+              %
+            </div>
+            <div
+              class="w-1 h-1 glass-radius-full glass-surface-subtle/40"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 pointer-events-none z-5"
+        >
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 0%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 25%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-surface-primary/60 scale-125"
+            style="left: 75%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 100%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+        </div>
+        <div
+          class="absolute glass-foundation-complete bg-glass-gradient-strong glass-backdrop-blur-md-medium border border-white/20 glass-radius-lg glass-p-4 z-10 max-w-sm top-4 left-1/2 transform -translate-x-1/2"
+          id="slider-metrics"
+          style="opacity: 0.7;"
+        >
+          <div
+            class="glass-auto-gap glass-auto-gap-sm"
+          >
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Model Training Speed
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  2-4
+                   weeks
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  &lt; 1
+                   weeks
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Accuracy Improvement
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  85
+                  %
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  97
+                  %
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Infrastructure Cost
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  $10K
+                  /month
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  $2K
+                  /month
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary/80"
+            >
+              <span
+                class="font-medium"
+              >
+                Setup Complexity
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  High
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  Low
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sr-only"
+        >
+          Use arrow keys to adjust the comparison. Press Home for 0%, End for 100%, Space for 50%. Number keys 0-5 jump to preset positions. Shift+arrows for larger steps.
+        </div>
+      </div>
+      <div
+        class="text-center text-primary/60 glass-text-sm"
+      >
+        Current position: 
+        50
+        % • Use keyboard navigation or drag the handle
+      </div>
+    </div>
+    <div
+      aria-label="Vertical feature comparison slider"
+      class="glass-w-full glass-auto-gap glass-auto-gap-2xl glass-focus"
+      role="region"
+    >
+      <div
+        class="text-center glass-auto-gap glass-auto-gap-sm"
+      >
+        <h3
+          class="glass-text-2xl font-bold text-primary"
+        >
+          Feature Evolution
+        </h3>
+        <p
+          class="text-primary/70"
+        >
+          Swipe vertically to compare capabilities
+        </p>
+      </div>
+      <div
+        aria-label="Standard Platform vs AuraOne Platform comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow="30"
+        class="relative w-full overflow-hidden glass-radius-lg select-none glass-card-motion-aware cursor-row-resize glass-container-2xl glass-mx-auto glass-shadow-2xl"
+        role="slider"
+        style="height: 600px;"
+        tabindex="0"
+      >
+        <div
+          class="absolute inset-0 glass-w-full glass-h-full"
+        >
+          <div
+            class="w-full h-full flex items-center justify-center p-8 transition-all duration-300 glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium"
+          >
+            <div
+              class="glass-w-full max-w-md glass-auto-gap glass-auto-gap-lg"
+            >
+              <h3
+                class="glass-text-lg font-semibold text-primary text-center mb-6"
+              >
+                Competitor Platform
+              </h3>
+              <div
+                class="glass-auto-gap glass-auto-gap-sm"
+              >
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary/90"
+                  >
+                    Manual Configuration
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary/90"
+                  >
+                    Basic Analytics
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary/90"
+                  >
+                    Limited Templates
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary font-medium"
+                  >
+                    Auto-scaling
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-danger"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary font-medium"
+                  >
+                    Real-time Monitoring
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-danger"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary font-medium"
+                  >
+                    Enterprise Security
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-danger"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
+          style="clip-path: inset(70% 0 0 0); width: 100%; height: 100%;"
+        >
+          <div
+            class="w-full h-full flex items-center justify-center p-8 transition-all duration-300 glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium"
+          >
+            <div
+              class="glass-w-full max-w-md glass-auto-gap glass-auto-gap-lg"
+            >
+              <h3
+                class="glass-text-lg font-semibold text-primary text-center mb-6"
+              >
+                AuraOne Platform
+              </h3>
+              <div
+                class="glass-auto-gap glass-auto-gap-sm"
+              >
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary/90"
+                  >
+                    One-click Setup
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary/90"
+                  >
+                    Advanced Analytics
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary/90"
+                  >
+                    1000+ Templates
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary font-medium"
+                  >
+                    Auto-scaling
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-danger"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary font-medium"
+                  >
+                    Real-time Monitoring
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-danger"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
+                >
+                  <span
+                    class="glass-text-sm glass-text-primary font-medium"
+                  >
+                    Enterprise Security
+                  </span>
+                  <div
+                    class="glass-flex glass-items-center glass-gap-3"
+                  >
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-success"
+                    />
+                    <span
+                      class="text-primary/40"
+                    >
+                      →
+                    </span>
+                    <div
+                      class="w-2 h-2 glass-radius-full glass-surface-danger"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute pointer-events-none transition-opacity duration-300"
+          style="top: 30%; left: 0px; right: 0px; height: 20px; transform: translateY(-50%); opacity: 0.2;"
+        />
+        <div
+          class="absolute glass-backdrop-blur-md shadow-lg transition-all duration-200 ease-out left-0 right-0 bg-gradient-to-r from-white/40 via-white/60 to-white/40 h-2"
+          style="top: 30%; transform: translateY(-50%); box-shadow: 0 0 10px \${glassStyles.borderColor || "var(--glass-bg-hover)"};"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-transparent via-white/20 to-transparent"
+          />
+          <div
+            class="absolute inset-0 transition-opacity duration-300 bg-gradient-to-t from-cyan-500/20 via-blue-500/30 to-cyan-500/20"
+            style="opacity: 0;"
+          />
+        </div>
+        <div
+          class="absolute cursor-grab active:cursor-grabbing touch-target z-20 w-14 h-14 left-1/2 -translate-x-1/2"
+          style="top: 30%; transform: translateY(-50%) translateX(-50%);"
+          tabindex="0"
+        >
+          <div
+            class="glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard"
+          >
+            <div
+              class="flex items-center glass-gap-1 glass-text-primary/70 group-hover:glass-text-primary/90 transition-colors duration-200 relative z-10 flex-col"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <div
+                class="w-1 h-1 glass-radius-full bg-transparent opacity-50"
+              />
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200"
+              style="opacity: 0;"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200"
+              style="transform: scale(0); opacity: 0;"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 left-1/2 transform -translate-x-1/2"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            AuraOne Platform
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Full-featured solution
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 bottom-4 left-1/2 transform -translate-x-1/2"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            Standard Platform
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Limited capabilities
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-xs pointer-events-none z-10 bottom-4 right-4"
+          style="opacity: 0; transform: translateY(10px);"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <div
+              class="font-mono font-medium"
+            >
+              30
+              %
+            </div>
+            <div
+              class="w-1 h-1 glass-radius-full glass-surface-subtle/40"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 pointer-events-none z-5"
+        >
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="top: 0%; left: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-surface-primary/60 scale-125"
+            style="top: 25%; left: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="top: 75%; left: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="top: 100%; left: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+        </div>
+        <div
+          class="sr-only"
+        >
+          Use arrow keys to adjust the comparison. Press Home for 0%, End for 100%, Space for 50%. Number keys 0-5 jump to preset positions. Shift+arrows for larger steps.
+        </div>
+      </div>
+    </div>
+    <div
+      aria-label="Performance metrics dashboard comparison"
+      class="glass-w-full glass-auto-gap glass-auto-gap-2xl glass-focus"
+      role="region"
+    >
+      <div
+        class="text-center glass-auto-gap glass-auto-gap-sm"
+      >
+        <h3
+          class="glass-text-2xl font-bold text-primary"
+        >
+          Performance Impact
+        </h3>
+        <p
+          class="text-primary/70"
+        >
+          Real metrics from enterprise customers
+        </p>
+      </div>
+      <div
+        aria-describedby="slider-metrics"
+        aria-label="Traditional ML vs AuraOne comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow="20"
+        class="relative w-full overflow-hidden glass-radius-lg select-none glass-card-motion-aware cursor-col-resize glass-shadow-2xl"
+        role="slider"
+        style="height: 500px;"
+        tabindex="0"
+      >
+        <div
+          class="absolute inset-0 glass-w-full glass-h-full"
+        >
+          <div
+            class="relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary via-red-900/50 glass-gradient-primary glass-p-8"
+          >
+            <div
+              class="glass-h-full glass-flex glass-items-center glass-justify-center"
+            >
+              <div
+                class="glass-foundation-complete bg-glass-gradient-subtle glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-8 glass-container-md text-center glass-contrast-guard"
+              >
+                <h4
+                  class="glass-text-xl font-bold glass-text-secondary glass-mb-6"
+                >
+                  Legacy Platform
+                </h4>
+                <div
+                  class="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm"
+                >
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Training Time
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      12h
+                    </div>
+                  </div>
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Accuracy
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      89%
+                    </div>
+                  </div>
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Resources
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      85%
+                    </div>
+                  </div>
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Cost
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      $2.4K
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="glass-mt-6 glass-text-xs glass-text-secondary"
+                >
+                  High overhead, slow results
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
+          style="clip-path: inset(0 80% 0 0); width: 100%; height: 100%;"
+        >
+          <div
+            class="relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary via-green-900/50 glass-gradient-primary glass-p-8"
+          >
+            <div
+              class="glass-h-full glass-flex glass-items-center glass-justify-center"
+            >
+              <div
+                class="glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-8 max-w-md text-center glass-border glass-border-green/20 glass-contrast-guard"
+              >
+                <h4
+                  class="glass-text-xl font-bold glass-text-secondary mb-6"
+                >
+                  AuraOne Platform
+                </h4>
+                <div
+                  class="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm"
+                >
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Training Time
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      3h
+                    </div>
+                  </div>
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Accuracy
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      97%
+                    </div>
+                  </div>
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Resources
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      23%
+                    </div>
+                  </div>
+                  <div
+                    class="glass-auto-gap glass-auto-gap-xs"
+                  >
+                    <div
+                      class="text-primary/60"
+                    >
+                      Cost
+                    </div>
+                    <div
+                      class="glass-text-2xl font-bold glass-text-secondary"
+                    >
+                      $480
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="mt-6 text-green-200/60 glass-text-xs"
+                >
+                  Optimized efficiency, superior results
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute pointer-events-none transition-opacity duration-300"
+          style="left: 20%; top: 0px; bottom: 0px; width: 20px; transform: translateX(-50%); opacity: 0.2;"
+        />
+        <div
+          class="absolute glass-backdrop-blur-md shadow-lg transition-all duration-200 ease-out top-0 bottom-0 bg-gradient-to-b from-white/40 via-white/60 to-white/40 w-1"
+          style="left: 20%; transform: translateX(-50%); box-shadow: 0 0 10px \${glassStyles.borderColor || "var(--glass-bg-hover)"};"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          />
+          <div
+            class="absolute inset-0 transition-opacity duration-300 bg-gradient-to-r from-cyan-500/20 via-blue-500/30 to-cyan-500/20"
+            style="opacity: 0;"
+          />
+        </div>
+        <div
+          class="absolute cursor-grab active:cursor-grabbing touch-target z-20 w-12 h-12 top-1/2 -translate-y-1/2"
+          style="left: 20%; transform: translateX(-50%) translateY(-50%);"
+          tabindex="0"
+        >
+          <div
+            class="glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard"
+          >
+            <div
+              class="flex items-center glass-gap-1 glass-text-primary/70 group-hover:glass-text-primary/90 transition-colors duration-200 relative z-10 flex-row"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <div
+                class="w-1 h-1 glass-radius-full bg-transparent opacity-50"
+              />
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200"
+              style="opacity: 0;"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200"
+              style="transform: scale(0); opacity: 0;"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 left-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            AuraOne
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Optimized performance
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 right-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            Traditional ML
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Resource intensive
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-xs pointer-events-none z-10 bottom-4 left-1/2 transform -translate-x-1/2"
+          style="opacity: 0; transform: translateY(10px);"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <div
+              class="font-mono font-medium"
+            >
+              20
+              %
+            </div>
+            <div
+              class="w-1 h-1 glass-radius-full glass-surface-subtle/40"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 pointer-events-none z-5"
+        >
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 0%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-surface-primary/60 scale-125"
+            style="left: 25%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 75%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 100%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+        </div>
+        <div
+          class="absolute glass-foundation-complete bg-glass-gradient-strong glass-backdrop-blur-md-medium border border-white/20 glass-radius-lg glass-p-4 z-10 max-w-sm top-4 left-1/2 transform -translate-x-1/2"
+          id="slider-metrics"
+          style="opacity: 0.7;"
+        >
+          <div
+            class="glass-auto-gap glass-auto-gap-sm"
+          >
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Training Speed
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  12
+                   hours
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  3
+                   hours
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Model Accuracy
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  89.2
+                  %
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  96.8
+                  %
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Resource Usage
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  85
+                  %
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  23
+                  %
+                </span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between glass-text-sm glass-text-primary font-semibold"
+            >
+              <span
+                class="font-medium"
+              >
+                Cost per Model
+              </span>
+              <div
+                class="glass-flex glass-items-center glass-gap-2 font-mono"
+              >
+                <span
+                  class="glass-text-danger"
+                >
+                  $2,400
+                </span>
+                <span
+                  class="text-primary/50"
+                >
+                  →
+                </span>
+                <span
+                  class="glass-text-success"
+                >
+                  $480
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sr-only"
+        >
+          Use arrow keys to adjust the comparison. Press Home for 0%, End for 100%, Space for 50%. Number keys 0-5 jump to preset positions. Shift+arrows for larger steps.
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-full glass-auto-gap glass-auto-gap-2xl"
+    >
+      <div
+        class="text-center glass-auto-gap glass-auto-gap-sm"
+      >
+        <h3
+          class="glass-text-2xl font-bold text-primary"
+        >
+          Visual Results
+        </h3>
+        <p
+          class="text-primary/70"
+        >
+          Model training results comparison
+        </p>
+      </div>
+      <div
+        aria-label="Raw Output vs AuraOne Enhanced comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow="50"
+        class="relative w-full glass-radius-lg select-none glass-card-motion-aware cursor-col-resize glass-radius-xl glass-shadow-2xl overflow-hidden"
+        role="slider"
+        style="height: 400px;"
+        tabindex="0"
+      >
+        <div
+          class="absolute inset-0 glass-w-full glass-h-full"
+        >
+          <img
+            alt="Before optimization - noisy results"
+            class="w-full h-full object-cover transition-all duration-300 opacity-90"
+            height="800"
+            loading="lazy"
+            src="data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23666'%3EImage Content%3C/text%3E%3C/svg%3E"
+            width="1200"
+          />
+        </div>
+        <div
+          class="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
+          style="clip-path: inset(0 50% 0 0); width: 100%; height: 100%;"
+        >
+          <img
+            alt="After optimization - clean results"
+            class="w-full h-full object-cover transition-all duration-300"
+            height="800"
+            loading="eager"
+            src="data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23666'%3EImage Content%3C/text%3E%3C/svg%3E"
+            width="1200"
+          />
+        </div>
+        <div
+          class="absolute pointer-events-none transition-opacity duration-300"
+          style="left: 50%; top: 0px; bottom: 0px; width: 20px; transform: translateX(-50%); opacity: 0.2;"
+        />
+        <div
+          class="absolute glass-backdrop-blur-md shadow-lg transition-all duration-200 ease-out top-0 bottom-0 bg-gradient-to-b from-white/40 via-white/60 to-white/40 w-0.5"
+          style="left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px \${glassStyles.borderColor || "var(--glass-bg-hover)"};"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          />
+          <div
+            class="absolute inset-0 transition-opacity duration-300 bg-gradient-to-r from-cyan-500/20 via-blue-500/30 to-cyan-500/20"
+            style="opacity: 0;"
+          />
+        </div>
+        <div
+          class="absolute cursor-grab active:cursor-grabbing touch-target z-20 w-14 h-14 top-1/2 -translate-y-1/2"
+          style="left: 50%; transform: translateX(-50%) translateY(-50%);"
+          tabindex="0"
+        >
+          <div
+            class="glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard"
+          >
+            <div
+              class="flex items-center glass-gap-1 glass-text-primary/70 group-hover:glass-text-primary/90 transition-colors duration-200 relative z-10 flex-row"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <div
+                class="w-1 h-1 glass-radius-full bg-transparent opacity-50"
+              />
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200"
+              style="opacity: 0;"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200"
+              style="transform: scale(0); opacity: 0;"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 left-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            AuraOne Enhanced
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            AI-optimized output
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 right-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            Raw Output
+          </div>
+          <div
+            class="glass-text-xs text-primary/60 glass-mt-0-5"
+          >
+            Unprocessed results
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-xs pointer-events-none z-10 bottom-4 left-1/2 transform -translate-x-1/2"
+          style="opacity: 0; transform: translateY(10px);"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <div
+              class="font-mono font-medium"
+            >
+              50
+              %
+            </div>
+            <div
+              class="w-1 h-1 glass-radius-full glass-surface-subtle/40"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 pointer-events-none z-5"
+        >
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 0%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 25%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-surface-primary/60 scale-125"
+            style="left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 75%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 100%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+        </div>
+        <div
+          class="sr-only"
+        >
+          Use arrow keys to adjust the comparison. Press Home for 0%, End for 100%, Space for 50%. Number keys 0-5 jump to preset positions. Shift+arrows for larger steps.
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-full glass-auto-gap glass-auto-gap-2xl"
+    >
+      <div
+        class="text-center glass-auto-gap glass-auto-gap-sm"
+      >
+        <h3
+          class="glass-text-2xl font-bold text-primary"
+        >
+          Preset Positions Demo
+        </h3>
+        <p
+          class="text-primary/70"
+        >
+          Click buttons to jump to preset positions
+        </p>
+      </div>
+      <div
+        class="glass-flex glass-flex-wrap glass-justify-center glass-gap-3"
+      >
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium border border-white/20 glass-text-primary/80 glass-text-sm font-medium transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard hover:bg-white/10 hover:border-white/30 hover:scale-105"
+        >
+          BEFORE ONLY
+           (
+          0
+          %)
+        </button>
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium border border-white/20 glass-text-primary/80 glass-text-sm font-medium transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard hover:bg-white/10 hover:border-white/30 hover:scale-105"
+        >
+          QUARTER
+           (
+          25
+          %)
+        </button>
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete glass-backdrop-blur-md-medium border glass-text-primary/80 glass-text-sm font-medium transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard hover:bg-white/10 hover:border-white/30 hover:scale-105 bg-blue-500/20 border-blue-400/50 text-blue-300"
+        >
+          HALF
+           (
+          50
+          %)
+        </button>
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium border border-white/20 glass-text-primary/80 glass-text-sm font-medium transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard hover:bg-white/10 hover:border-white/30 hover:scale-105"
+        >
+          THREE QUARTER
+           (
+          75
+          %)
+        </button>
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium border border-white/20 glass-text-primary/80 glass-text-sm font-medium transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard hover:bg-white/10 hover:border-white/30 hover:scale-105"
+        >
+          AFTER ONLY
+           (
+          100
+          %)
+        </button>
+      </div>
+      <div
+        aria-label="Competitor vs AuraOne comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow="50"
+        class="relative w-full overflow-hidden glass-radius-lg select-none glass-card-motion-aware cursor-col-resize glass-shadow-2xl"
+        role="slider"
+        style="height: 350px;"
+        tabindex="0"
+      >
+        <div
+          class="absolute inset-0 glass-w-full glass-h-full"
+        >
+          <div
+            class="w-full h-full flex items-center justify-center p-8 transition-all duration-300 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900"
+          >
+            <div
+              class="text-center glass-auto-gap glass-auto-gap-lg"
+            >
+              <div
+                class="glass-text-4xl font-bold text-primary"
+              >
+                Before
+              </div>
+              <div
+                class="text-primary/70"
+              >
+                Traditional approach with limitations
+              </div>
+              <div
+                class="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm max-w-xs"
+              >
+                <div
+                  class="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Slow
+                  </div>
+                </div>
+                <div
+                  class="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Expensive
+                  </div>
+                </div>
+                <div
+                  class="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Complex
+                  </div>
+                </div>
+                <div
+                  class="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Limited
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
+          style="clip-path: inset(0 50% 0 0); width: 100%; height: 100%;"
+        >
+          <div
+            class="w-full h-full flex items-center justify-center p-8 transition-all duration-300 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900"
+          >
+            <div
+              class="text-center glass-auto-gap glass-auto-gap-lg"
+            >
+              <div
+                class="glass-text-4xl font-bold text-primary"
+              >
+                After
+              </div>
+              <div
+                class="text-primary/70"
+              >
+                AuraOne platform advantages
+              </div>
+              <div
+                class="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm max-w-xs"
+              >
+                <div
+                  class="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Fast
+                  </div>
+                </div>
+                <div
+                  class="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Affordable
+                  </div>
+                </div>
+                <div
+                  class="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Simple
+                  </div>
+                </div>
+                <div
+                  class="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3"
+                >
+                  <div
+                    class="glass-text-secondary font-semibold"
+                  >
+                    Scalable
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute pointer-events-none transition-opacity duration-300"
+          style="left: 50%; top: 0px; bottom: 0px; width: 20px; transform: translateX(-50%); opacity: 0.2;"
+        />
+        <div
+          class="absolute glass-backdrop-blur-md shadow-lg transition-all duration-200 ease-out top-0 bottom-0 bg-gradient-to-b from-white/40 via-white/60 to-white/40 w-1"
+          style="left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px \${glassStyles.borderColor || "var(--glass-bg-hover)"};"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          />
+          <div
+            class="absolute inset-0 transition-opacity duration-300 bg-gradient-to-r from-cyan-500/20 via-blue-500/30 to-cyan-500/20"
+            style="opacity: 0;"
+          />
+        </div>
+        <div
+          class="absolute cursor-grab active:cursor-grabbing touch-target z-20 w-12 h-12 top-1/2 -translate-y-1/2"
+          style="left: 50%; transform: translateX(-50%) translateY(-50%);"
+          tabindex="0"
+        >
+          <div
+            class="glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard"
+          >
+            <div
+              class="flex items-center glass-gap-1 glass-text-primary/70 group-hover:glass-text-primary/90 transition-colors duration-200 relative z-10 flex-row"
+            >
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <div
+                class="w-1 h-1 glass-radius-full bg-transparent opacity-50"
+              />
+              <svg
+                class="w-3 h-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200"
+              style="opacity: 0;"
+            />
+            <div
+              class="absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200"
+              style="transform: scale(0); opacity: 0;"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 left-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            AuraOne
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-sm pointer-events-none z-10 top-4 right-4"
+          style="opacity: 0; transform: scale(0.9);"
+        >
+          <div
+            class="font-medium"
+          >
+            Competitor
+          </div>
+        </div>
+        <div
+          class="absolute chip chip-muted glass-text-xs pointer-events-none z-10 bottom-4 left-1/2 transform -translate-x-1/2"
+          style="opacity: 0; transform: translateY(10px);"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <div
+              class="font-mono font-medium"
+            >
+              50
+              %
+            </div>
+            <div
+              class="w-1 h-1 glass-radius-full glass-surface-subtle/40"
+            />
+          </div>
+        </div>
+        <div
+          class="absolute inset-0 pointer-events-none z-5"
+        >
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 0%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 25%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-surface-primary/60 scale-125"
+            style="left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 75%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+          <div
+            class="absolute w-2 h-2 glass-radius-full bg-white/30 glass-backdrop-blur-md border border-white/20 transition-all duration-200"
+            style="left: 100%; top: 50%; transform: translateX(-50%) translateY(-50%);"
+          />
+        </div>
+        <div
+          class="sr-only"
+        >
+          Use arrow keys to adjust the comparison. Press Home for 0%, End for 100%, Space for 50%. Number keys 0-5 jump to preset positions. Shift+arrows for larger steps.
+        </div>
+      </div>
+      <div
+        class="text-center glass-auto-gap glass-auto-gap-sm"
+      >
+        <div
+          class="text-primary/80"
+        >
+          Current Position:
+           
+          <span
+            class="font-mono font-semibold glass-text-secondary"
+          >
+            50
+            %
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-center glass-auto-gap glass-auto-gap-lg pt-8"
+    >
+      <div
+        class="text-primary/60 glass-text-sm"
+      >
+        All sliders support keyboard navigation, touch gestures, momentum scrolling, and preset snapping.
+      </div>
+      <div
+        class="text-primary/50 glass-text-xs"
+      >
+        Fully accessible with ARIA support and motion-aware animations.
+      </div>
+    </div>
+  </div>
+</div>
+`;

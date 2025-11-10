@@ -157,7 +157,7 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
               <li key={index} className="glass-flex glass-items-center">
                 {index > 0 && (
                   <span
-                    className="glass-mx-2 text-primary/40"
+                    className='glass-mx-2 text-primary/40'
                     aria-hidden="true"
                   >
                     {separator}

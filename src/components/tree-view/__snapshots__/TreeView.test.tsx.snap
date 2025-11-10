@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TreeView matches snapshot 1`] = `
+<ul
+  aria-multiselectable="false"
+  class="root sizeMedium"
+  role="tree"
+  style="--tree-view-color: rgba(248, 250, 252, 0.9); --tree-view-selected-bg: rgba(99, 102, 241, 0.14);"
+/>
+`;

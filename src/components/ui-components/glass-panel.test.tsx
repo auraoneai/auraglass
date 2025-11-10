@@ -15,17 +15,19 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
-import { glass-panel } from '@/components/ui-components/glass-panel';
+import { GlassPanel } from '@/components/ui-components/glass-panel';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('glass-panel', () => {
+describe('GlassPanel', () => {
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<glass-panel />);
+    const { container } = render(
+      <GlassPanel>Panel content</GlassPanel>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +35,9 @@ describe('glass-panel', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<glass-panel />);
+    const { container } = render(
+      <GlassPanel>Panel content</GlassPanel>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -49,10 +53,12 @@ describe('glass-panel', () => {
    */
   it('accepts and renders with custom props', () => {
     const { container } = render(
-      <glass-panel
+      <GlassPanel
         className="custom-class"
         data-testid="glass-panel"
-      />
+      >
+        Panel content
+      </GlassPanel>
     );
 
     const element = container.querySelector('[data-testid="glass-panel"]')
@@ -65,7 +71,9 @@ describe('glass-panel', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<glass-panel />);
+    const { container } = render(
+      <GlassPanel>Panel content</GlassPanel>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -275,10 +275,10 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
   return (
     <Motion data-glass-component preset="fadeIn" className="glass-w-full">
       <GlassCard className={cn("overflow-hidden", className)} {...props}>
-        <CardHeader className="pb-3">
+        <CardHeader className='pb-3'>
           <div className="glass-flex glass-items-center glass-justify-between">
-            <CardTitle className="text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2">
-              <Palette className="w-5 h-5" />
+            <CardTitle className='text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2'>
+              <Palette className='w-5 h-5' />
               Gradient Picker
             </CardTitle>
 
@@ -290,7 +290,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                 className="glass-p-2 glass-focus glass-touch-target"
                 title="Random Gradient"
               >
-                <Shuffle className="w-4 h-4" />
+                <Shuffle className='w-4 h-4' />
               </GlassButton>
 
               <GlassButton
@@ -301,25 +301,25 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                 title="Copy Gradient"
               >
                 {copied ? (
-                  <Check className="w-4 h-4" />
+                  <Check className='w-4 h-4' />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <Copy className='w-4 h-4' />
                 )}
               </GlassButton>
             </div>
           </div>
         </CardHeader>
 
-        <CardContent className="pt-0 glass-auto-gap glass-auto-gap-2xl">
+        <CardContent className='pt-0 glass-auto-gap glass-auto-gap-2xl'>
           {/* Current Gradient Preview */}
           <div className="glass-auto-gap glass-auto-gap-md">
             <div
-              className="glass-w-full h-32 glass-radius-lg glass-border glass-border-white/20"
+              className='glass-w-full h-32 glass-radius-lg glass-border glass-border-white/20'
               style={{ background: currentGradient }}
             />
 
             <div className="glass-flex glass-items-center glass-justify-between">
-              <code className="glass-text-xs text-primary/60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md font-mono truncate glass-flex-1 glass-mr-2">
+              <code className='glass-text-xs text-primary/60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md font-mono truncate glass-flex-1 glass-mr-2'>
                 {currentGradient}
               </code>
 
@@ -330,7 +330,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                 className="glass-p-2 glass-focus glass-touch-target"
                 title="Reset"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className='w-4 h-4' />
               </GlassButton>
             </div>
           </div>
@@ -338,7 +338,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {/* Gradient Type Selector */}
           {showTypeSelector && (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <h4 className="text-primary/80 glass-text-sm font-medium">
+              <h4 className='text-primary/80 glass-text-sm font-medium'>
                 Type
               </h4>
               <div className="glass-flex glass-gap-2">
@@ -348,7 +348,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     variant={selectedType === type ? "primary" : "ghost"}
                     size="sm"
                     onClick={(e) => setSelectedType(type)}
-                    className="capitalize glass-focus glass-touch-target"
+                    className='capitalize glass-focus glass-touch-target'
                   >
                     {type}
                   </GlassButton>
@@ -360,7 +360,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {/* Angle Control for Linear */}
           {showAngleControl && selectedType === "linear" && (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <h4 className="text-primary/80 glass-text-sm font-medium">
+              <h4 className='text-primary/80 glass-text-sm font-medium'>
                 Angle: {angle}°
               </h4>
               <input
@@ -369,7 +369,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                 max="360"
                 value={angle}
                 onChange={(e) => setAngle(Number(e.target.value))}
-                className="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard'
               />
             </div>
           )}
@@ -378,7 +378,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {showStopsEditor && enableCustom && (
             <div className="glass-auto-gap glass-auto-gap-md">
               <div className="glass-flex glass-items-center glass-justify-between">
-                <h4 className="text-primary/80 glass-text-sm font-medium">
+                <h4 className='text-primary/80 glass-text-sm font-medium'>
                   Color Stops
                 </h4>
                 {stops.length < maxStops && (
@@ -388,7 +388,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     onClick={handleAddStop}
                     className="glass-p-1 glass-focus glass-touch-target"
                   >
-                    <Upload className="w-4 h-4" />
+                    <Upload className='w-4 h-4' />
                   </GlassButton>
                 )}
               </div>
@@ -412,7 +412,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                       onChange={(e) =>
                         handleStopChange(index, { color: e.target.value })
                       }
-                      className="w-8 h-8 glass-radius-md glass-border glass-border-white/20 cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                      className='w-8 h-8 glass-radius-md glass-border glass-border-white/20 cursor-pointer glass-focus glass-touch-target glass-contrast-guard'
                     />
 
                     <div className="glass-flex-1">
@@ -426,9 +426,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                             position: Number(e.target.value),
                           })
                         }
-                        className="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                        className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard'
                       />
-                      <div className="glass-text-xs text-primary/60 glass-mt-1">
+                      <div className='glass-text-xs text-primary/60 glass-mt-1'>
                         Position: {stop.position}%
                       </div>
                     </div>
@@ -438,9 +438,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                         variant="ghost"
                         size="sm"
                         onClick={(e) => handleRemoveStop(index)}
-                        className="glass-p-1 text-primary hover:glass-text-secondary glass-focus glass-touch-target"
+                        className='glass-p-1 text-primary hover:glass-text-secondary glass-focus glass-touch-target'
                       >
-                        <Download className="w-4 h-4" />
+                        <Download className='w-4 h-4' />
                       </GlassButton>
                     )}
                   </div>
@@ -452,18 +452,18 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {/* Presets */}
           {allPresets.length > 0 && (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <h4 className="text-primary/80 glass-text-sm font-medium">
+              <h4 className='text-primary/80 glass-text-sm font-medium'>
                 Presets
               </h4>
               <div className="glass-grid glass-grid-cols-2 glass-gap-3">
                 {allPresets.map((preset) => (
                   <div
                     key={preset.id}
-                    className="cursor-pointer group glass-focus glass-touch-target"
+                    className='cursor-pointer group glass-focus glass-touch-target'
                     onClick={(e) => handlePresetSelect(preset)}
                   >
                     <div
-                      className="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20 group-hover:border-white/40 transition-all"
+                      className='glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20 group-hover:border-white/40 transition-all'
                       style={{
                         background:
                           preset.stops.length > 0
@@ -471,7 +471,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                             : "transparent",
                       }}
                     />
-                    <p className="text-primary/80 glass-text-xs glass-mt-2 text-center group-hover:text-primary transition-colors">
+                    <p className='text-primary/80 glass-text-xs glass-mt-2 text-center group-hover:text-primary transition-colors'>
                       {preset.name}
                     </p>
                   </div>

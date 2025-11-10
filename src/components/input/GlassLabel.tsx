@@ -19,6 +19,8 @@ export interface GlassLabelProps
   description?: string;
   /** Whether the label should have enhanced visual styling */
   enhanced?: boolean;
+  /** Optional test id hook */
+  'data-testid'?: string;
 }
 
 export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
@@ -34,6 +36,7 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
       className,
       children,
       id,
+      'data-testid': dataTestId,
       ...props
     },
     ref
@@ -61,6 +64,7 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
         <label
           ref={ref}
           id={finalId}
+          data-testid={dataTestId ?? 'glasslabel'}
           className={cn(
             "glass-label",
             "font-medium leading-none transition-colors duration-200",
@@ -85,13 +89,13 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
           )}
           {...props}
         >
-          {icon && <span className="shrink-0">{icon}</span>}
+          {icon && <span className='shrink-0'>{icon}</span>}
 
           <span>
             {children}
             {required && (
               <span
-                className="text-destructive glass-ml-1"
+                className='text-destructive glass-ml-1'
                 aria-label="required"
               >
                 *

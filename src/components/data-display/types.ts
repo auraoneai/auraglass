@@ -10,6 +10,7 @@ export interface ColumnDefinition {
   header?: string;
   cellRenderer?: (value: any, row: any) => React.ReactNode;
   accessorKey?: string;
+  placeholder?: React.ReactNode;
 }
 
 export interface SortState {

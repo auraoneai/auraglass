@@ -669,9 +669,9 @@ export const GlassButton = forwardRef(function GlassButton(
       return (
         <>
           {loadingSpinner || (
-            <div className="w-4 h-4 glass-border-2 glass-border-current glass-border-t-transparent glass-radius-full animate-spin" />
+            <div className='w-4 h-4 glass-border-2 glass-border-current glass-border-t-transparent glass-radius-full animate-spin' />
           )}
-          {!iconOnly && <span className="ml-2">{loadingText}</span>}
+          {!iconOnly && <span className='ml-2'>{loadingText}</span>}
         </>
       );
     }
@@ -683,13 +683,13 @@ export const GlassButton = forwardRef(function GlassButton(
     return (
       <>
         {leftIcon && (
-          <span className="mr-2" data-icon>
+          <span className='mr-2' data-icon>
             {leftIcon}
           </span>
         )}
         {children}
         {rightIcon && (
-          <span className="ml-2" data-icon>
+          <span className='ml-2' data-icon>
             {rightIcon}
           </span>
         )}
@@ -704,7 +704,7 @@ export const GlassButton = forwardRef(function GlassButton(
         data-glass-component
         preset={getAnimationPreset()}
         animateOnHover={animation !== "none"}
-        className="inline-block"
+        className='inline-block'
       >
         <Comp
           className={cn(
@@ -726,7 +726,7 @@ export const GlassButton = forwardRef(function GlassButton(
           {description && (
             <span
               id={descriptionId}
-              className="sr-only glass-focus glass-touch-target glass-contrast-guard"
+              className='sr-only glass-focus glass-touch-target glass-contrast-guard'
             >
               {description}
             </span>
@@ -740,7 +740,7 @@ export const GlassButton = forwardRef(function GlassButton(
     <Motion
       preset={getAnimationPreset()}
       animateOnHover={animation !== "none"}
-      className="inline-block"
+      className='inline-block'
     >
       {material === "liquid" ? (
         <LiquidGlassMaterial
@@ -819,11 +819,11 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
               {resolvedVariant === "gradient" && (
-                <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
+                <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard' />
               )}
-              <span className="relative z-10">{renderContent()}</span>
+              <span className='relative z-10'>{renderContent()}</span>
               {description && (
-                <span id={descriptionId} className="sr-only">
+                <span id={descriptionId} className='sr-only'>
                   {description}
                 </span>
               )}
@@ -881,11 +881,11 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
               {resolvedVariant === "gradient" && (
-                <div className="absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
+                <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard' />
               )}
-              <span className="relative z-10">{renderContent()}</span>
+              <span className='relative z-10'>{renderContent()}</span>
               {description && (
-                <span id={descriptionId} className="sr-only">
+                <span id={descriptionId} className='sr-only'>
                   {description}
                 </span>
               )}

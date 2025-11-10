@@ -244,11 +244,11 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
 
                 {showTarget && data?.target && (
                   <div className="glass-w-full">
-                    <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary mb-1">
+                    <div className='glass-flex glass-justify-between glass-text-xs glass-text-secondary mb-1'>
                       <span>Progress</span>
                       <span>{Math.round(getTargetProgress())}%</span>
                     </div>
-                    <div className="glass-w-full glass-surface-subtle glass-radius-full h-2">
+                    <div className='glass-w-full glass-surface-subtle glass-radius-full h-2'>
                       <Motion
                         className={cn(
                           "h-full glass-radius-full transition-all duration-500",

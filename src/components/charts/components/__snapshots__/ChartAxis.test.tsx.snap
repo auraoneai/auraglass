@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChartAxis matches snapshot 1`] = `
+<div
+  data-glass-component="true"
+  style="position: absolute; bottom: 0px; left: 0px; right: 0px; height: 40px;"
+>
+  <div
+    style="position: absolute; height: 1px; left: 0px; right: 0px; bottom: 15px;"
+  />
+  <div
+    style="position: absolute; left: 0%; bottom: 10px; transform: translateX(-50%); height: 10px;"
+  >
+    <span
+      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+    >
+      0
+    </span>
+  </div>
+  <div
+    style="position: absolute; left: 20%; bottom: 10px; transform: translateX(-50%); height: 10px;"
+  >
+    <span
+      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+    >
+      20
+    </span>
+  </div>
+  <div
+    style="position: absolute; left: 40%; bottom: 10px; transform: translateX(-50%); height: 10px;"
+  >
+    <span
+      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+    >
+      40
+    </span>
+  </div>
+  <div
+    style="position: absolute; left: 60%; bottom: 10px; transform: translateX(-50%); height: 10px;"
+  >
+    <span
+      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+    >
+      60
+    </span>
+  </div>
+  <div
+    style="position: absolute; left: 80%; bottom: 10px; transform: translateX(-50%); height: 10px;"
+  >
+    <span
+      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+    >
+      80
+    </span>
+  </div>
+  <div
+    style="position: absolute; left: 100%; bottom: 10px; transform: translateX(-50%); height: 10px;"
+  >
+    <span
+      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+    >
+      100
+    </span>
+  </div>
+</div>
+`;

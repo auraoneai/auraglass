@@ -207,11 +207,11 @@ export const GlassActionSheet = forwardRef<
             {...props}
           >
             {(title || message) && (
-              <div className="glass-p-4 text-center glass-border-b glass-border-subtle">
+              <div className='glass-p-4 text-center glass-border-b glass-border-subtle'>
                 {title && (
                   <h3
                     id="action-sheet-title"
-                    className="glass-text-lg font-semibold glass-text-primary mb-1"
+                    className='glass-text-lg font-semibold glass-text-primary mb-1'
                   >
                     {title}
                   </h3>
@@ -227,7 +227,7 @@ export const GlassActionSheet = forwardRef<
               </div>
             )}
 
-            <div className="max-h-96 overflow-y-auto">
+            <div className='max-h-96 overflow-y-auto'>
               {actions.map((action, index) => (
                 <button
                   key={index}
@@ -261,7 +261,7 @@ export const GlassActionSheet = forwardRef<
           {showCancel && (
             <OptimizedGlass
               elevation={elevation}
-              className="mt-2 overflow-hidden glass-radius-2xl"
+              className='mt-2 overflow-hidden glass-radius-2xl'
             >
               <button
                 onClick={onClose}

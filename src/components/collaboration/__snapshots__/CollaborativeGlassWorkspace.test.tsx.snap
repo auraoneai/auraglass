@@ -1,0 +1,665 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
+<div
+  aria-live="polite"
+  class="glass-collaborative-workspace glass-h-screen glass-flex glass-flex-col glass-surface-dark"
+  role="main"
+>
+  <div
+    class="workspace-header glass-flex glass-items-center glass-justify-between glass-px-4 glass-py-3 glass-border-b glass-border-white/10"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="glass-flex glass-items-center glass-gap-4"
+    >
+      <h1
+        class="glass-text-xl font-bold text-primary"
+      >
+        Collaborative Design Session
+      </h1>
+      <div
+        class="glass-text-sm text-primary/60"
+      >
+        ✏️ Editing
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-gap-2"
+    >
+      <button
+        class="glass-p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        title="Undo"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-undo w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M3 7v6h6"
+          />
+          <path
+            d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"
+          />
+        </svg>
+      </button>
+      <button
+        class="glass-p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        disabled=""
+        title="Redo"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-redo w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21 7v6h-6"
+          />
+          <path
+            d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"
+          />
+        </svg>
+      </button>
+      <button
+        class="glass-px-3 glass-py-2 glass-text-sm glass-surface-blue text-primary glass-radius hover:glass-surface-blue"
+        title="Create Snapshot"
+      >
+        📷 Snapshot
+      </button>
+      <div
+        class="relative"
+      >
+        <button
+          class="glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary"
+          title="Change Layout"
+        >
+          🔀
+        </button>
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-gap-2"
+    >
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <div
+          class="glass-flex -space-x-2"
+        >
+          <div
+            class="w-8 h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs font-bold text-primary"
+            title="Alice Johnson"
+          >
+            A
+          </div>
+          <div
+            class="w-8 h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs font-bold text-primary"
+            title="Bob Smith"
+          >
+            B
+          </div>
+          <div
+            class="w-8 h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs font-bold text-primary"
+            title="Carol Davis"
+          >
+            C
+          </div>
+        </div>
+        <span
+          class="glass-text-sm text-primary/60"
+        >
+          3
+           online
+        </span>
+      </div>
+      <button
+        class="glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        title="Toggle Sidebar"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-layers w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"
+          />
+          <path
+            d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"
+          />
+          <path
+            d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"
+          />
+        </svg>
+      </button>
+      <button
+        class="glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        title="Toggle Fullscreen"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-maximize w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 3H5a2 2 0 0 0-2 2v3"
+          />
+          <path
+            d="M21 8V5a2 2 0 0 0-2-2h-3"
+          />
+          <path
+            d="M3 16v3a2 2 0 0 0 2 2h3"
+          />
+          <path
+            d="M16 21h3a2 2 0 0 0 2-2v-3"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div
+    class="glass-flex-1 glass-flex glass-min-h-0 glass-flex-row"
+  >
+    <div
+      class="flex-1 glass-min-w-0 glass-p-4"
+    >
+      <div
+        class="collaborative-canvas relative glass-h-full"
+        style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="absolute inset-0 opacity-20"
+          style="background-size: 20px 20px;"
+        />
+        <div
+          class="glass-flex glass-items-center glass-justify-center glass-h-full text-primary/60"
+        >
+          <div
+            class="text-center"
+          >
+            <div
+              class="glass-text-4xl mb-4"
+            >
+              🎨
+            </div>
+            <p
+              class="glass-text-lg"
+            >
+              Collaborative Canvas
+            </p>
+            <p
+              class="glass-text-sm"
+            >
+              Click to start designing together
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex-1 glass-min-w-0 glass-p-4"
+    >
+      <div
+        class="multi-user-editor glass-h-full"
+        style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="glass-p-4"
+        >
+          <div
+            class="glass-flex glass-items-center glass-justify-between mb-4"
+          >
+            <h3
+              class="text-primary font-semibold"
+            >
+              Properties Editor
+            </h3>
+            <div
+              class="glass-flex glass-gap-2"
+            >
+              <button
+                class="glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary"
+              >
+                📜
+              </button>
+              <button
+                class="glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary"
+              >
+                💬
+              </button>
+              <div
+                class="glass-flex glass-items-center glass-gap-1 text-primary glass-text-sm"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-wifi w-3 h-3"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 20h.01"
+                  />
+                  <path
+                    d="M2 8.82a15 15 0 0 1 20 0"
+                  />
+                  <path
+                    d="M5 12.859a10 10 0 0 1 14 0"
+                  />
+                  <path
+                    d="M8.5 16.429a5 5 0 0 1 7 0"
+                  />
+                </svg>
+                 Live
+              </div>
+            </div>
+          </div>
+          <div
+            class="space-y-4"
+          >
+            <div>
+              <label
+                class="block glass-text-sm font-medium text-primary/80 mb-2"
+              >
+                Target Element
+              </label>
+              <div
+                class="glass-p-2 glass-surface-subtle/5 glass-radius text-primary glass-text-sm"
+              >
+                global
+              </div>
+            </div>
+            <div>
+              <label
+                class="block glass-text-sm font-medium text-primary/80 mb-2"
+              >
+                Properties
+              </label>
+              <div
+                class="space-y-2"
+              >
+                <div
+                  class="glass-flex glass-items-center glass-gap-2"
+                >
+                  <span
+                    class="text-primary/60 glass-text-sm w-20"
+                  >
+                    Width:
+                  </span>
+                  <input
+                    class="glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius text-primary glass-text-sm glass-touch-target glass-contrast-guard"
+                    placeholder="Auto"
+                    type="number"
+                  />
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-gap-2"
+                >
+                  <span
+                    class="text-primary/60 glass-text-sm w-20"
+                  >
+                    Height:
+                  </span>
+                  <input
+                    class="glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius text-primary glass-text-sm glass-touch-target glass-contrast-guard"
+                    placeholder="Auto"
+                    type="number"
+                  />
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-gap-2"
+                >
+                  <span
+                    class="text-primary/60 glass-text-sm w-20"
+                  >
+                    Opacity:
+                  </span>
+                  <input
+                    class="glass-flex-1 glass-touch-target glass-contrast-guard"
+                    max="1"
+                    min="0"
+                    step="0.1"
+                    type="range"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="workspace-sidebar w-80 glass-border-l glass-border-white/20 glass-p-4 space-y-4"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="space-y-2"
+      >
+        <h3
+          class="glass-text-sm font-semibold text-primary/80 uppercase"
+        >
+          Mini Map
+        </h3>
+        <div
+          class="aspect-video bg-slate-800 glass-border glass-border-white/20 glass-radius glass-p-2"
+        >
+          <div
+            class="glass-text-xs text-primary/50 text-center mt-8"
+          >
+            Canvas overview
+          </div>
+        </div>
+      </div>
+      <div
+        class="space-y-2"
+      >
+        <h3
+          class="glass-text-sm font-semibold text-primary/80 uppercase"
+        >
+          Online Users
+        </h3>
+        <div
+          class="space-y-2"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle/5"
+          >
+            <div
+              class="w-6 h-6 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs font-bold text-primary"
+            >
+              A
+            </div>
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-text-sm text-primary"
+              >
+                Alice Johnson
+              </div>
+              <div
+                class="glass-text-xs text-primary/50"
+              >
+                admin
+              </div>
+            </div>
+          </div>
+          <div
+            class="glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle/5"
+          >
+            <div
+              class="w-6 h-6 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs font-bold text-primary"
+            >
+              B
+            </div>
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-text-sm text-primary"
+              >
+                Bob Smith
+              </div>
+              <div
+                class="glass-text-xs text-primary/50"
+              >
+                editor
+              </div>
+            </div>
+          </div>
+          <div
+            class="glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle/5"
+          >
+            <div
+              class="w-6 h-6 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs font-bold text-primary"
+            >
+              C
+            </div>
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-text-sm text-primary"
+              >
+                Carol Davis
+              </div>
+              <div
+                class="glass-text-xs text-primary/50"
+              >
+                viewer
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="space-y-2"
+      >
+        <h3
+          class="glass-text-sm font-semibold text-primary/80 uppercase"
+        >
+          Quick Actions
+        </h3>
+        <div
+          class="space-y-2"
+        >
+          <button
+            class="glass-w-full text-left glass-px-3 glass-py-2 glass-text-sm glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-radius text-primary"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-copy w-4 h-4 inline mr-2"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="14"
+                rx="2"
+                ry="2"
+                width="14"
+                x="8"
+                y="8"
+              />
+              <path
+                d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+              />
+            </svg>
+            Copy Selected
+          </button>
+          <button
+            class="glass-w-full text-left glass-px-3 glass-py-2 glass-text-sm glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-radius text-primary"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-clipboard-paste w-4 h-4 inline mr-2"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 14h10"
+              />
+              <path
+                d="M16 4h2a2 2 0 0 1 2 2v1.344"
+              />
+              <path
+                d="m17 18 4-4-4-4"
+              />
+              <path
+                d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 1.793-1.113"
+              />
+              <rect
+                height="4"
+                rx="1"
+                width="8"
+                x="8"
+                y="2"
+              />
+            </svg>
+            Paste
+          </button>
+          <button
+            class="glass-w-full text-left glass-px-3 glass-py-2 glass-text-sm glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-radius text-primary"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-trash2 lucide-trash-2 w-4 h-4 inline mr-2"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 11v6"
+              />
+              <path
+                d="M14 11v6"
+              />
+              <path
+                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+              />
+              <path
+                d="M3 6h18"
+              />
+              <path
+                d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+              />
+            </svg>
+            Delete Selected
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="fixed bottom-6 right-6"
+  >
+    <div
+      class="flex flex-col gap-2 opacity-0 pointer-events-none transition-opacity"
+    >
+      <button
+        class="w-12 h-12 glass-radius-full glass-surface-blue text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        title="Version Control"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-settings w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+        </svg>
+      </button>
+      <button
+        class="w-12 h-12 glass-radius-full glass-surface-primary text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-subtle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        title="Fullscreen"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-maximize w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 3H5a2 2 0 0 0-2 2v3"
+          />
+          <path
+            d="M21 8V5a2 2 0 0 0-2-2h-3"
+          />
+          <path
+            d="M3 16v3a2 2 0 0 0 2 2h3"
+          />
+          <path
+            d="M16 21h3a2 2 0 0 0 2-2v-3"
+          />
+        </svg>
+      </button>
+    </div>
+    <button
+      class="w-14 h-14 glass-radius-full bg-slate-700 text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:bg-slate-600 mt-2"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      ⚡
+    </button>
+  </div>
+</div>
+`;

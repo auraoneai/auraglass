@@ -207,7 +207,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               href={field.value}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline glass-focus glass-touch-target glass-contrast-guard"
+              className='text-primary hover:underline glass-focus glass-touch-target glass-contrast-guard'
             >
               {field.value}
             </a>
@@ -241,11 +241,11 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
             widthClasses[field.width || "auto"]
           )}
         >
-          <label className="glass-text-sm font-medium glass-text-secondary">
+          <label className='glass-text-sm font-medium glass-text-secondary'>
             {field.label}
           </label>
           <HStack space="sm" align="center">
-            <div className="glass-text-sm text-primary">
+            <div className='glass-text-sm text-primary'>
               {renderFieldValue(field)}
             </div>
             {field.copyable && (
@@ -286,7 +286,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               }
             >
               <VStack space="xs">
-                <h3 className="glass-text-lg font-semibold text-primary">
+                <h3 className='glass-text-lg font-semibold text-primary'>
                   {section.title}
                 </h3>
                 {section.description && (
@@ -310,11 +310,11 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
 
             {/* Section content */}
             {(!section.collapsible || isExpanded) && (
-              <Motion type="slide" direction="down" className="mt-6">
+              <Motion type="slide" direction="down" className='mt-6'>
                 {section.component ? (
                   section.component
                 ) : section.fields ? (
-                  <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-6">
+                  <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-6'>
                     {section.fields.map(renderField)}
                   </div>
                 ) : null}
@@ -333,7 +333,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
         <VStack space="md">
           {/* Tab navigation */}
           <div className="glass-border-b glass-border-glass-border/20">
-            <nav className="glass-flex space-x-8">
+            <nav className='glass-flex space-x-8'>
               {tabs.map((tab) => (
                 <GlassButton
                   key={tab.id}
@@ -387,7 +387,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
 
             <VStack space="xs">
               <HStack space="sm" align="center">
-                <h1 className="glass-text-2xl font-bold text-primary">
+                <h1 className='glass-text-2xl font-bold text-primary'>
                   {title}
                 </h1>
                 {status && (
@@ -450,16 +450,16 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     const renderContent = () => {
       if (loading) {
         return (
-          <div className="glass-flex glass-items-center glass-justify-center h-64">
-            <div className="w-8 h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
+          <div className='glass-flex glass-items-center glass-justify-center h-64'>
+            <div className='w-8 h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
           </div>
         );
       }
 
       if (error) {
         return (
-          <GlassCard variant="default" className="glass-p-8 text-center">
-            <div className="text-destructive font-medium mb-2">Error</div>
+          <GlassCard variant="default" className='glass-p-8 text-center'>
+            <div className='text-destructive font-medium mb-2'>Error</div>
             <div className="glass-text-secondary">{error}</div>
           </GlassCard>
         );

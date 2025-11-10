@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductionAIIntegration matches snapshot 1`] = `
+<div
+  class="glass-flex glass-items-center glass-justify-center glass-p-8"
+  data-glass-component="true"
+>
+  <div
+    class="text-center"
+  >
+    <div
+      class="animate-spin glass-radius-full h-12 w-12 glass-border-b-2 glass-border-blue glass-mx-auto mb-4"
+    />
+    <p
+      class="glass-text-secondary"
+    >
+      Initializing AI services...
+    </p>
+  </div>
+</div>
+`;

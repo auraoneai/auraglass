@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSeparator matches snapshot 1`] = `
+<div
+  aria-label="horizontal separator"
+  aria-orientation="horizontal"
+  class="glass-separator w-full h-0.5 bg-border/20 motion-safe:transition-all motion-reduce:transition-none"
+  id=":r5:"
+  role="presentation"
+/>
+`;

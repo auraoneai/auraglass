@@ -25,7 +25,11 @@ describe('GlassMediaProvider', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassMediaProvider />);
+    const { container } = render(
+      <GlassMediaProvider>
+        <div data-testid="host" />
+      </GlassMediaProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +37,11 @@ describe('GlassMediaProvider', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassMediaProvider />);
+    const { container } = render(
+      <GlassMediaProvider>
+        <div data-testid="host" />
+      </GlassMediaProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -52,7 +60,9 @@ describe('GlassMediaProvider', () => {
       <GlassMediaProvider
         className="custom-class"
         data-testid="glassmediaprovider"
-      />
+      >
+        <div data-testid="host" />
+      </GlassMediaProvider>
     );
 
     const element = container.querySelector('[data-testid="glassmediaprovider"]')
@@ -65,7 +75,11 @@ describe('GlassMediaProvider', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassMediaProvider />);
+    const { container } = render(
+      <GlassMediaProvider>
+        <div data-testid="host" />
+      </GlassMediaProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

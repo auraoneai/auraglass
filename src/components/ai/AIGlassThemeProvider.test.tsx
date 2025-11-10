@@ -25,7 +25,11 @@ describe('AIGlassThemeProvider', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<AIGlassThemeProvider />);
+    const { container } = render(
+      <AIGlassThemeProvider>
+        <div data-testid="host" />
+      </AIGlassThemeProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +37,11 @@ describe('AIGlassThemeProvider', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<AIGlassThemeProvider />);
+    const { container } = render(
+      <AIGlassThemeProvider>
+        <div data-testid="host" />
+      </AIGlassThemeProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -63,7 +71,11 @@ describe('AIGlassThemeProvider', () => {
         })),
       });
 
-      const { container } = render(<AIGlassThemeProvider />);
+      const { container } = render(
+        <AIGlassThemeProvider>
+          <div data-testid="host" />
+        </AIGlassThemeProvider>
+      );
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
@@ -87,7 +99,9 @@ describe('AIGlassThemeProvider', () => {
       <AIGlassThemeProvider
         className="custom-class"
         data-testid="aiglassthemeprovider"
-      />
+      >
+        <div data-testid="host" />
+      </AIGlassThemeProvider>
     );
 
     const element = container.querySelector('[data-testid="aiglassthemeprovider"]')
@@ -100,7 +114,11 @@ describe('AIGlassThemeProvider', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<AIGlassThemeProvider />);
+    const { container } = render(
+      <AIGlassThemeProvider>
+        <div data-testid="host" />
+      </AIGlassThemeProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -1,0 +1,156 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassBiomeSimulator matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-biome-simulator relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20"
+  id="glass-biome-simulator-:r4:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Biome:
+        </label>
+        <select
+          class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+        >
+          <option
+            value="forest"
+          >
+            Forest
+          </option>
+          <option
+            value="ocean"
+          >
+            Ocean
+          </option>
+          <option
+            value="desert"
+          >
+            Desert
+          </option>
+          <option
+            value="tundra"
+          >
+            Tundra
+          </option>
+          <option
+            value="grassland"
+          >
+            Grassland
+          </option>
+          <option
+            value="rainforest"
+          >
+            Rainforest
+          </option>
+          <option
+            value="mountain"
+          >
+            Mountain
+          </option>
+          <option
+            value="swamp"
+          >
+            Swamp
+          </option>
+        </select>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Season:
+        </label>
+        <select
+          class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+        >
+          <option
+            value="spring"
+          >
+            Spring
+          </option>
+          <option
+            value="summer"
+          >
+            Summer
+          </option>
+          <option
+            value="autumn"
+          >
+            Autumn
+          </option>
+          <option
+            value="winter"
+          >
+            Winter
+          </option>
+        </select>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Time:
+        </label>
+        <input
+          class="w-20"
+          max="24"
+          min="0"
+          step="0.5"
+          type="range"
+          value="12"
+        />
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            checked=""
+            class="glass-mr-1"
+            type="checkbox"
+          />
+          Day/Night
+        </label>
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            checked=""
+            class="glass-mr-1"
+            type="checkbox"
+          />
+          Parallax
+        </label>
+      </div>
+    </div>
+    <div
+      class="relative"
+    >
+      <canvas
+        class="glass-border glass-border-glass-border/20 glass-radius-md"
+        height="500"
+        style="width: 800px; height: 500px;"
+        width="800"
+      />
+    </div>
+  </div>
+</div>
+`;

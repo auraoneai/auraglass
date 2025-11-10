@@ -1,16 +1,9 @@
 'use client';
-/**
- * SpeedDialIcon Component
- *
- * An icon component for the SpeedDial that transitions between open and closed states.
- */
 import React, { forwardRef } from 'react';
-import styled from 'styled-components';
 import { cn } from '@/lib/utils';
 
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-
 import { SpeedDialIconProps } from './types';
+import styles from './SpeedDialIcon.module.css';
 
 // Default icons
 const DefaultIcon = () => (
@@ -25,99 +18,63 @@ const DefaultOpenIcon = () => (
   </svg>
 );
 
-// Styled components
-const IconRoot = styled.div<{
-  $open: boolean;
-  $reducedMotion: boolean;
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  transition: ${props => (!props.$reducedMotion ? 'transform 0.2s' : 'none')};
-  transform: ${props => (props.$open ? 'rotate(45deg)' : 'rotate(0deg)')};
-`;
+const isOpenIconProvided = (props: SpeedDialIconProps) =>
+  Object.prototype.hasOwnProperty.call(props, 'openIcon');
 
-const IconContainer = styled.div<{
-  $open: boolean;
-  $reducedMotion: boolean;
-}>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-`;
-
-const IconWrapper = styled.div<{
-  $open: boolean;
-  $isOpenIcon: boolean;
-  $reducedMotion: boolean;
-}>`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: ${props => (!props.$reducedMotion ? 'opacity 0.2s, transform 0.2s' : 'none')};
-  opacity: ${props =>
-    (props.$open && props.$isOpenIcon) || (!props.$open && !props.$isOpenIcon) ? 1 : 0};
-  transform: ${props =>
-    (props.$open && props.$isOpenIcon) || (!props.$open && !props.$isOpenIcon)
-      ? 'scale(1)'
-      : 'scale(0.5)'};
-`;
-
-/**
- * SpeedDialIcon Component Implementation
- */
 function SpeedDialIconComponent(
   props: SpeedDialIconProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const { className, style, icon, openIcon, open = false, ...rest } = props;
 
-  // Check if reduced motion is preferred
-  const prefersReducedMotion = useReducedMotion();
-
   // Default icons
   const iconToShow = icon || <DefaultIcon />;
   const openIconToShow = openIcon || <DefaultOpenIcon />;
 
   // If only using one icon, rotate it
-  if (!openIcon && !Object.prototype.hasOwnProperty.call(props, 'openIcon')) {
+  if (!openIcon && !isOpenIconProvided(props)) {
     return (
-      <IconRoot
+      <div
         ref={ref}
-        className={cn('glass-speed-dial-icon', className)}
+        className={cn(
+          'glass-speed-dial-icon',
+          styles.icon,
+          open && styles.iconOpen,
+          className,
+        )}
         style={style}
-        $open={open}
-        $reducedMotion={prefersReducedMotion}
         {...rest}
       >
         {iconToShow}
-      </IconRoot>
+      </div>
     );
   }
 
   // Using two separate icons for open/closed states
   return (
-    <IconContainer
+    <div
       ref={ref}
-      className={className}
+      className={cn('glass-speed-dial-icon', styles.iconContainer, className)}
       style={style}
-      $open={open}
-      $reducedMotion={prefersReducedMotion}
       {...rest}
     >
-      <IconWrapper $open={open} $isOpenIcon={false} $reducedMotion={prefersReducedMotion}>
+      <div
+        className={cn(
+          styles.iconLayer,
+          !open && styles.iconLayerActive,
+        )}
+      >
         {iconToShow}
-      </IconWrapper>
-      <IconWrapper $open={open} $isOpenIcon={true} $reducedMotion={prefersReducedMotion}>
+      </div>
+      <div
+        className={cn(
+          styles.iconLayer,
+          open && styles.iconLayerActive,
+        )}
+      >
         {openIconToShow}
-      </IconWrapper>
-    </IconContainer>
+      </div>
+    </div>
   );
 }
 
@@ -126,6 +83,6 @@ function SpeedDialIconComponent(
  *
  * An icon component for the SpeedDial that transitions between open and closed states.
  */
-const SpeedDialIcon = forwardRef(SpeedDialIconComponent);
+export const SpeedDialIcon = forwardRef(SpeedDialIconComponent);
 
 export default SpeedDialIcon;

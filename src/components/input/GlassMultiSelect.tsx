@@ -1,604 +1,734 @@
 'use client';
-/**
- * GlassMultiSelect Component
- * 
- * A glass-styled multi-select component with physics-based animations,
- * token-based selected items, advanced filtering, and virtualization.
- */
 
-// Typography tokens available via typography.css (imported in index.css)
-import React, { useState, useRef, useEffect, useCallback, useMemo, forwardRef, memo } from 'react';
-import { createPortal } from 'react-dom';
-import styled, { css, keyframes } from 'styled-components';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { cn } from '@/lib/utils';
 
-// Physics-related imports
-import { useGalileoStateSpring } from '../../hooks/useGalileoStateSpring';
-import { SpringPresets, SpringConfig } from '../../animations/physics/springPhysics';
-
-// Add snappy preset if not available
-const extendedSpringPresets = {
-  ...SpringPresets,
-  snappy: { stiffness: 300, damping: 20, mass: 1 },
-};
-
-// Core styling imports
-import { useAnimationContext } from '../../contexts/AnimationContext';
-
-import { createThemeContext } from '../../core/themeUtils';
-import { useAccessibilitySettings } from '../../hooks/useAccessibilitySettings';
-
-// Add missing type definitions
-interface StaggerAnimationStage {
-  id: string;
-  type: 'stagger';
-  targets: string;
-  from: Record<string, any>;
-  properties: Record<string, any>;
-  duration: number;
-  staggerDelay: number;
-  easing: string;
-}
-
-interface AnimationSequenceConfig {
-  id: string;
-  stages: StaggerAnimationStage[];
-  autoplay: boolean;
-}
-
-interface SequenceControls {
-  play: () => void;
-}
-
-// Hooks and utilities
 import ClearIcon from '../icons/ClearIcon';
-
-// Types
 import {
   MultiSelectOption,
   OptionGroup,
   MultiSelectProps,
 } from './types';
-import { AnimationProps } from '../../types/animations';
+import styles from './GlassMultiSelect.module.css';
 
-// Animation keyframes
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
-
-// Styled components
-const MultiSelectRoot = styled.div<{
-  $fullWidth: boolean;
-  $width?: string | number;
-  $animate: boolean;
-  $reducedMotion: boolean;
-}>`
-  display: flex;
-  flex-direction: column;
-  width: ${props => props.$fullWidth 
-    ? '100%' 
-    : props.$width 
-      ? (typeof props.$width === 'number' ? `${props.$width}px` : props.$width) 
-      : '300px'
-  };
-  position: relative;
-  font-family: inherit;
-  
-  /* Animation on mount */
-  ${props => props.$animate && !props.$reducedMotion && css`
-    animation: ${fadeIn} 0.4s ease-out;
-  `}
-`;
-
-const InputContainer = styled.div<{
-  $size: 'small' | 'medium' | 'large';
-  $focused: boolean;
-  $disabled: boolean;
-  $hasError: boolean;
-}>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 6px;
-  cursor: ${props => props.$disabled ? 'not-allowed' : 'text'};
-  
-  /* Size variations */
-  ${props => {
-    switch (props.$size) {
-      case 'small':
-        return `
-          min-height: 36px;
-          padding: 4px 8px;
-        `;
-      case 'large':
-        return `
-          min-height: 48px;
-          padding: 8px 16px;
-        `;
-      default:
-        return `
-          min-height: 40px;
-          padding: 6px 12px;
-        `;
-    }
-  }}
-  
-  /* Enhanced glass styling */
-  background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-backdrop-blur);
-  -webkit-backdrop-filter: var(--glass-backdrop-blur);
-  border: 1px solid var(--glass-border-default);
-  
-  border-radius: 8px;
-  border: 1px solid ${props => 
-    props.$hasError 
-      ? 'rgba(240, 82, 82, 0.8)' 
-      : props.$focused 
-        ? 'rgba(99, 102, 241, 0.8)' 
-        : 'rgba(255, 255, 255, 0.12)'
-  };
-  background: var(--glass-bg-default);
-  transition: all 0.2s ease;
-  
-  /* Focused state */
-  ${props => props.$focused && css`
-    border-color: rgba(99, 102, 241, 0.8);
-    box-shadow: var(--glass-elev-2);
-  `}
-  
-  /* Error state */
-  ${props => props.$hasError && css`
-    border-color: rgba(240, 82, 82, 0.8);
-    box-shadow: var(--glass-elev-2);
-  `}
-  
-  /* Disabled state */
-  ${props => props.$disabled && css`
-    opacity: 0.6;
-    cursor: not-allowed;
-    background: var(--glass-bg-default);
-  `}
-`;
-
-const TokensContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  flex: 1;
-`;
-
-const Token = styled.div<{
-  $isDisabled: boolean;
-  $translateX: number;
-  $translateY: number;
-  $scale: number;
-  $isDragging: boolean;
-  $initialOpacity?: number;
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 8px;
-  border-radius: 16px;
-  font-size: 0.85rem;
-  gap: 6px;
-  max-width: 200px;
-  background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-backdrop-blur);
-  border: 1px solid var(--glass-border-default);
-  color: var(--glass-text-primary);
-  transition: background-color 0.2s ease;
-  user-select: none;
-  transform: translate(${props => props.$translateX}px, ${props => props.$translateY}px)
-             scale(${props => props.$scale});
-  will-change: transform, opacity;
-  opacity: ${props => props.$initialOpacity ?? 1};
-  
-  /* Dragging state */
-  ${props => props.$isDragging && css`
-    opacity: 0.8;
-    z-index: 10;
-    cursor: grabbing;
-  `}
-  
-  /* Hover styles */
-  &:hover {
-    background: var(--glass-bg-default);
-    
-    /* Only show the remove button hover effect when not disabled */
-    ${props => !props.$isDisabled && css`
-      .remove-button {
-        background: var(--glass-bg-default);
-        
-        &:hover {
-          background: var(--glass-bg-default);
-        }
-      }
-    `}
-  }
-  
-  /* Disabled state */
-  ${props => props.$isDisabled && css`
-    opacity: 0.5;
-    cursor: not-allowed;
-  `}
-`;
-
-const TokenLabel = styled.span`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const RemoveButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: none;
-  padding: 0;
-  background-color: transparent;
-  color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  
-  &:focus {
-    outline: none;
-    box-shadow: var(--glass-elev-2);
-  }
-  
-  /* Icon sizing */
-  svg {
-    width: 12px;
-    height: 12px;
-  }
-  
-  /* Disabled state inherited from parent */
-`;
-
-const Input = styled.input<{ $size: 'small' | 'medium' | 'large' }>`
-  flex: 1;
-  min-width: 50px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: rgba(var(--glass-color-white) / var(--glass-opacity-90));
-  font-size: ${props => 
-    props.$size === 'small' 
-      ? '0.85rem' 
-      : props.$size === 'large' 
-        ? '1.05rem' 
-        : '0.95rem'
-  };
-  
-  &::placeholder {
-    color: var(--glass-border-hover);
-  }
-  
-  &:disabled {
-    cursor: not-allowed;
-  }
-`;
-
-const DropdownContainer = styled.div<{
-  $width: number;
-  $maxHeight: string | number;
-  $openUp: boolean;
-  $popperWidth?: string;
-}>`
-  position: absolute;
-  width: ${props => props.$popperWidth || `${props.$width}px`};
-  max-height: ${props => 
-    typeof props.$maxHeight === 'number' 
-      ? `${props.$maxHeight}px` 
-      : props.$maxHeight
-  };
-  overflow-y: auto;
-  z-index: 1000;
-  ${props => props.$openUp ? 'bottom: 100%;' : 'top: 100%;'}
-  left: 0;
-  margin-top: ${props => props.$openUp ? '0' : '4px'};
-  margin-bottom: ${props => props.$openUp ? '4px' : '0'};
-  
-  /* Enhanced glass styling */
-  background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-backdrop-blur);
-  -webkit-backdrop-filter: var(--glass-backdrop-blur);
-  border: 1px solid var(--glass-border-default);
-  
-  border-radius: 8px;
-  border: 1px solid var(--glass-border-default);
-  will-change: transform, opacity;
-  transform-origin: ${props => props.$openUp ? 'bottom center' : 'top center'};
-`;
-
-const OptionsList = styled.ul`
-  margin: 0;
-  padding: 6px 0;
-  list-style: none;
-`;
-
-const OptionItem = styled.li<{ 
-  $isSelected: boolean; 
-  $isFocused: boolean; 
-  $isDisabled: boolean;
-  $size: 'small' | 'medium' | 'large';
-}>`
-  padding: ${props => 
-    props.$size === 'small' 
-      ? '6px 10px' 
-      : props.$size === 'large' 
-        ? '10px 16px' 
-        : '8px 12px'
-  };
-  cursor: ${props => (props.$isDisabled ? 'not-allowed' : 'pointer')};
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background-color 0.15s ease;
-  position: relative;
-  
-  /* Text styling */
-  color: rgba(255, 255, 255, ${props => props.$isDisabled ? '0.5' : '0.9'});
-  
-  /* Selected state */
-  ${props => props.$isSelected && css`
-    background: var(--glass-bg-default);
-    font-weight: var(--typography-subheading-weight);
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--glass-bg-default);
-    }
-  `}
-  
-  /* Focus state */
-  ${props => props.$isFocused && !props.$isDisabled && css`
-    background: var(--glass-bg-default);
-  `}
-  
-  /* Hover state - only when not disabled */
-  ${props => !props.$isDisabled && css`
-    &:hover {
-      background: var(--glass-bg-default);
-    }
-  `}
-  
-  /* Disabled state */
-  ${props => props.$isDisabled && css`
-    opacity: 0.6;
-  `}
-`;
-
-const GroupHeader = styled.div<{ $size: 'small' | 'medium' | 'large' }>`
-  padding: ${props => 
-    props.$size === 'small' 
-      ? '6px 10px' 
-      : props.$size === 'large' 
-        ? '10px 16px' 
-        : '8px 12px'
-  };
-  font-size: 0.8rem;
-  font-weight: var(--typography-heading-weight);
-  text-transform: uppercase;
-  color: rgba(var(--glass-color-white) / var(--glass-opacity-60));
-  background: var(--glass-bg-default);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  letter-spacing: 0.5px;
-`;
-
-const NoOptions = styled.div`
-  padding: 12px;
-  color: var(--glass-border-hover);
-  text-align: center;
-  font-style: italic;
-`;
-
-const ClearButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  padding: 4px;
-  margin-left: 4px;
-  color: var(--glass-border-hover);
-  cursor: pointer;
-  transition: color 0.2s ease;
-  
-  &:hover {
-    color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
-  }
-  
-  &:focus {
-    outline: none;
-    color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
-  }
-  
-  /* Icon sizing */
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-`;
-
-const LoadingIndicator = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  color: rgba(var(--glass-color-white) / var(--glass-opacity-70));
-  
-  /* Simple loading spinner */
-  .spinner {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid rgba(99, 102, 241, 0.3);
-    border-top-color: rgba(99, 102, 241, 0.8);
-    animation: spin 0.8s linear infinite;
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: rgba(240, 82, 82, 0.9);
-  font-size: 0.8rem;
-  margin-top: 4px;
-  padding-left: 4px;
-`;
-
-const HelperText = styled.div`
-  color: rgba(var(--glass-color-white) / var(--glass-opacity-60));
-  font-size: 0.8rem;
-  margin-top: 4px;
-  padding-left: 4px;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-  font-weight: var(--typography-subheading-weight);
-  color: rgba(var(--glass-color-white) / var(--glass-opacity-80));
-`;
-
-// Interface for the wrapper props
-interface AnimatedTokenWrapperProps<T extends string | number> {
-  option: MultiSelectOption<T>;
-  onRemove: (id: string | number) => void; // Callback to actually remove from state
-  removeConfig: Partial<SpringConfig>;
-  isDisabled?: boolean;
-  reducedMotion?: boolean;
-  // Add renderToken prop if custom rendering needs animation applied
-  renderToken?: (option: MultiSelectOption<T>, onRemove: (value: T) => void) => React.ReactNode;
-  // Need original remove handler for custom renderToken
-  originalOnRemoveHandler: (e: React.MouseEvent, option: MultiSelectOption<T>) => void;
-}
-
-// Memoized internal component to handle exit animation for each token
-const AnimatedTokenWrapper = memo(<T extends string | number = string | number>({
-  option, 
-  onRemove, 
-  removeConfig, 
-  isDisabled, 
-  reducedMotion,
-  renderToken,
-  originalOnRemoveHandler
-}: AnimatedTokenWrapperProps<T>) => {
-  const [isExiting, setIsExiting] = useState(false);
-
-  // Animation for opacity and scale
-  const { value: animProgress } = useGalileoStateSpring(isExiting ? 0 : 1, {
-    ...removeConfig,
-    immediate: reducedMotion
-  });
-
-  // Memoize the trigger exit handler
-  const triggerExit = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!isDisabled) {
-      setIsExiting(true);
-    }
-  }, [isDisabled]);
-
-  // Handle animation completion
-  useEffect(() => {
-    if (isExiting) {
-      // Trigger actual removal after animation
-      const timeout = setTimeout(() => {
-        onRemove(option.value);
-      }, 300); // Match animation duration
-      return () => clearTimeout(timeout);
-    }
-  }, [isExiting, onRemove, option.value]);
-
-  // Memoize animated styles
-  const animatedStyle = useMemo(() => ({
-    opacity: animProgress,
-    transform: `scale(${0.8 + animProgress * 0.2})`, // Scale from 1 down to 0.8
-  }), [animProgress]);
-
-  // If using custom renderer, wrap it
-  if (renderToken) {
-      const handleRemove = useCallback(() => onRemove(option.value), [onRemove, option.value]);
-      return (
-          <div style={animatedStyle} className={cn('galileo-multiselect-token-wrapper')}>
-              {renderToken(option, handleRemove)}
-          </div>
-      );
-  }
-
-  // Default rendering using original Token component
-  return (
-    <div style={animatedStyle} className={cn('galileo-multiselect-token-wrapper')}>
-      <Token
-        className={cn('galileo-multiselect-token')} // Keep class for entrance animation targetting
-        $isDisabled={!!isDisabled} // Pass disabled state
-        // Static transform props, animation is handled by wrapper style
-        $translateX={0}
-        $translateY={0}
-        $scale={1} 
-        $isDragging={false}
-        // $initialOpacity={1} // Opacity handled by wrapper
-      >
-        <TokenLabel>{option.label}</TokenLabel>
-        {!(isDisabled) && (
-          <RemoveButton
-            className={cn('remove-button')}
-            onClick={triggerExit} // Call triggerExit here
-            aria-label={`Remove ${option.label}`}
-          >
-            <ClearIcon />
-          </RemoveButton>
-        )}
-      </Token>
-    </div>
-  );
-});
-
-// Memoized helper function for deep equality comparison of options arrays
-const areOptionsEqual = memo(<T extends string | number>(a: MultiSelectOption<T>[], b: MultiSelectOption<T>[]): boolean => {
-  if (a.length !== b.length) return false;
-  
-  for (let i = 0; i < a.length; i++) {
-    const aOption = a[i];
-    const bOption = b[i];
-    if (aOption.id !== bOption.id || aOption.label !== bOption.label) {
-      return false;
-    }
-  }
-  
-  return true;
-});
-
-// Define the actual component function that accepts props and ref
-const GlassMultiSelectInternal = <T extends string | number = string | number>(
-  props: MultiSelectProps<T> & AnimationProps,
-  ref: React.ForwardedRef<HTMLDivElement>
-) => {
-  return <div>Test</div>;
+type InternalOption<T extends string | number> = MultiSelectOption<T> & {
+  __isCreatable__?: boolean;
 };
 
-// Forward Ref and Export with proper typing
+const defaultFilter = <T extends string | number>(
+  option: MultiSelectOption<T>,
+  input: string,
+): boolean => {
+  return option.label.toLowerCase().includes(input.toLowerCase());
+};
+
+const valueKey = <T extends string | number>(option: MultiSelectOption<T>): string => {
+  if (option.id !== undefined) return String(option.id);
+  return String(option.value);
+};
+
+const normalizeValue = <T extends string | number>(value: T | undefined | null): string => {
+  if (value === undefined || value === null) return '';
+  return String(value);
+};
+
+const mergeOptionCollections = <T extends string | number>(
+  options: MultiSelectOption<T>[],
+  groups?: OptionGroup<T>[],
+  withGroups?: boolean,
+) => {
+  if (withGroups && groups && groups.length > 0) {
+    return groups.flatMap((group) => group.options ?? []);
+  }
+  return options ?? [];
+};
+
+const buildOptionLookup = <T extends string | number>(options: MultiSelectOption<T>[]) => {
+  const map = new Map<string, MultiSelectOption<T>>();
+  options.forEach((option) => {
+    map.set(valueKey(option), option);
+  });
+  return map;
+};
+
+function ensureOption<T extends string | number>(
+  optionLookup: Map<string, MultiSelectOption<T>>,
+  value: T,
+): MultiSelectOption<T> {
+  const existing = optionLookup.get(String(value));
+  if (existing) return existing;
+  return {
+    value,
+    label: String(value),
+  };
+}
+
+function flattenGroups<T extends string | number>(
+  groups: OptionGroup<T>[] | undefined,
+  fallbackOptions: MultiSelectOption<T>[],
+  withGroups?: boolean,
+): { group?: OptionGroup<T>; options: MultiSelectOption<T>[] }[] {
+  if (withGroups && groups && groups.length > 0) {
+    return groups.map((group) => ({ group, options: group.options ?? [] }));
+  }
+  return [{ options: fallbackOptions }];
+}
+
+const createCreatableOption = <T extends string | number>(inputValue: string): InternalOption<T> => ({
+  id: `__creatable__${inputValue}`,
+  value: inputValue as unknown as T,
+  label: inputValue,
+  __isCreatable__: true,
+});
+
+const GlassMultiSelectInternal = <T extends string | number = string | number>(
+  props: MultiSelectProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) => {
+  const {
+    options = [],
+    groups,
+    withGroups,
+    value,
+    defaultValue,
+    onChange,
+    placeholder = 'Select…',
+    label,
+    helperText,
+    error,
+    errorMessage,
+    fullWidth,
+    width,
+    size = 'medium',
+    disabled,
+    searchable = true,
+    clearable = true,
+    creatable,
+    closeOnSelect = true,
+    clearInputOnSelect = true,
+    keyboardNavigation = true,
+    filterOptions,
+    filterFunction,
+    onCreateOption,
+    onInputChange,
+    onRemove,
+    onSelect,
+    onOpen,
+    onClose,
+    loading,
+    loadingText = 'Loading…',
+    noOptionsText = 'No options',
+    renderOption,
+    renderToken,
+    renderValue,
+    renderGroup,
+    maxSelections,
+    maxHeight = 280,
+    openUp,
+    ariaLabel,
+    autoFocus,
+    dataTestId,
+    id,
+    className,
+    style,
+  } = props;
+
+  const generatedId = useId();
+  const inputId = id ?? `glass-multi-select-${generatedId}`;
+
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [openDirectionUp, setOpenDirectionUp] = useState<boolean | undefined>(undefined);
+
+  const allOptions = useMemo(
+    () => mergeOptionCollections<T>(options, groups, withGroups),
+    [options, groups, withGroups],
+  );
+
+  const optionLookup = useMemo(() => buildOptionLookup(allOptions), [allOptions]);
+
+  const initializeValue = useCallback(
+    (values: T[] | undefined): MultiSelectOption<T>[] => {
+      if (!values || values.length === 0) return [];
+      return values.map((val) => ensureOption(optionLookup, val));
+    },
+    [optionLookup],
+  );
+
+  const isControlled = value !== undefined;
+  const [internalSelected, setInternalSelected] = useState<MultiSelectOption<T>[]>(
+    () => initializeValue(isControlled ? (value as T[]) : defaultValue),
+  );
+
+  const selectedOptions = isControlled
+    ? initializeValue(value as T[])
+    : internalSelected;
+
+  const notifyChange = useCallback(
+    (next: MultiSelectOption<T>[]) => {
+      const valuesOnly = next.map((opt) => opt.value);
+      onChange?.(valuesOnly);
+    },
+    [onChange],
+  );
+
+  const updateSelected = useCallback(
+    (next: MultiSelectOption<T>[]) => {
+      if (!isControlled) {
+        setInternalSelected(next);
+      }
+      notifyChange(next);
+    },
+    [isControlled, notifyChange],
+  );
+
+  useEffect(() => {
+    if (isControlled) {
+      setInternalSelected(initializeValue(value as T[]));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isControlled, value, optionLookup]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (openUp !== undefined) {
+      setOpenDirectionUp(openUp);
+      return;
+    }
+    const container = rootRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const availableBelow = viewportHeight - rect.bottom;
+    const availableAbove = rect.top;
+    const shouldOpenUp = availableBelow < 200 && availableAbove > availableBelow;
+    setOpenDirectionUp(shouldOpenUp);
+  }, [isOpen, openUp]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      const container = rootRef.current;
+      if (!container) return;
+      if (!container.contains(event.target as Node)) {
+        setIsOpen(false);
+        onClose?.();
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (autoFocus) {
+      inputRef.current?.focus();
+    }
+  }, [autoFocus]);
+
+  const groupedOptions = useMemo(
+    () => flattenGroups(groups, options, withGroups),
+    [groups, options, withGroups],
+  );
+
+  const filteredGroups = useMemo(() => {
+    if (!searchable || !inputValue.trim()) {
+      return groupedOptions;
+    }
+
+    const userFilter = (opts: MultiSelectOption<T>[]) => {
+      if (filterOptions) {
+        try {
+          return filterOptions(opts, inputValue);
+        } catch (error) {
+          return opts;
+        }
+      }
+
+      if (filterFunction) {
+        try {
+          const result = filterFunction(opts, inputValue);
+          if (Array.isArray(result)) {
+            return result;
+          }
+          // Allow predicate-style fallthrough
+        } catch (error) {
+          // Fallthrough to default filter
+        }
+      }
+
+      return opts.filter((option) => defaultFilter(option, inputValue));
+    };
+
+    const filteredFlat = userFilter(allOptions);
+    const allowedKeys = new Set(filteredFlat.map((option) => valueKey(option)));
+
+    return groupedOptions
+      .map((group) => ({
+        group: group.group,
+        options: group.options.filter((option) => allowedKeys.has(valueKey(option))),
+      }))
+      .filter((group) => group.options.length > 0);
+  }, [searchable, inputValue, groupedOptions, filterOptions, filterFunction, allOptions]);
+
+  const flatOptionList: InternalOption<T>[] = useMemo(() => {
+    const flattened: InternalOption<T>[] = [];
+    filteredGroups.forEach(({ options: groupOptions }) => {
+      flattened.push(...groupOptions);
+    });
+
+    if (creatable && inputValue.trim()) {
+      const existing = flattened.find(
+        (option) => normalizeValue(option.value) === normalizeValue(inputValue as unknown as T),
+      );
+      if (!existing) {
+        flattened.push(createCreatableOption<T>(inputValue.trim()));
+      }
+    }
+
+    return flattened;
+  }, [filteredGroups, creatable, inputValue]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setFocusedIndex(-1);
+      return;
+    }
+    if (keyboardNavigation) {
+      setFocusedIndex(flatOptionList.length > 0 ? 0 : -1);
+    }
+  }, [isOpen, flatOptionList, keyboardNavigation]);
+
+  const handleOpen = useCallback(() => {
+    if (disabled) return;
+    if (!isOpen) {
+      setIsOpen(true);
+      onOpen?.();
+    }
+  }, [disabled, isOpen, onOpen]);
+
+  const handleClose = useCallback(() => {
+    if (isOpen) {
+      setIsOpen(false);
+      onClose?.();
+    }
+  }, [isOpen, onClose]);
+
+  const handleSelectOption = useCallback(
+    (option: InternalOption<T>) => {
+      if (option.disabled) return;
+      if (option.__isCreatable__) {
+        onCreateOption?.(option.label);
+      }
+
+      const alreadySelected = selectedOptions.some(
+        (selected) => normalizeValue(selected.value) === normalizeValue(option.value),
+      );
+
+      let nextSelected: MultiSelectOption<T>[];
+
+      if (alreadySelected) {
+        nextSelected = selectedOptions.filter(
+          (selected) => normalizeValue(selected.value) !== normalizeValue(option.value),
+        );
+        onRemove?.(option.value);
+      } else {
+        if (maxSelections && selectedOptions.length >= maxSelections) {
+          return;
+        }
+        nextSelected = [...selectedOptions, option];
+        onSelect?.(option);
+      }
+
+      updateSelected(nextSelected);
+
+      if (clearInputOnSelect) {
+        setInputValue('');
+        onInputChange?.('');
+      }
+
+      if (closeOnSelect) {
+        handleClose();
+      }
+    },
+    [selectedOptions, updateSelected, clearInputOnSelect, closeOnSelect, handleClose, onInputChange, onSelect, onCreateOption, maxSelections],
+  );
+
+  const handleRemoveOption = useCallback(
+    (option: MultiSelectOption<T>) => {
+      const next = selectedOptions.filter(
+        (selected) => normalizeValue(selected.value) !== normalizeValue(option.value),
+      );
+      updateSelected(next);
+      onRemove?.(option.value);
+    },
+    [selectedOptions, onRemove, updateSelected],
+  );
+
+  const handleClearAll = useCallback(() => {
+    selectedOptions.forEach((option) => {
+      onRemove?.(option.value);
+    });
+    updateSelected([]);
+    setInputValue('');
+    onInputChange?.('');
+  }, [selectedOptions, onRemove, onInputChange, updateSelected]);
+
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const nextValue = event.target.value;
+      setInputValue(nextValue);
+      onInputChange?.(nextValue);
+      if (!isOpen) {
+        setIsOpen(true);
+        onOpen?.();
+      }
+    },
+    [isOpen, onInputChange, onOpen],
+  );
+
+  const focusPrevious = useCallback(() => {
+    setFocusedIndex((prev) => {
+      if (!keyboardNavigation) return prev;
+      if (flatOptionList.length === 0) return -1;
+      const nextIndex = prev <= 0 ? flatOptionList.length - 1 : prev - 1;
+      return nextIndex;
+    });
+  }, [flatOptionList.length, keyboardNavigation]);
+
+  const focusNext = useCallback(() => {
+    setFocusedIndex((prev) => {
+      if (!keyboardNavigation) return prev;
+      if (flatOptionList.length === 0) return -1;
+      const nextIndex = prev >= flatOptionList.length - 1 ? 0 : prev + 1;
+      return nextIndex;
+    });
+  }, [flatOptionList.length, keyboardNavigation]);
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (disabled) return;
+
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault();
+          handleOpen();
+          focusNext();
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          handleOpen();
+          focusPrevious();
+          break;
+        case 'Enter':
+          if (isOpen && focusedIndex >= 0 && focusedIndex < flatOptionList.length) {
+            event.preventDefault();
+            handleSelectOption(flatOptionList[focusedIndex]);
+          }
+          break;
+        case 'Escape':
+          if (isOpen) {
+            event.preventDefault();
+            handleClose();
+          }
+          break;
+        case 'Backspace':
+          if (inputValue === '' && selectedOptions.length > 0) {
+            event.preventDefault();
+            const lastOption = selectedOptions[selectedOptions.length - 1];
+            handleRemoveOption(lastOption);
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    [disabled, handleOpen, focusNext, focusPrevious, isOpen, focusedIndex, flatOptionList, handleSelectOption, handleClose, inputValue, selectedOptions, handleRemoveOption],
+  );
+
+  const handleContainerClick = useCallback(() => {
+    if (disabled) return;
+    handleOpen();
+    inputRef.current?.focus();
+  }, [disabled, handleOpen]);
+
+  const dropdownMaxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+
+  const renderTokens = () => {
+    if (renderValue) {
+      return renderValue(selectedOptions);
+    }
+
+    return selectedOptions.map((option) => {
+      if (renderToken) {
+        return (
+          <div key={valueKey(option)} className={cn('galileo-multiselect-token-wrapper')}>
+            {renderToken(option, () => handleRemoveOption(option))}
+          </div>
+        );
+      }
+
+      return (
+        <span
+          key={valueKey(option)}
+          className={cn(styles.token, 'galileo-multiselect-token', option.disabled && styles.tokenDisabled)}
+        >
+          <span className={styles.tokenLabel}>{option.label}</span>
+          {!disabled && !option.disabled && (
+            <button
+              type="button"
+              className={cn(styles.removeButton, 'remove-button')}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleRemoveOption(option);
+              }}
+              aria-label={`Remove ${option.label}`}
+            >
+              <ClearIcon />
+            </button>
+          )}
+        </span>
+      );
+    });
+  };
+
+  const dropdownClassName = cn(
+    styles.dropdown,
+    isOpen && styles.dropdownVisible,
+    openDirectionUp && styles.dropdownAbove,
+  );
+
+  const containerClassName = cn(
+    styles.container,
+    styles[`size${size.charAt(0).toUpperCase()}${size.slice(1)}`],
+    error && styles.containerError,
+    disabled && styles.containerDisabled,
+    !disabled && isOpen && styles.containerFocused,
+  );
+
+  const rootClassName = cn(
+    styles.root,
+    fullWidth && styles.rootFullWidth,
+    className,
+  );
+
+  const resolvedWidthValue = fullWidth
+    ? '100%'
+    : width
+      ? typeof width === 'number'
+        ? `${width}px`
+        : width
+      : undefined;
+
+  const inlineStyle: React.CSSProperties = {
+    ...(style ?? {}),
+  };
+
+  if (resolvedWidthValue) {
+    (inlineStyle as Record<string, unknown>)['--multi-select-width'] = resolvedWidthValue;
+  }
+
+  (inlineStyle as Record<string, unknown>)['--multi-select-dropdown-height'] = dropdownMaxHeight;
+
+  return (
+    <div
+      ref={mergeRefs(ref, rootRef)}
+      className={rootClassName}
+      style={inlineStyle}
+      data-testid={dataTestId}
+    >
+      {label && (
+        <label className={styles.label} htmlFor={inputId}>
+          {label}
+        </label>
+      )}
+
+      <div
+        className={containerClassName}
+        onClick={handleContainerClick}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-disabled={disabled}
+        aria-controls={`${inputId}-listbox`}
+      >
+        <div className={styles.tokenList}>
+          {selectedOptions.length > 0 ? (
+            renderTokens()
+          ) : (
+            !inputValue && (
+              <span className={styles.placeholder}>{placeholder}</span>
+            )
+          )}
+
+          <input
+            ref={inputRef}
+            id={inputId}
+            className={styles.input}
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onFocus={handleOpen}
+            onKeyDown={handleKeyDown}
+            placeholder={selectedOptions.length === 0 ? placeholder : ''}
+            disabled={disabled || !searchable}
+            aria-autocomplete="list"
+            aria-controls={`${inputId}-listbox`}
+            aria-expanded={isOpen}
+            aria-label={ariaLabel || label || placeholder}
+            autoComplete="off"
+          />
+        </div>
+
+        {clearable && selectedOptions.length > 0 && !disabled && (
+          <button
+            type="button"
+            className={styles.clearButton}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleClearAll();
+            }}
+            aria-label="Clear all selections"
+          >
+            <ClearIcon />
+          </button>
+        )}
+      </div>
+
+      {helperText && !error && (
+        <div className={styles.helperText}>{helperText}</div>
+      )}
+
+      {error && errorMessage && (
+        <div className={styles.errorText}>{errorMessage}</div>
+      )}
+
+      <div ref={dropdownRef} className={dropdownClassName} role="presentation">
+        {loading && (
+          <div className={styles.loading}>
+            <span className={styles.spinner} aria-hidden="true" />
+            <span>{loadingText}</span>
+          </div>
+        )}
+
+        {!loading && flatOptionList.length === 0 && (
+          <div className={styles.noOptions}>{noOptionsText}</div>
+        )}
+
+        {!loading && flatOptionList.length > 0 && (
+          <ul
+            className={styles.optionList}
+            role="listbox"
+            id={`${inputId}-listbox`}
+          >
+            {filteredGroups.map(({ group, options: groupOptions }) => (
+              <React.Fragment key={group?.id ?? group?.label ?? 'group-default'}>
+                {group?.label && (
+                  renderGroup ? (
+                    renderGroup(group)
+                  ) : (
+                    <li className={styles.groupHeader}>{group.label}</li>
+                  )
+                )}
+
+                {groupOptions.map((option) => {
+                  const key = valueKey(option);
+                  const isSelected = selectedOptions.some(
+                    (selected) => normalizeValue(selected.value) === normalizeValue(option.value),
+                  );
+                  const optionIndex = flatOptionList.findIndex(
+                    (item) => normalizeValue(item.value) === normalizeValue(option.value),
+                  );
+                  const isFocused = optionIndex === focusedIndex;
+                  const optionClassName = cn(
+                    styles.option,
+                    isSelected && styles.optionSelected,
+                    isFocused && styles.optionFocused,
+                    option.disabled && styles.optionDisabled,
+                  );
+
+                  return (
+                    <li
+                      key={key}
+                      role="option"
+                      aria-selected={isSelected}
+                      className={optionClassName}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        handleSelectOption(option);
+                      }}
+                      onMouseEnter={() => setFocusedIndex(optionIndex)}
+                    >
+                      {renderOption ? renderOption(option, isSelected) : option.label}
+                    </li>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+
+            {flatOptionList.length > 0 && creatable && inputValue.trim() && (
+              (() => {
+                const creatableOption = flatOptionList.find((opt) => opt.__isCreatable__);
+                if (!creatableOption) return null;
+                const optionIndex = flatOptionList.findIndex((item) => item.__isCreatable__);
+                const optionClassName = cn(
+                  styles.option,
+                  optionIndex === focusedIndex && styles.optionFocused,
+                );
+                return (
+                  <li
+                    key={creatableOption.id}
+                    className={optionClassName}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      handleSelectOption(creatableOption);
+                    }}
+                    onMouseEnter={() => setFocusedIndex(optionIndex)}
+                  >
+                    Create “{inputValue.trim()}”
+                  </li>
+                );
+              })()
+            )}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
+
+function mergeRefs<T>(
+  forwardedRef: React.ForwardedRef<T>,
+  localRef: React.MutableRefObject<T | null>,
+) {
+  return (value: T | null) => {
+    localRef.current = value;
+    if (typeof forwardedRef === 'function') {
+      forwardedRef(value);
+    } else if (forwardedRef) {
+      (forwardedRef as React.MutableRefObject<T | null>).current = value;
+    }
+  };
+}
+
 export const GlassMultiSelect = forwardRef(GlassMultiSelectInternal) as <T extends string | number = string | number>(
-  props: MultiSelectProps<T> & AnimationProps & { ref?: React.ForwardedRef<HTMLDivElement> }
+  props: MultiSelectProps<T> & { ref?: React.ForwardedRef<HTMLDivElement> }
 ) => React.ReactElement;
 
-// Add display name
 (GlassMultiSelect as any).displayName = 'GlassMultiSelect';
 
 export default GlassMultiSelect;

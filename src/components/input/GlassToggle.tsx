@@ -248,7 +248,7 @@ export const GlassToggle = React.forwardRef<
       <Motion
         data-glass-component
         {...getAnimationProps()}
-        className="inline-block"
+        className='inline-block'
       >
         <OptimizedGlass
           intent="neutral"
@@ -294,7 +294,7 @@ export const GlassToggle = React.forwardRef<
 
           {/* Active indicator for ghost variant */}
           {variant === "ghost" && pressed && (
-            <div className="absolute inset-0 glass-surface-subtle/10 glass-radius-lg animate-pulse" />
+            <div className='absolute inset-0 glass-surface-subtle/10 glass-radius-lg animate-pulse' />
           )}
         </OptimizedGlass>
       </Motion>

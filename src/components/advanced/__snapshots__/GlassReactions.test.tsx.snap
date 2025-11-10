@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassReactions matches snapshot 1`] = `
+<div
+  class="relative"
+>
+  <div
+    class="absolute inset-0 pointer-events-none overflow-hidden"
+  />
+  <div
+    class="absolute bottom-2 right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50"
+  >
+    Press 1-
+    8
+     for quick reactions
+  </div>
+</div>
+`;

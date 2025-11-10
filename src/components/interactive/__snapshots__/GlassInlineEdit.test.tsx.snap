@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassInlineEdit matches snapshot 1`] = `
+<div
+  aria-label="Inline editable field"
+  class="inline-flex items-center glass-gap-2"
+  data-glass-component="true"
+  role="group"
+>
+  <button
+    aria-label="Edit Edit…"
+    class="glass-px-2 glass-py-1 glass-radius-lg hover:glass-surface-subtle/10 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+  >
+    <span
+      class="text-primary/60"
+    >
+      Edit…
+    </span>
+  </button>
+</div>
+`;

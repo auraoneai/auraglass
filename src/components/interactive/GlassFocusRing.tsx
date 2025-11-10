@@ -1,45 +1,11 @@
 'use client';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import styled from 'styled-components';
 import { useGlassFocus } from '../../hooks/extended/useGlassFocus';
 import type { GlassFocusRingProps } from '../interactive/types';
 import { ACCESSIBILITY } from '../../tokens/designConstants';
+import styles from './GlassFocusRing.module.css';
 
-const FocusWrapper = styled.div<{
-  $color: string;
-  $width: number;
-  $blur: number;
-  $offset: number;
-  $spread: number;
-  $duration: number;
-  $borderRadius?: number;
-}>`
-  position: relative;
-  outline: none;
-  ${p => (p.$borderRadius != null ? `border-radius: ${p.$borderRadius}px;` : '')}
-  &::before {
-    content: '';
-    position: absolute;
-    top: -${p => p.$offset}px;
-    left: -${p => p.$offset}px;
-    right: -${p => p.$offset}px;
-    bottom: -${p => p.$offset}px;
-    border-radius: inherit;
-    border: ${p => p.$width}px solid ${p => p.$color};
-    filter: blur(${p => p.$blur}px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity ${p => p.$duration}ms ease;
-    z-index: -1;
-  }
-  &.glass-focus-visible::before {
-    opacity: 1;
-  }
-  &.glass-focus-keyboard::before {
-    box-shadow: 0 0 ${p => p.$spread}px ${p => p.$color};
-  }
-`;
 // No longer need mergeRefs if attaching ref to wrapper div
 // import { mergeRefs } from '../../utils/refUtils'; 
 
@@ -72,23 +38,27 @@ export const GlassFocusRing: React.FC<GlassFocusRingProps> = ({
     enabled: !disabled,
   });
 
+  const focusVars = React.useMemo<React.CSSProperties>(() => ({
+    '--glass-focus-color': options.color,
+    '--glass-focus-width': `${options.width}px`,
+    '--glass-focus-blur': `${options.blur}px`,
+    '--glass-focus-offset': `${options.offset}px`,
+    '--glass-focus-spread': `${options.spread}px`,
+    '--glass-focus-duration': `${options.duration}ms`,
+    borderRadius: borderRadius != null ? `${borderRadius}px` : undefined,
+  }), [options, borderRadius]);
+
   return (
     // Wrapper div to capture focus and position the ring
-    <FocusWrapper
+    <div
       ref={ref as React.RefObject<HTMLDivElement>}
-      className={cn('glass-relative glass-inline-block glass-outline-none', className)}
-      $color={options.color}
-      $width={options.width}
-      $blur={options.blur}
-      $offset={options.offset}
-      $spread={options.spread}
-      $duration={options.duration}
-      $borderRadius={borderRadius}
+      className={cn(styles.wrapper, 'glass-relative glass-inline-block glass-outline-none', className)}
+      style={focusVars}
       // Make wrapper focusable only if not disabled
       tabIndex={disabled ? -1 : 0}
     >
       {child}
-    </FocusWrapper>
+    </div>
   );
 };
 

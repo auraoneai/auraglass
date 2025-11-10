@@ -48,7 +48,7 @@ const easingFunctions = {
 export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumberProps>(({
   // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
-  value,
+  value = 0,
   from = 0,
   duration = 1000,
   easing = 'easeOut',
@@ -78,6 +78,7 @@ export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumbe
     lg: 'glass-text-4xl',
     xl: 'glass-text-6xl',
   };
+  const sizeClassName = sizeClasses[size] ?? sizeClasses.md;
 
   // Format number with separators and decimals
   const formatNumber = (num: number): string => {
@@ -175,7 +176,7 @@ export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumbe
   return (
     <OptimizedGlass data-glass-component
       ref={elementRef}
-      className={cn('glass-inline-flex glass-items-center glass-justify-center glass-font-mono glass-font-bold glass-text-primary', sizeClasses[size], className)}
+      className={cn('glass-inline-flex glass-items-center glass-justify-center glass-font-mono glass-font-bold glass-text-primary', sizeClassName, className)}
       style={getVariantStyles()}
       elevation="level1"
       interactive={false}

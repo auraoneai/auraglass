@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabItem matches snapshot 1`] = `
+<button
+  aria-controls="panel-overview"
+  aria-disabled="false"
+  aria-selected="false"
+  class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+  data-glass-component="true"
+  id="tab-overview"
+  role="tab"
+  style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: transparent; border-radius: 6px; color: rgba(255, 255, 255, 0.88); cursor: pointer; opacity: 1; font-size: 0.875rem; font-weight: 400; transition: all 0.2s ease;"
+  tabindex="-1"
+>
+  <span>
+    Overview
+  </span>
+</button>
+`;

@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -6,36 +7,26 @@ import typescript from 'rollup-plugin-typescript2';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import preserveDirectives from 'rollup-preserve-directives';
 
-const externalDeps = [
-    // React and React DOM (peer dependencies)
+const manualExternalDeps = [
     'react',
     'react-dom',
     'react/jsx-runtime',
-
-    // Three.js ecosystem (peer dependencies - MUST be external)
+    'react/jsx-dev-runtime',
+    'react-dom/server',
+    'next/dist/compiled/react',
+    'next/dist/compiled/react/jsx-runtime',
+    'next/dist/compiled/react-dom',
+    'next/dist/compiled/react-dom/server',
+    'next/navigation',
     'three',
     '@react-three/fiber',
     '@react-three/drei',
-
-    // Framer Motion (peer dependency)
     'framer-motion',
-
-    // Radix UI components
-    '@radix-ui/react-slot',
-    '@radix-ui/react-dropdown-menu',
-    '@radix-ui/react-label',
-    '@radix-ui/react-select',
-
-    // UI utilities
     'lucide-react',
     'clsx',
     'tailwind-merge',
-
-    // Chart.js ecosystem
     'chart.js',
     'react-chartjs-2',
-
-    // Third-party libraries that shouldn't be bundled
     'socket.io-client',
     'openai',
     '@tensorflow/tfjs',
@@ -47,8 +38,58 @@ const externalDeps = [
     '@google-cloud/vision',
     '@pinecone-database/pinecone',
     '@sentry/react',
-    'styled-components',
 ];
+
+const manualExternalSet = new Set(manualExternalDeps);
+
+const externalPatterns = [
+    /^react\//,
+    /^react-dom\//,
+    /^@radix-ui\/react-/,
+    /^@radix-ui\/primitive/,
+    /^@radix-ui\/utilities/,
+    /^@react-three\//,
+    /^three\//,
+    /^framer-motion\//,
+    /^@sentry\//,
+    /^@floating-ui\//,
+    /^next\/dist\/compiled\//,
+];
+
+const normalizePath = (value) => value.split(path.sep).join('/');
+
+const isExternal = (idInput) => {
+    if (typeof idInput !== 'string') {
+        return false;
+    }
+
+    if (manualExternalSet.has(idInput)) {
+        return true;
+    }
+
+    const normalizedId = normalizePath(idInput);
+
+    if (manualExternalSet.has(normalizedId)) {
+        return true;
+    }
+
+    if (externalPatterns.some((pattern) => pattern.test(idInput)) || externalPatterns.some((pattern) => pattern.test(normalizedId))) {
+        return true;
+    }
+
+    // Preserve bare imports for any declared peer dependency so they never bundle
+    if (
+        !idInput.startsWith('.') &&
+        !idInput.startsWith('/') &&
+        !idInput.startsWith('\0') &&
+        !idInput.startsWith('src/') &&
+        /^@?[^.:\/]+$/.test(idInput)
+    ) {
+        return true;
+    }
+
+    return false;
+};
 
 const getPlugins = (extractCss = true) => [
     // This plugin must come first to externalize peer dependencies
@@ -104,29 +145,10 @@ export default [
                 sourcemap: true,
             },
         ],
-        external: externalDeps,
+        external: isExternal,
         plugins: getPlugins(true),
     },
-    // Styled Components bundle (requires styled-components peer dependency)
-    {
-        input: 'src/styled/index.ts',
-        output: [
-            {
-                file: 'dist/styled/index.js',
-                format: 'cjs',
-                sourcemap: true,
-                exports: 'named',
-            },
-            {
-                file: 'dist/styled/index.mjs',
-                format: 'esm',
-                sourcemap: true,
-            },
-        ],
-        external: externalDeps,
-        plugins: getPlugins(false), // Don't extract CSS again for styled bundle
-    },
-    // Registry bundle (StyledComponentsRegistry only - no styled-components imports)
+    // Registry bundle (legacy compatibility exports)
     {
         input: 'src/registry/index.ts',
         output: [
@@ -142,7 +164,7 @@ export default [
                 sourcemap: true,
             },
         ],
-        external: [...externalDeps, 'next/navigation'], // Also externalize next/navigation
+        external: (id) => id === 'next/navigation' || isExternal(id), // Also externalize next/navigation
         plugins: getPlugins(false), // Don't extract CSS for registry bundle
     },
     // SSR bundle
@@ -161,7 +183,26 @@ export default [
                 sourcemap: true,
             },
         ],
-        external: externalDeps,
+        external: isExternal,
         plugins: getPlugins(false), // Don't extract CSS again for SSR bundle
+    },
+    // Server-safe bundle (re-exports SSR utilities)
+    {
+        input: 'src/server/index.ts',
+        output: [
+            {
+                file: 'dist/server/index.js',
+                format: 'cjs',
+                sourcemap: true,
+                exports: 'named',
+            },
+            {
+                file: 'dist/server/index.mjs',
+                format: 'esm',
+                sourcemap: true,
+            },
+        ],
+        external: isExternal,
+        plugins: getPlugins(false),
     },
 ];

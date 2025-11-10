@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMultiSelect matches snapshot 1`] = `
+<div
+  class="root"
+  style="--multi-select-dropdown-height: 280px;"
+>
+  <div
+    aria-controls="glass-multi-select-:r7:-listbox"
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    class="container sizeMedium"
+    role="combobox"
+  >
+    <div
+      class="tokenList"
+    >
+      <span
+        class="placeholder"
+      >
+        Select…
+      </span>
+      <input
+        aria-autocomplete="list"
+        aria-controls="glass-multi-select-:r7:-listbox"
+        aria-expanded="false"
+        aria-label="Select…"
+        autocomplete="off"
+        class="input"
+        id="glass-multi-select-:r7:"
+        placeholder="Select…"
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    class="dropdown"
+    role="presentation"
+  >
+    <div
+      class="noOptions"
+    >
+      No options
+    </div>
+  </div>
+</div>
+`;

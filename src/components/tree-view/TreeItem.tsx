@@ -6,14 +6,12 @@
  */
 import React, { forwardRef, useContext, useRef, useMemo, useState, useEffect, useLayoutEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { AURA_GLASS } from '../../tokens/glass';
-import { createGlassStyle } from '../../core/mixins/glassMixins';
-import styled from 'styled-components';
 
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useAnimationContext } from '../../contexts/AnimationContext';
 import { SpringConfig, SpringPresets } from '../../animations/physics/springPhysics';
 import { TreeViewContext } from './TreeView';
+import styles from './TreeItem.module.css';
 
 // TreeItem props interface
 interface TreeItemProps extends React.HTMLAttributes<HTMLLIElement> {
@@ -51,94 +49,10 @@ const DefaultEndIcon = () => (
   </svg>
 );
 
-// Styled components
-const TreeItemRoot = styled.li`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-
-const TreeItemContent = styled.div<{
-  $selected: boolean;
-  $focused: boolean;
-  $disabled: boolean;
-  $glass: boolean;
-  $size: 'small' | 'medium' | 'large';
-}>`
-  display: flex;
-  align-items: center;
-  padding: ${props =>
-    props.$size === 'small' ? '4px 8px' : props.$size === 'large' ? '8px 16px' : '6px 12px'};
-  border-radius: 4px;
-  cursor: ${props => (props.$disabled ? 'default' : 'pointer')};
-  user-select: none;
-  transition: background-color 0.2s ease;
-  color: ${props =>
-    props.$disabled
-      ? 'var(--glass-border-hover)'
-      : props.$selected
-      ? 'var(--tree-view-color, ${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"})'
-      : 'rgba(var(--glass-color-white) / var(--glass-opacity-80))'};
-
-  /* Selected state */
-  background-color: ${props => (props.$selected ? 'rgba(255, 255, 255, 0.08)' : 'transparent')};
-
-  /* Focused state */
-  ${props =>
-    props.$focused &&
-    !props.$disabled &&
-    `
-    outline: 1px dashed var(--tree-view-color, ${AURA_GLASS.surfaces.neutral.level2.text.primary});
-  `}
-
-  /* Accessible focus ring */
-  &:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px ${AURA_GLASS.surfaces.neutral.level2.border.color}, 0 0 0 6px var(--glass-color-primary, 0.15);
-  }
-
-  /* Glass hover effect */
-  ${props =>
-    !props.$disabled &&
-    `
-    &:hover {
-      background-color: ${props.$glass ? '${glassStyles.surface?.base || "rgba(255, 255, 255, 0.05)"}' : 'rgba(255, 255, 255, 0.04)'};
-    }
-  `}
-`;
-
-const ContentLabel = styled.div`
-  flex: 1;
-  margin-left: 4px;
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 4px;
-`;
-
-const TreeItemChildren = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  padding-left: 16px;
-  overflow: hidden;
-`;
-
 /**
  * TreeItem Component Implementation
  */
 function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIElement>) {
-  // Unified glass styles
-  const glassStyles = createGlassStyle({ intent: 'neutral', elevation: 'level2', tier: 'high' });
-
   const {
     nodeId,
     label,
@@ -177,7 +91,6 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
     expanded,
     selected,
     focused,
-    multiSelect,
     size,
     disabled: contextDisabled,
     glass: contextGlass,
@@ -191,16 +104,16 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
   const finalDisabled = disabled || contextDisabled;
 
   // Check if the node has children
-  const hasChildren = Boolean(React.Children.count(children) > 0);
+  const hasChildren = React.Children.count(children) > 0;
 
   // Check if the node is expanded
-  const isExpanded = hasChildren && (expanded?.includes(nodeId) ?? false);
+  const isExpanded = hasChildren && expanded.includes(nodeId);
 
   // Check if the node is selected
-  const isSelected = selected?.includes(nodeId) ?? false;
+  const isSelected = selected.includes(nodeId);
 
   // Check if the node is focused
-  const isFocused = focused?.includes(nodeId) ?? false;
+  const isFocused = focused.includes(nodeId);
 
   // Animation Context and Config Calculation
   const finalSpringConfig = useMemo(() => {
@@ -342,55 +255,80 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
     return expandIcon || <DefaultExpandIcon />;
   };
 
+  const sizeClass =
+    (size === 'small' && styles.sizeSmall) ||
+    (size === 'large' && styles.sizeLarge) ||
+    styles.sizeMedium;
+
+  const contentClassName = cn(
+    styles.content,
+    sizeClass,
+    finalGlass && styles.glass,
+    finalDisabled && styles.disabled,
+    isSelected && styles.selected,
+    isFocused && styles.focused,
+    'glass-focus glass-touch-target glass-contrast-guard'
+  );
+
+  const toggleIconClass = cn(styles.icon, hasChildren && styles.toggleIcon, hasChildren && 'glass-focus glass-touch-target');
+  const iconClass = cn(styles.icon);
+  const labelClass = styles.label;
+  const rootClass = cn(styles.root, className);
+
+  const itemStyleVars: React.CSSProperties | undefined = color
+    ? ({ '--tree-view-color': color } as React.CSSProperties)
+    : undefined;
+
   return (
-    <TreeItemRoot
+    <li
       ref={ref}
-      className={className}
+      className={rootClass}
       style={style}
       role="treeitem"
       aria-expanded={hasChildren ? isExpanded : undefined}
       aria-selected={isSelected}
       {...rest}
     >
-      <TreeItemContent
+      <div
         ref={contentRef}
         onClick={handleClick}
         onDoubleClick={handleToggle}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         tabIndex={finalDisabled ? -1 : 0}
-        $selected={isSelected}
-        $focused={isFocused}
-        $disabled={Boolean(finalDisabled)}
-        $glass={Boolean(finalGlass)}
-        $size={size || 'medium'}
         aria-disabled={finalDisabled}
-        className="glass-focus glass-touch-target glass-contrast-guard"
+        className={contentClassName}
+        style={itemStyleVars}
       >
-        <IconContainer onClick={hasChildren ? handleToggle : undefined} style={{ cursor: hasChildren ? 'pointer' : 'default' }} className={hasChildren ? "glass-focus glass-touch-target" : ""}>
+        <div
+          onClick={hasChildren ? handleToggle : undefined}
+          className={toggleIconClass}
+          role={hasChildren ? 'button' : undefined}
+          aria-hidden={!hasChildren}
+        >
           {renderToggleIcon()}
-        </IconContainer>
+        </div>
 
-        {icon && <IconContainer>{icon}</IconContainer>}
+        {icon && <div className={iconClass}>{icon}</div>}
 
-        <ContentLabel>{label}</ContentLabel>
-      </TreeItemContent>
+        <div className={labelClass}>{label}</div>
+      </div>
 
       {hasChildren && (
-          <TreeItemChildren
-            ref={childrenRef}
-            role="group"
-            key={`children-${nodeId}`}
-            style={{
-              ...animatedStyle, // Apply animated height and opacity
-              // Add will-change for performance
-              willChange: 'height, opacity, transform',
-            }}
-          >
-            {children}
-          </TreeItemChildren>
-        )}
-    </TreeItemRoot>
+        <ul
+          ref={childrenRef}
+          role="group"
+          key={`children-${nodeId}`}
+          className={styles.children}
+          style={{
+            ...animatedStyle,
+            willChange: 'height, opacity, transform',
+          }}
+        >
+          {children}
+        </ul>
+      )}
+    </li>
   );
 }
 

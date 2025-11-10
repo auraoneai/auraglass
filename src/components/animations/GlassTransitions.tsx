@@ -611,22 +611,131 @@ export function GlassTabs({
   );
 }
 
-export default {
-  GlassTransition,
-  GlassPageTransition,
-  SwipeableGlassCards,
-  GlassAccordion,
-  GlassModal,
-  GlassTabs,
-  glassTransitionVariants
+interface GlassTransitionsProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: keyof typeof glassTransitionVariants;
+  children?: React.ReactNode;
+}
+
+const demoCards = [
+  {
+    id: 'insight',
+    content: (
+      <div>
+        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          Insight
+        </p>
+        <h3 className="glass-text-xl glass-text-primary font-semibold">
+          Fluid page transitions
+        </h3>
+        <p className="glass-text-sm glass-text-secondary">
+          Use material-aware easing to keep movement intuitive.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 'motion',
+    content: (
+      <div>
+        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          Motion
+        </p>
+        <h3 className="glass-text-xl glass-text-primary font-semibold">
+          Directional swipes
+        </h3>
+        <p className="glass-text-sm glass-text-secondary">
+          Cards respond to drag gestures with depth and blur.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 'layers',
+    content: (
+      <div>
+        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          Layers
+        </p>
+        <h3 className="glass-text-xl glass-text-primary font-semibold">
+          Frosted overlays
+        </h3>
+        <p className="glass-text-sm glass-text-secondary">
+          Blend regions using the glass transition variants.
+        </p>
+      </div>
+    ),
+  },
+];
+
+const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
+  variant = 'liquid',
+  className,
+  children,
+  ...rest
+}) => {
+  const [panelIndex, setPanelIndex] = useState(0);
+  const panels = [
+    {
+      id: 'panel-0',
+      title: 'Glass dashboards',
+      description: 'Morph between layouts while preserving context.',
+    },
+    {
+      id: 'panel-1',
+      title: 'Immersive nav',
+      description: 'Page transitions ripple out from focal points.',
+    },
+  ];
+
+  const nextPanel = () => {
+    setPanelIndex((prev) => (prev + 1) % panels.length);
+  };
+
+  return (
+    <div
+      className={cn(
+        'glass-transitions-demo glass-space-y-6',
+        className
+      )}
+      {...rest}
+    >
+      {children ?? (
+        <>
+          <GlassPageTransition variant={variant}>
+            <motion.div
+              key={panels[panelIndex].id}
+              className="glass-surface-primary glass-radius-3xl glass-p-8 glass-border glass-border-white/10"
+            >
+              <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2">
+                {panels[panelIndex].title}
+              </p>
+              <h2 className="glass-text-2xl glass-text-primary font-semibold">
+                {panels[panelIndex].description}
+              </h2>
+              <button
+                type="button"
+                onClick={nextPanel}
+                className="glass-mt-6 glass-text-sm glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
+              >
+                Cycle transition
+              </button>
+            </motion.div>
+          </GlassPageTransition>
+          <SwipeableGlassCards cards={demoCards} />
+        </>
+      )}
+    </div>
+  );
 };
 
-export const GlassTransitions = {
+export const GlassTransitions = Object.assign(GlassTransitionsComponent, {
   GlassTransition,
   GlassPageTransition,
   SwipeableGlassCards,
   GlassAccordion,
   GlassModal,
   GlassTabs,
-  glassTransitionVariants
-};
+  glassTransitionVariants,
+});
+
+export default GlassTransitions;

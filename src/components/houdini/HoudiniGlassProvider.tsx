@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState, forwardRef } from 'react';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 import { cn } from '../../lib/utilsComprehensive';
 
@@ -66,7 +66,7 @@ export const glassPresets = {
   }
 } as const;
 
-export interface HoudiniGlassProviderProps {
+export interface HoudiniGlassProviderProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   defaultPreset?: keyof typeof glassPresets;
   defaultProperties?: Record<string, string>;
@@ -75,14 +75,17 @@ export interface HoudiniGlassProviderProps {
   debugMode?: boolean;
 }
 
-export function HoudiniGlassProvider({
+export const HoudiniGlassProvider = forwardRef<HTMLDivElement, HoudiniGlassProviderProps>(
+({
   children,
   defaultPreset = 'standard',
   defaultProperties = {},
   enabledEffects = ['frost', 'caustics', 'border'],
   performanceMode = false,
-  debugMode = false
-}: HoudiniGlassProviderProps) {
+  debugMode = false,
+  className,
+  ...props
+}, ref) => {
   const [isSupported, setIsSupported] = useState(false);
   const [hasPropertyAPI, setHasPropertyAPI] = useState(false);
   const [hasPaintAPI, setHasPaintAPI] = useState(false);
@@ -301,27 +304,35 @@ export function HoudiniGlassProvider({
   };
 
   return (
-    <HoudiniGlassContext.Provider data-glass-component value={contextValue}>
-      {children}
+    <div
+      ref={ref}
+      className={cn('houdini-glass-provider', className)}
+      data-glass-component
+      {...props}
+    >
+      <HoudiniGlassContext.Provider value={contextValue}>
+        {children}
 
-      {/* Debug overlay */}
-      {debugModeState && (
-        <div
-          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
-        >
-          <div><strong>Houdini Glass Debug</strong></div>
-          <div>Support: {isSupported ? '✅' : '❌'}</div>
-          <div>Property API: {hasPropertyAPI ? '✅' : '❌'}</div>
-          <div>Paint API: {hasPaintAPI ? '✅' : '❌'}</div>
-          <div>Preset: {globalPreset}</div>
-          <div>Effects: {enabledEffectsState.join(', ')}</div>
-          <div>Performance: {performanceModeState ? '🚀' : '🎨'}</div>
-          <div>Properties: {Object.keys(globalProperties).length}</div>
-        </div>
-      )}
-    </HoudiniGlassContext.Provider>
+        {debugModeState && (
+          <div
+            style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
+          >
+            <div><strong>Houdini Glass Debug</strong></div>
+            <div>Support: {isSupported ? '✅' : '❌'}</div>
+            <div>Property API: {hasPropertyAPI ? '✅' : '❌'}</div>
+            <div>Paint API: {hasPaintAPI ? '✅' : '❌'}</div>
+            <div>Preset: {globalPreset}</div>
+            <div>Effects: {enabledEffectsState.join(', ')}</div>
+            <div>Performance: {performanceModeState ? '🚀' : '🎨'}</div>
+            <div>Properties: {Object.keys(globalProperties).length}</div>
+          </div>
+        )}
+      </HoudiniGlassContext.Provider>
+    </div>
   );
-}
+});
+
+HoudiniGlassProvider.displayName = 'HoudiniGlassProvider';
 
 // Hook to use Houdini Glass context
 export function useHoudiniGlass() {

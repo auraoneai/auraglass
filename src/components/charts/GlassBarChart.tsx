@@ -386,9 +386,9 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
   if (loading) {
     return (
       <GlassCard data-glass-component className={cn("glass-p-6", className)}>
-        <div className="animate-pulse glass-gap-4">
-          <div className="h-6 glass-surface-subtle/20 glass-radius-md w-48"></div>
-          <div className="h-64 glass-surface-subtle/10 glass-radius-md glass-flex glass-items-end glass-justify-center glass-gap-2">
+        <div className='animate-pulse glass-gap-4'>
+          <div className='h-6 glass-surface-subtle/20 glass-radius-md w-48'></div>
+          <div className='h-64 glass-surface-subtle/10 glass-radius-md glass-flex glass-items-end glass-justify-center glass-gap-2'>
             {Array.from({ length: 8 }).map((_: any, i: any) => (
               <div
                 key={i}
@@ -401,9 +401,9 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
             ))}
           </div>
           <div className="glass-flex glass-justify-center glass-gap-4">
-            <div className="h-4 glass-surface-subtle/20 glass-radius-md w-20"></div>
-            <div className="h-4 glass-surface-subtle/20 glass-radius-md w-20"></div>
-            <div className="h-4 glass-surface-subtle/20 glass-radius-md w-20"></div>
+            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-20'></div>
+            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-20'></div>
+            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-20'></div>
           </div>
         </div>
       </GlassCard>
@@ -415,18 +415,18 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
       <GlassCard className={cn("overflow-hidden", className)} {...props}>
         {title && (
           <CardHeader>
-            <CardTitle className="text-primary glass-text-lg font-semibold">
+            <CardTitle className='text-primary glass-text-lg font-semibold'>
               {title}
             </CardTitle>
           </CardHeader>
         )}
 
         <CardContent className="glass-p-4">
-          <div className="relative">
-            <svg width={width} height={height} className="overflow-visible">
+          <div className='relative'>
+            <svg width={width} height={height} className='overflow-visible'>
               {/* Grid lines */}
               {showGrid && (
-                <g className="opacity-20">
+                <g className='opacity-20'>
                   {processedData.yLabels.map((label, index) => {
                     if (orientation === "vertical") {
                       return (
@@ -438,7 +438,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                           y2={label.y - 4}
                           stroke="currentColor"
                           strokeWidth="1"
-                          className="text-primary/30"
+                          className='text-primary/30'
                         />
                       );
                     } else {
@@ -451,7 +451,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                           y2={height - padding.bottom}
                           stroke="currentColor"
                           strokeWidth="1"
-                          className="text-primary/30"
+                          className='text-primary/30'
                         />
                       );
                     }
@@ -465,7 +465,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   key={`${bar.seriesId}-${bar.dataIndex}`}
                   preset="slideUp"
                   delay={index * 50}
-                  className="relative"
+                  className='relative'
                 >
                   <rect
                     x={bar.x}
@@ -473,7 +473,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                     width={bar.width}
                     height={bar.height}
                     fill={bar.color}
-                    className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                    className='cursor-pointer transition-all duration-200 hover:opacity-80'
                     style={{
                       animation: `barGrow ${animationDuration}ms ease-out ${index * 50}ms both`,
                     }}
@@ -496,7 +496,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                           : bar.y + bar.height / 2 + 4
                       }
                       textAnchor="middle"
-                      className="glass-text-xs fill-white/80 font-medium"
+                      className='glass-text-xs fill-white/80 font-medium'
                       style={{ fontSize: "0.625rem" }}
                     >
                       {formatYValue(bar.value)}
@@ -514,7 +514,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={height - padding.bottom}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className="text-primary/50"
+                  className='text-primary/50'
                 />
               ) : (
                 <line
@@ -524,7 +524,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={padding.top}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className="text-primary/50"
+                  className='text-primary/50'
                 />
               )}
 
@@ -537,7 +537,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={height - padding.bottom}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className="text-primary/50"
+                  className='text-primary/50'
                 />
               ) : (
                 <line
@@ -547,7 +547,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={padding.top}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className="text-primary/50"
+                  className='text-primary/50'
                 />
               )}
 
@@ -558,7 +558,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={label.x}
                   y={label.y}
                   textAnchor="middle"
-                  className="glass-text-xs fill-white/70"
+                  className='glass-text-xs fill-white/70'
                   style={{ fontSize: "0.625rem" }}
                 >
                   {label.label}
@@ -571,7 +571,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={label.x}
                   y={label.y}
                   textAnchor={orientation === "vertical" ? "end" : "middle"}
-                  className="glass-text-xs fill-white/70"
+                  className='glass-text-xs fill-white/70'
                   style={{ fontSize: "0.625rem" }}
                 >
                   {label.label}
@@ -584,7 +584,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={width / 2}
                   y={height - 10}
                   textAnchor="middle"
-                  className="glass-text-sm fill-white/80 font-medium"
+                  className='glass-text-sm fill-white/80 font-medium'
                 >
                   {xAxisLabel}
                 </text>
@@ -596,7 +596,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y={height / 2}
                   textAnchor="middle"
                   transform={`rotate(-90, 15, ${height / 2})`}
-                  className="glass-text-sm fill-white/80 font-medium"
+                  className='glass-text-sm fill-white/80 font-medium'
                 >
                   {yAxisLabel}
                 </text>
@@ -607,7 +607,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={width / 2}
                   y={15}
                   textAnchor="middle"
-                  className="glass-text-sm fill-white/80 font-medium"
+                  className='glass-text-sm fill-white/80 font-medium'
                 >
                   {yAxisLabel}
                 </text>
@@ -620,7 +620,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                 <svg
                   width={width}
                   height={height}
-                  className="absolute inset-0 pointer-events-none"
+                  className='absolute inset-0 pointer-events-none'
                 >
                   {orientation === "vertical" ? (
                     <line
@@ -644,7 +644,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                     />
                   )}
                 </svg>
-                <Motion preset="fadeIn" className="absolute z-10">
+                <Motion preset="fadeIn" className='absolute z-10'>
                   <div
                     className={cn(
                       "absolute glass-radius-xl glass-p-3 shadow-xl",
@@ -657,11 +657,11 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                         hoveredBar.x > width / 2 ? "translateX(-100%)" : "none",
                     }}
                   >
-                    <div className="text-primary glass-text-sm">
-                      <div className="font-medium">
+                    <div className='text-primary glass-text-sm'>
+                      <div className='font-medium'>
                         {series.find((s) => s.id === hoveredBar.seriesId)?.name}
                       </div>
-                      <div className="text-primary/80">
+                      <div className='text-primary/80'>
                         Value: {formatYValue(hoveredBar.value)}
                       </div>
                     </div>
@@ -674,7 +674,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
           {/* Legend */}
           {showLegend && series.length > 0 && (
             <div
-              className="glass-flex glass-flex-wrap glass-justify-center glass-gap-4 mt-6"
+              className='glass-flex glass-flex-wrap glass-justify-center glass-gap-4 mt-6'
               role="list"
               aria-label="Chart legend"
             >
@@ -702,14 +702,14 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   }}
                 >
                   <div
-                    className="w-3 h-3 glass-radius-md"
+                    className='w-3 h-3 glass-radius-md'
                     style={{
                       backgroundColor:
                         s.color || colors[idx % (colors?.length || 0)],
                     }}
                     aria-hidden="true"
                   />
-                  <span className="glass-text-sm text-primary/80">
+                  <span className='glass-text-sm text-primary/80'>
                     {s.name}
                   </span>
                 </div>

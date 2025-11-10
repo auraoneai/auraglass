@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OptimizedGlassContainer matches snapshot 1`] = `
+<div
+  aria-label="Optimized glass container"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative glass-backdrop-blur-xl"
+  data-performance-mode="ultra"
+  id=":r5:"
+  role="region"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-opacity: 0.6;"
+/>
+`;

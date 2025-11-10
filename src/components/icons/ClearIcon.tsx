@@ -9,7 +9,7 @@ export interface ClearIconProps {
   onClick?: () => void;
 }
 
-const ClearIcon: React.FC<ClearIconProps> = ({
+export const ClearIcon: React.FC<ClearIconProps> = ({
   size = 16,
   color = 'currentColor',
   className,

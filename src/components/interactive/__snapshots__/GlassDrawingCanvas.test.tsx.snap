@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDrawingCanvas matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-drawing-canvas relative glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  id="glass-drawing-canvas-:r4:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-tool-panel glass-flex glass-items-center glass-gap-2 glass-p-2 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-gap-1"
+      >
+        <button
+          class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard bg-primary/20 text-primary"
+          title="Pen"
+        >
+          <span
+            class="w-4 h-4 block"
+          >
+            P
+          </span>
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
+          title="Brush"
+        >
+          <span
+            class="w-4 h-4 block"
+          >
+            B
+          </span>
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
+          title="Eraser"
+        >
+          <span
+            class="w-4 h-4 block"
+          >
+            E
+          </span>
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
+          title="Line"
+        >
+          <span
+            class="w-4 h-4 block"
+          >
+            L
+          </span>
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
+          title="Rectangle"
+        >
+          <span
+            class="w-4 h-4 block"
+          >
+            R
+          </span>
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
+          title="Circle"
+        >
+          <span
+            class="w-4 h-4 block"
+          >
+            C
+          </span>
+        </button>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <span
+          class="glass-text-sm glass-text-secondary"
+        >
+          Size:
+        </span>
+        <input
+          class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          max="50"
+          min="1"
+          type="range"
+          value="2"
+        />
+        <span
+          class="glass-text-sm min-w-[2ch]"
+        >
+          2
+        </span>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <span
+          class="glass-text-sm glass-text-secondary"
+        >
+          Color:
+        </span>
+        <input
+          class="w-8 h-8 glass-radius-md glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
+          type="color"
+          value="var(--glass-black)"
+        />
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <span
+          class="glass-text-sm glass-text-secondary"
+        >
+          Opacity:
+        </span>
+        <input
+          class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          max="1"
+          min="0.1"
+          step="0.1"
+          type="range"
+          value="1"
+        />
+      </div>
+      <div
+        class="glass-flex glass-gap-1 ml-auto"
+      >
+        <button
+          class="glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          disabled=""
+          title="Undo"
+        >
+          ↶
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
+          disabled=""
+          title="Redo"
+        >
+          ↷
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md hover:glass-surface-overlay text-primary glass-focus glass-touch-target glass-contrast-guard"
+          title="Clear"
+        >
+          🗑
+        </button>
+        <button
+          class="glass-p-2 glass-radius-md hover:glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard"
+          title="Export"
+        >
+          💾
+        </button>
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-gap-4"
+    >
+      <div
+        class="relative"
+      >
+        <canvas
+          class="border border-border/20 glass-radius-md bg-white cursor-crosshair touch-none"
+          height="600"
+          style="width: 800px; height: 600px;"
+          width="800"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

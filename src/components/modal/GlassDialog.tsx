@@ -610,7 +610,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         {title && (
                           <h2
                             id="dialog-title"
-                            className="glass-text-lg font-semibold text-primary mb-1"
+                            className='glass-text-lg font-semibold text-primary mb-1'
                           >
                             {title}
                           </h2>
@@ -618,7 +618,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         {description && (
                           <p
                             id="dialog-description"
-                            className="glass-text-sm text-muted-foreground"
+                            className='glass-text-sm text-muted-foreground'
                           >
                             {description}
                           </p>
@@ -695,7 +695,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         {title && (
                           <h2
                             id="dialog-title"
-                            className="glass-text-lg font-semibold text-primary mb-1"
+                            className='glass-text-lg font-semibold text-primary mb-1'
                           >
                             {title}
                           </h2>
@@ -730,7 +730,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                       trackAchievements={trackAchievements}
                       data-consciousness-close="true"
                     >
-                      <X className="w-4 h-4" />
+                      <X className='w-4 h-4' />
                     </GlassButton>
                   )}
                 </div>
@@ -786,7 +786,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                   {predictive && dialogInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className="text-primary">Dialog Insights</span>
+                        <span className='text-primary'>Dialog Insights</span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

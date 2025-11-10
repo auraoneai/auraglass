@@ -3,37 +3,49 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import {
   AnimatePresence,
   motion,
+  HTMLMotionProps,
   PanInfo,
   useMotionValue,
 } from "framer-motion";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  MutableRefObject,
+} from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 // Touch-Optimized Glass Component
-interface TouchGlassProps {
+interface TouchGlassProps
+  extends Omit<HTMLMotionProps<"div">, "ref" | "children"> {
   children: React.ReactNode;
   onTap?: () => void;
   onLongPress?: () => void;
   onSwipe?: (direction: "left" | "right" | "up" | "down") => void;
-  className?: string;
   touchFeedback?: boolean;
   rippleEffect?: boolean;
   hapticsEnabled?: boolean;
   glassIntensity?: "light" | "medium" | "heavy";
 }
 
-export function TouchOptimizedGlass({
-  children,
-  onTap,
-  onLongPress,
-  onSwipe,
-  className = "",
-  touchFeedback = true,
-  rippleEffect = true,
-  hapticsEnabled = true,
-  glassIntensity = "medium",
-}: TouchGlassProps) {
+export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
+  ({
+    children,
+    onTap,
+    onLongPress,
+    onSwipe,
+    className,
+    touchFeedback = true,
+    rippleEffect = true,
+    hapticsEnabled = true,
+    glassIntensity = "medium",
+    ...rest
+  },
+  ref
+) => {
   const prefersReducedMotion = useReducedMotion();
   const [isPressed, setIsPressed] = useState(false);
   const [ripples, setRipples] = useState<
@@ -42,7 +54,7 @@ export function TouchOptimizedGlass({
   const [longPressTimer, setLongPressTimer] = useState<NodeJS.Timeout | null>(
     null
   );
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const scale = useMotionValue(1);
   const opacity = useMotionValue(1);
@@ -166,8 +178,15 @@ export function TouchOptimizedGlass({
 
   return (
     <motion.div
-      ref={containerRef}
-      className={`relative overflow-hidden touch-none select-none ${className}`}
+      ref={(node) => {
+        containerRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+      }}
+      className={cn('relative overflow-hidden touch-none select-none', className)}
       style={{
         ...glassStyle,
         // Use createGlassStyle() instead,
@@ -183,6 +202,7 @@ export function TouchOptimizedGlass({
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.1}
+      {...rest}
     >
       {children}
 
@@ -191,7 +211,7 @@ export function TouchOptimizedGlass({
         {ripples.map((ripple) => (
           <motion.div
             key={ripple.id}
-            className="absolute pointer-events-none"
+            className='absolute pointer-events-none'
             style={{
               left: ripple.x - 20,
               top: ripple.y - 20,
@@ -218,7 +238,7 @@ export function TouchOptimizedGlass({
         <AnimatePresence>
           {isPressed && (
             <motion.div
-              className="absolute inset-0 pointer-events-none"
+              className='absolute inset-0 pointer-events-none'
               style={{
                 background:
                   '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
@@ -236,9 +256,17 @@ export function TouchOptimizedGlass({
       )}
     </motion.div>
   );
-}
+});
 
-// Mobile Glass Navigation Component
+TouchOptimizedGlass.displayName = "TouchOptimizedGlass";
+
+export const TouchGlassOptimization = forwardRef<HTMLDivElement, TouchGlassProps>(
+  (props, ref) => <TouchOptimizedGlass ref={ref} {...props} />
+);
+
+TouchGlassOptimization.displayName = "TouchGlassOptimization";
+
+export default TouchGlassOptimization;
 interface MobileGlassNavigationProps {
   children: React.ReactNode;
   swipeThreshold?: number;
@@ -260,7 +288,7 @@ export function MobileGlassNavigation({
 }: MobileGlassNavigationProps) {
   const prefersReducedMotion = useReducedMotion();
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleSwipe = useCallback(
     (direction: "left" | "right" | "up" | "down") => {
@@ -430,7 +458,7 @@ export function TouchRippleEffects({
   const [ripples, setRipples] = useState<
     Array<{ id: number; x: number; y: number }>
   >([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
@@ -469,7 +497,7 @@ export function TouchRippleEffects({
         {ripples.map((ripple) => (
           <motion.div
             key={ripple.id}
-            className="absolute pointer-events-none glass-radius-full"
+            className='absolute pointer-events-none glass-radius-full'
             style={{
               left: ripple.x - 20,
               top: ripple.y - 20,
@@ -577,7 +605,7 @@ export function MobileGlassBottomSheet({
             </div>
 
             {/* Content */}
-            <div className="glass-px-6 pb-6 overflow-y-auto max-h-full">
+            <div className='glass-px-6 pb-6 overflow-y-auto max-h-full'>
               {children}
             </div>
           </motion.div>

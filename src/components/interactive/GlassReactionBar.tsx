@@ -16,24 +16,32 @@ export interface GlassReactionBarProps {
 }
 
 export function GlassReactionBar({
-  reactions,
+  reactions: incomingReactions = [],
   onReact,
   className,
 }: GlassReactionBarProps) {
+  const reactions = Array.isArray(incomingReactions) ? incomingReactions : [];
+
   return (
     <div data-glass-component className={className}>
       <div className="glass-flex glass-gap-2">
-        {reactions.map((r: any) => (
-          <GlassButton
-            key={r.key}
-            variant="ghost"
-            size="sm"
-            onClick={(e) => onReact?.(r.key)}
-          >
-            <span className="glass-mr-1">{r.label}</span>
-            <span className="text-primary/70">{r.count}</span>
-          </GlassButton>
-        ))}
+        {reactions.length === 0 ? (
+          <span className="glass-text-sm glass-text-secondary">
+            No reactions yet.
+          </span>
+        ) : (
+          reactions.map((r: any) => (
+            <GlassButton
+              key={r.key}
+              variant="ghost"
+              size="sm"
+              onClick={() => onReact?.(r.key)}
+            >
+              <span className="glass-mr-1">{r.label}</span>
+              <span className='text-primary/70'>{r.count}</span>
+            </GlassButton>
+          ))
+        )}
       </div>
     </div>
   );

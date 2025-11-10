@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassStepIcon matches snapshot 1`] = `
+<div
+  class="motion-primitive inline-block"
+  data-glass-component="true"
+>
+  <div
+    aria-hidden="true"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-medium w-6 h-6 min-w-6 glass-radius-full flex items-center justify-center relative z-[1] flex-shrink-0 glass-text-xs font-semibold transition-all duration-300 ease-in-out border bg-gray-200 glass-text-secondary border-gray-200 dark:bg-gray-700 dark:glass-text-secondary dark:border-gray-600"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 19px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    NaN
+  </div>
+</div>
+`;

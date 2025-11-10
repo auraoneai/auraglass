@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * @deprecated Use createGlassStyle() from glassMixins instead
  * This file contains hardcoded glass foundation values that bypass our unified token system.
@@ -128,7 +127,8 @@ export function extendGlassFoundation(
 }
 
 /**
- * Styled-components helper - injects foundation into styled-components CSS
+ * Legacy CSS-in-JS helper retained for backward compatibility.
+ * Generates a CSS string representation of the glass foundation styles.
  */
 export function injectGlassFoundation(
   level: GlassFoundationLevel = 'standard',
@@ -145,7 +145,7 @@ export function injectGlassFoundation(
 }
 
 /**
- * CSS-in-JS template literal helper
+ * Additional legacy helper for template-literal based styling systems.
  */
 export function glassFoundationCSS(
   level: GlassFoundationLevel = 'standard',

@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { cn } from '../../../lib/utilsComprehensive';
 
 export interface ScrollButtonsProps {
   onScrollLeft?: () => void;
@@ -9,7 +8,7 @@ export interface ScrollButtonsProps {
   showRight?: boolean;
 }
 
-const ScrollButtons: React.FC<ScrollButtonsProps> = ({
+export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
   onScrollLeft,
   onScrollRight,
   showLeft = false,
@@ -34,7 +33,8 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({
             zIndex: 10,
           }}
           onClick={onScrollLeft}
-         className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
+          className="glass-focus glass-touch-target glass-contrast-guard"
+        >
           ‹
         </button>
       )}
@@ -55,7 +55,8 @@ const ScrollButtons: React.FC<ScrollButtonsProps> = ({
             zIndex: 10,
           }}
           onClick={onScrollRight}
-         className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
+          className="glass-focus glass-touch-target glass-contrast-guard"
+        >
           ›
         </button>
       )}

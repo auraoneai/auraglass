@@ -1,14 +1,3 @@
-import React from 'react';
-/**
- * AuraGlass Unified Mixin System - Token Consumer
- * 
- * SINGLE PUBLIC API for creating glass styles.
- * This is now a PURE CONSUMER of AURA_GLASS tokens.
- * 
- * No hardcoded values - everything comes from canonical tokens.
- * Glass is never disabled - only reduced in intensity by tier.
- */
-
 import { CSSProperties } from 'react';
 import { detectDevice } from '../../utils/deviceCapabilities';
 import { AURA_GLASS, PERFORMANCE_TIERS, glassTokenUtils, GlassIntent, GlassElevation, QualityTier } from '../../tokens/glass';
@@ -42,6 +31,18 @@ export function createGlassStyle(opts: GlassOptions = {}): CSSProperties {
 
   // Get the base styles from canonical tokens
   const styles = glassTokenUtils.buildSurfaceStyles(intent, elevation, tier);
+
+  if (!styles.backdropFilter) {
+    const surface = glassTokenUtils.getSurface(intent, elevation);
+    const fallbackFilter = glassTokenUtils.buildBackdropFilter(surface.backdropBlur.px, tier);
+    (styles as any).backdropFilter = fallbackFilter;
+    (styles as any).WebkitBackdropFilter = fallbackFilter;
+  }
+
+  if (!styles.background) {
+    const surface = glassTokenUtils.getSurface(intent, elevation);
+    (styles as any).background = surface.surface.base;
+  }
   
   // Add interactive enhancements if requested
   if (interactive) {
@@ -159,15 +160,6 @@ export function createGlassLoadingMixin(): CSSProperties {
 }
 
 /**
- * Styled-components compatible wrapper for createGlassStyle
- * Returns a function that can be used directly in styled-components templates
- */
-export function glassStyleCSS(options: GlassOptions = {}): any {
-  const styles = createGlassStyle(options);
-  return styles;
-}
-
-/**
  * Utility: Generate CSS custom properties for dynamic theming
  * This creates CSS variables that can be overridden at runtime
  */
@@ -213,20 +205,6 @@ export function createResponsiveGlassStyle(
     // Desktop: use high tier for full experience
     desktop: createGlassStyle({ ...desktop, tier: 'high' }),
   };
-}
-
-/**
- * Utility: Generate glass style string for styled-components or emotion
- */
-export function glassCSS(options: GlassOptions = {}): string {
-  const styles = createGlassStyle(options);
-
-  return Object.entries(styles)
-    .map(([key, value]) => {
-      const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
-      return `${cssKey}: ${value};`;
-    })
-    .join('\n  ');
 }
 
 /**

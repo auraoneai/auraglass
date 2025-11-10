@@ -379,7 +379,7 @@ export const GlassSignaturePad = forwardRef<
           className="glass-p-4 glass-gap-4"
         >
           {/* Canvas container */}
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}
@@ -400,7 +400,7 @@ export const GlassSignaturePad = forwardRef<
             />
 
             {/* Instructions */}
-            <div id={`${signaturePadId}-instructions`} className="sr-only">
+            <div id={`${signaturePadId}-instructions`} className='sr-only'>
               Use your mouse or finger to draw your signature. Press clear to
               start over.
             </div>
@@ -471,7 +471,7 @@ export const GlassSignaturePad = forwardRef<
 
             {isDrawing && (
               <div className="glass-flex glass-items-center glass-gap-2">
-                <div className="w-2 h-2 glass-surface-primary glass-radius-full animate-pulse" />
+                <div className='w-2 h-2 glass-surface-primary glass-radius-full animate-pulse' />
                 <span>Drawing...</span>
               </div>
             )}

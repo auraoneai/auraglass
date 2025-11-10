@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClearIcon matches snapshot 1`] = `
+<svg
+  fill="none"
+  height="16"
+  stroke="currentColor"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  style="cursor: default;"
+  viewBox="0 0 24 24"
+  width="16"
+>
+  <line
+    x1="18"
+    x2="6"
+    y1="6"
+    y2="18"
+  />
+  <line
+    x1="6"
+    x2="18"
+    y1="6"
+    y2="18"
+  />
+</svg>
+`;

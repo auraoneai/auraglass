@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassFormBuilder matches snapshot 1`] = `
+<form
+  class="w-full"
+>
+  <div
+    class="glass-auto-gap glass-auto-gap-2xl"
+  >
+    <div
+      class="text-center glass-py-8 glass-text-secondary"
+    >
+      <p>
+        No form sections configured
+      </p>
+    </div>
+  </div>
+  <div
+    class="glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8"
+  >
+    <div
+      class="motion-primitive inline-block"
+    >
+      <button
+        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+        data-magnet="true"
+        data-performance-mode="ultra"
+        id="glass-button-:r6:"
+        style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+        type="submit"
+      >
+        <span
+          class="relative z-10"
+        >
+          Submit
+        </span>
+      </button>
+    </div>
+  </div>
+</form>
+`;

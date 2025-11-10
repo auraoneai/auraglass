@@ -58,7 +58,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
   const iconStateClasses = getIconStateClasses(active, completed);
 
   return (
-    <Motion data-glass-component className="inline-block">
+    <Motion data-glass-component className='inline-block'>
       <OptimizedGlass
         intent={intent}
         elevation={elevation}

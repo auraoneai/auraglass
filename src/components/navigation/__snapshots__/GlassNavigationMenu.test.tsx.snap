@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassNavigationMenu matches snapshot 1`] = `
+<nav
+  aria-label="Navigation menu"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 flex flex-col"
+  data-glass-component="true"
+  data-performance-mode="medium"
+  role="navigation"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+/>
+`;

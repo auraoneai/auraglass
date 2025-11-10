@@ -92,36 +92,36 @@ export function MolecularBondingInterface({
         className
       )}
     >
-      <header className="space-y-1">
-        <h2 className="glass-text-xl font-semibold text-primary">
+      <header className='space-y-1'>
+        <h2 className='glass-text-xl font-semibold text-primary'>
           Molecular Bonding Interface
         </h2>
-        <p className="glass-text-sm text-primary/70">
+        <p className='glass-text-sm text-primary/70'>
           Visualize complex bonding interactions with electronegativity and
           resonance indicators.
         </p>
       </header>
 
-      <div className="glass-grid glass-gap-4 md:grid-cols-[minmax(0,240px)_1fr]">
+      <div className='glass-grid glass-gap-4 md:grid-cols-[minmax(0,240px)_1fr]'>
         <section className="glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur">
-          <h3 className="glass-text-sm font-semibold text-primary/80 uppercase tracking-wide">
+          <h3 className='glass-text-sm font-semibold text-primary/80 uppercase tracking-wide'>
             Molecules
           </h3>
-          <ul className="mt-3 space-y-3 glass-text-sm">
+          <ul className='mt-3 space-y-3 glass-text-sm'>
             {molecules.map((molecule) => (
               <li
                 key={molecule.id}
-                className="glass-flex glass-items-center glass-justify-between glass-radius-xl glass-border glass-border-white/10 glass-px-3 glass-py-2 text-primary/85"
+                className='glass-flex glass-items-center glass-justify-between glass-radius-xl glass-border glass-border-white/10 glass-px-3 glass-py-2 text-primary/85'
               >
                 <div className="glass-flex glass-items-center glass-gap-3">
-                  <span className="glass-flex h-9 w-9 glass-items-center glass-justify-center glass-radius-full glass-surface-subtle/10 glass-text-base font-semibold">
+                  <span className='glass-flex h-9 w-9 glass-items-center glass-justify-center glass-radius-full glass-surface-subtle/10 glass-text-base font-semibold'>
                     {molecule.symbol}
                   </span>
                   <span>
-                    <div className="font-medium text-primary">
+                    <div className='font-medium text-primary'>
                       {molecule.name}
                     </div>
-                    <div className="glass-text-xs text-primary/60">
+                    <div className='glass-text-xs text-primary/60'>
                       Valence: {molecule.valence ?? "—"} | EN:{" "}
                       {molecule.electronegativity?.toFixed(2) ?? "—"}
                     </div>
@@ -147,10 +147,10 @@ export function MolecularBondingInterface({
         </section>
 
         <section className="glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur">
-          <h3 className="glass-text-sm font-semibold text-primary/80 uppercase tracking-wide">
+          <h3 className='glass-text-sm font-semibold text-primary/80 uppercase tracking-wide'>
             Bond Network
           </h3>
-          <div className="mt-4 glass-grid glass-gap-3 glass-text-sm">
+          <div className='mt-4 glass-grid glass-gap-3 glass-text-sm'>
             {bonds.map((bond) => {
               const source = moleculeMap.get(bond.from);
               const target = moleculeMap.get(bond.to);
@@ -170,28 +170,28 @@ export function MolecularBondingInterface({
                     gradient
                   )}
                 >
-                  <div className="glass-flex glass-items-center glass-justify-between glass-gap-4 text-primary">
+                  <div className='glass-flex glass-items-center glass-justify-between glass-gap-4 text-primary'>
                     <div className="glass-flex glass-items-center glass-gap-2 glass-text-sm">
-                      <span className="font-semibold">{source.symbol}</span>
-                      <span className="text-primary/60">⇄</span>
-                      <span className="font-semibold">{target.symbol}</span>
+                      <span className='font-semibold'>{source.symbol}</span>
+                      <span className='text-primary/60'>⇄</span>
+                      <span className='font-semibold'>{target.symbol}</span>
                     </div>
-                    <span className="glass-text-xs uppercase tracking-wide text-primary/80">
+                    <span className='glass-text-xs uppercase tracking-wide text-primary/80'>
                       {bond.type ?? "unknown"}
                     </span>
                   </div>
 
-                  <div className="mt-3 glass-grid glass-gap-2 glass-text-xs text-primary/80 sm:grid-cols-2">
+                  <div className='mt-3 glass-grid glass-gap-2 glass-text-xs text-primary/80 sm:grid-cols-2'>
                     <div className="glass-flex glass-items-center glass-justify-between">
                       <span>Strength Index</span>
-                      <span className="font-semibold text-primary">
+                      <span className='font-semibold text-primary'>
                         {(bond.strength * 100).toFixed(0)}%
                       </span>
                     </div>
                     {typeof bond.resonance === "number" && (
                       <div className="glass-flex glass-items-center glass-justify-between">
                         <span>Resonance</span>
-                        <span className="font-semibold text-primary/90">
+                        <span className='font-semibold text-primary/90'>
                           {(bond.resonance * 100).toFixed(0)}%
                         </span>
                       </div>

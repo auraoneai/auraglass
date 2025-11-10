@@ -728,9 +728,9 @@ export const GlassAuroraDisplay = forwardRef<
               step="0.1"
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
-              className="w-20"
+              className='w-20'
             />
-            <span className="glass-text-sm min-w-[3ch]">
+            <span className='glass-text-sm min-w-[3ch]'>
               {Math.round(currentIntensity * 100)}%
             </span>
           </div>
@@ -773,7 +773,7 @@ export const GlassAuroraDisplay = forwardRef<
               step="0.5"
               value={observationTime}
               onChange={(e) => {}}
-              className="w-20"
+              className='w-20'
             />
           </div>
 
@@ -831,7 +831,7 @@ export const GlassAuroraDisplay = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTabs matches snapshot 1`] = `
+<div
+  class="glass-tabs w-full"
+  data-orientation="horizontal"
+/>
+`;

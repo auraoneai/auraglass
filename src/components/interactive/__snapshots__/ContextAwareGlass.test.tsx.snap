@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContextAwareGlass matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-tier-high relative overflow-hidden"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0 0 20px rgba(var(--glass-color-black) / var(--glass-opacity-10)); transition: all 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; padding: 16px;"
+/>
+`;

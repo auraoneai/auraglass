@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassResponsiveNav matches snapshot 1`] = `
+<div
+  aria-label="Responsive navigation"
+  class="relative"
+  id="responsive-nav-:r6:"
+  role="navigation"
+/>
+`;

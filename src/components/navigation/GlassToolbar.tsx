@@ -52,13 +52,13 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
         )}
         {...rest}
       >
-        <div className="min-glass-w-0 glass-flex glass-items-center glass-gap-2">
+        <div className='min-glass-w-0 glass-flex glass-items-center glass-gap-2'>
           {left}
         </div>
-        <div className="min-glass-w-0 glass-flex-1 glass-flex glass-items-center glass-justify-center">
+        <div className='min-glass-w-0 glass-flex-1 glass-flex glass-items-center glass-justify-center'>
           {center}
         </div>
-        <div className="min-glass-w-0 glass-flex glass-items-center glass-gap-2">
+        <div className='min-glass-w-0 glass-flex glass-items-center glass-gap-2'>
           {right}
         </div>
       </OptimizedGlass>

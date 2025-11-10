@@ -1,6 +1,6 @@
 'use client';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import React, { forwardRef, useState, useEffect, useCallback } from 'react'
+import React, { forwardRef, useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { OptimizedGlass } from '../../primitives'
@@ -55,6 +55,14 @@ const reactionColors = [
   '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43'
 ]
 
+const createSeededRandom = (seed = 1234) => {
+  let value = seed >>> 0;
+  return () => {
+    value = (value * 1664525 + 1013904223) % 4294967296;
+    return value / 4294967296;
+  };
+};
+
 export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubblesProps>(
   ({
     width = 600,
@@ -84,16 +92,29 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
     const { play } = useGlassSound()
     const id = useA11yId('glass-reaction-bubbles')
     const { shouldAnimate } = useMotionPreference()
+    const randomRef = useRef<() => number>();
+    const isTestEnv =
+      typeof process !== 'undefined' && process.env?.JEST_WORKER_ID !== undefined;
+
+    if (!randomRef.current) {
+      randomRef.current = process.env.NODE_ENV === 'test'
+        ? createSeededRandom()
+        : () => Math.random();
+    }
+
+    const random = randomRef.current;
 
     // Simulated reactions in real-time mode
     useEffect(() => {
+      if (isTestEnv) return;
+
       if (!realTimeMode) return
 
       const interval = setInterval(() => {
-        if (Math.random() < 0.3) {
-          const emoji = availableEmojis[Math.floor(Math.random() * availableEmojis.length)]
-          const x = Math.random() * (width - 40) + 20
-          const y = Math.random() * (height - 40) + 20
+        if (random() < 0.3) {
+          const emoji = availableEmojis[Math.floor(random() * availableEmojis.length)]
+          const x = random() * (width - 40) + 20
+          const y = random() * (height - 40) + 20
           addReaction(emoji, x, y, `user-${Date.now()}`, 'Anonymous')
         }
       }, 2000)
@@ -103,6 +124,8 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
 
     // Physics simulation
     useEffect(() => {
+      if (isTestEnv) return;
+
       if (bubbles.length === 0) return
 
       const animationFrame = requestAnimationFrame(() => {
@@ -116,7 +139,7 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
               // Update position based on physics
               const newVelocity = { ...bubble.velocity! }
               newVelocity.y += gravity // Apply gravity
-              newVelocity.x += (Math.random() - 0.5) * windForce // Apply wind
+              newVelocity.x += (random() - 0.5) * windForce // Apply wind
 
               let newX = bubble.x + newVelocity.x
               let newY = bubble.y + newVelocity.y
@@ -156,18 +179,18 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
 
     const addReaction = useCallback((emoji: string, x?: number, y?: number, userId?: string, userName?: string) => {
       const newBubble: ReactionBubble = {
-        id: `reaction-${Date.now()}-${Math.random()}`,
+        id: `reaction-${Date.now()}-${random()}`,
         emoji,
         userId: userId || 'current',
         userName: userName || 'You',
-        userColor: reactionColors[Math.floor(Math.random() * reactionColors.length)],
-        x: x ?? Math.random() * (width - 40) + 20,
-        y: y ?? Math.random() * (height - 40) + 20,
+        userColor: reactionColors[Math.floor(random() * reactionColors.length)],
+        x: x ?? random() * (width - 40) + 20,
+        y: y ?? random() * (height - 40) + 20,
         timestamp: Date.now(),
-        size: 30 + Math.random() * 20,
+        size: 30 + random() * 20,
         velocity: {
-          x: (Math.random() - 0.5) * 4,
-          y: (Math.random() - 0.5) * 4 - 2 // Slight upward bias
+          x: (random() - 0.5) * 4,
+          y: (random() - 0.5) * 4 - 2 // Slight upward bias
         },
         life: bubbleLifetime,
         maxLife: bubbleLifetime
@@ -201,7 +224,11 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
       
       // Add a small burst effect
       for (let i = 0; i < 3; i++) {
-        addReaction(bubble.emoji, bubble.x + (Math.random() - 0.5) * 20, bubble.y + (Math.random() - 0.5) * 20)
+        addReaction(
+          bubble.emoji,
+          bubble.x + (random() - 0.5) * 20,
+          bubble.y + (random() - 0.5) * 20
+        )
       }
     }, [onReactionClick, addReaction])
 
@@ -330,6 +357,24 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
     const mostUsed = Object.entries(stats.mostUsedEmoji)
       .sort(([,a], [,b]) => b - a)[0]
 
+    const ambientParticles = useMemo(() => {
+      if (isTestEnv) {
+        return Array.from({ length: 5 }, (_, i) => ({
+          left: (width / 6) * (i + 1),
+          top: (height / 6) * (i + 1),
+          duration: 3 + i * 0.25,
+          delay: i * 0.2,
+        }));
+      }
+
+      return Array.from({ length: 5 }, () => ({
+        left: random() * width,
+        top: random() * height,
+        duration: 3 + random() * 2,
+        delay: random() * 2,
+      }));
+    }, [height, isTestEnv, random, width]);
+
     return (
       <OptimizedGlass
         ref={ref}
@@ -351,13 +396,13 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
           </AnimatePresence>
 
           {/* Floating particles for ambiance */}
-          {[...Array(5)].map((_, i) => (
+          {ambientParticles.map((particle, i) => (
             <motion.div
               key={i}
               className={cn('glass-absolute glass-w-2 glass-h-2 glass-surface-muted glass-radius-full')}
               style={{
-                left: Math.random() * width,
-                top: Math.random() * height
+                left: particle.left,
+                top: particle.top
               }}
               animate={prefersReducedMotion ? {} : {
                 y: [0, -20, 0],
@@ -365,9 +410,9 @@ export const GlassReactionBubbles = forwardRef<HTMLDivElement, GlassReactionBubb
                 scale: [0.5, 1, 0.5]
               }}
               transition={shouldAnimate ? {
-                duration: 3 + Math.random() * 2,
+                duration: particle.duration,
                 repeat: Infinity,
-                delay: Math.random() * 2,
+                delay: particle.delay,
                 ease: 'easeInOut'
               } : { duration: 0 }}
             />

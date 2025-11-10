@@ -1,0 +1,33 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: var(--aura-space-4);
+  border-radius: var(--aura-radius-2xl);
+  background: color-mix(in srgb, var(--aura-color-glass-surface) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.22);
+  overflow: hidden;
+  transition: transform var(--aura-motion-duration-medium) var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-medium) var(--aura-motion-easing-standard);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aura-space-2);
+  margin-bottom: var(--aura-space-4);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--aura-font-size-lg);
+  font-weight: var(--aura-font-weight-semibold);
+  color: var(--aura-color-global-text-primary);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--aura-font-size-sm);
+  color: color-mix(in srgb, var(--aura-color-global-text-secondary) 82%, transparent);
+}

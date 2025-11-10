@@ -122,6 +122,7 @@ interface SpatialComputingEngineProps {
   onGesture?: (gesture: GestureEvent) => void;
   onPositionChange?: (position: SpatialPosition) => void;
   onAnchorUpdate?: (anchor: SpatialAnchor) => void;
+  showDebugHud?: boolean;
 }
 
 // Default spatial position
@@ -190,6 +191,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
   onGesture,
   onPositionChange,
   onAnchorUpdate,
+  showDebugHud = false,
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -588,7 +590,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Spatial bounds visualization */}
       {bounds && process.env.NODE_ENV === "development" && (
         <div
-          className="spatial-bounds-debug"
+          className='spatial-bounds-debug'
           style={{
             position: "absolute",
             border: "1px dashed rgba(0, 255, 0, 0.5)",
@@ -604,7 +606,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Spatial anchor indicator */}
       {spatialAnchor && (
         <div
-          className="spatial-anchor-indicator"
+          className='spatial-anchor-indicator'
           style={{
             position: "absolute",
             top: "10px",
@@ -622,7 +624,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Gesture feedback */}
       {gestureActive && (
         <div
-          className="gesture-feedback"
+          className='gesture-feedback'
           style={{
             position: "absolute",
             top: "50%",
@@ -642,7 +644,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Occlusion layer */}
       {enableOcclusion && spatialContext.capabilities.occlusion && (
         <div
-          className="occlusion-layer"
+          className='occlusion-layer'
           style={{
             position: "absolute",
             inset: 0,
@@ -657,9 +659,9 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {children}
 
       {/* Debug information */}
-      {process.env.NODE_ENV === "development" && (
+      {(showDebugHud || process.env.NODE_ENV === "development") && (
         <div
-          className="spatial-debug-info"
+          className='spatial-debug-info'
           style={{
             position: "absolute",
             bottom: "10px",

@@ -1,0 +1,424 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
+<div
+  class="space-y-6 "
+  data-glass-component="true"
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-p-6"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <h3
+      class="glass-text-lg font-semibold text-primary mb-4"
+    >
+      Base Color
+    </h3>
+    <div
+      class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-6"
+    >
+      <div
+        class="glass-gap-4"
+      >
+        <div
+          class="glass-flex glass-items-center glass-gap-4"
+        >
+          <input
+            class="w-16 h-16 glass-radius-lg glass-border-2 glass-border-white/20 cursor-pointer"
+            type="color"
+            value="#0066cc"
+          />
+          <div>
+            <label
+              class="block glass-text-sm text-primary/70 mb-1"
+            >
+              Hex Color
+            </label>
+            <input
+              class="glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md text-primary placeholder-white/50 focus:outline-none focus:border-white/40"
+              placeholder="#0066cc"
+              type="text"
+              value="#0066cc"
+            />
+          </div>
+        </div>
+        <div>
+          <label
+            class="block glass-text-sm text-primary/70 mb-2"
+          >
+            Quick Palettes
+          </label>
+          <div
+            class="glass-flex glass-flex-wrap glass-gap-2"
+          >
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/20 glass-text-primary"
+            >
+              Ocean
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Sunset
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Forest
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Royal
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Minimal
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-4"
+      >
+        <div>
+          <label
+            class="block glass-text-sm text-primary/70 mb-2"
+          >
+            Color Harmony
+          </label>
+          <div
+            class="glass-grid glass-grid-cols-2 glass-gap-2"
+          >
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/20 glass-text-primary"
+            >
+              Analogous
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Complementary
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Triadic
+            </button>
+            <button
+              class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors bg-white/10 glass-text-primary/70 hover:bg-white/15"
+            >
+              Monochromatic
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-p-6"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <h3
+      class="glass-text-lg font-semibold text-primary mb-4"
+    >
+      Color Scheme Preview
+    </h3>
+    <div
+      class="glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4"
+    >
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(0, 102, 204);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            primary
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #0066cc
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(0, 0, 204);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            secondary
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #0000cc
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(0, 204, 204);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            accent
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #00cccc
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(115, 127, 140);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            neutral
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #737f8c
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            success
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            var(--glass-color-success)
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            warning
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            var(--glass-color-warning)
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            error
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            var(--glass-color-danger)
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            info
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            var(--glass-color-primary)
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(10, 13, 15);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            background
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #0a0d0f
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(22, 25, 29);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            surface
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #16191d
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-gap-2"
+      >
+        <div
+          class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20"
+          style="background-color: rgb(241, 242, 244);"
+        />
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-xs text-primary/70 capitalize"
+          >
+            text
+          </div>
+          <div
+            class="glass-text-xs text-primary/50 font-mono"
+          >
+            #f1f2f4
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-p-6"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <h3
+      class="glass-text-lg font-semibold text-primary mb-4"
+    >
+      Export Options
+    </h3>
+    <div
+      class="glass-flex glass-flex-wrap glass-gap-3"
+    >
+      <button
+        class="glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 transition-colors"
+      >
+        Export CSS Variables
+      </button>
+      <button
+        class="glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius-md hover:glass-surface-primary/30 transition-colors"
+      >
+        Export JSON
+      </button>
+    </div>
+    <div
+      class="glass-mt-4"
+    >
+      <label
+        class="block glass-text-sm text-primary/70 mb-2"
+      >
+        CSS Variables Preview
+      </label>
+      <pre
+        class="glass-p-3 glass-surface-dark/20 glass-radius-md glass-text-xs text-primary/80 overflow-x-auto"
+      >
+        <code>
+          :root {
+  --color-primary: #0066cc;
+  --color-secondary: #0000cc;
+  --color-accent: #00cccc;
+  --color-neutral: #737f8c;
+  --color-success: var(--glass-color-success);
+  --color-warning: var(--glass-color-warning);
+  --color-error: var(--glass-color-danger);
+  --color-info: var(--glass-color-primary);
+  --color-background: #0a0d0f;
+  --color-surface: #16191d;
+  --color-text: #f1f2f4;
+}
+        </code>
+      </pre>
+    </div>
+  </div>
+</div>
+`;

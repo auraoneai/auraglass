@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassFoldableSupport matches snapshot 1`] = `
+<div
+  class="relative OptimizedGlass intensity={0.2} glassBlur={6} transform-gpu will-change-transform"
+  data-fold-state="unknown"
+  data-layout-mode="single"
+>
+  <div
+    style="opacity: 0;"
+  >
+    <div
+      class="relative glass-w-full glass-h-full"
+    >
+      <div>
+        content
+      </div>
+    </div>
+  </div>
+</div>
+`;

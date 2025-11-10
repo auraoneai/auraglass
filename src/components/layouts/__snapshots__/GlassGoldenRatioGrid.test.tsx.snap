@@ -1,0 +1,350 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
+<div
+  aria-label="Golden ratio layout grid"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-golden-ratio-grid relative overflow-hidden"
+  id=":r2l:"
+  role="grid"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 100%; height: 100%; min-height: 600px;"
+>
+  <div
+    class="absolute inset-0"
+    style="width: 800px; height: 600px;"
+  >
+    <svg
+      class="absolute inset-0 pointer-events-none"
+      height="600"
+      width="800"
+    >
+      <path
+        d="M 410,300 L 409.9519359433231,302.0173572884511 L 409.497129859074,304.0153221018922 L 408.6414488695195,305.911933249041 L 407.4072663978171,307.62680708553603 L 405.83306458445895,309.08445984224727 L 403.97236838234033,310.21753377832 L 401.89203394466443,310.9697927969108 L 399.66994091682477,311.2987583694649 L 397.39216405996405,311.1778672434938 L 395.1497231821066,310.59804819495037 L 393.03503060315006,309.5686355470815 L 391.13817140539066,308.11756162529855 L 389.5431627376492,306.29079788066105 L 388.32434384406065,304.1510440675381 L 387.5430478835496,301.77569546144184 L 387.24469983068326,299.25414843431116 L 387.45647188692465,296.6845335232085 L 388.18560921769716,294.16999121389324 L 389.4185150441522,291.8146278658367 L 391.12065596677036,289.719306505023 L 393.23731689149935,287.97743874829496 L 395.69520124661847,286.6709492489934 L 398.40483762381274,285.866582360023 L 401.26371992997156,285.61271205408514 L 404.1600759992113,285.93680065753995 L 406.97713075559585,286.8436300623173 L 409.59770571312225,288.31440147157974 L 411.90897798210807,290.3067673558546 L 413.8072099551704,292.75582331719454 L 415.20225616597537,295.5760493326842 L 416.02165686802334,298.6641508619782 L 416.21413878513306,301.90271212042325 L 415.7523620401835,305.1645380195182 L 414.63477795647833,308.31752939191864 L 412.88649442269366,311.2299095690446 L 410.55908271108797,313.7756004126648 L 407.72930068657195,315.8395335354227 L 404.4967506896097,317.32267841913307 L 400.98053432517577,318.14657387720297 L 397.3150091722788,318.25716288841744 L 393.6447922654721,317.6277529756619 L 390.11919037750005,316.26095437956405 L 386.8862660733926,314.1894853054973 L 384.08676983842054,311.4757762113385 L 381.8481812000027,308.21035189058904 L 380.27910488203906,304.5090192132466 L 379.464261226745,300.5089378876446 L 379.46029336227406,296.3636994969016 L 380.29258725696263,292.23758434342284 L 381.9532656573445,288.29920438866156 L 384.4004741142933,284.7147720531147 L 387.55902836435206,281.64125733515937 L 391.3224390531046,279.21970841949656 L 395.55627419882813,277.5690128485055 L 400.10276408942644,276.7803670089951 L 404.7864997484809,276.91270117308426 L 409.42102694487403,277.98927611239424 L 413.8160950934453,279.9956263176311 L 417.7852862405854,282.878975466146 L 421.15372530290915,286.5491937379655 L 423.76556012254645,290.88130596118987 L 425.49089958771253,295.719496696634 L 426.2319104371881,300.8824957392165 L 425.927798313035,306.1701676777395 L 424.55843552270727,311.3710746388717 L 422.1464456889965,316.2707345307486 L 418.757612397512,320.66026014248087 L 414.4995430649994,324.34503915944225 L 409.5185881604402,327.1531029133848 L 403.9950869577196,328.9428334057695 L 398.1370813571677,329.60967418646413 L 392.1727060970186,329.09154083044507 L 386.3415240541395,327.372670243313 L 380.88512664836617,324.48570348606427 L 376.03735924493424,320.5118623546778 L 372.0145579151807,315.57915322542476 L 369.0061954719093,309.8586099390308 L 367.1663304082063,303.55866771418715 L 366.6062319187842,296.9178390477564 L 367.388517901074,290.19593702087747 L 369.52309170420256,283.66415821480075 L 372.96509903780463,277.5943935893453 L 377.6150510784847,272.2481785731217 L 383.3211761461825,267.8657210990742 L 389.883973514674,264.65545679288164 L 397.0628524262929,262.7845730296405 L 404.58465083318544,262.37091786224886 L 412.15374545226797,263.4766663732386 L 419.46339095029026,266.1040570279963 L 426.2078647580637,270.1934360395626 L 432.09494803327965,275.62376117595824 L 436.8582449988188,282.2156210021386 L 440.26883398034664,289.7367248609384 L 442.1457549189888,297.90971689750364 L 442.3648701088519,306.4220682323639 L 440.8656867415009,314.9377091160513 L 437.6558000373298,323.1099815258461 L 432.8127020198956,330.59542584543635 L 426.48280033067954,337.06786617460847 L 418.8776002496064,342.2322299991068 L 410.2671171451503,345.83753121468095 L 400.97070144705907,347.6884618052729 L 391.3455692623336,347.65507687608215 L 381.77343430051576,345.68011935188827 L 372.6457263980116,341.78361265160606 L 364.3479545816342,336.06444933681524 L 357.2438248024379,328.6988175958279 L 351.65975144054903,319.93543127017017 L 347.8704055280733,310.087658224631 L 346.0859204221112,299.5227711117725 L 346.441327477355,288.64866872874705 L 348.98872127189014,277.8985299943729 L 353.6925583312184,267.7139611315361 L 360.42837826396226,258.5272754357368 L 368.98510584811794,250.7436002216345 L 379.0709517207269,244.7235341839153 L 390.32278333638516,240.7670784938499 L 402.3186925570727,239.0995355866644 L 414.59334755545444,239.86001105695425 L 426.6555905092153,243.0930678460543 L 438.0076343623317,248.7439706264631 L 448.1651266964938,256.65782571631047 L 456.6772906774066,266.58277272747154 L 463.1463253260716,278.17722402180516 L 467.24525208751527,291.0209830994967 L 468.73343264549237,304.6299098384655 L 467.4690536495155,318.4736457443414 L 463.41797561899995,331.9957726212075 L 456.65847259184994,344.63565949171897 L 447.38154168801805,355.8511606685243 L 435.8866321731949,365.14126717957737 L 422.57282544855764,372.0677877210608 L 407.9256836102234,376.2751460916587 L 392.50016737003125,377.50743035688424 L 376.9001966541333,375.62191400250595 L 361.7555817418996,370.5983887422858 L 347.6971825223577,362.5437986549503 L 335.33125227432026,351.69184078211174 L 325.2139853343868,338.3973918696631 L 317.8273114245617,323.1258272517681 L 313.5569610848783,306.437507923667 L 312.67376604412505,288.967917189969 L 315.3190566163095,271.4041204009269 L 321.4948781954199,254.45839196590444 L 331.0595751473403,238.83999544355433 L 343.72908889144975,225.2262083815475 L 359.0840950681884,214.2337482921154 L 376.58287080415414,206.3917757876444 L 395.57954636401763,202.11762326125688 L 415.34716546990893,201.69632223549976 L 435.1047648487876,205.2648812012402 L 454.04749534615104,212.80210193586987 L 471.3786526779235,224.12452127324397 L 486.3423729195539,238.88883412619734 L 498.25568203711754,256.60090071135426 L 506.53857429630796,276.631176017079 L 510.7408334274304,298.2361330009018 L 510.56440305264925,320.5849936056405 L 505.88025699086677,342.7908442098552 L 496.73891137899716,363.9450048680795 L 483.3739527639931,383.15335402898563 L 466.1982212439385,399.57319040443474 L 445.7925755984893,412.44914766862087 L 422.88746714065417,421.1466700619957 L 398.3378489067565,425.1816098854265 L 373.09223457095095,424.2446210239367 L 348.1569850298666,418.2191933028454 L 324.5571284664187,407.19239549159727 L 303.29520148059373,391.4576626793784 L 285.30972573319605,371.5092670389917 L 271.43499961217015,348.0284384219441 L 262.36388312835743,321.861440206093 L 258.6151845669879,293.99024290347114 L 260.50712007326047,265.4967594450314 L 268.13811582281687,237.52189821526525 L 281.3759629306805,211.22094000641636 L 299.856026548763,187.71694160681383 L 322.9888637322512,168.05400206142966 L 349.9772325564164,153.152290349586 L 379.84209200493086,143.76672056445622 L 411.4568135849581,140.4510708228388 L 443.58846700521997,143.5291763391133 L 474.9447188045838,153.07458975332383 L 504.224608805338,168.89980034899537 L 530.1712573831974,190.55574851257336 L 551.6244173556641,217.34197546610204 L 567.5707257209684,248.32732580966046 L 577.1895374242886,282.38068813017696 L 579.8923373491656,318.2108341666255 L 575.3539258958755,354.4140172988566 L 563.5338523534231,389.52763350416546 L 544.6869199218721,422.0879482744426 L 519.3619946615715,450.68966531269183 L 488.38880303264216,474.0449686407291 L 452.85288198822553,491.0396175185581 L 414.0593331182865,500.7837182876232 L 373.4865085109181,502.6549400997598 L 332.7312010615958,496.3321797173012 L 293.4473068270532,481.81800743358434"
+        fill="none"
+        stroke="rgba(255, 215, 0, 0.3)"
+        stroke-dasharray="5,5"
+        stroke-width="2"
+      />
+    </svg>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 4px; top: 4px; width: 297.5856472533198px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 4px; top: 233.18923543998983px; width: 297.5856472533198px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 4px; top: 374.82818294190355px; width: 180.86628384012346px; height: 221.17181705809645px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 498.4375772558714px; top: 4px; width: 180.85193000255165px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 309.5856472533198px; top: 4px; width: 180.85193000255163px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 192.86628384012346px; top: 374.82818294190355px; width: 108.71936341319633px; height: 221.17181705809645px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 498.4375772558714px; top: 374.82818294190355px; width: 180.85193000255165px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 309.5856472533198px; top: 374.82818294190355px; width: 180.85193000255163px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 687.2895072584231px; top: 4px; width: 108.71049274157693px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 498.4375772558714px; top: 233.18923543998983px; width: 180.85193000255165px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 309.5856472533198px; top: 233.18923543998983px; width: 180.85193000255163px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 309.5856472533198px; top: 516.4671304438173px; width: 180.85193000255163px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 498.4375772558714px; top: 516.4671304438173px; width: 180.85193000255165px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 687.2895072584231px; top: 374.82818294190355px; width: 108.71049274157693px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 687.2895072584231px; top: 233.18923543998983px; width: 108.71049274157693px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+    <div
+      class="
+                    absolute overflow-hidden
+                    cursor-default
+                  "
+      style="left: 687.2895072584231px; top: 516.4671304438173px; width: 108.71049274157693px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
+    >
+      <div
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+      >
+        <div
+          class="glass-text-xs"
+        >
+          Empty
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="absolute bottom-4 left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70"
+  >
+    <div
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+    >
+      Sections: 
+      16
+    </div>
+    <div
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+    >
+      Items: 
+      0
+    </div>
+    <div
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+    >
+      Golden Ratio: 
+      1.618
+    </div>
+    <div
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+    >
+      Levels: 
+      4
+    </div>
+  </div>
+  <div
+    class="absolute top-4 right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70"
+  >
+    <div
+      class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+    >
+      <div
+        class="w-2 h-2 glass-surface-yellow glass-radius-full"
+      />
+      Golden Ratio
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+    >
+      <div
+        class="w-4 h-0-5 glass-surface-yellow opacity-50"
+      />
+      Spiral
+    </div>
+  </div>
+</div>
+`;

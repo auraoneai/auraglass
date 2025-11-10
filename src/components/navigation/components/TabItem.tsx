@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '../../../lib/utilsComprehensive';
 import { glassTokenUtils } from '../../../tokens/glass';
 
-export interface TabItemProps {
+export interface TabItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   id: string;
   label: string;
   icon?: React.ReactNode;
@@ -42,6 +42,8 @@ const TabItemComponent: React.FC<TabItemProps> = ({
   index = 0,
   totalTabs = 1,
   onKeyDown,
+  className,
+  ...rest
 }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (onKeyDown) {
@@ -107,7 +109,12 @@ const TabItemComponent: React.FC<TabItemProps> = ({
       onClick={onClick}
       onKeyDown={handleKeyDown}
       disabled={disabled}
-     className="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard">
+      className={cn(
+        'glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard',
+        className
+      )}
+      {...rest}
+    >
       {icon && <span aria-hidden="true">{icon}</span>}
       <span>{label}</span>
       {badge && (
@@ -128,5 +135,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
     </button>
   );
 };
+
+export const TabItem = TabItemComponent;
 
 export default TabItemComponent;

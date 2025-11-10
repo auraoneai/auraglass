@@ -516,3 +516,132 @@ export function GlassPerformanceMonitor({ className='' }: { className?: string }
     </motion.div>
   )
 }
+
+function PerformanceSummaryCard() {
+  const { performanceMode, batteryLevel, cpuLoad, lazyLoading } =
+    useGlassPerformance()
+
+  const metrics = [
+    {
+      label: 'Mode',
+      value: performanceMode.replace('-', ' '),
+    },
+    {
+      label: 'Battery',
+      value: batteryLevel !== undefined ? `${batteryLevel}%` : '—',
+    },
+    {
+      label: 'CPU Load',
+      value: `${cpuLoad.toFixed(0)}%`,
+    },
+    {
+      label: 'Lazy Loading',
+      value: lazyLoading ? 'enabled' : 'disabled',
+    },
+  ]
+
+  return (
+    <div className="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10">
+      <div>
+        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          Performance profile
+        </p>
+        <h2 className="glass-text-2xl glass-text-primary font-semibold">
+          Adaptive glass effects
+        </h2>
+      </div>
+      <div className="glass-grid glass-grid-cols-2 glass-gap-3">
+        {metrics.map((metric) => (
+          <div
+            key={metric.label}
+            className="glass-surface-subtle glass-radius-xl glass-p-4"
+          >
+            <p className="glass-text-xs glass-text-tertiary mb-1">
+              {metric.label}
+            </p>
+            <p className="glass-text-lg glass-text-primary font-semibold">
+              {metric.value}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p className="glass-text-xs glass-text-secondary">
+        The engine continuously balances fidelity with resource usage.
+      </p>
+    </div>
+  )
+}
+
+interface GlassPerformanceOptimizationProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  adaptivePerformance?: boolean
+  showMonitor?: boolean
+  children?: React.ReactNode
+}
+
+const DemoPerformanceGrid = () => (
+  <div className="glass-grid md:grid-cols-2 glass-gap-4">
+    <EfficientGlassRendering className="glass-p-4 glass-radius-xl">
+      <h3 className="glass-text-lg glass-text-primary font-semibold">
+        Efficient rendering
+      </h3>
+      <p className="glass-text-sm glass-text-secondary">
+        Defers heavy effects when out of view.
+      </p>
+    </EfficientGlassRendering>
+    <BatteryAwareGlass className="glass-p-4 glass-radius-xl">
+      <h3 className="glass-text-lg glass-text-primary font-semibold">
+        Battery-aware styling
+      </h3>
+      <p className="glass-text-sm glass-text-secondary">
+        Automatically dials visuals up or down.
+      </p>
+    </BatteryAwareGlass>
+    <LazyGlassLoading className="glass-p-4 glass-radius-xl">
+      <h3 className="glass-text-lg glass-text-primary font-semibold">
+        Lazy loading
+      </h3>
+      <p className="glass-text-sm glass-text-secondary">
+        Streams content just in time.
+      </p>
+    </LazyGlassLoading>
+    <ReducedMotionGlass className="glass-p-4 glass-radius-xl">
+      <h3 className="glass-text-lg glass-text-primary font-semibold">
+        Motion aware
+      </h3>
+      <p className="glass-text-sm glass-text-secondary">
+        Respects prefers-reduced-motion automatically.
+      </p>
+    </ReducedMotionGlass>
+  </div>
+)
+
+export const GlassPerformanceOptimization: React.FC<
+  GlassPerformanceOptimizationProps
+> = ({
+  adaptivePerformance = true,
+  className,
+  children,
+  showMonitor = false,
+  ...rest
+}) => (
+  <GlassPerformanceProvider adaptivePerformance={adaptivePerformance}>
+    <div
+      className={cn(
+        'glass-performance-optimization glass-space-y-6',
+        className
+      )}
+      {...rest}
+    >
+      {children ?? (
+        <>
+          <PerformanceSummaryCard />
+          <DemoPerformanceGrid />
+        </>
+      )}
+      {showMonitor && <GlassPerformanceMonitor />}
+    </div>
+  </GlassPerformanceProvider>
+)
+
+export default GlassPerformanceOptimization

@@ -169,8 +169,8 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
 
   // Default drag handle
   const defaultHandle = handle || (
-    <div className="glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing">
-      <GripVertical className="w-4 h-4" />
+    <div className='glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing'>
+      <GripVertical className='w-4 h-4' />
     </div>
   );
 
@@ -197,7 +197,7 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
       {...props}
     >
       {/* Drag Handle */}
-      <div className="absolute glass-top-2 right-2 z-10">{defaultHandle}</div>
+      <div className='absolute glass-top-2 right-2 z-10'>{defaultHandle}</div>
 
       {/* Content */}
       <div
@@ -212,14 +212,14 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
       {/* Drag Preview (ghost image) */}
       {isDragging && (
         <div
-          className="fixed pointer-events-none z-40 opacity-50"
+          className='fixed pointer-events-none z-40 opacity-50'
           style={{
             left: elementStartPos.current.x,
             top: elementStartPos.current.y,
             transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)`,
           }}
         >
-          <div className="scale-95">{children}</div>
+          <div className='scale-95'>{children}</div>
         </div>
       )}
     </Motion>
@@ -365,7 +365,7 @@ export const GlassDroppable: React.FC<GlassDroppableProps> = ({
               : "border-red-500 bg-red-500/10"
           )}
         >
-          <div className="text-center">
+          <div className='text-center'>
             <Move
               className={cn(
                 "w-8 h-8 mx-auto glass-mb-2",
@@ -491,9 +491,9 @@ export const GlassSortable: React.FC<GlassSortableProps> = ({
           )}
         >
           {/* Drag Handle */}
-          <div className="absolute glass-top-2 right-2 z-10">
-            <div className="glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing glass-surface-dark/20 glass-radius-md">
-              <Move className="w-4 h-4" />
+          <div className='absolute glass-top-2 right-2 z-10'>
+            <div className='glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing glass-surface-dark/20 glass-radius-md'>
+              <Move className='w-4 h-4' />
             </div>
           </div>
 

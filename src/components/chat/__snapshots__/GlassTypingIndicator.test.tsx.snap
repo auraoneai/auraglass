@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTypingIndicator matches snapshot 1`] = `
+<div
+  aria-label="Someone is typing"
+  aria-live="polite"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex glass-radius-full glass-px-3 glass-py-2"
+  role="status"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="inline-flex items-center gap-1.5"
+  >
+    <div
+      class="flex items-center gap-1.5"
+    >
+      <div
+        aria-hidden="true"
+        class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+        style="animation-delay: 0ms;"
+      />
+      <div
+        aria-hidden="true"
+        class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+        style="animation-delay: 150ms;"
+      />
+      <div
+        aria-hidden="true"
+        class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+        style="animation-delay: 300ms;"
+      />
+    </div>
+  </div>
+</div>
+`;

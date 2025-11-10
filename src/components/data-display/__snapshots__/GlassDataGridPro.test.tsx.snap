@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDataGridPro matches snapshot 1`] = `
+<div
+  class="w-full"
+  data-glass-component="true"
+>
+  <div
+    class="glass-flex glass-items-center glass-justify-between glass-gap-4 mb-4"
+  >
+    <div
+      class="glass-flex glass-items-center glass-gap-4"
+    >
+      <div
+        class="relative"
+        data-glass-component="true"
+      >
+        <div
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 w-64"
+          data-performance-mode="medium"
+          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <div
+            class="flex items-center justify-center mr-3 glass-text-secondary w-4 h-4"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+          <input
+            class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed pr-8"
+            id="glass-input-:r3:"
+            placeholder="Search..."
+            value=""
+          />
+          <div
+            class="glass-flex glass-items-center glass-gap-1"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high overflow-hidden transition-all duration-500"
+    data-performance-mode="medium"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="overflow-x-auto"
+    >
+      <table
+        class="glass-w-full"
+      >
+        <thead
+          class="relative bg-muted/20 border-b border-border/20"
+        >
+          <tr />
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              class="text-center glass-text-secondary py-8 glass-px-4 glass-py-3"
+              colspan="0"
+            >
+              No data available
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

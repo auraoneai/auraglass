@@ -5,7 +5,6 @@
  * A dynamic background with animated particles.
  */
 import React, { forwardRef, useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import styled from 'styled-components';
 import { cn } from '@/lib/utils';
 
 import { OptimizedGlass } from '../../primitives';
@@ -13,6 +12,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
 import { useA11yId } from '../../utils/a11y';
 import { ParticleBackgroundProps } from './types';
+import styles from './ParticleBackground.module.css';
 
 // Particle interface
 interface Particle {
@@ -25,71 +25,6 @@ interface Particle {
   color: string;
 }
 
-// Canvas Style with OptimizedGlass integration
-const CanvasContainer = styled(OptimizedGlass).attrs<{
-  $intent: string;
-  $elevation: string;
-  $tier: string;
-}>(props => ({
-  intent: props.$intent as any,
-  elevation: props.$elevation as any,
-  tier: props.$tier as any,
-}))`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  
-  /* Ensure background is accessible */
-  &:focus {
-    outline: 2px solid var(--glass-border-focus);
-    outline-offset: 2px;
-  }
-` as React.ComponentType<any>;
-
-const ParticleCanvas = styled.canvas`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-`;
-
-const BlurLayer = styled.div<{
-  $blur: boolean;
-  $blurAmount: number;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  backdrop-filter: ${props => (props.$blur ? `blur(${props.$blurAmount}px)` : 'none')};
-  -webkit-backdrop-filter: ${props => (props.$blur ? `blur(${props.$blurAmount}px)` : 'none')};
-  pointer-events: none;
-  z-index: 1;
-`;
-
-const BackgroundLayer = styled.div<{
-  $baseColor: string;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${props => props.$baseColor};
-  z-index: -1;
-`;
-
-const ContentLayer = styled.div`
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-`;
 
 /**
  * ParticleBackground Component Implementation
@@ -330,33 +265,29 @@ const ParticleBackgroundComponent = (
     [ref]
   );
 
+  const blurStyle = useMemo(() => ({
+    '--particle-blur': blur ? `blur(${blurAmount}px)` : 'none',
+  }) as React.CSSProperties, [blur, blurAmount]);
+
   return (
-    <CanvasContainer 
-      ref={setRefs} 
-      className={cn('glass-particle-background', className)} 
+    <OptimizedGlass
+      ref={setRefs}
+      className={cn(styles.container, 'glass-particle-background', className)}
+      intent={intent as any}
+      elevation={elevation as any}
+      tier={tier as any}
       style={style}
-      $intent={intent}
-      $elevation={elevation}
-      $tier={tier}
       id={componentId}
       role="img"
       aria-label={`Interactive particle background with ${actualCount} ${connectParticles ? 'connected' : 'floating'} particles${interactive && !shouldReduceMotion ? ', responding to mouse movement' : ''}`}
-      aria-hidden="true"
       tabIndex={interactive ? 0 : -1}
       {...rest}
     >
-      <BackgroundLayer $baseColor={baseColor} />
-
-      <ParticleCanvas 
-        ref={canvasRef}
-        aria-hidden="true"
-        role="presentation"
-      />
-
-      <BlurLayer $blur={blur} $blurAmount={blurAmount} />
-
-      <ContentLayer>{children}</ContentLayer>
-    </CanvasContainer>
+      <div className={styles.backgroundLayer} style={{ backgroundColor: baseColor }} />
+      <canvas ref={canvasRef} aria-hidden="true" role="presentation" className={styles.canvas} />
+      <div aria-hidden="true" className={styles.blurLayer} style={blurStyle} />
+      <div className={styles.contentLayer}>{children}</div>
+    </OptimizedGlass>
   );
 };
 

@@ -158,7 +158,7 @@ const FRAGMENT_SHADER = `
 `;
 
 // WebGL capability detection and context management
-export class LiquidGlassGPU {
+export class LiquidGlassGPUDriver {
   private gl: WebGLRenderingContext | null = null;
   private program: WebGLProgram | null = null;
   private canvas: HTMLCanvasElement | null = null;
@@ -533,7 +533,7 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const gpuRef = useRef<LiquidGlassGPU | null>(null);
+  const gpuRef = useRef<LiquidGlassGPUDriver | null>(null);
   const [isGPUSupported, setIsGPUSupported] = useState(false);
   const [deviceTilt, setDeviceTilt] = useState({ x: 0, y: 0 });
   const startTimeRef = useRef(Date.now());
@@ -543,7 +543,7 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
     const initializeGPU = async () => {
       if (!canvasRef.current) return;
       
-      const isSupported = LiquidGlassGPU.isSupported();
+      const isSupported = LiquidGlassGPUDriver.isSupported();
       setIsGPUSupported(isSupported);
       
       if (!isSupported) {
@@ -551,7 +551,7 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
         return;
       }
       
-      gpuRef.current = new LiquidGlassGPU();
+      gpuRef.current = new LiquidGlassGPUDriver();
       const success = await gpuRef.current.initialize(canvasRef.current);
       
       if (!success) {
@@ -692,4 +692,5 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
   );
 };
 
+export const LiquidGlassGPU = LiquidGlassGPURenderer;
 export default LiquidGlassGPURenderer;

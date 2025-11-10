@@ -178,7 +178,7 @@ export const DimensionalDashboardContainer = forwardRef<
       >
         <div
           ref={containerRef}
-          className="dimensional-dashboard-content"
+          className='dimensional-dashboard-content'
           style={contentStyles}
         >
           {/* Render layers */}
@@ -189,7 +189,7 @@ export const DimensionalDashboardContainer = forwardRef<
               return (
                 <div
                   key={index}
-                  className="dimensional-dashboard-layer"
+                  className='dimensional-dashboard-layer'
                   style={{
                     position: "absolute",
                     top: 0,

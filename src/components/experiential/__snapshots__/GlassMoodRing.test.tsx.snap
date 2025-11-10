@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMoodRing matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-mood-ring relative inline-flex flex-col items-center justify-center glass-p-6 glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  id="glass-mood-ring-:r7:"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-items-center glass-gap-4"
+  >
+    <div
+      class="relative"
+    >
+      <div
+        aria-label="Current mood: Happy - Feeling joyful and content"
+        class="motion-primitive relative glass-radius-full border-solid transition-all duration-1000 w-24 h-24 border-4 shadow-lg shadow-current/30 cursor-pointer hover:scale-105"
+        role="button"
+        style="border-color: #ffd700; box-shadow: 0 0 20px #FFD70040;"
+        tabindex="0"
+      >
+        <div
+          class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-radius-full flex items-center justify-center transition-all duration-1000 w-12 h-12 animate-pulse"
+          style="background-color: rgba(255, 215, 0, 0.8); box-shadow: inset 0 0 10px #FFD70080;"
+        />
+        <div
+          class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-radius-full border transition-all duration-1000 animate-pulse"
+          style="width: 60%; height: 60%; border-color: #ffd700cc; animation-delay: 0ms; opacity: 0.8;"
+        />
+        <div
+          class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-radius-full border transition-all duration-1000 animate-pulse"
+          style="width: 80%; height: 80%; border-color: #ffd70099; animation-delay: 200ms; opacity: 0.5;"
+        />
+        <div
+          class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-radius-full border transition-all duration-1000 animate-pulse"
+          style="width: 100%; height: 100%; border-color: #ffd70066; animation-delay: 400ms; opacity: 0.20000000000000007;"
+        />
+      </div>
+    </div>
+    <div
+      class="text-center glass-gap-2"
+    >
+      <div
+        class="motion-primitive font-semibold transition-colors duration-500 glass-text-sm"
+        style="color: rgb(255, 215, 0);"
+      >
+        Happy
+      </div>
+    </div>
+    <div
+      class="motion-primitive glass-flex glass-flex-wrap glass-gap-1 glass-justify-center max-w-xs"
+    >
+      <button
+        aria-label="Select Happy mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 ring-2 ring-white focus:ring-white/50"
+        style="background-color: rgb(255, 215, 0); border-color: white;"
+        title="Happy"
+      />
+      <button
+        aria-label="Select Calm mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(135, 206, 235); border-color: #87ceeb;"
+        title="Calm"
+      />
+      <button
+        aria-label="Select Energetic mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(255, 69, 0); border-color: #ff4500;"
+        title="Energetic"
+      />
+      <button
+        aria-label="Select Focused mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(147, 112, 219); border-color: #9370db;"
+        title="Focused"
+      />
+      <button
+        aria-label="Select Stressed mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(220, 20, 60); border-color: #dc143c;"
+        title="Stressed"
+      />
+      <button
+        aria-label="Select Creative mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(255, 105, 180); border-color: #ff69b4;"
+        title="Creative"
+      />
+      <button
+        aria-label="Select Melancholic mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(65, 105, 225); border-color: #4169e1;"
+        title="Melancholic"
+      />
+      <button
+        aria-label="Select Excited mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(50, 205, 50); border-color: #32cd32;"
+        title="Excited"
+      />
+      <button
+        aria-label="Select Anxious mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(255, 99, 71); border-color: #ff6347;"
+        title="Anxious"
+      />
+      <button
+        aria-label="Select Peaceful mood"
+        class="w-6 h-6 glass-radius-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50"
+        style="background-color: rgb(152, 251, 152); border-color: #98fb98;"
+        title="Peaceful"
+      />
+    </div>
+  </div>
+</div>
+`;

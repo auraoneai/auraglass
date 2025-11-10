@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassCardLink matches snapshot 1`] = `
+<div
+  class="motion-primitive inline-block"
+  data-glass-component="true"
+>
+  <a
+    class="relative inline-block overflow-hidden glass-radius-xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 glass-focus glass-touch-target glass-contrast-guard"
+    href="#"
+  >
+    Example
+  </a>
+</div>
+`;

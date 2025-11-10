@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDivider matches snapshot 1`] = `
+<div
+  aria-orientation="horizontal"
+  class="motion-primitive glass-divider w-full h-0.5 border-border/30 bg-border/20 glass-backdrop-blur-sm opacity-50 glass-my-4"
+  data-glass-component="true"
+  id="glass-divider-:r4:"
+  role="separator"
+/>
+`;

@@ -102,12 +102,12 @@ const TreeItem: React.FC<TreeItemProps> = ({
         </span>
 
         {/* Component Name */}
-        <div className="glass-flex-1 min-glass-w-0">
-          <span className="glass-text-sm font-medium truncate">
+        <div className='glass-flex-1 min-glass-w-0'>
+          <span className='glass-text-sm font-medium truncate'>
             {componentDefinition?.name || component.type}
           </span>
           {component.props.content && (
-            <span className="glass-text-xs glass-text-secondary ml-1 truncate">
+            <span className='glass-text-xs glass-text-secondary ml-1 truncate'>
               "{component.props.content.substring(0, 20)}
               {component.props.content.length > 20 ? "..." : ""}"
             </span>
@@ -124,7 +124,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
         {/* Component Status Indicators */}
         <div className="glass-flex glass-items-center glass-gap-1">
           {component.locked && (
-            <span className="glass-text-xs text-primary" title="Locked">
+            <span className='glass-text-xs text-primary' title="Locked">
               🔒
             </span>
           )}
@@ -137,13 +137,13 @@ const TreeItem: React.FC<TreeItemProps> = ({
 
         {/* Action Buttons */}
         {showActions && (
-          <div className="glass-flex glass-items-center glass-gap-1 ml-2">
+          <div className='glass-flex glass-items-center glass-gap-1 ml-2'>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 duplicateComponent(component.id);
               }}
-              className="w-6 h-6 glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius glass-focus glass-touch-target"
+              className='w-6 h-6 glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius glass-focus glass-touch-target'
               title="Duplicate"
             >
               📋
@@ -153,7 +153,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 e.stopPropagation();
                 deleteComponent(component.id);
               }}
-              className="w-6 h-6 glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius glass-focus glass-touch-target"
+              className='w-6 h-6 glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-secondary hover:text-primary hover:glass-surface-subtle glass-radius glass-focus glass-touch-target'
               title="Delete"
             >
               🗑️
@@ -297,7 +297,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
         <Glass className="glass-h-full glass-contrast-guard">
           <button
             onClick={onToggleCollapse}
-            className="glass-flex glass-items-center glass-justify-center glass-w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+            className='glass-flex glass-items-center glass-justify-center glass-w-full h-12 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
             title="Expand Page Structure"
           >
             <div className="glass-text-lg">🌳</div>
@@ -312,12 +312,12 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
       <Glass className="glass-h-full glass-flex glass-flex-col glass-contrast-guard">
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">
-          <h2 className="glass-text-lg font-semibold glass-text-secondary">
+          <h2 className='glass-text-lg font-semibold glass-text-secondary'>
             Structure
           </h2>
           <button
             onClick={onToggleCollapse}
-            className="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+            className='glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
             title="Collapse Structure"
           >
             ◀
@@ -325,23 +325,23 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
         </div>
 
         {/* Controls */}
-        <div className="glass-p-4 glass-border-b glass-border-subtle space-y-3">
+        <div className='glass-p-4 glass-border-b glass-border-subtle space-y-3'>
           {/* Search */}
-          <div className="relative">
+          <div className='relative'>
             <input
               type="text"
               placeholder="Search components..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="glass-w-full glass-px-3 glass-py-2 pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className='glass-w-full glass-px-3 glass-py-2 pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
-            <div className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary">
+            <div className='absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary'>
               🔍
             </div>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target"
+                className='absolute right-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target'
               >
                 ✕
               </button>
@@ -353,14 +353,14 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             <div className="glass-flex glass-items-center glass-gap-2">
               <button
                 onClick={expandAll}
-                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className='text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
               >
                 Expand All
               </button>
-              <span className="text-gray-300">|</span>
+              <span className='text-gray-300'>|</span>
               <button
                 onClick={collapseAll}
-                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className='text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
               >
                 Collapse All
               </button>
@@ -368,21 +368,21 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             <div className="glass-flex glass-items-center glass-gap-2">
               <button
                 onClick={handleExport}
-                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className='text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
                 title="Export Structure"
               >
                 💾
               </button>
               <button
                 onClick={handleImport}
-                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className='text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
                 title="Import Structure"
               >
                 📁
               </button>
               <button
                 onClick={clearPage}
-                className="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className='text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
                 title="Clear All"
               >
                 🗑️
@@ -392,12 +392,12 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
         </div>
 
         {/* Component Tree */}
-        <div className="glass-flex-1 overflow-y-auto glass-p-2">
+        <div className='glass-flex-1 overflow-y-auto glass-p-2'>
           {filteredComponents.length === 0 ? (
             <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
-              <div className="text-center">
-                <div className="glass-text-4xl mb-4">🌳</div>
-                <h3 className="glass-text-lg font-medium glass-text-secondary mb-2">
+              <div className='text-center'>
+                <div className='glass-text-4xl mb-4'>🌳</div>
+                <h3 className='glass-text-lg font-medium glass-text-secondary mb-2'>
                   {searchQuery ? "No matches found" : "Empty Page"}
                 </h3>
                 <p className="glass-text-secondary glass-text-sm">
@@ -408,7 +408,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
               </div>
             </div>
           ) : (
-            <div className="space-y-1">
+            <div className='space-y-1'>
               {filteredComponents
                 .filter((component: any) => !component.parent) // Only show root components
                 .map((component: any) => (
@@ -431,7 +431,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
 
         {/* Footer Stats */}
         <div className="glass-p-4 glass-surface-subtle glass-border-t glass-border-subtle">
-          <div className="glass-text-xs glass-text-secondary space-y-1">
+          <div className='glass-text-xs glass-text-secondary space-y-1'>
             <div className="glass-flex glass-justify-between">
               <span>Total Components:</span>
               <span>{pageState.components.length}</span>

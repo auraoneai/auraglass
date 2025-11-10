@@ -768,3 +768,82 @@ export const eyeTrackingPresets = {
     highContrast: true,
   },
 };
+
+interface GlassEyeTrackingProps extends React.HTMLAttributes<HTMLDivElement> {
+  autoInitialize?: boolean;
+  showCalibration?: boolean;
+  showVisualization?: boolean;
+  children?: React.ReactNode;
+  onGazeInteraction?: (interaction: GazeInteraction) => void;
+}
+
+function EyeTrackingSummaryCard() {
+  const { isInitialized, isCalibrating, activeInteractions } = useEyeTracking();
+
+  return (
+    <div
+      className={cn(
+        "glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4",
+        "glass-border glass-border-white/10 glass-shadow-soft-lg"
+      )}
+      data-testid="glass-eye-tracking-summary"
+    >
+      <div>
+        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          Eye tracking
+        </p>
+        <h2 className="glass-text-2xl glass-text-primary font-semibold">
+          {isInitialized ? "Active" : "Initializing"}
+        </h2>
+        <p className="glass-text-sm glass-text-secondary">
+          {isCalibrating
+            ? "Calibration in progress"
+            : "Capturing gaze interactions"}
+        </p>
+      </div>
+      <div className="glass-grid glass-grid-cols-2 glass-gap-3">
+        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+          <p className="glass-text-xs glass-text-tertiary mb-1">Interactions</p>
+          <p className="glass-text-lg glass-text-primary font-semibold">
+            {activeInteractions.length}
+          </p>
+        </div>
+        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+          <p className="glass-text-xs glass-text-tertiary mb-1">Status</p>
+          <p className="glass-text-lg glass-text-primary font-semibold">
+            {isCalibrating ? "Calibrating" : "Tracking"}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const GlassEyeTracking: React.FC<GlassEyeTrackingProps> = ({
+  autoInitialize = false,
+  showCalibration = true,
+  showVisualization = true,
+  className,
+  children,
+  onGazeInteraction,
+  ...rest
+}) => (
+  <GlassEyeTrackingProvider
+    autoInitialize={autoInitialize}
+    onGazeInteraction={onGazeInteraction}
+  >
+    <div
+      className={cn(
+        "glass-eye-tracking glass-relative glass-space-y-4",
+        className
+      )}
+      {...rest}
+    >
+      {children ?? <EyeTrackingSummaryCard />}
+      {showCalibration && <GlassEyeTrackingCalibration />}
+      {showVisualization && <GlassGazeVisualization show />}
+    </div>
+  </GlassEyeTrackingProvider>
+);
+
+export default GlassEyeTracking;

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassContainer matches snapshot 1`] = `
+<div
+  class="w-full transition-all duration-300 max-w-4xl mx-auto glass-p-6"
+  data-glass-component="true"
+/>
+`;

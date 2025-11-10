@@ -1,0 +1,90 @@
+.item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  outline: none;
+  z-index: 1;
+  border-radius: var(--image-item-radius, var(--aura-radius-lg));
+  transform: scale(var(--image-item-scale, 1));
+  transition: transform var(--aura-motion-duration-normal) var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-normal) var(--aura-motion-easing-standard);
+  grid-column: span var(--image-item-col-span, 1);
+  grid-row: span var(--image-item-row-span, 1);
+}
+
+.item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.45), 0 0 0 6px rgba(99, 102, 241, 0.25);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.glass {
+  background: color-mix(in srgb, var(--aura-color-glass-surface) 88%, transparent);
+  border: 1px solid var(--aura-color-glass-border);
+  backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  box-shadow: var(--aura-color-glass-shadow);
+}
+
+.rounded {
+  border-radius: var(--aura-radius-xl);
+}
+
+.media {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.media > :global(img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--aura-motion-duration-normal) var(--aura-motion-easing-standard);
+  pointer-events: none;
+}
+
+.overlayVisible {
+  opacity: 1;
+}
+
+.noTransition {
+  transition: none;
+}
+
+.masonryItem {
+  break-inside: avoid;
+  margin-bottom: var(--image-list-gap, var(--aura-space-3));
+}
+
+.elevationLevel1 {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+}
+
+.elevationLevel2 {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+}
+
+.elevationLevel3 {
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.24);
+}
+
+.elevationLevel4 {
+  box-shadow: 0 20px 52px rgba(15, 23, 42, 0.28);
+}

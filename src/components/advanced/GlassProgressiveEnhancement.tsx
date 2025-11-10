@@ -647,7 +647,7 @@ export function GlassProgressiveEnhancement({
 
         {/* Quality indicator */}
         {process.env.NODE_ENV === "development" && (
-          <div className="fixed bottom-2 left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50 z-50">
+          <div className='fixed bottom-2 left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50 z-50'>
             <div>Quality: {currentTier.name}</div>
             <div>FPS: {Math.round(performanceMonitor.current.fps)}</div>
             {capabilities && <div>GPU: {capabilities.gpu.tier}</div>}
@@ -724,13 +724,13 @@ export function EnhancedGlass({
 
       {/* Conditional enhancements */}
       {enableParticles && (
-        <div className="absolute inset-0 pointer-events-none">
+        <div className='absolute inset-0 pointer-events-none'>
           {/* Particle system would go here */}
         </div>
       )}
 
       {enableWebGL && (
-        <canvas className="absolute inset-0 pointer-events-none" />
+        <canvas className='absolute inset-0 pointer-events-none' />
       )}
     </motion.div>
   );

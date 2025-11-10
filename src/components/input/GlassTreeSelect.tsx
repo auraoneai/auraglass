@@ -101,9 +101,9 @@ export interface GlassTreeSelectProps
 export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
   (
     {
-      data,
-      value = [],
-      onChange,
+      data: incomingData = [],
+      value: incomingValue = [],
+      onChange = () => {},
       placeholder = "Select...",
       multiple = false,
       searchable = true,
@@ -118,6 +118,8 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     },
     ref
   ) => {
+    const data = Array.isArray(incomingData) ? incomingData : [];
+    const value = Array.isArray(incomingValue) ? incomingValue : [];
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [expandedNodes, setExpandedNodes] = useState<Set<string | number>>(
@@ -130,9 +132,11 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     useEffect(() => {
       if (defaultExpanded) {
         const allIds = new Set<string | number>();
-        const collectIds = (nodes: TreeNode[]) => {
-          nodes.forEach((node) => {
-            if (node.children && node.children.length > 0) {
+        const collectIds = (nodes: TreeNode[] = []) => {
+          (Array.isArray(nodes) ? nodes : []).forEach((node) => {
+            const hasChildren =
+              Array.isArray(node.children) && node.children.length > 0;
+            if (hasChildren) {
               allIds.add(node.id);
               collectIds(node.children);
             }
@@ -163,11 +167,12 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     }, [isOpen]);
 
     const flattenTree = useCallback(
-      (nodes: TreeNode[], parentId?: string | number): TreeNode[] => {
-        return nodes.reduce<TreeNode[]>((acc, node) => {
+      (nodes: TreeNode[] = [], parentId?: string | number): TreeNode[] => {
+        const safeNodes = Array.isArray(nodes) ? nodes : [];
+        return safeNodes.reduce<TreeNode[]>((acc, node) => {
           const nodeWithParent = { ...node, parentId };
           acc.push(nodeWithParent);
-          if (node.children) {
+          if (Array.isArray(node.children) && node.children.length > 0) {
             acc.push(...flattenTree(node.children, node.id));
           }
           return acc;
@@ -194,12 +199,13 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
 
       const matchingIds = new Set<string | number>();
       const filterNodes = (nodes: TreeNode[]): TreeNode[] => {
-        return nodes
+        const safeNodes = Array.isArray(nodes) ? nodes : [];
+        return safeNodes
           .map((node) => {
             const matches = node.label
               .toLowerCase()
               .includes(search.toLowerCase());
-            const filteredChildren = node.children
+            const filteredChildren = Array.isArray(node.children)
               ? filterNodes(node.children)
               : [];
 
@@ -257,7 +263,8 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
     );
 
     const renderTreeNode = (node: TreeNode, level: number = 0) => {
-      const hasChildren = node.children && node.children.length > 0;
+      const hasChildren =
+        Array.isArray(node.children) && node.children.length > 0;
       const isExpanded = expandedNodes.has(node.id);
       const isSelected = value.includes(node.id);
 
@@ -290,7 +297,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                   e.stopPropagation();
                   toggleExpand(node.id);
                 }}
-                className="glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5"
+                className='glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5'
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -310,7 +317,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                 </svg>
               </button>
             )}
-            {!hasChildren && <div className="w-4" />}
+            {!hasChildren && <div className='w-4' />}
 
             {shouldShowCheckbox && (
               <input
@@ -327,14 +334,14 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               <span className="glass-flex-shrink-0">{node.icon}</span>
             )}
 
-            <span className="glass-flex-1 glass-text-sm glass-text-primary truncate">
+            <span className='glass-flex-1 glass-text-sm glass-text-primary truncate'>
               {node.label}
             </span>
           </div>
 
-          {hasChildren && isExpanded && (
+          {hasChildren && isExpanded && Array.isArray(node.children) && (
             <div>
-              {node.children!.map((child) => renderTreeNode(child, level + 1))}
+              {node.children.map((child) => renderTreeNode(child, level + 1))}
             </div>
           )}
         </div>
@@ -414,9 +421,9 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               </div>
             )}
 
-            <div className="overflow-y-auto glass-p-2" style={{ maxHeight }}>
+            <div className='overflow-y-auto glass-p-2' style={{ maxHeight }}>
               {filteredData.length === 0 ? (
-                <div className="glass-p-4 text-center glass-text-sm glass-text-secondary">
+                <div className='glass-p-4 text-center glass-text-sm glass-text-secondary'>
                   No results found
                 </div>
               ) : (

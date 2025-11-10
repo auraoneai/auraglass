@@ -1,5 +1,6 @@
 'use client';
-import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef, forwardRef } from 'react';
+import { cn } from '../../lib/utilsComprehensive';
 
 export interface ComponentDefinition {
   id: string;
@@ -359,7 +360,12 @@ const defaultComponentLibrary: ComponentDefinition[] = [
   }
 ];
 
-export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export interface GlassDragDropProviderProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
+
+export const DragDropProvider = forwardRef<HTMLDivElement, GlassDragDropProviderProps>(
+  ({ children, className, ...props }, ref) => {
   const [dragDropState, setDragDropState] = useState<DragDropState>({
     isDragging: false,
     draggedType: null
@@ -716,11 +722,20 @@ export const DragDropProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <DragDropContext.Provider data-glass-component value={value}>
-      {children}
-    </DragDropContext.Provider>
+    <div
+      ref={ref}
+      className={cn('glass-dragdrop-provider', className)}
+      data-glass-component
+      {...props}
+    >
+      <DragDropContext.Provider value={value}>
+        {children}
+      </DragDropContext.Provider>
+    </div>
   );
-};
+});
+
+DragDropProvider.displayName = 'GlassDragDropProvider';
 
 export { DragDropProvider as GlassDragDropProvider };
 

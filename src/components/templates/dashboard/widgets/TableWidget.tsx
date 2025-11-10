@@ -217,7 +217,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
       if (loading) {
         return (
           <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
-            <div className="w-6 h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
+            <div className='w-6 h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
           </div>
         );
       }
@@ -231,7 +231,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
       }
 
       return (
-        <div className="overflow-x-auto">
+        <div className='overflow-x-auto'>
           <table className="glass-w-full">
             {/* Header */}
             {showHeader && (

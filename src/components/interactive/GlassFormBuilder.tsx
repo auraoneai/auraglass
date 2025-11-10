@@ -413,19 +413,19 @@ export const GlassFormBuilder = forwardRef<
 
         case "checkbox":
           return (
-            <label className="glass-flex glass-items-center glass-gap-3 cursor-pointer">
+            <label className='glass-flex glass-items-center glass-gap-3 cursor-pointer'>
               <GlassInput
                 type="checkbox"
                 id={field.id}
                 checked={value}
                 onChange={(e) => handleValueChange(field.id, e.target.checked)}
                 disabled={isDisabled}
-                className="glass-radius-md glass-border-glass-border focus:ring-primary"
+                className='glass-radius-md glass-border-glass-border focus:ring-primary'
               />
               <span className={cn("font-medium", sizeClasses[size])}>
                 {field.label}
                 {field.required && (
-                  <span className="text-destructive glass-ml-1">*</span>
+                  <span className='text-destructive glass-ml-1'>*</span>
                 )}
               </span>
             </label>
@@ -439,14 +439,14 @@ export const GlassFormBuilder = forwardRef<
               >
                 {field.label}
                 {field.required && (
-                  <span className="text-destructive glass-ml-1">*</span>
+                  <span className='text-destructive glass-ml-1'>*</span>
                 )}
               </label>
               <div className="glass-auto-gap glass-auto-gap-sm">
                 {field.options?.map((option) => (
                   <label
                     key={option.value}
-                    className="glass-flex glass-items-center glass-gap-3 cursor-pointer"
+                    className='glass-flex glass-items-center glass-gap-3 cursor-pointer'
                   >
                     <GlassInput
                       type="radio"
@@ -457,7 +457,7 @@ export const GlassFormBuilder = forwardRef<
                         handleValueChange(field.id, e.target.value)
                       }
                       disabled={isDisabled}
-                      className="glass-border-glass-border focus:ring-primary"
+                      className='glass-border-glass-border focus:ring-primary'
                     />
                     <span className="glass-text-sm">{option.label}</span>
                   </label>
@@ -531,7 +531,7 @@ export const GlassFormBuilder = forwardRef<
       >
         {/* Form header */}
         {(title || description || showProgress) && (
-          <div className="mb-6">
+          <div className='mb-6'>
             {title && (
               <h2
                 className={cn("font-semibold text-foreground glass-mb-2", {
@@ -545,14 +545,14 @@ export const GlassFormBuilder = forwardRef<
             )}
 
             {description && (
-              <p className="glass-text-secondary mb-4">{description}</p>
+              <p className='glass-text-secondary mb-4'>{description}</p>
             )}
 
             {showProgress && (
               <div className="glass-flex glass-items-center glass-gap-4">
-                <div className="glass-flex-1 glass-surface-subtle glass-radius-full h-2">
+                <div className='glass-flex-1 glass-surface-subtle glass-radius-full h-2'>
                   <div
-                    className="glass-surface-primary h-2 glass-radius-full transition-all duration-300"
+                    className='glass-surface-primary h-2 glass-radius-full transition-all duration-300'
                     style={{
                       width: `${allFields.length > 0 ? (filledFields.length / allFields.length) * 100 : 0}%`,
                     }}
@@ -660,14 +660,14 @@ export const GlassFormBuilder = forwardRef<
                 </Motion>
               ))
           ) : (
-            <div className="text-center glass-py-8 glass-text-secondary">
+            <div className='text-center glass-py-8 glass-text-secondary'>
               <p>No form sections configured</p>
             </div>
           )}
         </div>
 
         {/* Form actions */}
-        <div className="glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8">
+        <div className='glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8'>
           {autoSave && (
             <GlassBadge variant="outline" size="sm">
               Auto-save enabled

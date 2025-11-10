@@ -5,6 +5,21 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.36] - 2025-11-09
+
+### 🛠 Fixes
+- Reworked Rollup externals to keep every React ecosystem peer (`react`, `styled-components`, Radix, drei, etc.) out of the bundle, eliminating duplicate dispatchers.
+- Added publish guard `pnpm run verify:pack` to fail when `npm pack` detects nested `node_modules` or bundled React runtimes.
+- Introduced server-only entry (`aura-glass/server`) with styled-registry assertions to keep Next.js layouts free from `'use client'` side effects.
+
+### ✅ Verification
+- `npm pack --dry-run --json` → no files under `node_modules/` inside the tarball.
+- `pnpm run test:integration:next` spins up a hoisted-linker Next 14.2.33 app and a Playwright smoke test passes against `pnpm dev --turbo`.
+- Integration workspace reports a single renderer: `pnpm ls react react-dom styled-components` → `react@18.2.0`, `react-dom@18.2.0`, `styled-components@6.1.19`.
+
+### ♻️ Tooling
+- New GitHub Action job `next-integration-smoke` provisions pnpm 10.12.2 and executes the Next.js smoke script on every pipeline run.
+
 ## [2.0.7] - 2025-11-07
 
 ## [2.0.8] - 2025-11-08

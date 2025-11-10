@@ -104,11 +104,11 @@ const VideoControls: React.FC<ControlsProps> = ({
   return (
     <div
       data-glass-component
-      className="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary via-black/40 glass-gradient-primary glass-p-4"
+      className='absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary via-black/40 glass-gradient-primary glass-p-4'
     >
       {/* Progress Bar */}
       <div
-        className="glass-w-full h-2 glass-surface-subtle/20 glass-radius-full cursor-pointer mb-4 relative"
+        className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-full cursor-pointer mb-4 relative'
         onClick={handleProgressClick}
         onMouseMove={handleProgressDrag}
         onMouseDown={() => setSeeking(true)}
@@ -117,56 +117,56 @@ const VideoControls: React.FC<ControlsProps> = ({
       >
         {/* Buffered Progress */}
         <div
-          className="absolute top-0 left-0 glass-h-full glass-surface-subtle/30 glass-radius-full"
+          className='absolute top-0 left-0 glass-h-full glass-surface-subtle/30 glass-radius-full'
           style={{ width: `${(buffered / duration) * 100}%` }}
         />
 
         {/* Played Progress */}
         <div
-          className="absolute top-0 left-0 glass-h-full glass-surface-blue glass-radius-full"
+          className='absolute top-0 left-0 glass-h-full glass-surface-blue glass-radius-full'
           style={{ width: `${(currentTime / duration) * 100}%` }}
         />
 
         {/* Progress Handle */}
         <div
-          className="absolute glass-top-1/2 transform -translate-y-1/2 w-4 h-4 glass-surface-blue glass-radius-full glass-border-2 glass-border-white glass-shadow-md"
+          className='absolute glass-top-1/2 transform -translate-y-1/2 w-4 h-4 glass-surface-blue glass-radius-full glass-border-2 glass-border-white glass-shadow-md'
           style={{ left: `calc(${(currentTime / duration) * 100}% - 8px)` }}
         />
       </div>
 
-      <div className="glass-flex glass-items-center glass-justify-between text-primary">
+      <div className='glass-flex glass-items-center glass-justify-between text-primary'>
         {/* Left Controls */}
         <div className="glass-flex glass-items-center glass-gap-3">
           {/* Play/Pause */}
           <button
             onClick={onPlayPause}
-            className="w-12 h-12 glass-flex glass-items-center glass-justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            className='w-12 h-12 glass-flex glass-items-center glass-justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
             {isPlaying ? (
               <div className="glass-flex glass-gap-1">
-                <div className="w-1 h-4 glass-surface-subtle glass-radius-full" />
-                <div className="w-1 h-4 glass-surface-subtle glass-radius-full" />
+                <div className='w-1 h-4 glass-surface-subtle glass-radius-full' />
+                <div className='w-1 h-4 glass-surface-subtle glass-radius-full' />
               </div>
             ) : (
-              <div className="w-0 h-0 glass-border-l-4 glass-border-l-white glass-border-y-4 glass-border-y-transparent ml-1" />
+              <div className='w-0 h-0 glass-border-l-4 glass-border-l-white glass-border-y-4 glass-border-y-transparent ml-1' />
             )}
           </button>
 
           {/* Volume */}
           <div
-            className="relative"
+            className='relative'
             onMouseEnter={() => setShowVolumeSlider(true)}
             onMouseLeave={() => setShowVolumeSlider(false)}
           >
             <button
               onClick={onMuteToggle}
-              className="w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              className='w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
             >
               {isMuted || volume === 0 ? "🔇" : volume < 0.5 ? "🔉" : "🔊"}
             </button>
 
             {showVolumeSlider && (
-              <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 glass-surface-dark/80 glass-radius-lg glass-p-2">
+              <div className='absolute bottom-12 left-1/2 transform -translate-x-1/2 glass-surface-dark/80 glass-radius-lg glass-p-2'>
                 <input
                   type="range"
                   min="0"
@@ -174,14 +174,14 @@ const VideoControls: React.FC<ControlsProps> = ({
                   step="0.01"
                   value={isMuted ? 0 : volume}
                   onChange={(e) => onVolumeChange(Number(e.target.value))}
-                  className="w-16 h-1 glass-surface-subtle/20 glass-radius-full appearance-none slider-thumb-white glass-focus glass-touch-target glass-contrast-guard"
+                  className='w-16 h-1 glass-surface-subtle/20 glass-radius-full appearance-none slider-thumb-white glass-focus glass-touch-target glass-contrast-guard'
                 />
               </div>
             )}
           </div>
 
           {/* Time Display */}
-          <div className="glass-text-sm font-mono">
+          <div className='glass-text-sm font-mono'>
             {formatTime(currentTime)} / {formatTime(duration)}
           </div>
         </div>
@@ -189,16 +189,16 @@ const VideoControls: React.FC<ControlsProps> = ({
         {/* Right Controls */}
         <div className="glass-flex glass-items-center glass-gap-3">
           {/* Playback Speed */}
-          <div className="relative">
+          <div className='relative'>
             <button
               onClick={() => setShowSpeedMenu(!showSpeedMenu)}
-              className="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard'
             >
               {playbackRate}x
             </button>
 
             {showSpeedMenu && (
-              <div className="absolute bottom-12 right-0 glass-surface-dark/90 glass-radius-lg glass-p-2 glass-min-w-20">
+              <div className='absolute bottom-12 right-0 glass-surface-dark/90 glass-radius-lg glass-p-2 glass-min-w-20'>
                 {playbackSpeeds.map((speed: any) => (
                   <button
                     key={speed}
@@ -219,16 +219,16 @@ const VideoControls: React.FC<ControlsProps> = ({
           </div>
 
           {/* Quality */}
-          <div className="relative">
+          <div className='relative'>
             <button
               onClick={() => setShowQualityMenu(!showQualityMenu)}
-              className="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard'
             >
               {quality}
             </button>
 
             {showQualityMenu && (
-              <div className="absolute bottom-12 right-0 glass-surface-dark/90 glass-radius-lg glass-p-2 glass-min-w-20">
+              <div className='absolute bottom-12 right-0 glass-surface-dark/90 glass-radius-lg glass-p-2 glass-min-w-20'>
                 {qualities.map((q: any) => (
                   <button
                     key={q}
@@ -251,7 +251,7 @@ const VideoControls: React.FC<ControlsProps> = ({
           {/* Fullscreen */}
           <button
             onClick={onFullscreenToggle}
-            className="w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            className='w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
             {isFullscreen ? "⊟" : "⊞"}
           </button>
@@ -267,9 +267,9 @@ const ChapterList: React.FC<{
   onChapterClick: (chapter: MediaChapter) => void;
 }> = ({ chapters, currentTime, onChapterClick }) => {
   return (
-    <div className="glass-surface-subtle text-primary glass-p-4 glass-radius-lg">
-      <h3 className="glass-text-lg font-semibold mb-4">Chapters</h3>
-      <div className="space-y-2 max-h-96 overflow-y-auto">
+    <div className='glass-surface-subtle text-primary glass-p-4 glass-radius-lg'>
+      <h3 className='glass-text-lg font-semibold mb-4'>Chapters</h3>
+      <div className='space-y-2 max-h-96 overflow-y-auto'>
         {chapters.map((chapter: any) => {
           const isActive =
             currentTime >= chapter.startTime && currentTime <= chapter.endTime;
@@ -287,17 +287,17 @@ const ChapterList: React.FC<{
                 <img
                   src={chapter.thumbnail}
                   alt={chapter.title}
-                  className="w-16 h-9 object-cover glass-radius"
+                  className='w-16 h-9 object-cover glass-radius'
                 />
               )}
               <div className="glass-flex-1">
-                <div className="font-medium">{chapter.title}</div>
+                <div className='font-medium'>{chapter.title}</div>
                 <div className="glass-text-sm glass-text-secondary">
                   {formatTime(chapter.startTime)} -{" "}
                   {formatTime(chapter.endTime)}
                 </div>
                 {chapter.description && (
-                  <div className="glass-text-xs glass-text-secondary mt-1">
+                  <div className='glass-text-xs glass-text-secondary mt-1'>
                     {chapter.description}
                   </div>
                 )}
@@ -357,32 +357,32 @@ const TranscriptPanel: React.FC<{
   };
 
   return (
-    <div className="glass-surface-subtle text-primary glass-p-4 glass-radius-lg glass-h-full glass-flex glass-flex-col">
-      <div className="glass-flex glass-items-center glass-justify-between mb-4">
-        <h3 className="glass-text-lg font-semibold">Transcript</h3>
+    <div className='glass-surface-subtle text-primary glass-p-4 glass-radius-lg glass-h-full glass-flex glass-flex-col'>
+      <div className='glass-flex glass-items-center glass-justify-between mb-4'>
+        <h3 className='glass-text-lg font-semibold'>Transcript</h3>
         <div className="glass-text-sm glass-text-secondary">
           {transcript.length} entries
         </div>
       </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className='mb-4'>
         <input
           type="text"
           placeholder="Search transcript..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="glass-w-full glass-px-3 glass-py-2 glass-surface-primary glass-border glass-border-gray-700 glass-radius-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 glass-focus glass-touch-target glass-contrast-guard"
+          className='glass-w-full glass-px-3 glass-py-2 glass-surface-primary glass-border glass-border-gray-700 glass-radius-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 glass-focus glass-touch-target glass-contrast-guard'
         />
         {searchQuery && (
-          <div className="glass-text-sm glass-text-secondary mt-2">
+          <div className='glass-text-sm glass-text-secondary mt-2'>
             {highlightedResults.length} results found
           </div>
         )}
       </div>
 
       {/* Transcript Entries */}
-      <div className="glass-flex-1 overflow-y-auto space-y-3">
+      <div className='glass-flex-1 overflow-y-auto space-y-3'>
         {(searchQuery ? highlightedResults : transcript).map((entry: any) => {
           const isActive =
             currentTime >= entry.startTime && currentTime <= entry.endTime;
@@ -399,11 +399,11 @@ const TranscriptPanel: React.FC<{
             >
               <div className="glass-flex glass-items-center glass-justify-between glass-w-full">
                 <div className="glass-flex glass-items-center glass-gap-2">
-                  <span className="glass-text-xs glass-text-secondary font-mono">
+                  <span className='glass-text-xs glass-text-secondary font-mono'>
                     {formatTime(entry.startTime)}
                   </span>
                   {entry.speaker && (
-                    <span className="glass-text-xs glass-surface-subtle text-gray-300 glass-px-2 glass-py-1 glass-radius">
+                    <span className='glass-text-xs glass-surface-subtle text-gray-300 glass-px-2 glass-py-1 glass-radius'>
                       {entry.speaker}
                     </span>
                   )}
@@ -435,18 +435,18 @@ const TranscriptPanel: React.FC<{
                 </div>
               </div>
 
-              <div className="glass-text-sm leading-relaxed">
+              <div className='glass-text-sm leading-relaxed'>
                 {searchQuery
                   ? highlightText(entry.text, searchQuery)
                   : entry.text}
               </div>
 
               {entry.keywords && entry.keywords.length > 0 && (
-                <div className="glass-flex glass-flex-wrap glass-gap-1 mt-2">
+                <div className='glass-flex glass-flex-wrap glass-gap-1 mt-2'>
                   {entry.keywords.map((keyword: any) => (
                     <span
                       key={keyword}
-                      className="glass-text-xs glass-surface-subtle text-gray-300 glass-px-2 glass-py-1 glass-radius"
+                      className='glass-text-xs glass-surface-subtle text-gray-300 glass-px-2 glass-py-1 glass-radius'
                     >
                       {keyword}
                     </span>
@@ -666,12 +666,12 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
     >
       <div
         ref={containerRef}
-        className="relative glass-w-full glass-h-full glass-flex"
+        className='relative glass-w-full glass-h-full glass-flex'
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setShowControlsOverlay(false)}
       >
         {/* Video Container */}
-        <div className="glass-flex-1 relative">
+        <div className='glass-flex-1 relative'>
           <video
             ref={videoRef}
             src={mediaFile.src}
@@ -680,7 +680,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
             muted={muted}
             loop={loop}
             preload={preload}
-            className="glass-w-full glass-h-full object-contain"
+            className='glass-w-full glass-h-full object-contain'
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleEnded}
@@ -690,20 +690,20 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
 
           {/* Loading Overlay */}
           {playbackState?.isLoading && (
-            <div className="absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/50">
-              <div className="animate-spin glass-radius-full h-16 w-16 glass-border-4 glass-border-white glass-border-t-transparent" />
+            <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/50'>
+              <div className='animate-spin glass-radius-full h-16 w-16 glass-border-4 glass-border-white glass-border-t-transparent' />
             </div>
           )}
 
           {/* Error Overlay */}
           {playbackState?.isError && (
-            <div className="absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/80 text-primary">
-              <div className="text-center">
-                <div className="glass-text-4xl mb-4">⚠️</div>
-                <h3 className="glass-text-xl font-semibold mb-2">
+            <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/80 text-primary'>
+              <div className='text-center'>
+                <div className='glass-text-4xl mb-4'>⚠️</div>
+                <h3 className='glass-text-xl font-semibold mb-2'>
                   Playback Error
                 </h3>
-                <p className="text-gray-300">Unable to load video content</p>
+                <p className='text-gray-300'>Unable to load video content</p>
               </div>
             </div>
           )}
@@ -743,7 +743,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
           {showChapters &&
             mediaFile.chapters &&
             mediaFile.chapters.length > 0 && (
-              <Glass className="w-80 glass-h-full overflow-hidden">
+              <Glass className='w-80 glass-h-full overflow-hidden'>
                 <ChapterList
                   chapters={mediaFile.chapters}
                   currentTime={currentTime}
@@ -754,7 +754,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
 
           {/* Transcript Panel */}
           {showTranscript && hasTranscript && transcripts[mediaFile.id] && (
-            <Glass className="w-96 glass-h-full overflow-hidden">
+            <Glass className='w-96 glass-h-full overflow-hidden'>
               <TranscriptPanel
                 transcript={transcripts[mediaFile.id]}
                 currentTime={currentTime}

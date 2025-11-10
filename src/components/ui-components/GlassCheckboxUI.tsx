@@ -1,5 +1,15 @@
 'use client';
-import { cn } from '../../lib/utilsComprehensive';
+import React from 'react';
+import {
+  GlassCheckbox as BaseGlassCheckbox,
+  type GlassCheckboxProps,
+} from '../input/GlassCheckbox';
 
-export { GlassCheckbox as Checkbox } from '../input/GlassCheckbox';
-export type { GlassCheckboxProps as CheckboxProps } from '../input/GlassCheckbox';
+export type { GlassCheckboxProps as CheckboxProps };
+export { BaseGlassCheckbox as GlassCheckbox, BaseGlassCheckbox as Checkbox };
+
+export const GlassCheckboxUI: React.FC<GlassCheckboxProps> = (props) => (
+  <BaseGlassCheckbox {...props} />
+);
+
+export default GlassCheckboxUI;

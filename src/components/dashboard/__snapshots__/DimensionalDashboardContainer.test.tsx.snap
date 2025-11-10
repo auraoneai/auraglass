@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DimensionalDashboardContainer matches snapshot 1`] = `
+<div
+  class="dimensional-dashboard-container "
+  style="position: relative;"
+>
+  <div
+    class="dimensional-dashboard-content"
+    style="transform: none; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);"
+  >
+    <div
+      class="w-full transition-all duration-300 max-w-4xl mx-auto glass-p-6"
+      data-glass-component="true"
+      style="width: 100%; height: 100%;"
+    />
+  </div>
+  <style>
+    
+          .dimensional-dashboard-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+          }
+
+          .dimensional-dashboard-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+          }
+
+          .dimensional-dashboard-layer:focus-visible {
+            outline: 2px solid var(--aura-accent-color, #00d4ff);
+            outline-offset: 4px;
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .dimensional-dashboard-content {
+              transform: none !important;
+              transition: none !important;
+            }
+            .dimensional-dashboard-layer {
+              transform: none !important;
+            }
+          }
+        
+  </style>
+</div>
+`;

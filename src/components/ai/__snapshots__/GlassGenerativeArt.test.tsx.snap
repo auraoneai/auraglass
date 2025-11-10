@@ -1,0 +1,479 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassGenerativeArt matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-flex glass-items-center glass-justify-between"
+  >
+    <div>
+      <h3
+        class="glass-text-xl font-semibold text-primary/90"
+      >
+        AI Art Generator
+      </h3>
+      <p
+        class="glass-text-sm text-primary/60"
+      >
+        Create stunning AI-generated artwork from text prompts
+      </p>
+    </div>
+    <div
+      class="glass-flex glass-items-center space-x-2"
+    />
+  </div>
+  <div
+    class="space-y-4"
+  >
+    <div>
+      <label
+        class="block glass-text-sm font-medium text-primary/80 mb-2"
+      >
+        Describe your artwork
+      </label>
+      <textarea
+        class="glass-w-full h-24 glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 placeholder-white/50 resize-none focus:outline-none focus:border-blue"
+        placeholder="A majestic dragon soaring through a cosmic nebula, digital art style, highly detailed..."
+      />
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-justify-between"
+    >
+      <div
+        class="glass-flex glass-items-center space-x-4"
+      >
+        <label
+          class="glass-flex glass-items-center space-x-2 cursor-pointer"
+        >
+          <input
+            checked=""
+            class="w-4 h-4 glass-radius glass-border-white/30"
+            type="checkbox"
+          />
+          <span
+            class="glass-text-sm text-primary/80"
+          >
+            Enhance Prompt
+          </span>
+        </label>
+      </div>
+      <button
+        class="glass-px-6 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg font-medium transition-colors disabled:opacity-50"
+        disabled=""
+        tabindex="0"
+      >
+        Generate Art
+      </button>
+    </div>
+  </div>
+  <div
+    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+  >
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Prompt Library
+      </h4>
+      <div
+        class="glass-grid glass-gap-2"
+      >
+        <div
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <p
+                class="glass-text-sm text-primary/90 mb-1"
+              >
+                Cosmic abstract painting with swirling galaxies and nebulae in vibrant colors
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-2"
+              >
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  abstract
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  space
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  cosmic
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <p
+                class="glass-text-sm text-primary/90 mb-1"
+              >
+                Cyberpunk cityscape at night with neon lights reflecting on wet streets
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-2"
+              >
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-gray-500/20 text-gray-300
+                    "
+                >
+                  architecture
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  cyberpunk
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  neon
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <p
+                class="glass-text-sm text-primary/90 mb-1"
+              >
+                Ethereal portrait of a person made of flowing light and energy
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-2"
+              >
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-blue-500/20 text-blue-300
+                    "
+                >
+                  portrait
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  ethereal
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  light
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <p
+                class="glass-text-sm text-primary/90 mb-1"
+              >
+                Surreal landscape with floating islands and impossible waterfalls
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-2"
+              >
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-green-500/20 text-green-300
+                    "
+                >
+                  landscape
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  surreal
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  floating
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <p
+                class="glass-text-sm text-primary/90 mb-1"
+              >
+                Biomechanical fusion of organic forms and technological components
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-2"
+              >
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-pink-500/20 text-pink-300
+                    "
+                >
+                  surreal
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  biomechanical
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  organic
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Generation Settings
+      </h4>
+      <div
+        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4"
+      >
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-2"
+          >
+            Model
+          </label>
+          <select
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+          >
+            <option
+              value="stable-diffusion"
+            >
+              Stable Diffusion
+            </option>
+            <option
+              value="midjourney"
+            >
+              Midjourney
+            </option>
+            <option
+              value="dall-e"
+            >
+              DALL-E
+            </option>
+            <option
+              value="custom"
+            >
+              Custom Model
+            </option>
+          </select>
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-2"
+          >
+            Style
+          </label>
+          <select
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+          >
+            <option
+              value="photorealistic"
+            >
+              Photorealistic
+            </option>
+            <option
+              value="oil painting"
+            >
+              Oil painting
+            </option>
+            <option
+              value="watercolor"
+            >
+              Watercolor
+            </option>
+            <option
+              value="digital art"
+            >
+              Digital art
+            </option>
+            <option
+              value="abstract expressionism"
+            >
+              Abstract expressionism
+            </option>
+            <option
+              value="impressionism"
+            >
+              Impressionism
+            </option>
+            <option
+              value="cyberpunk"
+            >
+              Cyberpunk
+            </option>
+            <option
+              value="steampunk"
+            >
+              Steampunk
+            </option>
+            <option
+              value="art nouveau"
+            >
+              Art nouveau
+            </option>
+            <option
+              value="minimalist"
+            >
+              Minimalist
+            </option>
+            <option
+              value="baroque"
+            >
+              Baroque
+            </option>
+            <option
+              value="surrealism"
+            >
+              Surrealism
+            </option>
+          </select>
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-2"
+          >
+            Resolution
+          </label>
+          <select
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+          >
+            <option
+              value="512x512"
+            >
+              512 × 512
+            </option>
+            <option
+              value="768x768"
+            >
+              768 × 768
+            </option>
+            <option
+              value="1024x1024"
+            >
+              1024 × 1024
+            </option>
+            <option
+              value="1920x1080"
+            >
+              1920 × 1080
+            </option>
+          </select>
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-2"
+          >
+            Iterations: 
+            1
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="4"
+            min="1"
+            type="range"
+            value="1"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-2"
+          >
+            Steps: 
+            25
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="50"
+            min="10"
+            type="range"
+            value="25"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-2"
+          >
+            Guidance: 
+            7.5
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="20"
+            min="1"
+            step="0.5"
+            type="range"
+            value="7.5"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <canvas
+    class="hidden"
+  />
+</div>
+`;

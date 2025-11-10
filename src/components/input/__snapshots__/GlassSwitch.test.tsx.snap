@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSwitch matches snapshot 1`] = `
+<button
+  aria-checked="false"
+  class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 h-6 w-11 glass-focus"
+  data-performance-mode="medium"
+  id="glass-switch-:r7:"
+  role="switch"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+  type="button"
+>
+  <div
+    class="pointer-events-none relative flex items-center justify-center glass-radius-full transition-all duration-200 shadow-lg h-5 w-5 translate-x-0.5"
+  />
+</button>
+`;

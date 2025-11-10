@@ -306,11 +306,11 @@ export function GlassOrientationEffects({
           className
         )}
       >
-        <div className="text-center">
-          <h3 className="glass-text-lg font-semibold mb-2">
+        <div className='text-center'>
+          <h3 className='glass-text-lg font-semibold mb-2'>
             Enable Device Orientation
           </h3>
-          <p className="glass-text-secondary mb-4">
+          <p className='glass-text-secondary mb-4'>
             Allow orientation access for interactive glass effects
           </p>
           <button
@@ -344,7 +344,7 @@ export function GlassOrientationEffects({
       {/* Tilt effect layer */}
       {effectTypes.includes("tilt") && (
         <motion.div
-          className="absolute inset-0"
+          className='absolute inset-0'
           style={{
             rotateX: perspectiveX,
             rotateY: perspectiveY,
@@ -354,7 +354,7 @@ export function GlassOrientationEffects({
           {/* Background parallax layer */}
           {effectTypes.includes("parallax") && (
             <motion.div
-              className="absolute inset-0 OptimizedGlass intensity={0.2} glassBlur={6} opacity-30"
+              className='absolute inset-0 OptimizedGlass intensity={0.2} glassBlur={6} opacity-30'
               style={{
                 x: backgroundX,
                 y: backgroundY,
@@ -370,17 +370,17 @@ export function GlassOrientationEffects({
 
           {/* Shimmer effect */}
           {effectTypes.includes("shimmer") && (
-            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none opacity-20 glass-surface-primary/10" />
+            <motion.div className='glass-absolute glass-inset-0 glass-pointer-events-none opacity-20 glass-surface-primary/10' />
           )}
 
           {/* Content */}
-          <div className="relative z-10">{children}</div>
+          <div className='relative z-10'>{children}</div>
         </motion.div>
       )}
 
       {/* Fallback for non-tilt effects */}
       {!effectTypes.includes("tilt") && (
-        <div className="relative">
+        <div className='relative'>
           {effectTypes.includes("parallax") && (
             <motion.div
               className="glass-absolute glass-inset-0 glass-opacity-30"
@@ -393,16 +393,16 @@ export function GlassOrientationEffects({
           )}
 
           {effectTypes.includes("shimmer") && (
-            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none opacity-20 glass-surface-primary/10" />
+            <motion.div className='glass-absolute glass-inset-0 glass-pointer-events-none opacity-20 glass-surface-primary/10' />
           )}
 
-          <div className="relative z-10">{children}</div>
+          <div className='relative z-10'>{children}</div>
         </div>
       )}
 
       {/* Debug info */}
       {process.env.NODE_ENV === "development" && (
-        <div className="absolute bottom-2 left-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm opacity-50">
+        <div className='absolute bottom-2 left-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm opacity-50'>
           <div>α: {orientation.alpha.toFixed(1)}°</div>
           <div>β: {orientation.beta.toFixed(1)}°</div>
           <div>γ: {orientation.gamma.toFixed(1)}°</div>

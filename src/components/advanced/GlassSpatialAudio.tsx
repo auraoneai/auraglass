@@ -12,6 +12,7 @@ import React, {
   useCallback,
   createContext,
   useContext,
+  HTMLAttributes,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
@@ -511,16 +512,21 @@ const SpatialAudioContext = createContext<{
   setMasterVolume: () => {},
 });
 
+type GlassSpatialAudioConfig = {
+  settings?: Partial<SpatialAudioSettings>;
+  autoInitialize?: boolean;
+};
+
+interface GlassSpatialAudioProviderProps extends GlassSpatialAudioConfig {
+  children: React.ReactNode;
+}
+
 // Provider component
 export function GlassSpatialAudioProvider({
   children,
   settings,
   autoInitialize = true,
-}: {
-  children: React.ReactNode;
-  settings?: Partial<SpatialAudioSettings>;
-  autoInitialize?: boolean;
-}) {
+}: GlassSpatialAudioProviderProps) {
   const prefersReducedMotion = useReducedMotion();
   const engineRef = useRef<SpatialAudioEngine>();
   const [isInitialized, setIsInitialized] = useState(false);
@@ -609,7 +615,34 @@ export function GlassSpatialAudioProvider({
   );
 }
 
-export const GlassSpatialAudio = GlassSpatialAudioProvider;
+export interface GlassSpatialAudioProps
+  extends GlassSpatialAudioConfig,
+    HTMLAttributes<HTMLDivElement> {}
+
+export const GlassSpatialAudio: React.FC<GlassSpatialAudioProps> = ({
+  settings,
+  autoInitialize = true,
+  className,
+  children,
+  ...rest
+}) => {
+  return (
+    <GlassSpatialAudioProvider
+      settings={settings}
+      autoInitialize={autoInitialize}
+    >
+      <div
+        data-glass-component
+        className={cn('relative', className)}
+        {...rest}
+      >
+        {children ?? (
+          <span className="sr-only">Glass spatial audio provider active</span>
+        )}
+      </div>
+    </GlassSpatialAudioProvider>
+  );
+};
 
 // Hook to use spatial audio
 export function useSpatialAudio() {
@@ -748,12 +781,12 @@ export function GlassSpatialVisualizer({
         className
       )}
     >
-      <div className="glass-text-xs text-primary mb-2">Spatial Audio</div>
+      <div className='glass-text-xs text-primary mb-2'>Spatial Audio</div>
 
       {/* 3D space visualization */}
-      <div className="relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg overflow-hidden">
+      <div className='relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg overflow-hidden'>
         {/* Grid */}
-        <div className="absolute inset-0">
+        <div className='absolute inset-0'>
           {Array.from({ length: 8 }, (_, i) => (
             <div
               key={`h-${i}`}
@@ -776,7 +809,7 @@ export function GlassSpatialVisualizer({
 
         {/* Center point (listener) */}
         <div className="glass-absolute glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-top-1-2 glass-left-1-2 glass-translate-x-1/2-neg glass-translate-y-1/2-neg">
-          <div className="absolute w-4 h-4 glass-border glass-border-green glass-radius-full glass-top-1 -left-1 animate-pulse" />
+          <div className='absolute w-4 h-4 glass-border glass-border-green glass-radius-full glass-top-1 -left-1 animate-pulse' />
         </div>
 
         {/* Audio sources */}
@@ -789,7 +822,7 @@ export function GlassSpatialVisualizer({
             return (
               <motion.div
                 key={source.id}
-                className="absolute w-3 h-3 glass-radius-full transform -translate-x-1/2 -translate-y-1/2"
+                className='absolute w-3 h-3 glass-radius-full transform -translate-x-1/2 -translate-y-1/2'
                 style={{
                   left: `${screenX}%`,
                   top: `${screenY}%`,
@@ -822,7 +855,7 @@ export function GlassSpatialVisualizer({
                 {/* Sound waves */}
                 {source.isPlaying && (
                   <motion.div
-                    className="absolute inset-0 glass-radius-full glass-border opacity-30"
+                    className='absolute inset-0 glass-radius-full glass-border opacity-30'
                     style={{
                       borderColor:
                         source.category === "ambient"
@@ -855,26 +888,26 @@ export function GlassSpatialVisualizer({
         </AnimatePresence>
 
         {/* Legend */}
-        <div className="absolute bottom-2 left-2 glass-text-xs glass-text-secondary">
-          <div className="glass-flex glass-items-center glass-gap-1 mb-1">
-            <div className="w-2 h-2 glass-surface-green glass-radius-full" />
+        <div className='absolute bottom-2 left-2 glass-text-xs glass-text-secondary'>
+          <div className='glass-flex glass-items-center glass-gap-1 mb-1'>
+            <div className='w-2 h-2 glass-surface-green glass-radius-full' />
             <span>Listener</span>
           </div>
           <div className="glass-grid glass-grid-cols-2 glass-gap-1">
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className="w-2 h-2 glass-surface-blue glass-radius-full" />
+              <div className='w-2 h-2 glass-surface-blue glass-radius-full' />
               <span>Ambient</span>
             </div>
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className="w-2 h-2 bg-emerald-500 glass-radius-full" />
+              <div className='w-2 h-2 bg-emerald-500 glass-radius-full' />
               <span>UI</span>
             </div>
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className="w-2 h-2 bg-amber-500 glass-radius-full" />
+              <div className='w-2 h-2 bg-amber-500 glass-radius-full' />
               <span>Feedback</span>
             </div>
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className="w-2 h-2 bg-pink-500 glass-radius-full" />
+              <div className='w-2 h-2 bg-pink-500 glass-radius-full' />
               <span>Alert</span>
             </div>
           </div>

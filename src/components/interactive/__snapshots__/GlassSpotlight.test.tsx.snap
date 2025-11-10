@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSpotlight matches snapshot 1`] = `
+<div
+  class="fixed inset-0"
+  data-glass-component="true"
+>
+  <span
+    class="sr-only"
+  >
+    Glass spotlight inactive
+  </span>
+</div>
+`;

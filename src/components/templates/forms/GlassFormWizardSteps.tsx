@@ -89,10 +89,10 @@ const StepIndicator = forwardRef<HTMLDivElement, StepIndicatorProps>(
         return (
           <div
             data-glass-component
-            className="w-8 h-8 glass-radius-full bg-success glass-flex glass-items-center glass-justify-center"
+            className='w-8 h-8 glass-radius-full bg-success glass-flex glass-items-center glass-justify-center'
           >
             <svg
-              className="w-4 h-4 text-success-foreground"
+              className='w-4 h-4 text-success-foreground'
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -184,7 +184,7 @@ const StepIndicator = forwardRef<HTMLDivElement, StepIndicatorProps>(
               </p>
             )}
             {step.optional && (
-              <span className="glass-text-xs glass-text-secondary glass-surface-subtle glass-px-1.5 glass-py-0.5 glass-radius-md w-fit">
+              <span className='glass-text-xs glass-text-secondary glass-surface-subtle glass-px-1.5 glass-py-0.5 glass-radius-md w-fit'>
                 Optional
               </span>
             )}
@@ -260,7 +260,7 @@ export const GlassFormWizardSteps = forwardRef<
       return (
         <VStack space="sm">
           <HStack space="sm" align="center" justify="between">
-            <span className="glass-text-sm font-medium text-primary">
+            <span className='glass-text-sm font-medium text-primary'>
               Step {currentStep + 1} of {totalSteps}
             </span>
             <span className="glass-text-sm glass-text-secondary">
@@ -285,7 +285,7 @@ export const GlassFormWizardSteps = forwardRef<
             {steps.map((step, index) => (
               <div
                 key={step.id}
-                className="animate-slide-in-left"
+                className='animate-slide-in-left'
                 style={{
                   animationDelay: `${Math.min(index, 5) * 100}ms`,
                   animationFillMode: "both",
@@ -318,7 +318,7 @@ export const GlassFormWizardSteps = forwardRef<
           {steps.map((step, index) => (
             <React.Fragment key={step.id}>
               <div
-                className="animate-slide-in-up"
+                className='animate-slide-in-up'
                 style={{
                   animationDelay: `${Math.min(index, 5) * 100}ms`,
                   animationFillMode: "both",

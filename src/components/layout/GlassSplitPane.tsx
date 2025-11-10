@@ -75,6 +75,9 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
     const dragging = React.useRef(false);
     const splitPaneId = useA11yId();
     const separatorId = useA11yId();
+    const splitPaneLabelId = useA11yId("split-pane-label");
+    const leftPaneLabelId = useA11yId("split-pane-left");
+    const rightPaneLabelId = useA11yId("split-pane-right");
     const { prefersReducedMotion } = useMotionPreferenceContext();
     const shouldRespectMotion =
       respectMotionPreference && !prefersReducedMotion;
@@ -156,14 +159,22 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           // @ts-ignore custom var
           ["--a" as any]: `${pct}%`,
         }}
-        aria-label={ariaLabel}
+        role="group"
+        aria-labelledby={splitPaneLabelId}
         {...props}
       >
+        <span id={splitPaneLabelId} className="sr-only">
+          {ariaLabel}
+        </span>
         {/* Left/Top Pane */}
         <div
-          className="glass-min-w-0 glass-min-h-0 overflow-auto"
-          aria-label={direction === "horizontal" ? "Left pane" : "Top pane"}
+          className='glass-min-w-0 glass-min-h-0 overflow-auto'
+          role="region"
+          aria-labelledby={leftPaneLabelId}
         >
+          <span id={leftPaneLabelId} className="sr-only">
+            {direction === "horizontal" ? "Left pane" : "Top pane"}
+          </span>
           {left}
         </div>
 
@@ -196,9 +207,13 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
 
         {/* Right/Bottom Pane */}
         <div
-          className="glass-min-w-0 glass-min-h-0 overflow-auto"
-          aria-label={direction === "horizontal" ? "Right pane" : "Bottom pane"}
+          className='glass-min-w-0 glass-min-h-0 overflow-auto'
+          role="region"
+          aria-labelledby={rightPaneLabelId}
         >
+          <span id={rightPaneLabelId} className="sr-only">
+            {direction === "horizontal" ? "Right pane" : "Bottom pane"}
+          </span>
           {right}
         </div>
       </div>

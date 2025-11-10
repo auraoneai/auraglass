@@ -2,6 +2,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
+import { useA11yId } from "../../utils/a11y";
 
 export interface UploadedFile {
   file: File;
@@ -84,6 +85,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputId = useA11yId("file-upload-input");
 
   // File validation
   const validateFile = useCallback(
@@ -356,18 +358,18 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         role="listitem"
         className="glass-flex glass-items-center glass-p-3 glass-surface-subtle glass-radius-lg glass-border"
       >
-        <div className="glass-text-2xl mr-3" aria-hidden="true">
+        <div className='glass-text-2xl mr-3' aria-hidden="true">
           {getFileIcon(file)}
         </div>
 
         <div className="glass-flex-1 glass-min-w-0">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <p className="glass-text-sm font-medium text-primary truncate">
+            <p className='glass-text-sm font-medium text-primary truncate'>
               {file.name}
             </p>
             <button
               onClick={() => removeFile(uploadedFile.id)}
-              className="ml-2 text-primary hover:text-primary glass-text-sm"
+              className='ml-2 text-primary hover:text-primary glass-text-sm'
               disabled={status === "uploading"}
               aria-label={`Remove ${file.name}`}
             >
@@ -378,12 +380,12 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
           <p className="glass-text-xs glass-text-secondary">
             {formatFileSize(file.size)}
             {status === "completed" && (
-              <span className="text-primary ml-2" role="status">
+              <span className='text-primary ml-2' role="status">
                 ✓ Completed
               </span>
             )}
             {status === "error" && (
-              <span className="text-primary ml-2" role="alert">
+              <span className='text-primary ml-2' role="alert">
                 ✗ {error}
               </span>
             )}
@@ -391,20 +393,20 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
           {status === "uploading" && (
             <div
-              className="mt-2"
+              className='mt-2'
               role="progressbar"
               aria-valuenow={progress}
               aria-valuemin={0}
               aria-valuemax={100}
               aria-label={`Uploading ${file.name}`}
             >
-              <div className="glass-w-full glass-surface-subtle glass-radius-full h-1">
+              <div className='glass-w-full glass-surface-subtle glass-radius-full h-1'>
                 <div
-                  className="glass-surface-blue h-1 glass-radius-full transition-all duration-300"
+                  className='glass-surface-blue h-1 glass-radius-full transition-all duration-300'
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <p className="glass-text-xs glass-text-secondary mt-1">
+              <p className='glass-text-xs glass-text-secondary mt-1'>
                 {progress}%
               </p>
             </div>
@@ -423,77 +425,85 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         accept={accept}
         multiple={multiple}
         onChange={handleFileInputChange}
-        className="hidden glass-touch-target glass-contrast-guard"
+        className='hidden glass-touch-target glass-contrast-guard'
         disabled={disabled}
         aria-label="File upload input"
-        id="file-upload-input"
+        id={inputId}
       />
 
       {/* Upload area */}
-      <Glass
+      <label
+        htmlFor={inputId}
         role="button"
         aria-label={uploadText}
         aria-describedby="file-upload-instructions"
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : 0}
-        className={cn(
-          "border-2 border-dashed glass-p-8 text-center transition-all duration-200 cursor-pointer",
-          isDragOver && !disabled && "border-primary bg-primary/5",
-          disabled
-            ? "opacity-50 cursor-not-allowed"
-            : "hover:border-primary hover:bg-primary/5",
-          files.length > 0 ? "glass-radius-t-xl" : "glass-radius-xl"
-        )}
+        className="block cursor-pointer"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={handleClick}
+        onClick={(e) => {
+          if (disabled) {
+            e.preventDefault();
+          }
+        }}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if ((e.key === "Enter" || e.key === " ") && !disabled) {
             e.preventDefault();
             handleClick();
           }
         }}
       >
-        <div className="glass-flex glass-flex-col glass-items-center glass-gap-4">
-          <div className="glass-text-4xl opacity-60">
-            {isUploading ? "⏳" : "📁"}
-          </div>
-
-          <div>
-            <p className="glass-text-lg font-medium text-primary mb-2">
-              {isUploading ? "Uploading..." : uploadText}
-            </p>
-            <p id="file-upload-instructions" className="glass-text-secondary">
-              {accept && `Accepted formats: ${accept}`}
-              {maxSize && ` • Max size: ${formatFileSize(maxSize)}`}
-              {multiple && ` • Max files: ${maxFiles}`}
-            </p>
-          </div>
-
-          {!isUploading && (
-            <button
-              type="button"
-              className="glass-px-4 glass-py-2 glass-surface-primary text-primary-foreground glass-radius-lg hover:glass-surface-primary/90 transition-colors font-medium"
-              disabled={disabled}
-              aria-label={browseText}
-            >
-              {browseText}
-            </button>
+        <Glass
+          role="presentation"
+          className={cn(
+            "border-2 border-dashed glass-p-8 text-center transition-all duration-200",
+            isDragOver && !disabled && "border-primary bg-primary/5",
+            disabled
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:border-primary hover:bg-primary/5",
+            files.length > 0 ? "glass-radius-t-xl" : "glass-radius-xl"
           )}
-        </div>
-      </Glass>
+        >
+          <div className="glass-flex glass-flex-col glass-items-center glass-gap-4 pointer-events-none">
+            <div className='glass-text-4xl opacity-60'>
+              {isUploading ? "⏳" : "📁"}
+            </div>
+
+            <div>
+              <p className='glass-text-lg font-medium text-primary mb-2'>
+                {isUploading ? "Uploading..." : uploadText}
+              </p>
+              <p id="file-upload-instructions" className="glass-text-secondary">
+                {accept && `Accepted formats: ${accept}`}
+                {maxSize && ` • Max size: ${formatFileSize(maxSize)}`}
+                {multiple && ` • Max files: ${maxFiles}`}
+              </p>
+            </div>
+
+            {!isUploading && (
+              <span
+                className='glass-px-4 glass-py-2 glass-surface-primary text-primary-foreground glass-radius-lg transition-colors font-medium inline-flex'
+                aria-hidden="true"
+              >
+                {browseText}
+              </span>
+            )}
+          </div>
+        </Glass>
+      </label>
 
       {/* File list */}
       {showPreview && files.length > 0 && (
         <Glass
-          className="glass-border-t-0 glass-radius-b-xl glass-p-4 space-y-3"
+          className='glass-border-t-0 glass-radius-b-xl glass-p-4 space-y-3'
           role="region"
           aria-label="Uploaded files list"
         >
           <h4
             id="uploaded-files-heading"
-            className="font-medium text-primary mb-3"
+            className='font-medium text-primary mb-3'
           >
             Uploaded Files ({files.length}/{maxFiles})
           </h4>

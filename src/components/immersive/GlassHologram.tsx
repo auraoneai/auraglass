@@ -390,7 +390,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
               <img
                 src={layer.source}
                 alt={layer.id}
-                className="max-w-full max-h-full object-contain select-none"
+                className='max-w-full max-h-full object-contain select-none'
                 style={{
                   filter: `drop-shadow(0 0 20px ${colors.primary}60)`,
                 }}
@@ -402,7 +402,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
             return (
               <video
                 src={layer.source}
-                className="max-w-full max-h-full object-contain"
+                className='max-w-full max-h-full object-contain'
                 style={{
                   filter: `drop-shadow(0 0 20px ${colors.primary}60)`,
                 }}
@@ -416,7 +416,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
           case "shape":
             return (
               <div
-                className="w-16 h-16 glass-border-2 glass-radius-lg"
+                className='w-16 h-16 glass-border-2 glass-radius-lg'
                 style={{
                   borderColor: colors.primary,
                   backgroundColor: `${colors.primary}20`,
@@ -427,11 +427,11 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
           case "particle":
             return (
-              <div className="relative w-20 h-20">
+              <div className='relative w-20 h-20'>
                 {Array.from({ length: 8 }, (_, i) => (
                   <div
                     key={i}
-                    className="absolute w-1 h-1 glass-radius-full"
+                    className='absolute w-1 h-1 glass-radius-full'
                     style={{
                       backgroundColor: colors.accent,
                       boxShadow: `0 0 4px ${colors.accent}`,
@@ -459,7 +459,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
         case "grid":
           return (
             <div
-              className="absolute inset-0 opacity-20"
+              className='absolute inset-0 opacity-20'
               style={{
                 backgroundImage: `
                   linear-gradient(${colors.primary}40 1px, transparent 1px),
@@ -472,7 +472,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
         case "circuit":
           return (
-            <div className="absolute inset-0 opacity-10">
+            <div className='absolute inset-0 opacity-10'>
               <svg className="glass-w-full glass-h-full">
                 {Array.from({ length: 10 }, (_, i) => (
                   <g key={i}>
@@ -497,13 +497,13 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
         case "matrix":
           return (
             <div
-              className="absolute inset-0 opacity-15 font-mono glass-text-xs overflow-hidden"
+              className='absolute inset-0 opacity-15 font-mono glass-text-xs overflow-hidden'
               style={{ color: colors.primary }}
             >
               {Array.from({ length: 20 }, (_, i) => (
                 <div
                   key={i}
-                  className="absolute whitespace-nowrap animate-pulse"
+                  className='absolute whitespace-nowrap animate-pulse'
                   style={{
                     left: `${i * 5}%`,
                     top: `${Math.random() * 100}%`,
@@ -518,11 +518,11 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
         case "particles":
           return (
-            <div className="absolute inset-0">
+            <div className='absolute inset-0'>
               {Array.from({ length: 30 }, (_, i) => (
                 <div
                   key={i}
-                  className="absolute w-1 h-1 glass-radius-full opacity-30"
+                  className='absolute w-1 h-1 glass-radius-full opacity-30'
                   style={{
                     backgroundColor: colors.accent,
                     left: `${Math.random() * 100}%`,
@@ -547,7 +547,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
       if (!scanLines) return null;
 
       return (
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className='absolute inset-0 pointer-events-none opacity-20'>
           <div
             className="glass-w-full glass-h-full"
             ref={(el) => {
@@ -568,7 +568,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
       return (
         <div
-          className="absolute inset-0 pointer-events-none opacity-10"
+          className='absolute inset-0 pointer-events-none opacity-10'
           ref={(el) => {
             if (!el) return;
             el.style.background =
@@ -608,17 +608,17 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
           preset={
             !prefersReducedMotion && respectMotionPreference ? "fadeIn" : "none"
           }
-          className="relative glass-w-full glass-h-full"
+          className='relative glass-w-full glass-h-full'
         >
           {/* Background Pattern */}
           {renderBackground()}
 
           {/* Loading State */}
           {loading && (
-            <div className="absolute inset-0 glass-flex glass-items-center glass-justify-center">
+            <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center'>
               <div className="glass-flex glass-flex-col glass-items-center glass-gap-4">
                 <div
-                  className="w-12 h-12 glass-border-4 glass-border-t-transparent glass-radius-full animate-spin"
+                  className='w-12 h-12 glass-border-4 glass-border-t-transparent glass-radius-full animate-spin'
                   style={{
                     borderColor: colors.primary,
                     borderTopColor: "transparent",
@@ -636,9 +636,9 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
           {/* Error State */}
           {error && (
-            <div className="absolute inset-0 glass-flex glass-items-center glass-justify-center">
-              <div className="text-center">
-                <div className="glass-text-2xl mb-2">⚠️</div>
+            <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center'>
+              <div className='text-center'>
+                <div className='glass-text-2xl mb-2'>⚠️</div>
                 <div
                   className="glass-text-sm"
                   style={{ color: colors.primary }}
@@ -653,7 +653,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
           {!loading && !error && (
             <div
               ref={hologramRef}
-              className="relative glass-w-full glass-h-full"
+              className='relative glass-w-full glass-h-full'
               style={{
                 transformStyle: "preserve-3d",
                 perspective: "800px",
@@ -699,7 +699,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
           {/* Controls */}
           {showControls && !loading && !error && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+            <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2'>
               <OptimizedGlass
                 elevation="level3"
                 intensity="strong"
@@ -715,7 +715,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
                       angle: (prev.angle + 90) % 360,
                     }))
                   }
-                  className="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-all"
+                  className='glass-p-1 glass-radius-md hover:glass-surface-overlay transition-all'
                   title="Rotate"
                   style={{ color: colors.primary }}
                 >
@@ -729,7 +729,7 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
                       distance: prev.distance === 100 ? 150 : 100,
                     }))
                   }
-                  className="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-all"
+                  className='glass-p-1 glass-radius-md hover:glass-surface-overlay transition-all'
                   title="Zoom"
                   style={{ color: colors.primary }}
                 >
@@ -754,10 +754,10 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
               depth={1}
               tint="neutral"
               border="subtle"
-              className="absolute top-4 left-4 glass-p-3 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+              className='absolute top-4 left-4 glass-p-3 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard'
             >
               <div
-                className="glass-text-xs font-mono glass-gap-1"
+                className='glass-text-xs font-mono glass-gap-1'
                 style={{ color: colors.primary }}
               >
                 <div>Angle: {currentProjection.angle.toFixed(1)}°</div>
@@ -773,9 +773,9 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
 
           {/* Interaction Indicator */}
           {interactive && isHovering && (
-            <div className="absolute top-4 right-4">
+            <div className='absolute top-4 right-4'>
               <div
-                className="w-3 h-3 glass-radius-full animate-pulse"
+                className='w-3 h-3 glass-radius-full animate-pulse'
                 style={{ backgroundColor: colors.accent }}
               />
             </div>

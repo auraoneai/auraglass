@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassParticles matches snapshot 1`] = `
+<div
+  aria-hidden="true"
+  aria-label="Interactive particle effects"
+  class="relative overflow-hidden"
+  id="glass-particles-:r5:"
+  role="presentation"
+>
+  <canvas
+    aria-hidden="true"
+    class="absolute inset-0 glass-w-full glass-h-full"
+    height="0"
+    width="0"
+  />
+  <div
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high absolute inset-0 pointer-events-none opacity-30"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  />
+</div>
+`;

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassColorPicker matches snapshot 1`] = `
+<div
+  class="relative"
+  data-glass-component="true"
+>
+  <div
+    aria-disabled="false"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    aria-label="Choose color"
+    class="glass-radius-lg border-2 border-white/20 cursor-pointer transition-all duration-200 hover:border-white/40 focus:border-white/60 focus:outline-none w-10 h-10"
+    role="button"
+    tabindex="0"
+  />
+</div>
+`;

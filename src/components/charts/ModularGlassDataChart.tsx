@@ -878,7 +878,7 @@ export const ModularGlassDataChart = React.forwardRef<
             {/* Predictive insights display */}
             {predictive && chartInsights.length > 0 && (
               <div
-                className="mt-2 glass-px-3 glass-py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
+                className='mt-2 glass-px-3 glass-py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard'
                 data-insights-panel="true"
               >
                 <strong>💡 KPI Insights:</strong>{" "}
@@ -974,7 +974,7 @@ export const ModularGlassDataChart = React.forwardRef<
           {/* Predictive insights display */}
           {predictive && chartInsights.length > 0 && (
             <div
-              className="mt-2 glass-px-3 glass-py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard"
+              className='mt-2 glass-px-3 glass-py-2 glass-radius glass-border text-primary glass-surface-primary/10 glass-contrast-guard'
               data-insights-panel="true"
             >
               <strong>💡 Insights:</strong>{" "}
@@ -990,7 +990,7 @@ export const ModularGlassDataChart = React.forwardRef<
           {/* Biometric adaptation indicator */}
           {biometricResponsive && adaptiveComplexity !== "medium" && (
             <div
-              className="mt-1 glass-text-xs glass-text-secondary"
+              className='mt-1 glass-text-xs glass-text-secondary'
               data-adaptation-indicator="true"
             >
               🧠 Adapted for {adaptiveComplexity} cognitive load
@@ -1152,14 +1152,14 @@ export const ModularGlassDataChart = React.forwardRef<
       {/* Eye tracking focus overlay */}
       {currentDataFocus && gazeResponsive && (
         <div
-          className="glass-absolute glass-inset-0 glass-surface-primary/10 pointer-events-none glass-z-10 glass-focus glass-touch-target glass-contrast-guard"
+          className='glass-absolute glass-inset-0 glass-surface-primary/10 pointer-events-none glass-z-10 glass-focus glass-touch-target glass-contrast-guard'
           data-gaze-overlay="true"
         />
       )}
 
       {/* Preloading indicator */}
       {isPreloading && (
-        <div className="glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary text-primary glass-px-3 glass-py-2 glass-radius glass-contrast-guard">
+        <div className='glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary text-primary glass-px-3 glass-py-2 glass-radius glass-contrast-guard'>
           🔄 Analyzing data patterns...
         </div>
       )}
@@ -1167,7 +1167,7 @@ export const ModularGlassDataChart = React.forwardRef<
       {/* Chart insights footer */}
       {(chartInsights.length > 0 || currentDataFocus) && (
         <div
-          className="glass-absolute glass-px-2 glass-py-1 glass-surface-primary/10 text-primary glass-radius glass-z-10 glass-contrast-guard"
+          className='glass-absolute glass-px-2 glass-py-1 glass-surface-primary/10 text-primary glass-radius glass-z-10 glass-contrast-guard'
           data-consciousness-footer="true"
         >
           {chartInsights.length > 0 && `📊 ${chartInsights.length} insights`}

@@ -4,16 +4,45 @@ import { SemanticSearchService } from '../semantic-search-service';
 import { VisionService } from '../vision-service';
 import { defaultAIConfig } from '../config';
 
+type MutableConfig = typeof defaultAIConfig;
+
+jest.mock('openai');
+jest.mock('redis');
+jest.mock('@pinecone-database/pinecone');
+jest.mock('@google-cloud/vision');
+
 describe('AI Services Test Suite', () => {
   let openAIService: OpenAIService;
   let searchService: SemanticSearchService;
   let visionService: VisionService;
+  let testConfig: MutableConfig;
+
+  const createTestConfig = (): MutableConfig => ({
+    ...defaultAIConfig,
+    openai: { ...defaultAIConfig.openai },
+    googleCloud: { ...defaultAIConfig.googleCloud },
+    pinecone: { ...defaultAIConfig.pinecone },
+    removeBg: { ...defaultAIConfig.removeBg },
+    redis: { ...defaultAIConfig.redis },
+    rateLimit: { ...defaultAIConfig.rateLimit },
+    costOptimization: {
+      ...defaultAIConfig.costOptimization,
+      useCheaperModelsThreshold: 0.8,
+    },
+  });
+
+  beforeAll(() => {
+    if (!(global as any).fetch) {
+      (global as any).fetch = jest.fn();
+    }
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();
-    openAIService = new OpenAIService(defaultAIConfig);
-    searchService = new SemanticSearchService(defaultAIConfig);
-    visionService = new VisionService(defaultAIConfig);
+    testConfig = createTestConfig();
+    openAIService = new OpenAIService(testConfig);
+    searchService = new SemanticSearchService(testConfig);
+    visionService = new VisionService(testConfig);
   });
 
   afterEach(() => {
@@ -235,7 +264,7 @@ describe('AI Services Test Suite', () => {
 
       it('should return original image on failure', async () => {
         const mockImageBuffer = Buffer.from('fake-image-data');
-        const spy = jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
+        const spy = jest.spyOn(global as any, 'fetch').mockRejectedValue(new Error('API Error'));
 
         const result = await visionService.removeBackground(mockImageBuffer);
 
@@ -268,30 +297,40 @@ describe('AI Services Test Suite', () => {
 
   describe('Error Handling', () => {
     it('should handle API failures gracefully', async () => {
-      const spy = jest.spyOn(openAIService as any, 'client.chat.completions', 'get')
-        .mockReturnValue({
-          create: jest.fn().mockRejectedValue(new Error('API Error')),
-        });
+      const originalClient = (openAIService as any).client;
+      (openAIService as any).client = {
+        chat: {
+          completions: {
+            create: jest.fn().mockRejectedValue(new Error('API Error')),
+          },
+        },
+      };
 
       const result = await openAIService.generateFormFieldSuggestions('test');
 
       expect(result).toBeDefined();
       expect(Array.isArray(result)).toBe(true);
+      (openAIService as any).client = originalClient;
     });
 
     it('should handle rate limiting', async () => {
       const error = new Error('Rate limit exceeded') as any;
       error.status = 429;
 
-      const spy = jest.spyOn(openAIService as any, 'client.chat.completions', 'get')
-        .mockReturnValue({
-          create: jest.fn().mockRejectedValue(error),
-        });
+      const originalClient = (openAIService as any).client;
+      (openAIService as any).client = {
+        chat: {
+          completions: {
+            create: jest.fn().mockRejectedValue(error),
+          },
+        },
+      };
 
       const result = await openAIService.generateFormFieldSuggestions('test');
 
       expect(result).toBeDefined();
       expect(Array.isArray(result)).toBe(true);
+      (openAIService as any).client = originalClient;
     });
   });
 

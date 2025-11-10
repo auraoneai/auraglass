@@ -1,0 +1,508 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassGANGenerator matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-flex glass-items-center glass-justify-between"
+  >
+    <div>
+      <h3
+        class="glass-text-xl font-semibold text-primary/90"
+      >
+        GAN Generator
+      </h3>
+      <p
+        class="glass-text-sm text-primary/60"
+      >
+        Generative Adversarial Networks for image synthesis
+      </p>
+    </div>
+    <div
+      class="glass-flex glass-items-center space-x-2"
+    />
+  </div>
+  <div
+    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+  >
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        GAN Models
+      </h4>
+      <div
+        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-3"
+      >
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-blue-400 bg-blue-400/20
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  StyleGAN2 Faces
+                </h5>
+                <span
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                >
+                  Trained
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                High-quality human face generation
+              </p>
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <div
+                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                >
+                  <span>
+                    1024
+                    px
+                  </span>
+                  <span>
+                    Z:
+                    512
+                  </span>
+                </div>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  STYLEGAN
+                </span>
+              </div>
+            </div>
+            <div
+              class="text-primary ml-2"
+            >
+              ✓
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  DCGAN Art
+                </h5>
+                <span
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                >
+                  Trained
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Abstract art generation
+              </p>
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <div
+                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                >
+                  <span>
+                    256
+                    px
+                  </span>
+                  <span>
+                    Z:
+                    100
+                  </span>
+                </div>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-blue-500/20 text-blue-300
+                    "
+                >
+                  DCGAN
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  BigGAN Objects
+                </h5>
+                <span
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                >
+                  Trained
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Conditional object generation
+              </p>
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <div
+                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                >
+                  <span>
+                    512
+                    px
+                  </span>
+                  <span>
+                    Z:
+                    128
+                  </span>
+                </div>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-green-500/20 text-green-300
+                    "
+                >
+                  BIGGAN
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  CycleGAN Style Transfer
+                </h5>
+                <span
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                >
+                  Trained
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Unpaired image-to-image translation
+              </p>
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <div
+                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                >
+                  <span>
+                    256
+                    px
+                  </span>
+                  <span>
+                    Z:
+                    256
+                  </span>
+                </div>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-red-500/20 text-red-300
+                    "
+                >
+                  CYCLEGAN
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  Progressive Landscapes
+                </h5>
+                <span
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                >
+                  Trained
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Landscape scene generation
+              </p>
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <div
+                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                >
+                  <span>
+                    512
+                    px
+                  </span>
+                  <span>
+                    Z:
+                    256
+                  </span>
+                </div>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-gray-500/20 text-gray-300
+                    "
+                >
+                  PROGRESSIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  StyleGAN3 General
+                </h5>
+                <span
+                  class="glass-px-2 glass-py-0.5 glass-surface-primary/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                >
+                  Untrained
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                General purpose image generation
+              </p>
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <div
+                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                >
+                  <span>
+                    512
+                    px
+                  </span>
+                  <span>
+                    Z:
+                    512
+                  </span>
+                </div>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  STYLEGAN
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Generation Parameters
+      </h4>
+      <div
+        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4"
+      >
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Seed: 
+            42
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="1000"
+            min="0"
+            type="range"
+            value="42"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Truncation: 
+            0.70
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="2.0"
+            min="0.1"
+            step="0.1"
+            type="range"
+            value="0.7"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Style Strength: 
+            1.00
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="2.0"
+            min="0.0"
+            step="0.1"
+            type="range"
+            value="1"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Batch Size: 
+            4
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="8"
+            min="1"
+            type="range"
+            value="4"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-flex glass-items-center glass-justify-between pt-4 glass-border-t glass-border-white/10"
+  >
+    <div
+      class="glass-flex glass-items-center space-x-4"
+    >
+      <button
+        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg glass-text-sm font-medium transition-colors disabled:opacity-50"
+        tabindex="0"
+      >
+        Generate Images
+      </button>
+    </div>
+    <div
+      class="glass-flex glass-items-center space-x-2 glass-text-xs text-primary/60"
+    >
+      <span>
+        Generated: 
+        0
+      </span>
+      <span>
+        •
+      </span>
+      <span>
+        Model: 
+        StyleGAN2 Faces
+      </span>
+    </div>
+  </div>
+</div>
+`;

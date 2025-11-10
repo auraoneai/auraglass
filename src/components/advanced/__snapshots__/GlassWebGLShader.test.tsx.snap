@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassWebGLShader matches snapshot 1`] = `
+<div
+  class="relative overflow-hidden"
+  style="background-color: transparent;"
+>
+  <canvas
+    class="absolute inset-0 glass-w-full glass-h-full"
+    height="600"
+    width="800"
+  />
+</div>
+`;

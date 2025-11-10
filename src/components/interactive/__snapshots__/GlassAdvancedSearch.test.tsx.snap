@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAdvancedSearch matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full"
+>
+  <div
+    aria-describedby="advanced-search-:rf:-description"
+    aria-label="Advanced search interface"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    id="advanced-search-:rf:"
+    role="search"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="relative z-10"
+    >
+      <div
+        class="sr-only"
+        id="advanced-search-:rf:-description"
+      >
+        Advanced search interface with filters, suggestions, and result management
+      </div>
+      <div
+        class="card-header pb-3"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <h3
+            class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-search w-5 h-5"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m21 21-4.34-4.34"
+              />
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+              />
+            </svg>
+            Advanced Search
+          </h3>
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <div
+              class="motion-primitive inline-block"
+              data-glass-component="true"
+            >
+              <button
+                aria-disabled="true"
+                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                disabled=""
+                id="glass-button-:rg:"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-save w-4 h-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+                  />
+                  <path
+                    d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"
+                  />
+                  <path
+                    d="M7 3v4a1 1 0 0 0 1 1h7"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="motion-primitive inline-block"
+              data-glass-component="true"
+            >
+              <button
+                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 relative"
+                id="glass-button-:rh:"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-funnel w-4 h-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card-content pt-0 glass-auto-gap glass-auto-gap-lg"
+      >
+        <div
+          class="relative"
+        >
+          <div
+            class="relative"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-search absolute left-3 glass-top-1/2 transform -translate-y-1/2 text-primary/60 w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m21 21-4.34-4.34"
+              />
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+              />
+            </svg>
+            <input
+              class="glass-w-full pl-10 pr-4 glass-py-3 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-lg text-primary placeholder-white/50 focus:outline-none focus:ring-white/30 glass-touch-target glass-contrast-guard"
+              placeholder="Search..."
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

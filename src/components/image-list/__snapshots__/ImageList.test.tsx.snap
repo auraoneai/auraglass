@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageList matches snapshot 1`] = `
+<ul
+  class="root grid variantStandard"
+  style="--image-list-gap: 8px; --image-list-cols: 2; --image-list-row-height: auto; --image-list-padding: 0px;"
+/>
+`;

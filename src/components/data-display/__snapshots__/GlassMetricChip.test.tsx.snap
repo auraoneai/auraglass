@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMetricChip matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-2 glass-px-3 glass-py-1.5 glass-radius-xl border border-white/15"
+  data-glass-component="true"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <span
+    class="glass-text-xs text-primary/70"
+  />
+  <span
+    class="font-semibold glass-text-primary"
+  />
+</div>
+`;

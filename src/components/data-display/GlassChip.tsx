@@ -227,7 +227,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
         )}
 
         {/* Content */}
-        <span className="glass-flex-1 glass-min-w-0 truncate font-medium">
+        <span className='glass-flex-1 glass-min-w-0 truncate font-medium'>
           {children}
         </span>
 
@@ -252,7 +252,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
         )}
 
         {/* Glass overlay effect */}
-        <div className="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary pointer-events-none" />
+        <div className='absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary pointer-events-none' />
       </>
     );
 

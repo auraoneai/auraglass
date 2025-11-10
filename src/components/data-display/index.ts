@@ -4,7 +4,7 @@ export { GlassAlert } from "./GlassAlert";
 export { GlassAvatar } from "./GlassAvatar";
 export { GlassBadge } from "./GlassBadge";
 export { GlassBadgeLine } from "./GlassBadgeLine";
-// Moved to aura-glass/styled: export { GlassDataGrid } from './GlassDataGrid';
+export { GlassDataGrid } from "./GlassDataGrid";
 export { GlassDataGridPro } from "./GlassDataGridPro";
 export { GlassDataTable } from "./GlassDataTable";
 export { GlassDiffViewer } from "./GlassDiffViewer";

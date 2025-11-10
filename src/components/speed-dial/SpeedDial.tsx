@@ -1,214 +1,46 @@
 'use client';
-/**
- * Glass SpeedDial Component
- *
- * A floating action button that expands to show multiple actions.
- */
 import React, { forwardRef, useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import styled, { css } from 'styled-components';
 import { cn } from '@/lib/utils';
-
-import { AURA_GLASS } from '../../tokens/glass';
-import { createThemeContext } from '../../core/themeContext';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { createGlassStyle } from '../../core/mixins/glassMixins';
 
 import SpeedDialAction from './SpeedDialAction';
 import SpeedDialIcon from './SpeedDialIcon';
 import { SpeedDialProps, SpeedDialActionProps } from './types';
+import styles from './SpeedDial.module.css';
 
-// Get color values based on theme color
-const getColorValues = (color: string): { bg: string; hover: string; active: string } => {
-  switch (color) {
-    case 'primary':
-      return {
-        bg: 'rgba(99, 102, 241, 0.9)',
-        hover: 'rgba(79, 82, 221, 0.9)',
-        active: 'rgba(69, 72, 211, 0.9)',
-      };
-    case 'secondary':
-      return {
-        bg: 'rgba(156, 39, 176, 0.9)',
-        hover: 'rgba(136, 19, 156, 0.9)',
-        active: 'rgba(116, 9, 136, 0.9)',
-      };
-    case 'error':
-      return {
-        bg: 'rgba(240, 82, 82, 0.9)',
-        hover: 'rgba(220, 62, 62, 0.9)',
-        active: 'rgba(200, 42, 42, 0.9)',
-      };
-    case 'info':
-      return {
-        bg: 'rgba(3, 169, 244, 0.9)',
-        hover: 'rgba(0, 149, 224, 0.9)',
-        active: 'rgba(0, 129, 204, 0.9)',
-      };
-    case 'success':
-      return {
-        bg: 'rgba(76, 175, 80, 0.9)',
-        hover: 'rgba(56, 155, 60, 0.9)',
-        active: 'rgba(36, 135, 40, 0.9)',
-      };
-    case 'warning':
-      return {
-        bg: 'rgba(255, 152, 0, 0.9)',
-        hover: 'rgba(235, 132, 0, 0.9)',
-        active: 'rgba(215, 112, 0, 0.9)',
-      };
-    case 'default':
-    default:
-      return {
-        bg: 'rgba(36, 36, 36, 0.85)',
-        hover: 'rgba(48, 48, 48, 0.85)',
-        active: 'rgba(60, 60, 60, 0.85)',
-      };
-  }
+const COLOR_VARIANT_CLASS: Record<string, keyof typeof styles> = {
+  primary: 'fabSolidPrimary',
+  secondary: 'fabSolidSecondary',
+  error: 'fabSolidError',
+  info: 'fabSolidInfo',
+  success: 'fabSolidSuccess',
+  warning: 'fabSolidWarning',
+  default: 'fabSolidDefault',
 };
 
-// Styled components
-const SpeedDialRoot = styled.div<{
-  $position: {
-    top?: number | string;
-    right?: number | string;
-    bottom?: number | string;
-    left?: number | string;
+const resolvePositionStyle = (position: SpeedDialProps['position']) => {
+  if (!position) return undefined;
+  const entries = Object.entries(position);
+  if (entries.length === 0) return undefined;
+  return entries.reduce<Record<string, string>>((acc, [key, value]) => {
+    if (value === undefined) return acc;
+    acc[key] = typeof value === 'number' ? `${value}px` : value;
+    return acc;
+  }, {});
+};
+
+const mergeRefs = <T,>(
+  ...refs: Array<React.ForwardedRef<T> | React.MutableRefObject<T | null> | null | undefined>
+) =>
+  (value: T | null) => {
+    refs.forEach((ref) => {
+      if (!ref) return;
+      if (typeof ref === 'function') {
+        ref(value);
+      } else {
+        (ref as React.MutableRefObject<T | null>).current = value;
+      }
+    });
   };
-}>`
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-
-  /* Position */
-  ${props =>
-    props.$position.top !== undefined &&
-    `top: ${
-      typeof props.$position.top === 'number' ? `${props.$position.top}px` : props.$position.top
-    };`}
-  ${props =>
-    props.$position.right !== undefined &&
-    `right: ${
-      typeof props.$position.right === 'number'
-        ? `${props.$position.right}px`
-        : props.$position.right
-    };`}
-  ${props =>
-    props.$position.bottom !== undefined &&
-    `bottom: ${
-      typeof props.$position.bottom === 'number'
-        ? `${props.$position.bottom}px`
-        : props.$position.bottom
-    };`}
-  ${props =>
-    props.$position.left !== undefined &&
-    `left: ${
-      typeof props.$position.left === 'number' ? `${props.$position.left}px` : props.$position.left
-    };`}
-`;
-
-const SpeedDialContainer = styled.div<{
-  $direction: 'up' | 'down' | 'left' | 'right';
-}>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const SpeedDialFab = styled.div<{
-  $open: boolean;
-  $glass: boolean;
-  $disabled: boolean;
-  $size: 'small' | 'medium' | 'large';
-  $color: string;
-  $colorValues: { bg: string; hover: string; active: string };
-  $reducedMotion: boolean;
-}>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  width: ${props => (props.$size === 'small' ? '40px' : props.$size === 'large' ? '64px' : '56px')};
-  height: ${props =>
-    props.$size === 'small' ? '40px' : props.$size === 'large' ? '64px' : '56px'};
-  border-radius: 50%;
-  background-color: ${props => (props.$glass ? 'var(--glass-bg-default)' : props.$colorValues.bg)};
-  color: ${AURA_GLASS.surfaces.neutral.level2.text.primary};
-  box-shadow: var(--glass-elev-2);
-  cursor: ${props => (props.$disabled ? 'default' : 'pointer')};
-  transition: ${props =>
-    !props.$reducedMotion ? 'background-color 0.2s, box-shadow 0.2s, transform 0.2s' : 'none'};
-
-  /* Glass styling */
-  ${props =>
-    props.$glass && `
-      backdrop-filter: var(--glass-backdrop-blur);
-      -webkit-backdrop-filter: var(--glass-backdrop-blur);
-      border: 1px solid var(--glass-border-default);
-    `}
-
-  /* Open state */
-  ${props =>
-    props.$open &&
-    `
-    box-shadow: var(--glass-elev-2);
-  `}
-  
-  /* Disabled state */
-  ${props =>
-    props.$disabled &&
-    `
-    opacity: 0.6;
-    pointer-events: none;
-    box-shadow: var(--glass-elev-2);
-  `}
-  
-  /* Hover effects */
-  ${props =>
-    !props.$disabled &&
-    `
-    &:hover {
-      background-color: ${props.$glass ? 'var(--glass-bg-hover)' : props.$colorValues.hover};
-      box-shadow: var(--glass-elev-2);
-    }
-    
-    &:active {
-      background-color: ${props.$glass ? 'var(--glass-bg-active)' : props.$colorValues.active};
-      box-shadow: var(--glass-elev-2);
-      transform: scale(0.98);
-    }
-  `}
-`;
-
-const ActionsContainer = styled.div<{
-  $open: boolean;
-  $direction: 'up' | 'down' | 'left' | 'right';
-}>`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
-`;
-
-const Backdrop = styled.div<{
-  $open: boolean;
-  $reducedMotion: boolean;
-}>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--glass-overlay-bg);
-  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
-  opacity: ${props => (props.$open ? 1 : 0)};
-  transition: ${props => (!props.$reducedMotion ? 'opacity 0.2s' : 'none')};
-  z-index: 1040;
-`;
 
 /**
  * SpeedDial Component Implementation
@@ -239,10 +71,7 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
   } = props;
 
   // Refs
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  // Check if reduced motion is preferred
-  const prefersReducedMotion = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement | null>(null);
 
   // State for uncontrolled component
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -252,28 +81,27 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : internalOpen;
 
-  // Get color values
-  const colorValues = useMemo(() => getColorValues(color), [color]);
+  const colorClass = useMemo(() => {
+    const key = COLOR_VARIANT_CLASS[color] ?? COLOR_VARIANT_CLASS.default;
+    return styles[key] ?? styles.fabSolidDefault;
+  }, [color]);
 
   // Toggle open state
-  const toggle = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if (disabled) return;
+  const toggle = useCallback(() => {
+    if (disabled) return;
 
-      const newOpen = !open;
+    const newOpen = !open;
 
-      if (!isControlled) {
-        setInternalOpen(newOpen);
-      }
+    if (!isControlled) {
+      setInternalOpen(newOpen);
+    }
 
-      if (newOpen && onOpen) {
-        onOpen();
-      } else if (!newOpen && onClose) {
-        onClose();
-      }
-    },
-    [disabled, open, isControlled, onOpen, onClose]
-  );
+    if (newOpen && onOpen) {
+      onOpen();
+    } else if (!newOpen && onClose) {
+      onClose();
+    }
+  }, [disabled, open, isControlled, onOpen, onClose]);
 
   // Handle action click
   const handleActionClick = useCallback(
@@ -295,18 +123,15 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
   );
 
   // Handle backdrop click
-  const handleBackdropClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlled) {
-        setInternalOpen(false);
-      }
+  const handleBackdropClick = useCallback(() => {
+    if (!isControlled) {
+      setInternalOpen(false);
+    }
 
-      if (onClose) {
-        onClose();
-      }
-    },
-    [isControlled, onClose]
-  );
+    if (onClose) {
+      onClose();
+    }
+  }, [isControlled, onClose]);
 
   // Hide on scroll
   useEffect(() => {
@@ -378,23 +203,35 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
   return (
     <>
       {/* Backdrop */}
-      <Backdrop $open={open} $reducedMotion={prefersReducedMotion} onClick={handleBackdropClick} />
+      <div
+        className={cn(styles.backdrop, open && styles.backdropVisible)}
+        onClick={handleBackdropClick}
+        aria-hidden="true"
+      />
 
       {/* SpeedDial */}
-      <SpeedDialRoot
-        ref={rootRef}
-        className={cn('glass-speed-dial', className)}
-        style={{
-          ...style,
-          ...(!visible ? { transform: 'scale(0)', opacity: 0 } : {}),
-          transition: !prefersReducedMotion ? 'transform 0.2s, opacity 0.2s' : 'none',
-        }}
-        $position={position}
+      <div
+        ref={mergeRefs(ref, rootRef)}
+        className={cn(
+          styles.root,
+          'glass-speed-dial',
+          !visible && styles.hidden,
+          className,
+        )}
+        style={{ ...resolvePositionStyle(position), ...(style ?? {}) }}
         {...rest}
       >
-        <SpeedDialContainer $direction={direction}>
-          {/* Actions */}
-          <ActionsContainer $open={open} $direction={direction}>
+        <div className={styles.container}>
+          <div
+            className={cn(
+              styles.actions,
+              open && styles.actionsOpen,
+              direction === 'up' || direction === 'down'
+                ? styles.actionsVertical
+                : styles.actionsHorizontal,
+            )}
+            aria-hidden={!open}
+          >
             {React.Children.toArray(children).map((child, index) => {
               // Check if the action is a valid React element before rendering
               if (!React.isValidElement(child)) {
@@ -423,27 +260,29 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
                 />
               );
             })}
-          </ActionsContainer>
+          </div>
 
           {/* Main button */}
-          <SpeedDialFab
-            ref={ref}
+          <button
+            type="button"
             onClick={toggle}
             aria-label={ariaLabel}
             aria-expanded={open}
             aria-haspopup="true"
-            $open={open}
-            $glass={glass}
-            $disabled={disabled}
-            $size={size}
-            $color={color}
-            $colorValues={colorValues}
-            $reducedMotion={prefersReducedMotion}
+            disabled={disabled}
+            className={cn(
+              styles.fab,
+              glass ? styles.fabGlass : colorClass,
+              size === 'small' && styles.fabSmall,
+              size === 'medium' && styles.fabMedium,
+              size === 'large' && styles.fabLarge,
+              disabled && styles.fabDisabled,
+            )}
           >
             <SpeedDialIcon icon={icon} open={open} />
-          </SpeedDialFab>
-        </SpeedDialContainer>
-      </SpeedDialRoot>
+          </button>
+        </div>
+      </div>
     </>
   );
 }

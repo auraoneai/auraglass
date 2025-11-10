@@ -529,7 +529,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
             initial={{ scale: 0, opacity: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="interaction-pulse"
+            className='interaction-pulse'
             style={{
               position: "absolute",
               top: "50%",

@@ -11,61 +11,39 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassPresets } from '@/components/interactive/GlassPresets';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import { GlassPresets } from "@/components/interactive/GlassPresets";
 
-// Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassPresets', () => {
-  /**
-   * Smoke Test: Component renders without crashing
-   */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassPresets />);
-    expect(container).toBeInTheDocument();
+describe("GlassPresets", () => {
+  it("renders the clean variant by default", () => {
+    render(<GlassPresets data-testid="glass-presets" />);
+    expect(screen.getByTestId("glass-presets")).toBeInTheDocument();
   });
 
-  /**
-   * Accessibility Test: No axe violations
-   */
-  it('has no accessibility violations', async () => {
+  it("switches variants when requested", () => {
+    const { rerender } = render(
+      <GlassPresets data-testid="glass-presets" variant="frosted" />
+    );
+    const initial = screen.getByTestId("glass-presets");
+    expect(initial).toBeInTheDocument();
+
+    rerender(<GlassPresets data-testid="glass-presets" variant="immersive" />);
+    const updated = screen.getByTestId("glass-presets");
+    expect(updated).toBeInTheDocument();
+  });
+
+  it("applies custom className", () => {
+    render(<GlassPresets className="custom-class" data-testid="glass-presets" />);
+    expect(screen.getByTestId("glass-presets")).toHaveClass("custom-class");
+  });
+
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassPresets />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
-  });
-
-  
-
-  
-
-  
-
-  /**
-   * Props Validation: Accepts and renders with custom props
-   */
-  it('accepts and renders with custom props', () => {
-    const { container } = render(
-      <GlassPresets
-        className="custom-class"
-        data-testid="glasspresets"
-      />
-    );
-
-    const element = container.querySelector('[data-testid="glasspresets"]')
-      || container.firstChild;
-
-    expect(element).toHaveClass('custom-class');
-  });
-
-  /**
-   * Snapshot Test: Matches snapshot
-   */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassPresets />);
-    expect(container.firstChild).toMatchSnapshot();
   });
 });

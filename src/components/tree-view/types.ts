@@ -22,6 +22,10 @@ export interface TreeViewProps extends React.HTMLAttributes<HTMLUListElement> {
   showLines?: boolean;
   glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
   blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  glass?: boolean;
+  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
 
   /** Glass surface intent */
   intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
@@ -34,20 +38,16 @@ export interface TreeViewProps extends React.HTMLAttributes<HTMLUListElement> {
 }
 
 export interface TreeViewContextProps {
-  selectedIds: string[];
-  expandedIds: string[];
-  expanded?: string[];
-  selected?: string[];
-  focused?: string[];
-  size?: 'small' | 'medium' | 'large';
-  disabled?: boolean;
-  glass?: boolean;
-  onSelectionChange?: (selectedIds: string[]) => void;
-  onExpansionChange?: (expandedIds: string[]) => void;
+  expanded: string[];
+  selected: string[];
+  focused: string[];
+  multiSelect: boolean;
+  size: 'small' | 'medium' | 'large';
+  disabled: boolean;
+  glass: boolean;
   selectNode?: (nodeId: string) => void;
   toggleNode?: (nodeId: string) => void;
   focusNode?: (nodeId: string) => void;
-  multiSelect?: boolean;
   showIcons?: boolean;
   showLines?: boolean;
 }

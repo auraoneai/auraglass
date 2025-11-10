@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassBiometricAdaptation matches snapshot 1`] = `
+<div
+  class="glass-biometric-adaptation glass-relative glass-space-y-4"
+>
+  <div
+    class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10 glass-shadow-soft-lg"
+    data-testid="glass-biometric-summary"
+  >
+    <div>
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        Biometric adaptation
+      </p>
+      <h2
+        class="glass-text-2xl glass-text-primary font-semibold"
+      >
+        Initializing
+      </h2>
+      <p
+        class="glass-text-sm glass-text-secondary"
+      >
+        Stress level 
+        0
+        %
+      </p>
+    </div>
+    <div
+      class="glass-grid glass-grid-cols-2 glass-gap-3"
+    >
+      <div
+        class="glass-surface-subtle glass-radius-xl glass-p-4"
+      >
+        <p
+          class="glass-text-xs glass-text-tertiary mb-1"
+        >
+          Heart rate
+        </p>
+        <p
+          class="glass-text-lg glass-text-primary font-semibold"
+        >
+          —
+        </p>
+      </div>
+      <div
+        class="glass-surface-subtle glass-radius-xl glass-p-4"
+      >
+        <p
+          class="glass-text-xs glass-text-tertiary mb-1"
+        >
+          Respiratory
+        </p>
+        <p
+          class="glass-text-lg glass-text-primary font-semibold"
+        >
+          —
+        </p>
+      </div>
+    </div>
+    <div
+      class="glass-text-xs glass-text-secondary"
+    >
+      Confidence
+       
+      Collecting signals
+    </div>
+  </div>
+  <div
+    aria-label="Biometric monitoring dashboard"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high fixed top-4 left-4 glass-p-4 glass-radius-lg"
+    id="biometric-dashboard-:r5:"
+    role="region"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-between glass-mb-3"
+    >
+      <h3
+        class="glass-text-sm font-medium glass-text-secondary dark:glass-text-secondary"
+      >
+        Biometrics
+      </h3>
+      <button
+        aria-controls="biometric-dashboard-:r5:-details"
+        aria-expanded="false"
+        class="glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
+      >
+        +
+      </button>
+    </div>
+    <div
+      class="glass-gap-2"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between"
+      >
+        <span
+          class="glass-text-xs glass-text-secondary dark:glass-text-secondary"
+        >
+          Stress Level
+        </span>
+        <div
+          class="glass-flex glass-items-center glass-gap-2"
+        >
+          <div
+            class="glass-w-16 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden"
+          >
+            <div
+              class="glass-h-full glass-radius-full glass-transition glass-surface-success"
+            />
+          </div>
+          <span
+            class="glass-text-xs glass-text-secondary dark:glass-text-secondary"
+          >
+            0
+            %
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

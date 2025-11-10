@@ -272,7 +272,7 @@ export const GlassSkeletonCard: React.FC<{
       </div>
 
       {/* Actions skeleton */}
-      <div className="glass-flex glass-gap-2 pt-2">
+      <div className='glass-flex glass-gap-2 pt-2'>
         <GlassSkeleton width="60px" height="2rem" variant="glass-radius-md" />
         <GlassSkeleton width="60px" height="2rem" variant="glass-radius-md" />
       </div>
@@ -309,7 +309,7 @@ export const GlassSkeletonTable: React.FC<{
       </div>
 
       {/* Table rows */}
-      <div className="divide-y divide-white/5">
+      <div className='divide-y divide-white/5'>
         {Array.from({ length: rows }, (_, rowIndex) => (
           <div key={`row-${rowIndex}`} className="glass-p-4">
             <div

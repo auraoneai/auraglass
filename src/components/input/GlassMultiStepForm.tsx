@@ -325,34 +325,34 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
   return (
     <FormContext.Provider data-glass-component value={contextValue}>
-      <Motion preset="fadeIn" className="glass-w-full max-w-4xl glass-mx-auto">
+      <Motion preset="fadeIn" className='glass-w-full max-w-4xl glass-mx-auto'>
         <GlassCard className={cn("overflow-hidden", className)} {...props}>
           {/* Header */}
-          <CardHeader className="pb-6">
+          <CardHeader className='pb-6'>
             {title && (
-              <CardTitle className="text-primary glass-text-2xl font-semibold text-center">
+              <CardTitle className='text-primary glass-text-2xl font-semibold text-center'>
                 {title}
               </CardTitle>
             )}
 
             {description && (
-              <p className="text-primary/70 text-center glass-mt-2">
+              <p className='text-primary/70 text-center glass-mt-2'>
                 {description}
               </p>
             )}
 
             {/* Progress Indicator */}
             {showProgress && (
-              <div className="mt-6" role="group" aria-label="Form progress">
-                <div className="glass-flex glass-justify-between glass-items-center mb-2">
+              <div className='mt-6' role="group" aria-label="Form progress">
+                <div className='glass-flex glass-justify-between glass-items-center mb-2'>
                   <span
-                    className="glass-text-sm text-primary/60"
+                    className='glass-text-sm text-primary/60'
                     aria-live="polite"
                   >
                     Step {currentStep + 1} of {steps.length}
                   </span>
                   <span
-                    className="glass-text-sm text-primary/60"
+                    className='glass-text-sm text-primary/60'
                     aria-live="polite"
                   >
                     {Math.round(getProgressPercentage())}% Complete
@@ -366,7 +366,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-label={`Form progress: ${Math.round(getProgressPercentage())}% complete`}
-                  className="glass-w-full glass-surface-subtle/10 glass-radius-full h-2 overflow-hidden"
+                  className='glass-w-full glass-surface-subtle/10 glass-radius-full h-2 overflow-hidden'
                 >
                   <Motion
                     preset="slideRight"
@@ -422,14 +422,14 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                           )}
                         >
                           {isCompleted && isValid ? (
-                            <Check className="w-5 h-5" aria-hidden="true" />
+                            <Check className='w-5 h-5' aria-hidden="true" />
                           ) : step.icon ? (
-                            <span className="w-5 h-5" aria-hidden="true">
+                            <span className='w-5 h-5' aria-hidden="true">
                               {step.icon}
                             </span>
                           ) : (
                             <span
-                              className="glass-text-sm font-medium"
+                              className='glass-text-sm font-medium'
                               aria-hidden="true"
                             >
                               {index + 1}
@@ -437,7 +437,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                           )}
                         </div>
 
-                        <div className="text-center glass-mt-2">
+                        <div className='text-center glass-mt-2'>
                           <p
                             className={cn(
                               "glass-text-xs font-medium transition-colors duration-200",
@@ -449,7 +449,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                             {step.title}
                           </p>
                           {step.description && (
-                            <p className="glass-text-xs text-primary/50 glass-mt-1 max-w-20 truncate">
+                            <p className='glass-text-xs text-primary/50 glass-mt-1 max-w-20 truncate'>
                               {step.description}
                             </p>
                           )}
@@ -463,8 +463,8 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
           </CardHeader>
 
           {/* Form Content */}
-          <CardContent className="pt-0">
-            <div className="min-h-[400px]">
+          <CardContent className='pt-0'>
+            <div className='min-h-[400px]'>
               {steps.map((step, index) => {
                 const StepComponent = step.component;
                 const isActive = index === currentStep;
@@ -483,12 +483,12 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                     {isActive && (
                       <div>
                         {/* Step Header */}
-                        <div className="mb-6">
-                          <h3 className="glass-text-xl font-semibold text-primary mb-2">
+                        <div className='mb-6'>
+                          <h3 className='glass-text-xl font-semibold text-primary mb-2'>
                             {step.title}
                           </h3>
                           {step.description && (
-                            <p className="text-primary/70">
+                            <p className='text-primary/70'>
                               {step.description}
                             </p>
                           )}
@@ -512,7 +512,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                           >
                             <div className="glass-flex glass-items-center glass-gap-2">
                               <AlertCircle
-                                className="w-4 h-4 text-primary"
+                                className='w-4 h-4 text-primary'
                                 aria-hidden="true"
                               />
                               <span className="glass-text-secondary glass-text-sm">
@@ -530,7 +530,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
             {/* Navigation */}
             {showNavigation && (
-              <div className="glass-flex glass-justify-between glass-items-center mt-8 pt-6 glass-border-t glass-border-white/10">
+              <div className='glass-flex glass-justify-between glass-items-center mt-8 pt-6 glass-border-t glass-border-white/10'>
                 <div className="glass-flex glass-gap-3">
                   {currentStep > 0 && (
                     <GlassButton
@@ -539,7 +539,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                       disabled={loading}
                       className="glass-flex glass-items-center glass-gap-2"
                     >
-                      <ChevronLeft className="w-4 h-4" />
+                      <ChevronLeft className='w-4 h-4' />
                       Previous
                     </GlassButton>
                   )}
@@ -574,7 +574,7 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                       className="glass-flex glass-items-center glass-gap-2"
                     >
                       Next
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className='w-4 h-4' />
                     </GlassButton>
                   ) : (
                     <GlassButton
@@ -585,12 +585,12 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className='w-4 h-4 animate-spin' />
                           Submitting...
                         </>
                       ) : (
                         <>
-                          <CheckCircle className="w-4 h-4" />
+                          <CheckCircle className='w-4 h-4' />
                           {submitButtonText}
                         </>
                       )}
@@ -602,8 +602,8 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
             {/* Summary */}
             {showSummary && (
-              <div className="mt-6 glass-p-4 glass-surface-subtle/5 glass-radius-lg">
-                <h4 className="glass-text-sm font-medium text-primary mb-3">
+              <div className='mt-6 glass-p-4 glass-surface-subtle/5 glass-radius-lg'>
+                <h4 className='glass-text-sm font-medium text-primary mb-3'>
                   Form Summary
                 </h4>
                 <div className="glass-gap-2">
@@ -618,9 +618,9 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
                       >
                         <div className="glass-flex glass-items-center glass-gap-2">
                           {isCompleted ? (
-                            <CheckCircle className="w-4 h-4 text-primary" />
+                            <CheckCircle className='w-4 h-4 text-primary' />
                           ) : (
-                            <div className="w-4 h-4 glass-radius-full glass-border-2 glass-border-white/30" />
+                            <div className='w-4 h-4 glass-radius-full glass-border-2 glass-border-white/30' />
                           )}
                           <span
                             className={cn(
@@ -669,13 +669,13 @@ export const GlassFormStep: React.FC<GlassFormStepProps> = ({
   return (
     <div className={cn("space-y-6", className)}>
       {(title || description) && (
-        <div className="mb-6">
+        <div className='mb-6'>
           {title && (
-            <h3 className="glass-text-lg font-semibold text-primary mb-2">
+            <h3 className='glass-text-lg font-semibold text-primary mb-2'>
               {title}
             </h3>
           )}
-          {description && <p className="text-primary/70">{description}</p>}
+          {description && <p className='text-primary/70'>{description}</p>}
         </div>
       )}
       {children}

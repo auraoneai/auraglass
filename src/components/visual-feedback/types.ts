@@ -52,7 +52,7 @@ export interface StateIndicatorProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 export interface VisualFeedbackProps extends React.HTMLAttributes<HTMLDivElement> {
-  effect?: 'highlight' | 'glow' | 'pulse' | 'bounce' | 'shake' | 'ripple';
+  effect?: 'none' | 'highlight' | 'glow' | 'pulse' | 'bounce' | 'shake' | 'ripple';
   active?: boolean;
   type?: 'success' | 'error' | 'warning' | 'info' | 'loading';
   message?: string;

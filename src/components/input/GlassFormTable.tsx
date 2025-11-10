@@ -11,26 +11,34 @@ export interface GlassFormTableProps<T = any> {
   columns: ColumnDef<T>[];
   rows: T[];
   onChange: (rows: T[]) => void;
+  className?: string;
+  "data-testid"?: string;
 }
 
 export function GlassFormTable<T = any>({
   columns,
   rows,
   onChange,
+  className,
+  "data-testid": dataTestId,
 }: GlassFormTableProps<T>) {
+  const safeColumns = columns ?? [];
+  const safeRows = rows ?? [];
   const update = (ri: number, key: keyof T, v: any) => {
-    const next = rows.slice();
+    const next = safeRows.slice();
     (next[ri] as any)[key] = v;
     onChange(next);
   };
-  const add = () => onChange([...rows, {} as any]);
-  const remove = (ri: number) => onChange(rows.filter((_, i) => i !== ri));
+  const add = () => onChange([...safeRows, {} as any]);
+  const remove = (ri: number) => onChange(safeRows.filter((_, i) => i !== ri));
   return (
     <div
       data-glass-component
       className={cn(
-        "glass-overflow-auto glass-radius-xl glass-border glass-border-white-15"
+        "glass-overflow-auto glass-radius-xl glass-border glass-border-white-15",
+        className
       )}
+      data-testid={dataTestId}
       role="region"
       aria-label="Editable data table"
     >
@@ -41,7 +49,7 @@ export function GlassFormTable<T = any>({
       >
         <thead className={cn("glass-surface-white-5")}>
           <tr role="row">
-            {columns.map((c: any) => (
+            {safeColumns.map((c: any) => (
               <th
                 key={String(c.key)}
                 role="columnheader"
@@ -56,17 +64,20 @@ export function GlassFormTable<T = any>({
               role="columnheader"
               className={cn("glass-px-3 glass-py-2")}
               aria-label="Actions"
-            />
+              scope="col"
+            >
+              <span className="glass-sr-only">Actions</span>
+            </th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((r, ri) => (
+          {safeRows.map((r, ri) => (
             <tr
               key={ri}
               role="row"
               className={cn("glass-border-t glass-border-white-10")}
             >
-              {columns.map((c: any) => (
+              {safeColumns.map((c: any) => (
                 <td
                   key={String(c.key)}
                   role="gridcell"

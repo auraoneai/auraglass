@@ -15,17 +15,19 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
-import { glass-card-link } from '@/components/card/glass-card-link';
+import { GlassCardLink } from '@/components/card/glass-card-link';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('glass-card-link', () => {
+describe('GlassCardLink', () => {
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<glass-card-link />);
+    const { container } = render(
+      <GlassCardLink href="#">Example</GlassCardLink>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +35,9 @@ describe('glass-card-link', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<glass-card-link />);
+    const { container } = render(
+      <GlassCardLink href="#">Example</GlassCardLink>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -49,10 +53,13 @@ describe('glass-card-link', () => {
    */
   it('accepts and renders with custom props', () => {
     const { container } = render(
-      <glass-card-link
+      <GlassCardLink
         className="custom-class"
         data-testid="glass-card-link"
-      />
+        href="#"
+      >
+        Custom link
+      </GlassCardLink>
     );
 
     const element = container.querySelector('[data-testid="glass-card-link"]')
@@ -65,7 +72,9 @@ describe('glass-card-link', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<glass-card-link />);
+    const { container } = render(
+      <GlassCardLink href="#">Example</GlassCardLink>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

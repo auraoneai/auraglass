@@ -60,7 +60,8 @@ module.exports = {
     '/examples/',
     '/test-results/',
     '/playwright-report/',
-    'visual', // Separate visual tests
+    '<rootDir>/tests/e2e/',
+    'tests/visual', // Separate visual regression suites
   ],
 
   // Coverage configuration

@@ -56,7 +56,7 @@ export { GlassResponsiveNav } from "./components/navigation/GlassResponsiveNav";
 export { GlassResponsiveNav as ResponsiveNavigation } from "./components/navigation/GlassResponsiveNav"; // Alias export
 export { GlassSegmentedControl } from "./components/navigation/GlassSegmentedControl";
 export { GlassSidebar } from "./components/navigation/GlassSidebar";
-// Moved to aura-glass/styled: export { GlassTabBar } from "./components/navigation/GlassTabBar";
+export { GlassTabBar } from "./components/navigation/GlassTabBar";
 export { GlassTabItem } from "./components/navigation/GlassTabItem";
 export { GlassTabs } from "./components/navigation/GlassTabs";
 export { EnhancedGlassTabs } from "./components/navigation/EnhancedGlassTabs";
@@ -81,7 +81,7 @@ export { GlassFormStepper } from "./components/input/GlassFormStepper";
 export { GlassFormTable } from "./components/input/GlassFormTable";
 export { GlassInput } from "./components/input/GlassInput";
 export { GlassLabel } from "./components/input/GlassLabel";
-// Moved to aura-glass/styled: export { GlassMultiSelect } from "./components/input/GlassMultiSelect";
+export { GlassMultiSelect } from "./components/input/GlassMultiSelect";
 export { GlassMultiStepForm } from "./components/input/GlassMultiStepForm";
 export { GlassRadioGroup } from "./components/input/GlassRadioGroup";
 export { GlassSelect } from "./components/input/GlassSelect";
@@ -106,9 +106,9 @@ export { GlowingCard } from "./components/card/GlowingCard";
 // Chart Components
 export { GlassAreaChart } from "./components/charts/GlassAreaChart";
 export { GlassBarChart } from "./components/charts/GlassBarChart";
-// Moved to aura-glass/styled: export { GlassChart } from "./components/charts/GlassChart";
-// Moved to aura-glass/styled: export { GlassDataChart } from "./components/charts/GlassDataChart";
-// Moved to aura-glass/styled: export { GlassDataChart as DataChart } from "./components/charts/GlassDataChart";
+export { GlassChart } from "./components/charts/GlassChart";
+export { GlassDataChart } from "./components/charts/GlassDataChart";
+export { GlassDataChart as DataChart } from "./components/charts/GlassDataChart";
 export { GlassLineChart } from "./components/charts/GlassLineChart";
 export { GlassPieChart } from "./components/charts/GlassPieChart";
 
@@ -118,7 +118,7 @@ export { GlassAlert } from "./components/data-display/GlassAlert";
 export { GlassAvatar } from "./components/data-display/GlassAvatar";
 export { GlassBadge } from "./components/data-display/GlassBadge";
 export { GlassBadgeLine } from "./components/data-display/GlassBadgeLine";
-// Moved to aura-glass/styled: export { GlassDataGrid } from "./components/data-display/GlassDataGrid";
+export { GlassDataGrid } from "./components/data-display/GlassDataGrid";
 export { GlassDataGridPro } from "./components/data-display/GlassDataGridPro";
 export { GlassDataTable } from "./components/data-display/GlassDataTable";
 export { GlassDiffViewer } from "./components/data-display/GlassDiffViewer";
@@ -216,7 +216,7 @@ export { GlassFileExplorer } from "./components/interactive/GlassFileExplorer";
 export { GlassFileTree } from "./components/interactive/GlassFileTree";
 export { GlassFileUpload } from "./components/interactive/GlassFileUpload";
 export { GlassFilterPanel } from "./components/interactive/GlassFilterPanel";
-// Moved to aura-glass/styled: export { GlassFocusRing } from "./components/interactive/GlassFocusRing";
+export { GlassFocusRing } from "./components/interactive/GlassFocusRing";
 export { GlassFormBuilder } from "./components/interactive/GlassFormBuilder";
 export { GlassGallery } from "./components/interactive/GlassGallery";
 export { GlassGradientPicker } from "./components/interactive/GlassGradientPicker";
@@ -273,7 +273,7 @@ export { GlassMetricsGrid } from "./components/data-display/GlassMetricsGrid";
 export { GlassTreeView } from "./components/data-display/GlassTreeView";
 
 // Specialized Components
-// Moved to aura-glass/styled: export { DynamicAtmosphere } from "./components/backgrounds/GlassDynamicAtmosphere";
+export { DynamicAtmosphere } from "./components/backgrounds/GlassDynamicAtmosphere";
 export { SeasonalParticles } from "./components/effects/SeasonalParticles";
 export { GlassShatterEffects } from "./components/effects/GlassShatterEffects";
 
@@ -287,7 +287,10 @@ export { GlassTypingIndicator } from "./components/chat/GlassTypingIndicator";
 // Missing Advanced Components (from README)
 export { ContrastGuard } from "./components/accessibility/ContrastGuard";
 export { GlassA11y } from "./components/accessibility/GlassA11y";
-export { LiquidGlassGPU } from "./components/advanced/LiquidGlassGPU";
+export {
+  LiquidGlassGPU,
+  LiquidGlassGPUDriver,
+} from "./components/advanced/LiquidGlassGPU";
 export { GlassParallaxLayers } from "./components/advanced/GlassParallaxLayers";
 export { GlassMeshGradient } from "./components/advanced/GlassMeshGradient";
 export { GlassParticles } from "./components/advanced/GlassParticles";
@@ -295,19 +298,43 @@ export { GlassMagneticCursor } from "./components/advanced/GlassMagneticCursor";
 export { GlassLiquidTransition } from "./components/advanced/GlassLiquidTransition";
 export { GlassWebGLShader } from "./components/advanced/GlassWebGLShader";
 export {
-  GlassPredictiveEngineProvider as GlassPredictiveEngine,
+  GlassPredictiveEngine,
+  GlassPredictiveEngineProvider,
+  GlassPredictionIndicator,
   usePredictiveEngine,
+  useInteractionRecorder,
+  predictiveEnginePresets,
 } from "./components/advanced/GlassPredictiveEngine";
 export {
+  GlassEyeTracking,
   GlassEyeTrackingProvider,
+  GlassEyeTrackingCalibration,
+  GlassGazeResponsive,
+  GlassGazeVisualization,
   useEyeTracking,
+  eyeTrackingPresets,
 } from "./components/advanced/GlassEyeTracking";
 export {
+  GlassAchievementSystem,
   GlassAchievementProvider,
   useAchievements,
+  GlassAchievementDashboard,
+  GlassAchievementNotifications,
+  useAchievementTracker,
+  achievementPresets,
 } from "./components/advanced/GlassAchievementSystem";
-export { useBiometricAdaptation } from "./components/advanced/GlassBiometricAdaptation";
 export {
+  GlassBiometricAdaptation,
+  GlassBiometricAdaptationProvider,
+  GlassStressResponsive,
+  GlassBiometricDashboard,
+  useBiometricAdaptation,
+  BiometricAdaptationEngine,
+  BiometricStressDetector,
+  biometricAdaptationPresets,
+} from "./components/advanced/GlassBiometricAdaptation";
+export {
+  GlassEngine,
   GlassEngineProvider,
   useGlassEngine,
   AdaptiveGlass,
@@ -317,6 +344,7 @@ export {
   EnvironmentalGlass,
   GlassEngineDemo,
 } from "./components/advanced/GlassEngine";
+export { BrandColorIntegration } from "./components/advanced/BrandColorIntegration";
 export {
   GlassMetaEngineProvider,
   useGlassMetaEngine,
@@ -341,8 +369,24 @@ export {
   selfHealingPresets,
 } from "./components/advanced/GlassSelfHealingSystem";
 export { useAutoComposer } from "./components/advanced/GlassAutoComposer";
-export { useContextualEngine } from "./components/advanced/GlassContextualEngine";
-export { GlassPerformanceMonitor } from "./components/advanced/GlassPerformanceOptimization";
+export {
+  GlassContextualEngine,
+  GlassContextualEngineProvider,
+  GlassContextualDashboard,
+  useContextualEngine,
+  useContextualAdaptation,
+  contextualEnginePresets,
+} from "./components/advanced/GlassContextualEngine";
+export {
+  GlassPerformanceOptimization,
+  GlassPerformanceProvider,
+  GlassPerformanceMonitor,
+  EfficientGlassRendering,
+  LazyGlassLoading,
+  ReducedMotionGlass,
+  BatteryAwareGlass,
+  ProgressiveGlassEnhancement,
+} from "./components/advanced/GlassPerformanceOptimization";
 export { useQuantumStates } from "./components/advanced/GlassQuantumStates";
 export { GlassFoldableSupport } from "./components/advanced/GlassFoldableSupport";
 export { GlassOrientationEffects } from "./components/advanced/GlassOrientationEffects";
@@ -399,10 +443,6 @@ export { GlassBiomeSimulator } from "./components/atmospheric/GlassBiomeSimulato
 export { GlassNebulaClouds } from "./components/atmospheric/GlassNebulaClouds";
 export { GlassWeatherGlass } from "./components/atmospheric/GlassWeatherGlass";
 export { GlassMoodRing } from "./components/experiential/GlassMoodRing";
-export {
-  BiometricAdaptationEngine,
-  BiometricStressDetector,
-} from "./components/advanced/GlassBiometricAdaptation";
 export { GlassLiveCursorPresence } from "./components/advanced/GlassLiveCursorPresence";
 export { GlassReactions } from "./components/advanced/GlassReactions";
 export {
@@ -515,37 +555,37 @@ export { default as PageGlassContainer } from "./components/surfaces/PageGlassCo
 export { default as WidgetGlass } from "./components/surfaces/WidgetGlass";
 
 // Background Components
-// Moved to aura-glass/styled: export { default as AtmosphericBackground } from "./components/backgrounds/AtmosphericBackground";
-// Moved to aura-glass/styled: export { default as ParticleBackground } from "./components/backgrounds/ParticleBackground";
+export { default as AtmosphericBackground } from "./components/backgrounds/AtmosphericBackground";
+export { default as ParticleBackground } from "./components/backgrounds/ParticleBackground";
 
 // Speed Dial Components
-// Moved to aura-glass/styled: export { SpeedDial } from "./components/speed-dial/SpeedDial";
-// Moved to aura-glass/styled: export { default as SpeedDialAction } from "./components/speed-dial/SpeedDialAction";
-// Moved to aura-glass/styled: export { default as SpeedDialIcon } from "./components/speed-dial/SpeedDialIcon";
+export { SpeedDial } from "./components/speed-dial/SpeedDial";
+export { default as SpeedDialAction } from "./components/speed-dial/SpeedDialAction";
+export { default as SpeedDialIcon } from "./components/speed-dial/SpeedDialIcon";
 
 // Toggle Button Components
 export { ToggleButton } from "./components/toggle-button/ToggleButton";
 export { ToggleButtonGroup } from "./components/toggle-button/ToggleButtonGroup";
 
 // Tree View Components
-// Moved to aura-glass/styled: export { TreeItem } from "./components/tree-view/TreeItem";
-// Moved to aura-glass/styled: export { TreeView } from "./components/tree-view/TreeView";
+export { TreeItem } from "./components/tree-view/TreeItem";
+export { TreeView } from "./components/tree-view/TreeView";
 
 // Visual Feedback Components
-// Moved to aura-glass/styled: export { default as FocusIndicator } from "./components/visual-feedback/FocusIndicator";
-// Moved to aura-glass/styled: export { default as RippleButton } from "./components/visual-feedback/RippleButton";
-// Moved to aura-glass/styled: export { default as StateIndicator } from "./components/visual-feedback/StateIndicator";
-// Moved to aura-glass/styled: export { default as VisualFeedback } from "./components/visual-feedback/VisualFeedback";
+export { default as FocusIndicator } from "./components/visual-feedback/FocusIndicator";
+export { default as RippleButton } from "./components/visual-feedback/RippleButton";
+export { default as StateIndicator } from "./components/visual-feedback/StateIndicator";
+export { default as VisualFeedback } from "./components/visual-feedback/VisualFeedback";
 
 // Image List Components
-// Moved to aura-glass/styled: export { ImageList } from "./components/image-list/ImageList";
-// Moved to aura-glass/styled: export { ImageListItem } from "./components/image-list/ImageListItem";
-// Moved to aura-glass/styled: export { ImageListItemBar } from "./components/image-list/ImageListItemBar";
+export { ImageList } from "./components/image-list/ImageList";
+export { ImageListItem } from "./components/image-list/ImageListItem";
+export { ImageListItemBar } from "./components/image-list/ImageListItemBar";
 
 // Cookie Consent Components
-// Moved to aura-glass/styled: export { CompactCookieNotice } from "./components/cookie-consent/CompactCookieNotice";
-// Moved to aura-glass/styled: export { CookieConsent } from "./components/cookie-consent/CookieConsent";
-// Moved to aura-glass/styled: export { GlobalCookieConsent } from "./components/cookie-consent/GlobalCookieConsent";
+export { CompactCookieNotice } from "./components/cookie-consent/CompactCookieNotice";
+export { CookieConsent } from "./components/cookie-consent/CookieConsent";
+export { GlobalCookieConsent } from "./components/cookie-consent/GlobalCookieConsent";
 
 // UI Components (App-specific)
 export { GlassPanel } from "./components/ui-components/glass-panel";
@@ -676,7 +716,6 @@ export {
   createGlassStyle,
   createResponsiveGlassStyle,
   generateGlassThemeVariables,
-  glassCSS,
 } from "./core/mixins/glassMixins";
 
 export {
@@ -840,7 +879,7 @@ export { lightTheme, themeUtils } from "./tokens/themeTokens";
 // Primitives
 export * from "./primitives";
 
-// SSR Utilities (selective exports)
+// SSR compatibility helpers (legacy API preserved as no-ops)
 export {
   AuraGlassSSRProvider,
   collectStyles,
@@ -905,7 +944,7 @@ export type { GlassCardProps } from "./components/card/GlassCard";
 export type { GlowingCardProps } from "./components/card/GlowingCard";
 export type { GlassTabItemProps } from "./components/navigation/GlassTabItem";
 export type { DateRange } from "./components/input/GlassDateRangePicker";
-// Moved to aura-glass/styled: export type { ChartDataset } from "./components/charts/GlassDataChart";
+export type { ChartDataset } from "./components/charts/GlassDataChart";
 export type {
   ColumnDefinition,
   SortState,

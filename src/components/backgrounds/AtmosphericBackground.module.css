@@ -1,0 +1,97 @@
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes cloudMove {
+  0% {
+    transform: translateX(-5%) translateY(0);
+  }
+  50% {
+    transform: translateX(5%) translateY(-3%);
+  }
+  100% {
+    transform: translateX(-5%) translateY(0);
+  }
+}
+
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.container:focus {
+  outline: 2px solid var(--glass-border-focus, rgba(255, 255, 255, 0.6));
+  outline-offset: 2px;
+}
+
+.gradientLayer {
+  position: absolute;
+  inset: 0;
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  opacity: 0.7;
+  transition: background-position 0.3s ease, opacity 240ms ease;
+  will-change: background-position, opacity;
+}
+
+.gradientInteractive {
+  background-size: 300% 300%;
+}
+
+.animateGradient {
+  animation-name: gradientShift;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-duration: var(--atmosphere-gradient-duration, 15s);
+}
+
+.atmosphericEffect {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' width='600' height='600' opacity='0.15'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005' numOctaves='5' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size: cover;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.animateClouds {
+  animation-name: cloudMove;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-duration: 30s;
+}
+
+.blurLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.contentLayer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.reduceMotion,
+.reduceMotion::before,
+.reduceMotion::after {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  animation-name: none !important;
+  transition-duration: 0s !important;
+}

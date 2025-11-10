@@ -1,0 +1,50 @@
+.root {
+  list-style: none;
+  margin: 0;
+  padding: var(--image-list-padding, 0);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  gap: var(--image-list-gap, var(--aura-space-3));
+  grid-template-columns: repeat(var(--image-list-cols, 2), minmax(0, 1fr));
+}
+
+.variantStandard {
+  grid-auto-rows: var(--image-list-row-height, auto);
+}
+
+.variantQuilted {
+  grid-auto-flow: dense;
+}
+
+.variantWoven {
+  grid-auto-rows: var(--image-list-row-height, auto);
+}
+
+.masonry {
+  display: block;
+  column-count: var(--image-list-cols, 2);
+  column-gap: var(--image-list-gap, var(--aura-space-3));
+}
+
+.masonry :global(li) {
+  break-inside: avoid;
+  margin-bottom: var(--image-list-gap, var(--aura-space-3));
+}
+
+.glass {
+  background: var(--aura-color-glass-surface);
+  border: 1px solid var(--aura-color-glass-border);
+  border-radius: var(--aura-radius-xl);
+  box-shadow: var(--aura-color-glass-shadow);
+  backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+}
+
+.radiusMd {
+  border-radius: var(--aura-radius-xl);
+  overflow: hidden;
+}

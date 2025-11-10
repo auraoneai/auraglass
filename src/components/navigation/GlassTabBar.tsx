@@ -39,7 +39,6 @@ import { useAnimationContext } from "../../contexts/AnimationContext";
 import { AnimationProps } from "../../types/animations";
 import { SpringConfig } from "../../animations/physics/springPhysics";
 import { cn } from "../../lib/utilsComprehensive";
-import { OptimizedGlassCore as OptimizedGlass } from "../../primitives";
 
 /**
  * GlassTabBar Component
@@ -1042,53 +1041,26 @@ export const GlassTabBar = forwardRef<
     )
   );
 
-  // Container styling classes
-  const containerClasses = cn(
-    "glass-tab-bar flex items-center relative overflow-hidden glass-radius-lg glass-p-1",
-    {
-      "flex-col": effectiveOrientation === "vertical",
-      "flex-row": effectiveOrientation === "horizontal",
-    },
-    className
-  );
+  const containerClassName = cn("glass-tab-bar", className);
 
-  // Container styles
-  const containerStyle = {
-    width: effectiveWidth,
-    height: effectiveHeight,
-    borderRadius:
-      typeof borderRadius === "number"
-        ? `${borderRadius}px`
-        : borderRadius || "8px",
-    ...style,
-  };
-
-  // Glass configuration based on props
-  const glassConfig = {
-    elevation: elevated ? "level2" : "level1",
-    tier: "medium",
-    intensity: "medium",
-    depth: elevated ? 3 : 2,
-    tint: "neutral",
-    border: "subtle",
-    animation: finalDisableAnimation ? "none" : "gentle",
-    performanceMode: "medium",
-  } as const;
+  const selectorOffset = !finalDisableAnimation
+    ? { x: transform.translateX, y: transform.translateY }
+    : undefined;
 
   return (
-    <OptimizedGlass
+    <TabBarContainer
       ref={tabsRef}
-      intent="neutral"
-      elevation={glassConfig.elevation as any}
-      tier={glassConfig.tier as any}
-      intensity={glassConfig.intensity as any}
-      depth={glassConfig.depth}
-      tint={glassConfig.tint as any}
-      border={glassConfig.border as any}
-      animation={glassConfig.animation as any}
-      performanceMode={glassConfig.performanceMode as any}
-      className={containerClasses}
-      style={containerStyle}
+      $orientation={effectiveOrientation}
+      $variant={variant}
+      $glassVariant={glassVariant}
+      $blurStrength={blurStrength}
+      $elevated={elevated}
+      $background={background}
+      $width={effectiveWidth}
+      $height={effectiveHeight}
+      $borderRadius={borderRadius}
+      className={containerClassName}
+      style={style}
       onMouseMove={isScrolling ? handleScrollGestureMove : magneticSelector}
       onMouseLeave={isScrolling ? handleScrollGestureEnd : handleMouseLeave}
       onMouseDown={handleScrollGestureStart}
@@ -1103,17 +1075,23 @@ export const GlassTabBar = forwardRef<
     >
       {/* Selector indicator */}
       {variant !== "default" && (
-        <div className="absolute transition-all duration-300 ease-out will-change-transform pointer-events-none glass-radius-lg glass-surface-subtle glass-border-subtle">
-          {/* Specular sheen */}
-          <div className="absolute inset-0 pointer-events-none glass-radius-lg glass-overlay-specular" />
-        </div>
+        <TabSelector
+          left={selectorStyle.left}
+          top={selectorStyle.top}
+          width={selectorStyle.width}
+          height={selectorStyle.height}
+          variant={variant}
+          orientation={effectiveOrientation}
+          disableAnimation={finalDisableAnimation}
+          offset={selectorOffset}
+        />
       )}
 
       {/* Magnetic trail effect */}
       {animationStyle === "spring" && !finalDisableAnimation && (
-        <div className="absolute inset-0 pointer-events-none glass-radius-lg opacity-30">
+        <div className='absolute inset-0 pointer-events-none glass-radius-lg opacity-30'>
           <div
-            className="absolute glass-radius-full glass-surface-blue/20 transition-all duration-500 ease-out"
+            className='absolute glass-radius-full glass-surface-blue/20 transition-all duration-500 ease-out'
             style={{
               left: `${tabMagneticData.closestTabIndex !== null ? tabMagneticData.closestTabIndex * 60 : 0}px`,
               width: "60px",
@@ -1195,7 +1173,7 @@ export const GlassTabBar = forwardRef<
             }}
           />
         ))}
-    </OptimizedGlass>
+    </TabBarContainer>
   );
 });
 

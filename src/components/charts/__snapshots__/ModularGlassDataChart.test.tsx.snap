@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModularGlassDataChart matches snapshot 1`] = `
+<div
+  aria-label="Interactive line chart"
+  class="container"
+  data-adaptive-complexity="medium"
+  data-chart-type="line"
+  data-consciousness-level="0"
+  data-insights-count="0"
+  data-patterns-count="0"
+  data-usage-context="dashboard"
+  role="img"
+  style="border-radius: 12px; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);"
+>
+  <div
+    class="toolbar"
+  >
+    <div
+      class="typeSelector"
+    >
+      <button
+        class="typeButton typeButtonActive"
+        type="button"
+      >
+        Line
+      </button>
+      <button
+        class="typeButton"
+        type="button"
+      >
+        Bar
+      </button>
+      <button
+        class="typeButton"
+        type="button"
+      >
+        Area
+      </button>
+      <button
+        class="typeButton"
+        type="button"
+      >
+        Pie
+      </button>
+    </div>
+    <button
+      class="toolbarButton toolbarButtonExport"
+    >
+      <span
+        aria-hidden="true"
+        role="img"
+      >
+        📥
+      </span>
+      Export
+    </button>
+  </div>
+  <div
+    class="legend"
+    style="margin-top: 0px; justify-content: center;"
+  />
+  <div
+    style="width: 100%; height: 100%; position: relative; background: transparent; border-radius: 8px; overflow: hidden;"
+  >
+    <canvas
+      height="150"
+      role="img"
+      width="300"
+    />
+  </div>
+</div>
+`;

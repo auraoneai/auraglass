@@ -282,7 +282,7 @@ export const GlassSpotlightSearch = forwardRef<
 
     const content = (
       <div
-        className="fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center glass-p-4 pt-24 glass-surface-dark/40 glass-glass-glass-backdrop-blur-sm glass-contrast-guard"
+        className='fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center glass-p-4 pt-24 glass-surface-dark/40 glass-glass-glass-backdrop-blur-sm glass-contrast-guard'
         onClick={onClose}
         role="presentation"
       >
@@ -305,7 +305,7 @@ export const GlassSpotlightSearch = forwardRef<
             <svg
               viewBox="0 0 24 24"
               fill="none"
-              className="w-5 h-5 glass-text-secondary glass-flex-shrink-0"
+              className='w-5 h-5 glass-text-secondary glass-flex-shrink-0'
             >
               <path
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
@@ -324,22 +324,22 @@ export const GlassSpotlightSearch = forwardRef<
                 setSelectedIndex(0);
               }}
               placeholder={placeholder}
-              className="glass-flex-1 bg-transparent glass-text-base glass-text-primary outline-none placeholder:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-flex-1 bg-transparent glass-text-base glass-text-primary outline-none placeholder:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard'
             />
             <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-surface-subtle/10 glass-radius-sm">
               ESC
             </kbd>
           </div>
 
-          <div ref={resultsRef} className="max-h-96 overflow-y-auto glass-p-2">
+          <div ref={resultsRef} className='max-h-96 overflow-y-auto glass-p-2'>
             {filteredActions.length === 0 ? (
-              <div className="glass-p-8 text-center glass-text-secondary">
+              <div className='glass-p-8 text-center glass-text-secondary'>
                 {query ? "No results found" : "No actions available"}
               </div>
             ) : (
               <>
                 {!query && showRecent && recentActions.length > 0 && (
-                  <div className="glass-px-3 glass-py-2 glass-text-xs font-semibold glass-text-secondary uppercase tracking-wider">
+                  <div className='glass-px-3 glass-py-2 glass-text-xs font-semibold glass-text-secondary uppercase tracking-wider'>
                     Recent
                   </div>
                 )}
@@ -347,7 +347,7 @@ export const GlassSpotlightSearch = forwardRef<
                   ([category, categoryActions]) => (
                     <div key={category}>
                       {groupByCategory && category && (
-                        <div className="glass-px-3 glass-py-2 glass-text-xs font-semibold glass-text-secondary uppercase tracking-wider">
+                        <div className='glass-px-3 glass-py-2 glass-text-xs font-semibold glass-text-secondary uppercase tracking-wider'>
                           {category}
                         </div>
                       )}
@@ -377,11 +377,11 @@ export const GlassSpotlightSearch = forwardRef<
                               </div>
                             )}
                             <div className="glass-flex-1 glass-min-w-0">
-                              <div className="glass-text-sm font-medium glass-text-primary truncate">
+                              <div className='glass-text-sm font-medium glass-text-primary truncate'>
                                 {action.title}
                               </div>
                               {action.description && (
-                                <div className="glass-text-xs glass-text-secondary truncate">
+                                <div className='glass-text-xs glass-text-secondary truncate'>
                                   {action.description}
                                 </div>
                               )}

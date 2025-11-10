@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassGrid matches snapshot 1`] = `
+<div
+  class="grid grid-cols-12 glass-gap-4 grid-flow-row items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+/>
+`;

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassLabel matches snapshot 1`] = `
+<div
+  class="glass-label-container"
+  data-glass-component="true"
+>
+  <label
+    class="glass-label font-medium leading-none transition-colors duration-200 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 glass-text-sm text-foreground"
+    data-testid="glasslabel"
+    id="glass-label-:r6:"
+  >
+    <span />
+  </label>
+</div>
+`;

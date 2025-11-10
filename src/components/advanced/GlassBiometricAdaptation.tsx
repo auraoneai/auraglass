@@ -22,6 +22,7 @@ import { useMotionPreferenceContext } from "@/contexts/MotionPreferenceContext";
 // Biometric data types
 interface BiometricReading {
   heartRate?: number;
+  respiratoryRate?: number;
   heartRateVariability?: number;
   stressLevel?: number; // 0-1 scale
   temperature?: number;
@@ -835,7 +836,7 @@ export const GlassStressResponsive = forwardRef<
     >
       <OptimizedGlass>
         {/* Screen reader description */}
-        <span id={descriptionId} className="sr-only">
+        <span id={descriptionId} className='sr-only'>
           Biometric adaptation interface responding to stress level{" "}
           {Math.round(currentStressLevel * 100)}%.
           {adaptationType !== "all"
@@ -910,12 +911,12 @@ export const GlassBiometricDashboard = forwardRef<
       {...restProps}
     >
       <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
-        <h3 className="glass-text-sm font-medium glass-text-secondary dark:glass-text-secondary">
+        <h3 className='glass-text-sm font-medium glass-text-secondary dark:glass-text-secondary'>
           Biometrics
         </h3>
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
+          className='glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard'
           aria-expanded={showDetails}
           aria-controls={`${dashboardId}-details`}
         >
@@ -926,7 +927,7 @@ export const GlassBiometricDashboard = forwardRef<
       {/* Current status */}
       <div className="glass-gap-2">
         <div className="glass-flex glass-items-center glass-justify-between">
-          <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+          <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
             Stress Level
           </span>
           <div className="glass-flex glass-items-center glass-gap-2">
@@ -944,7 +945,7 @@ export const GlassBiometricDashboard = forwardRef<
                 transition={{ duration: 0.5 }}
               />
             </div>
-            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
               {(currentStressLevel * 100).toFixed(0)}%
             </span>
           </div>
@@ -952,10 +953,10 @@ export const GlassBiometricDashboard = forwardRef<
 
         {latestReading?.heartRate && (
           <div className="glass-flex glass-items-center glass-justify-between">
-            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
               Heart Rate
             </span>
-            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+            <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
               {latestReading.heartRate} bpm
             </span>
           </div>
@@ -967,7 +968,7 @@ export const GlassBiometricDashboard = forwardRef<
         {showDetails && (
           <motion.div
             id={`${dashboardId}-details`}
-            className="glass-mt-4 pt-4 glass-border-t glass-border-white/10 glass-gap-3"
+            className='glass-mt-4 pt-4 glass-border-t glass-border-white/10 glass-gap-3'
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -1015,7 +1016,7 @@ export const GlassBiometricDashboard = forwardRef<
             {/* Current adaptations */}
             {engine && (
               <div>
-                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary mb-2">
+                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary mb-2'>
                   Active Adaptations
                 </div>
                 <div className="glass-gap-1">
@@ -1026,10 +1027,10 @@ export const GlassBiometricDashboard = forwardRef<
                         key={type}
                         className="glass-flex glass-items-center glass-justify-between glass-text-xs"
                       >
-                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">
+                        <span className='glass-text-secondary dark:glass-text-secondary capitalize'>
                           {type}
                         </span>
-                        <span className="glass-text-secondary dark:glass-text-secondary capitalize">
+                        <span className='glass-text-secondary dark:glass-text-secondary capitalize'>
                           {adaptation.type}
                         </span>
                       </div>
@@ -1042,13 +1043,13 @@ export const GlassBiometricDashboard = forwardRef<
             {/* Readings info */}
             {latestReading && (
               <div>
-                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary mb-1">
+                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary mb-1'>
                   Last Reading
                 </div>
-                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
                   {new Date(latestReading.timestamp).toLocaleTimeString()}
                 </div>
-                <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
                   Confidence: {(latestReading.confidence * 100).toFixed(0)}%
                 </div>
               </div>
@@ -1089,3 +1090,91 @@ export const biometricAdaptationPresets = {
     stressThreshold: 0.6,
   },
 };
+
+interface GlassBiometricAdaptationProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  settings?: Partial<AdaptationSettings>;
+  autoInitialize?: boolean;
+  showDashboard?: boolean;
+  children?: React.ReactNode;
+}
+
+function BiometricSummaryCard() {
+  const { latestReading, currentStressLevel, isInitialized } =
+    useBiometricAdaptation();
+
+  return (
+    <div
+      className={cn(
+        "glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4",
+        "glass-border glass-border-white/10 glass-shadow-soft-lg"
+      )}
+      data-testid="glass-biometric-summary"
+    >
+      <div>
+        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          Biometric adaptation
+        </p>
+        <h2 className="glass-text-2xl glass-text-primary font-semibold">
+          {isInitialized ? "Monitoring" : "Initializing"}
+        </h2>
+        <p className="glass-text-sm glass-text-secondary">
+          Stress level {(currentStressLevel * 100).toFixed(0)}%
+        </p>
+      </div>
+      <div className="glass-grid glass-grid-cols-2 glass-gap-3">
+        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+          <p className="glass-text-xs glass-text-tertiary mb-1">Heart rate</p>
+          <p className="glass-text-lg glass-text-primary font-semibold">
+            {latestReading?.heartRate
+              ? `${latestReading.heartRate.toFixed(0)} bpm`
+              : "—"}
+          </p>
+        </div>
+        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+          <p className="glass-text-xs glass-text-tertiary mb-1">Respiratory</p>
+          <p className="glass-text-lg glass-text-primary font-semibold">
+            {latestReading?.respiratoryRate
+              ? `${latestReading.respiratoryRate.toFixed(0)} rpm`
+              : "—"}
+          </p>
+        </div>
+      </div>
+      <div className="glass-text-xs glass-text-secondary">
+        Confidence{" "}
+        {latestReading
+          ? `${Math.round((latestReading.confidence || 0) * 100)}%`
+          : "Collecting signals"}
+      </div>
+    </div>
+  );
+}
+
+export const GlassBiometricAdaptation: React.FC<
+  GlassBiometricAdaptationProps
+> = ({
+  settings,
+  autoInitialize = true,
+  showDashboard = true,
+  className,
+  children,
+  ...rest
+}) => (
+  <GlassBiometricAdaptationProvider
+    settings={settings}
+    autoInitialize={autoInitialize}
+  >
+    <div
+      className={cn(
+        "glass-biometric-adaptation glass-relative glass-space-y-4",
+        className
+      )}
+      {...rest}
+    >
+      {children ?? <BiometricSummaryCard />}
+      {showDashboard && <GlassBiometricDashboard />}
+    </div>
+  </GlassBiometricAdaptationProvider>
+);
+
+export default GlassBiometricAdaptation;

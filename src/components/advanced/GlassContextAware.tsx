@@ -427,7 +427,7 @@ export function GlassContextAware({
 
       {/* Context debug overlay (development only) */}
       {process.env.NODE_ENV === "development" && (
-        <div className="absolute glass-top-2 right-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm opacity-50">
+        <div className='absolute glass-top-2 right-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm opacity-50'>
           <div>Light: {(environmentContext.lightLevel * 100).toFixed(0)}%</div>
           <div>
             Battery: {(environmentContext.batteryLevel * 100).toFixed(0)}%

@@ -330,9 +330,9 @@ export const GlassMetricsGrid = forwardRef<
           .join(" ");
 
         return (
-          <div className="relative glass-w-full h-8 glass-mt-2">
+          <div className='relative glass-w-full h-8 glass-mt-2'>
             <svg
-              className="absolute inset-0 glass-w-full glass-h-full"
+              className='absolute inset-0 glass-w-full glass-h-full'
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
             >
@@ -340,7 +340,7 @@ export const GlassMetricsGrid = forwardRef<
                 <polygon
                   points={`0,100 ${points} 100,100`}
                   fill="currentColor"
-                  className="opacity-10"
+                  className='opacity-10'
                   style={{ color: spark.color || "currentColor" }}
                 />
               )}
@@ -349,7 +349,7 @@ export const GlassMetricsGrid = forwardRef<
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="transition-all duration-300"
+                className='transition-all duration-300'
                 style={{ color: spark.color || "currentColor" }}
               />
             </svg>
@@ -432,9 +432,9 @@ export const GlassMetricsGrid = forwardRef<
             )}
 
             {/* Header */}
-            <div className="glass-flex glass-items-start glass-justify-between mb-2">
+            <div className='glass-flex glass-items-start glass-justify-between mb-2'>
               <div className="glass-flex-1 glass-min-w-0">
-                <div className="glass-flex glass-items-center glass-gap-2 mb-1">
+                <div className='glass-flex glass-items-center glass-gap-2 mb-1'>
                   {metric.icon && (
                     <div
                       className="glass-flex-shrink-0"
@@ -478,8 +478,8 @@ export const GlassMetricsGrid = forwardRef<
 
             {/* Progress to Target */}
             {metric.value.target && (
-              <div className="mb-2">
-                <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary mb-1">
+              <div className='mb-2'>
+                <div className='glass-flex glass-justify-between glass-text-xs glass-text-secondary mb-1'>
                   <span>
                     Target:{" "}
                     {formatValue({
@@ -495,9 +495,9 @@ export const GlassMetricsGrid = forwardRef<
                     %
                   </span>
                 </div>
-                <div className="glass-w-full glass-surface-overlay glass-radius-full h-2">
+                <div className='glass-w-full glass-surface-overlay glass-radius-full h-2'>
                   <div
-                    className="glass-surface-primary h-2 glass-radius-full transition-all duration-500"
+                    className='glass-surface-primary h-2 glass-radius-full transition-all duration-500'
                     style={{
                       width: `${Math.min((metric.value.current / metric.value.target) * 100, 100)}%`,
                     }}
@@ -519,7 +519,7 @@ export const GlassMetricsGrid = forwardRef<
 
             {/* Category Badge */}
             {metric.category && (
-              <div className="absolute bottom-2 right-2">
+              <div className='absolute bottom-2 right-2'>
                 <span className="glass-px-2 glass-py-1 glass-text-xs glass-surface-overlay glass-text-secondary glass-radius-full">
                   {metric.category}
                 </span>
@@ -607,7 +607,7 @@ export const GlassMetricsGrid = forwardRef<
         >
           {/* Header */}
           {(searchable || exportable || autoRefresh) && (
-            <div className="glass-flex glass-items-center glass-justify-between mb-6">
+            <div className='glass-flex glass-items-center glass-justify-between mb-6'>
               <div className="glass-flex glass-items-center glass-gap-4">
                 {searchable && (
                   <OptimizedGlass
@@ -616,7 +616,7 @@ export const GlassMetricsGrid = forwardRef<
                     depth={1}
                     tint="neutral"
                     border="subtle"
-                    className="relative"
+                    className='relative'
                   >
                     <input
                       type="text"
@@ -629,7 +629,7 @@ export const GlassMetricsGrid = forwardRef<
                         "glass-text-sm"
                       )}
                     />
-                    <div className="absolute right-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+                    <div className='absolute right-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary'>
                       🔍
                     </div>
                   </OptimizedGlass>
@@ -676,10 +676,10 @@ export const GlassMetricsGrid = forwardRef<
 
           {/* Metrics Grid */}
           {filteredMetrics.length === 0 ? (
-            <div className="glass-flex glass-items-center glass-justify-center h-64 text-center">
+            <div className='glass-flex glass-items-center glass-justify-center h-64 text-center'>
               <div>
-                <div className="glass-text-4xl mb-4">📊</div>
-                <h3 className="glass-text-lg font-semibold text-primary mb-2">
+                <div className='glass-text-4xl mb-4'>📊</div>
+                <h3 className='glass-text-lg font-semibold text-primary mb-2'>
                   No Metrics Found
                 </h3>
                 <p className="glass-text-secondary">

@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdvancedAnimations matches snapshot 1`] = `
+<div
+  class="glass-advanced-animations glass-space-y-6"
+>
+  <div
+    class="glass-grid sm:grid-cols-2 glass-gap-4"
+  >
+    <div
+      class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
+    >
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        subtle
+      </p>
+      <h3
+        class="glass-text-xl glass-text-primary font-semibold"
+      >
+        Easing preview
+      </h3>
+      <div
+        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+      >
+        <div
+          class="glass-h-full glass-radius-full glass-gradient-primary"
+        />
+      </div>
+    </div>
+    <div
+      class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
+    >
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        smooth
+      </p>
+      <h3
+        class="glass-text-xl glass-text-primary font-semibold"
+      >
+        Easing preview
+      </h3>
+      <div
+        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+      >
+        <div
+          class="glass-h-full glass-radius-full glass-gradient-primary"
+        />
+      </div>
+    </div>
+    <div
+      class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
+    >
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        dramatic
+      </p>
+      <h3
+        class="glass-text-xl glass-text-primary font-semibold"
+      >
+        Easing preview
+      </h3>
+      <div
+        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+      >
+        <div
+          class="glass-h-full glass-radius-full glass-gradient-primary"
+        />
+      </div>
+    </div>
+    <div
+      class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
+    >
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        glass
+      </p>
+      <h3
+        class="glass-text-xl glass-text-primary font-semibold"
+      >
+        Material physics
+      </h3>
+      <div
+        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+      >
+        <div
+          class="glass-h-full glass-radius-full glass-gradient-primary"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

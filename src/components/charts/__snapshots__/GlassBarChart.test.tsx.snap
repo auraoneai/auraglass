@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassBarChart matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full"
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="relative z-10"
+    >
+      <div
+        class="glass-text-primary glass-auto-gap glass-auto-gap-md glass-p-4"
+      >
+        <div
+          class="relative"
+        >
+          <svg
+            class="overflow-visible"
+            height="400"
+            width="600"
+          >
+            <g
+              class="opacity-20"
+            />
+            <line
+              class="text-primary/50"
+              stroke="currentColor"
+              stroke-width="1"
+              x1="60"
+              x2="540"
+              y1="340"
+              y2="340"
+            />
+            <line
+              class="text-primary/50"
+              stroke="currentColor"
+              stroke-width="1"
+              x1="60"
+              x2="60"
+              y1="20"
+              y2="340"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

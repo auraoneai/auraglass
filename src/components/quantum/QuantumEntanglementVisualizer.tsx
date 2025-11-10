@@ -80,16 +80,16 @@ export function QuantumEntanglementVisualizer({
       )}
     >
       <header>
-        <h2 className="glass-text-xl font-semibold text-primary">
+        <h2 className='glass-text-xl font-semibold text-primary'>
           Quantum Entanglement Visualizer
         </h2>
-        <p className="glass-text-sm text-primary/70">
+        <p className='glass-text-sm text-primary/70'>
           Monitor fidelity, phase correlation, and decoherence risk for
           entangled qubit pairs.
         </p>
       </header>
 
-      <div className="glass-grid glass-gap-4 lg:grid-cols-2">
+      <div className='glass-grid glass-gap-4 lg:grid-cols-2'>
         {normalizedPairs.map((pair) => {
           const state =
             pair.state ??
@@ -109,44 +109,44 @@ export function QuantumEntanglementVisualizer({
             >
               <div className="glass-flex glass-items-start glass-justify-between">
                 <div>
-                  <div className="glass-text-xs uppercase tracking-wide text-primary/60">
+                  <div className='glass-text-xs uppercase tracking-wide text-primary/60'>
                     Pair
                   </div>
-                  <div className="glass-text-lg font-semibold text-primary">
+                  <div className='glass-text-lg font-semibold text-primary'>
                     {pair.nodes[0]} ↔ {pair.nodes[1]}
                   </div>
                 </div>
-                <span className="glass-radius-full glass-px-3 glass-py-1 glass-text-xs font-semibold uppercase tracking-wide">
+                <span className='glass-radius-full glass-px-3 glass-py-1 glass-text-xs font-semibold uppercase tracking-wide'>
                   {state}
                 </span>
               </div>
 
-              <dl className="mt-4 glass-grid glass-gap-3 glass-text-xs text-primary/70">
+              <dl className='mt-4 glass-grid glass-gap-3 glass-text-xs text-primary/70'>
                 <div className="glass-flex glass-items-center glass-justify-between">
                   <dt>Fidelity</dt>
-                  <dd className="font-semibold text-primary/90">
+                  <dd className='font-semibold text-primary/90'>
                     {(pair.fidelity * 100).toFixed(1)}%
                   </dd>
                 </div>
                 <div className="glass-flex glass-items-center glass-justify-between">
                   <dt>Phase correlation</dt>
-                  <dd className="font-semibold text-primary/90">
+                  <dd className='font-semibold text-primary/90'>
                     {(pair.phaseCorrelation * 100).toFixed(1)}%
                   </dd>
                 </div>
                 {typeof pair.latency === "number" && (
                   <div className="glass-flex glass-items-center glass-justify-between">
                     <dt>Latency</dt>
-                    <dd className="font-semibold text-primary/80">
+                    <dd className='font-semibold text-primary/80'>
                       {pair.latency.toFixed(1)} μs
                     </dd>
                   </div>
                 )}
               </dl>
 
-              <div className="mt-4 h-2 glass-w-full overflow-hidden glass-radius-full glass-surface-subtle/10">
+              <div className='mt-4 h-2 glass-w-full overflow-hidden glass-radius-full glass-surface-subtle/10'>
                 <div
-                  className="glass-h-full glass-radius-full bg-gradient-to-r from-sky-400/70 to-cyan-500/80"
+                  className='glass-h-full glass-radius-full bg-gradient-to-r from-sky-400/70 to-cyan-500/80'
                   style={{ width: `${pair.fidelity * 100}%` }}
                 />
               </div>

@@ -1,0 +1,372 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aura-glass.dev/schema/design-tokens.json",
+  "title": "AuraGlass Persona Token Schema",
+  "type": "object",
+  "required": ["metadata", "colors", "typography", "spacing", "motion", "glass"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional reference to external schema"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["id", "displayName", "version", "modes"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "modes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "light",
+              "dark",
+              "sepia",
+              "high-contrast",
+              "system"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "required": ["global", "semantic", "personas"],
+      "additionalProperties": false,
+      "properties": {
+        "global": {
+          "$ref": "#/definitions/colorGroup"
+        },
+        "semantic": {
+          "$ref": "#/definitions/colorIntentMap"
+        },
+        "personas": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": {
+              "$ref": "#/definitions/colorModeMap"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["families", "scale", "weights", "lineHeights"],
+      "additionalProperties": false,
+      "properties": {
+        "families": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": {
+              "type": "string"
+            }
+          },
+          "minProperties": 1
+        },
+        "scale": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": {
+              "type": "object",
+              "required": ["fontSize", "lineHeight", "tracking"],
+              "additionalProperties": false,
+              "properties": {
+                "fontSize": { "type": "string" },
+                "lineHeight": { "type": "string" },
+                "tracking": { "type": "string" }
+              }
+            }
+          }
+        },
+        "weights": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "integer" }
+          }
+        },
+        "lineHeights": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "required": ["scale", "radii", "gaps"],
+      "additionalProperties": false,
+      "properties": {
+        "scale": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          },
+          "minProperties": 1
+        },
+        "radii": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        },
+        "gaps": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "required": ["durations", "easings", "stagger", "keyframes"],
+      "additionalProperties": false,
+      "properties": {
+        "durations": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        },
+        "easings": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        },
+        "stagger": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        },
+        "keyframes": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": {
+              "type": "object",
+              "required": ["steps"],
+              "properties": {
+                "steps": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["at", "properties"],
+                    "properties": {
+                      "at": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]?|100)%$"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "additionalProperties": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "glass": {
+      "type": "object",
+      "required": ["surfaces", "elevations", "intents", "performance"],
+      "additionalProperties": false,
+      "properties": {
+        "intents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "minItems": 1
+        },
+        "elevations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "minItems": 1
+        },
+        "surfaces": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "object",
+                  "required": [
+                    "backdropBlur",
+                    "surface",
+                    "border",
+                    "text"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "backdropBlur": {
+                      "type": "object",
+                      "required": ["px"],
+                      "properties": {
+                        "px": { "type": "number", "minimum": 0 }
+                      }
+                    },
+                    "surface": {
+                      "type": "object",
+                      "required": ["base"],
+                      "properties": {
+                        "base": { "type": "string" },
+                        "overlay": { "type": "string" }
+                      }
+                    },
+                    "border": {
+                      "type": "object",
+                      "required": ["color", "width", "style"],
+                      "properties": {
+                        "color": { "type": "string" },
+                        "width": { "type": "number", "minimum": 0 },
+                        "style": {
+                          "type": "string",
+                          "enum": ["none", "solid", "dashed", "dotted"]
+                        }
+                      }
+                    },
+                    "innerGlow": {
+                      "$ref": "#/definitions/glowSpec"
+                    },
+                    "outerShadow": {
+                      "$ref": "#/definitions/shadowSpec"
+                    },
+                    "noiseOpacity": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "highlightOpacity": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "text": {
+                      "type": "object",
+                      "required": ["primary", "secondary"],
+                      "properties": {
+                        "primary": { "type": "string" },
+                        "secondary": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "performance": {
+          "type": "object",
+          "required": ["tiers"],
+          "properties": {
+            "tiers": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "object",
+                  "required": [
+                    "blurMultiplier",
+                    "opacityMultiplier",
+                    "animationSpeedMultiplier",
+                    "renderQuality"
+                  ],
+                  "properties": {
+                    "blurMultiplier": { "type": "number", "minimum": 0 },
+                    "opacityMultiplier": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "animationSpeedMultiplier": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "renderQuality": {
+                      "type": "string",
+                      "enum": ["low", "medium", "high"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "colorGroup": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9-]+$": { "type": "string" }
+      }
+    },
+    "colorIntentMap": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9-]+$": { "type": "string" }
+      }
+    },
+    "colorModeMap": {
+      "type": "object",
+      "patternProperties": {
+        "^(light|dark|system|sepia|high-contrast)$": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9-]+$": { "type": "string" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "glowSpec": {
+      "type": "object",
+      "required": ["color", "spread", "blur"],
+      "properties": {
+        "color": { "type": "string" },
+        "spread": { "type": "number" },
+        "blur": { "type": "number" }
+      }
+    },
+    "shadowSpec": {
+      "type": "object",
+      "required": ["color", "x", "y", "blur", "spread"],
+      "properties": {
+        "color": { "type": "string" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "blur": { "type": "number" },
+        "spread": { "type": "number" }
+      }
+    }
+  }
+}

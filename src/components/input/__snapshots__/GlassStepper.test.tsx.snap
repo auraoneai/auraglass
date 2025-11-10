@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassStepper matches snapshot 1`] = `
+<div
+  class="glass-stepper-container"
+>
+  <div
+    class="glass-stepper inline-flex items-center flex-row glass-gap-2"
+    id="glass-stepper-:r9:"
+  >
+    <div
+      class="motion-primitive"
+    >
+      <div
+        aria-label="Decrease value"
+        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer hover:scale-105 active:scale-95"
+        data-performance-mode="high"
+        role="button"
+        style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        tabindex="0"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M18 12H6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-stepper-input bg-background/30"
+      style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <input
+        aria-valuemax="Infinity"
+        aria-valuemin="-Infinity"
+        aria-valuenow="0"
+        aria-valuetext="0"
+        class="w-full text-center glass-radius-md border glass-glass-backdrop-blur-md glass-contrast-guard bg-transparent text-foreground placeholder:glass-text-secondary focus:outline-none glass-focus transition-all duration-200 h-8 glass-px-3 glass-text-sm border-border/20 focus:border-primary/50"
+        id="glass-stepper-:r9:"
+        role="spinbutton"
+        type="text"
+        value="0"
+      />
+    </div>
+    <div
+      class="motion-primitive"
+    >
+      <div
+        aria-label="Increase value"
+        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer hover:scale-105 active:scale-95"
+        data-performance-mode="high"
+        role="button"
+        style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        tabindex="0"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 6v12m6-6H6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

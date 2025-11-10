@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassEyeTracking matches snapshot 1`] = `
+<div
+  class="glass-eye-tracking glass-relative glass-space-y-4"
+>
+  <div
+    class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10 glass-shadow-soft-lg"
+    data-testid="glass-eye-tracking-summary"
+  >
+    <div>
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        Eye tracking
+      </p>
+      <h2
+        class="glass-text-2xl glass-text-primary font-semibold"
+      >
+        Initializing
+      </h2>
+      <p
+        class="glass-text-sm glass-text-secondary"
+      >
+        Capturing gaze interactions
+      </p>
+    </div>
+    <div
+      class="glass-grid glass-grid-cols-2 glass-gap-3"
+    >
+      <div
+        class="glass-surface-subtle glass-radius-xl glass-p-4"
+      >
+        <p
+          class="glass-text-xs glass-text-tertiary mb-1"
+        >
+          Interactions
+        </p>
+        <p
+          class="glass-text-lg glass-text-primary font-semibold"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="glass-surface-subtle glass-radius-xl glass-p-4"
+      >
+        <p
+          class="glass-text-xs glass-text-tertiary mb-1"
+        >
+          Status
+        </p>
+        <p
+          class="glass-text-lg glass-text-primary font-semibold"
+        >
+          Tracking
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-flex glass-flex-col glass-items-center glass-gap-4"
+  >
+    <div
+      class="glass-text-center"
+    >
+      <h3
+        class="glass-text-lg glass-font-medium glass-text-primary glass-mb-2"
+      >
+        Eye Tracking Calibration
+      </h3>
+      <p
+        class="glass-text-sm glass-text-secondary glass-mb-4"
+      >
+        Look at each dot and click to calibrate your gaze tracking
+      </p>
+      <button
+        class="glass-px-6 glass-py-3 glass-surface-primary glass-elev-2 glass-radius-lg glass-text-primary font-medium transition-all duration-300 hover:glass-elev-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        tabindex="0"
+      >
+        Start Calibration
+      </button>
+    </div>
+  </div>
+  <div
+    class="glass-fixed glass-inset-0 glass-pointer-events-none glass-z-40"
+  />
+</div>
+`;

@@ -147,16 +147,16 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
     const getDefaultIcon = () => {
       switch (variant) {
         case "success":
-          return <CheckCircle className="h-4 w-4" />;
+          return <CheckCircle className='h-4 w-4' />;
         case "warning":
-          return <AlertTriangle className="h-4 w-4" />;
+          return <AlertTriangle className='h-4 w-4' />;
         case "error":
         case "destructive":
-          return <AlertCircle className="h-4 w-4" />;
+          return <AlertCircle className='h-4 w-4' />;
         case "info":
-          return <Info className="h-4 w-4" />;
+          return <Info className='h-4 w-4' />;
         default:
-          return <Info className="h-4 w-4" />;
+          return <Info className='h-4 w-4' />;
       }
     };
 
@@ -215,7 +215,7 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
             )}
             aria-label="Dismiss alert"
           >
-            <X className="h-4 w-4" />
+            <X className='h-4 w-4' />
           </GlassButton>
         )}
       </OptimizedGlass>

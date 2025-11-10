@@ -272,7 +272,7 @@ export const GlassMagneticCursor = forwardRef<
   return (
     <>
       {/* Screen reader description */}
-      <span id={descriptionId} className="sr-only">
+      <span id={descriptionId} className='sr-only'>
         {ariaLabel || `Magnetic cursor (${variant})`}. Interactive cursor that
         follows mouse movement
         {morphTargets ? " and morphs when hovering over magnetic elements" : ""}
@@ -336,7 +336,7 @@ export const GlassMagneticCursor = forwardRef<
         trail.map((point, index) => (
           <motion.div
             key={point.id}
-            className="fixed pointer-events-none z-[9998]"
+            className='fixed pointer-events-none z-[9998]'
             initial={{ opacity: 0.5, scale: 1 }}
             animate={{ opacity: 0, scale: 0.5 }}
             exit={{ opacity: 0 }}
@@ -367,7 +367,7 @@ export const GlassMagneticCursor = forwardRef<
           ripples.map((ripple: any) => (
             <motion.div
               key={ripple.id}
-              className="fixed pointer-events-none z-[9997]"
+              className='fixed pointer-events-none z-[9997]'
               initial={{ scale: 0, opacity: 1 }}
               animate={{ scale: 3, opacity: 0 }}
               exit={{ opacity: 0 }}
@@ -380,7 +380,7 @@ export const GlassMagneticCursor = forwardRef<
               }}
             >
               <div
-                className="w-20 h-20 glass-radius-full glass-border-2"
+                className='w-20 h-20 glass-radius-full glass-border-2'
                 style={{
                   borderColor: color,
                 }}
@@ -392,7 +392,7 @@ export const GlassMagneticCursor = forwardRef<
       {/* Hover indicator */}
       {isHovering && targetElement && (
         <motion.div
-          className="fixed pointer-events-none z-[9996]"
+          className='fixed pointer-events-none z-[9996]'
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}

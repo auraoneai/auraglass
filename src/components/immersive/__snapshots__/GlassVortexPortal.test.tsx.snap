@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassVortexPortal matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-vortex-portal relative glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  id="glass-vortex-portal-:r4:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-portal-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <button
+          class="glass-px-3 glass-py-1 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard bg-red-500/20 hover:bg-red-500/30 text-red-400"
+        >
+          Deactivate
+        </button>
+        <button
+          class="glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
+        >
+          Reset
+        </button>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Type:
+        </label>
+        <select
+          class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+        >
+          <option
+            value="dimensional"
+          >
+            Dimensional
+          </option>
+          <option
+            value="energy"
+          >
+            Energy
+          </option>
+          <option
+            value="void"
+          >
+            Void
+          </option>
+          <option
+            value="quantum"
+          >
+            Quantum
+          </option>
+          <option
+            value="temporal"
+          >
+            Temporal
+          </option>
+        </select>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Color:
+        </label>
+        <select
+          class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+        >
+          <option
+            value="blue"
+          >
+            Blue
+          </option>
+          <option
+            value="purple"
+          >
+            Purple
+          </option>
+          <option
+            value="green"
+          >
+            Green
+          </option>
+          <option
+            value="red"
+          >
+            Red
+          </option>
+          <option
+            value="gold"
+          >
+            Gold
+          </option>
+          <option
+            value="cosmic"
+          >
+            Cosmic
+          </option>
+        </select>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Intensity:
+        </label>
+        <input
+          class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          max="1"
+          min="0"
+          step="0.1"
+          type="range"
+          value="0.8"
+        />
+        <span
+          class="glass-text-sm min-w-[3ch]"
+        >
+          80
+          %
+        </span>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            checked=""
+            class="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
+            type="checkbox"
+          />
+          Pulse
+        </label>
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            checked=""
+            class="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
+            type="checkbox"
+          />
+          Distortion
+        </label>
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            class="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
+            type="checkbox"
+          />
+          Debug
+        </label>
+      </div>
+    </div>
+    <div
+      class="relative"
+    >
+      <canvas
+        class="border border-border/20 glass-radius-md bg-black cursor-pointer"
+        height="600"
+        style="width: 600px; height: 600px;"
+        width="600"
+      />
+    </div>
+  </div>
+</div>
+`;

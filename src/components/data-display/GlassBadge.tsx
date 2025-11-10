@@ -218,7 +218,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
           </span>
         )}
 
-        {children && <span className="whitespace-nowrap">{children}</span>}
+        {children && <span className='whitespace-nowrap'>{children}</span>}
 
         {rightIcon && !removable && (
           <span className={cn("flex-shrink-0", iconSize[size])}>
@@ -239,7 +239,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
             aria-label="Remove badge"
           >
             <svg
-              className="w-2.5 h-2.5"
+              className='w-2.5 h-2.5'
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

@@ -5,19 +5,10 @@
  * A grid of images with glass morphism styling.
  */
 import React, { forwardRef, createContext, useMemo, useRef, useEffect } from 'react';
-import styled from 'styled-components';
 import { cn } from '@/lib/utils';
 
-// Animation sequence hook removed for simplicity
-
-// Hook for reduced motion
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-
-import { createThemeContext } from '../../core/themeContext';
-import { createGlassStyle } from '../../core/mixins/glassMixins';
-
-// Import types (assuming types.ts is updated)
 import { ImageListProps } from './types'; 
+import styles from './ImageList.module.css';
 
 // Create ImageList context
 export interface ImageListContextProps {
@@ -40,104 +31,6 @@ export const ImageListContext = createContext<ImageListContextProps>({
   glassRadiusMd: false,
 });
 
-// Styled components
-const ImageListRoot = styled.ul<{
-  $variant: 'standard' | 'quilted' | 'masonry' | 'woven';
-  $rowHeight: number | 'auto';
-  $gap: number;
-  $cols: number;
-  $glass: boolean;
-  $glassRadiusMd: boolean;
-}>`
-  display: grid;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  box-sizing: border-box;
-
-  /* Standard, quilted, and woven variants use CSS grid */
-  ${props =>
-    props.$variant !== 'masonry' &&
-    `
-    grid-template-columns: repeat(${props.$cols}, 1fr);
-    gap: ${props.$gap}px;
-    
-    ${
-      props.$variant === 'standard' &&
-      `
-      grid-auto-rows: ${typeof props.$rowHeight === 'number' ? `${props.$rowHeight}px` : 'auto'};
-    `
-    }
-    
-    ${
-      props.$variant === 'quilted' &&
-      `
-      /* Quilted layout has more complex sizing handled by the items */
-    `
-    }
-    
-    ${
-      props.$variant === 'woven' &&
-      `
-      /* Woven layout alternates items */
-    `
-    }
-  `}
-
-  /* Masonry variant uses column-count */
-  ${props =>
-    props.$variant === 'masonry' &&
-    `
-    column-count: ${props.$cols};
-    column-gap: ${props.$gap}px;
-    
-    & > li {
-      margin-bottom: ${props.$gap}px;
-      break-inside: avoid;
-    }
-  `}
-  
-  /* Glass styling */
-  ${props => {
-    if (!props.$glass) return '';
-
-    const glassStyles = createGlassStyle({
-      intent: 'neutral',
-      elevation: 'level1',
-      tier: 'high'
-    });
-
-    return `
-      background: ${glassStyles.background};
-      backdrop-filter: ${glassStyles.backdropFilter};
-      -webkit-backdrop-filter: ${glassStyles.WebkitBackdropFilter};
-      border: ${glassStyles.border};
-      border-radius: ${glassStyles.borderRadius};
-      box-shadow: var(--glass-elev-2);
-      color: ${glassStyles.color};
-      transition: ${glassStyles.transition};
-      position: ${glassStyles.position};
-      transform: ${glassStyles.transform};
-    `;
-  }}
-  
-  /* Glass styling */
-  ${props =>
-    props.$glass &&
-    `
-    background: var(--glass-bg-default);
-    padding: ${props.$gap}px;
-  `}
-
-  /* Rounded corners */
-  ${props =>
-    props.$glassRadiusMd &&
-    `
-    border-radius: 12px;
-    overflow: hidden;
-  `}
-`;
-
 /**
  * ImageList Component Implementation
  */
@@ -159,9 +52,6 @@ function ImageListComponent(props: ImageListProps, ref: React.ForwardedRef<HTMLU
     motionSensitivity,
     ...rest
   } = props;
-
-  // Check for reduced motion preference
-  const prefersReducedMotion = useReducedMotion();
 
   // Ref for the root ul element
   const rootRef = useRef<HTMLUListElement>(null);
@@ -192,18 +82,36 @@ function ImageListComponent(props: ImageListProps, ref: React.ForwardedRef<HTMLU
     ]
   );
 
+  const styleVars = useMemo<React.CSSProperties>(() => {
+    const normalizedCols = Math.max(1, cols);
+    const gapValue = `${gap}px`;
+    const rowHeightValue = typeof rowHeight === 'number' ? `${rowHeight}px` : rowHeight;
+
+    return {
+      '--image-list-gap': gapValue,
+      '--image-list-cols': String(normalizedCols),
+      '--image-list-row-height': rowHeightValue === undefined ? 'auto' : rowHeightValue,
+      '--image-list-padding': glass ? gapValue : '0px',
+    } as React.CSSProperties;
+  }, [cols, gap, rowHeight, glass]);
+
+  const rootClassName = cn(
+    styles.root,
+    variant === 'masonry' ? styles.masonry : styles.grid,
+    variant === 'standard' && styles.variantStandard,
+    variant === 'quilted' && styles.variantQuilted,
+    variant === 'woven' && styles.variantWoven,
+    glass && styles.glass,
+    glassRadiusMd && styles.radiusMd,
+    className
+  );
+
   return (
     <ImageListContext.Provider value={contextValue}>
-      <ImageListRoot
+      <ul
         ref={rootRef}
-        className={className}
-        style={style}
-        $variant={variant}
-        $rowHeight={rowHeight}
-        $gap={gap}
-        $cols={cols}
-        $glass={glass}
-        $glassRadiusMd={glassRadiusMd}
+        className={rootClassName}
+        style={{ ...style, ...styleVars }}
         {...rest}
       >
         {/* Ensure children (ImageListItem) have the class name */}
@@ -216,7 +124,7 @@ function ImageListComponent(props: ImageListProps, ref: React.ForwardedRef<HTMLU
           }
           return child;
         })}
-      </ImageListRoot>
+      </ul>
     </ImageListContext.Provider>
   );
 }

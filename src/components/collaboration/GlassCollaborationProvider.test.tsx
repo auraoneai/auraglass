@@ -25,7 +25,11 @@ describe('GlassCollaborationProvider', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassCollaborationProvider />);
+    const { container } = render(
+      <GlassCollaborationProvider roomId="test-room">
+        <div data-testid="host" />
+      </GlassCollaborationProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +37,11 @@ describe('GlassCollaborationProvider', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCollaborationProvider />);
+    const { container } = render(
+      <GlassCollaborationProvider roomId="test-room">
+        <div data-testid="host" />
+      </GlassCollaborationProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,9 +58,12 @@ describe('GlassCollaborationProvider', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassCollaborationProvider
+        roomId="test-room"
         className="custom-class"
         data-testid="glasscollaborationprovider"
-      />
+      >
+        <div data-testid="host" />
+      </GlassCollaborationProvider>
     );
 
     const element = container.querySelector('[data-testid="glasscollaborationprovider"]')
@@ -65,7 +76,11 @@ describe('GlassCollaborationProvider', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassCollaborationProvider />);
+    const { container } = render(
+      <GlassCollaborationProvider roomId="test-room">
+        <div data-testid="host" />
+      </GlassCollaborationProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

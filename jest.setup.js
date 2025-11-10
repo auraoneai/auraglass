@@ -5,6 +5,27 @@
 
 import '@testing-library/jest-dom';
 
+jest.mock('jsonwebtoken');
+jest.mock('bcryptjs');
+jest.mock('redis');
+jest.mock('@sentry/react', () => {
+  const sentryMock = {
+    init: jest.fn(),
+    captureException: jest.fn(),
+    addBreadcrumb: jest.fn(),
+    replayIntegration: jest.fn(() => ({})),
+    withProfiler: (Component) => Component,
+  };
+
+  return {
+    __esModule: true,
+    ...sentryMock,
+    default: sentryMock,
+  };
+});
+
+process.env.SENTRY_DSN = '';
+
 // Mock window.matchMedia (required for responsive tests)
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

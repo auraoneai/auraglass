@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleButtonGroup matches snapshot 1`] = `
+<div
+  class="inline-flex glass-radius-md flex-row w-auto"
+  data-glass-component="true"
+  role="group"
+/>
+`;

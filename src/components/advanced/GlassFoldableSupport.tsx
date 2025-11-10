@@ -40,6 +40,26 @@ interface GlassFoldableSupportProps {
   onFoldStateChange?: (state: FoldableInfo) => void;
 }
 
+const createDefaultSegment = () => {
+  if (typeof window === "undefined") {
+    return {
+      left: 0,
+      top: 0,
+      width: 1024,
+      height: 768,
+      devicePixelRatio: 1,
+    };
+  }
+
+  return {
+    left: 0,
+    top: 0,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    devicePixelRatio: window.devicePixelRatio || 1,
+  };
+};
+
 export function GlassFoldableSupport({
   children,
   className,
@@ -50,20 +70,13 @@ export function GlassFoldableSupport({
   foldAnimation = true,
   onFoldStateChange,
 }: GlassFoldableSupportProps) {
+  const isBrowser = typeof window !== "undefined";
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [foldableInfo, setFoldableInfo] = useState<FoldableInfo>({
     isFoldable: false,
     foldState: "unknown",
-    segments: [
-      {
-        left: 0,
-        top: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        devicePixelRatio: window.devicePixelRatio || 1,
-      },
-    ],
+    segments: [createDefaultSegment()],
   });
   const [layoutMode, setLayoutMode] = useState<"single" | "dual" | "extended">(
     "single"
@@ -71,6 +84,8 @@ export function GlassFoldableSupport({
 
   // Detect foldable device capabilities
   const detectFoldableCapabilities = useCallback(async () => {
+    if (!isBrowser) return;
+
     // Check for Visual Viewport API and Screen Segments
     if ("getScreenDetails" in window) {
       try {
@@ -137,11 +152,13 @@ export function GlassFoldableSupport({
     }
 
     // Fallback: Check for CSS environment variables
-    const spanningSupported =
-      CSS.supports("(spanning: single-fold-vertical)") ||
-      CSS.supports("(spanning: single-fold-horizontal)");
+    const supportsSpanning =
+      typeof CSS !== "undefined" &&
+      typeof CSS.supports === "function" &&
+      (CSS.supports("(spanning: single-fold-vertical)") ||
+        CSS.supports("(spanning: single-fold-horizontal)"));
 
-    if (spanningSupported) {
+    if (supportsSpanning) {
       const spanning =
         getComputedStyle(document.documentElement).getPropertyValue(
           "env(fold-left)"
@@ -161,9 +178,16 @@ export function GlassFoldableSupport({
     }
 
     // Check for dual-screen using media queries
+    const matchesMedia = (query: string) => {
+      if (!isBrowser || typeof window.matchMedia !== "function") {
+        return false;
+      }
+      return window.matchMedia(query).matches;
+    };
+
     const isDualScreen =
-      window.matchMedia("(spanning: single-fold-vertical)").matches ||
-      window.matchMedia("(spanning: single-fold-horizontal)").matches;
+      matchesMedia("(spanning: single-fold-vertical)") ||
+      matchesMedia("(spanning: single-fold-horizontal)");
 
     if (isDualScreen) {
       setFoldableInfo((prev: any) => ({
@@ -177,6 +201,10 @@ export function GlassFoldableSupport({
 
   // Monitor fold state changes
   const monitorFoldState = useCallback(() => {
+    if (!isBrowser) {
+      return () => undefined;
+    }
+
     // Listen for orientation changes that might indicate folding
     const handleOrientationChange = () => {
       setTimeout(detectFoldableCapabilities, 100);
@@ -215,10 +243,11 @@ export function GlassFoldableSupport({
 
   // Initialize foldable detection
   useEffect(() => {
+    if (!isBrowser) return;
     detectFoldableCapabilities();
     const cleanup = monitorFoldState();
     return cleanup;
-  }, [detectFoldableCapabilities, monitorFoldState]);
+  }, [detectFoldableCapabilities, monitorFoldState, isBrowser]);
 
   // Notify parent of fold state changes
   useEffect(() => {
@@ -229,7 +258,7 @@ export function GlassFoldableSupport({
   const generateLayout = () => {
     if (!adaptiveLayout || !foldableInfo.isFoldable) {
       return (
-        <div className="relative glass-w-full glass-h-full">{children}</div>
+        <div className='relative glass-w-full glass-h-full'>{children}</div>
       );
     }
 
@@ -237,15 +266,17 @@ export function GlassFoldableSupport({
 
     if (independentSegments && segments.length > 1) {
       // Render independent content for each segment
+      const totalWidth = segments.reduce((acc, segment) => acc + segment.width, 0) || 1;
+      const totalHeight = segments.reduce((acc, segment) => acc + segment.height, 0) || 1;
       return (
-        <div className="relative glass-w-full glass-h-full glass-flex">
+        <div className='relative glass-w-full glass-h-full glass-flex'>
           {segments.map((segment, index) => (
             <motion.div
               key={`segment-${index}`}
-              className="relative"
+              className='relative'
               style={{
-                width: `${(segment.width / window.innerWidth) * 100}%`,
-                height: `${(segment.height / window.innerHeight) * 100}%`,
+                width: `${(segment.width / totalWidth) * 100}%`,
+                height: `${(segment.height / totalHeight) * 100}%`,
               }}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
@@ -253,7 +284,7 @@ export function GlassFoldableSupport({
                 prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
               }
             >
-              <div className="OptimizedGlass intensity={0.2} glassBlur={6} glass-w-full glass-h-full">
+              <div className='OptimizedGlass intensity={0.2} glassBlur={6} glass-w-full glass-h-full'>
                 {React.Children.toArray(children)[index] || children}
               </div>
             </motion.div>
@@ -264,7 +295,7 @@ export function GlassFoldableSupport({
 
     // Adaptive single layout with hinge awareness
     return (
-      <div className="relative glass-w-full glass-h-full">
+      <div className='relative glass-w-full glass-h-full'>
         {bridgeHinge && hinge && (
           <HingeBridge hinge={hinge} continuousGlass={continuousGlass} />
         )}
@@ -325,7 +356,7 @@ export function GlassFoldableSupport({
 
       {/* Fold state indicator */}
       {foldableInfo.isFoldable && (
-        <div className="absolute glass-top-2 right-2 glass-surface-primary glass-p-1 glass-radius-sm glass-text-xs opacity-50">
+        <div className='absolute glass-top-2 right-2 glass-surface-primary glass-p-1 glass-radius-sm glass-text-xs opacity-50'>
           <div className="glass-flex glass-items-center glass-gap-1">
             <div
               className={cn(
@@ -381,19 +412,28 @@ function HingeBridge({
 
 // Hook for accessing foldable state
 export function useFoldableDevice() {
+  const isBrowser = typeof window !== "undefined";
   const [foldableInfo, setFoldableInfo] = useState<FoldableInfo>({
     isFoldable: false,
     foldState: "unknown",
-    segments: [
-      {
-        left: 0,
-        top: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        devicePixelRatio: window.devicePixelRatio || 1,
-      },
-    ],
+    segments: [createDefaultSegment()],
   });
+
+  useEffect(() => {
+    if (!isBrowser) return;
+    setFoldableInfo((prev) => ({
+      ...prev,
+      segments: [
+        {
+          left: 0,
+          top: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          devicePixelRatio: window.devicePixelRatio || 1,
+        },
+      ],
+    }));
+  }, [isBrowser]);
 
   return {
     ...foldableInfo,

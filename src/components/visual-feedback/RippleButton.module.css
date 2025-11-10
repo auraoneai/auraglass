@@ -1,0 +1,38 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.ripples {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(var(--ripple-color-rgb, 255, 255, 255), 0.3);
+  transform: scale(0);
+  pointer-events: none;
+  animation-name: auraRippleButton;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+}
+
+@keyframes auraRippleButton {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

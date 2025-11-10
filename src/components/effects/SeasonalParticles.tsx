@@ -412,7 +412,7 @@ export function SeasonalParticles({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className="absolute bottom-4 right-4 glass-flex glass-flex-col glass-gap-2"
+          className='absolute bottom-4 right-4 glass-flex glass-flex-col glass-gap-2'
         >
           {/* Season selector */}
           <div className="glass-flex glass-gap-2 glass-p-2 glass-surface-dark/20 glass-glass-glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard">
@@ -436,18 +436,18 @@ export function SeasonalParticles({
           <div className="glass-flex glass-gap-2 glass-p-2 glass-surface-dark/20 glass-glass-glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard">
             <button
               onClick={togglePlay}
-              className="glass-p-2 glass-radius-lg text-primary hover:glass-surface-subtle/10 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-p-2 glass-radius-lg text-primary hover:glass-surface-subtle/10 transition-colors glass-focus glass-touch-target glass-contrast-guard'
               title={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
-                <Pause className="w-4 h-4" />
+                <Pause className='w-4 h-4' />
               ) : (
-                <Play className="w-4 h-4" />
+                <Play className='w-4 h-4' />
               )}
             </button>
 
-            <div className="glass-flex glass-items-center glass-gap-2 text-primary/60 glass-text-sm">
-              <Wind className="w-3 h-3" />
+            <div className='glass-flex glass-items-center glass-gap-2 text-primary/60 glass-text-sm'>
+              <Wind className='w-3 h-3' />
               <span>{windStrength.toFixed(1)}</span>
             </div>
           </div>
@@ -459,9 +459,9 @@ export function SeasonalParticles({
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-          className="absolute top-4 right-4 glass-px-3 glass-py-2 glass-surface-dark/20 glass-glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard"
+          className='absolute top-4 right-4 glass-px-3 glass-py-2 glass-surface-dark/20 glass-glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard'
         >
-          <div className="glass-flex glass-items-center glass-gap-2 text-primary/60 glass-text-sm">
+          <div className='glass-flex glass-items-center glass-gap-2 text-primary/60 glass-text-sm'>
             <motion.div
               animate={
                 prefersReducedMotion
@@ -480,7 +480,7 @@ export function SeasonalParticles({
                     }
               }
             >
-              <Wind className="w-3 h-3" />
+              <Wind className='w-3 h-3' />
             </motion.div>
             <span>Wind: {windStrength.toFixed(1)}</span>
           </div>

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ZSpaceAppLayout matches snapshot 1`] = `
+<div
+  class="zspace-app-layout "
+  style="position: relative; width: 100%; height: 100vh; overflow: hidden;"
+>
+  <main
+    class="zspace-app-layout-main"
+    style="position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; transform: none; overflow: auto; transition: none; z-index: 10;"
+  >
+    <div
+      class="w-full transition-all duration-300 max-w-4xl mx-auto glass-p-6"
+      data-glass-component="true"
+      style="min-height: 100%; padding: 20px;"
+    />
+  </main>
+  <style>
+    
+          .zspace-app-layout {
+            font-family: var(--aura-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+          }
+
+          .zspace-sidebar-toggle:hover {
+            background: var(--aura-glass-bg-hover, rgba(255, 255, 255, 0.15)) !important;
+            transform: translateY(-50%) scale(1.05);
+          }
+
+          .zspace-sidebar-toggle:active {
+            transform: translateY(-50%) scale(0.95);
+          }
+
+          .zspace-sidebar-toggle:focus-visible {
+            outline: 2px solid var(--aura-accent-color, #00d4ff);
+            outline-offset: 2px;
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .zspace-app-layout *,
+            .zspace-sidebar-toggle {
+              transform: none !important;
+              transition: none !important;
+            }
+          }
+
+          @media (max-width: 768px) {
+            .zspace-app-layout-sidebar {
+              transform: translateX(-100%) !important;
+            }
+
+            .zspace-app-layout-sidebar.mobile-open {
+              transform: none !important;
+            }
+
+            .zspace-app-layout-main {
+              left: 0 !important;
+              right: 0 !important;
+            }
+          }
+        
+  </style>
+</div>
+`;

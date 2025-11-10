@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassFlex matches snapshot 1`] = `
+<div
+  class="flex flex-row flex-nowrap justify-start items-stretch content-start glass-gap-0 motion-safe:transition-all motion-reduce:transition-none"
+/>
+`;

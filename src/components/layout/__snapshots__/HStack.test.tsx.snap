@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HStack matches snapshot 1`] = `
+<div
+  class="flex flex-row glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+/>
+`;

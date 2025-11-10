@@ -192,7 +192,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
       >
         {/* Header */}
         {header && (
-          <div className="zspace-app-layout-header" style={headerStyles}>
+          <div className='zspace-app-layout-header' style={headerStyles}>
             <GlassContainer style={{ width: "100%", height: "100%" }}>
               {header}
             </GlassContainer>
@@ -201,7 +201,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
 
         {/* Sidebar */}
         {sidebar && (
-          <div className="zspace-app-layout-sidebar" style={sidebarStyles}>
+          <div className='zspace-app-layout-sidebar' style={sidebarStyles}>
             <GlassContainer style={{ width: "100%", height: "100%" }}>
               {sidebar}
 
@@ -209,7 +209,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
               {onSidebarToggle && (
                 <button
                   onClick={onSidebarToggle}
-                  className="zspace-sidebar-toggle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                  className='zspace-sidebar-toggle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
                   style={createGlassStyle({
                     variant: "default",
                     elev: 2,
@@ -226,7 +226,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
         )}
 
         {/* Main Content */}
-        <main className="zspace-app-layout-main" style={mainStyles}>
+        <main className='zspace-app-layout-main' style={mainStyles}>
           <GlassContainer style={{ minHeight: "100%", padding: "20px" }}>
             {children}
           </GlassContainer>
@@ -234,7 +234,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
 
         {/* Footer */}
         {footer && (
-          <div className="zspace-app-layout-footer" style={footerStyles}>
+          <div className='zspace-app-layout-footer' style={footerStyles}>
             <GlassContainer style={{ width: "100%", height: "100%" }}>
               {footer}
             </GlassContainer>
@@ -243,7 +243,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
 
         {/* Overlay */}
         {overlay && (
-          <div className="zspace-app-layout-overlay" style={overlayStyles}>
+          <div className='zspace-app-layout-overlay' style={overlayStyles}>
             <GlassContainer style={{ width: "100%", height: "100%" }}>
               {overlay}
             </GlassContainer>

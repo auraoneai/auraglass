@@ -1,0 +1,25 @@
+.wrapper {
+  position: relative;
+  outline: none;
+}
+
+.wrapper::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--glass-focus-offset) * -1);
+  border-radius: inherit;
+  border: var(--glass-focus-width) solid var(--glass-focus-color);
+  filter: blur(var(--glass-focus-blur));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--glass-focus-duration) ease;
+  z-index: -1;
+}
+
+.wrapper.glass-focus-visible::before {
+  opacity: 1;
+}
+
+.wrapper.glass-focus-keyboard::before {
+  box-shadow: 0 0 var(--glass-focus-spread) var(--glass-focus-color);
+}

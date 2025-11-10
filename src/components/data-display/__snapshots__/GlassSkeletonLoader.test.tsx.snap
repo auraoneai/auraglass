@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSkeletonLoader matches snapshot 1`] = `
+<style>
+  
+  @keyframes glass-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.02);
+    }
+  }
+
+  
+  @keyframes glass-wave {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  
+  @keyframes glass-shimmer {
+    0% {
+      background-position: -200px 0;
+    }
+    100% {
+      background-position: calc(200px + 100%) 0;
+    }
+  }
+
+  
+  @keyframes glass-sheen-move {
+    0% { transform: translateX(-150%) rotate(15deg); }
+    100% { transform: translateX(150%) rotate(15deg); }
+  }
+  @keyframes glass-depth-pulse {
+    0%, 100% { box-shadow: var(--glass-elev-2); }
+    50% { box-shadow: var(--glass-elev-2); }
+  }
+
+</style>
+`;

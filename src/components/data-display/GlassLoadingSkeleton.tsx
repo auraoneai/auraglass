@@ -175,7 +175,7 @@ export const GlassLoadingSkeleton = forwardRef<
           </div>
 
           {/* Actions */}
-          <div className="glass-flex glass-gap-3 pt-2">
+          <div className='glass-flex glass-gap-3 pt-2'>
             <div
               className={cn(baseClasses, "h-9 w-20 glass-radius-lg")}
               style={getSkeletonStyle()}
@@ -265,7 +265,7 @@ export const GlassLoadingSkeleton = forwardRef<
           </div>
         ))}
 
-        <div className="glass-flex glass-gap-3 pt-4">
+        <div className='glass-flex glass-gap-3 pt-4'>
           <div
             className={cn(baseClasses, "h-10 w-24 glass-radius-lg")}
             style={getSkeletonStyle()}
@@ -279,7 +279,7 @@ export const GlassLoadingSkeleton = forwardRef<
     );
 
     const renderDashboardSkeleton = () => (
-      <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-6">
+      <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-6'>
         {Array.from({ length: rows }, (_, index) => (
           <OptimizedGlass
             elevation={"level1"}
@@ -358,14 +358,14 @@ export const GlassLoadingSkeleton = forwardRef<
           aria-label={ariaLabel || "Loading content"}
           aria-busy="true"
           aria-live="polite"
-          className="relative"
+          className='relative'
           {...props}
         >
           {renderSkeleton()}
 
           {/* Premium Shimmer overlay */}
           {shouldShimmer && (
-            <div className="absolute inset-0 -skew-x-12 glass-gradient-primary glass-gradient-primary via-blue-300/10 glass-gradient-primary animate-shimmer" />
+            <div className='absolute inset-0 -skew-x-12 glass-gradient-primary glass-gradient-primary via-blue-300/10 glass-gradient-primary animate-shimmer' />
           )}
         </div>
       </Motion>

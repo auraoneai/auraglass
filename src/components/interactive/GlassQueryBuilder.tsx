@@ -60,7 +60,7 @@ export function GlassQueryBuilder({
             update(value);
           }}
         >
-          <GlassSelectTrigger className="w-40 h-8 glass-text-sm">
+          <GlassSelectTrigger className='w-40 h-8 glass-text-sm'>
             <GlassSelectValue placeholder="Field" />
           </GlassSelectTrigger>
           <GlassSelectContent>
@@ -78,7 +78,7 @@ export function GlassQueryBuilder({
             update(value);
           }}
         >
-          <GlassSelectTrigger className="w-28 h-8 glass-text-sm">
+          <GlassSelectTrigger className='w-28 h-8 glass-text-sm'>
             <GlassSelectValue placeholder="Op" />
           </GlassSelectTrigger>
           <GlassSelectContent>
@@ -98,7 +98,7 @@ export function GlassQueryBuilder({
               update(value);
             }}
           >
-            <GlassSelectTrigger className="w-48 h-8 glass-text-sm">
+            <GlassSelectTrigger className='w-48 h-8 glass-text-sm'>
               <GlassSelectValue placeholder="Value" />
             </GlassSelectTrigger>
             <GlassSelectContent>
@@ -117,7 +117,7 @@ export function GlassQueryBuilder({
               rule.value = e.target.value;
               update(value);
             }}
-            className="bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+            className='bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
           />
         )}
         <GlassButton
@@ -144,7 +144,7 @@ export function GlassQueryBuilder({
             update(value);
           }}
         >
-          <GlassSelectTrigger className="w-24 h-8 glass-text-sm">
+          <GlassSelectTrigger className='w-24 h-8 glass-text-sm'>
             <GlassSelectValue />
           </GlassSelectTrigger>
           <GlassSelectContent>

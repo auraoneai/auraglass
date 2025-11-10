@@ -25,7 +25,11 @@ describe('GlassDragDropProvider', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassDragDropProvider />);
+    const { container } = render(
+      <GlassDragDropProvider>
+        <div data-testid="host" />
+      </GlassDragDropProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +37,11 @@ describe('GlassDragDropProvider', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassDragDropProvider />);
+    const { container } = render(
+      <GlassDragDropProvider>
+        <div data-testid="host" />
+      </GlassDragDropProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -52,7 +60,9 @@ describe('GlassDragDropProvider', () => {
       <GlassDragDropProvider
         className="custom-class"
         data-testid="glassdragdropprovider"
-      />
+      >
+        <div data-testid="host" />
+      </GlassDragDropProvider>
     );
 
     const element = container.querySelector('[data-testid="glassdragdropprovider"]')
@@ -65,7 +75,11 @@ describe('GlassDragDropProvider', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassDragDropProvider />);
+    const { container } = render(
+      <GlassDragDropProvider>
+        <div data-testid="host" />
+      </GlassDragDropProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

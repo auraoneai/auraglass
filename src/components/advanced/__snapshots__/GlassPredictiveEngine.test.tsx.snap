@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassPredictiveEngine matches snapshot 1`] = `
+<div
+  class="glass-predictive-engine glass-relative glass-space-y-4"
+>
+  <div
+    class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10 glass-shadow-soft-lg"
+    data-testid="glass-predictive-engine-summary"
+  >
+    <div>
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      >
+        Predictive Engine
+      </p>
+      <h2
+        class="glass-text-2xl glass-text-primary font-semibold"
+      >
+        Monitoring behavior
+      </h2>
+      <p
+        class="glass-text-sm glass-text-secondary"
+      >
+        Collecting interaction data
+      </p>
+    </div>
+    <div
+      class="glass-grid glass-grid-cols-2 glass-gap-3"
+    >
+      <div
+        class="glass-surface-subtle glass-radius-xl glass-p-4"
+      >
+        <p
+          class="glass-text-xs glass-text-tertiary mb-1"
+        >
+          Predictions
+        </p>
+        <p
+          class="glass-text-lg glass-text-primary font-semibold"
+        >
+          0
+        </p>
+      </div>
+      <div
+        class="glass-surface-subtle glass-radius-xl glass-p-4"
+      >
+        <p
+          class="glass-text-xs glass-text-tertiary mb-1"
+        >
+          Insights
+        </p>
+        <p
+          class="glass-text-lg glass-text-primary font-semibold"
+        >
+          0
+        </p>
+      </div>
+    </div>
+    <div
+      class="glass-text-xs glass-text-secondary"
+    >
+      Awaiting actionable recommendations.
+    </div>
+  </div>
+  <div
+    class="fixed top-4 right-4 z-50"
+  >
+    <button
+      class="w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3 flex items-center justify-center glass-text-primary transition-all duration-300 hover:scale-105"
+      tabindex="0"
+    >
+      <div
+        class="relative"
+      >
+        🧠
+      </div>
+    </button>
+  </div>
+</div>
+`;

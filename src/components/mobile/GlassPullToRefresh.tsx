@@ -74,7 +74,7 @@ const RefreshIcon = ({ rotation }: { rotation: number }) => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-6 h-6"
+    className='w-6 h-6'
     style={{
       transform: `rotate(${rotation}deg)`,
       transition: "transform 0.2s ease-out",
@@ -109,7 +109,7 @@ const SpinnerIcon = () => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-6 h-6 animate-spin"
+    className='w-6 h-6 animate-spin'
   >
     <circle
       cx="12"
@@ -278,7 +278,7 @@ export const GlassPullToRefresh = forwardRef<
         {showIndicator && (pullDistance > 0 || isRefreshing) && (
           <OptimizedGlass
             elevation={elevation}
-            className="absolute left-0 right-0 top-0 z-50 glass-flex glass-items-center glass-justify-center glass-p-4"
+            className='absolute left-0 right-0 top-0 z-50 glass-flex glass-items-center glass-justify-center glass-p-4'
             style={{
               transform: `translateY(${isRefreshing ? 0 : pullDistance - 60}px)`,
               opacity: isRefreshing ? 1 : opacity,

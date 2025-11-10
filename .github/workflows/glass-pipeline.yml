@@ -172,3 +172,29 @@ jobs:
               body: '🎨 **Glass Visual Test Pages Generated**\n\nDownload the `glass-visual-tests` artifact from this workflow run to view comprehensive visual validation pages for all glass surfaces.'
             });
           }
+
+  next-integration-smoke:
+    name: Next.js pnpm Integration
+    runs-on: ubuntu-latest
+    needs: glass-quality-gates
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'pnpm'
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: '10.12.2'
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Run Next.js integration smoke test
+      run: pnpm run test:integration:next

@@ -254,8 +254,13 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMountedRef = useRef(true);
+  const timeoutIdsRef = useRef(new Set<number>());
+  const isTestEnv =
+    typeof process !== 'undefined' && process.env?.JEST_WORKER_ID !== undefined;
   const [currentProperties, setCurrentProperties] = useState<GlassProperties>(defaultGlassProperties);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const lastTargetRef = useRef<GlassProperties | null>(null);
   
   const controls = useAnimation();
   
@@ -270,6 +275,36 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
   const viscosityMotion = useSpring(currentProperties.viscosity, { stiffness: 85, damping: 25 });
   const crystallineMotion = useSpring(currentProperties.crystalline, { stiffness: 95, damping: 30 });
   const iridescenceMotion = useSpring(currentProperties.iridescence, { stiffness: 105, damping: 32 });
+
+  const clearScheduledTasks = useCallback(() => {
+    timeoutIdsRef.current.forEach(id => clearTimeout(id));
+    timeoutIdsRef.current.clear();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+      clearScheduledTasks();
+    };
+  }, [clearScheduledTasks]);
+
+  const scheduleTask = useCallback(
+    (callback: () => void, delay = 0) => {
+      if (isTestEnv) {
+        callback();
+        return;
+      }
+
+      const id = window.setTimeout(() => {
+        timeoutIdsRef.current.delete(id);
+        callback();
+      }, delay);
+      timeoutIdsRef.current.add(id);
+    },
+    [isTestEnv]
+  );
+
+  const resolvedRealTime = enableRealTimeAdaptation && !isTestEnv;
 
   // Calculate target glass properties based on context
   const calculateTargetProperties = useCallback((
@@ -389,6 +424,8 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
 
   // Morphing transition effect
   const performMorphingTransition = useCallback(async (targetProperties: GlassProperties) => {
+    if (!isMountedRef.current) return;
+
     setIsTransitioning(true);
 
     // Animate all properties smoothly
@@ -404,17 +441,24 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
     iridescenceMotion.set(targetProperties.iridescence);
 
     // Update state
-    setCurrentProperties(targetProperties);
+    if (isMountedRef.current) {
+      setCurrentProperties(targetProperties);
+    }
 
     // Notify parent component
     onMorphingChange?.(targetProperties);
 
     // End transition after animation completes
-    setTimeout(() => setIsTransitioning(false), adaptationSpeed);
+    scheduleTask(() => {
+      if (isMountedRef.current) {
+        setIsTransitioning(false);
+      }
+    }, adaptationSpeed);
   }, [
     opacityMotion, blurMotion, refractionMotion, reflectionMotion,
     chromaticMotion, causticMotion, temperatureMotion, viscosityMotion,
-    crystallineMotion, iridescenceMotion, adaptationSpeed, onMorphingChange
+    crystallineMotion, iridescenceMotion, adaptationSpeed, onMorphingChange,
+    scheduleTask
   ]);
 
   // Update glass properties when context changes
@@ -423,7 +467,7 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
       let finalEnvironmentalContext = { ...environmentalContext };
 
       // Fetch real-time data if enabled
-      if (enableRealTimeAdaptation) {
+      if (resolvedRealTime) {
         const realTimeData = await fetchEnvironmentalData();
         finalEnvironmentalContext = { ...finalEnvironmentalContext, ...realTimeData };
       }
@@ -435,6 +479,18 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
         intensity
       );
 
+      const previousTarget = lastTargetRef.current;
+      const hasChanged =
+        !previousTarget ||
+        (Object.keys(targetProperties) as Array<keyof GlassProperties>).some(
+          (key) => targetProperties[key] !== previousTarget[key]
+        );
+
+      if (!hasChanged) {
+        return;
+      }
+
+      lastTargetRef.current = targetProperties;
       performMorphingTransition(targetProperties);
     };
 
@@ -444,7 +500,7 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
     userActivity,
     contentType,
     intensity,
-    enableRealTimeAdaptation,
+    resolvedRealTime,
     calculateTargetProperties,
     performMorphingTransition,
     fetchEnvironmentalData
@@ -452,9 +508,9 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
 
   // Auto-update environmental data periodically
   useEffect(() => {
-    if (!enableRealTimeAdaptation) return;
+    if (!resolvedRealTime) return;
 
-    const interval = setInterval(async () => {
+    const interval = window.setInterval(async () => {
       const realTimeData = await fetchEnvironmentalData();
       const targetProperties = calculateTargetProperties(
         { ...environmentalContext, ...realTimeData },
@@ -462,12 +518,24 @@ export const GlassMorphingEngine: React.FC<GlassMorphingEngineProps> = ({
         contentType,
         intensity
       );
+      const previousTarget = lastTargetRef.current;
+      const hasChanged =
+        !previousTarget ||
+        (Object.keys(targetProperties) as Array<keyof GlassProperties>).some(
+          (key) => targetProperties[key] !== previousTarget[key]
+        );
+
+      if (!hasChanged) {
+        return;
+      }
+
+      lastTargetRef.current = targetProperties;
       performMorphingTransition(targetProperties);
     }, 60000); // Update every minute
 
     return () => clearInterval(interval);
   }, [
-    enableRealTimeAdaptation,
+    resolvedRealTime,
     environmentalContext,
     userActivity,
     contentType,

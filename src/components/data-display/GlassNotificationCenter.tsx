@@ -189,18 +189,31 @@ export const GlassNotificationCenter = forwardRef<
       }
     };
 
+    const containerClassName = cn(
+      "fixed z-50 glass-gap-2",
+      positionClasses[position],
+      className
+    );
+
     if (displayedNotifications.length === 0) {
-      return null;
+      return (
+        <div
+          ref={ref}
+          className={containerClassName}
+          aria-live="polite"
+          data-empty
+          {...props}
+        >
+          <span className="sr-only">No notifications</span>
+        </div>
+      );
     }
 
     return (
       <div
         ref={ref}
-        className={cn(
-          "fixed z-50 glass-gap-2",
-          positionClasses[position],
-          className
-        )}
+        className={containerClassName}
+        aria-live="polite"
         {...props}
       >
         {/* Clear All Button */}
@@ -213,7 +226,7 @@ export const GlassNotificationCenter = forwardRef<
             border="subtle"
             animation="none"
             performanceMode="low"
-            className="glass-px-3 glass-py-1 glass-radius-full glass-text-xs cursor-pointer hover:glass-surface-subtle/10 transition-colors"
+            className='glass-px-3 glass-py-1 glass-radius-full glass-text-xs cursor-pointer hover:glass-surface-subtle/10 transition-colors'
             onClick={clearAll}
           >
             Clear All ({notifications.length})
@@ -265,11 +278,11 @@ export const GlassNotificationCenter = forwardRef<
 
                   {/* Content */}
                   <div className="glass-flex-1 glass-min-w-0">
-                    <h4 className="glass-text-sm font-semibold text-primary">
+                    <h4 className='glass-text-sm font-semibold text-primary'>
                       {notification.title}
                     </h4>
                     {notification.message && (
-                      <p className="glass-mt-1 glass-text-sm text-primary/80">
+                      <p className='glass-mt-1 glass-text-sm text-primary/80'>
                         {notification.message}
                       </p>
                     )}
@@ -278,7 +291,7 @@ export const GlassNotificationCenter = forwardRef<
                     {notification.action && (
                       <button
                         onClick={notification.action.onClick}
-                        className="glass-mt-2 glass-text-sm font-medium text-primary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                        className='glass-mt-2 glass-text-sm font-medium text-primary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
                       >
                         {notification.action.label}
                       </button>
@@ -288,7 +301,7 @@ export const GlassNotificationCenter = forwardRef<
                   {/* Close Button */}
                   <button
                     onClick={(e) => removeNotification(notification.id)}
-                    className="glass-flex-shrink-0 w-5 h-5 glass-radius-full glass-flex glass-items-center glass-justify-center text-primary/60 hover:text-primary/90 hover:glass-surface-subtle/10 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                    className='glass-flex-shrink-0 w-5 h-5 glass-radius-full glass-flex glass-items-center glass-justify-center text-primary/60 hover:text-primary/90 hover:glass-surface-subtle/10 transition-colors glass-focus glass-touch-target glass-contrast-guard'
                   >
                     ✕
                   </button>
@@ -296,9 +309,9 @@ export const GlassNotificationCenter = forwardRef<
 
                 {/* Progress Bar for Auto-hide */}
                 {!notification.persistent && notification.duration && (
-                  <div className="mt-3 h-1 glass-surface-subtle/20 glass-radius-full overflow-hidden">
+                  <div className='mt-3 h-1 glass-surface-subtle/20 glass-radius-full overflow-hidden'>
                     <div
-                      className="glass-h-full glass-surface-subtle/40 glass-radius-full transition-all duration-100 ease-linear"
+                      className='glass-h-full glass-surface-subtle/40 glass-radius-full transition-all duration-100 ease-linear'
                       style={{
                         animation: `shrink ${notification.duration}ms linear forwards`,
                       }}
@@ -355,14 +368,14 @@ export const GlassNotificationItem = forwardRef<
           {typeStyles.icon}
         </div>
         <div className="glass-flex-1">
-          <h4 className="font-semibold">{notification.title}</h4>
+          <h4 className='font-semibold'>{notification.title}</h4>
           {notification.message && (
-            <p className="glass-text-sm opacity-80">{notification.message}</p>
+            <p className='glass-text-sm opacity-80'>{notification.message}</p>
           )}
         </div>
         <button
           onClick={onClose}
-          className="glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/60"
+          className='glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/60'
         >
           ✕
         </button>

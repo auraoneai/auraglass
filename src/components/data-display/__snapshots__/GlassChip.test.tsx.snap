@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassChip matches snapshot 1`] = `
+<div
+  class="motion-primitive"
+  data-glass-component="true"
+>
+  <div
+    aria-disabled="false"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-chip relative inline-flex items-center glass-radius-full border glass-backdrop-blur-md transition-all duration-200 select-none h-8 glass-px-3 glass-text-sm glass-gap-2 bg-background/50 border-border/20 text-foreground"
+    data-performance-mode="high"
+    id="glass-chip-:r6:"
+    role="status"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    tabindex="-1"
+  >
+    <span
+      class="glass-flex-1 glass-min-w-0 truncate font-medium"
+    />
+    <div
+      class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary pointer-events-none"
+    />
+  </div>
+</div>
+`;

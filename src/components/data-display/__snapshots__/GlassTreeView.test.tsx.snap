@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTreeView matches snapshot 1`] = `
+<div
+  aria-multiselectable="false"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  id="glass-tree-:ri:"
+  role="tree"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive"
+  >
+    <div
+      aria-expanded="false"
+      aria-level="1"
+      aria-selected="false"
+      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-200 glass-radius-md h-10 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
+      draggable="false"
+      id="tree-node-:rj:"
+      role="treeitem"
+      style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px;"
+      tabindex="0"
+    >
+      <div
+        class="flex items-center justify-center flex-shrink-0 glass-mr-1 w-4 h-4"
+      >
+        <button
+          aria-label="Expand"
+          class="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        >
+          <svg
+            class="glass-w-full glass-h-full transition-transform duration-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M9 5l7 7-7 7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <span
+        class="glass-flex-1 truncate"
+      >
+        Overview
+      </span>
+    </div>
+  </div>
+  <div
+    class="motion-primitive"
+  >
+    <div
+      aria-expanded="false"
+      aria-level="1"
+      aria-selected="false"
+      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-200 glass-radius-md h-10 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
+      draggable="false"
+      id="tree-node-:rk:"
+      role="treeitem"
+      style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px;"
+      tabindex="0"
+    >
+      <div
+        class="flex items-center justify-center flex-shrink-0 glass-mr-1 w-4 h-4"
+      >
+        <button
+          aria-label="Expand"
+          class="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        >
+          <svg
+            class="glass-w-full glass-h-full transition-transform duration-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M9 5l7 7-7 7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <span
+        class="glass-flex-1 truncate"
+      >
+        Settings
+      </span>
+    </div>
+  </div>
+</div>
+`;

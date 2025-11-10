@@ -509,7 +509,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
           >
             {/* Tick marks */}
             {showTicks && (
-              <div className="absolute inset-0">
+              <div className='absolute inset-0'>
                 {tickMarks.map((tick, index) => {
                   const percentage = getPercentage(tick);
                   const position =
@@ -551,11 +551,11 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
               style={getFillStyle()}
             >
               {/* Sheen sweep */}
-              <div className="absolute inset-0 glass-sheen" />
+              <div className='absolute inset-0 glass-sheen' />
             </div>
 
             {/* Background gradient */}
-            <div className="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-white/5 glass-gradient-primary" />
+            <div className='absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-white/5 glass-gradient-primary' />
           </div>
 
           {/* Thumbs */}

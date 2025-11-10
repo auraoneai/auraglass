@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassLiquidTransition matches snapshot 1`] = `
+<div
+  class="relative overflow-hidden transform-gpu will-change-transform"
+  style="border-radius: 12px; transform: none;"
+>
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="transform: none;"
+  />
+  <div
+    class="relative z-10"
+  />
+</div>
+`;

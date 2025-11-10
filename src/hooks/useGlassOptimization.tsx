@@ -186,8 +186,8 @@ export function useGlassOptimization(
         ...baseStyles,
         position: 'relative',
         overflow: 'hidden',
-        // Note: CSS pseudo-elements cannot be applied via React.CSSProperties
-        // Use styled-components or CSS modules for complex pseudo-element styling
+        // Note: CSS pseudo-elements cannot be applied via React.CSSProperties.
+        // Use companion CSS modules or dedicated classnames for complex layering.
       },
     };
   }, [optimizedOptions, performanceMode, a11ySettings]);

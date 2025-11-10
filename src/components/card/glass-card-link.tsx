@@ -18,7 +18,7 @@ export const GlassCardLink: React.FC<GlassCardLinkProps> = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   return (
-    <Motion data-glass-component className="inline-block">
+    <Motion data-glass-component className='inline-block'>
       <a
         href={href}
         className={cn(

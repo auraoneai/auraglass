@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMeshGradient matches snapshot 1`] = `
+<div
+  class="relative overflow-hidden"
+>
+  <canvas
+    class="absolute inset-0 glass-w-full glass-h-full"
+    height="0"
+    style="filter: blur(100px) saturate(1) brightness(1); opacity: 0.8;"
+    width="0"
+  />
+</div>
+`;

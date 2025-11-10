@@ -601,10 +601,14 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
         duration={0.3}
         animateOnMount={isVisible}
         animateOnHover={!disabled}
-        className="inline-block"
+        className='inline-block'
       >
         {variant === "glass" ? (
           <OptimizedGlass
+            as={href ? "a" : "button"}
+            type={href ? undefined : type}
+            {...(href ? { href } : {})}
+            {...(!href ? { disabled } : {})}
             intent={intent}
             elevation={elevation}
             tier={tier}
@@ -631,11 +635,11 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             {...a11yProps}
             {...rest}
           >
-            <span className="relative z-10 glass-focus glass-touch-target glass-contrast-guard">
+            <span className='relative z-10 glass-focus glass-touch-target glass-contrast-guard'>
               {children}
             </span>
             {description && (
-              <span id={descriptionId} className="sr-only">
+              <span id={descriptionId} className='sr-only'>
                 {description}
               </span>
             )}
@@ -667,7 +671,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             {description && (
               <span
                 id={descriptionId}
-                className="sr-only glass-focus glass-touch-target glass-contrast-guard"
+                className='sr-only glass-focus glass-touch-target glass-contrast-guard'
               >
                 {description}
               </span>

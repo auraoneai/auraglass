@@ -425,9 +425,9 @@ export const GlassTessellation = forwardRef<
             y="0"
             width={effectiveSize}
             height={effectiveSize}
-            className="pointer-events-none"
+            className='pointer-events-none'
           >
-            <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-text-xs text-primary/90">
+            <div className='glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-text-xs text-primary/90'>
               {tile.content}
             </div>
           </foreignObject>
@@ -491,10 +491,10 @@ export const GlassTessellation = forwardRef<
         id={tessellationId}
         {...props}
       >
-        <div ref={containerRef} className="absolute inset-0">
+        <div ref={containerRef} className='absolute inset-0'>
           {/* Grid overlay */}
           {showGrid && (
-            <div className="absolute inset-0 pointer-events-none">
+            <div className='absolute inset-0 pointer-events-none'>
               <svg width={containerWidth} height={containerHeight}>
                 <defs>
                   <pattern
@@ -521,7 +521,7 @@ export const GlassTessellation = forwardRef<
           <svg
             width={containerWidth}
             height={containerHeight}
-            className="absolute inset-0"
+            className='absolute inset-0'
           >
             <AnimatePresence>
               {tiles.map((tile, index) => {
@@ -561,7 +561,7 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Info panel */}
-        <div className="absolute bottom-4 left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70">
+        <div className='absolute bottom-4 left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70'>
           <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             Pattern: {tessellationType}
           </div>
@@ -579,7 +579,7 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Legend */}
-        <div className="absolute top-4 right-4 glass-text-xs text-primary/70">
+        <div className='absolute top-4 right-4 glass-text-xs text-primary/70'>
           <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
             {tessellationType.charAt(0).toUpperCase() +
               tessellationType.slice(1)}{" "}

@@ -127,12 +127,12 @@ const Waveform: React.FC<WaveformProps> = ({
   };
 
   return (
-    <div data-glass-component className="relative">
+    <div data-glass-component className='relative'>
       <canvas
         ref={canvasRef}
         width={400}
         height={80}
-        className="glass-w-full h-20 cursor-pointer"
+        className='glass-w-full h-20 cursor-pointer'
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -140,7 +140,7 @@ const Waveform: React.FC<WaveformProps> = ({
       />
       {isHovering && (
         <div
-          className="absolute bottom-24 glass-surface-dark text-primary glass-text-xs glass-px-2 glass-py-1 glass-radius pointer-events-none"
+          className='absolute bottom-24 glass-surface-dark text-primary glass-text-xs glass-px-2 glass-py-1 glass-radius pointer-events-none'
           style={{
             left: `${(hoverTime / duration) * 100}%`,
             transform: "translateX(-50%)",
@@ -292,7 +292,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       ref={canvasRef}
       width={200}
       height={100}
-      className="glass-w-full h-24"
+      className='glass-w-full h-24'
     />
   );
 };
@@ -304,8 +304,8 @@ const PlaylistPanel: React.FC<{
 }> = ({ playlist, currentMediaId, onMediaSelect }) => {
   return (
     <div className="glass-surface-subtle glass-p-4 glass-radius-lg">
-      <h3 className="font-semibold glass-text-secondary mb-3">Playlist</h3>
-      <div className="space-y-2 glass-max-h-64 overflow-y-auto">
+      <h3 className='font-semibold glass-text-secondary mb-3'>Playlist</h3>
+      <div className='space-y-2 glass-max-h-64 overflow-y-auto'>
         {playlist.map((media, index) => (
           <button
             key={media.id}
@@ -319,11 +319,11 @@ const PlaylistPanel: React.FC<{
           >
             <div className="glass-text-lg">{index + 1}</div>
             <div className="glass-flex-1 glass-min-w-0">
-              <div className="font-medium glass-text-secondary truncate">
+              <div className='font-medium glass-text-secondary truncate'>
                 {media.title || `Track ${index + 1}`}
               </div>
               {media.description && (
-                <div className="glass-text-sm glass-text-secondary truncate">
+                <div className='glass-text-sm glass-text-secondary truncate'>
                   {media.description}
                 </div>
               )}
@@ -332,7 +332,7 @@ const PlaylistPanel: React.FC<{
               </div>
             </div>
             {media.id === currentMediaId && (
-              <div className="text-primary">▶</div>
+              <div className='text-primary'>▶</div>
             )}
           </button>
         ))}
@@ -389,31 +389,31 @@ const TranscriptPanel: React.FC<{
 
   return (
     <div className="glass-surface-subtle glass-p-4 glass-radius-lg glass-h-full glass-flex glass-flex-col">
-      <div className="glass-flex glass-items-center glass-justify-between mb-4">
-        <h3 className="font-semibold glass-text-secondary">Transcript</h3>
+      <div className='glass-flex glass-items-center glass-justify-between mb-4'>
+        <h3 className='font-semibold glass-text-secondary'>Transcript</h3>
         <div className="glass-text-sm glass-text-secondary">
           {transcript.length} entries
         </div>
       </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className='mb-4'>
         <input
           type="text"
           placeholder="Search transcript..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="glass-w-full glass-px-3 glass-py-2 glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500 glass-focus glass-touch-target glass-contrast-guard"
+          className='glass-w-full glass-px-3 glass-py-2 glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500 glass-focus glass-touch-target glass-contrast-guard'
         />
         {searchQuery && (
-          <div className="glass-text-sm glass-text-secondary mt-2">
+          <div className='glass-text-sm glass-text-secondary mt-2'>
             {highlightedResults.length} results found
           </div>
         )}
       </div>
 
       {/* Transcript Entries */}
-      <div className="glass-flex-1 overflow-y-auto space-y-2">
+      <div className='glass-flex-1 overflow-y-auto space-y-2'>
         {(searchQuery ? highlightedResults : transcript).map((entry: any) => {
           const isActive =
             currentTime >= entry.startTime && currentTime <= entry.endTime;
@@ -430,7 +430,7 @@ const TranscriptPanel: React.FC<{
               )}
             >
               <div className="glass-flex glass-items-center glass-justify-between glass-w-full">
-                <span className="glass-text-xs glass-text-secondary font-mono">
+                <span className='glass-text-xs glass-text-secondary font-mono'>
                   {formatTime(entry.startTime)}
                 </span>
                 {entry.speaker && (
@@ -440,7 +440,7 @@ const TranscriptPanel: React.FC<{
                 )}
               </div>
 
-              <div className="glass-text-sm glass-text-secondary leading-relaxed">
+              <div className='glass-text-sm glass-text-secondary leading-relaxed'>
                 {searchQuery
                   ? highlightText(entry.text, searchQuery)
                   : entry.text}
@@ -644,35 +644,35 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
     <div className="glass-flex glass-items-center glass-gap-4 glass-p-4">
       <button
         onClick={handlePlayPause}
-        className="w-12 h-12 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        className='w-12 h-12 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
       >
         {isPlaying ? "⏸️" : "▶️"}
       </button>
 
       <div className="glass-flex-1">
-        <div className="font-medium glass-text-secondary truncate">
+        <div className='font-medium glass-text-secondary truncate'>
           {mediaFile.title || "Untitled Track"}
         </div>
-        <div className="glass-text-sm glass-text-secondary truncate">
+        <div className='glass-text-sm glass-text-secondary truncate'>
           {mediaFile.description || "No description"}
         </div>
       </div>
 
-      <div className="glass-text-sm glass-text-secondary font-mono">
+      <div className='glass-text-sm glass-text-secondary font-mono'>
         {formatTime(currentTime)} / {formatTime(duration)}
       </div>
     </div>
   );
 
   const renderFullPlayer = () => (
-    <div className="glass-p-6 space-y-6">
+    <div className='glass-p-6 space-y-6'>
       {/* Header */}
-      <div className="text-center">
-        <h2 className="glass-text-xl font-semibold glass-text-secondary">
+      <div className='text-center'>
+        <h2 className='glass-text-xl font-semibold glass-text-secondary'>
           {mediaFile.title || "Untitled Track"}
         </h2>
         {mediaFile.description && (
-          <p className="glass-text-secondary mt-1">{mediaFile.description}</p>
+          <p className='glass-text-secondary mt-1'>{mediaFile.description}</p>
         )}
       </div>
 
@@ -696,12 +696,12 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
       )}
 
       {/* Progress Bar */}
-      <div className="space-y-2">
-        <div className="glass-flex glass-justify-between glass-text-sm glass-text-secondary font-mono">
+      <div className='space-y-2'>
+        <div className='glass-flex glass-justify-between glass-text-sm glass-text-secondary font-mono'>
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
-        <div className="glass-w-full h-2 glass-surface-subtle glass-radius-full cursor-pointer">
+        <div className='glass-w-full h-2 glass-surface-subtle glass-radius-full cursor-pointer'>
           <div
             className="glass-h-full glass-surface-blue glass-radius-full"
             style={{ width: `${(currentTime / duration) * 100}%` }}
@@ -713,21 +713,21 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
       <div className="glass-flex glass-items-center glass-justify-center glass-gap-6">
         <button
           onClick={() => handleSeek(Math.max(0, currentTime - 10))}
-          className="w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+          className='w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
         >
           ⏪
         </button>
 
         <button
           onClick={handlePlayPause}
-          className="w-16 h-16 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
+          className='w-16 h-16 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue text-primary glass-radius-full transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard'
         >
           {isPlaying ? "⏸️" : "▶️"}
         </button>
 
         <button
           onClick={() => handleSeek(Math.min(duration, currentTime + 10))}
-          className="w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+          className='w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
         >
           ⏩
         </button>
@@ -738,7 +738,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
         <div className="glass-flex glass-items-center glass-gap-3">
           <button
             onClick={handleMuteToggle}
-            className="w-8 h-8 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            className='w-8 h-8 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
             {isMuted ? "🔇" : "🔊"}
           </button>
@@ -749,7 +749,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
             step="0.01"
             value={isMuted ? 0 : volume}
             onChange={(e) => handleVolumeChange(Number(e.target.value))}
-            className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+            className='w-20 glass-focus glass-touch-target glass-contrast-guard'
           />
         </div>
 
@@ -795,7 +795,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
         {/* Side Panels */}
         <div className="glass-flex">
           {showPlaylist && playlist.length > 0 && (
-            <div className="w-80 glass-border-l glass-border-subtle">
+            <div className='w-80 glass-border-l glass-border-subtle'>
               <PlaylistPanel
                 playlist={playlist}
                 currentMediaId={mediaFile.id}
@@ -805,7 +805,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
           )}
 
           {showTranscript && hasTranscript && transcripts[mediaFile.id] && (
-            <div className="w-96 glass-border-l glass-border-subtle h-96 overflow-hidden">
+            <div className='w-96 glass-border-l glass-border-subtle h-96 overflow-hidden'>
               <TranscriptPanel
                 transcript={transcripts[mediaFile.id]}
                 currentTime={currentTime}

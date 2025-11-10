@@ -1,0 +1,40 @@
+.root {
+  --tree-view-color: var(--aura-color-global-text-primary);
+  --tree-view-selected-bg: var(--aura-color-highlight);
+  --tree-view-hover-bg: color-mix(in srgb, var(--aura-color-glass-surface) 35%, transparent);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  width: 100%;
+  background: var(--aura-color-glass-surface);
+  border: 1px solid var(--aura-color-glass-border);
+  border-radius: var(--aura-radius-xl);
+  padding: var(--aura-space-3);
+  backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  box-shadow: var(--aura-color-glass-shadow);
+  transition: box-shadow var(--aura-motion-duration-normal) var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-normal) var(--aura-motion-easing-standard);
+}
+
+.root:hover {
+  box-shadow: 0 14px 48px rgba(15, 23, 42, 0.35);
+}
+
+.sizeSmall {
+  font-size: 0.8125rem;
+}
+
+.sizeMedium {
+  font-size: 0.875rem;
+}
+
+.sizeLarge {
+  font-size: 1rem;
+}
+
+.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}

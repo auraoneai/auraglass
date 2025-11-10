@@ -1,0 +1,687 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDeepDreamGlass matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-flex glass-items-center glass-justify-between"
+  >
+    <div>
+      <h3
+        class="glass-text-xl font-semibold text-primary/90"
+      >
+        DeepDream Glass
+      </h3>
+      <p
+        class="glass-text-sm text-primary/60"
+      >
+        Neural network-powered surreal image generation
+      </p>
+    </div>
+    <div
+      class="glass-flex glass-items-center space-x-2"
+    />
+  </div>
+  <div
+    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-4"
+  >
+    <div
+      class="space-y-2"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Original
+      </h4>
+      <div
+        class="relative aspect-video glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+      >
+        <canvas
+          class="glass-w-full glass-h-full object-cover"
+          height="600"
+          width="800"
+        />
+        <div
+          class="absolute inset-0 glass-flex glass-items-center glass-justify-center text-primary/50"
+        >
+          <div
+            class="text-center"
+          >
+            <div
+              class="glass-text-4xl mb-2"
+            >
+              🖼️
+            </div>
+            <p>
+              No image loaded
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        DeepDream
+      </h4>
+      <div
+        class="relative aspect-video glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+      >
+        <canvas
+          class="glass-w-full glass-h-full object-cover"
+          height="600"
+          width="800"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+  >
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Neural Layers
+      </h4>
+      <div
+        class="space-y-2"
+      >
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  Early Features
+                </h5>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-green-500/20 text-green-300
+                    "
+                >
+                  conv
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Basic edges and textures
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+              >
+                <span>
+                  Depth: 
+                  1
+                </span>
+                <span>
+                  Strength: 
+                  0.5
+                </span>
+              </div>
+              <div
+                class="glass-flex glass-flex-wrap glass-gap-1 mt-2"
+              >
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  edges
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  lines
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  basic shapes
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  Texture Patterns
+                </h5>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-green-500/20 text-green-300
+                    "
+                >
+                  conv
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Complex textures and patterns
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+              >
+                <span>
+                  Depth: 
+                  5
+                </span>
+                <span>
+                  Strength: 
+                  0.7
+                </span>
+              </div>
+              <div
+                class="glass-flex glass-flex-wrap glass-gap-1 mt-2"
+              >
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  textures
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  patterns
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  repetition
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-blue-400 bg-blue-400/20
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  Object Parts
+                </h5>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  inception
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Parts of objects and shapes
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+              >
+                <span>
+                  Depth: 
+                  10
+                </span>
+                <span>
+                  Strength: 
+                  1.0
+                </span>
+              </div>
+              <div
+                class="glass-flex glass-flex-wrap glass-gap-1 mt-2"
+              >
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  object parts
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  curves
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  complex shapes
+                </span>
+              </div>
+            </div>
+            <div
+              class="text-primary ml-2"
+            >
+              ✓
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  Abstract Objects
+                </h5>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  inception
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Abstract object representations
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+              >
+                <span>
+                  Depth: 
+                  15
+                </span>
+                <span>
+                  Strength: 
+                  1.2
+                </span>
+              </div>
+              <div
+                class="glass-flex glass-flex-wrap glass-gap-1 mt-2"
+              >
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  abstract objects
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  compositions
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  spatial relations
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  Complex Structures
+                </h5>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  inception
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Complex architectural structures
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+              >
+                <span>
+                  Depth: 
+                  18
+                </span>
+                <span>
+                  Strength: 
+                  1.5
+                </span>
+              </div>
+              <div
+                class="glass-flex glass-flex-wrap glass-gap-1 mt-2"
+              >
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  buildings
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  architecture
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  complex structures
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+          tabindex="0"
+        >
+          <div
+            class="glass-flex glass-items-start glass-justify-between"
+          >
+            <div
+              class="glass-flex-1"
+            >
+              <div
+                class="glass-flex glass-items-center space-x-2 mb-1"
+              >
+                <h5
+                  class="glass-text-sm font-medium text-primary/90"
+                >
+                  High-Level Concepts
+                </h5>
+                <span
+                  class="
+                      px-2 py-0.5 rounded text-xs font-medium
+                      bg-purple-500/20 text-purple-300
+                    "
+                >
+                  inception
+                </span>
+              </div>
+              <p
+                class="glass-text-xs text-primary/60 mb-2"
+              >
+                Abstract concepts and scenes
+              </p>
+              <div
+                class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+              >
+                <span>
+                  Depth: 
+                  25
+                </span>
+                <span>
+                  Strength: 
+                  2.0
+                </span>
+              </div>
+              <div
+                class="glass-flex glass-flex-wrap glass-gap-1 mt-2"
+              >
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  scenes
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  concepts
+                </span>
+                <span
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                >
+                  abstract ideas
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Dream Settings
+      </h4>
+      <div
+        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4"
+      >
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Iterations: 
+            20
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="100"
+            min="5"
+            type="range"
+            value="20"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Learning Rate: 
+            0.010
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="0.1"
+            min="0.001"
+            step="0.001"
+            type="range"
+            value="0.01"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Octaves: 
+            4
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="8"
+            min="1"
+            type="range"
+            value="4"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Octave Scale: 
+            1.4
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="2.0"
+            min="1.1"
+            step="0.1"
+            type="range"
+            value="1.4"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Step Size: 
+            1.5
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="5.0"
+            min="0.5"
+            step="0.1"
+            type="range"
+            value="1.5"
+          />
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Max Loss: 
+            10.0
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="50.0"
+            min="1.0"
+            step="1.0"
+            type="range"
+            value="10"
+          />
+        </div>
+      </div>
+      <div
+        class="glass-flex glass-items-center space-x-4"
+      >
+        <label
+          class="glass-flex glass-items-center space-x-2 cursor-pointer"
+        >
+          <input
+            checked=""
+            class="w-4 h-4 glass-radius glass-border-white/30"
+            type="checkbox"
+          />
+          <span
+            class="glass-text-sm text-primary/80"
+          >
+            Enable Tiling
+          </span>
+        </label>
+        <label
+          class="glass-flex glass-items-center space-x-2 cursor-pointer"
+        >
+          <input
+            checked=""
+            class="w-4 h-4 glass-radius glass-border-white/30"
+            type="checkbox"
+          />
+          <span
+            class="glass-text-sm text-primary/80"
+          >
+            Animate Result
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-flex glass-items-center glass-justify-between pt-4 glass-border-t glass-border-white/10"
+  >
+    <div
+      class="glass-flex glass-items-center space-x-4"
+    >
+      <input
+        accept="image/*"
+        class="hidden"
+        id="dream-image-upload"
+        type="file"
+      />
+      <label
+        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg glass-text-sm font-medium cursor-pointer transition-colors"
+        for="dream-image-upload"
+        tabindex="0"
+      >
+        Upload Image
+      </label>
+      <button
+        class="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:border-white/50 text-primary/80 glass-radius-lg glass-text-sm transition-colors disabled:opacity-50"
+        disabled=""
+        tabindex="0"
+      >
+        Generate Dream
+      </button>
+    </div>
+  </div>
+</div>
+`;

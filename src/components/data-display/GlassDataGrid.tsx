@@ -1,7 +1,6 @@
 'use client';
 import React, { forwardRef, useRef, useEffect, useState, useMemo, createRef, useCallback, CSSProperties } from 'react';
-import { GlassDataGridProps, ColumnDefinition, SortState } from './types';
-import styled, { css } from 'styled-components';
+import { GlassDataGridProps, SortState } from './types';
 
 // Stub implementations for missing hooks
 const useSortableData = (data: any[], sortConfig: SortState | null) => ({
@@ -22,108 +21,9 @@ const useVectorSpring = (options: any) => ({
   value: options?.initialValue || { x: 0, y: 0, z: 0 },
   setValue: () => {},
 });
-import { OptimizedGlass, Motion } from '../../primitives';
+import { OptimizedGlass } from '../../primitives';
 import { cn } from '../../lib/utilsComprehensive';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
-
-// --- Styled Components using Theme --- 
-
-const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: separate; /* Needed for border-radius on cells/rows */
-  border-spacing: 0;
-  font-family: ${props => (props?.theme as any).typography?.body?.fontFamily || 'sans-serif'}; // Use theme hook instead?
-  color: ${props => (props?.theme as any).colors?.text?.primary || 'var(--glass-black)'}; // Use theme hook instead?
-  // Glass surface effect applied via DimensionalGlass wrapper
-`;
-
-// Sort Indicator with transition removed
-const SortIndicator = styled.span`
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  /* transform: translateY(-50%); // Initial transform set by style prop now */
-  font-size: 0.8em;
-  color: ${props => (props?.theme as any).colors?.text?.secondary || '#555'};
-  /* REMOVED transition: transform 0.2s ease, opacity 0.2s ease; */
-  opacity: 0; /* Start hidden, animation controls visibility */
-  transform-origin: center center; /* Useful for scale/rotate transforms */
-  will-change: transform, opacity; /* Explicitly add will-change here */
-`;
-
-const StyledTh = styled.th<{ $isSortable?: boolean; $sortDirection?: 'asc' | 'desc' | null }>`
-  /* Use useStyleUtils hook in component for dynamic values */
-  padding: 12px 32px 12px 16px; /* Adjust padding */
-  text-align: left;
-  font-weight: ${props => (props?.theme as any).typography?.h6?.fontWeight || '600'};
-  font-size: ${props => (props?.theme as any).typography?.bodySmall?.fontSize || '0.875rem'};
-  color: ${props => (props?.theme as any).colors?.text?.secondary || '#555'};
-  border-bottom: 1px solid ${props => (props?.theme as any).colors?.divider || '#ccc'};
-  background-color: ${props => (props?.theme as any).colors?.background?.level1 || '#f9f9f9'}; // Example background
-  cursor: ${props => props.$isSortable ? 'pointer' : 'default'};
-  user-select: ${props => props.$isSortable ? 'none' : 'auto'};
-  position: relative; 
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: ${props => props.$isSortable ? ((props?.theme as any).colors?.action?.hover || '#f0f0f0') : 'transparent'};
-  }
-`;
-
-const StyledTd = styled.td`
-  /* Use useStyleUtils hook in component for dynamic values */
-  padding: 12px 16px; 
-  border-bottom: 1px solid ${props => (props?.theme as any).colors?.divider || '#eee'};
-  font-size: ${props => (props?.theme as any).typography?.body?.fontSize || '1rem'};
-  color: ${props => (props?.theme as any).colors?.text?.primary || 'var(--glass-black)'};
-`;
-
-// Wrapper for applying Glass effect
-const GlassWrapper = styled.div`
-  /* Takes styles from GlassSurface component or createSurface function */
-`;
-
-// Drag Handle Component
-const DragHandle = styled.span<{ $isKeyboardDraggingActive?: boolean }>`
-  cursor: grab;
-  padding: 0 8px;
-  color: ${props => (props?.theme as any).colors?.text?.disabled || '#aaa'};
-  user-select: none;
-  line-height: 1;
-  display: inline-block;
-  vertical-align: middle;
-  outline: none;
-
-  &:focus {
-    box-shadow: var(--glass-elev-2); 
-    border-radius: 3px;
-  }
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  /* Style for when actively dragging via keyboard */
-  ${props => props.$isKeyboardDraggingActive && css`
-    background-color: ${(props?.theme as any).colors?.primary?.light + '40'};
-    box-shadow: var(--glass-elev-2); 
-  `}
-`;
-
-// Table Row with potential dragging styles
-const StyledTr = styled.tr<{ $isPointerDragging?: boolean; $isKeyboardDraggingActive?: boolean }>`
-  background-color: ${props => 
-    props.$isKeyboardDraggingActive ? ((props?.theme as any).colors?.primary?.light + '20') : 
-    props.$isPointerDragging ? ((props?.theme as any).colors?.action?.hover || '#f0f0f0') : 
-    'transparent'};
-  /* Add transition for background color, transform and shadow */
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  
-  /* Apply transform and shadow when dragging */
-  ${props => (props.$isPointerDragging || props.$isKeyboardDraggingActive) && css`
-    position: relative; 
-  `} 
-`;
+import styles from './GlassDataGrid.module.css';
 
 // Define the component using forwardRef
 export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
@@ -140,33 +40,67 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
       enableRowDragging = false,
       onRowOrderChange,
     } = props;
-    const { sortedData, sortConfig, handleSort } = useSortableData(initialData, initialSort as SortState);
+    const safeInitialData = Array.isArray(initialData) ? initialData : [];
+    const safeColumns = Array.isArray(columns) ? columns : [];
+    const {
+      sortedData: unsortedData = safeInitialData,
+      sortConfig,
+      handleSort,
+    } = useSortableData(safeInitialData, initialSort as SortState);
+    const normalizedSortedData = Array.isArray(unsortedData)
+      ? unsortedData
+      : safeInitialData;
     
     // Create refs for each row element for the physics hook
-    const rowRefs = useMemo(() => 
-        Array.from({ length: sortedData?.length || 0 }, () => createRef<HTMLTableRowElement>()), 
-        [sortedData.length]
+    const rowRefs = useMemo(
+      () =>
+        Array.from(
+          { length: normalizedSortedData?.length || 0 },
+          () => createRef<HTMLTableRowElement>()
+        ),
+      [normalizedSortedData?.length]
     );
 
     // Need state for the order controlled by the hook
-    const [renderOrder, setRenderOrder] = useState<number[]>(() => 
-        Array.from({ length: sortedData.length }, (_, i) => i));
+    const [renderOrder, setRenderOrder] = useState<number[]>(() =>
+      Array.from({ length: normalizedSortedData.length }, (_, i) => i)
+    );
+
+    useEffect(() => {
+      setRenderOrder((previous) => {
+        if (previous.length === normalizedSortedData.length) {
+          return previous;
+        }
+        return Array.from(
+          { length: normalizedSortedData.length },
+          (_, i) => i
+        );
+      });
+    }, [normalizedSortedData.length]);
 
     // Display data based on renderOrder
-    const displayData = useMemo(() => 
-        renderOrder.map((index: any) => sortedData[index]), 
-        [sortedData, renderOrder]
+    const displayData = useMemo(
+      () =>
+        (renderOrder || [])
+          .map((index: any) => normalizedSortedData?.[index])
+          .filter((row) => row !== undefined),
+      [normalizedSortedData, renderOrder]
     );
 
     // Callback for the hook to update our renderOrder
-    const handleOrderUpdate = useCallback((newOrderIndices: number[]) => {
+    const handleOrderUpdate = useCallback(
+      (newOrderIndices: number[]) => {
         setRenderOrder(newOrderIndices);
         if (onRowOrderChange) {
-            // Map original data based on the new order of *original* indices
-            const originalDataInNewOrder = newOrderIndices.map((originalIndex: any) => initialData?.[originalIndex]); 
-            onRowOrderChange(originalDataInNewOrder);
+          // Map original data based on the new order of *original* indices
+          const originalDataInNewOrder = newOrderIndices
+            .map((originalIndex: any) => safeInitialData?.[originalIndex])
+            .filter((row) => row !== undefined);
+          onRowOrderChange(originalDataInNewOrder);
         }
-    }, [onRowOrderChange, initialData]);
+      },
+      [onRowOrderChange, safeInitialData]
+    );
 
     const { 
         styles: rowStyles, 
@@ -210,7 +144,34 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
       }
     };
 
-    if (!displayData || !columns) return null;
+    const totalColumns = safeColumns.length + (enableRowDragging ? 1 : 0);
+    const hasData = displayData.length > 0;
+
+    if (!safeColumns.length) {
+      return (
+        <OptimizedGlass
+          data-glass-component
+          ref={ref}
+          intent="neutral"
+          elevation="level2"
+          intensity="medium"
+          depth={2}
+          tint="neutral"
+          border="subtle"
+          animation="none"
+          performanceMode="medium"
+          className={cn(
+            'glass-w-full glass-p-6 glass-text-center',
+            className
+          )}
+          style={style}
+        >
+          <p className="glass-text-sm glass-text-secondary">
+            No columns configured for this data grid.
+          </p>
+        </OptimizedGlass>
+      );
+    }
 
     return (
       <OptimizedGlass data-glass-component 
@@ -230,12 +191,12 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
             perspective: '1000px',
         }}
       >
-        <StyledTable /* Removed className and ref */ >
+        <table className={styles.table}>
           <thead>
-            <tr>
+            <tr className={styles.headerRow}>
               {/* Add placeholder header for drag handle if enabled */} 
-              {enableRowDragging && <StyledTh style={{ width: '40px' }}></StyledTh>} 
-              {columns.map((col) => {
+              {enableRowDragging && <th className={cn(styles.headerCell, styles.dragHandleCell)} aria-hidden="true"></th>} 
+              {safeColumns.map((col) => {
                 // Determine if this column is the one being sorted
                 const isSortingThisColumn = sortConfig?.key === col.key;
                 const currentSortDirection = sortConfig && isSortingThisColumn ? sortConfig.direction : null;
@@ -251,13 +212,16 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                     transform: `translateY(${indicatorTranslateYPercent}%) scale(${indicatorScale})`,
                 };
 
+                const headerClassName = cn(
+                  styles.headerCell,
+                  isSortable && styles.headerSortable
+                );
+
                 return (
-                  <StyledTh
+                  <th
                     key={col.id}
-                    $isSortable={isSortable}
-                    // Pass raw direction for potential styling, not animation
-                    $sortDirection={currentSortDirection}
-                    onClick={(e) => isSortable && handleSort()}
+                    className={headerClassName}
+                    onClick={() => isSortable && handleSort()}
                     tabIndex={isSortable ? 0 : -1}
                     onKeyDown={(e) => handleHeaderKeyDown(e)}
                     role="columnheader"
@@ -268,63 +232,98 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                     }
                   >
                     {col.header}
-                    <SortIndicator style={indicatorStyle} aria-hidden={!isSortingThisColumn} >
-                        {/* Content changes based on TARGET direction */}
-                        {sortTargetValue > 0 ? '▲' : '▼'}
-                    </SortIndicator>
-                  </StyledTh>
+                    <span
+                      className={styles.sortIndicator}
+                      style={{
+                        opacity: indicatorOpacity,
+                        transform: `translateY(${indicatorTranslateYPercent}%) scale(${indicatorScale})`,
+                      }}
+                      aria-hidden={!isSortingThisColumn}
+                    >
+                      {sortTargetValue > 0 ? '▲' : '▼'}
+                    </span>
+                  </th>
                 );
               })}
             </tr>
           </thead>
           {/* Use a relative positioned div for tbody content if rows are absolute */}
-          <tbody style={{ position: 'relative' }}>
-            {displayData.map((row, displayIndex) => { 
-              const originalIndex = renderOrder?.[displayIndex];
-              if (originalIndex === undefined) return null;
+          <tbody className={styles.body}>
+            {hasData ? (
+              displayData.map((row, displayIndex) => {
+                const originalIndex = renderOrder?.[displayIndex];
+                if (originalIndex === undefined) return null;
 
-              const rowStyle = rowStyles?.[originalIndex] || {};
-              const handlers = enableRowDragging ? getHandlers() : { onPointerDown: ()=>{}, onKeyDown: ()=>{} }; 
-              
-              const isDraggingThisRow = isAnyItemDragging && draggedOriginalItemIndex === originalIndex;
-              
-              return (
-                <StyledTr 
-                  key={`row-${row.id ?? originalIndex}`}
-                  ref={rowRefs?.[originalIndex]} 
-                  style={rowStyle} 
-                  $isPointerDragging={isDraggingThisRow} 
-                  $isKeyboardDraggingActive={isDraggingThisRow} 
-                >
-                  {enableRowDragging && (
-                    <StyledTd 
-                      style={{ textAlign: 'center', cursor: 'default', width: '40px' }} 
-                    > 
-                      <DragHandle 
-                        {...handlers} 
-                        tabIndex={0} 
-                        role="button" 
-                        aria-label={`Drag row ${displayIndex + 1}`}
-                        aria-grabbed={isDraggingThisRow}
-                        $isKeyboardDraggingActive={isDraggingThisRow} 
-                        data-drag-handle="true" 
+                const rowStyle = rowStyles?.[originalIndex] || {};
+                const handlers = enableRowDragging
+                  ? getHandlers()
+                  : { onPointerDown: () => {}, onKeyDown: () => {} };
+
+                const isDraggingThisRow =
+                  isAnyItemDragging && draggedOriginalItemIndex === originalIndex;
+
+                const rowClassName = cn(
+                  styles.row,
+                  isDraggingThisRow && styles.rowDragging
+                );
+
+                return (
+                  <tr
+                    key={`row-${row?.id ?? originalIndex}`}
+                    ref={rowRefs?.[originalIndex]}
+                    style={rowStyle}
+                    className={rowClassName}
+                  >
+                    {enableRowDragging && (
+                      <td className={cn(styles.cell, styles.dragHandleCell)}>
+                        <span
+                          {...handlers}
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`Drag row ${displayIndex + 1}`}
+                          aria-grabbed={isDraggingThisRow}
+                          data-drag-handle="true"
+                          className={cn(
+                            styles.dragHandle,
+                            isDraggingThisRow && styles.dragHandleActive
+                          )}
+                        >
+                          ⠿
+                        </span>
+                      </td>
+                    )}
+                    {safeColumns.map((col) => (
+                      <td
+                        key={`${col.id}-${originalIndex}`}
+                        className={styles.cell}
                       >
-                        ⠿
-                      </DragHandle>
-                    </StyledTd>
-                  )}
-                  {columns.map((col) => (
-                    <StyledTd key={`${col.id}-${originalIndex}`}>
-                      {col.cellRenderer
-                        ? col.cellRenderer(row?.[col.accessorKey as keyof typeof row], row)
-                        : row?.[col.accessorKey as keyof typeof row]}
-                    </StyledTd>
-                  ))}
-                </StyledTr>
-              );
-            })}
+                        {col.cellRenderer
+                          ? col.cellRenderer(
+                              row?.[col.accessorKey as keyof typeof row],
+                              row
+                            )
+                          : row?.[col.accessorKey as keyof typeof row] ??
+                            col.placeholder ??
+                            '—'}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td
+                  className={styles.cell}
+                  colSpan={Math.max(1, totalColumns)}
+                >
+                  <div className="glass-text-sm glass-text-secondary text-center">
+                    No data available.
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
-        </StyledTable>
+        </table>
       </OptimizedGlass>
     );
   }

@@ -26,13 +26,36 @@ export interface GlassTreeNode {
   metadata?: Record<string, any>;
 }
 
+const DEFAULT_TREE_DATA: GlassTreeNode[] = [
+  {
+    id: "overview",
+    label: "Overview",
+    children: [
+      { id: "analytics", label: "Analytics" },
+      {
+        id: "performance",
+        label: "Performance",
+        children: [{ id: "lighthouse", label: "Lighthouse" }],
+      },
+    ],
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    children: [
+      { id: "appearance", label: "Appearance" },
+      { id: "tokens", label: "Design Tokens" },
+    ],
+  },
+];
+
 export interface GlassTreeViewProps
   extends Omit<
     React.HTMLAttributes<HTMLDivElement>,
     "onSelect" | "onDragStart" | "onDrop"
   > {
   /** Tree data */
-  data: GlassTreeNode[];
+  data?: GlassTreeNode[];
   /** Currently selected node */
   selectedId?: string;
   /** Expanded node IDs */
@@ -288,7 +311,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   const defaultExpandIcon = (
     <svg
-      className="glass-w-full glass-h-full transition-transform duration-200"
+      className='glass-w-full glass-h-full transition-transform duration-200'
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -304,7 +327,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   const defaultCollapseIcon = (
     <svg
-      className="glass-w-full glass-h-full transition-transform duration-200 rotate-90"
+      className='glass-w-full glass-h-full transition-transform duration-200 rotate-90'
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -327,7 +350,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
             preset={
               shouldAnimate && respectMotionPreference ? "slideDown" : "none"
             }
-            className="relative"
+            className='relative'
           >
             {node.children?.map((child) => (
               <GlassTreeNodeComponent
@@ -379,7 +402,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
       >
         {/* Connecting lines */}
         {showLines && level > 0 && (
-          <div className="absolute left-0 top-0 glass-h-full glass-flex glass-items-center">
+          <div className='absolute left-0 top-0 glass-h-full glass-flex glass-items-center'>
             <div
               className="glass-border-l glass-border-glass-border/20 glass-h-full"
               style={{
@@ -387,7 +410,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
               }}
             />
             <div
-              className="glass-border-t glass-border-glass-border/20 w-2"
+              className='glass-border-t glass-border-glass-border/20 w-2'
               style={{
                 left: `${(level - 1) * indentation + indentation / 2}px`,
               }}
@@ -405,7 +428,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           {hasChildren ? (
             <button
               onClick={handleToggle}
-              className="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
               {isExpanded
@@ -440,7 +463,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
         )}
 
         {/* Label */}
-        <span className="glass-flex-1 truncate">{node.label}</span>
+        <span className='glass-flex-1 truncate'>{node.label}</span>
 
         {/* Drag indicator */}
         {isDragOver && (
@@ -461,7 +484,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
             preset={
               shouldAnimate && respectMotionPreference ? "slideDown" : "none"
             }
-            className="relative"
+            className='relative'
           >
             {node.children?.map((child) => (
               <GlassTreeNodeComponent
@@ -482,7 +505,7 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
     {
       // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
-      data,
+      data = DEFAULT_TREE_DATA,
       selectedId,
       expandedIds,
       defaultExpandedIds = [],

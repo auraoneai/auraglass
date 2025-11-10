@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassPhysicsEngine matches snapshot 1`] = `
+<div
+  class="glass-relative glass-overflow-hidden"
+  tabindex="0"
+>
+  <canvas
+    class="glass-absolute glass-inset-0 glass-pointer-events-none glass-z-10"
+    height="0"
+    style="mix-blend-mode: screen;"
+    width="0"
+  />
+  <div
+    class="glass-relative glass-z-0"
+    style="transform: none;"
+  />
+</div>
+`;

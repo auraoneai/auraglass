@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAvatar matches snapshot 1`] = `
+<div
+  class="relative inline-block"
+  data-glass-component="true"
+>
+  <div
+    aria-label="Avatar"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative overflow-hidden w-10 h-10 glass-text-base glass-radius-full glass-backdrop-blur-md bg-white/10 border border-white/20"
+    data-performance-mode="medium"
+    id="avatar-:r4:"
+    role="img"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-full"
+    >
+      <div
+        class="w-4 h-4 glass-surface-subtle/30 glass-radius-md"
+      />
+    </div>
+  </div>
+</div>
+`;

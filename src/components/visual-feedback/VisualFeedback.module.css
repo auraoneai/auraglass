@@ -1,0 +1,146 @@
+.container {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+}
+
+.rippleOverflow {
+  overflow: hidden;
+}
+
+.pulse {
+  animation-name: auraPulse;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.glow {
+  animation-name: auraGlow;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.highlight {
+  animation-name: auraHighlight;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.bounce {
+  animation-name: auraBounce;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+.shake {
+  animation-name: auraShake;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.glassOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.ripples {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(var(--feedback-color-rgb, 255, 255, 255), 0.3);
+  transform: scale(0);
+  pointer-events: none;
+  animation-name: auraRipple;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes auraPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes auraGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--feedback-color-rgb, 99, 102, 241), 0.12);
+  }
+  50% {
+    box-shadow: 0 0 20px 8px rgba(var(--feedback-color-rgb, 99, 102, 241), 0.18);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--feedback-color-rgb, 99, 102, 241), 0.12);
+  }
+}
+
+@keyframes auraHighlight {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.12);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes auraBounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes auraShake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes auraRipple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}

@@ -216,8 +216,8 @@ export const GlassTransferList = forwardRef<
     ) => (
       <div className="glass-flex-1 glass-flex glass-flex-col">
         <div className="glass-p-3 glass-border-b glass-border-subtle">
-          <div className="glass-flex glass-items-center glass-justify-between mb-2">
-            <h3 className="glass-text-base font-semibold glass-text-primary">
+          <div className='glass-flex glass-items-center glass-justify-between mb-2'>
+            <h3 className='glass-text-base font-semibold glass-text-primary'>
               {title}
             </h3>
             {showCount && (
@@ -244,7 +244,7 @@ export const GlassTransferList = forwardRef<
           )}
         </div>
         <div
-          className="glass-flex-1 overflow-y-auto glass-p-2"
+          className='glass-flex-1 overflow-y-auto glass-p-2'
           style={{ minHeight, maxHeight }}
         >
           {listItems.length === 0 ? (
@@ -252,7 +252,7 @@ export const GlassTransferList = forwardRef<
               No items
             </div>
           ) : (
-            <div className="space-y-1">
+            <div className='space-y-1'>
               {listItems.map((item) => (
                 <label
                   key={item.id}
@@ -269,19 +269,19 @@ export const GlassTransferList = forwardRef<
                     checked={checked.has(item.id)}
                     onChange={() => onToggle(item.id)}
                     disabled={disabled || item.disabled}
-                    className="mt-0.5 glass-focus"
+                    className='mt-0.5 glass-focus'
                   />
                   <div className="glass-flex-1 glass-min-w-0">
                     <div className="glass-flex glass-items-center glass-gap-2">
                       {item.icon && (
                         <span className="glass-flex-shrink-0">{item.icon}</span>
                       )}
-                      <span className="glass-text-sm glass-text-primary font-medium truncate">
+                      <span className='glass-text-sm glass-text-primary font-medium truncate'>
                         {item.label}
                       </span>
                     </div>
                     {item.description && (
-                      <p className="glass-text-xs glass-text-secondary mt-1 truncate">
+                      <p className='glass-text-xs glass-text-secondary mt-1 truncate'>
                         {item.description}
                       </p>
                     )}
@@ -349,7 +349,7 @@ export const GlassTransferList = forwardRef<
             disabled={availableItems.length === 0}
             label="Move all to selected"
             icon={
-              <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+              <svg viewBox="0 0 24 24" fill="none" className='w-4 h-4'>
                 <path
                   d="M13 5l7 7-7 7M5 5l7 7-7 7"
                   stroke="currentColor"
@@ -365,7 +365,7 @@ export const GlassTransferList = forwardRef<
             disabled={leftChecked.size === 0}
             label="Move selected to right"
             icon={
-              <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+              <svg viewBox="0 0 24 24" fill="none" className='w-4 h-4'>
                 <path
                   d="M5 12h14m-7-7l7 7-7 7"
                   stroke="currentColor"
@@ -381,7 +381,7 @@ export const GlassTransferList = forwardRef<
             disabled={rightChecked.size === 0}
             label="Move selected to left"
             icon={
-              <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+              <svg viewBox="0 0 24 24" fill="none" className='w-4 h-4'>
                 <path
                   d="M19 12H5m7 7l-7-7 7-7"
                   stroke="currentColor"
@@ -397,7 +397,7 @@ export const GlassTransferList = forwardRef<
             disabled={selectedItems.length === 0}
             label="Move all to available"
             icon={
-              <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+              <svg viewBox="0 0 24 24" fill="none" className='w-4 h-4'>
                 <path
                   d="M11 5l-7 7 7 7M19 5l-7 7 7 7"
                   stroke="currentColor"

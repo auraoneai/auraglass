@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrganicAnimationEngine matches snapshot 1`] = `
+<div
+  class="organic-animation-container "
+  style="position: relative; transform: none;"
+  tabindex="0"
+>
+  <div
+    class="animation-debug-info glass-focus glass-touch-target glass-contrast-guard"
+    style="position: absolute; top: 0px; right: 0px; color: white; padding: 4px 8px; font-size: 10px; border-radius: 0 0 0 8px; pointer-events: none;"
+  >
+    Emotion: 
+    calm
+     | Active: 
+    0
+     | Perf:
+     
+    high
+  </div>
+</div>
+`;

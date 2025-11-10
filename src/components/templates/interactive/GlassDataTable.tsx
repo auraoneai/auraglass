@@ -101,10 +101,10 @@ export function GlassDataTable<T extends Record<string, any>>({
   const renderLoadingSkeleton = () => (
     <>
       {Array.from({ length: loadingRows }).map((_, index) => (
-        <tr key={`loading-${index}`} className="animate-pulse">
+        <tr key={`loading-${index}`} className='animate-pulse'>
           {columns.map((column, colIndex) => (
             <td key={`loading-${index}-${colIndex}`} className="glass-p-4">
-              <div className="h-4 glass-surface-subtle glass-radius"></div>
+              <div className='h-4 glass-surface-subtle glass-radius'></div>
             </td>
           ))}
         </tr>
@@ -114,14 +114,14 @@ export function GlassDataTable<T extends Record<string, any>>({
 
   const renderEmptyState = () => (
     <tr>
-      <td colSpan={columns.length} className="glass-p-12 text-center">
+      <td colSpan={columns.length} className='glass-p-12 text-center'>
         <div className="glass-flex glass-flex-col glass-items-center glass-gap-4 glass-text-secondary">
-          <div className="text-6xl opacity-50">📭</div>
-          <div className="font-medium">{emptyMessage}</div>
+          <div className='text-6xl opacity-50'>📭</div>
+          <div className='font-medium'>{emptyMessage}</div>
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className="glass-px-4 glass-py-2 glass-surface-primary/10 hover:glass-surface-primary/20 glass-radius-lg text-primary glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-px-4 glass-py-2 glass-surface-primary/10 hover:glass-surface-primary/20 glass-radius-lg text-primary glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard'
             >
               Clear Search
             </button>
@@ -149,7 +149,7 @@ export function GlassDataTable<T extends Record<string, any>>({
           <button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="glass-px-3 glass-py-1 glass-radius-md glass-border glass-border-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            className='glass-px-3 glass-py-1 glass-radius-md glass-border glass-border-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
             Previous
           </button>
@@ -177,7 +177,7 @@ export function GlassDataTable<T extends Record<string, any>>({
               setCurrentPage(Math.min(totalPages, currentPage + 1))
             }
             disabled={currentPage === totalPages}
-            className="glass-px-3 glass-py-1 glass-radius-md glass-border glass-border-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            className='glass-px-3 glass-py-1 glass-radius-md glass-border glass-border-glass-border hover:glass-surface-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
             Next
           </button>
@@ -194,7 +194,7 @@ export function GlassDataTable<T extends Record<string, any>>({
       {/* Header with search */}
       {searchable && (
         <div className="glass-p-4 glass-border-b glass-border-glass-border">
-          <div className="relative">
+          <div className='relative'>
             <input
               type="text"
               placeholder="Search..."
@@ -203,9 +203,9 @@ export function GlassDataTable<T extends Record<string, any>>({
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="glass-w-full glass-px-4 glass-py-2 glass-pl-10 bg-background glass-border glass-border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-w-full glass-px-4 glass-py-2 glass-pl-10 bg-background glass-border glass-border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors glass-focus glass-touch-target glass-contrast-guard'
             />
-            <div className="absolute left-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary">
+            <div className='absolute left-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary'>
               🔍
             </div>
           </div>
@@ -213,7 +213,7 @@ export function GlassDataTable<T extends Record<string, any>>({
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className='overflow-x-auto'>
         <table className="glass-w-full">
           <thead className="glass-surface-subtle">
             <tr>
@@ -268,7 +268,7 @@ export function GlassDataTable<T extends Record<string, any>>({
                 : paginatedData.map((item, index) => (
                     <tr
                       key={index}
-                      className="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+                      className='hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0'
                     >
                       {columns.map((column) => (
                         <td

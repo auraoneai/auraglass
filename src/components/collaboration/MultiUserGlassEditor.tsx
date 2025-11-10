@@ -111,12 +111,12 @@ export function MultiUserGlassEditor({
     >
       <header className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-4">
         <div>
-          <h2 className="glass-text-xl font-semibold text-primary">{header}</h2>
-          <p className="glass-text-sm text-primary/70">
+          <h2 className='glass-text-xl font-semibold text-primary'>{header}</h2>
+          <p className='glass-text-sm text-primary/70'>
             Synced presence across team members with glass awareness.
           </p>
         </div>
-        <span className="glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs text-primary/70">
+        <span className='glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs text-primary/70'>
           Updated {formattedTimestamp}
         </span>
       </header>
@@ -125,11 +125,11 @@ export function MultiUserGlassEditor({
         {participants.map((user) => (
           <span
             key={user.id}
-            className="glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs text-primary"
+            className='glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs text-primary'
             style={{ boxShadow: `0 0 25px -12px ${user.color}` }}
           >
             <span
-              className="glass-flex h-2.5 w-2.5 glass-radius-full"
+              className='glass-flex h-2.5 w-2.5 glass-radius-full'
               style={{ backgroundColor: user.presence ? undefined : "#94a3b8" }}
             >
               {user.presence && (
@@ -141,10 +141,10 @@ export function MultiUserGlassEditor({
                 />
               )}
             </span>
-            <span className="font-medium" style={{ color: user.color }}>
+            <span className='font-medium' style={{ color: user.color }}>
               {user.name}
             </span>
-            <span className="text-primary/50">{user.presence ?? "active"}</span>
+            <span className='text-primary/50'>{user.presence ?? "active"}</span>
           </span>
         ))}
       </div>

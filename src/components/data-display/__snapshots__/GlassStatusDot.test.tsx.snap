@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassStatusDot matches snapshot 1`] = `
+<span
+  class="inline-block glass-radius-full bg-emerald-400"
+  style="width: 8px; height: 8px;"
+/>
+`;

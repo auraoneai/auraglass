@@ -4,18 +4,17 @@
  *
  * A button component with ripple effect feedback.
  */
-import React, { forwardRef, useState, useRef, useCallback } from 'react';
-import styled, { css } from 'styled-components';
+import React, { forwardRef, useState, useRef, useCallback, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { GlassButton as Button } from '../button';
-import { glassStyleCSS } from '../../core/mixins/glassMixins';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 // Import base Button
 import { GlassButtonProps as ButtonProps } from '../button/types'; // Import ButtonProps from correct file
 
 import { RippleButtonProps } from './types';
+import styles from './RippleButton.module.css';
 
 // Convert color string to RGB values
 const colorToRgb = (color: string): string => {
@@ -71,50 +70,6 @@ const getRippleDuration = (speed: string): number => {
   }
 };
 
-// Styled components
-// Wrapper to contain the button and ripples
-const RippleWrapper = styled.div`
-  position: relative;
-  display: inline-block; // Or block if fullWidth
-  overflow: hidden;
-  // Match Button's border radius - Get it from theme or pass as prop if variable
-  
-  ${glassStyleCSS({
-    intent: 'neutral',
-    elevation: 'level2',
-    tier: 'high'
-  })}
-  border-radius: 8px; 
-  // Ensure wrapper matches button dimensions
-  // This might require passing size/variant props to style correctly
-  // or making Button's styles accessible here., // For now assuming the wrapper takes the size of the Button child.
-`;
-
-// Ripple effect styled component
-const Ripple = styled.span<{
-  $size: number;
-  $x: number;
-  $y: number;
-  $duration: number;
-  $reducedMotion: boolean;
-}>`
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(var(--ripple-color-rgb), 0.3);
-  transform: scale(0);
-  animation: ${props =>
-    props.$reducedMotion ? 'none' : `ripple ${props.$duration}ms ease-out forwards`};
-  pointer-events: none; // Ensure ripples don't interfere with button events
-  z-index: 0; // Keep ripple behind button content
-
-  @keyframes ripple {
-    to {
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
-`;
-
 /**
  * RippleButton Component Implementation
  * Wraps the base Button component to add a ripple effect.
@@ -124,9 +79,6 @@ function RippleButtonComponent(
   props: RippleButtonProps & Omit<ButtonProps, 'onClick' | 'onMouseDown'>, 
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
-  // Unified glass styles
-  const glassStyles = createGlassStyle({ intent: 'neutral', elevation: 'level2', tier: 'high' });
-
   const {
     children,
     disabled = false,
@@ -192,12 +144,21 @@ function RippleButtonComponent(
   const rippleDuration = getRippleDuration(rippleSpeed);
   const rippleColorRgb = colorToRgb(rippleColor);
 
+  const wrapperStyle = useMemo<React.CSSProperties>(() => {
+    const base = createGlassStyle({ intent: 'neutral', elevation: 'level2', tier: 'high' });
+    const { position, ...rest } = base;
+    return {
+      ...rest,
+      '--ripple-color-rgb': rippleColorRgb,
+    } as React.CSSProperties;
+  }, [rippleColorRgb]);
+
   return (
     // Apply ripple color CSS variable to the wrapper
-    <RippleWrapper
+    <div
         ref={wrapperRef}
-        style={{ "--ripple-color-rgb": rippleColorRgb } as React.CSSProperties}
-        className={cn('glass-ripple-button glass-contrast-guard', className)} // Pass className to wrapper for styling
+        style={wrapperStyle}
+        className={cn(styles.wrapper, 'glass-ripple-button glass-contrast-guard', className)} // Pass className to wrapper for styling
     >
       <Button
         ref={ref} // Forward the ref to the underlying Button
@@ -224,23 +185,24 @@ function RippleButtonComponent(
       </Button>
 
       {/* Render ripples */}
-      {!prefersReducedMotion && ripples.map((ripple: any) => (
-        <Ripple
-          key={ripple.id}
-          style={{
-            left: ripple.x - rippleSizeValue / 2,
-            top: ripple.y - rippleSizeValue / 2,
-            width: rippleSizeValue,
-            height: rippleSizeValue,
-          }}
-          $size={rippleSizeValue}
-          $x={ripple.x}
-          $y={ripple.y}
-          $duration={rippleDuration}
-          $reducedMotion={prefersReducedMotion} // Pass reduced motion state
-        />
-      ))}
-    </RippleWrapper>
+      {!prefersReducedMotion && (
+        <div className={styles.ripples} aria-hidden="true">
+          {ripples.map((ripple) => (
+            <span
+              key={ripple.id}
+              className={styles.ripple}
+              style={{
+                left: ripple.x - rippleSizeValue / 2,
+                top: ripple.y - rippleSizeValue / 2,
+                width: rippleSizeValue,
+                height: rippleSizeValue,
+                animationDuration: `${rippleDuration}ms`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

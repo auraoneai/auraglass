@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMorphingEngine matches snapshot 1`] = `
+<div
+  class="glass-morphing-container"
+  style="--gm-opacity: 0.8; --gm-blur: 6px; --gm-refraction: 0.5; --gm-reflection: 0.5; --gm-chromatic: 0.3; --gm-caustic: 0.4; --gm-temperature: 0; --gm-hue: 200; --gm-viscosity: 0.3; --gm-crystalline: 0.2; --gm-iridescence: 0.4;"
+>
+  <div
+    class="glass-morphing-effects"
+  >
+    <div
+      class="glass-layer glass-base"
+    />
+    <div
+      class="glass-layer glass-refraction"
+    />
+    <div
+      class="glass-layer glass-reflection"
+    />
+    <div
+      class="glass-layer glass-chromatic"
+    />
+    <div
+      class="glass-layer glass-caustic"
+    />
+    <div
+      class="glass-layer glass-crystalline"
+    />
+    <div
+      class="glass-layer glass-viscosity"
+    />
+  </div>
+  <div
+    class="glass-morphing-content"
+  />
+</div>
+`;

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDetailView matches snapshot 1`] = `
+<div
+  class="w-full glass-auto-gap glass-auto-gap-3xl"
+>
+  <div
+    class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+  >
+    <div
+      class="flex flex-row glass-gap-4 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
+    >
+      <div
+        class="flex flex-row glass-gap-4 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+      >
+        <div
+          class="flex flex-col glass-gap-1 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+        >
+          <div
+            class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+          >
+            <h1
+              class="glass-text-2xl font-bold text-primary"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+      />
+    </div>
+  </div>
+  <div
+    class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+  />
+</div>
+`;

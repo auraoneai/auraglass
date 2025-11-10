@@ -406,7 +406,7 @@ function ToggleButtonComponent(
         preset="scaleIn"
         animateOnHover={true}
         duration={0.2}
-        className="inline-block"
+        className='inline-block'
       >
         <OptimizedGlass
           ref={(node) => {
@@ -442,9 +442,9 @@ function ToggleButtonComponent(
           {...a11yProps}
           {...rest}
         >
-          <span className="relative z-10">{children}</span>
+          <span className='relative z-10'>{children}</span>
           {description && (
-            <span id={descriptionId} className="sr-only">
+            <span id={descriptionId} className='sr-only'>
               {description}
             </span>
           )}
@@ -458,7 +458,7 @@ function ToggleButtonComponent(
       preset="scaleIn"
       animateOnHover={true}
       duration={0.2}
-      className="inline-block"
+      className='inline-block'
     >
       <button
         ref={(node) => {
@@ -485,7 +485,7 @@ function ToggleButtonComponent(
       >
         {children}
         {description && (
-          <span id={descriptionId} className="sr-only">
+          <span id={descriptionId} className='sr-only'>
             {description}
           </span>
         )}

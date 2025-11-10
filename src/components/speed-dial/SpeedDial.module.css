@@ -1,0 +1,151 @@
+.root {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--aura-z-overlay, 1050);
+  transition: transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+}
+
+.hidden {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  box-shadow: var(--aura-shadow-elevation-md);
+  cursor: pointer;
+  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  color: var(--aura-color-global-text-on-primary);
+}
+
+.fab:not(.fabDisabled):hover {
+  box-shadow: var(--aura-shadow-elevation-lg);
+  transform: scale(1.02);
+}
+
+.fab:not(.fabDisabled):active {
+  transform: scale(0.96);
+}
+
+.fabGlass {
+  background: color-mix(in srgb, var(--aura-color-glass-surface) 85%, transparent);
+  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
+  backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+}
+
+.fabSolidPrimary {
+  background: var(--aura-color-semantic-primary);
+}
+
+.fabSolidSecondary {
+  background: var(--aura-color-semantic-secondary);
+}
+
+.fabSolidError {
+  background: var(--aura-color-semantic-danger);
+}
+
+.fabSolidInfo {
+  background: var(--aura-color-semantic-info);
+}
+
+.fabSolidSuccess {
+  background: var(--aura-color-semantic-success);
+}
+
+.fabSolidWarning {
+  background: var(--aura-color-semantic-warning);
+}
+
+.fabSolidDefault {
+  background: color-mix(in srgb, var(--aura-color-surface-base) 88%, transparent);
+}
+
+.fabDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.fabSmall {
+  width: 40px;
+  height: 40px;
+}
+
+.fabMedium {
+  width: 56px;
+  height: 56px;
+}
+
+.fabLarge {
+  width: 64px;
+  height: 64px;
+}
+
+.fabHover {
+  background: color-mix(in srgb, currentColor 22%, transparent);
+}
+
+.fabActive {
+  transform: scale(0.96);
+}
+
+.actions {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.actionsOpen {
+  pointer-events: auto;
+}
+
+.actionsVertical {
+  flex-direction: column;
+}
+
+.actionsHorizontal {
+  flex-direction: row;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--aura-color-overlay-surface-strong) 50%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  z-index: calc(var(--aura-z-overlay, 1050) - 1);
+}
+
+.backdropVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .fab,
+  .actions {
+    transition: none;
+  }
+}

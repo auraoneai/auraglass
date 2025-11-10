@@ -92,25 +92,25 @@ export function NeuralWeightVisualization({
       )}
     >
       <header>
-        <h2 className="glass-text-xl font-semibold text-primary">
+        <h2 className='glass-text-xl font-semibold text-primary'>
           Neural Weight Visualization
         </h2>
-        <p className="glass-text-sm text-primary/70">
+        <p className='glass-text-sm text-primary/70'>
           Inspect synaptic strengths with polarity-aware colour mapping and
           activation overlays.
         </p>
       </header>
 
-      <div className="glass-grid glass-gap-4 lg:grid-cols-3">
+      <div className='glass-grid glass-gap-4 lg:grid-cols-3'>
         {normalizedLayers.map((layer) => (
           <div
             key={layer.id}
             className="glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur"
           >
-            <div className="glass-flex glass-items-center glass-justify-between glass-text-sm text-primary/80">
-              <h3 className="font-semibold text-primary">{layer.label}</h3>
+            <div className='glass-flex glass-items-center glass-justify-between glass-text-sm text-primary/80'>
+              <h3 className='font-semibold text-primary'>{layer.label}</h3>
               {layer.activation && (
-                <span className="glass-text-xs text-primary/60">
+                <span className='glass-text-xs text-primary/60'>
                   Activation avg{" "}
                   {(
                     layer.activation.reduce((sum, value) => sum + value, 0) /
@@ -120,13 +120,13 @@ export function NeuralWeightVisualization({
               )}
             </div>
 
-            <div className="mt-3 overflow-hidden glass-radius-xl glass-border glass-border-white/10">
-              <table className="min-w-full glass-border-collapse">
+            <div className='mt-3 overflow-hidden glass-radius-xl glass-border glass-border-white/10'>
+              <table className='min-w-full glass-border-collapse'>
                 <tbody>
                   {layer.weights.map((row, rowIndex) => (
                     <tr
                       key={`${layer.id}-row-${rowIndex}`}
-                      className="divide-x divide-white/5"
+                      className='divide-x divide-white/5'
                     >
                       {row.map((weight, columnIndex) => {
                         const magnitude = Math.abs(weight);
@@ -156,8 +156,8 @@ export function NeuralWeightVisualization({
             </div>
 
             {layer.activation && (
-              <div className="mt-4 space-y-2 glass-text-xs text-primary/70">
-                <div className="glass-flex glass-items-center glass-justify-between uppercase tracking-wide">
+              <div className='mt-4 space-y-2 glass-text-xs text-primary/70'>
+                <div className='glass-flex glass-items-center glass-justify-between uppercase tracking-wide'>
                   <span>Activation Levels</span>
                   <span>Max {Math.max(...layer.activation).toFixed(2)}</span>
                 </div>
@@ -167,13 +167,13 @@ export function NeuralWeightVisualization({
                       key={`${layer.id}-activation-${index}`}
                       className="glass-flex-1"
                     >
-                      <div className="h-16 overflow-hidden glass-radius-full glass-surface-subtle/10">
+                      <div className='h-16 overflow-hidden glass-radius-full glass-surface-subtle/10'>
                         <div
-                          className="glass-h-full glass-w-full glass-radius-full bg-cyan-400/70"
+                          className='glass-h-full glass-w-full glass-radius-full bg-cyan-400/70'
                           style={{ height: `${activation * 100}%` }}
                         />
                       </div>
-                      <div className="mt-1 text-center text-[10px] text-primary/60">
+                      <div className='mt-1 text-center text-[10px] text-primary/60'>
                         n{index + 1}
                       </div>
                     </div>

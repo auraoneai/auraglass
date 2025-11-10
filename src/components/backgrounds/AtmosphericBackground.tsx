@@ -5,7 +5,6 @@
  * A dynamic background component with atmospheric effects.
  */
 import React, { forwardRef, useState, useEffect, useRef } from 'react';
-import styled, { keyframes, css } from 'styled-components';
 import { cn } from '@/lib/utils';
 
 import { OptimizedGlass } from '../../primitives';
@@ -13,31 +12,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
 import { useA11yId } from '../../utils/a11y';
 import { AtmosphericBackgroundProps } from './types';
-
-// Animation keyframes
-const gradientShift = keyframes`
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-`;
-
-const cloudMove = keyframes`
-  0% {
-    transform: translateX(-5%) translateY(0);
-  }
-  50% {
-    transform: translateX(5%) translateY(-3%);
-  }
-  100% {
-    transform: translateX(-5%) translateY(0);
-  }
-`;
+import styles from './AtmosphericBackground.module.css';
 
 // Default gradient colors
 const defaultGradientColors = [
@@ -46,115 +21,6 @@ const defaultGradientColors = [
   'rgba(139, 92, 246, 0.5)', // Purple
   'rgba(244, 114, 182, 0.5)', // Pink
 ];
-
-// Styled components with OptimizedGlass integration
-const BackgroundContainer = styled(OptimizedGlass).attrs<{
-  $intent: string;
-  $elevation: string;
-  $tier: string;
-}>(props => ({
-  intent: props.$intent as any,
-  elevation: props.$elevation as any,
-  tier: props.$tier as any,
-}))`
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  
-  /* Ensure background is accessible */
-  &:focus {
-    outline: 2px solid var(--glass-border-focus);
-    outline-offset: 2px;
-  }
-` as React.ComponentType<any>;
-
-const GradientLayer = styled.div<{
-  $baseColor: string;
-  $gradientColors: string[];
-  $animate: boolean;
-  $duration: number;
-  $intensity: number;
-  $reducedMotion: boolean;
-  $interactive: boolean;
-  $cursorX: number;
-  $cursorY: number;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${props => props.$baseColor};
-  background-image: linear-gradient(125deg, ${props => props.$gradientColors.join(', ')});
-  background-size: ${props => (props.$interactive ? '300% 300%' : '200% 200%')};
-  background-position: ${props =>
-    props.$interactive
-      ? `${50 + (props.$cursorX - 50) * 0.2}% ${50 + (props.$cursorY - 50) * 0.2}%`
-      : '0% 0%'};
-  opacity: ${props => props.$intensity};
-
-  /* Animation */
-  ${props =>
-    props.$animate &&
-    !props.$reducedMotion &&
-    !props.$interactive &&
-    css`
-      animation: ${css`${gradientShift} ${props.$duration}s ease infinite`};
-    `}
-
-  /* Interactive mode */
-  ${props =>
-    props.$interactive &&
-    css`
-      transition: background-position 0.3s ease;
-    `}
-`;
-
-const AtmosphericEffect = styled.div<{
-  $animate: boolean;
-  $reducedMotion: boolean;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' width='600' height='600' opacity='0.15'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005' numOctaves='5' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)' opacity='0.15'/%3E%3C/svg%3E");
-  background-size: cover;
-  opacity: 0.4;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-
-  /* Animation */
-  ${props =>
-    props.$animate &&
-    !props.$reducedMotion &&
-    css`
-      animation: ${css`${cloudMove} 30s ease infinite`};
-    `}
-`;
-
-const BlurLayer = styled.div<{
-  $blur: boolean;
-  $blurAmount: number;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  backdrop-filter: ${props => (props.$blur ? `blur(${props.$blurAmount}px)` : 'none')};
-  -webkit-backdrop-filter: ${props => (props.$blur ? `blur(${props.$blurAmount}px)` : 'none')};
-  pointer-events: none;
-`;
-
-const ContentLayer = styled.div`
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-`;
 
 /**
  * AtmosphericBackground Component Implementation
@@ -233,14 +99,46 @@ const AtmosphericBackgroundComponent = (
     }
   };
 
+  const gradientStyle: React.CSSProperties & Record<string, string | number> = {
+    backgroundColor: baseColor,
+    backgroundImage: `linear-gradient(125deg, ${gradientColors.join(', ')})`,
+    opacity: intensity,
+  };
+
+  if (interactive && !shouldReduceMotion) {
+    gradientStyle.backgroundPosition = `${50 + (mousePosition.x - 50) * 0.2}% ${50 + (mousePosition.y - 50) * 0.2}%`;
+  }
+
+  if (animate && !shouldReduceMotion && !interactive) {
+    gradientStyle['--atmosphere-gradient-duration'] = `${animationDuration}s`;
+  }
+
+  const gradientClasses = cn(
+    styles.gradientLayer,
+    interactive && !shouldReduceMotion && styles.gradientInteractive,
+    animate && !shouldReduceMotion && !interactive && styles.animateGradient,
+    shouldReduceMotion && styles.reduceMotion
+  );
+
+  const effectClasses = cn(
+    styles.atmosphericEffect,
+    animate && !shouldReduceMotion && styles.animateClouds,
+    shouldReduceMotion && styles.reduceMotion
+  );
+
+  const blurStyle: React.CSSProperties = {
+    backdropFilter: blur ? `blur(${blurAmount}px)` : 'none',
+    WebkitBackdropFilter: blur ? `blur(${blurAmount}px)` : 'none',
+  };
+
   return (
-    <BackgroundContainer 
-      ref={setRefs} 
-      className={cn('glass-atmospheric-background', className)} 
+    <OptimizedGlass
+      ref={setRefs}
+      intent={intent as any}
+      elevation={elevation as any}
+      tier={tier as any}
+      className={cn('glass-atmospheric-background', styles.container, className)}
       style={style}
-      $intent={intent}
-      $elevation={elevation}
-      $tier={tier}
       id={componentId}
       role="img"
       aria-label={`Atmospheric background with ${animate && !shouldReduceMotion ? 'animated' : 'static'} ${gradientColors.length} color gradient`}
@@ -248,27 +146,14 @@ const AtmosphericBackgroundComponent = (
       tabIndex={interactive ? 0 : -1}
       {...rest}
     >
-      <GradientLayer
-        $baseColor={baseColor}
-        $gradientColors={gradientColors}
-        $animate={animate && !shouldReduceMotion}
-        $duration={animationDuration}
-        $intensity={intensity}
-        $reducedMotion={shouldReduceMotion}
-        $interactive={interactive && !shouldReduceMotion}
-        $cursorX={mousePosition.x}
-        $cursorY={mousePosition.y}
-      />
+      <div className={gradientClasses} style={gradientStyle} />
 
-      <AtmosphericEffect 
-        $animate={animate && !shouldReduceMotion} 
-        $reducedMotion={shouldReduceMotion} 
-      />
+      <div className={effectClasses} />
 
-      <BlurLayer $blur={blur} $blurAmount={blurAmount} />
+      <div className={styles.blurLayer} style={blurStyle} />
 
-      <ContentLayer>{children}</ContentLayer>
-    </BackgroundContainer>
+      <div className={styles.contentLayer}>{children}</div>
+    </OptimizedGlass>
   );
 };
 
@@ -281,3 +166,4 @@ const AtmosphericBackground = forwardRef(AtmosphericBackgroundComponent);
 AtmosphericBackground.displayName = 'AtmosphericBackground';
 
 export default AtmosphericBackground;
+export { AtmosphericBackground };

@@ -501,7 +501,7 @@ export const LiquidGlassMaterial = forwardRef<
         {/* Edge sheen layer */}
         {materialSpec.sheen > 0 && (
           <div
-            className="liquid-glass-sheen absolute inset-0 pointer-events-none"
+            className='liquid-glass-sheen absolute inset-0 pointer-events-none'
             style={{
               background: `radial-gradient(60% 60% at 50% -10%, rgba(255,255,255,${0.1 + materialSpec.sheen * 0.05}) 0%, transparent 60%)`,
               opacity: isHovered ? 1.2 : 1,
@@ -511,11 +511,11 @@ export const LiquidGlassMaterial = forwardRef<
         )}
 
         {/* Content layer with proper z-index */}
-        <div className="liquid-glass-content relative z-10">{children}</div>
+        <div className='liquid-glass-content relative z-10'>{children}</div>
 
         {/* Debug information in development */}
         {process.env.NODE_ENV === "development" && (
-          <div className="liquid-glass-debug absolute top-0 right-0 glass-text-xs opacity-50 pointer-events-none glass-surface-dark glass-text-primary glass-p-1 glass-radius">
+          <div className='liquid-glass-debug absolute top-0 right-0 glass-text-xs opacity-50 pointer-events-none glass-surface-dark glass-text-primary glass-p-1 glass-radius'>
             <div>Material: {material}</div>
             <div>Variant: {variant}</div>
             <div>IOR: {materialSpec.ior.toFixed(2)}</div>

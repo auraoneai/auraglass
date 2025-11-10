@@ -18,7 +18,7 @@ export function GlassJSONViewer({ value, className }: GlassJSONViewerProps) {
         className
       )}
     >
-      <pre className="glass-text-xs text-primary/80 whitespace-pre-wrap break-all">
+      <pre className='glass-text-xs text-primary/80 whitespace-pre-wrap break-all'>
         {JSON.stringify(value, null, 2)}
       </pre>
     </OptimizedGlass>

@@ -14,18 +14,23 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
 import { TabItem } from '@/components/navigation/components/TabItem';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
 describe('TabItem', () => {
+  const baseProps = {
+    id: 'overview',
+    label: 'Overview',
+    onClick: jest.fn(),
+  };
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<TabItem />);
+    const { container } = render(<TabItem {...baseProps} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +38,11 @@ describe('TabItem', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<TabItem />);
+    const { container } = render(
+      <div role="tablist">
+        <TabItem {...baseProps} />
+      </div>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -48,15 +57,15 @@ describe('TabItem', () => {
    * Props Validation: Accepts and renders with custom props
    */
   it('accepts and renders with custom props', () => {
-    const { container } = render(
+    render(
       <TabItem
-        className="custom-class"
+        {...baseProps}
         data-testid="tabitem"
+        className="custom-class"
       />
     );
 
-    const element = container.querySelector('[data-testid="tabitem"]')
-      || container.firstChild;
+    const element = screen.getByTestId('tabitem');
 
     expect(element).toHaveClass('custom-class');
   });
@@ -65,7 +74,7 @@ describe('TabItem', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<TabItem />);
+    const { container } = render(<TabItem {...baseProps} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

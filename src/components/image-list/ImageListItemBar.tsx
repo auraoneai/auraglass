@@ -6,91 +6,12 @@
  */
 // Typography tokens available via typography.css (imported in index.css)
 import React, { forwardRef, useState } from 'react';
-import styled from 'styled-components';
 import { cn } from '@/lib/utils';
 
-import { createThemeContext } from '../../core/themeContext';
-import { createGlassStyle } from '../../core/mixins/glassMixins';
-import { glassTokenUtils } from '../../tokens/glass';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 import { ImageListItemBarProps } from './types';
-
-// Styled components
-const ImageListItemBarRoot = styled.div<{
-  $position: 'top' | 'bottom' | 'below';
-  $glass: boolean;
-  $actionPosition: 'left' | 'right';
-  $showOnHover: boolean;
-  $isHovered: boolean;
-  $reducedMotion: boolean;
-}>`
-  position: ${props => (props.$position === 'below' ? 'relative' : 'absolute')};
-  left: 0;
-  right: 0;
-
-  /* Position at top or bottom */
-  ${props => (props.$position === 'top' ? 'top: 0;' : '')}
-  ${props => (props.$position === 'bottom' ? 'bottom: 0;' : '')}
-  
-  /* Glass styling */
-  ${props => props.$glass && `
-    background: var(--glass-bg-default);
-    backdrop-filter: var(--glass-backdrop-blur);
-    -webkit-backdrop-filter: var(--glass-backdrop-blur);
-    border: 1px solid var(--glass-border-default);
-    border-radius: var(--glass-radius-md);
-    box-shadow: var(--glass-elev-2);
-    color: var(--glass-text-primary);
-    transition: var(--glass-transition);
-  `}
-  
-  /* Base styling */
-  background-color: ${props => (props.$glass ? 'var(--glass-bg-default)' : 'var(--glass-bg-active)')};
-  color: var(--glass-text-primary);
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-
-  /* Action positioning */
-  flex-direction: ${props => (props.$actionPosition === 'left' ? 'row-reverse' : 'row')};
-
-  /* Show on hover */
-  opacity: ${props => (props.$showOnHover ? (props.$isHovered ? 1 : 0) : 1)};
-  transition: ${props => (!props.$reducedMotion ? 'opacity 0.3s ease' : 'none')};
-`;
-
-const TitleWrapper = styled.div`
-  flex: 1;
-  min-width: 0;
-  margin-right: 12px;
-`;
-
-const Title = styled.div`
-  font-size: 0.875rem;
-  font-weight: var(--typography-subheading-weight);
-  line-height: 1.2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-
-const Subtitle = styled.div`
-  font-size: 0.75rem;
-  line-height: 1.2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  opacity: 0.8;
-`;
-
-const ActionIconContainer = styled.div<{
-  $actionPosition: 'left' | 'right';
-}>`
-  display: flex;
-  align-items: center;
-  margin: ${props => (props.$actionPosition === 'left' ? '0 8px 0 0' : '0 0 0 8px')};
-`;
+import styles from './ImageListItemBar.module.css';
 
 /**
  * ImageListItemBar Component Implementation
@@ -119,32 +40,44 @@ function ImageListItemBarComponent(
   // State for hover
   const [isHovered, setIsHovered] = useState(false);
 
+  const rootClassName = cn(
+    styles.root,
+    position === 'top' && styles.positionTop,
+    position === 'bottom' && styles.positionBottom,
+    position === 'below' && styles.positionBelow,
+    glass && styles.glass,
+    actionPosition === 'left' && styles.actionLeft,
+    showOnHover && styles.showOnHover,
+    showOnHover && (isHovered || prefersReducedMotion) && styles.visible,
+    prefersReducedMotion && styles.noTransition,
+    className
+  );
+
+  const actionClassName = cn(
+    styles.action,
+    actionPosition === 'left' && styles.actionLeftAction
+  );
+
   return (
-    <ImageListItemBarRoot
+    <div
       ref={ref}
-      className={className}
+      className={rootClassName}
       style={style}
-      $position={position}
-      $glass={glass}
-      $actionPosition={actionPosition}
-      $showOnHover={showOnHover}
-      $isHovered={isHovered}
-      $reducedMotion={prefersReducedMotion}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       {...rest}
     >
-      <TitleWrapper>
-        {title && <Title>{title}</Title>}
-        {subtitle && <Subtitle>{subtitle}</Subtitle>}
-      </TitleWrapper>
+      <div className={styles.titleWrapper}>
+        {title && <div className={styles.title}>{title}</div>}
+        {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
+      </div>
 
       {actionIcon && (
-        <ActionIconContainer $actionPosition={actionPosition}>{actionIcon}</ActionIconContainer>
+        <div className={actionClassName}>{actionIcon}</div>
       )}
 
       {children}
-    </ImageListItemBarRoot>
+    </div>
   );
 }
 

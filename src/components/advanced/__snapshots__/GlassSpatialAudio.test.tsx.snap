@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSpatialAudio matches snapshot 1`] = `
+<div
+  class="relative"
+  data-glass-component="true"
+>
+  <span
+    class="sr-only"
+  >
+    Glass spatial audio provider active
+  </span>
+</div>
+`;

@@ -1,17 +1,15 @@
 'use client';
-import React, { forwardRef, useEffect, useState, useMemo, useCallback } from 'react';
-import styled, { css } from 'styled-components';
+import React, { forwardRef, useEffect, useState, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
-import { createGlassStyle } from '../../core/mixins/glassMixins';
-import { createThemeContext } from '../../core/themeContext';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { GlassButton as Button } from '../button';
 import { Typography } from '../data-display/Typography';
 
-import { useGalileoStateSpring, GalileoStateSpringOptions } from '../../hooks/useGalileoStateSpring';
+import { useGalileoStateSpring } from '../../hooks/useGalileoStateSpring';
 import { useAnimationContext } from '../../contexts/AnimationContext';
 import { SpringConfig, SpringPresets } from '../../animations/physics/springPhysics';
+import styles from './CompactCookieNotice.module.css';
 
 interface CompactCookieNoticeProps extends React.HTMLAttributes<HTMLDivElement> {
   position?: 'bottom' | 'top' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
@@ -47,107 +45,22 @@ const getCookie = (name: string): string | null => {
   return null;
 };
 
-const StyledCompactCookieNotice = styled.div<{
-  $position: CompactCookieNoticeProps['position'];
-  $glassIntensity: number;
-}>`
-  position: fixed;
-  z-index: 1000;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  width: auto;
-  max-width: 100%;
-  box-shadow: 0 2px 10px rgba(var(--glass-color-black) / var(--glass-opacity-10));
-  will-change: transform, opacity;
+const POSITION_CLASS_MAP: Record<
+  NonNullable<CompactCookieNoticeProps['position']>,
+  string
+> = {
+  bottom: styles.positionBottom,
+  top: styles.positionTop,
+  'bottom-left': styles.positionBottomLeft,
+  'bottom-right': styles.positionBottomRight,
+  'top-left': styles.positionTopLeft,
+  'top-right': styles.positionTopRight,
+};
 
-  ${({ $position }) => {
-    switch ($position) {
-      case 'bottom':
-        return `
-          bottom: 16px;
-          left: 50%;
-          transform: translateX(-50%);
-        `;
-      case 'top':
-        return `
-          top: 16px;
-          left: 50%;
-          transform: translateX(-50%);
-        `;
-      case 'bottom-left':
-        return `
-          bottom: 16px;
-          left: 16px;
-        `;
-      case 'bottom-right':
-        return `
-          bottom: 16px;
-          right: 16px;
-        `;
-      case 'top-left':
-        return `
-          top: 16px;
-          left: 16px;
-        `;
-      case 'top-right':
-        return `
-          top: 16px;
-          right: 16px;
-        `;
-      default:
-        return `
-          bottom: 16px;
-          left: 16px;
-        `;
-    }
-  }}
-
-  ${(props: any) => {
-    const glassStyles = createGlassStyle({ elevation: 'level2', intent: 'neutral' });
-    return Object.entries(glassStyles)
-      .map(([key, value]) => `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}:${value};`)
-      .join('');
-  }}
-  
-  ${({ theme }) => `
-    border: 1px solid var(--glass-bg-default);
-  `}
-  
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-
-    ${({ $position }) =>
-      ($position === 'top' || $position === 'bottom') &&
-      `
-        width: calc(100% - 32px);
-        left: 16px;
-        right: 16px;
-        transform: none;
-      `}
-  }
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  margin-left: 1rem;
-
-  @media (max-width: 600px) {
-    margin-left: 0;
-    width: 100%;
-
-    & > button {
-      flex: 1;
-    }
-  }
-`;
+type CookieStyleVars = React.CSSProperties & {
+  ['--cookie-blur-scale']?: string | number;
+  ['--cookie-box-shadow']?: string;
+};
 
 /**
  * A compact cookie consent notice that takes minimal screen space
@@ -170,7 +83,6 @@ export const CompactCookieNotice = forwardRef<HTMLDivElement, CompactCookieNotic
     ref
   ) => {
     const [visible, setVisible] = useState(false);
-    const [isRendered, setIsRendered] = useState(false);
     const prefersReducedMotion = useReducedMotion();
     const { defaultSpring } = useAnimationContext();
 
@@ -226,13 +138,6 @@ export const CompactCookieNotice = forwardRef<HTMLDivElement, CompactCookieNotic
       immediate: !shouldAnimate,
     });
 
-    // Immediately render when becoming visible
-    useEffect(() => {
-      if (visible) {
-        setIsRendered(true);
-      }
-    }, [visible]);
-
     // Calculate transform
     const isCentered = position === 'top' || position === 'bottom';
     const animatedStyle: React.CSSProperties = {
@@ -240,17 +145,30 @@ export const CompactCookieNotice = forwardRef<HTMLDivElement, CompactCookieNotic
       transform: `translateY(${animatedTranslateY}px)${isCentered ? ' translateX(-50%)' : ''}`,
     };
 
-    if (!visible && !isRendered) {
-      return null;
+    const positionClass = POSITION_CLASS_MAP[position ?? 'bottom-left'] ?? styles.positionBottomLeft;
+    const depth = Math.max(0.5, Math.min(2, glassIntensity));
+    const shadowDepth = (24 * depth).toFixed(2);
+    const containerStyleVars: CookieStyleVars = {
+      '--cookie-blur-scale': depth,
+      '--cookie-box-shadow': `0 10px ${shadowDepth}px rgba(15, 23, 42, 0.16)`,
+    };
+    if (!visible) {
+      return (
+        <div
+          ref={ref}
+          className={cn(styles.container, positionClass, className)}
+          style={{ ...containerStyleVars, display: 'none', ...style }}
+          aria-hidden
+          {...rest}
+        />
+      );
     }
 
     return (
-      <StyledCompactCookieNotice
+      <div
         ref={ref}
-        $position={position}
-        $glassIntensity={glassIntensity}
-        className={className}
-        style={{ ...style, ...animatedStyle }}
+        className={cn(styles.container, positionClass, className)}
+        style={{ ...containerStyleVars, ...animatedStyle, ...style }}
         aria-hidden={!visible}
         {...rest}
       >
@@ -258,7 +176,7 @@ export const CompactCookieNotice = forwardRef<HTMLDivElement, CompactCookieNotic
           {message}
         </Typography>
 
-        <ButtonGroup>
+        <div className={styles.buttonGroup}>
           <Button variant="link" onClick={handleMoreInfo} size="sm">
             {moreInfoText}
           </Button>
@@ -266,8 +184,8 @@ export const CompactCookieNotice = forwardRef<HTMLDivElement, CompactCookieNotic
           <Button variant="primary" onClick={handleAccept} size="sm">
             {acceptText}
           </Button>
-        </ButtonGroup>
-      </StyledCompactCookieNotice>
+        </div>
+      </div>
     );
   }
 );

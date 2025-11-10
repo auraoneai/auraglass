@@ -264,7 +264,7 @@ export function DescribedBy({
       {React.cloneElement(children as any, {
         "aria-describedby": descriptionId,
       })}
-      <span id={descriptionId} className="sr-only">
+      <span id={descriptionId} className='sr-only'>
         {description}
       </span>
     </>
@@ -288,7 +288,7 @@ export function LabelledBy({
 
   return (
     <>
-      <span id={labelId} className="sr-only">
+      <span id={labelId} className='sr-only'>
         {label}
       </span>
       {React.cloneElement(children as any, {

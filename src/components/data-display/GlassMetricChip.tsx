@@ -17,8 +17,8 @@ export interface GlassMetricChipProps {
 }
 
 export function GlassMetricChip({
-  label,
-  value,
+  label = "Metric",
+  value = "--",
   delta,
   intent = "default",
   icon,
@@ -43,10 +43,10 @@ export function GlassMetricChip({
         className
       )}
     >
-      {icon && <span className="opacity-80">{icon}</span>}
-      <span className="glass-text-xs text-primary/70">{label}</span>
+      {icon && <span className='opacity-80'>{icon}</span>}
+      <span className='glass-text-xs text-primary/70'>{label}</span>
       <span className={cn("font-semibold", intentColor)}>{value}</span>
-      {delta && <span className="glass-text-xs text-primary/60">{delta}</span>}
+      {delta && <span className='glass-text-xs text-primary/60'>{delta}</span>}
     </OptimizedGlass>
   );
 }

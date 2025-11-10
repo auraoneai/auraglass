@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CursorGlow matches snapshot 1`] = `
+<div
+  aria-hidden="true"
+  class="glass-fixed glass-inset-0 glass-pointer-events-none glass-z-2"
+  id="cursor-glow-:r5:"
+  style="mix-blend-mode: screen; filter: blur(18px) saturate(136%);"
+/>
+`;

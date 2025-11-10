@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassPullToRefresh matches snapshot 1`] = `
+<div
+  class="relative overflow-hidden"
+  data-glass-component="true"
+>
+  <div
+    class="h-full overflow-auto"
+    style="transform: translateY(0px); transition: none;"
+  />
+</div>
+`;

@@ -1,12 +1,33 @@
 'use client';
 import React, { forwardRef, useState, useRef, useEffect, useCallback } from 'react';
-import styled, { css, keyframes } from 'styled-components';
 import { cn } from '@/lib/utils';
 
-import { createThemeContext } from '../../core/themeContext';
 import { ZLayer } from '../../core/zspace';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
+import styles from './GlassDynamicAtmosphere.module.css';
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+
+const applyAlpha = (color: string, alpha: number) => {
+  if (!color) return `rgba(0, 0, 0, ${clamp01(alpha)})`;
+  if (color.startsWith('#')) {
+    const normalized = color.replace('#', '');
+    if (normalized.length === 3) {
+      const r = parseInt(normalized[0] + normalized[0], 16);
+      const g = parseInt(normalized[1] + normalized[1], 16);
+      const b = parseInt(normalized[2] + normalized[2], 16);
+      return `rgba(${r}, ${g}, ${b}, ${clamp01(alpha)})`;
+    }
+    if (normalized.length === 6) {
+      const r = parseInt(normalized.slice(0, 2), 16);
+      const g = parseInt(normalized.slice(2, 4), 16);
+      const b = parseInt(normalized.slice(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${clamp01(alpha)})`;
+    }
+  }
+  return color;
+};
 
 // Types of atmospheric effects
 export type AtmosphereType =
@@ -131,250 +152,10 @@ export interface DynamicAtmosphereProps {
   
   /** Performance tier */
   tier?: 'low' | 'medium' | 'high';
+
+  /** Optional inline styles applied to the container */
+  style?: React.CSSProperties;
 }
-
-// Keyframes for various animations
-const subtlePulse = keyframes`
-  0% { opacity: 0.5; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0.5; }
-`;
-
-const nebulaMove = keyframes`
-  0% { background-position: 0% 0%; }
-  100% { background-position: 100% 100%; }
-`;
-
-const auroraWave = keyframes`
-  0% { transform: translateX(-100%) translateY(0); }
-  50% { transform: translateX(0%) translateY(-20px); }
-  100% { transform: translateX(100%) translateY(0); }
-`;
-
-const particleFloat = keyframes`
-  0%, 100% { 
-    transform: translateY(0) translateX(0) rotate(0); 
-    opacity: 0.5;
-  }
-  33% { 
-    transform: translateY(-20px) translateX(10px) rotate(10deg); 
-    opacity: 0.8;
-  }
-  66% { 
-    transform: translateY(10px) translateX(-15px) rotate(-5deg); 
-    opacity: 0.6;
-  }
-`;
-
-const wavesAnimation = keyframes`
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-`;
-
-const gradientShift = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
-
-// Styled components
-const AtmosphereContainer = styled.div<{
-  $width: string;
-  $height: string;
-  $fullSize: boolean;
-  $position: string;
-  $zIndex: number;
-  $blur: boolean;
-  $blurStrength: number;
-}>`
-  position: ${props => props.$position};
-  width: ${props => (props.$fullSize ? '100%' : props.$width)};
-  height: ${props => (props.$fullSize ? '100%' : props.$height)};
-  overflow: hidden;
-  z-index: ${props => props.$zIndex};
-  pointer-events: none;
-
-  ${props =>
-    props.$position === 'absolute' &&
-    `
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  `}
-
-  ${props =>
-    props.$blur &&
-    `
-    ${createGlassStyle({ intent: 'neutral', elevation: 'level2' })};
-    -webkit-${createGlassStyle({ intent: 'neutral', elevation: 'level2' })};
-  `}
-`;
-
-const AtmosphereEffect = styled.div<{
-  $type: AtmosphereType;
-  $primaryColor: string;
-  $secondaryColor: string;
-  $accentColor: string;
-  $intensity: number;
-  $speed: number;
-  $interactionMode: InteractionMode;
-  $reducedMotion: boolean;
-  $noise: boolean;
-  $transform?: string;
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  /* Apply noise texture if enabled */
-  ${props =>
-    props.$noise &&
-    `
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      opacity: 0.08;
-      mix-blend-mode: overlay;
-      pointer-events: none;
-    }
-  `}
-
-  /* Apply transformation if provided */
-  ${props => props.$transform && `transform: ${props.$transform};`}
-  
-  /* Styles for each atmosphere type */
-  ${props => {
-    const intensity = props.$intensity;
-    const animationDuration = props.$reducedMotion ? '0s' : `${30 / props.$speed}s`;
-
-    switch (props.$type) {
-      case 'subtle':
-        return css`
-          background: var(--atmosphere-bg, transparent);
-          animation: ${props.$reducedMotion
-            ? 'none'
-            : css`${subtlePulse} ${animationDuration} infinite ease-in-out`};
-          opacity: ${intensity * 0.7 + 0.3};
-        `;
-
-      case 'nebula':
-        return css`
-          background: var(--atmosphere-bg, transparent);
-          background-size: 200% 200%;
-          animation: ${props.$reducedMotion
-            ? 'none'
-            : css`${nebulaMove} ${animationDuration} infinite alternate ease-in-out`};
-          opacity: ${intensity * 0.8 + 0.2};
-        `;
-
-      case 'aurora':
-        return css`
-          &::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200px;
-            background: var(--atmosphere-aurora-bg, transparent);
-            top: 20%;
-            border-radius: 50%;
-            transform: rotate(-5deg);
-            filter: blur(30px);
-            animation: ${props.$reducedMotion
-              ? 'none'
-              : css`${auroraWave} ${animationDuration} infinite ease-in-out`};
-            opacity: ${intensity * 0.8 + 0.2};
-          }
-        `;
-
-      case 'waves':
-        return css`
-          background: var(--atmosphere-bg, transparent);
-          background-size: 400% 400%;
-          animation: ${props.$reducedMotion
-            ? 'none'
-            : css`${wavesAnimation} ${animationDuration} infinite ease-in-out`};
-          opacity: ${intensity * 0.7 + 0.3};
-        `;
-
-      case 'gradient':
-        return css`
-          background: var(--atmosphere-bg, transparent);
-          background-size: 400% 400%;
-          animation: ${props.$reducedMotion
-            ? 'none'
-            : css`${gradientShift} ${animationDuration} infinite ease-in-out`};
-          opacity: ${intensity * 0.7 + 0.3};
-        `;
-
-      case 'ambient':
-        return css`
-          background: radial-gradient(
-              circle at 20% 30%,
-              ${props.$primaryColor}${Math.round(intensity * 50)},
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at 80% 70%,
-              ${props.$secondaryColor}${Math.round(intensity * 50)},
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at 50% 50%,
-              ${props.$accentColor}${Math.round(intensity * 40)},
-              transparent 70%
-            );
-          opacity: ${intensity * 0.6 + 0.4};
-        `;
-
-      default:
-        return css`
-          background-color: ${props.$primaryColor}${Math.round(intensity * 30)};
-          opacity: ${intensity * 0.5 + 0.5};
-        `;
-    }
-  }}
-`;
-
-const ParticleContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-`;
-
-const Particle = styled.div<{
-  $primaryColor: string;
-  $size: number;
-  $positionX: number;
-  $positionY: number;
-  $delay: number;
-  $speed: number;
-  $reducedMotion: boolean;
-}>`
-  position: absolute;
-  background-color: ${props => props.$primaryColor};
-  width: ${props => props.$size}px;
-  height: ${props => props.$size}px;
-  border-radius: 50%;
-  top: ${props => props.$positionY}%;
-  left: ${props => props.$positionX}%;
-  opacity: 0.5;
-  filter: blur(1px);
-  animation: ${props =>
-    props.$reducedMotion
-      ? 'none'
-      : css`${particleFloat} ${15 / props.$speed}s ${props.$delay}s infinite ease-in-out`};
-`;
 
 /**
  * DynamicAtmosphere Component
@@ -395,6 +176,7 @@ export const DynamicAtmosphere = forwardRef<HTMLDivElement, DynamicAtmospherePro
       fullSize = true,
       width = '100%',
       height = '100%',
+      style,
       className,
       zIndex = ZLayer.Background,
       position = 'absolute',
@@ -408,22 +190,13 @@ export const DynamicAtmosphere = forwardRef<HTMLDivElement, DynamicAtmospherePro
 
     const prefersReducedMotion = useReducedMotion();
     const shouldReduceMotion = respectReducedMotion && prefersReducedMotion;
-  const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState<string>('');
 
   // Compute and inject CSS variables for backgrounds to avoid inline glass literals
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const withAlpha = (hex: string, a: number) => {
-      // Expect #rrggbb
-      const v = hex.replace('#','');
-      const r = parseInt(v.slice(0,2),16);
-      const g = parseInt(v.slice(2,4),16);
-      const b = parseInt(v.slice(4,6),16);
-      return `rgba(${r}, ${g}, ${b}, ${Math.max(0, Math.min(1, a))})`;
-    };
-
     const i = intensity;
     const pc = primaryColor;
     const sc = secondaryColor;
@@ -431,18 +204,18 @@ export const DynamicAtmosphere = forwardRef<HTMLDivElement, DynamicAtmospherePro
 
     let bg = '';
     if (type === 'subtle') {
-      bg = `radial-gradient(circle at 50% 50%, ${withAlpha(pc, i * 0.4)}, transparent 70%)`;
+      bg = `radial-gradient(circle at 50% 50%, ${applyAlpha(pc, i * 0.4)}, transparent 70%)`;
     } else if (type === 'nebula') {
-      bg = `radial-gradient(circle at 30% 50%, ${withAlpha(pc, i * 0.6)}, transparent 50%), radial-gradient(circle at 70% 50%, ${withAlpha(sc, i * 0.6)}, transparent 50%)`;
+      bg = `radial-gradient(circle at 30% 50%, ${applyAlpha(pc, i * 0.6)}, transparent 50%), radial-gradient(circle at 70% 50%, ${applyAlpha(sc, i * 0.6)}, transparent 50%)`;
     } else if (type === 'waves') {
-      bg = `linear-gradient(135deg, ${withAlpha(pc, i * 0.5)}, ${withAlpha(sc, i * 0.5)}, ${withAlpha(ac, i * 0.5)}, ${withAlpha(pc, i * 0.5)})`;
+      bg = `linear-gradient(135deg, ${applyAlpha(pc, i * 0.5)}, ${applyAlpha(sc, i * 0.5)}, ${applyAlpha(ac, i * 0.5)}, ${applyAlpha(pc, i * 0.5)})`;
     } else if (type === 'gradient') {
-      bg = `linear-gradient(-45deg, ${withAlpha(pc, i * 0.4)}, ${withAlpha(sc, i * 0.4)}, ${withAlpha(ac, i * 0.4)}, ${withAlpha(pc, i * 0.4)})`;
+      bg = `linear-gradient(-45deg, ${applyAlpha(pc, i * 0.4)}, ${applyAlpha(sc, i * 0.4)}, ${applyAlpha(ac, i * 0.4)}, ${applyAlpha(pc, i * 0.4)})`;
     }
     if (bg) el.style.setProperty('--atmosphere-bg', bg);
 
     if (type === 'aurora') {
-      const aur = `linear-gradient(90deg, ${withAlpha(pc, 0)}, ${withAlpha(pc, i * 0.6)}, ${withAlpha(sc, i * 0.6)}, ${withAlpha(ac, i * 0.6)}, ${withAlpha(pc, 0)})`;
+      const aur = `linear-gradient(90deg, ${applyAlpha(pc, 0)}, ${applyAlpha(pc, i * 0.6)}, ${applyAlpha(sc, i * 0.6)}, ${applyAlpha(ac, i * 0.6)}, ${applyAlpha(pc, 0)})`;
       el.style.setProperty('--atmosphere-aurora-bg', aur);
     }
   }, [type, intensity, primaryColor, secondaryColor, accentColor]);
@@ -451,33 +224,148 @@ export const DynamicAtmosphere = forwardRef<HTMLDivElement, DynamicAtmospherePro
     const widthValue = typeof width === 'number' ? `${width}px` : width;
     const heightValue = typeof height === 'number' ? `${height}px` : height;
 
+    const safeSpeed = Math.max(speed, 0.1);
+    const baseAnimationDuration = `${30 / safeSpeed}s`;
+    const particleAnimationDuration = `${15 / safeSpeed}s`;
+
+    const containerStyle: React.CSSProperties & Record<string, string | number> = {
+      position,
+      width: fullSize ? '100%' : widthValue,
+      height: fullSize ? '100%' : heightValue,
+      zIndex,
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      ...style,
+    };
+
+    if (!fullSize) {
+      containerStyle.width = widthValue;
+      containerStyle.height = heightValue;
+    }
+
+    if (position === 'absolute' || position === 'fixed') {
+      containerStyle.top = 0;
+      containerStyle.left = 0;
+      containerStyle.right = 0;
+      containerStyle.bottom = 0;
+    }
+
+    if (blur) {
+      Object.assign(containerStyle, createGlassStyle({ intent: 'neutral', elevation: 'level2' }));
+      containerStyle.backdropFilter = `blur(${blurStrength}px)`;
+      (containerStyle as any).WebkitBackdropFilter = `blur(${blurStrength}px)`;
+    }
+
+    const effectStyle: React.CSSProperties & Record<string, string | number> = {
+      transform,
+    };
+
+    const intensityValue = clamp01(intensity);
+
+    const typeClassMap: Record<AtmosphereType, string> = {
+      subtle: styles.typeSubtle,
+      nebula: styles.typeNebula,
+      aurora: styles.typeAurora,
+      particles: styles.typeDefault,
+      waves: styles.typeWaves,
+      gradient: styles.typeGradient,
+      ambient: styles.typeAmbient,
+      custom: styles.typeDefault,
+    };
+
+    const animationClassMap: Partial<Record<AtmosphereType, string>> = {
+      subtle: styles.animateSubtle,
+      nebula: styles.animateNebula,
+      aurora: styles.animateAurora,
+      waves: styles.animateWaves,
+      gradient: styles.animateGradient,
+    };
+
+    if (!shouldReduceMotion) {
+      effectStyle['--atmosphere-animation-duration'] = baseAnimationDuration;
+    }
+
+    switch (type) {
+      case 'subtle':
+        effectStyle.opacity = intensityValue * 0.7 + 0.3;
+        break;
+      case 'nebula':
+        effectStyle.opacity = intensityValue * 0.8 + 0.2;
+        break;
+      case 'aurora':
+        effectStyle['--atmosphere-aurora-opacity'] = intensityValue * 0.8 + 0.2;
+        break;
+      case 'waves':
+        effectStyle.opacity = intensityValue * 0.7 + 0.3;
+        break;
+      case 'gradient':
+        effectStyle.opacity = intensityValue * 0.7 + 0.3;
+        break;
+      case 'ambient':
+        effectStyle.opacity = intensityValue * 0.6 + 0.4;
+        effectStyle.background = `radial-gradient(circle at 20% 30%, ${applyAlpha(
+          primaryColor,
+          intensityValue * 0.5
+        )}, transparent 50%), radial-gradient(circle at 80% 70%, ${applyAlpha(
+          secondaryColor,
+          intensityValue * 0.5
+        )}, transparent 50%), radial-gradient(circle at 50% 50%, ${applyAlpha(
+          accentColor,
+          intensityValue * 0.4
+        )}, transparent 70%)`;
+        break;
+      default:
+        effectStyle.opacity = intensityValue * 0.5 + 0.5;
+        effectStyle.backgroundColor = applyAlpha(primaryColor, intensityValue * 0.3);
+        break;
+    }
+
+    const effectClasses = cn(
+      styles.effect,
+      typeClassMap[type] ?? styles.typeDefault,
+      noise && styles.noise,
+      !shouldReduceMotion && animationClassMap[type],
+      shouldReduceMotion && styles.reduceMotion
+    );
+
     // Generate particles
     const renderParticles = () => {
       if (type !== 'particles') return null;
 
       return (
-        <ParticleContainer>
+        <div className={styles.particleContainer}>
           {Array.from({ length: particleCount }).map((_, index) => {
-            // Random values for each particle
-            const size = Math.random() * 8 + 2; // 2-10px
+            const size = Math.random() * 8 + 2;
             const positionX = Math.random() * 100;
             const positionY = Math.random() * 100;
-            const delay = Math.random() * 5; // 0-5s delay
+            const delay = Math.random() * 5;
+
+            const particleStyle: React.CSSProperties & Record<string, string | number> = {
+              backgroundColor: primaryColor,
+              width: `${size}px`,
+              height: `${size}px`,
+              top: `${positionY}%`,
+              left: `${positionX}%`,
+            };
+
+            if (!shouldReduceMotion) {
+              particleStyle['--particle-animation-duration'] = particleAnimationDuration;
+              particleStyle['--particle-animation-delay'] = `${delay}s`;
+            }
 
             return (
-              <Particle
-                key={index}
-                $primaryColor={primaryColor}
-                $size={size}
-                $positionX={positionX}
-                $positionY={positionY}
-                $delay={delay}
-                $speed={speed}
-                $reducedMotion={shouldReduceMotion}
+              <div
+                key={`particle-${index}`}
+                className={cn(
+                  styles.particle,
+                  !shouldReduceMotion && styles.particleAnimated,
+                  shouldReduceMotion && styles.reduceMotion
+                )}
+                style={particleStyle}
               />
             );
           })}
-        </ParticleContainer>
+        </div>
       );
     };
 
@@ -536,46 +424,33 @@ export const DynamicAtmosphere = forwardRef<HTMLDivElement, DynamicAtmospherePro
       };
     }, [interactionMode, handleMouseMove, handleScroll, shouldReduceMotion]);
 
+    const setContainerRef = (node: HTMLDivElement | null) => {
+      if (containerRef.current !== node) {
+        (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      }
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref) {
+        (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      }
+    };
+
     return (
-      <AtmosphereContainer
-        ref={node => {
-          if (containerRef.current !== node) {
-            (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-          }
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref) {
-            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node!;
-          }
-        }}
-        className={cn('glass-dynamic-atmosphere', className)}
-        $width={widthValue}
-        $height={heightValue}
-        $fullSize={fullSize}
-        $position={position}
-        $zIndex={zIndex}
-        $blur={blur}
-        $blurStrength={blurStrength}
+      <div
+        ref={setContainerRef}
+        className={cn('glass-dynamic-atmosphere', styles.container, className)}
+        style={containerStyle}
         {...rest}
       >
-        <AtmosphereEffect
-          $type={type}
-          $primaryColor={primaryColor}
-          $secondaryColor={secondaryColor}
-          $accentColor={accentColor}
-          $intensity={intensity}
-          $speed={speed}
-          $interactionMode={interactionMode}
-          $reducedMotion={shouldReduceMotion}
-          $noise={noise}
-          $transform={transform}
-        />
+        <div className={effectClasses} style={effectStyle} />
         {renderParticles()}
-      </AtmosphereContainer>
+      </div>
     );
   }
 );
 
-DynamicAtmosphere.displayName = 'DynamicAtmosphere';
+DynamicAtmosphere.displayName = 'GlassDynamicAtmosphere';
+
+export const GlassDynamicAtmosphere = DynamicAtmosphere;
 
 export default DynamicAtmosphere;

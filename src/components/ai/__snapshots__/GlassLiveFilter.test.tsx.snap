@@ -1,0 +1,584 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassLiveFilter matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-flex glass-items-center glass-justify-between"
+  >
+    <div>
+      <h3
+        class="glass-text-xl font-semibold text-primary/90"
+      >
+        Live Image Filter
+      </h3>
+      <p
+        class="glass-text-sm text-primary/60"
+      >
+        Real-time image and video processing with custom filters
+      </p>
+    </div>
+    <div
+      class="glass-flex glass-items-center space-x-2"
+    >
+      <div
+        class="glass-flex glass-items-center space-x-1 text-primary"
+      >
+        <div
+          class="w-2 h-2 glass-surface-green glass-radius-full animate-pulse"
+        />
+        <span
+          class="glass-text-xs"
+        >
+          Real-time
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-4"
+  >
+    <div
+      class="space-y-2"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Original
+      </h4>
+      <div
+        class="relative aspect-video glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+      >
+        <canvas
+          class="glass-w-full glass-h-full object-cover"
+          height="600"
+          width="800"
+        />
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Filtered
+      </h4>
+      <div
+        class="relative aspect-video glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+      >
+        <canvas
+          class="glass-w-full glass-h-full object-cover"
+          height="600"
+          width="800"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+  >
+    <div
+      class="space-y-4"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between"
+      >
+        <h4
+          class="glass-text-sm font-medium text-primary/80"
+        >
+          Active Filters (
+          0
+          /
+          5
+          )
+        </h4>
+      </div>
+      <p
+        class="glass-text-sm text-primary/50 italic"
+      >
+        No filters applied
+      </p>
+    </div>
+    <div
+      class="space-y-4"
+    >
+      <h4
+        class="glass-text-sm font-medium text-primary/80"
+      >
+        Processing Settings
+      </h4>
+      <div
+        class="glass-grid glass-grid-cols-2 glass-gap-4"
+      >
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            Quality
+          </label>
+          <select
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+          >
+            <option
+              value="low"
+            >
+              Low
+            </option>
+            <option
+              value="medium"
+            >
+              Medium
+            </option>
+            <option
+              value="high"
+            >
+              High
+            </option>
+            <option
+              value="ultra"
+            >
+              Ultra
+            </option>
+          </select>
+        </div>
+        <div>
+          <label
+            class="block glass-text-xs text-primary/70 mb-1"
+          >
+            FPS: 
+            30
+          </label>
+          <input
+            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            max="60"
+            min="1"
+            type="range"
+            value="30"
+          />
+        </div>
+      </div>
+      <div
+        class="glass-flex glass-items-center space-x-4"
+      >
+        <label
+          class="glass-flex glass-items-center space-x-2 cursor-pointer"
+        >
+          <input
+            checked=""
+            class="w-4 h-4 glass-radius glass-border-white/30"
+            type="checkbox"
+          />
+          <span
+            class="glass-text-sm text-primary/80"
+          >
+            GPU Acceleration
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div
+    class="space-y-4"
+  >
+    <h4
+      class="glass-text-sm font-medium text-primary/80"
+    >
+      Filter Library
+    </h4>
+    <div
+      class="glass-grid glass-grid-cols-2 md:grid-cols-3 lg:grid-cols-4 glass-gap-3"
+    >
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Grayscale
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Convert to black and white
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-blue-500/20 text-blue-300
+                "
+          >
+            color
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Sepia
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Vintage sepia tone effect
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-orange-500/20 text-orange-300
+                "
+          >
+            vintage
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Gaussian Blur
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Smooth blur effect
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-gray-500/20 text-gray-300
+                "
+          >
+            blur
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Sharpen
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Enhance image details
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-purple-500/20 text-purple-300
+                "
+          >
+            artistic
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Brightness
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Adjust image brightness
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-blue-500/20 text-blue-300
+                "
+          >
+            color
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Contrast
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Adjust image contrast
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-blue-500/20 text-blue-300
+                "
+          >
+            color
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Saturation
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Adjust color saturation
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-blue-500/20 text-blue-300
+                "
+          >
+            color
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Hue Shift
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Shift color hues
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-blue-500/20 text-blue-300
+                "
+          >
+            color
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Edge Detection
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Detect and highlight edges
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-purple-500/20 text-purple-300
+                "
+          >
+            artistic
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Emboss
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          3D embossed effect
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-purple-500/20 text-purple-300
+                "
+          >
+            artistic
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Vintage Film
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Old film camera effect
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-orange-500/20 text-orange-300
+                "
+          >
+            vintage
+          </span>
+        </div>
+      </div>
+      <div
+        class="
+                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                border-white/20 hover:border-white/40 bg-white/5
+              "
+        tabindex="0"
+      >
+        <div
+          class="glass-text-sm font-medium text-primary/90 mb-1"
+        >
+          Neon Glow
+        </div>
+        <div
+          class="glass-text-xs text-primary/60 mb-2"
+        >
+          Cyberpunk neon effect
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <span
+            class="
+                  px-2 py-0.5 rounded text-xs font-medium
+                  bg-green-500/20 text-green-300
+                "
+          >
+            modern
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-flex glass-items-center glass-justify-between pt-4 glass-border-t glass-border-white/10"
+  >
+    <div
+      class="glass-flex glass-items-center space-x-4"
+    >
+      <input
+        accept="image/*"
+        class="hidden"
+        id="image-upload"
+        type="file"
+      />
+      <label
+        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg glass-text-sm font-medium cursor-pointer transition-colors"
+        for="image-upload"
+        tabindex="0"
+      >
+        Upload Image
+      </label>
+      <button
+        class="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:border-white/50 text-primary/80 glass-radius-lg glass-text-sm transition-colors"
+        tabindex="0"
+      >
+        Apply Filters
+      </button>
+    </div>
+  </div>
+</div>
+`;

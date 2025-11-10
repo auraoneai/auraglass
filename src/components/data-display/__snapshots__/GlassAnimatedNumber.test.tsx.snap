@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAnimatedNumber matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-inline-flex glass-items-center glass-justify-center glass-font-mono glass-font-bold glass-text-primary glass-text-2xl"
+  data-glass-component="true"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <span
+    class="glass-tabular-nums"
+  >
+    0
+  </span>
+</div>
+`;

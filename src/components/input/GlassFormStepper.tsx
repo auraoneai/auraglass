@@ -181,10 +181,10 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
         return (
           <React.Fragment data-glass-component key={step.id}>
             {/* Step */}
-            <div className="glass-flex glass-flex-col glass-items-center group">
+            <div className='glass-flex glass-flex-col glass-items-center group'>
               <Motion
                 preset={state === "active" ? "scaleIn" : "fadeIn"}
-                className="glass-flex glass-flex-col glass-items-center cursor-pointer"
+                className='glass-flex glass-flex-col glass-items-center cursor-pointer'
                 onClick={(e) => handleStepClick(index, step)}
                 role="button"
                 aria-label={`Step ${index + 1}: ${step.title}${state === "completed" ? " (completed)" : state === "active" ? " (current)" : ""}`}
@@ -231,12 +231,12 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
                   {/* Optional indicator */}
                   {step.optional && (
-                    <div className="absolute glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full" />
+                    <div className='absolute glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full' />
                   )}
                 </div>
 
                 {/* Step Label */}
-                <div className="mt-3 text-center max-w-24">
+                <div className='mt-3 text-center max-w-24'>
                   <h3
                     className={cn(
                       "font-medium leading-tight",
@@ -291,10 +291,10 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
         return (
           <React.Fragment key={step.id}>
-            <div className="glass-flex glass-items-start group">
+            <div className='glass-flex glass-items-start group'>
               <Motion
                 preset={state === "active" ? "slideRight" : "fadeIn"}
-                className="glass-flex glass-items-start cursor-pointer"
+                className='glass-flex glass-items-start cursor-pointer'
                 onClick={(e) => handleStepClick(index, step)}
                 role="button"
                 aria-label={`Step ${index + 1}: ${step.title}${state === "completed" ? " (completed)" : state === "active" ? " (current)" : ""}`}
@@ -341,12 +341,12 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
                   {/* Optional indicator */}
                   {step.optional && (
-                    <div className="absolute glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full" />
+                    <div className='absolute glass-top-1 -right-1 w-2 h-2 glass-surface-yellow glass-radius-full' />
                   )}
                 </div>
 
                 {/* Step Content */}
-                <div className="glass-flex-1 pt-1">
+                <div className='glass-flex-1 pt-1'>
                   <h3
                     className={cn(
                       "font-medium leading-tight",

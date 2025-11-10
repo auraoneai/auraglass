@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTransitions matches snapshot 1`] = `
+<div
+  class="glass-transitions-demo glass-space-y-6"
+>
+  <div
+    class="glass-transition-container"
+    style="clip-path: inset(0% 0% 0% 0% round 16px); opacity: 1; transform: none;"
+  >
+    <div
+      class="glass-surface-primary glass-radius-3xl glass-p-8 glass-border glass-border-white/10"
+    >
+      <p
+        class="glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2"
+      >
+        Glass dashboards
+      </p>
+      <h2
+        class="glass-text-2xl glass-text-primary font-semibold"
+      >
+        Morph between layouts while preserving context.
+      </h2>
+      <button
+        class="glass-mt-6 glass-text-sm glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
+        type="button"
+      >
+        Cycle transition
+      </button>
+    </div>
+  </div>
+  <div
+    class="glass-relative glass-overflow-hidden"
+  >
+    <div
+      class="glass-foundation-complete glass-surface-primary glass-border glass-border-primary glass-radius-xl glass-p-6 glass-cursor-grab active:glass-cursor-grabbing"
+      draggable="false"
+      style="opacity: 0; transform: translateX(300px) scale(0.8) rotateY(45deg); user-select: none;"
+    >
+      <div>
+        <p
+          class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+        >
+          Insight
+        </p>
+        <h3
+          class="glass-text-xl glass-text-primary font-semibold"
+        >
+          Fluid page transitions
+        </h3>
+        <p
+          class="glass-text-sm glass-text-secondary"
+        >
+          Use material-aware easing to keep movement intuitive.
+        </p>
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-justify-center glass-mt-4 glass-gap-2"
+    >
+      <button
+        class="glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard glass-surface-white glass-scale-125"
+      />
+      <button
+        class="glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard glass-surface-muted hover:glass-surface-secondary"
+      />
+      <button
+        class="glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard glass-surface-muted hover:glass-surface-secondary"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassToast matches snapshot 1`] = `
+<div
+  class="glass-toast-demo glass-space-y-4"
+>
+  <div
+    class="glass-flex glass-flex-wrap glass-gap-2"
+  >
+    <button
+      class="glass-px-4 glass-py-2 glass-radius-full glass-surface-subtle glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+      type="button"
+    >
+      Success
+       toast
+    </button>
+    <button
+      class="glass-px-4 glass-py-2 glass-radius-full glass-surface-subtle glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+      type="button"
+    >
+      Warning
+       toast
+    </button>
+    <button
+      class="glass-px-4 glass-py-2 glass-radius-full glass-surface-subtle glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+      type="button"
+    >
+      Error
+       toast
+    </button>
+  </div>
+</div>
+`;

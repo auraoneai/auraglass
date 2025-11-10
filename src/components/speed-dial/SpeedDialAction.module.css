@@ -1,0 +1,128 @@
+.action {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  box-shadow: var(--aura-shadow-elevation-sm);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  color: var(--aura-color-global-text-on-primary);
+  cursor: pointer;
+}
+
+.actionGlass {
+  background: color-mix(in srgb, var(--aura-color-glass-surface) 85%, transparent);
+  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
+  backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
+}
+
+.actionSolid {
+  background: color-mix(in srgb, var(--aura-color-surface-base) 92%, transparent);
+}
+
+.actionDisabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.sizeSmall {
+  width: 32px;
+  height: 32px;
+}
+
+.sizeMedium {
+  width: 40px;
+  height: 40px;
+}
+
+.sizeLarge {
+  width: 48px;
+  height: 48px;
+}
+
+.hiddenUp,
+.hiddenDown,
+.hiddenLeft,
+.hiddenRight {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+}
+
+.hiddenUp {
+  transform: translate3d(0, 12px, 0) scale(0.6);
+}
+
+.hiddenDown {
+  transform: translate3d(0, -12px, 0) scale(0.6);
+}
+
+.hiddenLeft {
+  transform: translate3d(12px, 0, 0) scale(0.6);
+}
+
+.hiddenRight {
+  transform: translate3d(-12px, 0, 0) scale(0.6);
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: var(--aura-radius-md);
+  background: var(--aura-color-overlay-surface-strong);
+  color: var(--aura-color-global-text-primary);
+  box-shadow: var(--aura-shadow-elevation-sm);
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  white-space: nowrap;
+}
+
+.tooltipVisible {
+  opacity: 1;
+}
+
+.tooltipUp {
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translate3d(-50%, -6px, 0);
+}
+
+.tooltipDown {
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translate3d(-50%, 6px, 0);
+}
+
+.tooltipLeft {
+  right: calc(100% + 4px);
+  top: 50%;
+  transform: translate3d(-6px, -50%, 0);
+}
+
+.tooltipRight {
+  left: calc(100% + 4px);
+  top: 50%;
+  transform: translate3d(6px, -50%, 0);
+}
+
+.actionNoTransition {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action,
+  .tooltip {
+    transition: none;
+  }
+}

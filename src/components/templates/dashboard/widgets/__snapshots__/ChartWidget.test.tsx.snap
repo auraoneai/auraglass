@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChartWidget matches snapshot 1`] = `
+<div
+  class="glass-foundation-basic w-full h-full glass-radius-lg glass-p-4"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none glass-h-full"
+  >
+    <div
+      class="flex flex-row glass-gap-2 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
+    >
+      <div
+        class="flex flex-col glass-gap-1 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+      >
+        <h3
+          class="font-medium text-foreground glass-text-base"
+        >
+          Chart
+        </h3>
+      </div>
+    </div>
+    <div
+      class="flex-1 h-48"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary"
+      >
+        No chart data provided
+      </div>
+    </div>
+  </div>
+</div>
+`;

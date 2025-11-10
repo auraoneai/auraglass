@@ -261,13 +261,13 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
           <GlassCommandList maxHeight={maxHeight}>
             {loading ? (
               <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
-                <div className="w-6 h-6 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full animate-spin" />
+                <div className='w-6 h-6 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full animate-spin' />
               </div>
             ) : (filteredItems?.length || 0) === 0 ? (
               renderEmpty ? (
                 renderEmpty()
               ) : (
-                <div className="text-center glass-py-8 text-primary/50">
+                <div className='text-center glass-py-8 text-primary/50'>
                   {emptyMessage}
                 </div>
               )
@@ -275,7 +275,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
               Object.entries(groupedItems).map(([groupName, groupItems]) => (
                 <div key={groupName}>
                   {groupName && (
-                    <div className="glass-px-3 glass-py-2 glass-text-xs font-medium text-primary/60 glass-border-b glass-border-white/10">
+                    <div className='glass-px-3 glass-py-2 glass-text-xs font-medium text-primary/60 glass-border-b glass-border-white/10'>
                       {groupName}
                     </div>
                   )}
@@ -302,16 +302,16 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
                         ) : (
                           <>
                             {item?.icon && (
-                              <div className="glass-flex glass-items-center glass-justify-center w-5 h-5 mr-3 text-primary/70">
+                              <div className='glass-flex glass-items-center glass-justify-center w-5 h-5 mr-3 text-primary/70'>
                                 {item?.icon}
                               </div>
                             )}
                             <div className="glass-flex-1 glass-min-w-0">
-                              <div className="text-primary/90 font-medium truncate">
+                              <div className='text-primary/90 font-medium truncate'>
                                 {item?.label}
                               </div>
                               {item?.description && (
-                                <div className="text-primary/60 glass-text-sm truncate">
+                                <div className='text-primary/60 glass-text-sm truncate'>
                                   {item?.description}
                                 </div>
                               )}
@@ -375,10 +375,10 @@ export const GlassCommandDialog: React.FC<GlassCommandDialogProps> = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] glass-flex glass-items-center glass-justify-center glass-p-4 glass-surface-dark/50 glass-glass-backdrop-blur-md glass-contrast-guard">
+    <div className='fixed inset-0 z-[9999] glass-flex glass-items-center glass-justify-center glass-p-4 glass-surface-dark/50 glass-glass-backdrop-blur-md glass-contrast-guard'>
       <Motion
         preset="scaleIn"
-        className="glass-w-full max-w-lg"
+        className='glass-w-full max-w-lg'
         onAnimationEnd={() => {
           // Focus first input when animation completes
           const input = dialogRef.current?.querySelector("input");
@@ -421,8 +421,8 @@ export const GlassCommandInput: React.FC<GlassCommandInputProps> = ({
   };
 
   return (
-    <div className="relative mb-4">
-      <Search className="absolute left-3 glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/50" />
+    <div className='relative mb-4'>
+      <Search className='absolute left-3 glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/50' />
       <OptimizedGlass
         variant="clear"
         elevation={"level1"}

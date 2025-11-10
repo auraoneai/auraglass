@@ -205,13 +205,13 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
         <div className="glass-flex-1 glass-min-w-0">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <h4 className="font-semibold glass-text-sm truncate pr-2">
+            <h4 className='font-semibold glass-text-sm truncate pr-2'>
               {toast.title}
             </h4>
             {toast.dismissible && (
               <button
                 onClick={handleRemove}
-                className="glass-flex-shrink-0 w-5 h-5 glass-flex glass-items-center glass-justify-center glass-radius-full hover:glass-surface-dark/10 transition-colors glass-text-xs opacity-70 hover:opacity-100 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                className='glass-flex-shrink-0 w-5 h-5 glass-flex glass-items-center glass-justify-center glass-radius-full hover:glass-surface-dark/10 transition-colors glass-text-xs opacity-70 hover:opacity-100 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               >
                 ✕
               </button>
@@ -219,7 +219,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
           </div>
 
           {toast.message && (
-            <p className="glass-text-sm opacity-90 mt-1 leading-relaxed">
+            <p className='glass-text-sm opacity-90 mt-1 leading-relaxed'>
               {toast.message}
             </p>
           )}
@@ -230,7 +230,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
                 toast.action!.onClick();
                 handleRemove();
               }}
-              className="mt-2 glass-text-sm font-medium underline hover:no-underline transition-all"
+              className='mt-2 glass-text-sm font-medium underline hover:no-underline transition-all'
             >
               {toast.action.label}
             </button>
@@ -240,7 +240,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
       {/* Progress bar */}
       {toast.duration && toast.duration > 0 && !prefersReducedMotion && (
-        <div className="mt-3 glass-w-full h-1 glass-surface-dark/10 glass-radius-full overflow-hidden">
+        <div className='mt-3 glass-w-full h-1 glass-surface-dark/10 glass-radius-full overflow-hidden'>
           <div
             className={cn(
               "h-full glass-radius-full transition-all ease-linear",
@@ -267,17 +267,89 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 export const useToastHelpers = () => {
   const { addToast } = useToast();
 
-  return {
-    success: (title: string, message?: string, options?: Partial<Toast>) =>
+  const success = useCallback(
+    (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: "success", title, message, ...options }),
+    [addToast]
+  );
 
-    error: (title: string, message?: string, options?: Partial<Toast>) =>
+  const error = useCallback(
+    (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: "error", title, message, ...options }),
+    [addToast]
+  );
 
-    warning: (title: string, message?: string, options?: Partial<Toast>) =>
+  const warning = useCallback(
+    (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: "warning", title, message, ...options }),
+    [addToast]
+  );
 
-    info: (title: string, message?: string, options?: Partial<Toast>) =>
+  const info = useCallback(
+    (title: string, message?: string, options?: Partial<Toast>) =>
       addToast({ type: "info", title, message, ...options }),
-  };
+    [addToast]
+  );
+
+  return { success, error, warning, info };
 };
+
+const ToastDemoControls = ({ autoDemo }: { autoDemo: boolean }) => {
+  const { success, warning, error } = useToastHelpers();
+
+  useEffect(() => {
+    if (!autoDemo) return;
+    const timer = setTimeout(() => {
+      success("Glass toast ready", "Adaptive feedback online");
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [autoDemo, success]);
+
+  const buttons = [
+    { label: "Success", action: () => success("Synced", "Glass data saved") },
+    { label: "Warning", action: () => warning("Slow network", "Retry soon") },
+    { label: "Error", action: () => error("Upload failed") },
+  ];
+
+  return (
+    <div className="glass-flex glass-flex-wrap glass-gap-2">
+      {buttons.map((button) => (
+        <button
+          key={button.label}
+          type="button"
+          onClick={button.action}
+          className="glass-px-4 glass-py-2 glass-radius-full glass-surface-subtle glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+        >
+          {button.label} toast
+        </button>
+      ))}
+    </div>
+  );
+};
+
+export interface GlassToastProps extends React.HTMLAttributes<HTMLDivElement> {
+  maxToasts?: number;
+  position?: ToastProviderProps["position"];
+  autoDemo?: boolean;
+  children?: React.ReactNode;
+}
+
+export const GlassToast: React.FC<GlassToastProps> = ({
+  maxToasts,
+  position,
+  autoDemo = false,
+  className,
+  children,
+  ...rest
+}) => (
+  <ToastProvider maxToasts={maxToasts} position={position}>
+    <div
+      className={cn("glass-toast-demo glass-space-y-4", className)}
+      {...rest}
+    >
+      {children ?? <ToastDemoControls autoDemo={autoDemo} />}
+    </div>
+  </ToastProvider>
+);
+
+export default GlassToast;

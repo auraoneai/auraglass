@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassHoverCard matches snapshot 1`] = `
+<div
+  class="relative inline-block"
+>
+  <div />
+</div>
+`;

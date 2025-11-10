@@ -734,7 +734,7 @@ export const GlassVortexPortal = forwardRef<
                 initializeDistortions();
                 play("success");
               }}
-              className="glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
             >
               Reset
             </button>
@@ -780,9 +780,9 @@ export const GlassVortexPortal = forwardRef<
               step="0.1"
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
-              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
-            <span className="glass-text-sm min-w-[3ch]">
+            <span className='glass-text-sm min-w-[3ch]'>
               {(currentIntensity * 100).toFixed(0)}%
             </span>
           </div>
@@ -841,7 +841,7 @@ export const GlassVortexPortal = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

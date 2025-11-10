@@ -150,11 +150,11 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     const fallbackContent =
       fallback ||
       (fallbackText ? (
-        <span className="font-medium text-primary/80">
+        <span className='font-medium text-primary/80'>
           {getInitials(fallbackText)}
         </span>
       ) : (
-        <div className="w-4 h-4 glass-surface-subtle/30 glass-radius-md" />
+        <div className='w-4 h-4 glass-surface-subtle/30 glass-radius-md' />
       ));
 
     // Convert numeric elevation to level string
@@ -168,7 +168,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     };
 
     return (
-      <div data-glass-component className="relative inline-block">
+      <div data-glass-component className='relative inline-block'>
         <OptimizedGlass
           elevation={
             elevation === 1
@@ -211,14 +211,14 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
               alt={alt || (ariaLabel ? "" : "Avatar image")}
               onError={handleError}
               onLoad={handleLoad}
-              className="glass-w-full glass-h-full object-cover"
+              className='glass-w-full glass-h-full object-cover'
               {...props}
             />
           )}
 
           {isLoading && !hasError && (
-            <div className="absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/20">
-              <div className="w-4 h-4 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full animate-spin" />
+            <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/20'>
+              <div className='w-4 h-4 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full animate-spin' />
             </div>
           )}
         </OptimizedGlass>
@@ -263,7 +263,7 @@ export const GlassAvatarGroup: React.FC<GlassAvatarGroupProps> = ({
   return (
     <div className={cn("flex items-center", spacingClasses[spacing])}>
       {childArray.slice(0, visibleCount).map((child, index) => (
-        <div key={index} className="relative">
+        <div key={index} className='relative'>
           {React.cloneElement(child as React.ReactElement, {
             size,
             elevation: "level2",
@@ -272,12 +272,12 @@ export const GlassAvatarGroup: React.FC<GlassAvatarGroupProps> = ({
       ))}
 
       {hasOverflow && (
-        <div className="relative">
+        <div className='relative'>
           <GlassAvatar
             size={size}
             elevation={2}
             fallback={
-              <span className="font-medium text-primary/60 glass-text-xs">
+              <span className='font-medium text-primary/60 glass-text-xs'>
                 +{childArray.length - max}
               </span>
             }
@@ -308,7 +308,7 @@ export const GlassAvatarFallback: React.FC<GlassAvatarFallbackProps> = ({
   if (!showFallback) {
     return (
       <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-surface-dark/10">
-        <div className="w-3 h-3 glass-border glass-border-white/30 glass-border-t-white/60 glass-radius-full animate-spin" />
+        <div className='w-3 h-3 glass-border glass-border-white/30 glass-border-t-white/60 glass-radius-full animate-spin' />
       </div>
     );
   }

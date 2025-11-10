@@ -682,13 +682,13 @@ export const GlassFluidSimulation = forwardRef<
           <div className="glass-flex glass-items-center glass-gap-2">
             <button
               onClick={() => setIsRunning(!isRunning)}
-              className="glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
+              className='glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary'
             >
               {isRunning ? "Pause" : "Play"}
             </button>
             <button
               onClick={initializeParticles}
-              className="glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
             >
               Reset
             </button>
@@ -720,7 +720,7 @@ export const GlassFluidSimulation = forwardRef<
                   radius: 50,
                 })
               }
-              className="glass-px-2 glass-py-1 glass-radius-md glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-text-sm"
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-text-sm'
             >
               Add Push
             </button>
@@ -734,7 +734,7 @@ export const GlassFluidSimulation = forwardRef<
                   radius: 50,
                 })
               }
-              className="glass-px-2 glass-py-1 glass-radius-md glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-text-sm"
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-text-sm'
             >
               Add Pull
             </button>
@@ -748,7 +748,7 @@ export const GlassFluidSimulation = forwardRef<
                   radius: 100,
                 })
               }
-              className="glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-text-sm"
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-text-sm'
             >
               Add Vortex
             </button>
@@ -799,7 +799,7 @@ export const GlassFluidSimulation = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

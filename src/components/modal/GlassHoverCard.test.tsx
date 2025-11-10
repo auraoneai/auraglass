@@ -25,7 +25,7 @@ describe('GlassHoverCard', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassHoverCard />);
+    const { container } = render(<GlassHoverCard {...baseProps} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +33,7 @@ describe('GlassHoverCard', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassHoverCard />);
+    const { container } = render(<GlassHoverCard {...baseProps} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -44,7 +44,9 @@ describe('GlassHoverCard', () => {
    */
   describe('ARIA Attributes', () => {
     it('supports aria-label', () => {
-      const { container } = render(<GlassHoverCard aria-label="Test component" />);
+      const { container } = render(
+        <GlassHoverCard {...baseProps} aria-label="Test component" />
+      );
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
@@ -73,7 +75,7 @@ describe('GlassHoverCard', () => {
         })),
       });
 
-      const { container } = render(<GlassHoverCard />);
+      const { container } = render(<GlassHoverCard {...baseProps} />);
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
@@ -95,6 +97,7 @@ describe('GlassHoverCard', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassHoverCard
+        {...baseProps}
         className="custom-class"
         data-testid="glasshovercard"
       />
@@ -110,7 +113,12 @@ describe('GlassHoverCard', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassHoverCard />);
+    const { container } = render(<GlassHoverCard {...baseProps} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });
+const baseProps = {
+  content: <div>Hover content</div>,
+  children: <button>Trigger</button>,
+  open: true,
+};

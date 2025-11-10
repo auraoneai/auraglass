@@ -7,15 +7,12 @@
  */
 // Typography tokens available via typography.css (imported in index.css)
 import React, { useMemo, useState, useRef, useCallback, useEffect, forwardRef, useImperativeHandle, memo } from 'react';
-import styled, { DefaultTheme } from 'styled-components';
 import { cn } from '@/lib/utils';
 
 import { usePhysicsInteraction } from '../../hooks/usePhysicsInteraction';
 import { zSpaceLayers } from '../../core/zspace';
 import { createThemeContext } from '../../core/themeContext';
-import { useGlassTheme } from '../../hooks/useGlassTheme';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { useTheme } from 'styled-components';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 
 // Consciousness interface imports
@@ -186,6 +183,15 @@ import { GlassBarChart as BarChart } from './GlassBarChart';
 import { GlassLineChart as LineChart } from './GlassLineChart';
 import { GlassPieChart as PieChart } from './GlassPieChart';
 import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+import chartStyles from './GlassChart.module.css';
+
+interface AuraChartTheme {
+  isDarkMode: boolean;
+  colorMode: 'light' | 'dark';
+  themeVariant: string;
+  colors: Record<string, unknown>;
+  zIndex: Record<string, number | string>;
+}
 
 // Ref interface
 export interface GlassChartRef {
@@ -206,118 +212,103 @@ export interface GlassChartRef {
 /**
  * Styled container with glass effects
  */
-const ChartContainer = styled.div<{
+const getElevationShadow = (level: number) => {
+  switch (level) {
+    case 0:
+      return 'none';
+    case 1:
+      return '0 10px 24px rgba(15, 23, 42, 0.16)';
+    case 2:
+      return '0 18px 48px rgba(15, 23, 42, 0.24)';
+    case 3:
+      return '0 24px 64px rgba(15, 23, 42, 0.28)';
+    case 4:
+      return '0 32px 80px rgba(15, 23, 42, 0.32)';
+    default:
+      return '0 18px 48px rgba(15, 23, 42, 0.24)';
+  }
+};
+
+interface ChartContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   zElevation: number;
   height?: string | number;
   width?: string | number;
-  theme: any;
   focused: boolean;
-}>`
-  position: relative;
-  width: ${props => (typeof props?.width === 'number' ? `${props?.width}px` : props?.width || '100%')};
-  height: ${props =>
-    typeof props?.height === 'number' ? `${props?.height}px` : props?.height || '400px'};
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-glass-backdrop-blur);
-  border: 1px solid var(--glass-border-default);
-  z-index: ${zSpaceLayers.content};
-  
-  ${props =>
-    props?.focused &&
-    `
-    transform: scale(1.02);
-    box-shadow: var(--glass-elev-2);
-  `}
-`;
+const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(
+  ({ zElevation, height, width, focused, className, style, children, ...rest }, ref) => {
+    const resolvedWidth = typeof width === 'number' ? `${width}px` : width || '100%';
+    const resolvedHeight = typeof height === 'number' ? `${height}px` : height || '400px';
 
-/**
- * Chart header section
- */
-const ChartHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-`;
-
-/**
- * Styled title and description
- */
-const ChartTitle = styled.h3`
-  font-size: var(--typography-subheading-size);
-  font-weight: var(--typography-heading-weight);
-  margin: 0 0 8px 0;
-  color: var(--glass-text-primary);
-`;
-
-const ChartDescription = styled.p`
-  font-size: var(--typography-body-size);
-  margin: 0 0 16px 0;
-  color: var(--glass-text-secondary);
-`;
-
-/**
- * Chart control bar with tabs and actions
- */
-const ChartControls = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  position: relative;
-  z-index: 1;
-`;
-
-const TabsContainer = styled.div`
-  flex: 1;
-`;
-
-const ToolbarContainer = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-`;
-
-/**
- * Chart type selector button
- */
-const ChartTypeButton = styled.button<{ active: boolean; theme?: any }>`
-  background: ${props => (props?.active ? 'var(--glass-bg-active)' : 'transparent')};
-  border: none;
-  border-radius: 4px;
-  padding: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background: var(--glass-bg-hover);
+    return (
+      <div
+        ref={ref}
+        className={cn(chartStyles.container, focused && chartStyles.containerFocused, className)}
+        style={{
+          width: resolvedWidth,
+          height: resolvedHeight,
+          boxShadow: getElevationShadow(zElevation),
+          ...style,
+        }}
+        {...rest}
+      >
+        {children}
+      </div>
+    );
   }
-`;
+);
+ChartContainer.displayName = 'ChartContainer';
 
-/**
- * Chart content container
- */
-const ChartContent = styled.div<{ focused: boolean }>`
-  position: relative;
-  width: 100%;
-  height: ${props => (props?.focused ? 'calc(100% - 120px)' : 'calc(100% - 80px)')};
-  overflow: hidden;
-`;
+const ChartHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.header, className)} {...props} />
+);
 
-/**
- * Footer content with legend or additional info
- */
-const FooterContent = styled.div`
-  padding: 8px 16px;
-  font-size: var(--typography-caption-size);
-  color: var(--glass-text-secondary);
-  text-align: center;
-`;
+const ChartTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ className, ...props }) => (
+  <h3 className={cn(chartStyles.title, className)} {...props} />
+);
+
+const ChartDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ className, ...props }) => (
+  <p className={cn(chartStyles.description, className)} {...props} />
+);
+
+const ChartControls: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.controls, className)} {...props} />
+);
+
+const TabsContainer: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.tabs, className)} {...props} />
+);
+
+const ToolbarContainer: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.toolbar, className)} {...props} />
+);
+
+interface ChartTypeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  active?: boolean;
+}
+
+const ChartTypeButton: React.FC<ChartTypeButtonProps> = ({ active, className, ...props }) => (
+  <button
+    className={cn(chartStyles.typeButton, active && chartStyles.typeButtonActive, className)}
+    {...props}
+  />
+);
+
+interface ChartContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  focused: boolean;
+}
+
+const ChartContent: React.FC<ChartContentProps> = ({ focused, className, ...props }) => (
+  <div
+    className={cn(chartStyles.content, focused && chartStyles.contentFocused, className)}
+    {...props}
+  />
+);
+
+const FooterContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.footer, className)} {...props} />
+);
 
 /**
  * Chart SVG icons for type switching
@@ -385,7 +376,7 @@ const ChartTypeIcons = {
 };
 
 // Memoized theme helper function with cached default theme
-const defaultTheme: DefaultTheme = {
+const defaultTheme: AuraChartTheme = {
   isDarkMode: false,
   colorMode: 'light',
   themeVariant: 'nebula',
@@ -431,7 +422,7 @@ const defaultTheme: DefaultTheme = {
 };
 
 // Helper function to ensure we have a properly typed theme
-const ensureValidTheme = (themeInput: any): DefaultTheme => {
+const ensureValidTheme = (themeInput: any): AuraChartTheme => {
   // If the theme is already a valid DefaultTheme return it
   if (
     themeInput && 
@@ -442,7 +433,7 @@ const ensureValidTheme = (themeInput: any): DefaultTheme => {
     'colors' in themeInput && 
     'zIndex' in themeInput
   ) {
-    return themeInput as DefaultTheme;
+    return themeInput as AuraChartTheme;
   }
   
   // Return cached default theme instead of recreating
@@ -531,8 +522,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
   usageContext = 'dashboard',
 }, ref) => {
   // Get theme from context or use the provided theme, and ensure it's valid
-  const contextTheme = useTheme();
-  const theme = ensureValidTheme(providedTheme || contextTheme);
+  const theme = ensureValidTheme(providedTheme);
 
   // Check for reduced motion preference
   const prefersReducedMotion = useReducedMotion();
@@ -1030,7 +1020,6 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
       zElevation={zElevation}
       width={width}
       height={height}
-      theme={theme}
       focused={isFocused}
       style={{
         ...style,
@@ -1125,7 +1114,6 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                       active={currentType === 'bar'}
                       onClick={(e) => handleTypeChange('bar')}
                       title="Bar chart"
-                      theme={theme}
                     >
                       {ChartTypeIcons.bar}
                     </ChartTypeButton>
@@ -1135,7 +1123,6 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                       active={currentType === 'line'}
                       onClick={(e) => handleTypeChange('line')}
                       title="Line chart"
-                      theme={theme}
                     >
                       {ChartTypeIcons.line}
                     </ChartTypeButton>
@@ -1145,7 +1132,6 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                       active={currentType === 'area'}
                       onClick={(e) => handleTypeChange('area')}
                       title="Area chart"
-                      theme={theme}
                     >
                       {ChartTypeIcons.area}
                     </ChartTypeButton>
@@ -1155,7 +1141,6 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                       active={currentType === 'pie'}
                       onClick={(e) => handleTypeChange('pie')}
                       title="Pie chart"
-                      theme={theme}
                     >
                       {ChartTypeIcons.pie}
                     </ChartTypeButton>
@@ -1168,7 +1153,6 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
                   active={false}
                   onClick={handleDownload}
                   title="Download chart"
-                  theme={theme}
                 >
                   <svg
                     width="16"

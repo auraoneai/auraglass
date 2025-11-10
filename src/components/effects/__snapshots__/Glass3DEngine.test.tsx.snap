@@ -1,0 +1,4893 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Glass3DEngine matches snapshot 1`] = `
+<div
+  class="glass-3d-container "
+  style="position: relative; overflow: hidden;"
+  tabindex="0"
+>
+  <div
+    class="glass-3d-layers"
+    style="position: absolute; inset: 0; transform: none;"
+  >
+    <div
+      class="glass-3d-layer glass-layer-background"
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 0; transform: translateZ(-20px) translateY(-2px); opacity: 0.3; mix-blend-mode: normal;"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-background"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="4"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-background)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.501555494524522%"
+              cy="25.03941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.507009581843393%"
+              cy="37.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.509983341664682%"
+              cy="50.0995004165278%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.507009581843393%"
+              cy="62.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.501555494524522%"
+              cy="75.03941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.001555494524524%"
+              cy="12.53941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.01369445182768%"
+              cy="25.116354166274544%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.030953459975667%"
+              cy="37.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.03973386615901%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.030953459975667%"
+              cy="62.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.01369445182768%"
+              cy="75.11635416627455%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.001555494524524%"
+              cy="87.53941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.50700958184339%"
+              cy="12.583478457993127%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.53095345997566%"
+              cy="25.173656111656204%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.5661202938197%"
+              cy="37.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.5886560619984%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="37.5661202938197%"
+              cy="62.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.53095345997566%"
+              cy="75.1736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.50700958184339%"
+              cy="87.58347845799312%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.009983341664686%"
+              cy="12.599500416527803%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="25.196013315568248%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="37.78660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="62.78660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="75.19601331556825%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.009983341664686%"
+              cy="87.5995004165278%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.50700958184339%"
+              cy="12.583478457993127%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.53095345997566%"
+              cy="25.173656111656204%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.5661202938197%"
+              cy="37.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.5886560619984%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="62.5661202938197%"
+              cy="62.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.53095345997566%"
+              cy="75.1736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.50700958184339%"
+              cy="87.58347845799312%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.00155549452452%"
+              cy="12.53941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.01369445182767%"
+              cy="25.116354166274544%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.03095345997566%"
+              cy="37.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.03973386615901%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.03095345997566%"
+              cy="62.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.01369445182767%"
+              cy="75.11635416627455%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.00155549452452%"
+              cy="87.53941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.50155549452452%"
+              cy="25.03941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.50700958184339%"
+              cy="37.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.50998334166468%"
+              cy="50.0995004165278%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.50700958184339%"
+              cy="62.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.50155549452452%"
+              cy="75.03941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 0; transform: translateZ(-20px) translateY(-2px); opacity: 0.09; mix-blend-mode: normal; filter: blur(27px);"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-background"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="4"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-background)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.501555494524522%"
+              cy="25.03941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.507009581843393%"
+              cy="37.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.509983341664682%"
+              cy="50.0995004165278%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.507009581843393%"
+              cy="62.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.501555494524522%"
+              cy="75.03941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.001555494524524%"
+              cy="12.53941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.01369445182768%"
+              cy="25.116354166274544%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.030953459975667%"
+              cy="37.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.03973386615901%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.030953459975667%"
+              cy="62.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.01369445182768%"
+              cy="75.11635416627455%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.001555494524524%"
+              cy="87.53941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.50700958184339%"
+              cy="12.583478457993127%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.53095345997566%"
+              cy="25.173656111656204%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.5661202938197%"
+              cy="37.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.5886560619984%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="37.5661202938197%"
+              cy="62.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.53095345997566%"
+              cy="75.1736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.50700958184339%"
+              cy="87.58347845799312%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.009983341664686%"
+              cy="12.599500416527803%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="25.196013315568248%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="37.78660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="62.78660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="75.19601331556825%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.009983341664686%"
+              cy="87.5995004165278%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.50700958184339%"
+              cy="12.583478457993127%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.53095345997566%"
+              cy="25.173656111656204%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.5661202938197%"
+              cy="37.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.5886560619984%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="62.5661202938197%"
+              cy="62.74998204286578%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.53095345997566%"
+              cy="75.1736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.50700958184339%"
+              cy="87.58347845799312%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.00155549452452%"
+              cy="12.53941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.01369445182767%"
+              cy="25.116354166274544%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.03095345997566%"
+              cy="37.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.03973386615901%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.03095345997566%"
+              cy="62.6736561116562%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.01369445182767%"
+              cy="75.11635416627455%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.00155549452452%"
+              cy="87.53941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.50155549452452%"
+              cy="25.03941419033375%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.50700958184339%"
+              cy="37.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.50998334166468%"
+              cy="50.0995004165278%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.50700958184339%"
+              cy="62.58347845799313%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.50155549452452%"
+              cy="75.03941419033374%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      class="glass-3d-layer glass-layer-midground"
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 1; transform: translateZ(0px) translateY(-6px); opacity: 0.6; mix-blend-mode: multiply;"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-midground"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="8"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-midground)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.506217138344129%"
+              cy="25.078644383412506%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.527940001389041%"
+              cy="37.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.539733866159013%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.527940001389041%"
+              cy="62.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.506217138344129%"
+              cy="75.07864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.006217138344127%"
+              cy="12.578644383412508%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.05440230168016%"
+              cy="25.227911626849355%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.12189262246197%"
+              cy="37.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.15576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.12189262246197%"
+              cy="62.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.05440230168016%"
+              cy="75.22791162684936%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.006217138344127%"
+              cy="87.57864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.52794000138904%"
+              cy="12.665198380949994%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.62189262246197%"
+              cy="25.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.75568834120893%"
+              cy="37.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.83878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="37.75568834120893%"
+              cy="62.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.62189262246197%"
+              cy="75.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.52794000138904%"
+              cy="87.66519838094999%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="12.696013315568248%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="25.368424397601153%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="37.99520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.57388487271962%"
+              cy="50.55736536747773%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="62.99520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="75.36842439760116%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="87.69601331556825%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.52794000138904%"
+              cy="12.665198380949994%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.62189262246197%"
+              cy="25.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.75568834120893%"
+              cy="37.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.83878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="62.75568834120893%"
+              cy="62.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.62189262246197%"
+              cy="75.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.52794000138904%"
+              cy="87.66519838094999%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.00621713834413%"
+              cy="12.578644383412508%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.05440230168016%"
+              cy="25.227911626849355%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.12189262246197%"
+              cy="37.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.15576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.12189262246197%"
+              cy="62.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.05440230168016%"
+              cy="75.22791162684936%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.00621713834413%"
+              cy="87.57864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.50621713834413%"
+              cy="25.078644383412506%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.52794000138904%"
+              cy="37.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.53973386615901%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.52794000138904%"
+              cy="62.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.50621713834413%"
+              cy="75.07864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 1; transform: translateZ(0px) translateY(-6px); opacity: 0.285; mix-blend-mode: multiply; filter: blur(17px);"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-midground"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="8"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-midground)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.506217138344129%"
+              cy="25.078644383412506%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.527940001389041%"
+              cy="37.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.539733866159013%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.527940001389041%"
+              cy="62.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.506217138344129%"
+              cy="75.07864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.006217138344127%"
+              cy="12.578644383412508%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.05440230168016%"
+              cy="25.227911626849355%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.12189262246197%"
+              cy="37.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.15576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.12189262246197%"
+              cy="62.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.05440230168016%"
+              cy="75.22791162684936%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.006217138344127%"
+              cy="87.57864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.52794000138904%"
+              cy="12.665198380949994%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.62189262246197%"
+              cy="25.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.75568834120893%"
+              cy="37.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.83878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="37.75568834120893%"
+              cy="62.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.62189262246197%"
+              cy="75.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.52794000138904%"
+              cy="87.66519838094999%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="12.696013315568248%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="25.368424397601153%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="37.99520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.57388487271962%"
+              cy="50.55736536747773%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="62.99520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="75.36842439760116%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.03973386615901%"
+              cy="87.69601331556825%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.52794000138904%"
+              cy="12.665198380949994%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.62189262246197%"
+              cy="25.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.75568834120893%"
+              cy="37.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.83878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="62.75568834120893%"
+              cy="62.94952767680137%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.62189262246197%"
+              cy="75.33105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.52794000138904%"
+              cy="87.66519838094999%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.00621713834413%"
+              cy="12.578644383412508%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.05440230168016%"
+              cy="25.227911626849355%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.12189262246197%"
+              cy="37.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.15576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.12189262246197%"
+              cy="62.83105956531931%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.05440230168016%"
+              cy="75.22791162684936%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.00621713834413%"
+              cy="87.57864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.50621713834413%"
+              cy="25.078644383412506%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.52794000138904%"
+              cy="37.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.53973386615901%"
+              cy="50.19601331556825%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.52794000138904%"
+              cy="62.665198380949995%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.50621713834413%"
+              cy="75.07864438341251%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      class="glass-3d-layer glass-layer-foreground"
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 2; transform: translateZ(20px) translateY(-12px); opacity: 0.9; mix-blend-mode: normal;"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-foreground"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="12"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-foreground)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.513970423490713%"
+              cy="25.117507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.562497315124418%"
+              cy="37.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.588656061998401%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.562497315124418%"
+              cy="62.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.513970423490713%"
+              cy="75.11750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.013970423490715%"
+              cy="12.617507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.121004755016454%"
+              cy="25.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.26714326964087%"
+              cy="37.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.33878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.26714326964087%"
+              cy="62.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.121004755016454%"
+              cy="75.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.013970423490715%"
+              cy="87.61750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.56249731512442%"
+              cy="12.743421794999968%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.76714326964087%"
+              cy="25.456799222509996%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="38.043202608962375%"
+              cy="38.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="38.20499421866474%"
+              cy="50.5594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="38.043202608962375%"
+              cy="63.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.76714326964087%"
+              cy="75.45679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.56249731512442%"
+              cy="87.74342179499996%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="12.786600946737682%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="25.495201368945807%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.70499421866474%"
+              cy="38.0594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="51.118446903160674%"
+              cy="50.434829305372006%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="50.70499421866474%"
+              cy="63.0594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="75.4952013689458%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="87.78660094673768%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.56249731512442%"
+              cy="12.743421794999968%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.76714326964087%"
+              cy="25.456799222509996%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="63.043202608962375%"
+              cy="38.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="63.20499421866474%"
+              cy="50.5594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="63.043202608962375%"
+              cy="63.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.76714326964087%"
+              cy="75.45679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.56249731512442%"
+              cy="87.74342179499996%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.01397042349072%"
+              cy="12.617507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.12100475501646%"
+              cy="25.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.26714326964087%"
+              cy="37.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.33878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.26714326964087%"
+              cy="62.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.12100475501646%"
+              cy="75.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.01397042349072%"
+              cy="87.61750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.51397042349072%"
+              cy="25.117507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.56249731512442%"
+              cy="37.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.5886560619984%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.56249731512442%"
+              cy="62.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.51397042349072%"
+              cy="75.11750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 2; transform: translateZ(20px) translateY(-12px); opacity: 0.585; mix-blend-mode: normal; filter: blur(9px);"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-foreground"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="12"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-foreground)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.513970423490713%"
+              cy="25.117507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.562497315124418%"
+              cy="37.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.588656061998401%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.562497315124418%"
+              cy="62.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.513970423490713%"
+              cy="75.11750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.013970423490715%"
+              cy="12.617507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.121004755016454%"
+              cy="25.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.26714326964087%"
+              cy="37.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.33878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.26714326964087%"
+              cy="62.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.121004755016454%"
+              cy="75.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.013970423490715%"
+              cy="87.61750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.56249731512442%"
+              cy="12.743421794999968%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.76714326964087%"
+              cy="25.456799222509996%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="38.043202608962375%"
+              cy="38.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="38.20499421866474%"
+              cy="50.5594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="38.043202608962375%"
+              cy="63.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.76714326964087%"
+              cy="75.45679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.56249731512442%"
+              cy="87.74342179499996%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="12.786600946737682%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="25.495201368945807%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.70499421866474%"
+              cy="38.0594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="51.118446903160674%"
+              cy="50.434829305372006%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="50.70499421866474%"
+              cy="63.0594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.33878548403702%"
+              cy="75.4952013689458%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.0886560619984%"
+              cy="87.78660094673768%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.56249731512442%"
+              cy="12.743421794999968%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.76714326964087%"
+              cy="25.456799222509996%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="63.043202608962375%"
+              cy="38.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="63.20499421866474%"
+              cy="50.5594489714436%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="63.043202608962375%"
+              cy="63.053802456393825%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.76714326964087%"
+              cy="75.45679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.56249731512442%"
+              cy="87.74342179499996%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.01397042349072%"
+              cy="12.617507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.12100475501646%"
+              cy="25.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.26714326964087%"
+              cy="37.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.33878548403702%"
+              cy="50.49520136894581%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.26714326964087%"
+              cy="62.95679922251%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.12100475501646%"
+              cy="75.32998533216819%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.01397042349072%"
+              cy="87.61750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.51397042349072%"
+              cy="25.117507059079095%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.56249731512442%"
+              cy="37.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.5886560619984%"
+              cy="50.28660094673768%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.56249731512442%"
+              cy="62.74342179499997%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.51397042349072%"
+              cy="75.11750705907909%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      class="glass-3d-layer glass-layer-surface"
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 3; transform: translateZ(40px) translateY(-20px); opacity: 0.95; mix-blend-mode: multiply;"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-surface"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="16"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-surface)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.524791207639947%"
+              cy="25.155819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.610195055658606%"
+              cy="37.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.65576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.610195055658606%"
+              cy="62.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.524791207639947%"
+              cy="75.15581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.024791207639947%"
+              cy="12.655819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.21166275427107%"
+              cy="25.418105439786736%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.45754278615219%"
+              cy="38.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.573884872719617%"
+              cy="50.55736536747773%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.45754278615219%"
+              cy="63.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.21166275427107%"
+              cy="75.41810543978674%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.024791207639947%"
+              cy="87.65581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.61019505565861%"
+              cy="12.816451646690092%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.95754278615219%"
+              cy="25.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="38.38900602413501%"
+              cy="38.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="38.618446903160674%"
+              cy="50.434829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="38.38900602413501%"
+              cy="63.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.95754278615219%"
+              cy="75.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.61019505565861%"
+              cy="87.8164516466901%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="12.868424397601155%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.57388487271962%"
+              cy="25.557365367477733%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="51.118446903160674%"
+              cy="37.934829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="51.599317764866406%"
+              cy="49.95328076431794%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="51.118446903160674%"
+              cy="62.934829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.57388487271962%"
+              cy="75.55736536747773%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="87.86842439760116%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.61019505565861%"
+              cy="12.816451646690092%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.95754278615219%"
+              cy="25.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="63.38900602413501%"
+              cy="38.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="63.618446903160674%"
+              cy="50.434829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="63.38900602413501%"
+              cy="63.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.95754278615219%"
+              cy="75.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.61019505565861%"
+              cy="87.8164516466901%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.02479120763995%"
+              cy="12.655819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.21166275427107%"
+              cy="25.418105439786736%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.45754278615219%"
+              cy="38.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.57388487271962%"
+              cy="50.55736536747773%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.45754278615219%"
+              cy="63.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.21166275427107%"
+              cy="75.41810543978674%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.02479120763995%"
+              cy="87.65581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.52479120763995%"
+              cy="25.155819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.61019505565861%"
+              cy="37.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.65576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.61019505565861%"
+              cy="62.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.52479120763995%"
+              cy="75.15581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 3; transform: translateZ(40px) translateY(-20px); opacity: 0.95; mix-blend-mode: multiply; filter: blur(1px);"
+    >
+      <div
+        style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
+      >
+        <svg
+          height="100%"
+          style="position: absolute; inset: 0;"
+          width="100%"
+        >
+          <defs>
+            <filter
+              height="200%"
+              id="distortion-surface"
+              width="200%"
+              x="-50%"
+              y="-50%"
+            >
+              <feturbulence
+                baseFrequency="0.02"
+                numOctaves="3"
+                result="noise"
+              />
+              <fedisplacementmap
+                in="SourceGraphic"
+                in2="noise"
+                scale="16"
+              />
+            </filter>
+          </defs>
+          <g
+            filter="url(#distortion-surface)"
+          >
+            <circle
+              cx="0%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="0%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.524791207639947%"
+              cy="25.155819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.610195055658606%"
+              cy="37.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.65576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="12.610195055658606%"
+              cy="62.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="12.524791207639947%"
+              cy="75.15581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="12.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="25.024791207639947%"
+              cy="12.655819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25.21166275427107%"
+              cy="25.418105439786736%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.45754278615219%"
+              cy="38.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.573884872719617%"
+              cy="50.55736536747773%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="25.45754278615219%"
+              cy="63.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="25.21166275427107%"
+              cy="75.41810543978674%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="25.024791207639947%"
+              cy="87.65581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="25%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="37.61019505565861%"
+              cy="12.816451646690092%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.95754278615219%"
+              cy="25.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="38.38900602413501%"
+              cy="38.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="38.618446903160674%"
+              cy="50.434829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="38.38900602413501%"
+              cy="63.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="37.95754278615219%"
+              cy="75.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="37.61019505565861%"
+              cy="87.8164516466901%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="37.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="12.868424397601155%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50.57388487271962%"
+              cy="25.557365367477733%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="51.118446903160674%"
+              cy="37.934829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="51.599317764866406%"
+              cy="49.95328076431794%"
+              fill="rgba(255, 255, 255, 0.1)"
+              r="2"
+              style="filter: blur(2px);"
+            />
+            <circle
+              cx="51.118446903160674%"
+              cy="62.934829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="50.57388487271962%"
+              cy="75.55736536747773%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="50.15576733692346%"
+              cy="87.86842439760116%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="50%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="62.61019505565861%"
+              cy="12.816451646690092%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.95754278615219%"
+              cy="25.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="63.38900602413501%"
+              cy="38.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="63.618446903160674%"
+              cy="50.434829305372006%"
+              fill="rgba(255, 255, 255, 0.07500000000000001)"
+              r="1.5"
+              style="filter: blur(1.5px);"
+            />
+            <circle
+              cx="63.38900602413501%"
+              cy="63.02865388413792%"
+              fill="rgba(255, 255, 255, 0.06464466094067263)"
+              r="1.2928932188134525"
+              style="filter: blur(1.2928932188134525px);"
+            />
+            <circle
+              cx="62.95754278615219%"
+              cy="75.53711040544786%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="62.61019505565861%"
+              cy="87.8164516466901%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="62.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="75.02479120763995%"
+              cy="12.655819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75.21166275427107%"
+              cy="25.418105439786736%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.45754278615219%"
+              cy="38.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.57388487271962%"
+              cy="50.55736536747773%"
+              fill="rgba(255, 255, 255, 0.05)"
+              r="1"
+              style="filter: blur(1px);"
+            />
+            <circle
+              cx="75.45754278615219%"
+              cy="63.037110405447855%"
+              fill="rgba(255, 255, 255, 0.04409830056250526)"
+              r="0.8819660112501051"
+              style="filter: blur(0.8819660112501051px);"
+            />
+            <circle
+              cx="75.21166275427107%"
+              cy="75.41810543978674%"
+              fill="rgba(255, 255, 255, 0.029289321881345243)"
+              r="0.5857864376269049"
+              style="filter: blur(0.5857864376269049px);"
+            />
+            <circle
+              cx="75.02479120763995%"
+              cy="87.65581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="75%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.52479120763995%"
+              cy="25.155819650332834%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.61019505565861%"
+              cy="37.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.65576733692346%"
+              cy="50.36842439760115%"
+              fill="rgba(255, 255, 255, 0.025)"
+              r="0.5"
+              style="filter: blur(0.5px);"
+            />
+            <circle
+              cx="87.61019505565861%"
+              cy="62.81645164669009%"
+              fill="rgba(255, 255, 255, 0.020943058495790513)"
+              r="0.41886116991581024"
+              style="filter: blur(0.41886116991581024px);"
+            />
+            <circle
+              cx="87.52479120763995%"
+              cy="75.15581965033283%"
+              fill="rgba(255, 255, 255, 0.009861218113400273)"
+              r="0.19722436226800544"
+              style="filter: blur(0.19722436226800544px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="87.5%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="0%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="12.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="25%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="37.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="50%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="62.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="75%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="87.5%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+            <circle
+              cx="100%"
+              cy="100%"
+              fill="rgba(255, 255, 255, 0)"
+              r="0"
+              style="filter: blur(0px);"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      class="glass-holographic-overlay"
+      style="position: absolute; inset: 0; border-radius: inherit; z-index: 5; mix-blend-mode: overlay; transform: translateZ(90px);"
+    />
+  </div>
+  <div
+    class="glass-3d-content"
+    style="position: relative; z-index: 6; transform: translateZ(100px);"
+  />
+  <div
+    class="glass-parallax-background"
+    style="position: absolute; inset: -20%; transform: none;"
+  />
+  <style>
+    
+        .glass-3d-container {
+          --glass-3d-perspective: 1000px;
+        }
+
+        .interaction-pulse {
+          animation: pulse-3d 1s ease-out infinite;
+        }
+
+        @keyframes pulse-3d {
+          0% {
+            transform: translate(-50%, -50%) scale(1) translateZ(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(3) translateZ(20px);
+            opacity: 0;
+          }
+        }
+      
+  </style>
+</div>
+`;

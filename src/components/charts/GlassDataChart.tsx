@@ -6,17 +6,18 @@
  * smooth animations, and rich customization options.
  */
 // Typography tokens available via typography.css (imported in index.css)
-import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo, memo, forwardRef } from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 import { cn } from '@/lib/utils';
-// import styled from 'styled-components'; // unused
-import { 
-  Chart as ChartJS, 
-  CategoryScale, 
-  LinearScale, 
-  PointElement, 
-  LineElement, 
+// Basic styled components replaced with CSS modules
+import chartStyles from './GlassDataChart.module.css';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
   ArcElement,
   RadialLinearScale,
@@ -26,7 +27,7 @@ import {
   ChartType,
   Filler,
   defaults,
-  Plugin
+  Plugin,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { useAccessibilitySettings } from '../../hooks/useAccessibilitySettings';
@@ -72,8 +73,6 @@ const convertToChartJsDatasetWithEffects = (dataset: ChartDataset, index: number
   };
 };
 
-// Basic styled components (will be replaced with proper modular components later)
-import styled from 'styled-components';
 import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
 
 // Chart variant types
@@ -234,137 +233,240 @@ interface GlassDataChartRef {
 // Simple format function
 const formatValue = (value: any) => String(value);
 
-// Styled components
-const ChartContainer = styled.div<{
+const getContainerBackground = (variant?: string, color?: string) => {
+  switch (variant) {
+    case 'clear':
+      return 'transparent';
+    case 'dynamic':
+      return 'color-mix(in srgb, var(--aura-color-glass-overlay) 65%, rgba(12, 18, 32, 0.45))';
+    case 'tinted':
+      return color ? `color-mix(in srgb, ${color} 18%, rgba(12, 18, 32, 0.65))` : 'rgba(99, 102, 241, 0.14)';
+    case 'luminous':
+      return 'color-mix(in srgb, var(--aura-color-semantic-primary) 12%, rgba(255, 255, 255, 0.08))';
+    default:
+      return 'color-mix(in srgb, var(--aura-color-glass-surface) 92%, transparent)';
+  }
+};
+
+const getBlurStrength = (value?: string) => {
+  switch (value) {
+    case 'none':
+      return 'none';
+    case 'light':
+      return 'blur(var(--aura-glass-neutral-level1-backdrop-blur))';
+    case 'heavy':
+      return 'blur(var(--aura-glass-neutral-level3-backdrop-blur))';
+    default:
+      return 'blur(var(--aura-glass-neutral-level2-backdrop-blur))';
+  }
+};
+
+const getElevationShadow = (level?: number) => {
+  switch (level) {
+    case 0:
+      return 'none';
+    case 1:
+      return '0 12px 28px rgba(15, 23, 42, 0.18)';
+    case 2:
+      return '0 18px 48px rgba(15, 23, 42, 0.24)';
+    case 3:
+      return '0 26px 60px rgba(15, 23, 42, 0.28)';
+    case 4:
+      return '0 32px 80px rgba(15, 23, 42, 0.32)';
+    default:
+      return '0 18px 48px rgba(15, 23, 42, 0.24)';
+  }
+};
+
+interface ChartContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   $glassVariant?: string;
   $blurStrength?: string;
   $color?: string;
   $elevation?: number;
-  $borderRadius?: number;
+  $borderRadius?: number | string;
   $borderColor?: string;
-}>`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-glass-backdrop-blur);
-  border-radius: ${props => props.$borderRadius || 12}px;
-  border: 1px solid var(--glass-border-default);
-  padding: 20px;
-  box-shadow: var(--glass-elev-2);
-`;
+}
 
-const ChartHeader = styled.div`
-  margin-bottom: 16px;
-`;
+const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>((props, ref) => {
+  const {
+    $glassVariant = 'frosted',
+    $blurStrength = 'standard',
+    $color,
+    $elevation = 2,
+    $borderRadius = 12,
+    $borderColor,
+    className,
+    style,
+    children,
+    ...rest
+  } = props;
 
-const ChartTitle = styled.h3`
-  margin: 0;
-  font-size: var(--typography-subheading-size);
-  font-weight: var(--typography-heading-weight);
-  color: var(--glass-text-primary);
-`;
+  const background = getContainerBackground($glassVariant, $color);
+  const blur = getBlurStrength($blurStrength);
+  const boxShadow = getElevationShadow($elevation);
 
-const ChartSubtitle = styled.p`
-  margin: 4px 0 0 0;
-  font-size: var(--typography-body-size);
-  color: var(--glass-text-secondary);
-`;
+  return (
+    <div
+      ref={ref}
+      className={cn(chartStyles.container, className)}
+      style={{
+        padding: '20px',
+        borderRadius: typeof $borderRadius === 'number' ? `${$borderRadius}px` : $borderRadius ?? '12px',
+        background,
+        backdropFilter: blur,
+        WebkitBackdropFilter: blur,
+        border: `1px solid ${$borderColor || 'color-mix(in srgb, var(--aura-color-global-border-soft) 75%, transparent)'}`,
+        boxShadow,
+        ...style,
+      }}
+      {...rest}
+    >
+      {children}
+    </div>
+  );
+});
+ChartContainer.displayName = 'ChartContainer';
 
-const ChartWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
+const ChartHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.header, className)} {...props} />
+);
 
-const ChartLegend = styled.div<{
-  $position?: string;
+const ChartTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ className, ...props }) => (
+  <h3 className={cn(chartStyles.title, className)} {...props} />
+);
+
+const ChartSubtitle: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ className, ...props }) => (
+  <p className={cn(chartStyles.subtitle, className)} {...props} />
+);
+
+const ChartWrapper = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn(chartStyles.wrapper, className)} {...props} />
+));
+ChartWrapper.displayName = 'ChartWrapper';
+
+interface ChartLegendProps extends React.HTMLAttributes<HTMLDivElement> {
+  $position?: 'top' | 'bottom' | 'left' | 'right';
   $style?: string;
   $glassEffect?: boolean;
-}>`
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  padding: 12px;
-  background: ${props => (props.$glassEffect ? 'var(--glass-bg-default)' : 'transparent')};
-  backdrop-filter: ${props => (props.$glassEffect ? 'var(--glass-glass-backdrop-blur)' : 'none')};
-  border-radius: 8px;
-  justify-content: ${props => props.$position === 'top' ? 'center' : 'flex-start'};
-`;
+}
 
-const LegendItem = styled.div<{
+const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(
+  ({ $position, $glassEffect, className, style, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        chartStyles.legend,
+        $position === 'top' && chartStyles.legendTop,
+        $position === 'bottom' && chartStyles.legendBottom,
+        $position === 'left' && chartStyles.legendLeft,
+        $position === 'right' && chartStyles.legendRight,
+        $glassEffect && chartStyles.legendGlass,
+        className
+      )}
+      style={style}
+      {...props}
+    />
+  )
+);
+ChartLegend.displayName = 'ChartLegend';
+
+interface LegendItemProps extends React.HTMLAttributes<HTMLDivElement> {
   $style?: string;
   $active?: boolean;
   $color?: string;
-}>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  opacity: ${props => props.$active ? 1 : 0.5};
-  transition: opacity 0.2s;
-`;
+}
 
-const LegendColor = styled.div<{
+const LegendItem: React.FC<LegendItemProps> = ({ $active = true, className, ...props }) => (
+  <div
+    className={cn(chartStyles.legendItem, !$active && chartStyles.legendItemInactive, className)}
+    {...props}
+  />
+);
+
+interface LegendColorProps extends React.HTMLAttributes<HTMLDivElement> {
   $color?: string;
   $active?: boolean;
-}>`
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  background-color: ${props => props.$color || '#6366F1'};
-  opacity: ${props => props.$active ? 1 : 0.3};
-`;
+}
 
-const LegendLabel = styled.span<{
+const LegendColor: React.FC<LegendColorProps> = ({ $color, $active = true, className, style, ...props }) => (
+  <div
+    className={cn(chartStyles.legendColor, className)}
+    style={{
+      backgroundColor: $color || '#6366f1',
+      opacity: $active ? 1 : 0.3,
+      ...style,
+    }}
+    {...props}
+  />
+);
+
+interface LegendLabelProps extends React.HTMLAttributes<HTMLSpanElement> {
   $active?: boolean;
-}>`
-  font-size: var(--typography-body-size);
-  color: ${props => (props.$active ? 'var(--glass-text-primary)' : 'var(--glass-text-secondary)')};
-`;
+}
 
-const DynamicTooltip = styled.div<{
+const LegendLabel: React.FC<LegendLabelProps> = ({ $active = true, className, style, ...props }) => (
+  <span
+    className={cn(chartStyles.legendLabel, className)}
+    style={{ opacity: $active ? 1 : 0.6, ...style }}
+    {...props}
+  />
+);
+
+interface DynamicTooltipProps extends React.HTMLAttributes<HTMLDivElement> {
   $color?: string;
   $quality?: QualityTier;
-}>`
-  position: absolute;
-  background: var(--glass-overlay-bg);
-  backdrop-filter: var(--glass-glass-backdrop-blur);
-  border-radius: 6px;
-  padding: 12px;
-  pointer-events: none;
-  z-index: 1000;
-  border: 1px solid var(--glass-border-default);
-  box-shadow: var(--glass-elev-2);
-`;
+}
 
-const TooltipHeader = styled.div<{
+const DynamicTooltip: React.FC<DynamicTooltipProps> = ({ $color, className, style, ...props }) => (
+  <div
+    className={cn(chartStyles.tooltip, className)}
+    style={{
+      borderColor: $color || undefined,
+      boxShadow: $color
+        ? `0 20px 48px color-mix(in srgb, ${$color} 35%, rgba(15, 23, 42, 0.32))`
+        : undefined,
+      ...style,
+    }}
+    {...props}
+  />
+);
+
+interface TooltipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   $color?: string;
-}>`
-  font-weight: var(--typography-heading-weight);
-  margin-bottom: 8px;
-  color: ${props => props.$color || 'var(--glass-white)'};
-`;
+}
 
-const TooltipRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
-`;
+const TooltipHeader: React.FC<TooltipHeaderProps> = ({ $color, className, style, ...props }) => (
+  <div
+    className={cn(chartStyles.tooltipHeader, className)}
+    style={{ color: $color || undefined, ...style }}
+    {...props}
+  />
+);
 
-const TooltipLabel = styled.span`
-  color: var(--glass-text-secondary);
-  font-size: var(--typography-body-size);
-`;
+const TooltipRow: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+  <div className={cn(chartStyles.tooltipRow, className)} {...props} />
+);
 
-const TooltipValue = styled.span<{
+const TooltipLabel: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({ className, style, ...props }) => (
+  <span className={cn(chartStyles.tooltipLabel, className)} style={style} {...props} />
+);
+
+interface TooltipValueProps extends React.HTMLAttributes<HTMLSpanElement> {
   $highlighted?: boolean;
-}>`
-  color: ${props => props.$highlighted ? 'var(--glass-white)' : glassTokenUtils.getSurface('neutral', 'level1').text.primary};
-  font-weight: ${props => props.$highlighted ? '600' : '400'};
-`;
+}
+
+const TooltipValue: React.FC<TooltipValueProps> = ({ $highlighted, className, style, ...props }) => (
+  <span
+    className={cn(chartStyles.tooltipValue, className)}
+    style={{
+      color: $highlighted
+        ? 'var(--aura-color-global-text-inverse)'
+        : glassTokenUtils.getSurface('neutral', 'level1').text.primary,
+      ...style,
+    }}
+    {...props}
+  />
+);
 
 // Register required Chart.js components
 ChartJS.register(

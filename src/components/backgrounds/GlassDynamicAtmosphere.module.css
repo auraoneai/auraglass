@@ -1,0 +1,222 @@
+@keyframes subtlePulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes nebulaMove {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes auroraWave {
+  0% {
+    transform: translateX(-100%) translateY(0);
+  }
+  50% {
+    transform: translateX(0%) translateY(-20px);
+  }
+  100% {
+    transform: translateX(100%) translateY(0);
+  }
+}
+
+@keyframes wavesAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes particleFloat {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0) rotate(0);
+    opacity: 0.5;
+  }
+  33% {
+    transform: translateY(-20px) translateX(10px) rotate(10deg);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translateY(10px) translateX(-15px) rotate(-5deg);
+    opacity: 0.6;
+  }
+}
+
+.container {
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.absoluteFill {
+  position: absolute;
+  inset: 0;
+}
+
+.effect {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity, background-position, background-size;
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.typeSubtle {
+  background: var(--atmosphere-bg, transparent);
+}
+
+.typeNebula {
+  background: var(--atmosphere-bg, transparent);
+  background-size: 200% 200%;
+}
+
+.typeAurora {
+  position: absolute;
+  inset: 0;
+}
+
+.typeAurora::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200px;
+  top: 20%;
+  border-radius: 50%;
+  filter: blur(30px);
+  background: var(--atmosphere-aurora-bg, transparent);
+  opacity: var(--atmosphere-aurora-opacity, 0.8);
+}
+
+.typeWaves {
+  background: var(--atmosphere-bg, transparent);
+  background-size: 400% 400%;
+}
+
+.typeGradient {
+  background: var(--atmosphere-bg, transparent);
+  background-size: 400% 400%;
+}
+
+.typeAmbient {
+  mix-blend-mode: screen;
+}
+
+.typeDefault {
+  background: var(--atmosphere-bg, transparent);
+}
+
+.animateSubtle {
+  animation-name: subtlePulse;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: var(--atmosphere-animation-duration, 30s);
+}
+
+.animateNebula {
+  animation-name: nebulaMove;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: var(--atmosphere-animation-duration, 30s);
+}
+
+.animateAurora {
+  position: relative;
+}
+
+.animateAurora::before {
+  animation-name: auroraWave;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: var(--atmosphere-animation-duration, 30s);
+}
+
+.animateWaves {
+  animation-name: wavesAnimation;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: var(--atmosphere-animation-duration, 30s);
+}
+
+.animateGradient {
+  animation-name: gradientShift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: var(--atmosphere-animation-duration, 30s);
+}
+
+.particleContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  filter: blur(1px);
+  will-change: transform, opacity;
+}
+
+.particleAnimated {
+  animation-name: particleFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: var(--particle-animation-duration, 15s);
+  animation-delay: var(--particle-animation-delay, 0s);
+}
+
+.reduceMotion,
+.reduceMotion::before,
+.reduceMotion::after {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  animation-name: none !important;
+  transition: none !important;
+}
+
+.hidden {
+  display: none;
+}

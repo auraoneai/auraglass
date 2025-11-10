@@ -621,7 +621,7 @@ export function ARGlassEffects({
         )}
       >
         <div className="glass-flex glass-items-center glass-gap-2">
-          <AlertCircle className="w-5 h-5" />
+          <AlertCircle className='w-5 h-5' />
           <span>AR Glass Effects Error: {error}</span>
         </div>
       </div>
@@ -638,7 +638,7 @@ export function ARGlassEffects({
         )}
       >
         <div className="glass-flex glass-items-center glass-gap-2">
-          <Loader2 className="w-5 h-5 animate-spin" />
+          <Loader2 className='w-5 h-5 animate-spin' />
           <span>Initializing AR Glass Effects...</span>
         </div>
       </div>
@@ -657,7 +657,7 @@ export function ARGlassEffects({
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className="absolute glass-top-4 glass-right-4 z-10 glass-flex glass-gap-2"
+          className='absolute glass-top-4 glass-right-4 z-10 glass-flex glass-gap-2'
         >
           <button
             onClick={handleARToggle}
@@ -671,11 +671,11 @@ export function ARGlassEffects({
             )}
           >
             {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin glass-touch-target glass-contrast-guard" />
+              <Loader2 className='w-4 h-4 animate-spin glass-touch-target glass-contrast-guard' />
             ) : session.isActive ? (
-              <EyeOff className="w-4 h-4" />
+              <EyeOff className='w-4 h-4' />
             ) : (
-              <Eye className="w-4 h-4" />
+              <Eye className='w-4 h-4' />
             )}
             {isLoading
               ? "Loading..."
@@ -685,7 +685,7 @@ export function ARGlassEffects({
           </button>
 
           {enableVoiceControl && (
-            <div className="glass-px-3 glass-py-2 glass-surface-green/20 text-primary glass-radius-lg glass-text-sm glass-contrast-guard">
+            <div className='glass-px-3 glass-py-2 glass-surface-green/20 text-primary glass-radius-lg glass-text-sm glass-contrast-guard'>
               🎤 Voice Active
             </div>
           )}
@@ -697,13 +697,13 @@ export function ARGlassEffects({
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-          className="absolute top-4 left-4 z-10 glass-p-4 glass-surface-dark/80 glass-glass-glass-backdrop-blur-lg glass-radius-lg text-primary glass-text-sm max-w-xs glass-contrast-guard"
+          className='absolute top-4 left-4 z-10 glass-p-4 glass-surface-dark/80 glass-glass-glass-backdrop-blur-lg glass-radius-lg text-primary glass-text-sm max-w-xs glass-contrast-guard'
         >
-          <h3 className="font-semibold mb-2 glass-flex glass-items-center glass-gap-2">
-            <Info className="w-4 h-4" />
+          <h3 className='font-semibold mb-2 glass-flex glass-items-center glass-gap-2'>
+            <Info className='w-4 h-4' />
             AR Capabilities
           </h3>
-          <ul className="space-y-1">
+          <ul className='space-y-1'>
             <li className="glass-flex glass-items-center glass-gap-2">
               <span
                 className={
@@ -759,10 +759,10 @@ export function ARGlassEffects({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className="absolute bottom-4 left-4 z-10 glass-surface-red text-primary glass-p-3 glass-radius-lg max-w-xs glass-contrast-guard"
+          className='absolute bottom-4 left-4 z-10 glass-surface-red text-primary glass-p-3 glass-radius-lg max-w-xs glass-contrast-guard'
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <AlertCircle className="w-4 h-4" />
+            <AlertCircle className='w-4 h-4' />
             <span className="glass-text-sm">{xrError}</span>
           </div>
         </motion.div>
@@ -774,10 +774,10 @@ export function ARGlassEffects({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-            className="absolute bottom-4 right-4 z-10 glass-surface-green text-primary glass-p-3 glass-radius-lg glass-text-sm glass-contrast-guard"
+            className='absolute bottom-4 right-4 z-10 glass-surface-green text-primary glass-p-3 glass-radius-lg glass-text-sm glass-contrast-guard'
           >
             <div className="glass-flex glass-items-center glass-gap-2">
-              <Hand className="w-4 h-4" />
+              <Hand className='w-4 h-4' />
               <span>
                 Hands: {handTracking.left.isActive ? "L" : ""}{" "}
                 {handTracking.right.isActive ? "R" : ""}

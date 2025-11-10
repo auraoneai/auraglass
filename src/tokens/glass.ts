@@ -615,21 +615,22 @@ export const glassTokenUtils = {
   buildSurfaceStyles: (intent: GlassIntent, elevation: GlassElevation, tier: QualityTier = 'high') => {
     const surface = glassTokenUtils.getSurface(intent, elevation);
     const config = PERFORMANCE_TIERS[tier];
-    
+    const backdropFilter = glassTokenUtils.buildBackdropFilter(surface.backdropBlur.px, tier);
+
     return {
       background: surface.surface.base,
-      // Use createGlassStyle() instead,
-      // Use createGlassStyle() instead,
+      backgroundColor: surface.surface.overlay ?? undefined,
+      backdropFilter,
+      WebkitBackdropFilter: backdropFilter,
       border: `${surface.border.width}px ${surface.border.style} ${surface.border.color}`,
       borderRadius: `${AURA_GLASS.radii.md}px`,
-      boxShadow: surface.outerShadow 
+      boxShadow: surface.outerShadow
         ? `${surface.outerShadow.x}px ${surface.outerShadow.y}px ${Math.round(surface.outerShadow.blur * config.shadowMultiplier)}px ${surface.outerShadow.spread}px ${surface.outerShadow.color}`
         : 'none',
-      // Allow theme variables to drive text color based on light/dark context
       color: 'var(--glass-text-primary)',
       transition: `all ${AURA_GLASS.motion.defaultMs}ms ease-out`,
       position: 'relative' as const,
-      transform: 'translateZ(0)' // Force hardware acceleration
+      transform: 'translateZ(0)'
     };
   }
 };

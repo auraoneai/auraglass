@@ -44,7 +44,7 @@ export function GlassInlineEdit({
             }}
             placeholder={placeholder}
             aria-label={placeholder}
-            className="bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm outline-none glass-focus glass-touch-target glass-contrast-guard"
+            className='bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm outline-none glass-focus glass-touch-target glass-contrast-guard'
           />
           <GlassButton
             size="sm"
@@ -73,11 +73,11 @@ export function GlassInlineEdit({
         </>
       ) : (
         <button
-          className="glass-px-2 glass-py-1 glass-radius-lg hover:glass-surface-subtle/10 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+          className='glass-px-2 glass-py-1 glass-radius-lg hover:glass-surface-subtle/10 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
           onClick={(e) => setEditing(true)}
           aria-label={`Edit ${value || placeholder}`}
         >
-          {value || <span className="text-primary/60">{placeholder}</span>}
+          {value || <span className='text-primary/60'>{placeholder}</span>}
         </button>
       )}
     </div>

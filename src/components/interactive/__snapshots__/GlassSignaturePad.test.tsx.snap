@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSignaturePad matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-signature-pad glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20"
+  data-glass-component="true"
+  id="glass-signature-pad-:r4:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-p-4 glass-gap-4"
+  >
+    <div
+      class="relative"
+    >
+      <canvas
+        aria-describedby="glass-signature-pad-:r4:-instructions"
+        aria-label="Signature pad - draw your signature here"
+        class="border border-border/20 glass-radius-md bg-white cursor-crosshair touch-none"
+        height="200"
+        role="application"
+        style="width: 400px; height: 200px;"
+        width="400"
+      />
+      <div
+        class="sr-only"
+        id="glass-signature-pad-:r4:-instructions"
+      >
+        Use your mouse or finger to draw your signature. Press clear to start over.
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-justify-between glass-items-center"
+    >
+      <div
+        class="glass-flex glass-gap-2"
+      >
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-md glass-text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 glass-focus glass-touch-target glass-contrast-guard"
+          disabled=""
+        >
+          <div
+            class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-w-full glass-h-full"
+            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          >
+            Clear
+          </div>
+        </button>
+      </div>
+      <div
+        class="glass-flex glass-gap-2"
+      >
+        <button
+          class="glass-px-4 glass-py-2 glass-radius-md glass-text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 glass-focus glass-touch-target glass-contrast-guard"
+          disabled=""
+        >
+          <div
+            class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-w-full glass-h-full"
+            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          >
+            Save
+          </div>
+        </button>
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-justify-between glass-text-sm glass-text-secondary"
+    >
+      <span>
+        No signature
+      </span>
+    </div>
+  </div>
+</div>
+`;

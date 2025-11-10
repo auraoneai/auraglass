@@ -6,86 +6,28 @@
  */
 import React, { forwardRef, useState, useCallback, useMemo, createContext } from 'react';
 import { cn } from '@/lib/utils';
-import { glassStyleCSS, createGlassStyle } from '../../core/mixins/glassMixins';
-import { AURA_GLASS } from '../../tokens/glass';
-import styled, { css } from 'styled-components';
 
 import { TreeViewProps, TreeViewContextProps } from './types';
+import styles from './TreeView.module.css';
+
+const TREE_COLOR_MAP: Record<NonNullable<TreeViewProps['color']>, { accent: string; highlight: string }> = {
+  default: { accent: 'rgba(248, 250, 252, 0.9)', highlight: 'rgba(99, 102, 241, 0.14)' },
+  primary: { accent: 'rgba(99, 102, 241, 0.9)', highlight: 'rgba(99, 102, 241, 0.18)' },
+  secondary: { accent: 'rgba(156, 39, 176, 0.9)', highlight: 'rgba(156, 39, 176, 0.16)' },
+  success: { accent: 'rgba(34, 197, 94, 0.9)', highlight: 'rgba(34, 197, 94, 0.18)' },
+  warning: { accent: 'rgba(251, 191, 36, 0.9)', highlight: 'rgba(251, 191, 36, 0.18)' },
+  danger: { accent: 'rgba(239, 68, 68, 0.9)', highlight: 'rgba(239, 68, 68, 0.18)' },
+  info: { accent: 'rgba(14, 165, 233, 0.9)', highlight: 'rgba(14, 165, 233, 0.18)' },
+};
 
 // Create context for TreeView state
 export const TreeViewContext = createContext<TreeViewContextProps | null>(null);
-
-// Styled components
-const TreeViewRoot = styled.ul<{
-  $color: string;
-  $disabled: boolean;
-  $size: 'small' | 'medium' | 'large';
-}>`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  width: 100%;
-
-  /* Basic styling */
-  background-color: ${AURA_GLASS.surfaces.neutral.level2.surface.base};
-  ${glassStyleCSS({ intent: 'neutral', elevation: 'level2' })}
-  border: 1px solid ${AURA_GLASS.surfaces.neutral.level2.surface.base};
-  border-radius: 8px;
-  padding: 8px;
-
-  /* Color variations */
-  ${props => {
-    switch (props.$color) {
-      case 'primary':
-        return `--tree-view-color: rgba(99, 102, 241, 0.9);`;
-      case 'secondary':
-        return `--tree-view-color: rgba(156, 39, 176, 0.9);`;
-      case 'error':
-        return `--tree-view-color: rgba(240, 82, 82, 0.9);`;
-      case 'info':
-        return `--tree-view-color: rgba(3, 169, 244, 0.9);`;
-      case 'success':
-        return `--tree-view-color: rgba(76, 175, 80, 0.9);`;
-      case 'warning':
-        return `--tree-view-color: rgba(255, 152, 0, 0.9);`;
-      case 'default':
-      default:
-        return `--tree-view-color: ${AURA_GLASS.surfaces.neutral.level2.text.primary};`;
-    }
-  }}
-
-  /* Size variations */
-  ${props => {
-    switch (props.$size) {
-      case 'small':
-        return `font-size: 0.8125rem;`;
-      case 'large':
-        return `font-size: 1rem;`;
-      case 'medium':
-      default:
-        return `font-size: 0.875rem;`;
-    }
-  }}
-
-  /* Disabled state */
-  ${props =>
-    props.$disabled &&
-    `
-    opacity: 0.6;
-    pointer-events: none;
-  `}
-`;
 
 /**
  * TreeView Component Implementation
  */
 function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLUListElement>) {
-  // Unified glass styles
-  const glassStyles = createGlassStyle({ intent: 'neutral', elevation: 'level2', tier: 'high' });
-
   const {
-    items,
     selectedIds,
     expandedIds,
     onSelectionChange,
@@ -93,8 +35,10 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
     multiSelect = false,
     showIcons = false,
     showLines = false,
-    glassVariant,
-    blurStrength,
+    size = 'medium',
+    disabled = false,
+    glass = true,
+    color = 'default',
     children,
     className,
     style,
@@ -114,73 +58,82 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
   const expanded = isExpandedControlled ? expandedIds : internalExpanded;
   const selected = isSelectedControlled ? selectedIds : internalSelected;
 
+  const currentExpanded = expanded ?? [];
+  const currentSelected = selected ?? [];
+  const focusedIds = internalFocused ? [internalFocused] : [];
+
   // Toggle node expansion
   const toggleNode = useCallback(
-    (event: React.SyntheticEvent, nodeId: string) => {
-      const newExpanded = expanded!.includes(nodeId)
-        ? expanded!.filter((id: any) => id !== nodeId)
-        : [...expanded!, nodeId];
+    (nodeId: string) => {
+      const isOpen = currentExpanded.includes(nodeId);
+      const nextExpanded = isOpen
+        ? currentExpanded.filter((id) => id !== nodeId)
+        : [...currentExpanded, nodeId];
 
       if (!isExpandedControlled) {
-        setInternalExpanded(newExpanded);
+        setInternalExpanded(nextExpanded);
       }
 
-      if (onExpansionChange) {
-        onExpansionChange(newExpanded);
-      }
+      onExpansionChange?.(nextExpanded);
     },
-    [expanded, isExpandedControlled, onExpansionChange]
+    [currentExpanded, isExpandedControlled, onExpansionChange]
   );
 
   // Select node
   const selectNode = useCallback(
-    (event: React.SyntheticEvent, nodeId: string) => {
-      let newSelected: string[];
+    (nodeId: string) => {
+      let nextSelected: string[];
 
       if (multiSelect) {
-        newSelected = selected!.includes(nodeId)
-          ? selected!.filter((id: any) => id !== nodeId)
-          : [...selected!, nodeId];
+        const isActive = currentSelected.includes(nodeId);
+        nextSelected = isActive
+          ? currentSelected.filter((id) => id !== nodeId)
+          : [...currentSelected, nodeId];
       } else {
-        newSelected = [nodeId];
+        nextSelected = [nodeId];
       }
 
       if (!isSelectedControlled) {
-        setInternalSelected(newSelected);
+        setInternalSelected(nextSelected);
       }
 
-      if (onSelectionChange) {
-        onSelectionChange(newSelected);
-      }
+      onSelectionChange?.(nextSelected);
     },
-    [selected, isSelectedControlled, onSelectionChange, multiSelect]
+    [currentSelected, isSelectedControlled, multiSelect, onSelectionChange]
   );
 
   // Focus node
-  const focusNode = useCallback(
-    (event: React.SyntheticEvent, nodeId: string) => {
-      setInternalFocused(nodeId);
-    },
-    []
-  );
+  const focusNode = useCallback((nodeId: string) => {
+    setInternalFocused(nodeId);
+  }, []);
 
   // Create context value
   const contextValue = useMemo<TreeViewContextProps>(
     () => ({
-      selectedIds: selected || [],
-      expandedIds: expanded || [],
-      onSelectionChange,
-      onExpansionChange,
+      expanded: currentExpanded,
+      selected: currentSelected,
+      focused: focusedIds,
       multiSelect,
+      size,
+      disabled,
+      glass,
+      selectNode,
+      toggleNode,
+      focusNode,
       showIcons,
       showLines,
     }),
     [
-      expanded,
-      selected,
-      onSelectionChange,
-      onExpansionChange,
+      currentExpanded,
+      currentSelected,
+      focusedIds,
       multiSelect,
+      size,
+      disabled,
+      glass,
+      selectNode,
+      toggleNode,
+      focusNode,
       showIcons,
       showLines,
     ]
@@ -189,21 +142,33 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
   // Extract compatible HTML attributes (rest already contains HTML attributes from props)
   const compatibleRest = rest;
 
+  const sizeClass =
+    size === 'small'
+      ? styles.sizeSmall
+      : size === 'large'
+      ? styles.sizeLarge
+      : styles.sizeMedium;
+
+  const containerVars = useMemo<React.CSSProperties>(
+    () => ({
+      '--tree-view-color': (TREE_COLOR_MAP[color] ?? TREE_COLOR_MAP.default).accent,
+      '--tree-view-selected-bg': (TREE_COLOR_MAP[color] ?? TREE_COLOR_MAP.default).highlight,
+    }) as React.CSSProperties,
+    [color]
+  );
+
   return (
     <TreeViewContext.Provider data-glass-component value={contextValue}>
-      <TreeViewRoot
+      <ul
         ref={ref}
         role="tree"
-        className={className}
-        style={style}
-        $color="default"
-        $disabled={false}
-        $size="medium"
+        className={cn(styles.root, sizeClass, disabled && styles.disabled, className)}
+        style={{ ...containerVars, ...style }}
         aria-multiselectable={multiSelect}
         {...compatibleRest}
       >
         {children}
-      </TreeViewRoot>
+      </ul>
     </TreeViewContext.Provider>
   );
 }

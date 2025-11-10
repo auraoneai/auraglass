@@ -135,7 +135,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
     return (
       <Motion
         preset={shouldAnimate ? "fadeIn" : "none"}
-        className="relative isolate"
+        className='relative isolate'
       >
         <OptimizedGlass
           ref={setRefs}
@@ -233,7 +233,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
 
           {/* Specular highlight and edge frost */}
           <div
-            className="absolute inset-0 pointer-events-none glass-radius-inherit"
+            className='absolute inset-0 pointer-events-none glass-radius-inherit'
             style={{
               // Edge frost (less aggressive)
               boxShadow: `inset 0 0 ${4 + intensity * 9}px ${frostColor}`,
@@ -257,7 +257,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
           />
 
           {/* Content */}
-          <div className="relative z-10">{children}</div>
+          <div className='relative z-10'>{children}</div>
         </OptimizedGlass>
       </Motion>
     );

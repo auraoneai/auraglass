@@ -14,12 +14,13 @@ export interface GlassBadgeLineProps extends React.HTMLAttributes<HTMLDivElement
 export const GlassBadgeLine = forwardRef<HTMLDivElement, GlassBadgeLineProps>(({ 
   // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
-  items, 
+  items: incomingItems = [], 
   'aria-label': ariaLabel,
   className,
   ...props 
 }, ref) => {
   const badgeLineId = useA11yId('badge-line');
+  const items = Array.isArray(incomingItems) ? incomingItems : [];
   
   return (
     <div data-glass-component 

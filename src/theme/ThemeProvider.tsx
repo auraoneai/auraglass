@@ -12,17 +12,6 @@ import React, {
   useId,
 } from "react";
 
-// Lazy styled-components import - only loads at render time, not module initialization
-// This prevents styled-components from executing during Next.js build-time static analysis
-function getStyledThemeProvider() {
-  try {
-    const sc = require("styled-components");
-    return sc.ThemeProvider;
-  } catch {
-    return null;
-  }
-}
-
 // import { css, createGlobalStyle } from 'styled-components'; // Unused imports
 // Simple deep merge utility
 const deepmerge = (target: any, source: any): any => {
@@ -216,6 +205,8 @@ const ResponsiveContext = createContext<ResponsiveContextType>({
 // ------ ThemeProvider Presence Context ------
 const ThemeProviderPresenceContext = createContext<boolean>(false);
 
+const DEFAULT_PERSONA_ID = "auraglass-default";
+
 export const useThemeProviderPresence = () =>
   useContext(ThemeProviderPresenceContext);
 
@@ -332,6 +323,10 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   onThemeChange,
 }) => {
   // ------ Color Mode State ------
+  const themeHostRef = useRef<HTMLDivElement | null>(null);
+
+  const resolvedPersonaId = DEFAULT_PERSONA_ID;
+
   const [colorMode, setColorModeState] = useState<ColorMode>(initialColorMode);
 
   // State for whether the system prefers dark mode
@@ -585,6 +580,45 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       (colorMode === "system" && respectSystemPreference && systemPrefersDark)
     );
   }, [colorMode, forceColorMode, respectSystemPreference, systemPrefersDark]);
+
+  const resolvedMode = isDarkMode ? "dark" : "light";
+
+  useEffect(() => {
+    if (isolateTheme) {
+      const host = themeHostRef.current;
+      if (host) {
+        host.setAttribute("data-aura-theme", resolvedPersonaId);
+        host.setAttribute("data-aura-mode", resolvedMode);
+      }
+      return;
+    }
+
+    const doc = getSafeDocument();
+    const el = doc?.documentElement;
+    if (!el) {
+      return;
+    }
+
+    const previousTheme = el.getAttribute("data-aura-theme");
+    const previousMode = el.getAttribute("data-aura-mode");
+
+    el.setAttribute("data-aura-theme", resolvedPersonaId);
+    el.setAttribute("data-aura-mode", resolvedMode);
+
+    return () => {
+      if (previousTheme) {
+        el.setAttribute("data-aura-theme", previousTheme);
+      } else {
+        el.removeAttribute("data-aura-theme");
+      }
+
+      if (previousMode) {
+        el.setAttribute("data-aura-mode", previousMode);
+      } else {
+        el.removeAttribute("data-aura-mode");
+      }
+    };
+  }, [isolateTheme, resolvedPersonaId, resolvedMode]);
 
   // Create style utility functions
   const getColor = useCallback((path: string, fallback = "") => {
@@ -1053,81 +1087,6 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     [breakpoints, currentBreakpoint, isMobile, isTablet, isDesktop, mediaQuery]
   );
 
-  // Create unified theme object for styled-components
-  const theme = useMemo(() => {
-    // Extract theme tokens with defaults
-    const typography = {
-      h1: { fontSize: "2.5rem", fontWeight: 600 },
-      h2: { fontSize: "2rem", fontWeight: 600 },
-      h3: { fontSize: "1.5rem", fontWeight: 600 },
-      body: { fontSize: "1rem", fontWeight: 400 },
-    };
-    const spacing = {
-      xs: "0.25rem",
-      sm: "0.5rem",
-      md: "1rem",
-      lg: "1.5rem",
-      xl: "2rem",
-    };
-    const shadows = {
-      none: "none",
-      sm: "0 1px 2px rgba(0,0,0,0.05)",
-      md: "0 4px 6px rgba(0,0,0,0.07)",
-      lg: "0 10px 15px rgba(0,0,0,0.1)",
-    };
-    const borderRadius = {
-      none: "0",
-      sm: "0.25rem",
-      md: "0.5rem",
-      lg: "1rem",
-    };
-    const zIndex = {
-      base: 0,
-      modal: 1000,
-      tooltip: 1100,
-    };
-
-    return {
-      isDarkMode,
-      colorMode: forceColorMode || colorMode,
-      themeVariant,
-      surfaces: {
-        ...AURA_GLASS.surfaces,
-        // Add variant-specific surfaces here
-      },
-      typography,
-      spacing,
-      shadows,
-      borderRadius,
-      zIndex,
-      glass: {
-        qualityTier,
-        blurStrengths: BLUR_STRENGTHS,
-        glowIntensities: GLOW_INTENSITIES,
-      },
-      utils: {
-        getColor,
-        getSpacing,
-        getShadow,
-        getBorderRadius,
-        getZIndex,
-        getTypography,
-      },
-    };
-  }, [
-    isDarkMode,
-    forceColorMode,
-    colorMode,
-    themeVariant,
-    qualityTier,
-    getColor,
-    getSpacing,
-    getShadow,
-    getBorderRadius,
-    getZIndex,
-    getTypography,
-  ]);
-
   // Performance debugging
   useEffect(() => {
     if (debug && performanceMonitoring) {
@@ -1201,6 +1160,18 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   }, [enableScrollOptimization]);
 
   // Render multi-context provider
+  const themedChildren = isolateTheme ? (
+    <div
+      ref={themeHostRef}
+      data-aura-theme={resolvedPersonaId}
+      data-aura-mode={resolvedMode}
+    >
+      {children}
+    </div>
+  ) : (
+    children
+  );
+
   return (
     <ThemeProviderPresenceContext.Provider value={true}>
       <ColorModeContext.Provider value={colorModeContextValue}>
@@ -1209,21 +1180,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
             <GlassEffectsContext.Provider value={glassEffectsContextValue}>
               <PreferencesContext.Provider value={preferencesContextValue}>
                 <ResponsiveContext.Provider value={responsiveContextValue}>
-                  {(() => {
-                    // Server-side: skip styled-components entirely
-                    if (typeof window === 'undefined') {
-                      return children;
-                    }
-                    // Client-side only: load styled-components
-                    const StyledThemeProvider = getStyledThemeProvider();
-                    return StyledThemeProvider ? (
-                      <StyledThemeProvider theme={theme}>
-                        {children}
-                      </StyledThemeProvider>
-                    ) : (
-                      children
-                    );
-                  })()}
+                  {themedChildren}
                 </ResponsiveContext.Provider>
               </PreferencesContext.Provider>
             </GlassEffectsContext.Provider>

@@ -25,7 +25,11 @@ describe('AccessibilityProvider', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<AccessibilityProvider />);
+    const { container } = render(
+      <AccessibilityProvider>
+        <div data-testid="host" />
+      </AccessibilityProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +37,11 @@ describe('AccessibilityProvider', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<AccessibilityProvider />);
+    const { container } = render(
+      <AccessibilityProvider>
+        <div data-testid="host" />
+      </AccessibilityProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -63,7 +71,11 @@ describe('AccessibilityProvider', () => {
         })),
       });
 
-      const { container } = render(<AccessibilityProvider />);
+      const { container } = render(
+        <AccessibilityProvider>
+          <div data-testid="host" />
+        </AccessibilityProvider>
+      );
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
@@ -87,7 +99,9 @@ describe('AccessibilityProvider', () => {
       <AccessibilityProvider
         className="custom-class"
         data-testid="accessibilityprovider"
-      />
+      >
+        <div data-testid="host" />
+      </AccessibilityProvider>
     );
 
     const element = container.querySelector('[data-testid="accessibilityprovider"]')
@@ -100,7 +114,11 @@ describe('AccessibilityProvider', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<AccessibilityProvider />);
+    const { container } = render(
+      <AccessibilityProvider>
+        <div data-testid="host" />
+      </AccessibilityProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

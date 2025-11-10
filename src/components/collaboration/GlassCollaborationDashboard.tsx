@@ -30,7 +30,7 @@ const UserAvatar: React.FC<{
   const isActive = Date.now() - user.lastActive < 60000; // Active within last minute
 
   return (
-    <div data-glass-component className="relative">
+    <div data-glass-component className='relative'>
       {user.avatar ? (
         <img
           src={user.avatar}
@@ -115,19 +115,19 @@ const ActivityItem: React.FC<{
   };
 
   return (
-    <div className="glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle transition-colors">
+    <div className='glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle transition-colors'>
       <div className="glass-flex glass-items-center glass-gap-2">
         {user && <UserAvatar user={user} size="sm" showStatus={false} />}
         <span className="glass-text-lg">{getActivityIcon()}</span>
       </div>
 
-      <div className="glass-flex-1 min-glass-w-0">
+      <div className='glass-flex-1 min-glass-w-0'>
         <p className={cn("text-sm", getActivityColor())}>
           {activity.description}
         </p>
       </div>
 
-      <span className="glass-text-xs glass-text-secondary whitespace-nowrap">
+      <span className='glass-text-xs glass-text-secondary whitespace-nowrap'>
         {formatTime(activity.timestamp)}
       </span>
     </div>
@@ -233,28 +233,28 @@ export const GlassCollaborationDashboard: React.FC<
         <Glass className="glass-p-3 glass-contrast-guard">
           <button
             onClick={() => setIsExpanded(true)}
-            className="glass-flex glass-items-center glass-gap-3 hover:glass-surface-subtle glass-radius glass-p-2 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            className='glass-flex glass-items-center glass-gap-3 hover:glass-surface-subtle glass-radius glass-p-2 transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
-            <div className="glass-flex -space-x-2">
+            <div className='glass-flex -space-x-2'>
               {activeUsers.slice(0, 3).map((user: any) => (
                 <UserAvatar key={user.id} user={user} size="sm" />
               ))}
               {activeUsers.length > 3 && (
-                <div className="w-6 h-6 glass-surface-subtle glass-text-secondary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-border-2 glass-border-white">
+                <div className='w-6 h-6 glass-surface-subtle glass-text-secondary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-border-2 glass-border-white'>
                   +{activeUsers.length - 3}
                 </div>
               )}
             </div>
 
-            <div className="text-left">
-              <div className="glass-text-sm font-medium glass-text-secondary">
+            <div className='text-left'>
+              <div className='glass-text-sm font-medium glass-text-secondary'>
                 {activeUsers.length} online
               </div>
               <ConnectionStatus />
             </div>
 
             {unresolvedComments.length > 0 && (
-              <div className="w-5 h-5 glass-surface-red text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs">
+              <div className='w-5 h-5 glass-surface-red text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs'>
                 {unresolvedComments.length}
               </div>
             )}
@@ -262,15 +262,15 @@ export const GlassCollaborationDashboard: React.FC<
         </Glass>
       ) : (
         // Expanded state
-        <Glass className="w-80 max-h-96 overflow-hidden glass-contrast-guard">
+        <Glass className='w-80 max-h-96 overflow-hidden glass-contrast-guard'>
           {/* Header */}
           <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">
-            <h3 className="font-semibold glass-text-secondary">
+            <h3 className='font-semibold glass-text-secondary'>
               Collaboration
             </h3>
             <button
               onClick={() => setIsExpanded(false)}
-              className="glass-text-secondary hover:glass-text-secondary glass-p-1 glass-focus glass-touch-target glass-contrast-guard"
+              className='glass-text-secondary hover:glass-text-secondary glass-p-1 glass-focus glass-touch-target glass-contrast-guard'
             >
               ✕
             </button>
@@ -310,7 +310,7 @@ export const GlassCollaborationDashboard: React.FC<
                   <span>💬</span>
                   Comments
                   {unresolvedComments.length > 0 && (
-                    <div className="absolute glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs">
+                    <div className='absolute glass-top-1 -right-1 w-4 h-4 glass-surface-red text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs'>
                       {unresolvedComments.length}
                     </div>
                   )}
@@ -359,9 +359,9 @@ export const GlassCollaborationDashboard: React.FC<
           </div>
 
           {/* Content */}
-          <div className="glass-max-h-64 overflow-y-auto">
+          <div className='glass-max-h-64 overflow-y-auto'>
             {activeTab === "users" && showUserList && (
-              <div className="glass-p-4 space-y-3">
+              <div className='glass-p-4 space-y-3'>
                 {activeUsers.map((user: any) => {
                   const isCurrentUser = user.id === currentUser?.id;
                   const isActive = Date.now() - user.lastActive < 60000;
@@ -376,9 +376,9 @@ export const GlassCollaborationDashboard: React.FC<
                     >
                       <UserAvatar user={user} size="md" />
 
-                      <div className="glass-flex-1 min-glass-w-0">
+                      <div className='glass-flex-1 min-glass-w-0'>
                         <div className="glass-flex glass-items-center glass-gap-2">
-                          <span className="glass-text-sm font-medium glass-text-secondary truncate">
+                          <span className='glass-text-sm font-medium glass-text-secondary truncate'>
                             {user.name}
                             {isCurrentUser && " (You)"}
                           </span>
@@ -388,21 +388,21 @@ export const GlassCollaborationDashboard: React.FC<
                             </span>
                           )}
                         </div>
-                        <span className="glass-text-xs glass-text-secondary truncate">
+                        <span className='glass-text-xs glass-text-secondary truncate'>
                           {user.email}
                         </span>
                       </div>
 
                       {user.cursor && (
-                        <span className="glass-text-xs text-primary">📍</span>
+                        <span className='glass-text-xs text-primary'>📍</span>
                       )}
                     </div>
                   );
                 })}
 
                 {activeUsers.length === 0 && (
-                  <div className="text-center glass-py-6 glass-text-secondary">
-                    <div className="glass-text-2xl mb-2">👥</div>
+                  <div className='text-center glass-py-6 glass-text-secondary'>
+                    <div className='glass-text-2xl mb-2'>👥</div>
                     <p className="glass-text-sm">No users online</p>
                   </div>
                 )}
@@ -410,7 +410,7 @@ export const GlassCollaborationDashboard: React.FC<
             )}
 
             {activeTab === "activity" && showActivityFeed && (
-              <div className="glass-p-4 space-y-1">
+              <div className='glass-p-4 space-y-1'>
                 {recentActivities.map((activity: any) => {
                   const user = users.find((u) => u.id === activity.userId);
                   return (
@@ -423,8 +423,8 @@ export const GlassCollaborationDashboard: React.FC<
                 })}
 
                 {recentActivities.length === 0 && (
-                  <div className="text-center glass-py-6 glass-text-secondary">
-                    <div className="glass-text-2xl mb-2">📊</div>
+                  <div className='text-center glass-py-6 glass-text-secondary'>
+                    <div className='glass-text-2xl mb-2'>📊</div>
                     <p className="glass-text-sm">No recent activity</p>
                   </div>
                 )}

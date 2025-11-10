@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassRating matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex glass-p-2 glass-radius-lg"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    aria-label="Rating"
+    aria-readonly="false"
+    aria-required="true"
+    class="flex items-center gap-1"
+    role="radiogroup"
+  >
+    <button
+      aria-label="1 star"
+      aria-pressed="false"
+      class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
+      data-glass-component="true"
+      type="button"
+    >
+      <svg
+        class="glass-w-full glass-h-full"
+        fill="none"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs />
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+          fill="none"
+          opacity="0.3"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="2 stars"
+      aria-pressed="false"
+      class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
+      data-glass-component="true"
+      type="button"
+    >
+      <svg
+        class="glass-w-full glass-h-full"
+        fill="none"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs />
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+          fill="none"
+          opacity="0.3"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="3 stars"
+      aria-pressed="false"
+      class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
+      data-glass-component="true"
+      type="button"
+    >
+      <svg
+        class="glass-w-full glass-h-full"
+        fill="none"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs />
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+          fill="none"
+          opacity="0.3"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="4 stars"
+      aria-pressed="false"
+      class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
+      data-glass-component="true"
+      type="button"
+    >
+      <svg
+        class="glass-w-full glass-h-full"
+        fill="none"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs />
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+          fill="none"
+          opacity="0.3"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="5 stars"
+      aria-pressed="false"
+      class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
+      data-glass-component="true"
+      type="button"
+    >
+      <svg
+        class="glass-w-full glass-h-full"
+        fill="none"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs />
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+          fill="none"
+          opacity="0.3"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;

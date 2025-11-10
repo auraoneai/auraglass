@@ -4,33 +4,14 @@
  *
  * A component that provides visual feedback effects.
  */
-import React, { forwardRef, useState, useRef, useEffect } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import React, { forwardRef, useState, useRef, useEffect, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 
 import { VisualFeedbackProps } from './types';
-
-// Animation keyframes
-const pulseAnimation = keyframes`
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 1; }
-`;
-
-const glowAnimation = keyframes`
-  0% { box-shadow: var(--glass-elev-2); }
-  50% { box-shadow: var(--glass-elev-2); }
-  100% { box-shadow: var(--glass-elev-2); }
-`;
-
-const highlightAnimation = keyframes`
-  0% { background: var(--glass-bg-default);, 0); }
-  50% { background: var(--glass-bg-default);, 0.2); }
-  100% { background: var(--glass-bg-default);, 0); }
-`;
+import styles from './VisualFeedback.module.css';
 
 // Convert color string to RGB values
 const colorToRgb = (color: string): string => {
@@ -57,94 +38,6 @@ const colorToRgb = (color: string): string => {
       return '255, 255, 255';
   }
 };
-
-// Styled components
-const FeedbackContainer = styled.div<{
-  $effect: 'ripple' | 'glow' | 'highlight' | 'pulse' | 'bounce' | 'shake' | 'none';
-  $active: boolean;
-  $color: string;
-  $duration: number;
-  $glass: boolean;
-  $intensity: number;
-  $reducedMotion: boolean;
-}>`
-  position: relative;
-  display: inline-block;
-  overflow: ${props => (props.$effect === 'ripple' ? 'hidden' : 'visible')};
-
-  /* Set CSS variable for the color */
-  --feedback-color-rgb: ${props => colorToRgb(props.$color)};
-
-  /* Animation based on effect type */
-  ${props => {
-    if (!props.$active || props.$effect === 'none' || props.$reducedMotion) {
-      return '';
-    }
-
-    switch (props.$effect) {
-      case 'pulse':
-        return css`
-          animation: ${css`${pulseAnimation} ${props.$duration}ms ease-in-out infinite`};
-        `;
-      case 'glow':
-        return css`
-          animation: ${css`${glowAnimation} ${props.$duration}ms ease-in-out infinite`};
-        `;
-      case 'highlight':
-        return css`
-          animation: ${css`${highlightAnimation} ${props.$duration}ms ease-in-out infinite`};
-        `;
-      default:
-        return '';
-    }
-  }}
-
-  /* Glass morphism effects */
-  ${props =>
-    props.$glass &&
-    props.$active &&
-    `
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      ${createGlassStyle({ intent: 'neutral', elevation: 'level2' })};
-      pointer-events: none;
-      z-index: 1;
-      opacity: ${props.$intensity * 0.5};
-      border-radius: inherit;
-    }
-  `}
-`;
-
-// Ripple effect styled component
-const Ripple = styled.span<{
-  $size: number;
-  $x: number;
-  $y: number;
-  $color: string;
-  $duration: number;
-}>`
-  position: absolute;
-  border-radius: 50%;
-  background: var(--glass-bg-default);, 0.3);
-  transform: scale(0);
-  animation: ripple ${props => props.$duration}ms linear;
-  top: ${props => props.$y}px;
-  left: ${props => props.$x}px;
-  width: ${props => props.$size}px;
-  height: ${props => props.$size}px;
-
-  @keyframes ripple {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-`;
 
 /**
  * VisualFeedback Component Implementation
@@ -211,7 +104,7 @@ function VisualFeedbackComponent(
   }, []);
 
   // Handle forwarded ref
-  const setRefs = (element: HTMLDivElement) => {
+  const setRefs = (element: HTMLDivElement | null) => {
     (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
 
     // Handle the forwarded ref
@@ -222,36 +115,82 @@ function VisualFeedbackComponent(
     }
   };
 
+  const animationClass = useMemo(() => {
+    if (!active || effect === 'none' || prefersReducedMotion) {
+      return undefined;
+    }
+
+    switch (effect) {
+      case 'pulse':
+        return styles.pulse;
+      case 'glow':
+        return styles.glow;
+      case 'highlight':
+        return styles.highlight;
+      case 'bounce':
+        return styles.bounce;
+      case 'shake':
+        return styles.shake;
+      default:
+        return undefined;
+    }
+  }, [active, effect, prefersReducedMotion]);
+
+  const containerClassName = cn(
+    styles.container,
+    effect === 'ripple' && styles.rippleOverflow,
+    animationClass,
+    'glass-visual-feedback',
+    className
+  );
+
+  const containerStyle = useMemo<React.CSSProperties>(
+    () => ({
+      '--feedback-color-rgb': colorToRgb(color),
+      animationDuration: `${duration}ms`,
+      ...style,
+    }),
+    [color, duration, style]
+  );
+
   return (
-    <FeedbackContainer
+    <div
       ref={setRefs}
-      className={cn('glass-visual-feedback', className)}
-      style={style}
+      className={containerClassName}
+      style={containerStyle}
       onClick={effect === 'ripple' ? handleRipple : undefined}
-      $effect={effect}
-      $active={active}
-      $color={color}
-      $duration={duration}
-      $glass={glass}
-      $intensity={intensity}
-      $reducedMotion={prefersReducedMotion}
       {...rest}
     >
-      {children}
+      {glass && active && !prefersReducedMotion ? (
+        <div
+          className={styles.glassOverlay}
+          style={{
+            opacity: intensity * 0.5,
+            ...createGlassStyle({ intent: 'neutral', elevation: 'level2' }),
+          }}
+        />
+      ) : null}
 
-      {/* Render ripples */}
-      {effect === 'ripple' &&
-        ripples.map((ripple: any) => (
-          <Ripple
-            key={ripple.id}
-            $size={ripple.size}
-            $x={ripple.x}
-            $y={ripple.y}
-            $color={color}
-            $duration={duration}
-          />
-        ))}
-    </FeedbackContainer>
+      <div className={styles.content}>{children}</div>
+
+      {effect === 'ripple' && (
+        <div className={styles.ripples}>
+          {ripples.map((ripple) => (
+            <div
+              key={ripple.id}
+              className={styles.ripple}
+              style={{
+                top: ripple.y,
+                left: ripple.x,
+                width: ripple.size,
+                height: ripple.size,
+                animationDuration: `${duration}ms`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -5,13 +5,9 @@ import React, {
   useEffect,
   useState,
   useMemo,
-  useCallback,
 } from "react";
-import styled from "styled-components";
 import { cn } from "@/lib/utils";
 
-import { createThemeContext } from "../../core/themeContext";
-import { glassTokenUtils } from "../../tokens/glass";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { Box } from "../layout/Box";
 import { GlassButton as Button } from "../button";
@@ -19,18 +15,17 @@ import { Typography } from "../data-display/Typography";
 // Import correct path for glowEffects
 
 import { GlobalCookieConsentProps as CookieConsentProps } from "./types";
+import styles from "./CookieConsent.module.css";
 
 // Physics/Animation Imports
 import {
   useGalileoStateSpring,
-  GalileoStateSpringOptions,
 } from "../../hooks/useGalileoStateSpring";
 import { useAnimationContext } from "../../contexts/AnimationContext";
 import {
   SpringConfig,
   SpringPresets,
 } from "../../animations/physics/springPhysics";
-import { AnimationProps } from "../../animations/types";
 
 // Cookie management utility
 const setCookie = (name: string, value: string, days: number): void => {
@@ -51,99 +46,22 @@ const getCookie = (name: string): string | null => {
   return null;
 };
 
-const StyledCookieConsent = styled.div<{
-  $position: CookieConsentProps["position"];
-  $glassIntensity: number;
-}>`
-  position: fixed;
-  z-index: 1000;
-  padding: 1.25rem;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 420px;
-  box-sizing: border-box;
-  box-shadow: var(--glass-elev-2);
-  will-change: transform, opacity;
+const POSITION_CLASS_MAP: Record<
+  NonNullable<CookieConsentProps["position"]>,
+  string
+> = {
+  bottom: styles.positionCenterBottom,
+  top: styles.positionCenterTop,
+  "bottom-left": styles.positionBottomLeft,
+  "bottom-right": styles.positionBottomRight,
+  "top-left": styles.positionTopLeft,
+  "top-right": styles.positionTopRight,
+};
 
-  ${({ $position }) => {
-    switch ($position) {
-      case "bottom":
-        return `
-          bottom: 20px;
-          left: 50%;
-        `;
-      case "top":
-        return `
-          top: 20px;
-          left: 50%;
-        `;
-      case "bottom-left":
-        return `
-          bottom: 20px;
-          left: 20px;
-        `;
-      case "bottom-right":
-        return `
-          bottom: 20px;
-          right: 20px;
-        `;
-      case "top-left":
-        return `
-          top: 20px;
-          left: 20px;
-        `;
-      case "top-right":
-        return `
-          top: 20px;
-          right: 20px;
-        `;
-      default:
-        return `
-          bottom: 20px;
-          right: 20px;
-        `;
-    }
-  }}
-
-  background: var(--glass-bg-default);
-  backdrop-filter: var(--glass-backdrop-blur);
-  -webkit-backdrop-filter: var(--glass-backdrop-blur);
-  border: 1px solid var(--glass-border-default);
-  box-shadow: var(--glass-elev-2);
-
-  @media (max-width: 480px) {
-    max-width: 100%;
-    width: calc(100% - 40px);
-    left: 20px;
-    right: 20px;
-    transform: none;
-
-    ${({ $position }) =>
-      ($position === "top" || $position === "bottom") &&
-      `
-        left: 20px;
-        right: 20px;
-        width: calc(100% - 40px);
-        transform: none;
-      `}
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1rem;
-  justify-content: flex-end;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-
-    & > button {
-      width: 100%;
-    }
-  }
-`;
+type CookieConsentStyleVars = React.CSSProperties & {
+  ['--cookie-blur-scale']?: string | number;
+  ['--cookie-box-shadow']?: string;
+};
 
 /**
  * Cookie Consent component for displaying cookie consent banners
@@ -180,7 +98,6 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
     ref
   ) => {
     const [visible, setVisible] = useState(false);
-    const [isRendered, setIsRendered] = useState(false);
     const prefersReducedMotion = useReducedMotion();
     const { defaultSpring } = useAnimationContext();
 
@@ -252,11 +169,13 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       }
     );
 
-    useEffect(() => {
-      if (visible) {
-        setIsRendered(true);
-      }
-    }, [visible]);
+    const positionClass = POSITION_CLASS_MAP[position ?? "bottom-right"] ?? styles.positionBottomRight;
+    const depth = Math.max(0.5, Math.min(2, glassIntensity));
+    const shadowDepth = (28 * depth).toFixed(2);
+    const containerStyleVars: CookieConsentStyleVars = {
+      "--cookie-blur-scale": depth,
+      "--cookie-box-shadow": `0 12px ${shadowDepth}px rgba(15, 23, 42, 0.18)`,
+    };
 
     const isCentered = position === "top" || position === "bottom";
     const animatedStyle: React.CSSProperties = {
@@ -264,23 +183,29 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       transform: `translateY(${animatedTranslateY}px)${isCentered ? " translateX(-50%)" : ""}`,
     };
 
-    if (!isRendered && !visible) {
-      return null;
+    if (!visible) {
+      return (
+        <div
+          ref={ref}
+          className={cn(styles.container, positionClass, className)}
+          style={{ ...containerStyleVars, display: "none", ...style }}
+          aria-hidden
+          {...rest}
+        />
+      );
     }
 
     return (
-      <StyledCookieConsent
+      <div
         ref={ref}
-        $position={position}
-        $glassIntensity={glassIntensity}
-        className={className}
-        style={{ ...style, ...animatedStyle }}
+        className={cn(styles.container, positionClass, className)}
+        style={{ ...containerStyleVars, ...animatedStyle, ...style }}
         aria-hidden={!visible}
         {...rest}
       >
         <Box>
           {title && (
-            <Typography variant="h6" className="mb-2 font-semibold">
+            <Typography variant="h6" className='mb-2 font-semibold'>
               {title}
             </Typography>
           )}
@@ -302,7 +227,7 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
             )}
           </Typography>
 
-          <ButtonContainer>
+          <div className={styles.buttonContainer}>
             {dismissible && (
               <Button
                 variant="outline"
@@ -333,9 +258,9 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
             >
               {acceptButtonText}
             </Button>
-          </ButtonContainer>
+          </div>
         </Box>
-      </StyledCookieConsent>
+      </div>
     );
   }
 );

@@ -1118,7 +1118,7 @@ export const GlassBiomeSimulator = forwardRef<
                 }));
                 onTimeChange?.(newTime);
               }}
-              className="w-20"
+              className='w-20'
             />
           </div>
 
@@ -1167,7 +1167,7 @@ export const GlassBiomeSimulator = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

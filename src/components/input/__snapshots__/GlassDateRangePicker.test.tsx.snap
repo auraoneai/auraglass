@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDateRangePicker matches snapshot 1`] = `
+<div
+  class="relative"
+  data-glass-component="true"
+>
+  <div
+    class="relative flex items-center justify-between bg-white/10 glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer transition-all duration-200 hover:bg-white/15 hover:border-white/30 focus-within:bg-white/15 focus-within:border-white/30 h-10 glass-px-4 glass-text-base"
+  >
+    <div
+      class="glass-flex glass-items-center glass-gap-2 glass-flex-1 glass-min-w-0"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-calendar w-4 h-4 text-primary/60 glass-flex-shrink-0"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M8 2v4"
+        />
+        <path
+          d="M16 2v4"
+        />
+        <rect
+          height="18"
+          rx="2"
+          width="18"
+          x="3"
+          y="4"
+        />
+        <path
+          d="M3 10h18"
+        />
+      </svg>
+      <span
+        class="truncate glass-text-primary/50"
+      >
+        Select date range
+      </span>
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-gap-1"
+    />
+  </div>
+</div>
+`;

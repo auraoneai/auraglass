@@ -25,7 +25,11 @@ describe('GlassEcommerceProvider', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassEcommerceProvider />);
+    const { container } = render(
+      <GlassEcommerceProvider>
+        <div data-testid="host" />
+      </GlassEcommerceProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +37,11 @@ describe('GlassEcommerceProvider', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassEcommerceProvider />);
+    const { container } = render(
+      <GlassEcommerceProvider>
+        <div data-testid="host" />
+      </GlassEcommerceProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -52,7 +60,9 @@ describe('GlassEcommerceProvider', () => {
       <GlassEcommerceProvider
         className="custom-class"
         data-testid="glassecommerceprovider"
-      />
+      >
+        <div data-testid="host" />
+      </GlassEcommerceProvider>
     );
 
     const element = container.querySelector('[data-testid="glassecommerceprovider"]')
@@ -65,7 +75,11 @@ describe('GlassEcommerceProvider', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassEcommerceProvider />);
+    const { container } = render(
+      <GlassEcommerceProvider>
+        <div data-testid="host" />
+      </GlassEcommerceProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

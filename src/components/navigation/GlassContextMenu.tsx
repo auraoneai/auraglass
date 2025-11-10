@@ -1,6 +1,12 @@
 'use client';
 import { cn } from "../../lib/utilsComprehensive";
-import React, { useEffect, useRef, useState, forwardRef } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  HTMLAttributes,
+} from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";
@@ -19,11 +25,12 @@ export interface ContextMenuItem {
   onClick?: () => void;
 }
 
-export interface GlassContextMenuProps {
+export interface GlassContextMenuProps
+  extends HTMLAttributes<HTMLDivElement> {
   /**
    * Menu items
    */
-  items: ContextMenuItem[];
+  items?: ContextMenuItem[];
   /**
    * Children to trigger the context menu
    */
@@ -52,6 +59,10 @@ export interface GlassContextMenuProps {
    * Custom className
    */
   className?: string;
+  /**
+   * Additional className for menu content element
+   */
+  menuClassName?: string;
   /**
    * Whether to respect motion preferences for animations
    */
@@ -109,7 +120,7 @@ export interface GlassContextMenuItemProps {
  * A glassmorphism context menu that appears on right-click
  */
 export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
-  items,
+  items = [],
   children,
   trigger,
   open: controlledOpen,
@@ -117,6 +128,8 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
   align = "start",
   side = "bottom",
   className,
+  menuClassName,
+  ...rest
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -181,7 +194,8 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
       <div
         ref={triggerRef}
         onContextMenu={handleContextMenu}
-        className="cursor-context-menu"
+        className={cn("cursor-context-menu", className)}
+        {...rest}
       >
         {trigger || children}
       </div>
@@ -191,7 +205,7 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
           items={items}
           position={position}
           onClose={() => setOpen(false)}
-          className={className}
+          className={menuClassName ?? className}
         />
       )}
     </>
@@ -237,7 +251,7 @@ export const GlassContextMenuContent: React.FC<
   }, [position]);
 
   return (
-    <Motion preset="scaleIn" className="fixed z-[9999]">
+    <Motion preset="scaleIn" className='fixed z-[9999]'>
       <OptimizedGlass
         intent="neutral"
         elevation="level4"
@@ -269,7 +283,7 @@ export const GlassContextMenuContent: React.FC<
             <React.Fragment key={item?.id}>
               {item?.separator && index > 0 && (
                 <div
-                  className="h-px glass-surface-subtle/20 glass-mx-2 glass-my-1"
+                  className='h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
                   role="separator"
                 />
               )}
@@ -290,7 +304,7 @@ export const GlassContextMenuContent: React.FC<
                 isSubmenu={false}
               />
               {item?.children && submenuOpen === item?.id && (
-                <div className="absolute left-full top-0 glass-ml-1">
+                <div className='absolute left-full top-0 glass-ml-1'>
                   <GlassContextMenuContent
                     items={item?.children}
                     position={{ x: 0, y: 0 }}
@@ -323,7 +337,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
   if (item?.separator) {
     return (
       <div
-        className="h-px glass-surface-subtle/20 glass-mx-2 glass-my-1"
+        className='h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
         role="separator"
       />
     );
@@ -408,23 +422,23 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
       onKeyDown={handleKeyDown}
     >
       {item?.icon && (
-        <div className="glass-flex glass-items-center glass-justify-center w-4 h-4 mr-3">
+        <div className='glass-flex glass-items-center glass-justify-center w-4 h-4 mr-3'>
           {item?.icon}
         </div>
       )}
 
-      <span className="glass-flex-1 glass-text-sm font-medium truncate">
+      <span className='glass-flex-1 glass-text-sm font-medium truncate'>
         {item?.label}
       </span>
 
       {item?.shortcut && (
-        <span className="ml-6 glass-text-xs text-primary/50 font-mono">
+        <span className='ml-6 glass-text-xs text-primary/50 font-mono'>
           {item?.shortcut}
         </span>
       )}
 
       {item?.children && (
-        <div className="ml-3 text-primary/50" aria-hidden="true">
+        <div className='ml-3 text-primary/50' aria-hidden="true">
           ▶
         </div>
       )}

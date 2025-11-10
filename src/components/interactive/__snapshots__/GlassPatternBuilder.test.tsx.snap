@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassPatternBuilder matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-pattern-builder relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20"
+  id="glass-pattern-builder-:r4:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-pattern-tools glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <span
+          class="glass-text-sm font-medium"
+        >
+          Tool:
+        </span>
+        <button
+          class="glass-px-3 glass-py-1 glass-radius-md transition-colors capitalize glass-focus glass-touch-target glass-contrast-guard bg-primary/20 text-primary"
+        >
+          circle
+        </button>
+        <button
+          class="glass-px-3 glass-py-1 glass-radius-md transition-colors capitalize glass-focus glass-touch-target glass-contrast-guard bg-background/20 hover:bg-background/30"
+        >
+          square
+        </button>
+        <button
+          class="glass-px-3 glass-py-1 glass-radius-md transition-colors capitalize glass-focus glass-touch-target glass-contrast-guard bg-background/20 hover:bg-background/30"
+        >
+          triangle
+        </button>
+        <button
+          class="glass-px-3 glass-py-1 glass-radius-md transition-colors capitalize glass-focus glass-touch-target glass-contrast-guard bg-background/20 hover:bg-background/30"
+        >
+          line
+        </button>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <span
+          class="glass-text-sm font-medium"
+        >
+          Color:
+        </span>
+        <div
+          class="glass-flex glass-gap-1"
+        >
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-primary"
+            style="background-color: rgb(255, 107, 107);"
+          />
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
+            style="background-color: rgb(78, 205, 196);"
+          />
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
+            style="background-color: rgb(69, 183, 209);"
+          />
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
+            style="background-color: rgb(150, 206, 180);"
+          />
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
+            style="background-color: rgb(255, 234, 167);"
+          />
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
+            style="background-color: rgb(221, 160, 221);"
+          />
+          <button
+            class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
+            style="background-color: rgb(248, 196, 113);"
+          />
+        </div>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <button
+          class="glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-overlay hover:glass-surface-overlay glass-px-3 glass-py-1"
+        >
+          Undo
+        </button>
+        <button
+          class="glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-overlay hover:glass-surface-overlay glass-px-3 glass-py-1"
+        >
+          Redo
+        </button>
+        <button
+          class="glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-px-3 glass-py-1 text-primary"
+        >
+          Export
+        </button>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <span
+          class="glass-text-sm"
+        >
+          Zoom:
+        </span>
+        <input
+          class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          max="3"
+          min="0.5"
+          step="0.1"
+          type="range"
+          value="1"
+        />
+        <span
+          class="glass-text-sm min-w-[3ch]"
+        >
+          100
+          %
+        </span>
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-gap-4"
+    >
+      <div
+        class="w-64 space-y-4"
+      >
+        <div
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-layer-panel glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <div
+            class="glass-flex glass-items-center glass-justify-between mb-3"
+          >
+            <span
+              class="glass-text-sm font-medium"
+            >
+              Layers
+            </span>
+            <button
+              class="glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-text-xs glass-focus glass-touch-target glass-contrast-guard"
+            >
+              Add
+            </button>
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="glass-p-2 glass-radius-md border transition-colors cursor-pointer glass-focus glass-touch-target glass-contrast-guard border-primary/50 bg-primary/10"
+            >
+              <div
+                class="glass-flex glass-items-center glass-justify-between"
+              >
+                <span
+                  class="glass-text-sm font-medium"
+                >
+                  Layer 1
+                </span>
+                <div
+                  class="glass-flex glass-items-center glass-gap-1"
+                >
+                  <button
+                    class="glass-text-xs glass-px-1 hover:glass-surface-overlay glass-radius-sm glass-focus glass-touch-target glass-contrast-guard"
+                  >
+                    👁
+                  </button>
+                  <button
+                    class="glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm text-primary glass-focus glass-touch-target glass-contrast-guard"
+                  >
+                    🗑
+                  </button>
+                </div>
+              </div>
+              <div
+                class="glass-text-xs glass-text-secondary glass-mt-1"
+              >
+                0
+                 elements
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-templates glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <div
+            class="glass-text-sm font-medium mb-3"
+          >
+            Templates
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <button
+              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <div
+                class="glass-text-sm font-medium"
+              >
+                Geometric Grid
+              </div>
+              <div
+                class="glass-text-xs glass-text-secondary"
+              >
+                Abstract
+              </div>
+            </button>
+            <button
+              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <div
+                class="glass-text-sm font-medium"
+              >
+                Concentric Circles
+              </div>
+              <div
+                class="glass-text-xs glass-text-secondary"
+              >
+                Organic
+              </div>
+            </button>
+            <button
+              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <div
+                class="glass-text-sm font-medium"
+              >
+                Mandala
+              </div>
+              <div
+                class="glass-text-xs glass-text-secondary"
+              >
+                Decorative
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-flex-1"
+      >
+        <canvas
+          class="glass-border glass-border-glass-border/20 glass-radius-md glass-surface-subtle cursor-crosshair"
+          height="600"
+          style="width: 800px; height: 600px;"
+          width="800"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

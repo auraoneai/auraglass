@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassInfiniteScroll matches snapshot 1`] = `
+<div
+  class="overflow-y-auto"
+  data-glass-component="true"
+>
+  <div
+    class=""
+  />
+  <div
+    class="h-4"
+  />
+</div>
+`;

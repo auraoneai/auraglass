@@ -199,7 +199,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                 className="glass-flex-1 glass-flex glass-flex-col glass-items-center glass-gap-2"
               >
                 <div
-                  className="glass-w-full glass-radius-t transition-all duration-300 hover:opacity-80 cursor-pointer"
+                  className='glass-w-full glass-radius-t transition-all duration-300 hover:opacity-80 cursor-pointer'
                   style={{
                     height: `${height}%`,
                     backgroundColor: color,
@@ -207,7 +207,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   }}
                   title={`${point.label}: ${point.value}`}
                 />
-                <div className="glass-text-xs glass-text-secondary text-center truncate glass-w-full">
+                <div className='glass-text-xs glass-text-secondary text-center truncate glass-w-full'>
                   {point.label}
                 </div>
               </Motion>
@@ -237,7 +237,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
         .join(" ");
 
       return (
-        <div className="relative glass-h-full glass-w-full">
+        <div className='relative glass-h-full glass-w-full'>
           <svg
             className="glass-w-full glass-h-full"
             viewBox="0 0 100 100"
@@ -266,7 +266,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
               fill="none"
               stroke={colors?.[0] || "var(--glass-color-primary)"}
               strokeWidth="2"
-              className="drop-shadow-sm"
+              className='drop-shadow-sm'
             />
 
             {/* Data points */}
@@ -281,16 +281,16 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   cy={y}
                   r="2"
                   fill={colors?.[0] || "var(--glass-color-primary)"}
-                  className="hover:r-3 transition-all cursor-pointer"
+                  className='hover:r-3 transition-all cursor-pointer'
                 />
               );
             })}
           </svg>
 
           {/* Labels */}
-          <div className="absolute bottom-0 left-0 right-0 glass-flex glass-justify-between">
+          <div className='absolute bottom-0 left-0 right-0 glass-flex glass-justify-between'>
             {data?.dataPoints.map((point, index) => (
-              <div key={index} className="glass-text-xs text-primary/80">
+              <div key={index} className='glass-text-xs text-primary/80'>
                 {point.label}
               </div>
             ))}
@@ -314,7 +314,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
 
       return (
         <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
-          <div className="relative">
+          <div className='relative'>
             <svg width="120" height="120" viewBox="0 0 120 120">
               {data?.dataPoints.map((point, index) => {
                 const percentage = point.value / total;
@@ -352,7 +352,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                     key={index}
                     d={pathData}
                     fill={color}
-                    className="hover:opacity-80 transition-opacity cursor-pointer"
+                    className='hover:opacity-80 transition-opacity cursor-pointer'
                   />
                 );
               })}
@@ -383,7 +383,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
 
       return (
         <svg
-          className="glass-w-full h-8"
+          className='glass-w-full h-8'
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -392,7 +392,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
             fill="none"
             stroke={colors?.[0] || "var(--glass-color-primary)"}
             strokeWidth="3"
-            className="drop-shadow-sm"
+            className='drop-shadow-sm'
           />
         </svg>
       );
@@ -402,7 +402,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       if (loading) {
         return (
           <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
-            <div className="w-6 h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
+            <div className='w-6 h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
           </div>
         );
       }
@@ -474,7 +474,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                 className="glass-flex glass-items-center glass-gap-1"
               >
                 <div
-                  className="w-3 h-3 glass-radius-sm"
+                  className='w-3 h-3 glass-radius-sm'
                   style={{ backgroundColor: color }}
                 />
                 <span className="glass-text-xs glass-text-secondary">
@@ -518,7 +518,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           {data?.summary && variant !== "minimal" && (
             <HStack space="sm" align="center">
               {data?.summary.total && (
-                <div className="glass-text-lg font-bold text-primary">
+                <div className='glass-text-lg font-bold text-primary'>
                   {data?.summary.total.toLocaleString()}
                 </div>
               )}

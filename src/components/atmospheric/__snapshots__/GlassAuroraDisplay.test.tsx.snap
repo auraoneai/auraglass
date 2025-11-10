@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAuroraDisplay matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-aurora-display relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20"
+  id="glass-aurora-display-:r4:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-aurora-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Intensity:
+        </label>
+        <input
+          class="w-20"
+          max="1"
+          min="0"
+          step="0.1"
+          type="range"
+          value="0.7"
+        />
+        <span
+          class="glass-text-sm min-w-[3ch]"
+        >
+          70
+          %
+        </span>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Colors:
+        </label>
+        <select
+          class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+        >
+          <option
+            value="classic"
+          >
+            Classic
+          </option>
+          <option
+            value="rare"
+          >
+            Rare
+          </option>
+          <option
+            value="storm"
+          >
+            Storm
+          </option>
+          <option
+            value="sunset"
+          >
+            Sunset
+          </option>
+          <option
+            value="cosmic"
+          >
+            Cosmic
+          </option>
+        </select>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Activity:
+        </label>
+        <select
+          class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+        >
+          <option
+            value="low"
+          >
+            Low
+          </option>
+          <option
+            value="moderate"
+          >
+            Moderate
+          </option>
+          <option
+            value="high"
+          >
+            High
+          </option>
+          <option
+            value="storm"
+          >
+            Storm
+          </option>
+        </select>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          Time:
+        </label>
+        <input
+          class="w-20"
+          max="24"
+          min="0"
+          step="0.5"
+          type="range"
+          value="22"
+        />
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-gap-2"
+      >
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            checked=""
+            class="glass-mr-1"
+            type="checkbox"
+          />
+          Stars
+        </label>
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            checked=""
+            class="glass-mr-1"
+            type="checkbox"
+          />
+          Solar Wind
+        </label>
+        <label
+          class="glass-text-sm"
+        >
+          <input
+            class="glass-mr-1"
+            type="checkbox"
+          />
+          Real-time
+        </label>
+      </div>
+    </div>
+    <div
+      class="relative"
+    >
+      <canvas
+        class="glass-border glass-border-glass-border/20 glass-radius-md glass-surface-dark glass-contrast-guard"
+        height="500"
+        style="width: 800px; height: 500px;"
+        width="800"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -264,10 +264,10 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
   return (
     <Motion data-glass-component preset="fadeIn" className="glass-w-full">
       <GlassCard className={cn("overflow-hidden", className)} {...props}>
-        <CardHeader className="pb-3">
+        <CardHeader className='pb-3'>
           <div className="glass-flex glass-items-center glass-justify-between">
-            <CardTitle className="text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2">
-              <Users className="w-5 h-5" />
+            <CardTitle className='text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2'>
+              <Users className='w-5 h-5' />
               Team Presence
             </CardTitle>
 
@@ -277,22 +277,22 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className="pt-0">
+        <CardContent className='pt-0'>
           {/* Current user status */}
           {currentUser && enableStatusUpdate && (
-            <div className="mb-6 glass-p-3 glass-surface-subtle/5 glass-radius-lg">
+            <div className='mb-6 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
               <div className="glass-flex glass-items-center glass-justify-between">
                 <div className="glass-flex glass-items-center glass-gap-3">
-                  <div className="relative">
-                    <div className="w-10 h-10 glass-radius-full glass-surface-subtle/20 glass-flex glass-items-center glass-justify-center">
+                  <div className='relative'>
+                    <div className='w-10 h-10 glass-radius-full glass-surface-subtle/20 glass-flex glass-items-center glass-justify-center'>
                       {currentUser.avatar ? (
                         <img
                           src={currentUser.avatar}
                           alt={currentUser.name}
-                          className="glass-w-full glass-h-full glass-radius-full object-cover"
+                          className='glass-w-full glass-h-full glass-radius-full object-cover'
                         />
                       ) : (
-                        <span className="text-primary font-medium">
+                        <span className='text-primary font-medium'>
                           {currentUser.name.charAt(0).toUpperCase()}
                         </span>
                       )}
@@ -306,10 +306,10 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
                   </div>
 
                   <div>
-                    <p className="text-primary font-medium">
+                    <p className='text-primary font-medium'>
                       {currentUser.name}
                     </p>
-                    <p className="text-primary/60 glass-text-sm">
+                    <p className='text-primary/60 glass-text-sm'>
                       Set your status
                     </p>
                   </div>
@@ -332,7 +332,7 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
                           className="glass-p-2"
                           title={config.label}
                         >
-                          <IconComponent className="w-3 h-3" />
+                          <IconComponent className='w-3 h-3' />
                         </GlassButton>
                       );
                     }
@@ -353,14 +353,14 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
 
                 return (
                   <div key={status}>
-                    <div className="glass-flex glass-items-center glass-gap-2 mb-2">
+                    <div className='glass-flex glass-items-center glass-gap-2 mb-2'>
                       <div
                         className={cn(
                           "w-2 h-2 glass-radius-full",
                           config.color
                         )}
                       />
-                      <span className="text-primary/80 glass-text-sm font-medium">
+                      <span className='text-primary/80 glass-text-sm font-medium'>
                         {config.label} ({statusUsers.length})
                       </span>
                     </div>
@@ -536,7 +536,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
       onClick={(e) => onUserClick?.(user)}
     >
       {/* Avatar */}
-      <div className="relative glass-flex-shrink-0">
+      <div className='relative glass-flex-shrink-0'>
         <div
           className={cn(
             "glass-radius-full bg-white/20 flex items-center justify-center",
@@ -547,7 +547,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
             <img
               src={user.avatar}
               alt={user.name}
-              className="glass-w-full glass-h-full glass-radius-full object-cover"
+              className='glass-w-full glass-h-full glass-radius-full object-cover'
             />
           ) : (
             <span
@@ -596,8 +596,8 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
 
               {user.status === "offline" && user.lastSeen && (
                 <>
-                  <span className="text-primary/40 glass-text-xs">•</span>
-                  <span className="text-primary/60 glass-text-xs">
+                  <span className='text-primary/40 glass-text-xs'>•</span>
+                  <span className='text-primary/60 glass-text-xs'>
                     {formatLastSeen(user.lastSeen)}
                   </span>
                 </>
@@ -606,24 +606,24 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
 
             {/* Custom status */}
             {user.customStatus && (
-              <p className="text-primary/70 glass-text-xs truncate">
+              <p className='text-primary/70 glass-text-xs truncate'>
                 {user.customStatus}
               </p>
             )}
 
             {/* Activity */}
             {showActivities && user.activity && (
-              <div className="glass-flex glass-items-center glass-gap-1 text-primary/60 glass-text-xs">
-                <Activity className="w-3 h-3" />
-                <span className="truncate">{user.activity}</span>
+              <div className='glass-flex glass-items-center glass-gap-1 text-primary/60 glass-text-xs'>
+                <Activity className='w-3 h-3' />
+                <span className='truncate'>{user.activity}</span>
               </div>
             )}
 
             {/* Location */}
             {showLocations && user.location && (
-              <div className="glass-flex glass-items-center glass-gap-1 text-primary/60 glass-text-xs">
-                <MapPin className="w-3 h-3" />
-                <span className="truncate">{user.location}</span>
+              <div className='glass-flex glass-items-center glass-gap-1 text-primary/60 glass-text-xs'>
+                <MapPin className='w-3 h-3' />
+                <span className='truncate'>{user.location}</span>
               </div>
             )}
           </div>
@@ -642,7 +642,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
             }}
             className="glass-p-1"
           >
-            <MessageCircle className="w-3 h-3" />
+            <MessageCircle className='w-3 h-3' />
           </GlassButton>
 
           <GlassButton
@@ -654,7 +654,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
             }}
             className="glass-p-1"
           >
-            <Phone className="w-3 h-3" />
+            <Phone className='w-3 h-3' />
           </GlassButton>
 
           <GlassButton
@@ -666,7 +666,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
             }}
             className="glass-p-1"
           >
-            <Video className="w-3 h-3" />
+            <Video className='w-3 h-3' />
           </GlassButton>
 
           <GlassButton
@@ -675,7 +675,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
             onClick={(e) => e.stopPropagation()}
             className="glass-p-1"
           >
-            <MoreHorizontal className="w-3 h-3" />
+            <MoreHorizontal className='w-3 h-3' />
           </GlassButton>
         </div>
       )}

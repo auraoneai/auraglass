@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassBadge matches snapshot 1`] = `
+<div
+  aria-label="default badge"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-1 font-medium transition-all duration-200 glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-muted/50 glass-text-secondary border-0"
+  data-performance-mode="medium"
+  id="badge-:r5:"
+  role="status"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+/>
+`;

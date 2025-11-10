@@ -246,7 +246,7 @@ export const OptimizedGlassContainer = forwardRef<
       };
 
       return (
-        <div className="absolute glass-top-2 right-2 z-50 glass-surface-dark/50 text-primary glass-p-2 glass-radius-md glass-text-xs font-mono">
+        <div className='absolute glass-top-2 right-2 z-50 glass-surface-dark/50 text-primary glass-p-2 glass-radius-md glass-text-xs font-mono'>
           <div>
             FPS:{" "}
             <span className={getIndicatorColor()}>
@@ -254,7 +254,7 @@ export const OptimizedGlassContainer = forwardRef<
             </span>
           </div>
           <div>
-            Level: <span className="text-primary">{optimizationLevel}</span>
+            Level: <span className='text-primary'>{optimizationLevel}</span>
           </div>
           <div>
             Score:{" "}

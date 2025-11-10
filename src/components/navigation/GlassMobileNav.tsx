@@ -195,16 +195,16 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
 
       const itemContent = (
         <>
-          <div className="glass-flex glass-items-center glass-gap-3 glass-flex-1 min-glass-w-0">
+          <div className='glass-flex glass-items-center glass-gap-3 glass-flex-1 min-glass-w-0'>
             <div className="glass-flex-shrink-0 glass-text-lg">
               {item?.icon}
             </div>
-            <span className="font-medium truncate">{item?.label}</span>
+            <span className='font-medium truncate'>{item?.label}</span>
             {item?.badge && (
               <GlassBadge
                 variant={item?.badgeVariant || "outline"}
                 size="xs"
-                className="ml-auto"
+                className='ml-auto'
               >
                 {item?.badge}
               </GlassBadge>
@@ -261,7 +261,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           {/* Section header */}
           {section.label && (
             <div className="glass-px-4 glass-py-2">
-              <h3 className="glass-text-xs font-medium glass-text-secondary uppercase tracking-wide">
+              <h3 className='glass-text-xs font-medium glass-text-secondary uppercase tracking-wide'>
                 {section.label}
               </h3>
             </div>
@@ -299,7 +299,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
         {showBackdrop && open && (
           <Motion
             preset="fadeIn"
-            className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-[100] glass-contrast-guard"
+            className='fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-[100] glass-contrast-guard'
             onClick={handleBackdropClick}
           />
         )}
@@ -328,11 +328,11 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
             <HStack
               space="sm"
               align="center"
-              className="glass-flex-1 min-glass-w-0"
+              className='glass-flex-1 min-glass-w-0'
             >
               {logo && <div className="glass-flex-shrink-0">{logo}</div>}
               {title && (
-                <h1 className="font-bold glass-text-lg text-primary truncate">
+                <h1 className='font-bold glass-text-lg text-primary truncate'>
                   {title}
                 </h1>
               )}
@@ -349,7 +349,7 @@ export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
           </div>
 
           {/* Navigation content */}
-          <nav className="glass-flex-1 glass-p-4 overflow-y-auto">
+          <nav className='glass-flex-1 glass-p-4 overflow-y-auto'>
             <VStack space="lg">
               {navigation.map((section: any) => renderSection(section))}
               {children}

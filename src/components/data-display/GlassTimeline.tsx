@@ -168,14 +168,14 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
         >
           {showLine && (
             <div
-              className="absolute top-8 left-0 right-0 h-px bg-border/20"
+              className='absolute top-8 left-0 right-0 h-px bg-border/20'
               style={{ backgroundColor: lineColor }}
             />
           )}
           {items.map((item, index) => (
             <div
               key={item.id}
-              className="relative glass-flex-shrink-0 glass-min-w-0"
+              className='relative glass-flex-shrink-0 glass-min-w-0'
               role="listitem"
             >
               {/* Dot */}
@@ -188,7 +188,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
               />
 
               {/* Content */}
-              <div className="pt-12">
+              <div className='pt-12'>
                 <OptimizedGlass
                   elevation="level1"
                   intensity="medium"
@@ -268,7 +268,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
             const isLast = index === items.length - 1;
 
             return (
-              <li key={item.id} className="relative" role="listitem">
+              <li key={item.id} className='relative' role="listitem">
                 {/* Dot */}
                 <span
                   className={cn(
@@ -396,7 +396,7 @@ export const TimelineItemComponent = forwardRef<
         performanceMode="medium"
         className="glass-radius-lg glass-p-3"
       >
-        <div className="font-medium text-primary">{item.title}</div>
+        <div className='font-medium text-primary'>{item.title}</div>
         {item.subtitle && (
           <div className="glass-text-sm glass-text-secondary glass-mt-1">
             {item.subtitle}

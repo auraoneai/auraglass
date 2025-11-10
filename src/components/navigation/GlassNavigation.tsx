@@ -28,7 +28,7 @@ import { useKeyboardNavigation } from "../../utils/a11yHooks";
 
 // Helper components
 const Badge = ({ children }: { children: React.ReactNode }) => (
-  <span className="glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-surface-blue glass-radius-full">
+  <span className='glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-surface-blue glass-radius-full'>
     {children}
   </span>
 );
@@ -48,26 +48,31 @@ const Tooltip = ({
 }) => <div title={title}>{children}</div>;
 
 // Simple animation hook for indicator position
-const useIndicatorAnimation = (prefersReducedMotion: boolean) => {
-  const [indicatorStyle, setIndicatorStyle] = useState({
-    left: 0,
-    top: 0,
-    width: 0,
-    height: 0,
-    opacity: 0,
-  });
+const INITIAL_INDICATOR_STYLE = {
+  left: 0,
+  top: 0,
+  width: 0,
+  height: 0,
+  opacity: 0,
+};
 
-  const animateIndicator = useCallback(
-    (newStyle: typeof indicatorStyle) => {
-      if (prefersReducedMotion) {
-        setIndicatorStyle(newStyle);
-      } else {
-        // Apply smooth transition through state change
-        setIndicatorStyle(newStyle);
+const useIndicatorAnimation = (_prefersReducedMotion: boolean) => {
+  const [indicatorStyle, setIndicatorStyle] = useState(INITIAL_INDICATOR_STYLE);
+
+  const animateIndicator = useCallback((nextStyle: typeof INITIAL_INDICATOR_STYLE) => {
+    setIndicatorStyle((prev) => {
+      if (
+        prev.left === nextStyle.left &&
+        prev.top === nextStyle.top &&
+        prev.width === nextStyle.width &&
+        prev.height === nextStyle.height &&
+        prev.opacity === nextStyle.opacity
+      ) {
+        return prev;
       }
-    },
-    [prefersReducedMotion]
-  );
+      return nextStyle;
+    });
+  }, []);
 
   return { indicatorStyle, animateIndicator };
 };
@@ -176,7 +181,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
 
     useEffect(() => {
       if (disableChildAnimation) {
-        animateIndicator({ ...indicatorStyle, opacity: 0 });
+        animateIndicator(INITIAL_INDICATOR_STYLE);
         return;
       }
 
@@ -207,7 +212,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
         }
         animateIndicator(newStyle);
       } else {
-        animateIndicator({ ...indicatorStyle, opacity: 0 });
+        animateIndicator(INITIAL_INDICATOR_STYLE);
       }
     }, [
       activeItem,
@@ -215,7 +220,6 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
       collapsed,
       disableChildAnimation,
       animateIndicator,
-      indicatorStyle,
     ]);
 
     const toggleMobileMenu = useCallback(() => {
@@ -311,19 +315,19 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
         const content = (
           <>
             {item?.icon && (
-              <span className="nav-item-icon" aria-hidden="true">
+              <span className='nav-item-icon' aria-hidden="true">
                 {item?.icon}
               </span>
             )}
 
             {(!collapsed || level > 0) && (
-              <span className="nav-item-label">{item?.label}</span>
+              <span className='nav-item-label'>{item?.label}</span>
             )}
 
             {item?.badge && <Badge>{String(item?.badge)}</Badge>}
 
             {hasChildren && !collapsed && (
-              <span className="nav-item-expand-icon" aria-hidden="true">
+              <span className='nav-item-expand-icon' aria-hidden="true">
                 <Icon name={isExpanded ? "expand_less" : "expand_more"} />
               </span>
             )}
@@ -545,7 +549,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
             {/* Active indicator */}
             {!prefersReducedMotion && (
               <div
-                className="absolute glass-surface-blue glass-radius-sm z-0 pointer-events-none transition-all duration-300 ease-out"
+                className='absolute glass-surface-blue glass-radius-sm z-0 pointer-events-none transition-all duration-300 ease-out'
                 style={{
                   left: `${indicatorStyle.left}px`,
                   top: `${indicatorStyle.top}px`,

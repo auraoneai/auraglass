@@ -1,0 +1,93 @@
+.container {
+  --cookie-blur-scale: 1;
+  --cookie-box-shadow: var(--aura-color-glass-shadow);
+  position: fixed;
+  z-index: 1000;
+  padding: var(--aura-space-3) var(--aura-space-4);
+  border-radius: var(--aura-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--aura-space-3);
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: var(--aura-color-glass-surface);
+  backdrop-filter: blur(calc(var(--aura-glass-neutral-level2-backdrop-blur) * var(--cookie-blur-scale)));
+  -webkit-backdrop-filter: blur(calc(var(--aura-glass-neutral-level2-backdrop-blur) * var(--cookie-blur-scale)));
+  border: 1px solid var(--aura-color-glass-border);
+  box-shadow: var(--cookie-box-shadow);
+  will-change: transform, opacity;
+  transition: transform var(--aura-motion-duration-fast) var(--aura-motion-easing-emphasized),
+    opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+}
+
+.positionBottom {
+  bottom: var(--aura-space-4);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.positionTop {
+  top: var(--aura-space-4);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.positionBottomLeft {
+  bottom: var(--aura-space-4);
+  left: var(--aura-space-4);
+}
+
+.positionBottomRight {
+  bottom: var(--aura-space-4);
+  right: var(--aura-space-4);
+}
+
+.positionTopLeft {
+  top: var(--aura-space-4);
+  left: var(--aura-space-4);
+}
+
+.positionTopRight {
+  top: var(--aura-space-4);
+  right: var(--aura-space-4);
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--aura-space-3);
+  }
+
+  .positionBottom,
+  .positionTop {
+    left: var(--aura-space-4);
+    right: var(--aura-space-4);
+    width: calc(100% - 2 * var(--aura-space-4));
+    transform: none;
+  }
+
+  .container {
+    max-width: calc(100% - 2 * var(--aura-space-4));
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: var(--aura-space-3);
+  margin-left: var(--aura-space-4);
+}
+
+@media (max-width: 600px) {
+  .buttonGroup {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .buttonGroup > :global(button) {
+    flex: 1;
+  }
+}

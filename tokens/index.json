@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "description": "AuraGlass canonical design token manifest",
+  "personas": [
+    {
+      "id": "auraglass-default",
+      "label": "AuraGlass Default",
+      "path": "./personas/default.json"
+    }
+  ]
+}

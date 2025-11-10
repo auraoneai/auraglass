@@ -5,7 +5,6 @@
  * A component that provides accessible focus indicators.
  */
 import React, { forwardRef, useMemo } from 'react';
-import styled from 'styled-components';
 import { cn } from '@/lib/utils';
 
 import { useReducedMotion } from '../../hooks/useReducedMotion';
@@ -41,17 +40,6 @@ const colorToRgb = (color: string): string => {
       return '255, 255, 255';
   }
 };
-
-// Styled components
-const FocusWrapper = styled.div<{
-  $glass: boolean;
-  $highContrast: boolean;
-}>`
-  position: relative;
-  display: inline-block;
-  outline: none;
-  will-change: box-shadow, outline, opacity;
-`;
 
 /**
  * FocusIndicator Component Implementation
@@ -177,16 +165,20 @@ function FocusIndicatorComponent(
   }, [componentStyle, animatedValues, finalFocusStyle, finalColor, finalHighContrast, glass]);
 
   return (
-    <FocusWrapper
+    <div
       ref={ref}
       className={cn('glass-focus-indicator', className)}
-      style={animatedStyle}
-      $glass={glass}
-      $highContrast={finalHighContrast}
+      style={{
+        position: 'relative',
+        display: 'inline-block',
+        outline: 'none',
+        willChange: 'box-shadow, outline, opacity',
+        ...animatedStyle,
+      }}
       {...rest}
     >
       {children}
-    </FocusWrapper>
+    </div>
   );
 }
 

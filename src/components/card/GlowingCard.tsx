@@ -142,12 +142,12 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
       >
         {/* Glow Layer */}
         {!prefersReducedMotion && (
-          <div className="glowing-card-glow" aria-hidden="true" />
+          <div className='glowing-card-glow' aria-hidden="true" />
         )}
 
         {/* Content */}
         <GlassCard
-          className="glowing-card-content"
+          className='glowing-card-content'
           style={{ position: "relative", zIndex: 1 }}
         >
           {children}

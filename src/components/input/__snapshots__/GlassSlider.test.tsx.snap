@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSlider matches snapshot 1`] = `
+<div
+  class="glass-slider-container"
+>
+  <div
+    aria-orientation="horizontal"
+    aria-valuemax="100"
+    aria-valuemin="0"
+    aria-valuenow="0"
+    aria-valuetext="0"
+    class="glass-slider relative flex items-center w-full h-6"
+    id="glass-slider-:r9:"
+  >
+    <div
+      class="glass-slider-track relative glass-backdrop-blur-md glass-radius-full border border-border/20 w-full h-2 bg-muted/50 cursor-pointer"
+    >
+      <div
+        class="glass-slider-fill absolute glass-radius-full transition-all duration-150 h-full top-0 bg-primary"
+        style="width: 0%;"
+      >
+        <div
+          class="absolute inset-0 glass-sheen"
+        />
+      </div>
+      <div
+        class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-white/5 glass-gradient-primary"
+      />
+    </div>
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow="0"
+      aria-valuetext="0"
+      class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-press glass-tier-high glass-slider-thumb absolute flex items-center justify-center glass-radius-full cursor-grab transition-all duration-200 glass-focus transform -translate-x-1/2 -translate-y-1/2 h-5 w-5 top-1/2"
+      data-performance-mode="high"
+      role="slider"
+      style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); left: 0%;"
+      tabindex="0"
+    />
+  </div>
+</div>
+`;

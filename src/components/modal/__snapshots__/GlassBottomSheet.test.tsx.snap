@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassBottomSheet matches snapshot 1`] = `
+<div
+  aria-modal="true"
+  class="motion-primitive fixed left-0 right-0 bottom-0 z-[1101] pointer-events-none"
+  id="glass-bottom-sheet-:r7:"
+  role="dialog"
+  style="height: 70%;"
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level3 glass-tier-high h-full rounded-t-2xl glass-p-4"
+    style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    tabindex="-1"
+  >
+    <div
+      aria-hidden="true"
+      class="glass-mx-auto w-10 h-1.5 glass-radius-full glass-surface-subtle/30 mb-3"
+    />
+  </div>
+</div>
+`;

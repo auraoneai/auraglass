@@ -1,6 +1,8 @@
 'use client';
+import React from "react";
+import { motion } from "framer-motion";
+import { cn } from "../../lib/utilsComprehensive";
 /**
-import { cn } from '../../lib/utilsComprehensive';
  * Advanced Animation Easing Functions
  * Provides sophisticated easing curves for glassmorphism transitions
  */
@@ -151,3 +153,76 @@ export const glassTransitionPresets = {
     ease: easings.shatterEase
   }
 };
+
+export interface AdvancedAnimationsProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  sampleCount?: number;
+  children?: React.ReactNode;
+}
+
+const easingSampleKeys = [
+  'subtle',
+  'smooth',
+  'dramatic',
+  'glass',
+  'shatter'
+] as const;
+
+export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
+  sampleCount = 4,
+  className,
+  children,
+  ...rest
+}) => {
+  const keys = easingSampleKeys.slice(0, Math.max(1, sampleCount));
+
+  return (
+    <div
+      className={cn(
+        'glass-advanced-animations glass-space-y-6',
+        className
+      )}
+      {...rest}
+    >
+      {children ?? (
+        <div className="glass-grid sm:grid-cols-2 glass-gap-4">
+          {keys.map((key) => {
+            const preset = glassTransitionPresets[key];
+            return (
+              <motion.div
+                key={key}
+                className="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
+                animate={{ y: [0, -8, 0] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: preset.duration,
+                  ease: preset.ease as any
+                }}
+              >
+                <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+                  {key}
+                </p>
+                <h3 className="glass-text-xl glass-text-primary font-semibold">
+                  {key === 'glass' ? 'Material physics' : 'Easing preview'}
+                </h3>
+                <div className="glass-h-2 glass-rounded-full glass-surface-subtle">
+                  <motion.div
+                    className="glass-h-full glass-radius-full glass-gradient-primary"
+                    animate={{ width: ['10%', '90%', '10%'] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: preset.duration,
+                      ease: preset.ease as any
+                    }}
+                  />
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdvancedAnimations;

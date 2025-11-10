@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassFileUpload matches snapshot 1`] = `
+<div
+  class="w-full"
+>
+  <div
+    class="relative"
+    data-glass-component="true"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 hidden"
+      data-performance-mode="medium"
+      style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <input
+        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+        id="glass-input-:r8:"
+        type="file"
+      />
+      <div
+        class="glass-flex glass-items-center glass-gap-1"
+      />
+    </div>
+  </div>
+  <div
+    aria-label="File upload area"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative border-2 border-dashed cursor-pointer transition-all hover:border-primary/50 focus:border-primary focus:outline-none glass-p-6 glass-text-base min-h-32 border-border/30"
+    data-performance-mode="medium"
+    role="button"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    tabindex="0"
+  >
+    <div
+      class="glass-flex glass-flex-col glass-items-center glass-justify-center text-center"
+    >
+      <svg
+        class="mx-auto mb-3 glass-text-secondary w-10 h-10"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+      <p
+        class="text-primary font-medium mb-1"
+      >
+        Drag and drop files here, or click to select
+      </p>
+      <p
+        class="glass-text-xs glass-text-secondary glass-mt-2"
+      >
+        Max file size: 
+        10 MB
+      </p>
+    </div>
+  </div>
+</div>
+`;
