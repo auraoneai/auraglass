@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAutoComposer matches snapshot 1`] = `
+<div>
+  <div
+    class="space-y-6"
+  >
+    <div
+      class="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6"
+    >
+      <h2
+        class="glass-text-2xl font-bold text-primary mb-4"
+      >
+        AI Layout Generator
+      </h2>
+      <div
+        class="glass-gap-4"
+      >
+        <div>
+          <label
+            class="block glass-text-sm font-medium glass-text-secondary mb-2"
+          >
+            Describe the layout you want
+          </label>
+          <textarea
+            class="glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 text-primary glass-touch-target glass-contrast-guard"
+            placeholder="e.g., Create a modern dashboard with charts, stats cards, and a sidebar navigation"
+            rows="3"
+          />
+        </div>
+        <button
+          class="glass-surface-accent glass-px-6 glass-py-3 glass-radius-md font-medium"
+          disabled=""
+          tabindex="0"
+        >
+          Generate Layout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassMagneticButton Component Tests
  *
@@ -11,48 +11,45 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassMagneticButton } from '@/components/button/GlassMagneticButton';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import MagneticButton from "@/components/button/GlassMagneticButton";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassMagneticButton', () => {
+describe("GlassMagneticButton", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassMagneticButton />);
+  it("renders without crashing", () => {
+    const { container } = render(<MagneticButton>Click me</MagneticButton>);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassMagneticButton />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <MagneticButton aria-label="Test button">Click me</MagneticButton>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -63,14 +60,18 @@ describe('GlassMagneticButton', () => {
         })),
       });
 
-      const { container } = render(<GlassMagneticButton />);
+      const { container } = render(
+        <MagneticButton aria-label="Test button">Click me</MagneticButton>
+      );
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -82,25 +83,31 @@ describe('GlassMagneticButton', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <GlassMagneticButton
+      <MagneticButton
         className="custom-class"
         data-testid="glassmagneticbutton"
-      />
+        aria-label="Test button"
+      >
+        Click me
+      </MagneticButton>
     );
 
-    const element = container.querySelector('[data-testid="glassmagneticbutton"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassmagneticbutton"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassMagneticButton />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <MagneticButton aria-label="Test button">Click me</MagneticButton>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

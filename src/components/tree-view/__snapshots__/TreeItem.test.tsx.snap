@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TreeItem matches snapshot 1`] = `
+<li
+  aria-selected="false"
+  class="root"
+  role="treeitem"
+>
+  <div
+    aria-disabled="false"
+    class="content sizeMedium glass-focus glass-touch-target glass-contrast-guard"
+    tabindex="0"
+  >
+    <div
+      aria-hidden="true"
+      class="icon"
+    >
+      <svg
+        fill="none"
+        height="16"
+        viewBox="0 0 24 24"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          fill="currentColor"
+          r="4"
+        />
+      </svg>
+    </div>
+    <div
+      class="label"
+    >
+      Test Node
+    </div>
+  </div>
+</li>
+`;

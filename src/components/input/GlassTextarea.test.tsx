@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassTextarea Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassTextarea } from '@/components/input/GlassTextarea';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassTextarea } from "@/components/input/GlassTextarea";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassTextarea', () => {
+describe("GlassTextarea", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassTextarea />);
     expect(container).toBeInTheDocument();
   });
@@ -32,30 +32,29 @@ describe('GlassTextarea', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassTextarea />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Form component has proper labels and descriptions
    */
-  describe('ARIA Attributes', () => {
-    it('has proper form control role', () => {
-      render(<GlassTextarea id="test-input" />);
-      const element = screen.getByTestId('glasstextarea') || document.querySelector('#test-input');
+  describe("ARIA Attributes", () => {
+    it("has proper form control role", () => {
+      render(<GlassTextarea id="test-input" data-testid="glasstextarea" />);
+      const element = screen.getByTestId("glasstextarea");
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-label', () => {
+    it("supports aria-label", () => {
       render(<GlassTextarea aria-label="Test input" />);
       const element = screen.getByLabelText(/test input/i);
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-describedby for help text', () => {
+    it("supports aria-describedby for help text", () => {
       render(
         <>
           <GlassTextarea aria-describedby="help-text" />
@@ -67,32 +66,26 @@ describe('GlassTextarea', () => {
     });
   });
 
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <GlassTextarea
-        className="custom-class"
-        data-testid="glasstextarea"
-      />
+      <GlassTextarea className="custom-class" data-testid="glasstextarea" />
     );
 
-    const element = container.querySelector('[data-testid="glasstextarea"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasstextarea"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassTextarea />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassTextarea id="test-textarea" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

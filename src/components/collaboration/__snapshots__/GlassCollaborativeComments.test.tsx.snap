@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassCollaborativeComments matches snapshot 1`] = `
+<div>
+  <div
+    class="relative w-full h-full"
+  />
+</div>
+`;

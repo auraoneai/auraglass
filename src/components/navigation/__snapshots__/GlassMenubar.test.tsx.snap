@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMenubar matches snapshot 1`] = `
+<div
+  aria-disabled="false"
+  aria-label="Menu bar"
+  aria-orientation="horizontal"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 flex flex-row"
+  data-glass-component="true"
+  data-performance-mode="medium"
+  role="menubar"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+/>
+`;

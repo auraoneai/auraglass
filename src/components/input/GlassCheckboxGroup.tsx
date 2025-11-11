@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useState,
@@ -37,7 +37,7 @@ export interface GlassCheckboxGroupProps
   /** Callback when selection changes */
   onChange?: (value: string[]) => void;
   /** Checkbox options */
-  options: GlassCheckboxOption[];
+  options?: GlassCheckboxOption[];
   /** Whether the checkbox group is disabled */
   disabled?: boolean;
   /** Size of the checkboxes */
@@ -320,7 +320,7 @@ export const GlassCheckboxItem = forwardRef<
               >
                 {indeterminate ? (
                   // Indeterminate indicator (horizontal line)
-                  <div className='w-2 h-0-5 bg-transparent glass-radius-full' />
+                  <div className="w-2 h-0-5 bg-transparent glass-radius-full" />
                 ) : (
                   // Check mark
                   <svg
@@ -341,7 +341,7 @@ export const GlassCheckboxItem = forwardRef<
             )}
 
             {/* Inner glow effect */}
-            <div className='absolute inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary' />
+            <div className="absolute inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary" />
           </OptimizedGlass>
         </Motion>
 
@@ -356,7 +356,7 @@ export const GlassCheckboxItem = forwardRef<
           checked={isSelected}
           onChange={() => {}} // Handled by onClick
           disabled={isDisabled}
-          className='sr-only'
+          className="sr-only"
           tabIndex={-1}
         />
       </OptimizedGlass>
@@ -375,7 +375,7 @@ export const GlassCheckboxGroup = forwardRef<
       value,
       defaultValue = [],
       onChange,
-      options,
+      options = [],
       disabled = false,
       size = "md",
       variant = "default",
@@ -533,7 +533,8 @@ export const GlassCheckboxGroup = forwardRef<
               config.gap,
               disabled && "opacity-50",
               validationError &&
-                "ring-2 ring-destructive/50 glass-radius-lg glass-p-2"
+                "ring-2 ring-destructive/50 glass-radius-lg glass-p-2",
+              className
             )}
             {...a11yProps}
             aria-invalid={isInvalid || undefined}

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -795,8 +795,11 @@ export const GlassWeatherGlass = forwardRef<
           className="glass-weather-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Weather:</label>
+            <label htmlFor="weather-type" className="glass-text-sm">
+              Weather:
+            </label>
             <select
+              id="weather-type"
               value={currentWeather.type}
               onChange={(e) => {
                 const newWeather = {
@@ -806,6 +809,7 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
                 onWeatherChange?.(newWeather);
               }}
+              aria-label="Weather type selection"
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard glass-focus glass-touch-target"
             >
               <option value="clear">Clear</option>
@@ -820,8 +824,11 @@ export const GlassWeatherGlass = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Intensity:</label>
+            <label htmlFor="weather-intensity" className="glass-text-sm">
+              Intensity:
+            </label>
             <input
+              id="weather-intensity"
               type="range"
               min="0"
               max="1"
@@ -834,13 +841,17 @@ export const GlassWeatherGlass = forwardRef<
                 };
                 setCurrentWeather(newWeather);
               }}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Weather intensity"
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Temp:</label>
+            <label htmlFor="weather-temp" className="glass-text-sm">
+              Temp:
+            </label>
             <input
+              id="weather-temp"
               type="range"
               min="-20"
               max="40"
@@ -852,9 +863,10 @@ export const GlassWeatherGlass = forwardRef<
                 };
                 setCurrentWeather(newWeather);
               }}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Temperature in Celsius"
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
-            <span className='glass-text-sm min-w-[3ch]'>
+            <span className="glass-text-sm min-w-[3ch]">
               {currentWeather.temperature}°C
             </span>
           </div>
@@ -865,6 +877,7 @@ export const GlassWeatherGlass = forwardRef<
                 type="checkbox"
                 checked={autoUpdate}
                 onChange={(e) => {}}
+                aria-label="Enable auto update"
                 className="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
               />
               Auto Update
@@ -874,6 +887,7 @@ export const GlassWeatherGlass = forwardRef<
                 type="checkbox"
                 checked={weatherResponsive}
                 onChange={(e) => {}}
+                aria-label="Enable weather responsive styling"
                 className="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
               />
               Responsive
@@ -896,11 +910,9 @@ export const GlassWeatherGlass = forwardRef<
           "glass-weather-glass relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20",
           className
         )}
-        style={{
-          background: weatherResponsive
-            ? `linear-gradient(135deg, rgba(${glassColor[0]}, ${glassColor[1]}, ${glassColor[2]}, 0.1), rgba(${glassColor[0]}, ${glassColor[1]}, ${glassColor[2]}, 0.05))`
-            : undefined,
-        }}
+        data-testid={props["data-testid"]}
+        role="region"
+        aria-label="Weather visualization with controls"
         {...props}
       >
         <Motion
@@ -909,7 +921,7 @@ export const GlassWeatherGlass = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassComponentPlayground matches snapshot 1`] = `
+<div
+  data-testid="glasscomponentplayground"
+>
+  <div>
+    Component Playground
+  </div>
+  <div>
+    Examples: 
+    1
+  </div>
+</div>
+`;

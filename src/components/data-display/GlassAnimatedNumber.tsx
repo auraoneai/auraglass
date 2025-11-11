@@ -1,8 +1,17 @@
-'use client';
-import { cn } from '@/lib/utils';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { OptimizedGlass } from '../../primitives';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+"use client";
+import { cn } from "@/lib/utils";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { OptimizedGlass } from "../../primitives";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 export interface GlassAnimatedNumberProps {
   /** The target number to animate to */
@@ -12,7 +21,7 @@ export interface GlassAnimatedNumberProps {
   /** Animation duration in milliseconds */
   duration?: number;
   /** Animation easing function */
-  easing?: 'linear' | 'easeIn' | 'easeOut' | 'easeInOut';
+  easing?: "linear" | "easeIn" | "easeOut" | "easeInOut";
   /** Number of decimal places to show */
   decimals?: number;
   /** Whether to use comma separators */
@@ -28,13 +37,13 @@ export interface GlassAnimatedNumberProps {
   /** Custom className */
   className?: string;
   /** Font size */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   /** Animation variant */
-  variant?: 'count' | 'scale' | 'glow';
+  variant?: "count" | "scale" | "glow";
   /** Respect user's motion preferences */
   respectMotionPreference?: boolean;
   /** ARIA label for the animated number */
-  'aria-label'?: string;
+  "aria-label"?: string;
 }
 
 // Easing functions
@@ -45,150 +54,168 @@ const easingFunctions = {
   easeInOut: (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
 };
 
-export const GlassAnimatedNumber = forwardRef<HTMLDivElement, GlassAnimatedNumberProps>(({
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+export const GlassAnimatedNumber = forwardRef<
+  HTMLDivElement,
+  GlassAnimatedNumberProps
+>(
+  (
+    {
+      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
-  value = 0,
-  from = 0,
-  duration = 1000,
-  easing = 'easeOut',
-  decimals = 0,
-  separator = false,
-  prefix = '',
-  suffix = '',
-  formatter,
-  animateOnChange = true,
-  className='',
-  size = 'md',
-  variant = 'count',
-}, ref) => {
-  const [displayValue, setDisplayValue] = useState(from);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const animationRef = useRef<number>();
-  const startTimeRef = useRef<number>();
-  const startValueRef = useRef<number>(from);
-  const elementRef = useRef<HTMLDivElement>(null);
+      value = 0,
+      from = 0,
+      duration = 1000,
+      easing = "easeOut",
+      decimals = 0,
+      separator = false,
+      prefix = "",
+      suffix = "",
+      formatter,
+      animateOnChange = true,
+      className = "",
+      size = "md",
+      variant = "count",
+      "aria-label": ariaLabel,
+      ...props
+    },
+    ref
+  ) => {
+    const [displayValue, setDisplayValue] = useState(from);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const animationRef = useRef<number>();
+    const startTimeRef = useRef<number>();
+    const startValueRef = useRef<number>(from);
+    const elementRef = useRef<HTMLDivElement>(null);
 
-  // Forward ref
-  useImperativeHandle(ref, () => elementRef.current as HTMLDivElement);
+    // Forward ref
+    useImperativeHandle(ref, () => elementRef.current as HTMLDivElement);
 
-  const sizeClasses = {
-    sm: 'glass-text-lg',
-    md: 'glass-text-2xl',
-    lg: 'glass-text-4xl',
-    xl: 'glass-text-6xl',
-  };
-  const sizeClassName = sizeClasses[size] ?? sizeClasses.md;
+    const sizeClasses = {
+      sm: "glass-text-lg",
+      md: "glass-text-2xl",
+      lg: "glass-text-4xl",
+      xl: "glass-text-6xl",
+    };
+    const sizeClassName = sizeClasses[size] ?? sizeClasses.md;
 
-  // Format number with separators and decimals
-  const formatNumber = (num: number): string => {
-    if (formatter) {
-      return formatter(num);
-    }
+    // Format number with separators and decimals
+    const formatNumber = (num: number): string => {
+      if (formatter) {
+        return formatter(num);
+      }
 
-    let formatted = num.toFixed(decimals);
+      let formatted = num.toFixed(decimals);
 
-    if (separator) {
-      // Add comma separators for thousands
-      formatted = formatted.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
+      if (separator) {
+        // Add comma separators for thousands
+        formatted = formatted.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
 
-    return `${prefix}${formatted}${suffix}`;
-  };
+      return `${prefix}${formatted}${suffix}`;
+    };
 
-  // Animation loop
-  const animate = (timestamp: number) => {
-    if (!startTimeRef.current) {
-      startTimeRef.current = timestamp;
-    }
+    // Animation loop
+    const animate = (timestamp: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
+      }
 
-    const elapsed = timestamp - startTimeRef.current;
-    const progress = Math.min(elapsed / duration, 1);
+      const elapsed = timestamp - startTimeRef.current;
+      const progress = Math.min(elapsed / duration, 1);
 
-    const easedProgress = easingFunctions[easing](progress);
-    const currentValue = startValueRef.current + (value - startValueRef.current) * easedProgress;
+      const easedProgress = easingFunctions[easing](progress);
+      const currentValue =
+        startValueRef.current + (value - startValueRef.current) * easedProgress;
 
-    setDisplayValue(currentValue);
+      setDisplayValue(currentValue);
 
-    if (progress < 1) {
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        setDisplayValue(value);
+        setIsAnimating(false);
+      }
+    };
+
+    // Start animation when value changes
+    useEffect(() => {
+      if (!animateOnChange || value === startValueRef.current) {
+        setDisplayValue(value);
+        return;
+      }
+
+      setIsAnimating(true);
+      startValueRef.current = displayValue;
+      startTimeRef.current = undefined;
+
+      // Cancel any existing animation
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+
+      // Start new animation
       animationRef.current = requestAnimationFrame(animate);
-    } else {
-      setDisplayValue(value);
-      setIsAnimating(false);
-    }
-  };
 
-  // Start animation when value changes
-  useEffect(() => {
-    if (!animateOnChange || value === startValueRef.current) {
-      setDisplayValue(value);
-      return;
-    }
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
+    }, [value, animateOnChange]);
 
-    setIsAnimating(true);
-    startValueRef.current = displayValue;
-    startTimeRef.current = undefined;
+    // Cleanup on unmount
+    useEffect(() => {
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
+    }, []);
 
-    // Cancel any existing animation
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-
-    // Start new animation
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+    const getVariantStyles = (): React.CSSProperties => {
+      switch (variant) {
+        case "scale":
+          return {
+            transform: isAnimating ? "scale(1.1)" : "scale(1)",
+            transition: "transform 0.2s ease",
+          };
+        case "glow":
+          return {
+            textShadow: isAnimating
+              ? '0 0 20px var(--glass-border-hover), 0 0 40px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
+              : "none",
+            transition: "text-shadow 0.3s ease",
+          };
+        case "count":
+        default:
+          return {};
       }
     };
-  }, [value, animateOnChange]);
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, []);
+    return (
+      <OptimizedGlass
+        data-glass-component
+        ref={elementRef}
+        className={cn(
+          "glass-inline-flex glass-items-center glass-justify-center glass-font-mono glass-font-bold glass-text-primary",
+          sizeClassName,
+          className
+        )}
+        style={getVariantStyles()}
+        elevation="level1"
+        interactive={false}
+        aria-label={ariaLabel}
+        {...props}
+      >
+        <span className={cn("glass-tabular-nums")}>
+          {formatNumber(displayValue)}
+        </span>
+      </OptimizedGlass>
+    );
+  }
+);
 
-  const getVariantStyles = (): React.CSSProperties => {
-    switch (variant) {
-      case 'scale':
-        return {
-          transform: isAnimating ? 'scale(1.1)' : 'scale(1)',
-          transition: 'transform 0.2s ease',
-        };
-      case 'glow':
-        return {
-          textShadow: isAnimating
-            ? '0 0 20px var(--glass-border-hover), 0 0 40px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
-            : 'none',
-          transition: 'text-shadow 0.3s ease',
-        };
-      case 'count':
-      default:
-        return {};
-    }
-  };
-
-  return (
-    <OptimizedGlass data-glass-component
-      ref={elementRef}
-      className={cn('glass-inline-flex glass-items-center glass-justify-center glass-font-mono glass-font-bold glass-text-primary', sizeClassName, className)}
-      style={getVariantStyles()}
-      elevation="level1"
-      interactive={false}
-    >
-      <span className={cn('glass-tabular-nums')}>
-        {formatNumber(displayValue)}
-      </span>
-    </OptimizedGlass>
-  );
-});
-
-GlassAnimatedNumber.displayName = 'GlassAnimatedNumber';
+GlassAnimatedNumber.displayName = "GlassAnimatedNumber";
 
 // Compound component for animated counter with label
 export const GlassAnimatedCounter: React.FC<{
@@ -196,18 +223,23 @@ export const GlassAnimatedCounter: React.FC<{
   label?: string;
   from?: number;
   duration?: number;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   className?: string;
 }> = ({
   value,
   label,
   from = 0,
   duration = 1500,
-  size = 'lg',
-  className='',
+  size = "lg",
+  className = "",
 }) => {
   return (
-    <div className={cn('glass-flex glass-flex-col glass-items-center glass-gap-2', className)}>
+    <div
+      className={cn(
+        "glass-flex glass-flex-col glass-items-center glass-gap-2",
+        className
+      )}
+    >
       <GlassAnimatedNumber
         value={value}
         from={from}
@@ -218,7 +250,9 @@ export const GlassAnimatedCounter: React.FC<{
       />
       {label && (
         <OptimizedGlass
-          className={cn('glass-text-sm glass-text-primary-70 glass-font-medium')}
+          className={cn(
+            "glass-text-sm glass-text-primary-70 glass-font-medium"
+          )}
           elevation="level1"
         >
           {label}
@@ -242,13 +276,13 @@ export const GlassAnimatedStat: React.FC<{
   label,
   showPercentage = false,
   duration = 1000,
-  className='',
+  className = "",
 }) => {
   const percentage = total ? (value / total) * 100 : value;
 
   return (
-    <div className={cn('glass-flex glass-flex-col glass-gap-2', className)}>
-      <div className={cn('glass-flex glass-items-baseline glass-gap-2')}>
+    <div className={cn("glass-flex glass-flex-col glass-gap-2", className)}>
+      <div className={cn("glass-flex glass-items-baseline glass-gap-2")}>
         <GlassAnimatedNumber
           value={value}
           duration={duration}
@@ -262,14 +296,14 @@ export const GlassAnimatedStat: React.FC<{
             decimals={1}
             suffix="%"
             size="md"
-            className={cn('glass-text-primary-80')}
+            className={cn("glass-text-primary-80")}
           />
         )}
       </div>
 
       {label && (
         <OptimizedGlass
-          className={cn('glass-text-sm glass-text-primary-70')}
+          className={cn("glass-text-sm glass-text-primary-70")}
           elevation="level1"
         >
           {label}
@@ -279,11 +313,15 @@ export const GlassAnimatedStat: React.FC<{
       {/* Progress bar */}
       {total && (
         <OptimizedGlass
-          className={cn('glass-h-2 glass-w-full glass-radius-full glass-overflow-hidden')}
+          className={cn(
+            "glass-h-2 glass-w-full glass-radius-full glass-overflow-hidden"
+          )}
           elevation="level1"
         >
           <div
-            className={cn('glass-h-full glass-bg-gradient-to-r glass-from-blue-500 glass-to-purple-500 glass-radius-full glass-transition-all glass-duration-1000 glass-ease-out')}
+            className={cn(
+              "glass-h-full glass-bg-gradient-to-r glass-from-blue-500 glass-to-purple-500 glass-radius-full glass-transition-all glass-duration-1000 glass-ease-out"
+            )}
             style={{ width: `${percentage}%` }}
           />
         </OptimizedGlass>
@@ -297,7 +335,7 @@ export const useAnimatedNumber = (
   targetValue: number,
   options: {
     duration?: number;
-    easing?: 'linear' | 'easeIn' | 'easeOut' | 'easeInOut';
+    easing?: "linear" | "easeIn" | "easeOut" | "easeInOut";
     decimals?: number;
   } = {}
 ) => {
@@ -316,7 +354,8 @@ export const useAnimatedNumber = (
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      const easedProgress = easingFunctions[options.easing || 'easeOut'](progress);
+      const easedProgress =
+        easingFunctions[options.easing || "easeOut"](progress);
       const current = startValue + (newValue - startValue) * easedProgress;
 
       setCurrentValue(current);

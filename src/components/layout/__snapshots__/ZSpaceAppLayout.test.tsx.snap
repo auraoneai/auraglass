@@ -13,7 +13,11 @@ exports[`ZSpaceAppLayout matches snapshot 1`] = `
       class="w-full transition-all duration-300 max-w-4xl mx-auto glass-p-6"
       data-glass-component="true"
       style="min-height: 100%; padding: 20px;"
-    />
+    >
+      <div>
+        Test content
+      </div>
+    </div>
   </main>
   <style>
     

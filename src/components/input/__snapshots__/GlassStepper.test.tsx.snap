@@ -6,7 +6,6 @@ exports[`GlassStepper matches snapshot 1`] = `
 >
   <div
     class="glass-stepper inline-flex items-center flex-row glass-gap-2"
-    id="glass-stepper-:r9:"
   >
     <div
       class="motion-primitive"
@@ -39,8 +38,7 @@ exports[`GlassStepper matches snapshot 1`] = `
       style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <input
-        aria-valuemax="Infinity"
-        aria-valuemin="-Infinity"
+        aria-label="Stepper"
         aria-valuenow="0"
         aria-valuetext="0"
         class="w-full text-center glass-radius-md border glass-glass-backdrop-blur-md glass-contrast-guard bg-transparent text-foreground placeholder:glass-text-secondary focus:outline-none glass-focus transition-all duration-200 h-8 glass-px-3 glass-text-sm border-border/20 focus:border-primary/50"

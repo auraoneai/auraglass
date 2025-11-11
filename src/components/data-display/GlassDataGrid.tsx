@@ -1,6 +1,15 @@
-'use client';
-import React, { forwardRef, useRef, useEffect, useState, useMemo, createRef, useCallback, CSSProperties } from 'react';
-import { GlassDataGridProps, SortState } from './types';
+"use client";
+import React, {
+  forwardRef,
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  createRef,
+  useCallback,
+  CSSProperties,
+} from "react";
+import { GlassDataGridProps, SortState } from "./types";
 
 // Stub implementations for missing hooks
 const useSortableData = (data: any[], sortConfig: SortState | null) => ({
@@ -21,24 +30,27 @@ const useVectorSpring = (options: any) => ({
   value: options?.initialValue || { x: 0, y: 0, z: 0 },
   setValue: () => {},
 });
-import { OptimizedGlass } from '../../primitives';
-import { cn } from '../../lib/utilsComprehensive';
-import styles from './GlassDataGrid.module.css';
+import { OptimizedGlass } from "../../primitives";
+import { cn } from "../../lib/utilsComprehensive";
+import styles from "./GlassDataGrid.module.css";
 
 // Define the component using forwardRef
 export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
   (props, ref) => {
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+    // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
     const {
-      data: initialData,
-      columns,
+      data: initialData = [],
+      columns = [],
       className,
       style,
       height,
       initialSort,
       enableRowDragging = false,
       onRowOrderChange,
+      "aria-label": ariaLabel,
+      "data-testid": dataTestId,
+      ...restProps
     } = props;
     const safeInitialData = Array.isArray(initialData) ? initialData : [];
     const safeColumns = Array.isArray(columns) ? columns : [];
@@ -50,13 +62,12 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
     const normalizedSortedData = Array.isArray(unsortedData)
       ? unsortedData
       : safeInitialData;
-    
+
     // Create refs for each row element for the physics hook
     const rowRefs = useMemo(
       () =>
-        Array.from(
-          { length: normalizedSortedData?.length || 0 },
-          () => createRef<HTMLTableRowElement>()
+        Array.from({ length: normalizedSortedData?.length || 0 }, () =>
+          createRef<HTMLTableRowElement>()
         ),
       [normalizedSortedData?.length]
     );
@@ -71,10 +82,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         if (previous.length === normalizedSortedData.length) {
           return previous;
         }
-        return Array.from(
-          { length: normalizedSortedData.length },
-          (_, i) => i
-        );
+        return Array.from({ length: normalizedSortedData.length }, (_, i) => i);
       });
     }, [normalizedSortedData.length]);
 
@@ -102,42 +110,42 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
       [onRowOrderChange, safeInitialData]
     );
 
-    const { 
-        styles: rowStyles, 
-        getHandlers,
-        isDragging: isAnyItemDragging,
-        draggedIndex: draggedOriginalItemIndex
+    const {
+      styles: rowStyles,
+      getHandlers,
+      isDragging: isAnyItemDragging,
+      draggedIndex: draggedOriginalItemIndex,
     } = useDraggableListPhysics({
       itemRefs: rowRefs,
       onOrderChange: handleOrderUpdate,
       spacing: 0,
-      direction: 'vertical'
+      direction: "vertical",
     });
 
-    // --- Sort Indicator Animation using useVectorSpring --- 
+    // --- Sort Indicator Animation using useVectorSpring ---
     const sortIndicatorSpring = useVectorSpring({
-        config: {
-            tension: 350, // Use tension/friction for config
-            friction: 25,
-        },
-        // initialValue: { x: 0, y: 0, z: 0 } // Optional initial value
+      config: {
+        tension: 350, // Use tension/friction for config
+        friction: 25,
+      },
+      // initialValue: { x: 0, y: 0, z: 0 } // Optional initial value
     });
     // Map sorting state to target value for animation hook
     const sortTargetValue = useMemo(() => {
-        if (!sortConfig) return 0; // Target 0 when not sorted
-        return sortConfig.direction === 'asc' ? 1 : -1; // Target 1 for asc -1 for desc
+      if (!sortConfig) return 0; // Target 0 when not sorted
+      return sortConfig.direction === "asc" ? 1 : -1; // Target 1 for asc -1 for desc
     }, [sortConfig]);
     // Trigger animation when target changes
     useEffect(() => {
-        // Set the target Y value of the vector spring
-        sortIndicatorSpring.start();
+      // Set the target Y value of the vector spring
+      sortIndicatorSpring.start();
     }, [sortTargetValue, sortIndicatorSpring]);
     // --- End Sort Indicator Animation ---
 
     const handleHeaderKeyDown = (
       event: React.KeyboardEvent<HTMLTableCellElement>
     ) => {
-      if (event.key === 'Enter' || event.key === ' ') {
+      if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         // handleSort would need to be updated to work without parameters
         // For now, we'll skip this functionality
@@ -160,11 +168,12 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
           border="subtle"
           animation="none"
           performanceMode="medium"
-          className={cn(
-            'glass-w-full glass-p-6 glass-text-center',
-            className
-          )}
+          className={cn("glass-w-full glass-p-6 glass-text-center", className)}
           style={style}
+          role="region"
+          aria-label={ariaLabel || "Data Grid"}
+          data-testid={dataTestId}
+          {...restProps}
         >
           <p className="glass-text-sm glass-text-secondary">
             No columns configured for this data grid.
@@ -174,7 +183,8 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
     }
 
     return (
-      <OptimizedGlass data-glass-component 
+      <OptimizedGlass
+        data-glass-component
         ref={ref}
         intent="neutral"
         elevation="level2"
@@ -184,32 +194,52 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         border="subtle"
         animation="none"
         performanceMode="medium"
-        className={cn('glass-w-full glass-overflow-hidden', height && 'glass-overflow-y-auto', className)}
+        className={cn(
+          "glass-w-full glass-overflow-hidden",
+          height && "glass-overflow-y-auto",
+          className
+        )}
         style={{
-            ...style,
-            ...(height && { height: typeof height === 'number' ? `${height}px` : height }),
-            perspective: '1000px',
+          ...style,
+          ...(height && {
+            height: typeof height === "number" ? `${height}px` : height,
+          }),
+          perspective: "1000px",
         }}
+        data-testid={dataTestId}
+        {...restProps}
       >
-        <table className={styles.table}>
+        <table
+          className={styles.table}
+          role="table"
+          aria-label={ariaLabel || "Data Grid"}
+        >
           <thead>
             <tr className={styles.headerRow}>
-              {/* Add placeholder header for drag handle if enabled */} 
-              {enableRowDragging && <th className={cn(styles.headerCell, styles.dragHandleCell)} aria-hidden="true"></th>} 
+              {/* Add placeholder header for drag handle if enabled */}
+              {enableRowDragging && (
+                <th
+                  className={cn(styles.headerCell, styles.dragHandleCell)}
+                  aria-hidden="true"
+                ></th>
+              )}
               {safeColumns.map((col) => {
                 // Determine if this column is the one being sorted
                 const isSortingThisColumn = sortConfig?.key === col.key;
-                const currentSortDirection = sortConfig && isSortingThisColumn ? sortConfig.direction : null;
+                const currentSortDirection =
+                  sortConfig && isSortingThisColumn
+                    ? sortConfig.direction
+                    : null;
                 const isSortable = col.sortable;
 
                 // Calculate indicator style based on animation value (from spring.value.y)
                 const animValue = sortIndicatorSpring.value.y; // Get the animated value from the Y dimension
                 const indicatorOpacity = Math.min(1, Math.abs(animValue) * 1.5); // Fade in/out
-                const indicatorTranslateYPercent = -50 + (animValue * -10); // Vertical movement
+                const indicatorTranslateYPercent = -50 + animValue * -10; // Vertical movement
                 const indicatorScale = 0.8 + Math.abs(animValue) * 0.2; // Scale effect
                 const indicatorStyle: CSSProperties = {
-                    opacity: indicatorOpacity,
-                    transform: `translateY(${indicatorTranslateYPercent}%) scale(${indicatorScale})`,
+                  opacity: indicatorOpacity,
+                  transform: `translateY(${indicatorTranslateYPercent}%) scale(${indicatorScale})`,
                 };
 
                 const headerClassName = cn(
@@ -226,9 +256,13 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                     onKeyDown={(e) => handleHeaderKeyDown(e)}
                     role="columnheader"
                     aria-sort={
-                      isSortable ?
-                      (currentSortDirection === 'asc' ? 'ascending' : currentSortDirection === 'desc' ? 'descending' : 'none')
-                      : undefined
+                      isSortable
+                        ? currentSortDirection === "asc"
+                          ? "ascending"
+                          : currentSortDirection === "desc"
+                            ? "descending"
+                            : "none"
+                        : undefined
                     }
                   >
                     {col.header}
@@ -240,7 +274,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                       }}
                       aria-hidden={!isSortingThisColumn}
                     >
-                      {sortTargetValue > 0 ? '▲' : '▼'}
+                      {sortTargetValue > 0 ? "▲" : "▼"}
                     </span>
                   </th>
                 );
@@ -260,7 +294,8 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                   : { onPointerDown: () => {}, onKeyDown: () => {} };
 
                 const isDraggingThisRow =
-                  isAnyItemDragging && draggedOriginalItemIndex === originalIndex;
+                  isAnyItemDragging &&
+                  draggedOriginalItemIndex === originalIndex;
 
                 const rowClassName = cn(
                   styles.row,
@@ -302,9 +337,9 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                               row?.[col.accessorKey as keyof typeof row],
                               row
                             )
-                          : row?.[col.accessorKey as keyof typeof row] ??
+                          : (row?.[col.accessorKey as keyof typeof row] ??
                             col.placeholder ??
-                            '—'}
+                            "—")}
                       </td>
                     ))}
                   </tr>
@@ -312,10 +347,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
               })
             ) : (
               <tr>
-                <td
-                  className={styles.cell}
-                  colSpan={Math.max(1, totalColumns)}
-                >
+                <td className={styles.cell} colSpan={Math.max(1, totalColumns)}>
                   <div className="glass-text-sm glass-text-secondary text-center">
                     No data available.
                   </div>
@@ -330,4 +362,4 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
 );
 
 // Add display name for better debugging
-GlassDataGrid.displayName = 'GlassDataGrid'; 
+GlassDataGrid.displayName = "GlassDataGrid";

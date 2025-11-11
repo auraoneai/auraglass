@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassCommentThread Component Tests
  *
@@ -11,61 +11,57 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassCommentThread } from '@/components/interactive/GlassCommentThread';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassCommentThread } from "@/components/interactive/GlassCommentThread";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassCommentThread', () => {
+describe("GlassCommentThread", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassCommentThread />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassCommentThread comments={[]} />);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCommentThread />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassCommentThread comments={[]} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassCommentThread
+        comments={[]}
         className="custom-class"
         data-testid="glasscommentthread"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasscommentthread"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscommentthread"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassCommentThread />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassCommentThread comments={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

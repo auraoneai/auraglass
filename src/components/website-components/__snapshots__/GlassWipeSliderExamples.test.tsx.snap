@@ -40,7 +40,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
       </div>
       <div
         aria-describedby="slider-metrics"
-        aria-label="Scale AI vs AuraOne comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-label="Comparison slider"
         aria-valuemax="100"
         aria-valuemin="0"
         aria-valuenow="75"
@@ -436,7 +436,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
         </p>
       </div>
       <div
-        aria-label="Standard Platform vs AuraOne Platform comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets."
+        aria-label="Vertical comparison slider"
         aria-valuemax="100"
         aria-valuemin="0"
         aria-valuenow="30"

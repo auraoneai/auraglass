@@ -4,5 +4,9 @@ exports[`GlassDragDropProvider matches snapshot 1`] = `
 <div
   class="glass-dragdrop-provider"
   data-glass-component="true"
-/>
+>
+  <div
+    data-testid="host"
+  />
+</div>
 `;

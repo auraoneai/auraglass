@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import { Calendar, ChevronLeft, ChevronRight, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -75,6 +75,10 @@ export interface GlassDateRangePickerProps {
    * Custom range label
    */
   rangeLabel?: string;
+  /**
+   * Data test id
+   */
+  "data-testid"?: string;
 }
 
 /**
@@ -95,6 +99,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
   className,
   popoverClassName,
   showClear = true,
+  "data-testid": dataTestId,
   presets = [
     {
       label: "Today",
@@ -355,7 +360,11 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
   const config = sizeConfigs[size];
 
   return (
-    <div data-glass-component className='relative'>
+    <div
+      data-glass-component
+      className={cn("relative", className)}
+      data-testid={dataTestId}
+    >
       {/* Trigger */}
       <div
         ref={triggerRef}
@@ -364,13 +373,12 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
           "glass-radius-lg cursor-pointer transition-all duration-200",
           "hover:bg-white/15 hover:border-white/30 focus-within:bg-white/15 focus-within:border-white/30",
           config.trigger,
-          disabled && "opacity-50 cursor-not-allowed",
-          className
+          disabled && "opacity-50 cursor-not-allowed"
         )}
         onClick={(e) => !disabled && setIsOpen(!isOpen)}
       >
         <div className="glass-flex glass-items-center glass-gap-2 glass-flex-1 glass-min-w-0">
-          <Calendar className='w-4 h-4 text-primary/60 glass-flex-shrink-0' />
+          <Calendar className="w-4 h-4 text-primary/60 glass-flex-shrink-0" />
           <span
             className={cn(
               "truncate",
@@ -390,9 +398,9 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                 e.stopPropagation();
                 handleClear();
               }}
-              className='glass-p-1 hover:glass-surface-subtle/20 glass-radius-md transition-colors'
+              className="glass-p-1 hover:glass-surface-subtle/20 glass-radius-md transition-colors"
             >
-              <X className='w-3 h-3 text-primary/60' />
+              <X className="w-3 h-3 text-primary/60" />
             </button>
           )}
         </div>
@@ -400,7 +408,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
 
       {/* Popover */}
       {isOpen && (
-        <Motion preset="fadeIn" className='absolute z-50 glass-mt-2'>
+        <Motion preset="fadeIn" className="absolute z-50 glass-mt-2">
           <div
             ref={popoverRef}
             className={cn(
@@ -411,14 +419,14 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
           >
             <GlassCard
               variant="outline"
-              className='glass-border-0 bg-transparent'
+              className="glass-border-0 bg-transparent"
             >
               <CardContent className="glass-p-4">
                 <div className="glass-flex glass-gap-6">
                   {/* Presets */}
                   {presets && presets.length > 0 && (
                     <div className="glass-flex-shrink-0">
-                      <h4 className='glass-text-sm font-medium text-primary/80 mb-3'>
+                      <h4 className="glass-text-sm font-medium text-primary/80 mb-3">
                         Quick Select
                       </h4>
                       <div className="glass-gap-1">
@@ -428,7 +436,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                             variant="ghost"
                             size="sm"
                             onClick={(e) => handlePresetSelect(preset)}
-                            className='glass-w-full glass-justify-start text-left'
+                            className="glass-w-full glass-justify-start text-left"
                           >
                             {preset.label}
                           </GlassButton>
@@ -440,8 +448,8 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                   {/* Calendar */}
                   <div className="glass-flex-1">
                     {/* Header */}
-                    <div className='glass-flex glass-items-center glass-justify-between mb-4'>
-                      <h3 className='glass-text-lg font-semibold text-primary'>
+                    <div className="glass-flex glass-items-center glass-justify-between mb-4">
+                      <h3 className="glass-text-lg font-semibold text-primary">
                         {calendarData.monthName} {calendarData.year}
                       </h3>
                       <div className="glass-flex glass-gap-1">
@@ -450,14 +458,14 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                           size="sm"
                           onClick={(e) => navigateMonth("prev")}
                         >
-                          <ChevronLeft className='w-4 h-4' />
+                          <ChevronLeft className="w-4 h-4" />
                         </GlassButton>
                         <GlassButton
                           variant="ghost"
                           size="sm"
                           onClick={(e) => navigateMonth("next")}
                         >
-                          <ChevronRight className='w-4 h-4' />
+                          <ChevronRight className="w-4 h-4" />
                         </GlassButton>
                       </div>
                     </div>
@@ -470,7 +478,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                           (day) => (
                             <div
                               key={day}
-                              className='text-center glass-text-sm font-medium text-primary/60 glass-py-2'
+                              className="text-center glass-text-sm font-medium text-primary/60 glass-py-2"
                             >
                               {day}
                             </div>
@@ -491,7 +499,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                             <Motion
                               key={index}
                               preset="scaleIn"
-                              className='aspect-square'
+                              className="aspect-square"
                             >
                               <button
                                 onClick={(e) =>
@@ -525,8 +533,8 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                     </div>
 
                     {/* Footer */}
-                    <div className='glass-flex glass-justify-between glass-items-center glass-mt-4 pt-4 glass-border-t glass-border-white/10'>
-                      <div className='glass-text-sm text-primary/60'>
+                    <div className="glass-flex glass-justify-between glass-items-center glass-mt-4 pt-4 glass-border-t glass-border-white/10">
+                      <div className="glass-text-sm text-primary/60">
                         {selectingFrom
                           ? "Select start date"
                           : "Select end date"}

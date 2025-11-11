@@ -4,6 +4,38 @@ exports[`GlassHoverCard matches snapshot 1`] = `
 <div
   class="relative inline-block"
 >
-  <div />
+  <div>
+    <button>
+      Trigger
+    </button>
+  </div>
+  <div
+    class="motion-primitive fixed z-[9999]"
+    style="left: 0px; top: 0px; max-width: 320px;"
+  >
+    <div
+      class="relative"
+      id="glass-hover-card-:r5:"
+      role="tooltip"
+    >
+      <div
+        class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-hover-sheen glass-tier-high glass-glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/20 glass-shadow-2xl glass-radial-reveal glass-contrast-guard"
+        data-performance-mode="medium"
+        style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="glass-p-4"
+        >
+          <div>
+            Hover content
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute w-3 h-3 bg-black/20 border border-white/20 glass-backdrop-blur-md rotate-45 -bottom-2 left-1/2 -translate-x-1/2"
+        style="clip-path: polygon(0 0, 100% 100%, 0 100%);"
+      />
+    </div>
+  </div>
 </div>
 `;

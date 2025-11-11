@@ -3,14 +3,14 @@
  * This file configures Jest globals and testing utilities
  */
 
-import '@testing-library/jest-dom';
-import { toHaveNoViolations } from 'jest-axe';
+import "@testing-library/jest-dom";
+import { toHaveNoViolations } from "jest-axe";
 
 // Extend Jest matchers with jest-axe
 expect.extend(toHaveNoViolations);
 
 // Mock window.matchMedia for reduced motion tests
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: jest.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -24,12 +24,20 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+// Mock window.scrollTo for modal tests
+Object.defineProperty(window, "scrollTo", {
+  writable: true,
+  value: jest.fn(),
+});
+
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
   constructor() {}
   disconnect() {}
   observe() {}
-  takeRecords() { return []; }
+  takeRecords() {
+    return [];
+  }
   unobserve() {}
 } as any;
 
@@ -41,8 +49,18 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
 } as any;
 
+// Mock PerformanceObserver
+global.PerformanceObserver = class PerformanceObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  takeRecords() {
+    return [];
+  }
+} as any;
+
 // Mock performance.memory for performance tests
-Object.defineProperty(performance, 'memory', {
+Object.defineProperty(performance, "memory", {
   writable: true,
   value: {
     usedJSHeapSize: 1000000,
@@ -66,14 +84,14 @@ const createCanvasGradient = () => ({
 });
 
 const createImageDataStub = (): ImageData => {
-  if (typeof ImageData !== 'undefined') {
+  if (typeof ImageData !== "undefined") {
     return new ImageData(0, 0);
   }
   return {
     data: new Uint8ClampedArray(0),
     width: 0,
     height: 0,
-    colorSpace: 'srgb',
+    colorSpace: "srgb",
   } as ImageData;
 };
 
@@ -124,99 +142,106 @@ const canvas2DContext = {
   fillText: jest.fn(),
   strokeText: jest.fn(),
   shadowBlur: 0,
-  shadowColor: '',
+  shadowColor: "",
 } as Partial<CanvasRenderingContext2D>;
 
 const webglLoseContext = { loseContext: jest.fn() };
 
-const createWebGLContext = (canvas: HTMLCanvasElement | null) => ({
-  canvas,
-  getExtension: jest.fn((name: string) => (name === 'WEBGL_lose_context' ? webglLoseContext : null)),
-  clearColor: jest.fn(),
-  clear: jest.fn(),
-  createProgram: jest.fn(() => ({})),
-  deleteProgram: jest.fn(),
-  createShader: jest.fn(() => ({})),
-  deleteShader: jest.fn(),
-  shaderSource: jest.fn(),
-  compileShader: jest.fn(),
-  attachShader: jest.fn(),
-  linkProgram: jest.fn(),
-  useProgram: jest.fn(),
-  getProgramParameter: jest.fn(() => true),
-  getProgramInfoLog: jest.fn(() => ''),
-  getShaderParameter: jest.fn(() => true),
-  getShaderInfoLog: jest.fn(() => ''),
-  getUniformLocation: jest.fn(() => ({})),
-  uniform1f: jest.fn(),
-  uniform2f: jest.fn(),
-  uniform3f: jest.fn(),
-  uniform4f: jest.fn(),
-  uniformMatrix4fv: jest.fn(),
-  viewport: jest.fn(),
-  drawArrays: jest.fn(),
-  drawElements: jest.fn(),
-  enable: jest.fn(),
-  disable: jest.fn(),
-  scissor: jest.fn(),
-  bindBuffer: jest.fn(),
-  bufferData: jest.fn(),
-  createBuffer: jest.fn(() => ({})),
-  deleteBuffer: jest.fn(),
-  bindTexture: jest.fn(),
-  activeTexture: jest.fn(),
-  createTexture: jest.fn(() => ({})),
-  deleteTexture: jest.fn(),
-  texParameteri: jest.fn(),
-  texImage2D: jest.fn(),
-  pixelStorei: jest.fn(),
-  clearStencil: jest.fn(),
-  stencilFunc: jest.fn(),
-  stencilOp: jest.fn(),
-  blendFunc: jest.fn(),
-  depthFunc: jest.fn(),
-  getAttribLocation: jest.fn(() => 0),
-  enableVertexAttribArray: jest.fn(),
-  vertexAttribPointer: jest.fn(),
-  createVertexArray: jest.fn(() => ({})),
-  bindVertexArray: jest.fn(),
-  deleteVertexArray: jest.fn(),
-  createFramebuffer: jest.fn(() => ({})),
-  bindFramebuffer: jest.fn(),
-  framebufferTexture2D: jest.fn(),
-  createRenderbuffer: jest.fn(() => ({})),
-  bindRenderbuffer: jest.fn(),
-  renderbufferStorage: jest.fn(),
-  framebufferRenderbuffer: jest.fn(),
-  checkFramebufferStatus: jest.fn(() => 0x8CD5),
-  getParameter: jest.fn(() => null),
-  getActiveUniform: jest.fn(() => ({ size: 1, type: 0x1406, name: 'mockUniform' })),
-  createUniformBuffer: jest.fn(() => ({})),
-  bindBufferBase: jest.fn(),
-  bufferSubData: jest.fn(),
-  deleteFramebuffer: jest.fn(),
-  deleteRenderbuffer: jest.fn(),
-  ARRAY_BUFFER: 0x8892,
-  STATIC_DRAW: 0x88E4,
-  FLOAT: 0x1406,
-  TRIANGLES: 0x0004,
-  COLOR_BUFFER_BIT: 0x4000,
-  DEPTH_BUFFER_BIT: 0x0100,
-  FRAMEBUFFER_COMPLETE: 0x8CD5,
-}) as Partial<WebGLRenderingContext>;
+const createWebGLContext = (canvas: HTMLCanvasElement | null) =>
+  ({
+    canvas,
+    getExtension: jest.fn((name: string) =>
+      name === "WEBGL_lose_context" ? webglLoseContext : null
+    ),
+    clearColor: jest.fn(),
+    clear: jest.fn(),
+    createProgram: jest.fn(() => ({})),
+    deleteProgram: jest.fn(),
+    createShader: jest.fn(() => ({})),
+    deleteShader: jest.fn(),
+    shaderSource: jest.fn(),
+    compileShader: jest.fn(),
+    attachShader: jest.fn(),
+    linkProgram: jest.fn(),
+    useProgram: jest.fn(),
+    getProgramParameter: jest.fn(() => true),
+    getProgramInfoLog: jest.fn(() => ""),
+    getShaderParameter: jest.fn(() => true),
+    getShaderInfoLog: jest.fn(() => ""),
+    getUniformLocation: jest.fn(() => ({})),
+    uniform1f: jest.fn(),
+    uniform2f: jest.fn(),
+    uniform3f: jest.fn(),
+    uniform4f: jest.fn(),
+    uniformMatrix4fv: jest.fn(),
+    viewport: jest.fn(),
+    drawArrays: jest.fn(),
+    drawElements: jest.fn(),
+    enable: jest.fn(),
+    disable: jest.fn(),
+    scissor: jest.fn(),
+    bindBuffer: jest.fn(),
+    bufferData: jest.fn(),
+    createBuffer: jest.fn(() => ({})),
+    deleteBuffer: jest.fn(),
+    bindTexture: jest.fn(),
+    activeTexture: jest.fn(),
+    createTexture: jest.fn(() => ({})),
+    deleteTexture: jest.fn(),
+    texParameteri: jest.fn(),
+    texImage2D: jest.fn(),
+    pixelStorei: jest.fn(),
+    clearStencil: jest.fn(),
+    stencilFunc: jest.fn(),
+    stencilOp: jest.fn(),
+    blendFunc: jest.fn(),
+    depthFunc: jest.fn(),
+    getAttribLocation: jest.fn(() => 0),
+    enableVertexAttribArray: jest.fn(),
+    vertexAttribPointer: jest.fn(),
+    createVertexArray: jest.fn(() => ({})),
+    bindVertexArray: jest.fn(),
+    deleteVertexArray: jest.fn(),
+    createFramebuffer: jest.fn(() => ({})),
+    bindFramebuffer: jest.fn(),
+    framebufferTexture2D: jest.fn(),
+    createRenderbuffer: jest.fn(() => ({})),
+    bindRenderbuffer: jest.fn(),
+    renderbufferStorage: jest.fn(),
+    framebufferRenderbuffer: jest.fn(),
+    checkFramebufferStatus: jest.fn(() => 0x8cd5),
+    getParameter: jest.fn(() => null),
+    getActiveUniform: jest.fn(() => ({
+      size: 1,
+      type: 0x1406,
+      name: "mockUniform",
+    })),
+    createUniformBuffer: jest.fn(() => ({})),
+    bindBufferBase: jest.fn(),
+    bufferSubData: jest.fn(),
+    deleteFramebuffer: jest.fn(),
+    deleteRenderbuffer: jest.fn(),
+    ARRAY_BUFFER: 0x8892,
+    STATIC_DRAW: 0x88e4,
+    FLOAT: 0x1406,
+    TRIANGLES: 0x0004,
+    COLOR_BUFFER_BIT: 0x4000,
+    DEPTH_BUFFER_BIT: 0x0100,
+    FRAMEBUFFER_COMPLETE: 0x8cd5,
+  }) as Partial<WebGLRenderingContext>;
 
-Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
   configurable: true,
   writable: true,
   value: jest.fn(function getContext(type: string) {
-    if (type === '2d') {
+    if (type === "2d") {
       return { ...canvas2DContext, canvas: this } as CanvasRenderingContext2D;
     }
-    if (type && type.toLowerCase().includes('webgl')) {
+    if (type && type.toLowerCase().includes("webgl")) {
       const ctx = createWebGLContext(this);
       return ctx as WebGLRenderingContext;
     }
-    if (type === 'bitmaprenderer') {
+    if (type === "bitmaprenderer") {
       return { transferFromImageBitmap: jest.fn() };
     }
     return null;
@@ -252,27 +277,35 @@ const nativeClearInterval = nativeClearIntervalRaw as unknown as (
   id?: IntervalId
 ) => void;
 
-global.setTimeout = ((handler: TimerHandler, timeout?: number, ...args: any[]) => {
+global.setTimeout = ((
+  handler: TimerHandler,
+  timeout?: number,
+  ...args: any[]
+) => {
   const id = nativeSetTimeout(handler, timeout, ...args) as TimeoutId;
   trackedTimeouts.add(id);
   return id;
 }) as unknown as typeof setTimeout;
 
 global.clearTimeout = ((id?: TimeoutId) => {
-  if (typeof id !== 'undefined') {
+  if (typeof id !== "undefined") {
     trackedTimeouts.delete(id);
   }
   return nativeClearTimeout(id);
 }) as unknown as typeof clearTimeout;
 
-global.setInterval = ((handler: TimerHandler, timeout?: number, ...args: any[]) => {
+global.setInterval = ((
+  handler: TimerHandler,
+  timeout?: number,
+  ...args: any[]
+) => {
   const id = nativeSetInterval(handler, timeout, ...args) as IntervalId;
   trackedIntervals.add(id);
   return id;
 }) as unknown as typeof setInterval;
 
 global.clearInterval = ((id?: IntervalId) => {
-  if (typeof id !== 'undefined') {
+  if (typeof id !== "undefined") {
     trackedIntervals.delete(id);
   }
   return nativeClearInterval(id);
@@ -291,10 +324,10 @@ const originalError = console.error;
 beforeAll(() => {
   console.error = (...args: any[]) => {
     if (
-      typeof args[0] === 'string' &&
-      (args[0].includes('Warning: ReactDOM.render') ||
-       args[0].includes('Not implemented: HTMLFormElement.prototype.submit') ||
-       args[0].includes('HTMLCanvasElement.prototype.getContext'))
+      typeof args[0] === "string" &&
+      (args[0].includes("Warning: ReactDOM.render") ||
+        args[0].includes("Not implemented: HTMLFormElement.prototype.submit") ||
+        args[0].includes("HTMLCanvasElement.prototype.getContext"))
     ) {
       return;
     }
@@ -307,4 +340,4 @@ afterAll(() => {
 });
 
 // Export common testing utilities
-export * from './testingUtils';
+export * from "./testingUtils";

@@ -418,6 +418,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
             42
           </label>
           <input
+            aria-label="Seed: 42"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="1000"
             min="0"
@@ -433,6 +434,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
             0.70
           </label>
           <input
+            aria-label="Truncation: 0.70"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="2.0"
             min="0.1"
@@ -449,6 +451,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
             1.00
           </label>
           <input
+            aria-label="Style Strength: 1.00"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="2.0"
             min="0.0"
@@ -465,6 +468,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
             4
           </label>
           <input
+            aria-label="Batch Size: 4"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="8"
             min="1"

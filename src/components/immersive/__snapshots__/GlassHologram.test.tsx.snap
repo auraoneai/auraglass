@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassHologram matches snapshot 1`] = `
+<div
+  aria-label="Holographic display"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-hologram relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden"
+  data-glass-component="true"
+  id="glass-hologram-:r4:"
+  role="region"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; height: 225px;"
+>
+  <div
+    class="motion-primitive relative glass-w-full glass-h-full"
+  >
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background-size: 20px 20px;"
+    />
+    <div
+      class="relative glass-w-full glass-h-full"
+    />
+    <div
+      class="absolute inset-0 pointer-events-none opacity-20"
+    >
+      <div
+        class="glass-w-full glass-h-full"
+        style="animation: scan 2s linear infinite;"
+      />
+    </div>
+    <div
+      class="absolute inset-0 pointer-events-none opacity-10"
+      style="animation: noise 0.2s steps(10) infinite;"
+    />
+    <div
+      class="absolute bottom-4 left-1/2 transform -translate-x-1/2"
+    >
+      <div
+        class="optimized-glass-surface glass-neutral-level3 glass-tier-high glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+        style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <button
+          class="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-all"
+          style="color: rgb(6, 182, 212);"
+          title="Rotate"
+        >
+          🔄
+        </button>
+        <button
+          class="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-all"
+          style="color: rgb(6, 182, 212);"
+          title="Zoom"
+        >
+          🔍
+        </button>
+        <div
+          class="glass-text-xs"
+          style="color: rgb(6, 182, 212);"
+        >
+          Layers: 
+          0
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    
+          @keyframes interference {
+            0%, 100% { background-position: 0 0; }
+            50% { background-position: 100% 0; }
+          }
+          
+          @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+          }
+          
+          @keyframes noise {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+          }
+          
+          @keyframes particle-orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          
+          @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+          }
+          
+          .scanning::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #06B6D4;
+            animation: scan 2s linear infinite;
+          }
+        
+  </style>
+</div>
+`;

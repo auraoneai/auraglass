@@ -2,7 +2,9 @@
 
 exports[`GlassDetailView matches snapshot 1`] = `
 <div
+  aria-label="Detail View"
   class="w-full glass-auto-gap glass-auto-gap-3xl"
+  role="article"
 >
   <div
     class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
@@ -21,7 +23,9 @@ exports[`GlassDetailView matches snapshot 1`] = `
           >
             <h1
               class="glass-text-2xl font-bold text-primary"
-            />
+            >
+              Detail View
+            </h1>
           </div>
         </div>
       </div>

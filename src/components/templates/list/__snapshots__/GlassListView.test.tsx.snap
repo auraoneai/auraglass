@@ -2,7 +2,9 @@
 
 exports[`GlassListView matches snapshot 1`] = `
 <div
+  aria-label="List View"
   class="w-full space-y-6"
+  role="region"
 >
   <div
     class="glass-gap-4 pb-8 border-b border-border/20 text-left"
@@ -15,7 +17,9 @@ exports[`GlassListView matches snapshot 1`] = `
       >
         <h1
           class="glass-text-3xl font-bold text-primary"
-        />
+        >
+          List View
+        </h1>
       </div>
       <div
         class="glass-flex-shrink-0"

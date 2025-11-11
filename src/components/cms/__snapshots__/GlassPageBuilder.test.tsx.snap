@@ -6,195 +6,684 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="h-screen flex flex-col overflow-hidden bg-gray-100"
+    class="glass-dragdrop-provider"
+    data-glass-component="true"
   >
     <div
-      class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-surface-subtle glass-border-b glass-border-subtle"
-      data-glass-component="true"
+      class="h-screen flex flex-col overflow-hidden bg-gray-100"
     >
       <div
-        class="glass-flex glass-items-center glass-gap-4"
+        class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-surface-subtle glass-border-b glass-border-subtle"
+        data-glass-component="true"
       >
         <div
-          class="glass-flex glass-items-center glass-gap-2"
+          class="glass-flex glass-items-center glass-gap-4"
         >
-          <h1
-            class="glass-text-xl font-bold glass-text-secondary"
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
           >
-            Page Builder
-          </h1>
-          <span
-            class="glass-text-xs glass-text-secondary glass-surface-subtle glass-px-2 glass-py-1 glass-radius"
-          >
-            v1.0
-          </span>
-        </div>
-        <div
-          class="w-px h-6 glass-surface-subtle"
-        />
-        <div
-          class="glass-flex glass-items-center glass-gap-2"
-        >
-          <button
-            class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
-          >
-            <span>
-              🗑️
-            </span>
-            New
-          </button>
-          <button
-            class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
-          >
-            <span>
-              💾
-            </span>
-            Save
-          </button>
-          <button
-            class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
-          >
-            <span>
-              📁
-            </span>
-            Load
-          </button>
-        </div>
-        <div
-          class="w-px h-6 glass-surface-subtle"
-        />
-        <div
-          class="glass-flex glass-items-center glass-gap-1"
-        >
-          <button
-            class="p-2 rounded-md transition-colors text-gray-400 cursor-not-allowed"
-            disabled=""
-            title="Undo (Ctrl+Z)"
-          >
-            ↶
-          </button>
-          <button
-            class="p-2 rounded-md transition-colors text-gray-400 cursor-not-allowed"
-            disabled=""
-            title="Redo (Ctrl+Y)"
-          >
-            ↷
-          </button>
-        </div>
-      </div>
-      <div
-        class="glass-flex glass-items-center glass-gap-2 glass-surface-subtle glass-radius-lg glass-p-1"
-      >
-        <button
-          class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-white text-gray-900 shadow-sm"
-          title="Desktop"
-        >
-          <span>
-            🖥️
-          </span>
-          Desktop
-        </button>
-        <button
-          class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-600 hover:text-gray-900"
-          title="Tablet"
-        >
-          <span>
-            📱
-          </span>
-          Tablet
-        </button>
-        <button
-          class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-600 hover:text-gray-900"
-          title="Mobile"
-        >
-          <span>
-            📱
-          </span>
-          Mobile
-        </button>
-      </div>
-      <div
-        class="glass-flex glass-items-center glass-gap-4"
-      >
-        <div
-          class="glass-flex glass-items-center glass-gap-2"
-        >
-          <button
-            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-700 hover:bg-gray-100"
-          >
-            <span>
-              ⊞
-            </span>
-            Grid
-          </button>
-          <button
-            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-blue-100 text-blue-700"
-          >
-            <span>
-              🧲
-            </span>
-            Snap
-          </button>
-        </div>
-        <div
-          class="w-px h-6 glass-surface-subtle"
-        />
-        <div
-          class="glass-flex glass-items-center glass-gap-2"
-        >
-          <button
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200"
-          >
-            <span>
-              ✏️
-            </span>
-            Preview
-          </button>
-          <button
-            class="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm font-medium glass-surface-blue text-primary hover:glass-surface-blue glass-radius-md transition-colors"
-          >
-            <span>
-              🚀
-            </span>
-            Publish
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      class="glass-flex-1 glass-flex overflow-hidden"
-    >
-      <div
-        class="glass-flex"
-      >
-        <div
-          class="w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col"
-        >
-          <button
-            class="flex flex-col items-center gap-1 p-3 text-xs transition-colors bg-blue-50 text-blue-600"
-            title="Components"
-          >
-            <span
-              class="glass-text-lg"
+            <h1
+              class="glass-text-xl font-bold glass-text-secondary"
             >
-              📦
+              Page Builder
+            </h1>
+            <span
+              class="glass-text-xs glass-text-secondary glass-surface-subtle glass-px-2 glass-py-1 glass-radius"
+            >
+              v1.0
             </span>
-            Comp
+          </div>
+          <div
+            class="w-px h-6 glass-surface-subtle"
+          />
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <button
+              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <span>
+                🗑️
+              </span>
+              New
+            </button>
+            <button
+              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <span>
+                💾
+              </span>
+              Save
+            </button>
+            <button
+              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <span>
+                📁
+              </span>
+              Load
+            </button>
+          </div>
+          <div
+            class="w-px h-6 glass-surface-subtle"
+          />
+          <div
+            class="glass-flex glass-items-center glass-gap-1"
+          >
+            <button
+              class="p-2 rounded-md transition-colors text-gray-400 cursor-not-allowed"
+              disabled=""
+              title="Undo (Ctrl+Z)"
+            >
+              ↶
+            </button>
+            <button
+              class="p-2 rounded-md transition-colors text-gray-400 cursor-not-allowed"
+              disabled=""
+              title="Redo (Ctrl+Y)"
+            >
+              ↷
+            </button>
+          </div>
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-gap-2 glass-surface-subtle glass-radius-lg glass-p-1"
+        >
+          <button
+            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-white text-gray-900 shadow-sm"
+            title="Desktop"
+          >
+            <span>
+              🖥️
+            </span>
+            Desktop
           </button>
           <button
-            class="flex flex-col items-center gap-1 p-3 text-xs transition-colors text-gray-600 hover:bg-gray-50"
-            title="Structure"
+            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-600 hover:text-gray-900"
+            title="Tablet"
           >
-            <span
-              class="glass-text-lg"
-            >
-              🌳
+            <span>
+              📱
             </span>
-            Tree
+            Tablet
+          </button>
+          <button
+            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-600 hover:text-gray-900"
+            title="Mobile"
+          >
+            <span>
+              📱
+            </span>
+            Mobile
           </button>
         </div>
         <div
-          class="glass-border-r glass-border-subtle"
+          class="glass-flex glass-items-center glass-gap-4"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <button
+              class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-700 hover:bg-gray-100"
+            >
+              <span>
+                ⊞
+              </span>
+              Grid
+            </button>
+            <button
+              class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-blue-100 text-blue-700"
+            >
+              <span>
+                🧲
+              </span>
+              Snap
+            </button>
+          </div>
+          <div
+            class="w-px h-6 glass-surface-subtle"
+          />
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <button
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200"
+            >
+              <span>
+                ✏️
+              </span>
+              Preview
+            </button>
+            <button
+              class="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm font-medium glass-surface-blue text-primary hover:glass-surface-blue glass-radius-md transition-colors"
+            >
+              <span>
+                🚀
+              </span>
+              Publish
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-flex-1 glass-flex overflow-hidden"
+      >
+        <div
+          class="glass-flex"
+        >
+          <div
+            class="w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col"
+          >
+            <button
+              class="flex flex-col items-center gap-1 p-3 text-xs transition-colors bg-blue-50 text-blue-600"
+              title="Components"
+            >
+              <span
+                class="glass-text-lg"
+              >
+                📦
+              </span>
+              Comp
+            </button>
+            <button
+              class="flex flex-col items-center gap-1 p-3 text-xs transition-colors text-gray-600 hover:bg-gray-50"
+              title="Structure"
+            >
+              <span
+                class="glass-text-lg"
+              >
+                🌳
+              </span>
+              Tree
+            </button>
+          </div>
+          <div
+            class="glass-border-r glass-border-subtle"
+          >
+            <div
+              aria-label="Component palette"
+              class="w-80 h-full flex flex-col"
+              role="complementary"
+            >
+              <div
+                class="glass-foundation-basic glass-h-full glass-flex glass-flex-col glass-contrast-guard"
+                style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+              >
+                <div
+                  class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
+                >
+                  <h2
+                    class="glass-text-lg font-semibold glass-text-secondary"
+                  >
+                    Components
+                  </h2>
+                  <button
+                    class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                    title="Collapse Palette"
+                  >
+                    ◀
+                  </button>
+                </div>
+                <div
+                  class="glass-p-4 glass-border-b glass-border-subtle"
+                >
+                  <div
+                    class="relative"
+                  >
+                    <input
+                      class="glass-w-full glass-px-3 glass-py-2 pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Search components..."
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      class="absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary"
+                    >
+                      🔍
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="glass-flex-1 overflow-y-auto glass-p-4"
+                >
+                  <div>
+                    <div
+                      class="mb-4"
+                    >
+                      <button
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                      >
+                        <div
+                          class="glass-flex glass-items-center glass-gap-2"
+                        >
+                          <span
+                            class="glass-text-lg"
+                          >
+                            🏗️
+                          </span>
+                          <span
+                            class="glass-text-sm font-medium glass-text-secondary"
+                          >
+                            Layout
+                          </span>
+                          <span
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            (
+                            3
+                            )
+                          </span>
+                        </div>
+                        <div
+                          class="text-gray-400 transition-transform rotate-90"
+                        >
+                          ▶
+                        </div>
+                      </button>
+                      <div
+                        class="mt-2 space-y-2 pl-4"
+                      >
+                        <div
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          data-glass-component="true"
+                          draggable="true"
+                          title="Drag to add Container"
+                        >
+                          <div
+                            class="glass-text-2xl"
+                          >
+                            📦
+                          </div>
+                          <div
+                            class="glass-flex-1 min-glass-w-0"
+                          >
+                            <div
+                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                            >
+                              Container
+                            </div>
+                            <div
+                              class="glass-text-xs glass-text-secondary capitalize"
+                            >
+                              layout
+                            </div>
+                          </div>
+                          <div
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            ⋯
+                          </div>
+                        </div>
+                        <div
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          data-glass-component="true"
+                          draggable="true"
+                          title="Drag to add Row"
+                        >
+                          <div
+                            class="glass-text-2xl"
+                          >
+                            ↔️
+                          </div>
+                          <div
+                            class="glass-flex-1 min-glass-w-0"
+                          >
+                            <div
+                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                            >
+                              Row
+                            </div>
+                            <div
+                              class="glass-text-xs glass-text-secondary capitalize"
+                            >
+                              layout
+                            </div>
+                          </div>
+                          <div
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            ⋯
+                          </div>
+                        </div>
+                        <div
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          data-glass-component="true"
+                          draggable="true"
+                          title="Drag to add Column"
+                        >
+                          <div
+                            class="glass-text-2xl"
+                          >
+                            ↕️
+                          </div>
+                          <div
+                            class="glass-flex-1 min-glass-w-0"
+                          >
+                            <div
+                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                            >
+                              Column
+                            </div>
+                            <div
+                              class="glass-text-xs glass-text-secondary capitalize"
+                            >
+                              layout
+                            </div>
+                          </div>
+                          <div
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            ⋯
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="mb-4"
+                    >
+                      <button
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                      >
+                        <div
+                          class="glass-flex glass-items-center glass-gap-2"
+                        >
+                          <span
+                            class="glass-text-lg"
+                          >
+                            📝
+                          </span>
+                          <span
+                            class="glass-text-sm font-medium glass-text-secondary"
+                          >
+                            Content
+                          </span>
+                          <span
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            (
+                            2
+                            )
+                          </span>
+                        </div>
+                        <div
+                          class="text-gray-400 transition-transform rotate-90"
+                        >
+                          ▶
+                        </div>
+                      </button>
+                      <div
+                        class="mt-2 space-y-2 pl-4"
+                      >
+                        <div
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          data-glass-component="true"
+                          draggable="true"
+                          title="Drag to add Text"
+                        >
+                          <div
+                            class="glass-text-2xl"
+                          >
+                            📝
+                          </div>
+                          <div
+                            class="glass-flex-1 min-glass-w-0"
+                          >
+                            <div
+                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                            >
+                              Text
+                            </div>
+                            <div
+                              class="glass-text-xs glass-text-secondary capitalize"
+                            >
+                              content
+                            </div>
+                          </div>
+                          <div
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            ⋯
+                          </div>
+                        </div>
+                        <div
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          data-glass-component="true"
+                          draggable="true"
+                          title="Drag to add Heading"
+                        >
+                          <div
+                            class="glass-text-2xl"
+                          >
+                            🏷️
+                          </div>
+                          <div
+                            class="glass-flex-1 min-glass-w-0"
+                          >
+                            <div
+                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                            >
+                              Heading
+                            </div>
+                            <div
+                              class="glass-text-xs glass-text-secondary capitalize"
+                            >
+                              content
+                            </div>
+                          </div>
+                          <div
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            ⋯
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="mb-4"
+                    >
+                      <button
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                      >
+                        <div
+                          class="glass-flex glass-items-center glass-gap-2"
+                        >
+                          <span
+                            class="glass-text-lg"
+                          >
+                            🎬
+                          </span>
+                          <span
+                            class="glass-text-sm font-medium glass-text-secondary"
+                          >
+                            Media
+                          </span>
+                          <span
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            (
+                            1
+                            )
+                          </span>
+                        </div>
+                        <div
+                          class="text-gray-400 transition-transform rotate-0"
+                        >
+                          ▶
+                        </div>
+                      </button>
+                    </div>
+                    <div
+                      class="mb-4"
+                    >
+                      <button
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                      >
+                        <div
+                          class="glass-flex glass-items-center glass-gap-2"
+                        >
+                          <span
+                            class="glass-text-lg"
+                          >
+                            🎯
+                          </span>
+                          <span
+                            class="glass-text-sm font-medium glass-text-secondary"
+                          >
+                            Interactive
+                          </span>
+                          <span
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            (
+                            1
+                            )
+                          </span>
+                        </div>
+                        <div
+                          class="text-gray-400 transition-transform rotate-0"
+                        >
+                          ▶
+                        </div>
+                      </button>
+                    </div>
+                    <div
+                      class="mb-4"
+                    >
+                      <button
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                      >
+                        <div
+                          class="glass-flex glass-items-center glass-gap-2"
+                        >
+                          <span
+                            class="glass-text-lg"
+                          >
+                            ⚡
+                          </span>
+                          <span
+                            class="glass-text-sm font-medium glass-text-secondary"
+                          >
+                            Advanced
+                          </span>
+                          <span
+                            class="glass-text-xs glass-text-secondary"
+                          >
+                            (
+                            1
+                            )
+                          </span>
+                        </div>
+                        <div
+                          class="text-gray-400 transition-transform rotate-0"
+                        >
+                          ▶
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="glass-p-4 glass-border-t glass-border-subtle glass-surface-subtle"
+                >
+                  <div
+                    class="glass-text-xs glass-text-secondary text-center"
+                  >
+                    💡 Drag components onto the canvas to add them
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          aria-label="Page canvas for drag and drop editing"
+          class="flex-1 h-full flex flex-col overflow-hidden"
+          role="main"
+        >
+          <div
+            class="glass-foundation-basic glass-flex-1 glass-flex glass-flex-col glass-contrast-guard"
+            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          >
+            <div
+              class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
+            >
+              <div
+                class="glass-flex glass-items-center glass-gap-2"
+              >
+                <span
+                  class="glass-text-sm font-medium glass-text-secondary"
+                >
+                  Canvas
+                </span>
+                <span
+                  class="glass-text-xs glass-text-secondary capitalize"
+                >
+                  (
+                  desktop
+                  )
+                </span>
+              </div>
+              <div
+                class="glass-text-xs glass-text-secondary"
+              >
+                0
+                 components
+              </div>
+            </div>
+            <div
+              class="glass-flex-1 overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
+              style="background-image: none; background-size: auto;"
+            >
+              <div
+                class="glass-mx-auto glass-surface-subtle glass-min-h-full glass-shadow-sm transition-all duration-300 glass-contrast-guard"
+                style="max-width: none; width: 100%;"
+              >
+                <div
+                  class="min-h-full relative transition-all duration-200 glass-focus glass-touch-target"
+                >
+                  <div
+                    class="glass-flex glass-items-center glass-justify-center glass-min-glass-h-96 glass-p-12 glass-focus glass-touch-target glass-contrast-guard"
+                  >
+                    <div
+                      class="text-center"
+                    >
+                      <div
+                        class="text-6xl mb-4"
+                      >
+                        🎨
+                      </div>
+                      <h3
+                        class="glass-text-lg font-medium glass-text-secondary mb-2"
+                      >
+                        Start Building Your Page
+                      </h3>
+                      <p
+                        class="glass-text-secondary mb-6 max-w-sm"
+                      >
+                        Drag components from the palette on the left to start building your page.
+                      </p>
+                      <div
+                        class="space-y-2 glass-text-sm glass-text-secondary"
+                      >
+                        <p>
+                          💡 Try dragging a Container or Row component first
+                        </p>
+                        <p>
+                          🖱️ Double-click text elements to edit them inline
+                        </p>
+                        <p>
+                          ⌨️ Use Ctrl+Z to undo changes
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="glass-border-l glass-border-subtle"
         >
           <div
             class="w-80 h-full flex flex-col"
@@ -209,380 +698,36 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                 <h2
                   class="glass-text-lg font-semibold glass-text-secondary"
                 >
-                  Components
+                  Properties
                 </h2>
                 <button
                   class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                  title="Collapse Palette"
+                  title="Collapse Panel"
                 >
-                  ◀
+                  ▶
                 </button>
               </div>
               <div
-                class="glass-p-4 glass-border-b glass-border-subtle"
+                class="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-p-6"
               >
                 <div
-                  class="relative"
+                  class="text-center"
                 >
-                  <input
-                    class="glass-w-full glass-px-3 glass-py-2 pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Search components..."
-                    type="text"
-                    value=""
-                  />
                   <div
-                    class="absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary"
+                    class="glass-text-4xl mb-4"
                   >
-                    🔍
+                    🎯
                   </div>
-                </div>
-              </div>
-              <div
-                class="glass-flex-1 overflow-y-auto glass-p-4"
-              >
-                <div>
-                  <div
-                    class="mb-4"
+                  <h3
+                    class="glass-text-lg font-medium glass-text-secondary mb-2"
                   >
-                    <button
-                      class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                    >
-                      <div
-                        class="glass-flex glass-items-center glass-gap-2"
-                      >
-                        <span
-                          class="glass-text-lg"
-                        >
-                          🏗️
-                        </span>
-                        <span
-                          class="glass-text-sm font-medium glass-text-secondary"
-                        >
-                          Layout
-                        </span>
-                        <span
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          (
-                          3
-                          )
-                        </span>
-                      </div>
-                      <div
-                        class="text-gray-400 transition-transform rotate-90"
-                      >
-                        ▶
-                      </div>
-                    </button>
-                    <div
-                      class="mt-2 space-y-2 pl-4"
-                    >
-                      <div
-                        class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
-                        data-glass-component="true"
-                        draggable="true"
-                        title="Drag to add Container"
-                      >
-                        <div
-                          class="glass-text-2xl"
-                        >
-                          📦
-                        </div>
-                        <div
-                          class="glass-flex-1 min-glass-w-0"
-                        >
-                          <div
-                            class="glass-text-sm font-medium glass-text-secondary truncate"
-                          >
-                            Container
-                          </div>
-                          <div
-                            class="glass-text-xs glass-text-secondary capitalize"
-                          >
-                            layout
-                          </div>
-                        </div>
-                        <div
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          ⋯
-                        </div>
-                      </div>
-                      <div
-                        class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
-                        data-glass-component="true"
-                        draggable="true"
-                        title="Drag to add Row"
-                      >
-                        <div
-                          class="glass-text-2xl"
-                        >
-                          ↔️
-                        </div>
-                        <div
-                          class="glass-flex-1 min-glass-w-0"
-                        >
-                          <div
-                            class="glass-text-sm font-medium glass-text-secondary truncate"
-                          >
-                            Row
-                          </div>
-                          <div
-                            class="glass-text-xs glass-text-secondary capitalize"
-                          >
-                            layout
-                          </div>
-                        </div>
-                        <div
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          ⋯
-                        </div>
-                      </div>
-                      <div
-                        class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
-                        data-glass-component="true"
-                        draggable="true"
-                        title="Drag to add Column"
-                      >
-                        <div
-                          class="glass-text-2xl"
-                        >
-                          ↕️
-                        </div>
-                        <div
-                          class="glass-flex-1 min-glass-w-0"
-                        >
-                          <div
-                            class="glass-text-sm font-medium glass-text-secondary truncate"
-                          >
-                            Column
-                          </div>
-                          <div
-                            class="glass-text-xs glass-text-secondary capitalize"
-                          >
-                            layout
-                          </div>
-                        </div>
-                        <div
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          ⋯
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="mb-4"
+                    No Component Selected
+                  </h3>
+                  <p
+                    class="glass-text-secondary glass-text-sm"
                   >
-                    <button
-                      class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                    >
-                      <div
-                        class="glass-flex glass-items-center glass-gap-2"
-                      >
-                        <span
-                          class="glass-text-lg"
-                        >
-                          📝
-                        </span>
-                        <span
-                          class="glass-text-sm font-medium glass-text-secondary"
-                        >
-                          Content
-                        </span>
-                        <span
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          (
-                          2
-                          )
-                        </span>
-                      </div>
-                      <div
-                        class="text-gray-400 transition-transform rotate-90"
-                      >
-                        ▶
-                      </div>
-                    </button>
-                    <div
-                      class="mt-2 space-y-2 pl-4"
-                    >
-                      <div
-                        class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
-                        data-glass-component="true"
-                        draggable="true"
-                        title="Drag to add Text"
-                      >
-                        <div
-                          class="glass-text-2xl"
-                        >
-                          📝
-                        </div>
-                        <div
-                          class="glass-flex-1 min-glass-w-0"
-                        >
-                          <div
-                            class="glass-text-sm font-medium glass-text-secondary truncate"
-                          >
-                            Text
-                          </div>
-                          <div
-                            class="glass-text-xs glass-text-secondary capitalize"
-                          >
-                            content
-                          </div>
-                        </div>
-                        <div
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          ⋯
-                        </div>
-                      </div>
-                      <div
-                        class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
-                        data-glass-component="true"
-                        draggable="true"
-                        title="Drag to add Heading"
-                      >
-                        <div
-                          class="glass-text-2xl"
-                        >
-                          🏷️
-                        </div>
-                        <div
-                          class="glass-flex-1 min-glass-w-0"
-                        >
-                          <div
-                            class="glass-text-sm font-medium glass-text-secondary truncate"
-                          >
-                            Heading
-                          </div>
-                          <div
-                            class="glass-text-xs glass-text-secondary capitalize"
-                          >
-                            content
-                          </div>
-                        </div>
-                        <div
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          ⋯
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="mb-4"
-                  >
-                    <button
-                      class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                    >
-                      <div
-                        class="glass-flex glass-items-center glass-gap-2"
-                      >
-                        <span
-                          class="glass-text-lg"
-                        >
-                          🎬
-                        </span>
-                        <span
-                          class="glass-text-sm font-medium glass-text-secondary"
-                        >
-                          Media
-                        </span>
-                        <span
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          (
-                          1
-                          )
-                        </span>
-                      </div>
-                      <div
-                        class="text-gray-400 transition-transform rotate-0"
-                      >
-                        ▶
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="mb-4"
-                  >
-                    <button
-                      class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                    >
-                      <div
-                        class="glass-flex glass-items-center glass-gap-2"
-                      >
-                        <span
-                          class="glass-text-lg"
-                        >
-                          🎯
-                        </span>
-                        <span
-                          class="glass-text-sm font-medium glass-text-secondary"
-                        >
-                          Interactive
-                        </span>
-                        <span
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          (
-                          1
-                          )
-                        </span>
-                      </div>
-                      <div
-                        class="text-gray-400 transition-transform rotate-0"
-                      >
-                        ▶
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="mb-4"
-                  >
-                    <button
-                      class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                    >
-                      <div
-                        class="glass-flex glass-items-center glass-gap-2"
-                      >
-                        <span
-                          class="glass-text-lg"
-                        >
-                          ⚡
-                        </span>
-                        <span
-                          class="glass-text-sm font-medium glass-text-secondary"
-                        >
-                          Advanced
-                        </span>
-                        <span
-                          class="glass-text-xs glass-text-secondary"
-                        >
-                          (
-                          1
-                          )
-                        </span>
-                      </div>
-                      <div
-                        class="text-gray-400 transition-transform rotate-0"
-                      >
-                        ▶
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="glass-p-4 glass-border-t glass-border-subtle glass-surface-subtle"
-              >
-                <div
-                  class="glass-text-xs glass-text-secondary text-center"
-                >
-                  💡 Drag components onto the canvas to add them
+                    Click on a component in the canvas to edit its properties.
+                  </p>
                 </div>
               </div>
             </div>
@@ -590,165 +735,29 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="flex-1 h-full flex flex-col overflow-hidden"
+        class="h-6 glass-surface-primary text-gray-300 glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4"
       >
         <div
-          class="glass-foundation-basic glass-flex-1 glass-flex glass-flex-col glass-contrast-guard"
-          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          class="glass-flex glass-items-center glass-gap-4"
         >
-          <div
-            class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
-          >
-            <div
-              class="glass-flex glass-items-center glass-gap-2"
-            >
-              <span
-                class="glass-text-sm font-medium glass-text-secondary"
-              >
-                Canvas
-              </span>
-              <span
-                class="glass-text-xs glass-text-secondary capitalize"
-              >
-                (
-                desktop
-                )
-              </span>
-            </div>
-            <div
-              class="glass-text-xs glass-text-secondary"
-            >
-              0
-               components
-            </div>
-          </div>
-          <div
-            class="glass-flex-1 overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
-            style="background-image: none; background-size: auto;"
-          >
-            <div
-              class="glass-mx-auto glass-surface-subtle glass-min-h-full glass-shadow-sm transition-all duration-300 glass-contrast-guard"
-              style="max-width: none; width: 100%;"
-            >
-              <div
-                class="min-h-full relative transition-all duration-200 glass-focus glass-touch-target"
-              >
-                <div
-                  class="glass-flex glass-items-center glass-justify-center glass-min-glass-h-96 glass-p-12 glass-focus glass-touch-target glass-contrast-guard"
-                >
-                  <div
-                    class="text-center"
-                  >
-                    <div
-                      class="text-6xl mb-4"
-                    >
-                      🎨
-                    </div>
-                    <h3
-                      class="glass-text-lg font-medium glass-text-secondary mb-2"
-                    >
-                      Start Building Your Page
-                    </h3>
-                    <p
-                      class="glass-text-secondary mb-6 max-w-sm"
-                    >
-                      Drag components from the palette on the left to start building your page.
-                    </p>
-                    <div
-                      class="space-y-2 glass-text-sm glass-text-secondary"
-                    >
-                      <p>
-                        💡 Try dragging a Container or Row component first
-                      </p>
-                      <p>
-                        🖱️ Double-click text elements to edit them inline
-                      </p>
-                      <p>
-                        ⌨️ Use Ctrl+Z to undo changes
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <span>
+            🟢 Ready
+          </span>
+          <span>
+            Auto-save: ON
+          </span>
         </div>
-      </div>
-      <div
-        class="glass-border-l glass-border-subtle"
-      >
         <div
-          class="w-80 h-full flex flex-col"
+          class="glass-flex glass-items-center glass-gap-4"
         >
-          <div
-            class="glass-foundation-basic glass-h-full glass-flex glass-flex-col glass-contrast-guard"
-            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
-          >
-            <div
-              class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
-            >
-              <h2
-                class="glass-text-lg font-semibold glass-text-secondary"
-              >
-                Properties
-              </h2>
-              <button
-                class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
-                title="Collapse Panel"
-              >
-                ▶
-              </button>
-            </div>
-            <div
-              class="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-p-6"
-            >
-              <div
-                class="text-center"
-              >
-                <div
-                  class="glass-text-4xl mb-4"
-                >
-                  🎯
-                </div>
-                <h3
-                  class="glass-text-lg font-medium glass-text-secondary mb-2"
-                >
-                  No Component Selected
-                </h3>
-                <p
-                  class="glass-text-secondary glass-text-sm"
-                >
-                  Click on a component in the canvas to edit its properties.
-                </p>
-              </div>
-            </div>
-          </div>
+          <span>
+            Zoom: 100%
+          </span>
+          <span>
+            Grid: 
+            OFF
+          </span>
         </div>
-      </div>
-    </div>
-    <div
-      class="h-6 glass-surface-primary text-gray-300 glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4"
-    >
-      <div
-        class="glass-flex glass-items-center glass-gap-4"
-      >
-        <span>
-          🟢 Ready
-        </span>
-        <span>
-          Auto-save: ON
-        </span>
-      </div>
-      <div
-        class="glass-flex glass-items-center glass-gap-4"
-      >
-        <span>
-          Zoom: 100%
-        </span>
-        <span>
-          Grid: 
-          OFF
-        </span>
       </div>
     </div>
   </div>

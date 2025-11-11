@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Quantum States System
@@ -743,11 +743,11 @@ export function GlassQuantumButton({
       {/* Quantum superposition visualization */}
       <AnimatePresence>
         {!isCollapsed && superposition.length > 0 && (
-          <div className='absolute inset-0 glass-flex'>
+          <div className="absolute inset-0 glass-flex">
             {superposition.map((state, index) => (
               <motion.div
                 key={index}
-                className='glass-flex-1 glass-h-full opacity-30'
+                className="glass-flex-1 glass-h-full opacity-30"
                 style={{ backgroundColor: state.state.color }}
                 initial={{ opacity: 0 }}
                 animate={
@@ -772,7 +772,7 @@ export function GlassQuantumButton({
       <AnimatePresence>
         {isCollapsed && currentState && (
           <motion.div
-            className='absolute inset-0'
+            className="absolute inset-0"
             style={{ backgroundColor: currentState.color }}
             initial={{ scale: 0, opacity: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1, opacity: 0.8 }}
@@ -785,12 +785,12 @@ export function GlassQuantumButton({
       </AnimatePresence>
 
       {/* Button content */}
-      <div className='relative z-10'>
+      <div className="relative z-10">
         {isCollapsed ? currentState?.label : children}
       </div>
 
       {/* Quantum interference pattern */}
-      <div className='absolute inset-0 opacity-10 pointer-events-none'>
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <QuantumInterferencePattern
           width={100}
           height={40}
@@ -935,7 +935,7 @@ export function GlassQuantumEntangledPair({
     <div className={cn("flex glass-gap-4", className)}>
       const prefersReducedMotion = useReducedMotion();
       <motion.div
-        className='glass-flex-1 relative'
+        className="glass-flex-1 relative"
         animate={
           prefersReducedMotion
             ? {}
@@ -949,7 +949,7 @@ export function GlassQuantumEntangledPair({
         {children[0]}
       </motion.div>
       <motion.div
-        className='glass-flex-1 relative'
+        className="glass-flex-1 relative"
         animate={
           prefersReducedMotion
             ? {}
@@ -963,7 +963,7 @@ export function GlassQuantumEntangledPair({
         {children[1]}
       </motion.div>
       {/* Entanglement visualization */}
-      <div className='absolute inset-0 pointer-events-none'>
+      <div className="absolute inset-0 pointer-events-none">
         <svg className="glass-w-full glass-h-full">
           <motion.line
             x1="25%"
@@ -1018,7 +1018,7 @@ export function GlassQuantumCoherenceIndicator({
   return (
     <div className={cn("flex items-center glass-gap-2", className)}>
       <span className="glass-text-xs glass-text-secondary">Coherence:</span>
-      <div className='w-20 h-2 glass-surface-subtle glass-radius-full overflow-hidden'>
+      <div className="w-20 h-2 glass-surface-subtle glass-radius-full overflow-hidden">
         <motion.div
           className="glass-h-full glass-surface-blue glass-radius-full"
           animate={{ width: `${coherence * 100}%` }}
@@ -1122,3 +1122,25 @@ export const quantumStatePresets = {
     decoherenceTime: 10000,
   },
 };
+
+// Main component wrapper for testing and simple usage
+export function GlassQuantumStates({
+  children,
+  className,
+  ...props
+}: {
+  children?: React.ReactNode;
+  className?: string;
+} & React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <GlassQuantumStatesProvider>
+      <div className={className} {...props}>
+        {children || (
+          <GlassQuantumButton possibleStates={[]}>
+            Quantum Button
+          </GlassQuantumButton>
+        )}
+      </div>
+    </GlassQuantumStatesProvider>
+  );
+}

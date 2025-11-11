@@ -10,8 +10,9 @@ exports[`GlassTextarea matches snapshot 1`] = `
   >
     <textarea
       aria-invalid="false"
+      aria-label="Text area"
       class="glass-textarea w-full resize-none glass-radius-lg glass-backdrop-blur-md transition-all duration-200 glass-pulse-ring placeholder:glass-text-secondary focus:outline-none focus:ring-offset-2 focus:ring-offset-background glass-text-sm glass-px-4 glass-py-3 min-h-[100px] bg-background/50 border border-border/20 focus:border-primary focus:ring-1 focus:ring-primary"
-      id="textarea-ua9cq9z9w"
+      id="test-textarea"
       rows="3"
     />
   </div>

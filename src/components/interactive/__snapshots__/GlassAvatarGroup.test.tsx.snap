@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassAvatarGroup matches snapshot 1`] = `
+<div
+  aria-label="Group of 0 users"
+  class="flex items-center"
+  data-glass-component="true"
+  id="avatar-group-:r4:"
+  role="group"
+/>
+`;

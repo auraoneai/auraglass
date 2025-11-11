@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ import { useMotionPreference } from "../../hooks/useMotionPreference";
 import { createGlassStyle } from "../../utils/createGlassStyle";
 
 export interface GlassPresenceIndicatorProps {
-  users: Array<{
+  users?: Array<{
     id: string;
     name: string;
     avatar?: string;
@@ -87,7 +87,7 @@ export const GlassPresenceIndicator = forwardRef<
     ref
   ) => {
     const prefersReducedMotion = useReducedMotion();
-    const [presenceData, setPresenceData] = useState(users);
+    const [presenceData, setPresenceData] = useState(users || []);
     const [typingUsers, setTypingUsers] = useState<string[]>([]);
     const { play } = useGlassSound();
     const id = useA11yId("glass-presence");
@@ -99,7 +99,7 @@ export const GlassPresenceIndicator = forwardRef<
 
     // Simulated real-time updates
     useEffect(() => {
-      if (!realTimeSync) return;
+      if (!realTimeSync || !presenceData.length) return;
 
       const interval = setInterval(() => {
         setPresenceData((prev: any) =>
@@ -124,7 +124,7 @@ export const GlassPresenceIndicator = forwardRef<
 
     // Sound notifications for status changes
     useEffect(() => {
-      if (soundEnabled) {
+      if (soundEnabled && presenceData.length > 0) {
         presenceData.forEach((user: any) => {
           if (user.status === "online") {
             play("notification");
@@ -198,7 +198,7 @@ export const GlassPresenceIndicator = forwardRef<
       user,
       index,
     }: {
-      user: (typeof users)[0];
+      user: (typeof presenceData)[0];
       index: number;
     }) => (
       <motion.div
@@ -219,7 +219,7 @@ export const GlassPresenceIndicator = forwardRef<
         onClick={() => onUserClick?.(user.id)}
       >
         {showAvatars && (
-          <div className='relative'>
+          <div className="relative">
             <div
               className={`
               ${size === "small" ? "w-6 h-6" : size === "large" ? "w-12 h-12" : "w-8 h-8"}
@@ -232,7 +232,7 @@ export const GlassPresenceIndicator = forwardRef<
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className='glass-w-full glass-h-full glass-radius-full object-cover'
+                  className="glass-w-full glass-h-full glass-radius-full object-cover"
                 />
               ) : (
                 user.name.charAt(0).toUpperCase()
@@ -260,7 +260,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         <div className="glass-flex-1 glass-min-w-0">
           {showNames && (
-            <div className='glass-flex glass-items-center space-x-1'>
+            <div className="glass-flex glass-items-center space-x-1">
               <p
                 className={`font-medium text-white/90 truncate ${getSizeClasses()}`}
               >
@@ -299,7 +299,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showTypingIndicator && user.isTyping && (
           <motion.div
-            className='glass-flex space-x-1'
+            className="glass-flex space-x-1"
             animate={prefersReducedMotion ? {} : { opacity: [0.4, 1, 0.4] }}
             transition={respectMotionPreference({
               duration: 1.5,
@@ -310,7 +310,7 @@ export const GlassPresenceIndicator = forwardRef<
             {[0, 1, 2].map((i: any) => (
               <motion.div
                 key={i}
-                className='w-1.5 h-1.5 glass-surface-blue glass-radius-full'
+                className="w-1.5 h-1.5 glass-surface-blue glass-radius-full"
                 animate={prefersReducedMotion ? {} : { y: [-2, 0, -2] }}
                 transition={respectMotionPreference({
                   duration: 0.6,
@@ -325,7 +325,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showStatus && !showAvatars && (
           <div
-            className='w-3 h-3 glass-radius-full'
+            className="w-3 h-3 glass-radius-full"
             style={{ backgroundColor: statusColors[user.status] }}
           />
         )}
@@ -373,12 +373,12 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showTypingIndicator && typingUsers.length > 0 && (
           <motion.div
-            className='mt-3 pt-3 glass-border-t glass-border-white/10'
+            className="mt-3 pt-3 glass-border-t glass-border-white/10"
             initial={{ opacity: 0, y: 10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
           >
-            <p className='glass-text-xs text-primary/60'>
+            <p className="glass-text-xs text-primary/60">
               {typingUsers.length === 1
                 ? `${presenceData.find((u) => u.id === typingUsers[0])?.name} is typing...`
                 : typingUsers.length === 2
@@ -389,13 +389,13 @@ export const GlassPresenceIndicator = forwardRef<
         )}
 
         <motion.div
-          className='mt-3 pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs text-primary/50'
+          className="mt-3 pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs text-primary/50"
           initial={{ opacity: 0 }}
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
           transition={respectMotionPreference({ delay: 0.5 })}
         >
           <span>{processedUsers.totalOnline} online</span>
-          <span>{users.length} total</span>
+          <span>{presenceData.length} total</span>
         </motion.div>
       </OptimizedGlass>
     );

@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassFacetSearch matches snapshot 1`] = `
+<div
+  aria-label="Faceted search"
+  class="glass-radius-xl glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg glass-p-6 glass-text-base"
+  role="search"
+>
+  <div
+    class="relative mb-4"
+  >
+    <div
+      class="relative"
+      data-glass-component="true"
+    >
+      <div
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-full pr-12"
+        data-performance-mode="medium"
+        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="flex items-center justify-center mr-3 glass-text-secondary w-4 h-4"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-search w-4 h-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m21 21-4.34-4.34"
+            />
+            <circle
+              cx="11"
+              cy="11"
+              r="8"
+            />
+          </svg>
+        </div>
+        <input
+          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+          id="glass-input-:rk:"
+          placeholder="Search..."
+          value=""
+        />
+        <div
+          class="glass-flex glass-items-center glass-gap-1"
+        />
+      </div>
+    </div>
+    <div
+      class="absolute right-3 glass-top-1/2 -translate-y-1/2 glass-flex glass-items-center glass-gap-2"
+    >
+      <div
+        class="motion-primitive inline-block"
+        data-glass-component="true"
+      >
+        <button
+          aria-label="Toggle filters"
+          aria-pressed="true"
+          class="inline-flex items-center justify-center font-medium duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press transition-colors"
+          id="glass-button-:rl:"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-sliders-horizontal w-4 h-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 5H3"
+            />
+            <path
+              d="M12 19H3"
+            />
+            <path
+              d="M14 3v4"
+            />
+            <path
+              d="M16 17v4"
+            />
+            <path
+              d="M21 12h-9"
+            />
+            <path
+              d="M21 19h-5"
+            />
+            <path
+              d="M21 5h-7"
+            />
+            <path
+              d="M8 10v4"
+            />
+            <path
+              d="M8 12H3"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-6 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+    style="opacity: 0; height: 0px;"
+  >
+    <div
+      class="glass-p-4"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between mb-4"
+      >
+        <h3
+          class="font-semibold text-primary glass-flex glass-items-center glass-gap-2"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-funnel w-4 h-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"
+            />
+          </svg>
+          Filters
+        </h3>
+      </div>
+      <div
+        class="glass-auto-gap glass-auto-gap-lg"
+      />
+    </div>
+  </div>
+  <div
+    class="glass-auto-gap glass-auto-gap-sm"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-between"
+    >
+      <h3
+        class="font-semibold text-primary"
+      >
+        Results 
+      </h3>
+    </div>
+    <div
+      class="text-center glass-py-8 text-primary/70"
+      style="opacity: 0;"
+    >
+      Start typing to search...
+    </div>
+  </div>
+</div>
+`;

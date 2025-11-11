@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassLiveCursorPresence matches snapshot 1`] = `
+<div
+  class="relative"
+>
+  <div>
+    Content
+  </div>
+  <div
+    class="absolute glass-top-2 left-2 glass-flex glass-items-center glass-gap-2"
+  >
+    <div
+      class="w-2 h-2 glass-radius-full transition-colors bg-red-400"
+    />
+    <span
+      class="glass-text-xs glass-text-secondary"
+    >
+      0
+       user
+      s
+       online
+    </span>
+  </div>
+</div>
+`;

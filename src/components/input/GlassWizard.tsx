@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   AlertCircle,
@@ -28,7 +28,7 @@ export interface GlassWizardProps {
   /**
    * Wizard steps
    */
-  steps: WizardStep[];
+  steps?: WizardStep[];
   /**
    * Current step index
    */
@@ -138,7 +138,7 @@ export const useWizard = () => {
  * A multi-step form wizard with glassmorphism styling and comprehensive features
  */
 export const GlassWizard: React.FC<GlassWizardProps> = ({
-  steps,
+  steps = [],
   currentStep: controlledCurrentStep,
   onStepChange,
   onComplete,
@@ -164,10 +164,11 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
   const [stepErrors, setStepErrors] = useState<Record<number, string>>({});
 
   const currentStep = controlledCurrentStep ?? internalCurrentStep;
-  const currentStepData = steps[currentStep];
+  const currentStepData = steps.length > 0 ? steps[currentStep] : undefined;
   const isFirstStep = currentStep === 0;
-  const isLastStep = currentStep === steps.length - 1;
-  const progress = ((currentStep + 1) / steps.length) * 100;
+  const isLastStep = steps.length > 0 ? currentStep === steps.length - 1 : true;
+  const progress =
+    steps.length > 0 ? ((currentStep + 1) / steps.length) * 100 : 0;
 
   // Update internal step when controlled step changes
   useEffect(() => {
@@ -178,6 +179,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 
   // Validate step
   const validateStep = async (stepIndex: number): Promise<boolean> => {
+    if (stepIndex < 0 || stepIndex >= steps.length) return true;
     const step = steps[stepIndex];
     if (!step?.validation) return true;
 
@@ -300,28 +302,28 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 
   return (
     <WizardContext.Provider data-glass-component value={contextValue}>
-      <Motion preset="fadeIn" className='glass-w-full max-w-4xl glass-mx-auto'>
+      <Motion preset="fadeIn" className="glass-w-full max-w-4xl glass-mx-auto">
         <GlassCard className={cn("overflow-hidden", className)} {...props}>
           {/* Header */}
           <CardHeader className="glass-border-b glass-border-white/10">
             <div className="glass-flex glass-items-center glass-justify-between">
               <div>
                 {title && (
-                  <CardTitle className='glass-text-xl font-semibold text-primary mb-1'>
+                  <CardTitle className="glass-text-xl font-semibold text-primary mb-1">
                     {title}
                   </CardTitle>
                 )}
                 {description && (
-                  <p className='glass-text-sm text-primary/70'>{description}</p>
+                  <p className="glass-text-sm text-primary/70">{description}</p>
                 )}
               </div>
 
               {showProgress && (
                 <div className="glass-flex glass-items-center glass-gap-3">
-                  <span className='glass-text-sm text-primary/60'>
+                  <span className="glass-text-sm text-primary/60">
                     Step {currentStep + 1} of {steps.length}
                   </span>
-                  <div className='w-24'>
+                  <div className="w-24">
                     <GlassProgress value={progress} size="sm" />
                   </div>
                 </div>
@@ -332,7 +334,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             {showStepNavigation && (
               <nav
                 aria-label="Wizard steps"
-                className='glass-flex glass-items-center glass-gap-2 mt-6 overflow-x-auto pb-2'
+                className="glass-flex glass-items-center glass-gap-2 mt-6 overflow-x-auto pb-2"
               >
                 {steps.map((step, index) => {
                   const isActive = index === currentStep;
@@ -370,16 +372,16 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                         }
                       )}
                     >
-                      <div className='glass-flex glass-items-center glass-justify-center w-6 h-6 glass-radius-full glass-text-xs'>
+                      <div className="glass-flex glass-items-center glass-justify-center w-6 h-6 glass-radius-full glass-text-xs">
                         {isCompleted ? (
-                          <Check className='w-3 h-3' />
+                          <Check className="w-3 h-3" />
                         ) : isActive && validatingStep === index ? (
-                          <Loader2 className='w-3 h-3 animate-spin' />
+                          <Loader2 className="w-3 h-3 animate-spin" />
                         ) : (
                           <span>{index + 1}</span>
                         )}
                       </div>
-                      <span className='hidden sm:inline'>{step.title}</span>
+                      <span className="hidden sm:inline">{step.title}</span>
                     </button>
                   );
                 })}
@@ -392,44 +394,54 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             <Motion
               key={currentStep}
               preset="slideIn"
-              className='min-h-[300px]'
+              className="min-h-[300px]"
             >
-              {/* Step Header */}
-              <div className='glass-flex glass-items-start glass-gap-4 mb-6'>
-                {currentStepData.icon && (
-                  <div className='glass-flex glass-items-center glass-justify-center w-12 h-12 glass-radius-lg glass-surface-subtle/10'>
-                    {currentStepData.icon}
-                  </div>
-                )}
+              {currentStepData ? (
+                <>
+                  {/* Step Header */}
+                  <div className="glass-flex glass-items-start glass-gap-4 mb-6">
+                    {currentStepData.icon && (
+                      <div className="glass-flex glass-items-center glass-justify-center w-12 h-12 glass-radius-lg glass-surface-subtle/10">
+                        {currentStepData.icon}
+                      </div>
+                    )}
 
-                <div className="glass-flex-1">
-                  <h2 className='glass-text-lg font-semibold text-primary mb-1'>
-                    {currentStepData.title}
-                  </h2>
-                  {currentStepData.description && (
-                    <p className='glass-text-sm text-primary/70'>
-                      {currentStepData.description}
-                    </p>
-                  )}
+                    <div className="glass-flex-1">
+                      <h2 className="glass-text-lg font-semibold text-primary mb-1">
+                        {currentStepData.title}
+                      </h2>
+                      {currentStepData.description && (
+                        <p className="glass-text-sm text-primary/70">
+                          {currentStepData.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Error indicator */}
+                    {stepErrors[currentStep] && (
+                      <div
+                        role="alert"
+                        aria-live="assertive"
+                        className="glass-flex glass-items-center glass-gap-2 text-primary"
+                      >
+                        <AlertCircle className="w-4 h-4" aria-hidden="true" />
+                        <span className="glass-text-sm">
+                          {stepErrors[currentStep]}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Step Content */}
+                  <div className="glass-flex-1">{currentStepData.content}</div>
+                </>
+              ) : (
+                <div className="glass-flex glass-items-center glass-justify-center glass-p-8">
+                  <p className="glass-text-sm text-primary/60">
+                    No steps configured
+                  </p>
                 </div>
-
-                {/* Error indicator */}
-                {stepErrors[currentStep] && (
-                  <div
-                    role="alert"
-                    aria-live="assertive"
-                    className='glass-flex glass-items-center glass-gap-2 text-primary'
-                  >
-                    <AlertCircle className='w-4 h-4' aria-hidden="true" />
-                    <span className="glass-text-sm">
-                      {stepErrors[currentStep]}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Step Content */}
-              <div className="glass-flex-1">{currentStepData.content}</div>
+              )}
             </Motion>
           </CardContent>
 
@@ -444,7 +456,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                     disabled={loading}
                     className="glass-flex glass-items-center glass-gap-2"
                   >
-                    <ChevronLeft className='w-4 h-4' />
+                    <ChevronLeft className="w-4 h-4" />
                     {previousButtonText}
                   </GlassButton>
                 )}
@@ -476,11 +488,11 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                   className="glass-flex glass-items-center glass-gap-2"
                 >
                   {validatingStep === currentStep ? (
-                    <Loader2 className='w-4 h-4 animate-spin' />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   ) : isLastStep ? (
-                    <Check className='w-4 h-4' />
+                    <Check className="w-4 h-4" />
                   ) : (
-                    <ChevronRight className='w-4 h-4' />
+                    <ChevronRight className="w-4 h-4" />
                   )}
                   {isLastStep ? completeButtonText : nextButtonText}
                 </GlassButton>
@@ -552,9 +564,9 @@ export const GlassWizardStepper: React.FC<GlassWizardStepperProps> = ({
                 )}
               >
                 {isCompleted ? (
-                  <Check className='w-5 h-5' />
+                  <Check className="w-5 h-5" />
                 ) : (
-                  <span className='glass-text-sm font-medium'>{index + 1}</span>
+                  <span className="glass-text-sm font-medium">{index + 1}</span>
                 )}
               </div>
 

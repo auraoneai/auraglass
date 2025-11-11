@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMetricsGrid matches snapshot 1`] = `
+<div
+  aria-label="Metrics Grid"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-metrics-grid glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  id="glass-metrics-grid-:r7:"
+  role="region"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-p-6"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-center h-64 text-center"
+    >
+      <div>
+        <div
+          class="glass-text-4xl mb-4"
+        >
+          📊
+        </div>
+        <h3
+          class="glass-text-lg font-semibold text-primary mb-2"
+        >
+          No Metrics Found
+        </h3>
+        <p
+          class="glass-text-secondary"
+        >
+          No metrics to display
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

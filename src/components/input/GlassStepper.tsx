@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   forwardRef,
@@ -77,6 +77,8 @@ export interface GlassStepperProps
   "aria-labelledby"?: string;
   /** ID of element(s) that describe the stepper */
   "aria-describedby"?: string;
+  /** Data test id */
+  "data-testid"?: string;
 }
 
 export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
@@ -110,6 +112,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
+      "data-testid": dataTestId,
       className,
       id,
       ...props
@@ -139,7 +142,10 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     // Create accessibility attributes
     const a11yProps = createFormFieldA11y({
       id: finalId,
-      label: !ariaLabelledBy && !labelId ? ariaLabel || label : undefined,
+      label:
+        !ariaLabelledBy && !labelId
+          ? ariaLabel || label || "Stepper"
+          : undefined,
       description: description,
       error: error,
       required: required,
@@ -419,7 +425,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "increment",
       incrementContent || (
         <svg
-          className='w-4 h-4'
+          className="w-4 h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -440,7 +446,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "decrement",
       decrementContent || (
         <svg
-          className='w-4 h-4'
+          className="w-4 h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -484,8 +490,8 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
             disabled && "cursor-not-allowed opacity-50"
           )}
           {...a11yProps}
-          aria-valuemin={min}
-          aria-valuemax={max}
+          aria-valuemin={isFinite(min) ? min : undefined}
+          aria-valuemax={isFinite(max) ? max : undefined}
           aria-valuenow={currentValue}
           aria-valuetext={formatValue(currentValue)}
           role="spinbutton"
@@ -494,7 +500,10 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     );
 
     return (
-      <div className={cn("glass-stepper-container", className)}>
+      <div
+        className={cn("glass-stepper-container", className)}
+        data-testid={dataTestId}
+      >
         {/* Label */}
         {label && (
           <label
@@ -514,7 +523,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
         {/* Stepper */}
         <div
           ref={ref}
-          id={finalId}
+          id={id}
           className={cn(
             "glass-stepper inline-flex items-center",
             orientation === "horizontal" ? "flex-row" : "flex-col",
@@ -522,7 +531,6 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
             disabled && "opacity-50",
             error && "ring-2 ring-destructive/50 glass-radius-lg glass-p-1"
           )}
-          {...props}
         >
           {orientation === "horizontal" ? (
             <>

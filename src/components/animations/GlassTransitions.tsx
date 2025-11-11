@@ -1,13 +1,9 @@
-'use client';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { cn } from '../../lib/utilsComprehensive';
-import {
-    AnimatePresence,
-    motion,
-    PanInfo
-} from 'framer-motion';
-import React, { useEffect, useState } from 'react';
-import { easings } from './AdvancedAnimations';
+"use client";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { cn } from "../../lib/utilsComprehensive";
+import { AnimatePresence, motion, PanInfo } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { easings } from "./AdvancedAnimations";
 
 // Glass transition variants
 const glassTransitionVariants = {
@@ -16,67 +12,78 @@ const glassTransitionVariants = {
     initial: {
       scale: 1,
       opacity: 1,
-      filter: 'blur(0px)'
+      filter: "blur(0px)",
     },
     exit: {
       scale: [1, 1.02, 0.98, 1.1, 0],
       opacity: [1, 0.8, 0.6, 0.3, 0],
-      filter: ['blur(0px)', 'blur(1px)', 'blur(3px)', 'blur(var(--glass-glass-blur-md))', 'blur(15px)'],
+      filter: [
+        "blur(0px)",
+        "blur(1px)",
+        "blur(3px)",
+        "blur(var(--glass-glass-blur-md))",
+        "blur(15px)",
+      ],
       rotate: [0, -2, 4, -8, 15],
       transition: {
         duration: 0.8,
         times: [0, 0.2, 0.4, 0.7, 1],
-        ease: easings.easeOutExpo
-      }
+        ease: easings.easeOutExpo,
+      },
     },
     enter: {
       scale: [0, 0.8, 1.05, 1],
       opacity: [0, 0.3, 0.8, 1],
-      filter: ['blur(15px)', 'blur(var(--glass-glass-blur-md))', 'blur(2px)', 'blur(0px)'],
+      filter: [
+        "blur(15px)",
+        "blur(var(--glass-glass-blur-md))",
+        "blur(2px)",
+        "blur(0px)",
+      ],
       rotate: [15, -5, 2, 0],
       transition: {
         duration: 0.8,
         times: [0, 0.3, 0.7, 1],
-        ease: easings.easeOutBack
-      }
-    }
+        ease: easings.easeOutBack,
+      },
+    },
   },
 
   // Liquid transition
   liquid: {
     initial: {
-      clipPath: 'inset(0% 0% 0% 0% round 16px)',
+      clipPath: "inset(0% 0% 0% 0% round 16px)",
       scale: 1,
-      opacity: 1
+      opacity: 1,
     },
     exit: {
       clipPath: [
-        'inset(0% 0% 0% 0% round 16px)',
-        'inset(10% 5% 10% 5% round 32px)',
-        'inset(30% 20% 30% 20% round 50%)',
-        'inset(50% 50% 50% 50% round 50%)'
+        "inset(0% 0% 0% 0% round 16px)",
+        "inset(10% 5% 10% 5% round 32px)",
+        "inset(30% 20% 30% 20% round 50%)",
+        "inset(50% 50% 50% 50% round 50%)",
       ],
       scale: [1, 0.95, 0.8, 0.5],
       opacity: [1, 0.8, 0.4, 0],
       transition: {
         duration: 0.6,
-        ease: easings.easeInOutCubic
-      }
+        ease: easings.easeInOutCubic,
+      },
     },
     enter: {
       clipPath: [
-        'inset(50% 50% 50% 50% round 50%)',
-        'inset(30% 20% 30% 20% round 50%)',
-        'inset(10% 5% 10% 5% round 32px)',
-        'inset(0% 0% 0% 0% round 16px)'
+        "inset(50% 50% 50% 50% round 50%)",
+        "inset(30% 20% 30% 20% round 50%)",
+        "inset(10% 5% 10% 5% round 32px)",
+        "inset(0% 0% 0% 0% round 16px)",
       ],
       scale: [0.5, 0.8, 0.95, 1],
       opacity: [0, 0.4, 0.8, 1],
       transition: {
         duration: 0.6,
-        ease: easings.easeOutExpo
-      }
-    }
+        ease: easings.easeOutExpo,
+      },
+    },
   },
 
   // Ripple transition
@@ -84,56 +91,66 @@ const glassTransitionVariants = {
     initial: {
       scale: 1,
       opacity: 1,
-      borderRadius: '16px'
+      borderRadius: "16px",
     },
     exit: {
       scale: [1, 1.5, 0],
       opacity: [1, 0.3, 0],
-      borderRadius: ['16px', '50%', '50%'],
+      borderRadius: ["16px", "50%", "50%"],
       transition: {
         duration: 0.5,
-        ease: easings.easeInOutCubic
-      }
+        ease: easings.easeInOutCubic,
+      },
     },
     enter: {
       scale: [0, 1.2, 1],
       opacity: [0, 0.6, 1],
-      borderRadius: ['50%', '50%', '16px'],
+      borderRadius: ["50%", "50%", "16px"],
       transition: {
         duration: 0.5,
-        ease: easings.easeOutBack
-      }
-    }
+        ease: easings.easeOutBack,
+      },
+    },
   },
 
   // Morph transition
   morph: {
     initial: {
-      borderRadius: '16px',
+      borderRadius: "16px",
       scaleX: 1,
       scaleY: 1,
-      opacity: 1
+      opacity: 1,
     },
     exit: {
-      borderRadius: ['16px', '50px 16px 30px 40px', '20px 60px 40px 20px', '50%'],
+      borderRadius: [
+        "16px",
+        "50px 16px 30px 40px",
+        "20px 60px 40px 20px",
+        "50%",
+      ],
       scaleX: [1, 0.8, 1.2, 0],
       scaleY: [1, 1.2, 0.8, 0],
       opacity: [1, 0.7, 0.3, 0],
       transition: {
         duration: 0.7,
-        ease: easings.easeInOutCubic
-      }
+        ease: easings.easeInOutCubic,
+      },
     },
     enter: {
-      borderRadius: ['50%', '20px 60px 40px 20px', '50px 16px 30px 40px', '16px'],
+      borderRadius: [
+        "50%",
+        "20px 60px 40px 20px",
+        "50px 16px 30px 40px",
+        "16px",
+      ],
       scaleX: [0, 1.2, 0.8, 1],
       scaleY: [0, 0.8, 1.2, 1],
       opacity: [0, 0.3, 0.7, 1],
       transition: {
         duration: 0.7,
-        ease: easings.easeOutExpo
-      }
-    }
+        ease: easings.easeOutExpo,
+      },
+    },
   },
 
   // Frost transition
@@ -141,37 +158,37 @@ const glassTransitionVariants = {
     initial: {
       scale: 1,
       opacity: 1,
-      filter: 'blur(0px) brightness(1)'
+      filter: "blur(0px) brightness(1)",
     },
     exit: {
       scale: [1, 1.1, 0.9, 0],
       opacity: [1, 0.8, 0.4, 0],
       filter: [
-        'blur(0px) brightness(1)',
-        'blur(2px) brightness(1.2)',
-        'blur(var(--glass-glass-blur-md)) brightness(0.8)',
-        'blur(var(--glass-glass-blur-lg)) brightness(0.5)'
+        "blur(0px) brightness(1)",
+        "blur(2px) brightness(1.2)",
+        "blur(var(--glass-glass-blur-md)) brightness(0.8)",
+        "blur(var(--glass-glass-blur-lg)) brightness(0.5)",
       ],
       transition: {
         duration: 0.8,
-        ease: easings.easeInOutCubic
-      }
+        ease: easings.easeInOutCubic,
+      },
     },
     enter: {
       scale: [0, 0.9, 1.1, 1],
       opacity: [0, 0.4, 0.8, 1],
       filter: [
-        'blur(var(--glass-glass-blur-lg)) brightness(0.5)',
-        'blur(var(--glass-glass-blur-md)) brightness(0.8)',
-        'blur(2px) brightness(1.2)',
-        'blur(0px) brightness(1)'
+        "blur(var(--glass-glass-blur-lg)) brightness(0.5)",
+        "blur(var(--glass-glass-blur-md)) brightness(0.8)",
+        "blur(2px) brightness(1.2)",
+        "blur(0px) brightness(1)",
       ],
       transition: {
         duration: 0.8,
-        ease: easings.easeOutExpo
-      }
-    }
-  }
+        ease: easings.easeOutExpo,
+      },
+    },
+  },
 };
 
 // Glass transition component
@@ -185,36 +202,38 @@ interface GlassTransitionProps {
 
 export function GlassTransition({
   children,
-  variant = 'liquid',
+  variant = "liquid",
   duration,
   className,
-  style
+  style,
 }: GlassTransitionProps) {
   const prefersReducedMotion = useReducedMotion();
   const transitionVariant = glassTransitionVariants[variant];
 
   // Override duration if provided
-  const customVariant = duration ? {
-    ...transitionVariant,
-    exit: {
-      ...transitionVariant.exit,
-      transition: {
-        ...transitionVariant.exit.transition,
-        duration
+  const customVariant = duration
+    ? {
+        ...transitionVariant,
+        exit: {
+          ...transitionVariant.exit,
+          transition: {
+            ...transitionVariant.exit.transition,
+            duration,
+          },
+        },
+        enter: {
+          ...transitionVariant.enter,
+          transition: {
+            ...transitionVariant.enter.transition,
+            duration,
+          },
+        },
       }
-    },
-    enter: {
-      ...transitionVariant.enter,
-      transition: {
-        ...transitionVariant.enter.transition,
-        duration
-      }
-    }
-  } : transitionVariant;
+    : transitionVariant;
 
   return (
     <motion.div
-      className={cn('glass-transition-container', className)}
+      className={cn("glass-transition-container", className)}
       style={style}
       variants={customVariant}
       initial="initial"
@@ -236,9 +255,9 @@ interface GlassPageTransitionProps {
 
 export function GlassPageTransition({
   children,
-  variant = 'morph',
+  variant = "morph",
   duration = 0.6,
-  className
+  className,
 }: GlassPageTransitionProps) {
   return (
     <AnimatePresence mode="wait">
@@ -260,17 +279,17 @@ interface SwipeableGlassCardsProps {
     content: React.ReactNode;
     background?: string;
   }>;
-  onSwipe?: (direction: 'left' | 'right', cardId: string) => void;
+  onSwipe?: (direction: "left" | "right", cardId: string) => void;
   className?: string;
 }
 
 export function SwipeableGlassCards({
   cards,
   onSwipe,
-  className
+  className,
 }: SwipeableGlassCardsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState<'left' | 'right'>('left');
+  const [direction, setDirection] = useState<"left" | "right">("left");
 
   const handleDragEnd = (info: PanInfo) => {
     const threshold = 100;
@@ -278,12 +297,13 @@ export function SwipeableGlassCards({
     const offset = info.offset.x;
 
     if (Math.abs(velocity) > 500 || Math.abs(offset) > threshold) {
-      const swipeDirection = velocity > 0 || offset > 0 ? 'right' : 'left';
+      const swipeDirection = velocity > 0 || offset > 0 ? "right" : "left";
       setDirection(swipeDirection);
 
-      const newIndex = swipeDirection === 'left'
-        ? Math.min(currentIndex + 1, cards.length - 1)
-        : Math.max(currentIndex - 1, 0);
+      const newIndex =
+        swipeDirection === "left"
+          ? Math.min(currentIndex + 1, cards.length - 1)
+          : Math.max(currentIndex - 1, 0);
 
       if (newIndex !== currentIndex) {
         setCurrentIndex(newIndex);
@@ -294,10 +314,10 @@ export function SwipeableGlassCards({
 
   const slideVariants = {
     enter: (direction: string) => ({
-      x: direction === 'left' ? 300 : -300,
+      x: direction === "left" ? 300 : -300,
       opacity: 0,
       scale: 0.8,
-      rotateY: direction === 'left' ? 45 : -45
+      rotateY: direction === "left" ? 45 : -45,
     }),
     center: {
       x: 0,
@@ -306,23 +326,23 @@ export function SwipeableGlassCards({
       rotateY: 0,
       transition: {
         duration: 0.5,
-        ease: easings.easeOutExpo
-      }
+        ease: easings.easeOutExpo,
+      },
     },
     exit: (direction: string) => ({
-      x: direction === 'left' ? -300 : 300,
+      x: direction === "left" ? -300 : 300,
       opacity: 0,
       scale: 0.8,
-      rotateY: direction === 'left' ? -45 : 45,
+      rotateY: direction === "left" ? -45 : 45,
       transition: {
         duration: 0.3,
-        ease: easings.easeInOutCubic
-      }
-    })
+        ease: easings.easeInOutCubic,
+      },
+    }),
   };
 
   return (
-    <div className={cn('glass-relative glass-overflow-hidden', className)}>
+    <div className={cn("glass-relative glass-overflow-hidden", className)}>
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={currentIndex}
@@ -335,9 +355,12 @@ export function SwipeableGlassCards({
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.3}
           onDragEnd={(_, info) => handleDragEnd(info)}
-          className={cn("glass-foundation-complete glass-surface-primary glass-border glass-border-primary glass-radius-xl glass-p-6 glass-cursor-grab active:glass-cursor-grabbing")}
+          className={cn(
+            "glass-foundation-complete glass-surface-primary glass-border glass-border-primary glass-radius-xl glass-p-6 glass-cursor-grab active:glass-cursor-grabbing"
+          )}
           style={{
-            background: cards[currentIndex].background || 'var(--glass-bg-default)'
+            background:
+              cards[currentIndex].background || "var(--glass-bg-default)",
           }}
         >
           {cards[currentIndex].content}
@@ -345,20 +368,23 @@ export function SwipeableGlassCards({
       </AnimatePresence>
 
       {/* Indicators */}
-      <div className={cn("glass-flex glass-justify-center glass-mt-4 glass-gap-2")}>
+      <div
+        className={cn("glass-flex glass-justify-center glass-mt-4 glass-gap-2")}
+      >
         {cards.map((_, index) => (
           <button
             key={index}
             onClick={() => {
-              setDirection(index > currentIndex ? 'left' : 'right');
+              setDirection(index > currentIndex ? "left" : "right");
               setCurrentIndex(index);
             }}
             className={cn(
-              'glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard',
+              "glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard",
               index === currentIndex
-                ? 'glass-surface-white glass-scale-125'
-                : 'glass-surface-muted hover:glass-surface-secondary'
+                ? "glass-surface-white glass-scale-125"
+                : "glass-surface-muted hover:glass-surface-secondary"
             )}
+            aria-label={`Go to slide ${index + 1}${index === currentIndex ? " (current)" : ""}`}
           />
         ))}
       </div>
@@ -381,7 +407,7 @@ interface GlassAccordionProps {
 export function GlassAccordion({
   items,
   allowMultiple = false,
-  className
+  className,
 }: GlassAccordionProps) {
   const prefersReducedMotion = useReducedMotion();
   const [openItems, setOpenItems] = useState<string[]>([]);
@@ -397,32 +423,52 @@ export function GlassAccordion({
   };
 
   return (
-    <div className={cn('glass-space-y-2', className)}>
+    <div className={cn("glass-space-y-2", className)}>
       {items.map((item) => {
         const isOpen = openItems.includes(item.id);
 
         return (
           <motion.div
             key={item.id}
-            className={cn("glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-overflow-hidden")}
+            className={cn(
+              "glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-overflow-hidden"
+            )}
             layout
           >
             <motion.button
               onClick={() => toggleItem(item.id)}
-              className={cn("glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard")}
+              className={cn(
+                "glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              )}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
             >
               <div className={cn("glass-flex glass-items-center glass-gap-3")}>
                 {item.icon}
-                <span className={cn("glass-font-medium glass-text-white")}>{item.title}</span>
+                <span className={cn("glass-font-medium glass-text-white")}>
+                  {item.title}
+                </span>
               </div>
               <motion.div
-                animate={prefersReducedMotion ? {} : { rotate: isOpen ? 180 : 0 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3  }}
+                animate={
+                  prefersReducedMotion ? {} : { rotate: isOpen ? 180 : 0 }
+                }
+                transition={
+                  prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+                }
               >
-                <svg className={cn("glass-w-5 glass-h-5 glass-text-secondary")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg
+                  className={cn("glass-w-5 glass-h-5 glass-text-secondary")}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </motion.div>
             </motion.button>
@@ -431,12 +477,18 @@ export function GlassAccordion({
               {isOpen && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={prefersReducedMotion ? {} : { height: 'auto', opacity: 1 }}
+                  animate={
+                    prefersReducedMotion ? {} : { height: "auto", opacity: 1 }
+                  }
                   exit={{ height: 0, opacity: 0 }}
-                  transition={prefersReducedMotion ? { duration: 0 } : {
-    duration: 0.3,
-    ease: easings.easeInOutCubic
-                  }}
+                  transition={
+                    prefersReducedMotion
+                      ? { duration: 0 }
+                      : {
+                          duration: 0.3,
+                          ease: easings.easeInOutCubic,
+                        }
+                  }
                   className={cn("glass-border-t glass-border-subtle")}
                 >
                   <motion.div
@@ -470,23 +522,23 @@ export function GlassModal({
   isOpen,
   onClose,
   children,
-  variant = 'ripple',
-  className
+  variant = "ripple",
+  className,
 }: GlassModalProps) {
   const prefersReducedMotion = useReducedMotion();
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen, onClose]);
 
@@ -497,7 +549,9 @@ export function GlassModal({
           initial={{ opacity: 0 }}
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
           exit={{ opacity: 0 }}
-          className={cn("glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4")}
+          className={cn(
+            "glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4"
+          )}
           onClick={onClose}
         >
           {/* Backdrop */}
@@ -512,14 +566,12 @@ export function GlassModal({
           <GlassTransition
             variant={variant}
             className={cn(
-              'glass-relative glass-max-w-lg glass-w-full glass-max-h-90vh glass-overflow-auto',
-              'glass-foundation-complete glass-surface-primary glass-border glass-border-primary glass-radius-xl',
+              "glass-relative glass-max-w-lg glass-w-full glass-max-h-90vh glass-overflow-auto",
+              "glass-foundation-complete glass-surface-primary glass-border glass-border-primary glass-radius-xl",
               className
             )}
           >
-            <div onClick={(e) => e.stopPropagation()}>
-              {children}
-            </div>
+            <div onClick={(e) => e.stopPropagation()}>{children}</div>
           </GlassTransition>
         </motion.div>
       )}
@@ -539,7 +591,7 @@ interface GlassTabsProps {
   value?: string;
   onValueChange?: (value: string) => void;
   defaultTab?: string;
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
   className?: string;
   onTabChange?: (tabId: string) => void;
 }
@@ -547,9 +599,9 @@ interface GlassTabsProps {
 export function GlassTabs({
   tabs,
   defaultTab,
-  orientation = 'horizontal',
+  orientation = "horizontal",
   className,
-  onTabChange
+  onTabChange,
 }: GlassTabsProps) {
   const prefersReducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState(defaultTab || tabs?.[0]?.id);
@@ -560,27 +612,35 @@ export function GlassTabs({
   };
 
   return (
-    <div className={cn(
-      'glass-tabs',
-      orientation === 'vertical' ? 'glass-flex glass-gap-6' : 'glass-space-y-4',
-      className
-    )}>
+    <div
+      className={cn(
+        "glass-tabs",
+        orientation === "vertical"
+          ? "glass-flex glass-gap-6"
+          : "glass-space-y-4",
+        className
+      )}
+    >
       {/* Tab List */}
-      <div className={cn(
-        'glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-p-1',
-        orientation === 'vertical' ? 'glass-flex-col glass-w-48' : 'glass-flex',
-        'glass-relative'
-      )}>
+      <div
+        className={cn(
+          "glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-p-1",
+          orientation === "vertical"
+            ? "glass-flex-col glass-w-48"
+            : "glass-flex",
+          "glass-relative"
+        )}
+      >
         {tabs?.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleTabChange(tab.id)}
             className={cn(
-              'glass-relative glass-px-4 glass-py-2 glass-radius-md glass-transition-all glass-duration-300 glass-flex glass-items-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard',
-              'glass-text-sm glass-font-medium glass-whitespace-nowrap',
+              "glass-relative glass-px-4 glass-py-2 glass-radius-md glass-transition-all glass-duration-300 glass-flex glass-items-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard",
+              "glass-text-sm glass-font-medium glass-whitespace-nowrap",
               activeTab === tab.id
-                ? 'glass-text-white glass-surface-subtle'
-                : 'glass-text-secondary hover:glass-text-white hover:glass-surface-hover'
+                ? "glass-text-white glass-surface-subtle"
+                : "glass-text-secondary hover:glass-text-white hover:glass-surface-hover"
             )}
           >
             {tab.icon}
@@ -590,20 +650,26 @@ export function GlassTabs({
       </div>
 
       {/* Tab Content */}
-      <div className={cn(
-        'glass-flex-1 glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg',
-        'glass-min-h-200'
-      )}>
+      <div
+        className={cn(
+          "glass-flex-1 glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg",
+          "glass-min-h-200"
+        )}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 20 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: easings.easeOutExpo  }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: 0.3, ease: easings.easeOutExpo }
+            }
             className={cn("glass-p-6")}
           >
-            {tabs?.find(tab => tab.id === activeTab)?.content}
+            {tabs?.find((tab) => tab.id === activeTab)?.content}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -618,7 +684,7 @@ interface GlassTransitionsProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const demoCards = [
   {
-    id: 'insight',
+    id: "insight",
     content: (
       <div>
         <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
@@ -634,7 +700,7 @@ const demoCards = [
     ),
   },
   {
-    id: 'motion',
+    id: "motion",
     content: (
       <div>
         <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
@@ -650,7 +716,7 @@ const demoCards = [
     ),
   },
   {
-    id: 'layers',
+    id: "layers",
     content: (
       <div>
         <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
@@ -668,7 +734,7 @@ const demoCards = [
 ];
 
 const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
-  variant = 'liquid',
+  variant = "liquid",
   className,
   children,
   ...rest
@@ -676,14 +742,14 @@ const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
   const [panelIndex, setPanelIndex] = useState(0);
   const panels = [
     {
-      id: 'panel-0',
-      title: 'Glass dashboards',
-      description: 'Morph between layouts while preserving context.',
+      id: "panel-0",
+      title: "Glass dashboards",
+      description: "Morph between layouts while preserving context.",
     },
     {
-      id: 'panel-1',
-      title: 'Immersive nav',
-      description: 'Page transitions ripple out from focal points.',
+      id: "panel-1",
+      title: "Immersive nav",
+      description: "Page transitions ripple out from focal points.",
     },
   ];
 
@@ -693,10 +759,7 @@ const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
 
   return (
     <div
-      className={cn(
-        'glass-transitions-demo glass-space-y-6',
-        className
-      )}
+      className={cn("glass-transitions-demo glass-space-y-6", className)}
       {...rest}
     >
       {children ?? (

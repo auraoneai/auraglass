@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -38,7 +38,7 @@ export interface TreeNode {
 }
 
 export interface GlassFileTreeProps {
-  nodes: TreeNode[];
+  nodes?: TreeNode[];
   onNodeSelect?: (node: TreeNode) => void;
   onNodeToggle?: (nodeId: string, expanded: boolean) => void;
   onNodeCreate?: (
@@ -69,12 +69,16 @@ export interface GlassFileTreeProps {
   variant?: "default" | "compact" | "minimal";
   size?: "sm" | "md" | "lg";
   elevation?: "low" | "medium" | "high";
+  /**
+   * Custom data-testid for testing
+   */
+  "data-testid"?: string;
 }
 
 const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
   (
     {
-      nodes,
+      nodes = [],
       onNodeSelect,
       onNodeToggle,
       onNodeCreate,
@@ -101,6 +105,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
       variant = "default",
       size = "md",
       elevation = "medium",
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -296,9 +301,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
       (node: TreeNode) => {
         if (node.type === "folder") {
           return localExpandedNodes.includes(node.id) ? (
-            <FolderOpen className='w-4 h-4 text-primary' />
+            <FolderOpen className="w-4 h-4 text-primary" />
           ) : (
-            <Folder className='w-4 h-4 text-primary' />
+            <Folder className="w-4 h-4 text-primary" />
           );
         }
 
@@ -309,20 +314,20 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           case "png":
           case "gif":
           case "webp":
-            return <Image className='w-4 h-4 text-primary' />;
+            return <Image className="w-4 h-4 text-primary" />;
           case "mp4":
           case "avi":
           case "mov":
           case "mkv":
-            return <Video className='w-4 h-4 text-primary' />;
+            return <Video className="w-4 h-4 text-primary" />;
           case "mp3":
           case "wav":
           case "flac":
-            return <Music className='w-4 h-4 text-pink-400' />;
+            return <Music className="w-4 h-4 text-pink-400" />;
           case "zip":
           case "rar":
           case "7z":
-            return <Archive className='w-4 h-4 text-primary' />;
+            return <Archive className="w-4 h-4 text-primary" />;
           case "js":
           case "ts":
           case "jsx":
@@ -334,9 +339,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           case "php":
           case "html":
           case "css":
-            return <Code className='w-4 h-4 text-primary' />;
+            return <Code className="w-4 h-4 text-primary" />;
           default:
-            return <FileText className='w-4 h-4 glass-text-secondary' />;
+            return <FileText className="w-4 h-4 glass-text-secondary" />;
         }
       },
       [localExpandedNodes]
@@ -416,22 +421,22 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
               <GlassButton
                 variant="ghost"
                 size="sm"
-                className='w-4 h-4 glass-p-0 hover:glass-surface-subtle/20 glass-focus glass-touch-target'
+                className="w-4 h-4 glass-p-0 hover:glass-surface-subtle/20 glass-focus glass-touch-target"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleToggle(node);
                 }}
               >
                 {isExpanded ? (
-                  <ChevronDown className='w-3 h-3' />
+                  <ChevronDown className="w-3 h-3" />
                 ) : (
-                  <ChevronRight className='w-3 h-3' />
+                  <ChevronRight className="w-3 h-3" />
                 )}
               </GlassButton>
             )}
 
             {/* Spacer for files */}
-            {node.type === "file" && <div className='w-4' />}
+            {node.type === "file" && <div className="w-4" />}
 
             {/* Icon */}
             {showIcons && (
@@ -450,30 +455,30 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                       if (e.key === "Escape") setRenamingNode(null);
                     }}
                     autoFocus
-                    className='glass-flex-1 h-6 glass-text-sm glass-pulse-ring'
+                    className="glass-flex-1 h-6 glass-text-sm glass-pulse-ring"
                   />
                   <GlassButton
                     variant="ghost"
                     size="sm"
                     onClick={handleRenameSubmit}
-                    className='w-6 h-6 glass-p-0 glass-focus glass-touch-target'
+                    className="w-6 h-6 glass-p-0 glass-focus glass-touch-target"
                   >
-                    <Check className='w-3 h-3' />
+                    <Check className="w-3 h-3" />
                   </GlassButton>
                   <GlassButton
                     variant="ghost"
                     size="sm"
                     onClick={(e) => setRenamingNode(null)}
-                    className='w-6 h-6 glass-p-0 glass-focus glass-touch-target'
+                    className="w-6 h-6 glass-p-0 glass-focus glass-touch-target"
                   >
-                    <X className='w-3 h-3' />
+                    <X className="w-3 h-3" />
                   </GlassButton>
                 </div>
               ) : (
                 <div className="glass-flex glass-items-center glass-gap-2">
-                  <span className='truncate text-primary'>{node.name}</span>
+                  <span className="truncate text-primary">{node.name}</span>
                   {showSize && node.size && (
-                    <span className='glass-text-xs text-primary/60'>
+                    <span className="glass-text-xs text-primary/60">
                       ({formatFileSize(node.size)})
                     </span>
                   )}
@@ -483,7 +488,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
 
             {/* Modified Date */}
             {showModified && node.modifiedAt && (
-              <div className='glass-text-xs text-primary/60 hidden md:block'>
+              <div className="glass-text-xs text-primary/60 hidden md:block">
                 {formatDate(node.modifiedAt)}
               </div>
             )}
@@ -492,14 +497,14 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
             <GlassButton
               variant="ghost"
               size="sm"
-              className='w-6 h-6 glass-p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20 glass-focus glass-touch-target'
+              className="w-6 h-6 glass-p-0 opacity-0 group-hover:opacity-100 hover:glass-surface-subtle/20 glass-focus glass-touch-target"
               onClick={(e) => {
                 e.stopPropagation();
                 // Simple action for now
                 console.log("Context menu for:", node.name);
               }}
             >
-              <MoreVertical className='w-3 h-3' />
+              <MoreVertical className="w-3 h-3" />
             </GlassButton>
           </div>
 
@@ -512,7 +517,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                   prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
                 }
                 exit={{ opacity: 0, height: 0 }}
-                className='overflow-hidden'
+                className="overflow-hidden"
               >
                 {node.children.map((child) => (
                   <TreeNodeComponent
@@ -531,8 +536,8 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
               className="glass-flex glass-items-center glass-py-1"
               style={{ paddingLeft: `${indent + 32}px` }}
             >
-              <div className='w-4 h-4 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full animate-spin' />
-              <span className='glass-text-sm text-primary/60 glass-ml-2'>
+              <div className="w-4 h-4 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full animate-spin" />
+              <span className="glass-text-sm text-primary/60 glass-ml-2">
                 Loading...
               </span>
             </div>
@@ -551,26 +556,29 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           sizeClasses[size],
           className
         )}
+        role="region"
+        aria-label="File tree"
+        data-testid={dataTestId}
         {...props}
       >
         {/* Search */}
-        <div className='mb-4'>
+        <div className="mb-4">
           <GlassInput
             placeholder="Search files..."
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            leftIcon={<Search className='w-4 h-4' />}
+            leftIcon={<Search className="w-4 h-4" />}
           />
         </div>
 
         {/* Tree */}
-        <div className='overflow-y-auto' style={{ maxHeight }}>
+        <div className="overflow-y-auto" style={{ maxHeight }}>
           {filteredNodes.length > 0 ? (
             filteredNodes.map((node) => (
               <TreeNodeComponent key={node.id} node={node} />
             ))
           ) : (
-            <div className='text-center glass-py-8 text-primary/60'>
+            <div className="text-center glass-py-8 text-primary/60">
               {searchQuery ? "No files found" : "No files to display"}
             </div>
           )}
@@ -578,9 +586,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
 
         {/* Create Node Dialog */}
         {creatingNode && (
-          <div className='fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-50 glass-flex glass-items-center glass-justify-center glass-contrast-guard'>
-            <div className='glass-radius-lg glass-p-6 max-w-md glass-w-full glass-mx-4 glass-surface-subtle/5 ring-1 ring-white/10 glass-contrast-guard'>
-              <h3 className='glass-text-lg font-semibold text-primary mb-4'>
+          <div className="fixed inset-0 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md z-50 glass-flex glass-items-center glass-justify-center glass-contrast-guard">
+            <div className="glass-radius-lg glass-p-6 max-w-md glass-w-full glass-mx-4 glass-surface-subtle/5 ring-1 ring-white/10 glass-contrast-guard">
+              <h3 className="glass-text-lg font-semibold text-primary mb-4">
                 Create New {creatingNode.type === "folder" ? "Folder" : "File"}
               </h3>
               <GlassInput
@@ -588,7 +596,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                 value={newNodeName}
                 onChange={(e) => setNewNodeName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleCreateSubmit()}
-                className='mb-4'
+                className="mb-4"
                 autoFocus
               />
               <div className="glass-flex glass-gap-2">

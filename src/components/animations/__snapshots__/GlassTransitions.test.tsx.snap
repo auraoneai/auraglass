@@ -59,12 +59,15 @@ exports[`GlassTransitions matches snapshot 1`] = `
       class="glass-flex glass-justify-center glass-mt-4 glass-gap-2"
     >
       <button
+        aria-label="Go to slide 1 (current)"
         class="glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard glass-surface-white glass-scale-125"
       />
       <button
+        aria-label="Go to slide 2"
         class="glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard glass-surface-muted hover:glass-surface-secondary"
       />
       <button
+        aria-label="Go to slide 3"
         class="glass-w-2 glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-focus glass-touch-target glass-contrast-guard glass-surface-muted hover:glass-surface-secondary"
       />
     </div>

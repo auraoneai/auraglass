@@ -1,20 +1,20 @@
-'use client';
+"use client";
 import React from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { GlassButton } from "../button/GlassButton";
 import { OptimizedGlass } from "../../primitives";
 
 export interface GlassTagInputProps {
-  value: string[];
-  onChange: (tags: string[]) => void;
+  value?: string[];
+  onChange?: (tags: string[]) => void;
   placeholder?: string;
   suggestions?: string[];
   className?: string;
 }
 
 export function GlassTagInput({
-  value,
-  onChange,
+  value = [],
+  onChange = () => {},
   placeholder = "Add tag…",
   suggestions = [],
   className,
@@ -45,7 +45,7 @@ export function GlassTagInput({
           {t}
           <button
             onClick={(e) => remove(t)}
-            className='text-primary/60 hover:text-primary glass-focus glass-touch-target glass-contrast-guard'
+            className="text-primary/60 hover:text-primary glass-focus glass-touch-target glass-contrast-guard"
           >
             ×
           </button>
@@ -63,10 +63,10 @@ export function GlassTagInput({
           }
         }}
         placeholder={placeholder}
-        className='glass-flex-1 min-w-[120px] bg-transparent outline-none glass-text-sm placeholder:text-primary/50 glass-focus glass-touch-target glass-contrast-guard'
+        className="glass-flex-1 min-w-[120px] bg-transparent outline-none glass-text-sm placeholder:text-primary/50 glass-focus glass-touch-target glass-contrast-guard"
       />
       {!!suggestions.length && input && (
-        <div className='glass-w-full -mb-1'>
+        <div className="glass-w-full -mb-1">
           <div className="glass-mt-1 glass-radius-lg glass-border glass-border-white/15 glass-surface-dark/20 glass-p-1">
             {suggestions
               .filter((s: any) => s.toLowerCase().includes(input.toLowerCase()))

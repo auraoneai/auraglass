@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassPageStructure matches snapshot 1`] = `
+<div
+  class="glass-dragdrop-provider"
+  data-glass-component="true"
+>
+  <div
+    class="w-80 h-full flex flex-col"
+  >
+    <div
+      class="glass-foundation-basic glass-h-full glass-flex glass-flex-col glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
+      >
+        <h2
+          class="glass-text-lg font-semibold glass-text-secondary"
+        >
+          Structure
+        </h2>
+        <button
+          class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+          title="Collapse Structure"
+        >
+          ◀
+        </button>
+      </div>
+      <div
+        class="glass-p-4 glass-border-b glass-border-subtle space-y-3"
+      >
+        <div
+          class="relative"
+        >
+          <input
+            class="glass-w-full glass-px-3 glass-py-2 pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search components..."
+            type="text"
+            value=""
+          />
+          <div
+            class="absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary"
+          >
+            🔍
+          </div>
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between glass-text-xs"
+        >
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <button
+              class="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+            >
+              Expand All
+            </button>
+            <span
+              class="text-gray-300"
+            >
+              |
+            </span>
+            <button
+              class="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+            >
+              Collapse All
+            </button>
+          </div>
+          <div
+            class="glass-flex glass-items-center glass-gap-2"
+          >
+            <button
+              class="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+              title="Export Structure"
+            >
+              💾
+            </button>
+            <button
+              class="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+              title="Import Structure"
+            >
+              📁
+            </button>
+            <button
+              class="text-primary hover:text-primary glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+              title="Clear All"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-flex-1 overflow-y-auto glass-p-2"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-center glass-h-full"
+        >
+          <div
+            class="text-center"
+          >
+            <div
+              class="glass-text-4xl mb-4"
+            >
+              🌳
+            </div>
+            <h3
+              class="glass-text-lg font-medium glass-text-secondary mb-2"
+            >
+              Empty Page
+            </h3>
+            <p
+              class="glass-text-secondary glass-text-sm"
+            >
+              Start by adding components to your page
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-p-4 glass-surface-subtle glass-border-t glass-border-subtle"
+      >
+        <div
+          class="glass-text-xs glass-text-secondary space-y-1"
+        >
+          <div
+            class="glass-flex glass-justify-between"
+          >
+            <span>
+              Total Components:
+            </span>
+            <span>
+              0
+            </span>
+          </div>
+          <div
+            class="glass-flex glass-justify-between"
+          >
+            <span>
+              Root Components:
+            </span>
+            <span>
+              0
+            </span>
+          </div>
+          <div
+            class="glass-flex glass-justify-between"
+          >
+            <span>
+              Selected:
+            </span>
+            <span>
+              None
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

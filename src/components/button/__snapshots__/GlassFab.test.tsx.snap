@@ -4,16 +4,17 @@ exports[`GlassFab matches snapshot 1`] = `
 <div
   class="motion-primitive inline-block"
 >
-  <div
+  <button
     class="optimized-glass-surface glass-primary-level4 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium cursor-pointer outline-none select-none box-border transition-all duration-200 will-change-transform w-14 h-14 p-0 glass-text-2xl fixed bottom-4 right-4 glass-radius-full hover:scale-105 active:scale-95 opacity-100 scale-100 glass-fab"
     data-caustics="true"
     data-refraction="true"
     id="glass-fab-:r5:"
     style="border-radius: 8px; box-shadow: 0px 16px 40px 0px var(--glass-color-primary,0.3); transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; z-index: 1050;"
+    type="button"
   >
     <span
       class="relative z-10 glass-focus glass-touch-target glass-contrast-guard"
     />
-  </div>
+  </button>
 </div>
 `;

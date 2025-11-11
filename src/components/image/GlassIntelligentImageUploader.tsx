@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
@@ -22,6 +22,8 @@ export interface IntelligentImageUploaderProps {
   showAIFeatures?: boolean;
   onImagesUploaded?: (images: ImageFile[]) => void;
   onImageEdited?: (image: ImageFile) => void;
+  "data-testid"?: string;
+  "aria-label"?: string;
 }
 
 interface ImageEditorProps {
@@ -127,25 +129,25 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
   return (
     <div
       data-glass-component
-      className='fixed inset-0 z-50 glass-flex glass-items-center glass-justify-center glass-surface-dark bg-opacity-75'
+      className="fixed inset-0 z-50 glass-flex glass-items-center glass-justify-center glass-surface-dark bg-opacity-75"
     >
-      <Glass className='glass-w-full max-w-6xl max-h-[90vh] glass-m-4 overflow-hidden'>
+      <Glass className="glass-w-full max-w-6xl max-h-[90vh] glass-m-4 overflow-hidden">
         <div className="glass-flex glass-h-full">
           {/* Image Preview */}
           <div className="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-surface-subtle glass-p-4">
-            <div className='relative max-w-full max-h-full'>
+            <div className="relative max-w-full max-h-full">
               <img
                 src={image.url}
                 alt={image.name}
-                className='max-w-full max-h-full object-contain'
+                className="max-w-full max-h-full object-contain"
                 ref={(el) => {
                   if (el) el.style.maxHeight = "70vh";
                 }}
               />
               {isProcessing && (
-                <div className='absolute inset-0 glass-surface-dark glass-opacity-50 glass-flex glass-items-center glass-justify-center'>
+                <div className="absolute inset-0 glass-surface-dark glass-opacity-50 glass-flex glass-items-center glass-justify-center">
                   <div className="glass-surface-subtle glass-radius-lg glass-p-4 glass-flex glass-items-center glass-gap-3">
-                    <div className='animate-spin w-6 h-6 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full'></div>
+                    <div className="animate-spin w-6 h-6 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full"></div>
                     <span>Processing...</span>
                   </div>
                 </div>
@@ -154,14 +156,14 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
           </div>
 
           {/* Controls Panel */}
-          <div className='w-80 glass-border-l glass-border-subtle glass-flex glass-flex-col'>
+          <div className="w-80 glass-border-l glass-border-subtle glass-flex glass-flex-col">
             {/* Header */}
             <div className="glass-p-4 glass-border-b glass-border-subtle">
               <div className="glass-flex glass-items-center glass-justify-between">
-                <h3 className='glass-text-lg font-semibold'>{image.name}</h3>
+                <h3 className="glass-text-lg font-semibold">{image.name}</h3>
                 <button
                   onClick={onClose}
-                  className='glass-text-secondary hover:glass-text-secondary glass-p-1 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                  className="glass-text-secondary hover:glass-text-secondary glass-p-1 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   ✕
                 </button>
@@ -197,15 +199,15 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
             </div>
 
             {/* Tab Content */}
-            <div className='glass-flex-1 overflow-y-auto glass-p-4'>
+            <div className="glass-flex-1 overflow-y-auto glass-p-4">
               {activeTab === "basic" && (
-                <div className='space-y-4'>
+                <div className="space-y-4">
                   <div>
-                    <h4 className='font-medium mb-3'>Optimization</h4>
+                    <h4 className="font-medium mb-3">Optimization</h4>
                     <button
                       onClick={handleOptimize}
                       disabled={isProcessing}
-                      className='glass-w-full glass-py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue disabled:opacity-50 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue disabled:opacity-50 transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                       aria-label="Run smart optimization"
                     >
                       {isProcessing ? "Optimizing..." : "Smart Optimize"}
@@ -216,29 +218,29 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                   </div>
 
                   <div>
-                    <h4 className='font-medium mb-3'>Quick Actions</h4>
-                    <div className='space-y-2'>
+                    <h4 className="font-medium mb-3">Quick Actions</h4>
+                    <div className="space-y-2">
                       <button
-                        className='glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus'
+                        className="glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus"
                         aria-label="Crop and resize image"
                       >
                         Crop & Resize
                       </button>
                       <button
-                        className='glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus'
+                        className="glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus"
                         aria-label="Add watermark"
                       >
                         Add Watermark
                       </button>
-                      <button className='glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors'>
+                      <button className="glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors">
                         Download
                       </button>
                     </div>
                   </div>
 
                   <div>
-                    <h4 className='font-medium mb-3'>Image Info</h4>
-                    <div className='space-y-2 glass-text-sm'>
+                    <h4 className="font-medium mb-3">Image Info</h4>
+                    <div className="space-y-2 glass-text-sm">
                       <div className="glass-flex glass-justify-between">
                         <span className="glass-text-secondary">Format:</span>
                         <span>{image.metadata.format.toUpperCase()}</span>
@@ -263,13 +265,13 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
               )}
 
               {activeTab === "filters" && (
-                <div className='space-y-4'>
-                  <h4 className='font-medium mb-3'>Adjust Filters</h4>
+                <div className="space-y-4">
+                  <h4 className="font-medium mb-3">Adjust Filters</h4>
 
                   {Object.entries(filters).map(([key, value]) => (
                     <div key={key}>
-                      <div className='glass-flex glass-justify-between mb-2'>
-                        <label className='glass-text-sm font-medium capitalize'>
+                      <div className="glass-flex glass-justify-between mb-2">
+                        <label className="glass-text-sm font-medium capitalize">
                           {key}
                         </label>
                         <span className="glass-text-sm glass-text-secondary">
@@ -303,7 +305,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                         sharpen: 0,
                       })
                     }
-                    className='glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors'
+                    className="glass-w-full glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors"
                   >
                     Reset Filters
                   </button>
@@ -311,14 +313,14 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
               )}
 
               {activeTab === "ai" && (
-                <div className='space-y-4'>
-                  <h4 className='font-medium mb-3'>AI-Powered Features</h4>
+                <div className="space-y-4">
+                  <h4 className="font-medium mb-3">AI-Powered Features</h4>
 
-                  <div className='space-y-3'>
+                  <div className="space-y-3">
                     <button
                       onClick={handleAIEnhance}
                       disabled={isProcessing}
-                      className='glass-w-full glass-py-3 glass-surface-primary text-primary glass-radius hover:glass-surface-subtle disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-py-3 glass-surface-primary text-primary glass-radius hover:glass-surface-subtle disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       <span>🤖</span>
                       AI Auto-Enhance
@@ -327,7 +329,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                     <button
                       onClick={handleRemoveBackground}
                       disabled={isProcessing}
-                      className='glass-w-full glass-py-3 glass-surface-green text-primary glass-radius hover:glass-surface-green disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-py-3 glass-surface-green text-primary glass-radius hover:glass-surface-green disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       <span>✂️</span>
                       Remove Background
@@ -336,7 +338,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                     <button
                       onClick={() => detectFaces(image.id)}
                       disabled={isProcessing}
-                      className='glass-w-full glass-py-3 glass-surface-primary text-primary glass-radius hover:glass-surface-subtle disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2'
+                      className="glass-w-full glass-py-3 glass-surface-primary text-primary glass-radius hover:glass-surface-subtle disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2"
                     >
                       <span>👤</span>
                       Detect Faces
@@ -345,7 +347,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                     <button
                       onClick={() => smartCrop(image.id, 1.0)}
                       disabled={isProcessing}
-                      className='glass-w-full glass-py-3 bg-indigo-600 text-primary glass-radius hover:bg-indigo-700 disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2'
+                      className="glass-w-full glass-py-3 bg-indigo-600 text-primary glass-radius hover:bg-indigo-700 disabled:opacity-50 transition-colors glass-flex glass-items-center glass-justify-center glass-gap-2"
                     >
                       <span>🎯</span>
                       Smart Crop
@@ -353,14 +355,14 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                   </div>
 
                   <div className="glass-surface-subtle glass-p-3 glass-radius-lg">
-                    <h5 className='font-medium text-primary mb-1'>
+                    <h5 className="font-medium text-primary mb-1">
                       AI Insights
                     </h5>
-                    <p className='glass-text-sm text-primary'>
+                    <p className="glass-text-sm text-primary">
                       Dominant colors:{" "}
                       {image.metadata.dominantColors.slice(0, 3).join(", ")}
                     </p>
-                    <p className='glass-text-sm text-primary'>
+                    <p className="glass-text-sm text-primary">
                       Brightness: {Math.round(image.metadata.brightness)}% •
                       Contrast: {Math.round(image.metadata.contrast)}%
                     </p>
@@ -369,8 +371,8 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
               )}
 
               {activeTab === "templates" && (
-                <div className='space-y-4'>
-                  <h4 className='font-medium mb-3'>Templates</h4>
+                <div className="space-y-4">
+                  <h4 className="font-medium mb-3">Templates</h4>
 
                   <div className="glass-grid glass-grid-cols-2 glass-gap-3">
                     {templates.map((template: any) => (
@@ -378,15 +380,15 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                         key={template.id}
                         onClick={() => handleTemplateApply(template.id)}
                         disabled={isProcessing}
-                        className='glass-p-3 glass-border glass-border-subtle glass-radius-lg hover:border-blue hover:glass-surface-subtle transition-colors text-left disabled:opacity-50'
+                        className="glass-p-3 glass-border glass-border-subtle glass-radius-lg hover:border-blue hover:glass-surface-subtle transition-colors text-left disabled:opacity-50"
                       >
-                        <div className='glass-text-sm font-medium'>
+                        <div className="glass-text-sm font-medium">
                           {template.name}
                         </div>
                         <div className="glass-text-xs glass-text-secondary glass-mt-1">
                           {template.width} × {template.height}
                         </div>
-                        <div className='glass-text-xs text-primary glass-mt-1 capitalize'>
+                        <div className="glass-text-xs text-primary glass-mt-1 capitalize">
                           {template.category}
                         </div>
                       </button>
@@ -400,13 +402,13 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
             <div className="glass-p-4 glass-border-t glass-border-subtle glass-flex glass-gap-2">
               <button
                 onClick={onClose}
-                className='glass-flex-1 glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-flex-1 glass-py-2 glass-border glass-border-subtle glass-radius hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 Cancel
               </button>
               <button
                 onClick={() => onSave(image)}
-                className='glass-flex-1 glass-py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors'
+                className="glass-flex-1 glass-py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue transition-colors"
               >
                 Save Changes
               </button>
@@ -437,6 +439,8 @@ export const GlassIntelligentImageUploader: React.FC<
   showAIFeatures = true,
   onImagesUploaded,
   onImageEdited,
+  "data-testid": dataTestId,
+  "aria-label": ariaLabel,
 }) => {
   const {
     images,
@@ -530,12 +534,16 @@ export const GlassIntelligentImageUploader: React.FC<
   const optimizationStats = getOptimizationStats();
 
   return (
-    <Glass className={cn("p-6", className)}>
-      <div className='space-y-6'>
+    <Glass
+      className={cn("p-6", className)}
+      data-testid={dataTestId}
+      aria-label={ariaLabel}
+    >
+      <div className="space-y-6">
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between">
           <div>
-            <h2 className='glass-text-xl font-semibold glass-text-secondary'>
+            <h2 className="glass-text-xl font-semibold glass-text-secondary">
               🤖 Intelligent Image Uploader
             </h2>
             <p className="glass-text-secondary glass-mt-1">
@@ -546,7 +554,7 @@ export const GlassIntelligentImageUploader: React.FC<
           {showOptimization && (
             <button
               onClick={() => setShowStats(!showStats)}
-              className='glass-px-4 glass-py-2 glass-surface-subtle text-primary glass-radius-lg hover:glass-surface-subtle transition-colors'
+              className="glass-px-4 glass-py-2 glass-surface-subtle text-primary glass-radius-lg hover:glass-surface-subtle transition-colors"
             >
               📊 Stats
             </button>
@@ -556,33 +564,33 @@ export const GlassIntelligentImageUploader: React.FC<
         {/* Stats Panel */}
         {showStats && showOptimization && (
           <div className="glass-surface-subtle glass-border glass-border-green-200 glass-radius-lg glass-p-4">
-            <h3 className='font-medium text-primary mb-3'>
+            <h3 className="font-medium text-primary mb-3">
               Optimization Statistics
             </h3>
-            <div className='glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4 glass-text-sm'>
-              <div className='text-center'>
-                <div className='glass-text-2xl font-bold text-primary'>
+            <div className="glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4 glass-text-sm">
+              <div className="text-center">
+                <div className="glass-text-2xl font-bold text-primary">
                   {optimizationStats.totalSaved}KB
                 </div>
-                <div className='text-primary'>Total Saved</div>
+                <div className="text-primary">Total Saved</div>
               </div>
-              <div className='text-center'>
-                <div className='glass-text-2xl font-bold text-primary'>
+              <div className="text-center">
+                <div className="glass-text-2xl font-bold text-primary">
                   {optimizationStats.averageReduction}%
                 </div>
-                <div className='text-primary'>Avg. Reduction</div>
+                <div className="text-primary">Avg. Reduction</div>
               </div>
-              <div className='text-center'>
-                <div className='glass-text-2xl font-bold text-primary'>
+              <div className="text-center">
+                <div className="glass-text-2xl font-bold text-primary">
                   {optimizationStats.imagesProcessed}
                 </div>
-                <div className='text-primary'>Images Processed</div>
+                <div className="text-primary">Images Processed</div>
               </div>
-              <div className='text-center'>
-                <div className='glass-text-2xl font-bold text-primary'>
+              <div className="text-center">
+                <div className="glass-text-2xl font-bold text-primary">
                   {optimizationStats.mostUsedFormat}
                 </div>
-                <div className='text-primary'>Most Used Format</div>
+                <div className="text-primary">Most Used Format</div>
               </div>
             </div>
           </div>
@@ -601,10 +609,10 @@ export const GlassIntelligentImageUploader: React.FC<
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <div className='space-y-4'>
-            <div className='text-6xl'>📸</div>
+          <div className="space-y-4">
+            <div className="text-6xl">📸</div>
             <div>
-              <h3 className='glass-text-lg font-medium glass-text-secondary'>
+              <h3 className="glass-text-lg font-medium glass-text-secondary">
                 Drop images here or click to upload
               </h3>
               <p className="glass-text-secondary glass-mt-1">
@@ -614,13 +622,13 @@ export const GlassIntelligentImageUploader: React.FC<
 
             <button
               onClick={() => fileInputRef.current?.click()}
-              className='glass-px-6 glass-py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors'
+              className="glass-px-6 glass-py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
             >
               Choose Files
             </button>
 
             {autoOptimize && (
-              <div className='glass-flex glass-items-center glass-justify-center glass-gap-2 glass-text-sm text-primary'>
+              <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-text-sm text-primary">
                 <span>✅</span>
                 <span>Auto-optimization enabled</span>
               </div>
@@ -633,23 +641,24 @@ export const GlassIntelligentImageUploader: React.FC<
             multiple
             accept={acceptedFormats.join(",")}
             onChange={handleFileSelect}
-            className='hidden glass-touch-target glass-contrast-guard'
+            aria-label="Upload images"
+            className="hidden glass-touch-target glass-contrast-guard"
           />
         </div>
 
         {/* Upload Progress */}
         {uploadProgresses.length > 0 && (
-          <div className='space-y-3'>
-            <h3 className='font-medium glass-text-secondary'>
+          <div className="space-y-3">
+            <h3 className="font-medium glass-text-secondary">
               Processing Images
             </h3>
             {uploadProgresses.map((progress: any) => (
-              <div key={progress.imageId} className='space-y-2'>
+              <div key={progress.imageId} className="space-y-2">
                 <div className="glass-flex glass-justify-between glass-text-sm">
                   <span>{progress.message || "Processing..."}</span>
                   <span>{progress.progress}%</span>
                 </div>
-                <div className='glass-w-full glass-surface-subtle glass-radius-full h-2'>
+                <div className="glass-w-full glass-surface-subtle glass-radius-full h-2">
                   <div
                     className={cn(
                       "h-2 rounded-full transition-all",
@@ -667,41 +676,41 @@ export const GlassIntelligentImageUploader: React.FC<
 
         {/* Image Gallery */}
         {images.length > 0 && (
-          <div className='space-y-4'>
+          <div className="space-y-4">
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='font-medium glass-text-secondary'>
+              <h3 className="font-medium glass-text-secondary">
                 Uploaded Images ({images.length})
               </h3>
               {images.length > 1 && (
                 <div className="glass-flex glass-gap-2">
-                  <button className='glass-px-3 glass-py-1 glass-text-sm glass-surface-subtle text-primary glass-radius hover:glass-surface-subtle transition-colors'>
+                  <button className="glass-px-3 glass-py-1 glass-text-sm glass-surface-subtle text-primary glass-radius hover:glass-surface-subtle transition-colors">
                     Batch Optimize
                   </button>
-                  <button className='glass-px-3 glass-py-1 glass-text-sm glass-surface-subtle text-primary glass-radius hover:glass-surface-subtle transition-colors'>
+                  <button className="glass-px-3 glass-py-1 glass-text-sm glass-surface-subtle text-primary glass-radius hover:glass-surface-subtle transition-colors">
                     Batch Download
                   </button>
                 </div>
               )}
             </div>
 
-            <div className='glass-grid glass-grid-cols-2 md:grid-cols-3 lg:grid-cols-4 glass-gap-4'>
+            <div className="glass-grid glass-grid-cols-2 md:grid-cols-3 lg:grid-cols-4 glass-gap-4">
               {images.map((image: any) => (
-                <div key={image.id} className='group relative'>
-                  <div className='aspect-square glass-surface-subtle glass-radius-lg overflow-hidden'>
+                <div key={image.id} className="group relative">
+                  <div className="aspect-square glass-surface-subtle glass-radius-lg overflow-hidden">
                     <img
                       src={image.url}
                       alt={image.name}
-                      className='glass-w-full glass-h-full object-cover group-hover:scale-105 transition-transform'
+                      className="glass-w-full glass-h-full object-cover group-hover:scale-105 transition-transform"
                     />
                   </div>
 
                   {/* Overlay */}
-                  <div className='absolute inset-0 glass-surface-dark bg-opacity-0 group-hover:glass-opacity-50 transition-opacity glass-radius-lg glass-flex glass-items-center glass-justify-center'>
-                    <div className='opacity-0 group-hover:opacity-100 transition-opacity glass-flex glass-gap-2'>
+                  <div className="absolute inset-0 glass-surface-dark bg-opacity-0 group-hover:glass-opacity-50 transition-opacity glass-radius-lg glass-flex glass-items-center glass-justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity glass-flex glass-gap-2">
                       {showEditor && (
                         <button
                           onClick={() => setSelectedImage(image)}
-                          className='glass-p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors'
+                          className="glass-p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors"
                           title="Edit Image"
                         >
                           ✏️
@@ -709,7 +718,7 @@ export const GlassIntelligentImageUploader: React.FC<
                       )}
                       <button
                         onClick={() => removeImage(image.id)}
-                        className='glass-p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors'
+                        className="glass-p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:text-primary transition-colors"
                         title="Remove Image"
                       >
                         🗑️
@@ -718,14 +727,14 @@ export const GlassIntelligentImageUploader: React.FC<
                   </div>
 
                   {/* Info */}
-                  <div className='mt-2 glass-text-xs glass-text-secondary'>
-                    <div className='truncate font-medium'>{image.name}</div>
+                  <div className="mt-2 glass-text-xs glass-text-secondary">
+                    <div className="truncate font-medium">{image.name}</div>
                     <div>
                       {image.width} × {image.height} •{" "}
                       {(image.size / 1024).toFixed(1)}KB
                     </div>
                     {image.optimizedAt && (
-                      <div className='text-primary'>✅ Optimized</div>
+                      <div className="text-primary">✅ Optimized</div>
                     )}
                   </div>
                 </div>
@@ -736,25 +745,25 @@ export const GlassIntelligentImageUploader: React.FC<
 
         {/* Features Grid */}
         {showAIFeatures && (
-          <div className='glass-grid glass-grid-cols-1 md:grid-cols-3 glass-gap-4'>
-            <div className='text-center glass-p-4 glass-surface-subtle glass-radius-lg'>
-              <div className='glass-text-2xl mb-2'>🤖</div>
-              <h3 className='font-medium text-primary'>AI Enhancement</h3>
-              <p className='glass-text-sm text-primary glass-mt-1'>
+          <div className="glass-grid glass-grid-cols-1 md:grid-cols-3 glass-gap-4">
+            <div className="text-center glass-p-4 glass-surface-subtle glass-radius-lg">
+              <div className="glass-text-2xl mb-2">🤖</div>
+              <h3 className="font-medium text-primary">AI Enhancement</h3>
+              <p className="glass-text-sm text-primary glass-mt-1">
                 Automatic brightness, contrast, and sharpness optimization
               </p>
             </div>
-            <div className='text-center glass-p-4 glass-surface-subtle glass-radius-lg'>
-              <div className='glass-text-2xl mb-2'>✂️</div>
-              <h3 className='font-medium text-primary'>Smart Tools</h3>
-              <p className='glass-text-sm text-primary glass-mt-1'>
+            <div className="text-center glass-p-4 glass-surface-subtle glass-radius-lg">
+              <div className="glass-text-2xl mb-2">✂️</div>
+              <h3 className="font-medium text-primary">Smart Tools</h3>
+              <p className="glass-text-sm text-primary glass-mt-1">
                 Background removal, face detection, and smart cropping
               </p>
             </div>
-            <div className='text-center glass-p-4 glass-surface-subtle glass-radius-lg'>
-              <div className='glass-text-2xl mb-2'>⚡</div>
-              <h3 className='font-medium text-primary'>Optimization</h3>
-              <p className='glass-text-sm text-primary glass-mt-1'>
+            <div className="text-center glass-p-4 glass-surface-subtle glass-radius-lg">
+              <div className="glass-text-2xl mb-2">⚡</div>
+              <h3 className="font-medium text-primary">Optimization</h3>
+              <p className="glass-text-sm text-primary glass-mt-1">
                 Reduce file sizes by up to 80% while maintaining quality
               </p>
             </div>

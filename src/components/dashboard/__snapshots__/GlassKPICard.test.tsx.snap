@@ -20,7 +20,9 @@ exports[`GlassKPICard matches snapshot 1`] = `
         >
           <h3
             class="card-title glass-text-base font-medium glass-text-primary/90 flex items-center glass-gap-2"
-          />
+          >
+            KPI
+          </h3>
         </div>
       </div>
       <div
@@ -39,7 +41,7 @@ exports[`GlassKPICard matches snapshot 1`] = `
               class="text-3xl glass-text-primary relative z-10 font-bold tracking-tight group-hover:glass-text-primary transition-all duration-300 drop-shadow-sm group-hover:drop-shadow-lg"
               data-value="true"
             >
-              undefined
+              --
             </span>
           </div>
         </div>

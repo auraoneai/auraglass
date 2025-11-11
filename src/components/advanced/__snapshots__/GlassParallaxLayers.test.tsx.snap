@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassParallaxLayers matches snapshot 1`] = `
+<div
+  aria-hidden="true"
+  aria-label="Parallax layers with interactive effects"
+  class="relative overflow-hidden transform-gpu will-change-transform"
+  id="parallax-layers-:r5:"
+  role="presentation"
+/>
+`;

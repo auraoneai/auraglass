@@ -15,7 +15,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
-import { StateIndicator } from '@/components/visual-feedback/StateIndicator';
+import StateIndicator from '@/components/visual-feedback/StateIndicator';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);

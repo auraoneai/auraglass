@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassNeuroSync matches snapshot 1`] = `
+<div>
+  <div
+    class="glass-fixed glass-bottom-4 glass-left-4 glass-z-50"
+  >
+    <button
+      class="w-14 h-14 glass-radius-full glass-surface-primary glass-elev-4 flex items-center justify-center glass-text-primary transition-all duration-300 hover:scale-105"
+      tabindex="0"
+    >
+      🧠
+      <div
+        class="glass-absolute glass--top-1 glass-right-1 glass-w-4 glass-h-4 glass-radius-full glass-surface-danger"
+        style="opacity: 0.8;"
+      />
+    </button>
+  </div>
+</div>
+`;

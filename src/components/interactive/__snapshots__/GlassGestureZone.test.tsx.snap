@@ -2,6 +2,7 @@
 
 exports[`GlassGestureZone matches snapshot 1`] = `
 <div
+  aria-label="Gesture recognition zone"
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-gesture-zone relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20 glass-contrast-guard"
   id="glass-gesture-zone-:r4:"
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -32,11 +33,14 @@ exports[`GlassGestureZone matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="gesture-sensitivity"
         >
           Sensitivity:
         </label>
         <input
+          aria-label="Gesture sensitivity"
           class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          id="gesture-sensitivity"
           max="1"
           min="0.1"
           step="0.1"

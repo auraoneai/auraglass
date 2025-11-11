@@ -1,65 +1,91 @@
-'use client';
-import React, { useRef } from 'react';
-import { cn } from '../../../lib/utilsComprehensive';
-import { createGlassStyle } from '../../../core/mixins/glassMixins';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+"use client";
+import React, { useRef } from "react";
+import { cn } from "../../../lib/utilsComprehensive";
+import { createGlassStyle } from "../../../core/mixins/glassMixins";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 export interface ChartGridProps {
   show?: boolean;
-  style?: 'solid' | 'dashed' | 'dotted';
+  style?: "solid" | "dashed" | "dotted";
   color?: string;
   opacity?: number;
   horizontal?: boolean;
   vertical?: boolean;
+  className?: string;
+  "data-testid"?: string;
 }
 
 export const ChartGrid: React.FC<ChartGridProps> = ({
   // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
 
   show = true,
-  style = 'solid',
+  style = "solid",
   color,
   opacity = 0.3,
   horizontal = true,
   vertical = true,
+  className,
+  "data-testid": dataTestId,
 }) => {
-  const glassStyles = createGlassStyle({ intent: 'neutral', elevation: 'level1' });
-  const gridColor = color || glassStyles.borderColor || '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
+  const glassStyles = createGlassStyle({
+    intent: "neutral",
+    elevation: "level1",
+  });
+  const gridColor =
+    color ||
+    glassStyles.borderColor ||
+    '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
   const gridRef = useRef<SVGSVGElement>(null);
 
   if (!show) return null;
 
   // Generate grid lines
-  const horizontalLines = horizontal ? Array.from({ length: 6 }, (_, i) => ({
-    y: (i / 5) * 100,
-    key: `h-${i}`,
-  })) : [];
+  const horizontalLines = horizontal
+    ? Array.from({ length: 6 }, (_, i) => ({
+        y: (i / 5) * 100,
+        key: `h-${i}`,
+      }))
+    : [];
 
-  const verticalLines = vertical ? Array.from({ length: 8 }, (_, i) => ({
-    x: (i / 7) * 100,
-    key: `v-${i}`,
-  })) : [];
+  const verticalLines = vertical
+    ? Array.from({ length: 8 }, (_, i) => ({
+        x: (i / 7) * 100,
+        key: `v-${i}`,
+      }))
+    : [];
 
-  const strokeDashArray = style === 'dashed' ? '5,5' : style === 'dotted' ? '2,3' : 'none';
+  const strokeDashArray =
+    style === "dashed" ? "5,5" : style === "dotted" ? "2,3" : "none";
 
   return (
-    <svg data-glass-component
+    <svg
+      data-glass-component
       ref={gridRef}
+      className={className}
+      data-testid={dataTestId}
       style={{
-        position: 'absolute',
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
         opacity,
         zIndex: 0,
       }}
     >
       <defs>
-        <pattern id="grid-pattern" width="100" height="100" patternUnits="userSpaceOnUse">
+        <pattern
+          id="grid-pattern"
+          width="100"
+          height="100"
+          patternUnits="userSpaceOnUse"
+        >
           {horizontal && (
             <g>
               {Array.from({ length: 5 }, (_, i) => (

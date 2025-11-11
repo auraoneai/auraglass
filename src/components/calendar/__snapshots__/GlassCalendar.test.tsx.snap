@@ -389,7 +389,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
-              class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-foundation-complete glass-glass-backdrop-blur-md bg-transparent border-white/40 glass-text-primary/90"
+              class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
                 class="glass-body font-medium leading-none glass-touch-target glass-contrast-guard"
@@ -402,7 +402,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
-              class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
+              class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-foundation-complete glass-glass-backdrop-blur-md bg-transparent border-white/40 glass-text-primary/90"
             >
               <span
                 class="glass-body font-medium leading-none glass-touch-target glass-contrast-guard"

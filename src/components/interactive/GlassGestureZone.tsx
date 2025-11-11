@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -776,24 +776,28 @@ export const GlassGestureZone = forwardRef<
 
             <button
               onClick={clearAll}
-              className='glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             >
               Clear
             </button>
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Sensitivity:</label>
+            <label htmlFor="gesture-sensitivity" className="glass-text-sm">
+              Sensitivity:
+            </label>
             <input
+              id="gesture-sensitivity"
               type="range"
               min="0.1"
               max="1"
               step="0.1"
               value={sensitivity}
               onChange={(e) => {}}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              aria-label="Gesture sensitivity"
             />
-            <span className='glass-text-sm min-w-[3ch]'>
+            <span className="glass-text-sm min-w-[3ch]">
               {Math.round(sensitivity * 100)}%
             </span>
           </div>
@@ -844,6 +848,8 @@ export const GlassGestureZone = forwardRef<
           "glass-gesture-zone relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20 glass-contrast-guard",
           className
         )}
+        data-testid={props["data-testid"]}
+        aria-label={props["aria-label"] || "Gesture recognition zone"}
         {...props}
       >
         <Motion
@@ -852,7 +858,7 @@ export const GlassGestureZone = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}
@@ -872,16 +878,16 @@ export const GlassGestureZone = forwardRef<
           {/* Recent gestures */}
           {recognizedGestures.length > 0 && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm font-medium mb-2'>
+              <div className="glass-text-sm font-medium mb-2">
                 Recent Gestures:
               </div>
-              <div className='space-y-1'>
+              <div className="space-y-1">
                 {recognizedGestures.slice(-5).map((gesture: any) => (
                   <div
                     key={gesture.id}
                     className="glass-text-xs glass-p-2 glass-surface-primary/10 glass-radius-sm"
                   >
-                    <span className='font-medium'>
+                    <span className="font-medium">
                       {gesture.type.replace("_", " ")}
                     </span>
                     <span className="glass-text-secondary glass-ml-2">

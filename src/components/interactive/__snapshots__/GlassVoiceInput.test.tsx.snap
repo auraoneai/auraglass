@@ -2,8 +2,10 @@
 
 exports[`GlassVoiceInput matches snapshot 1`] = `
 <div
+  aria-label="Voice input"
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-voice-input relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20"
   id="glass-voice-input-:r4:"
+  role="region"
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
@@ -31,13 +33,16 @@ exports[`GlassVoiceInput matches snapshot 1`] = `
       <div
         class="glass-flex glass-items-center glass-gap-2"
       >
-        <span
+        <label
           class="glass-text-sm"
+          for="voice-language"
         >
           Language:
-        </span>
+        </label>
         <select
+          aria-label="Select voice recognition language"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
+          id="voice-language"
         >
           <option
             value="en-US"
@@ -89,13 +94,16 @@ exports[`GlassVoiceInput matches snapshot 1`] = `
       <div
         class="glass-flex glass-items-center glass-gap-2"
       >
-        <span
+        <label
           class="glass-text-sm"
+          for="visualizer-style"
         >
           Style:
-        </span>
+        </label>
         <select
+          aria-label="Select visualizer style"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
+          id="visualizer-style"
         >
           <option
             value="waveform"

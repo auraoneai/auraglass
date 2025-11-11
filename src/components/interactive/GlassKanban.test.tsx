@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassKanban Component Tests
  *
@@ -11,61 +11,57 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassKanban } from '@/components/interactive/GlassKanban';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassKanban } from "@/components/interactive/GlassKanban";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassKanban', () => {
+describe("GlassKanban", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassKanban />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassKanban columns={[]} />);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassKanban />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassKanban columns={[]} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassKanban
+        columns={[]}
         className="custom-class"
         data-testid="glasskanban"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasskanban"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasskanban"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassKanban />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassKanban columns={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

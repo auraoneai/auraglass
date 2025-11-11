@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FocusIndicator matches snapshot 1`] = `
+<div
+  class="glass-focus-indicator"
+  style="position: relative; display: inline-block; outline: 0px solid rgba(99, 102, 241, 0); will-change: box-shadow, outline, opacity; box-shadow: 0 0 0 0px rgba(99, 102, 241, 0), 0 0 0px rgba(99, 102, 241, 0); outline-offset: 2px;"
+/>
+`;

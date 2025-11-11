@@ -1,9 +1,9 @@
-'use client';
+"use client";
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { GlassAdvanced } from "../primitives/glass/GlassAdvanced";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   fallback?: ReactNode;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
@@ -68,24 +68,37 @@ export class GlassErrorBoundary extends Component<Props, State> {
   };
 
   render() {
+    const {
+      children,
+      fallback,
+      onError,
+      className,
+      "aria-label": ariaLabel,
+      "data-testid": dataTestId,
+      ...props
+    } = this.props;
+
     if (this.state.hasError) {
       // Custom fallback
-      if (this.props.fallback) {
-        return <>{this.props.fallback}</>;
+      if (fallback) {
+        return <>{fallback}</>;
       }
 
       // Default glass error UI
       return (
         <GlassAdvanced
           data-glass-component
+          data-testid={dataTestId}
           elev={3}
           variant="danger"
-          className="glass-p-8 glass-m-4"
+          className={cn("glass-p-8 glass-m-4", className)}
           role="alert"
           aria-live="assertive"
+          aria-label={ariaLabel}
+          {...props}
         >
           <div className="glass-stack glass-gap-4">
-            <div className='glass-text-2xl font-bold glass-text-balance'>
+            <div className="glass-text-2xl font-bold glass-text-balance">
               ⚠️ Something went wrong
             </div>
 
@@ -96,10 +109,10 @@ export class GlassErrorBoundary extends Component<Props, State> {
 
             {process.env.NODE_ENV === "development" && this.state.error && (
               <details className="glass-mt-4">
-                <summary className='font-semibold cursor-pointer glass-focus'>
+                <summary className="font-semibold cursor-pointer glass-focus">
                   Error Details (Development Only)
                 </summary>
-                <pre className='glass-mt-2 glass-p-4 glass-radius-md glass-text-xs overflow-auto glass-surface-danger'>
+                <pre className="glass-mt-2 glass-p-4 glass-radius-md glass-text-xs overflow-auto glass-surface-danger">
                   {this.state.error.toString()}
                   {this.state.errorInfo?.componentStack}
                 </pre>
@@ -128,6 +141,16 @@ export class GlassErrorBoundary extends Component<Props, State> {
       );
     }
 
-    return this.props.children;
+    // When no error, wrap children in a div to forward props
+    return (
+      <div
+        className={className}
+        aria-label={ariaLabel}
+        data-testid={dataTestId}
+        {...props}
+      >
+        {children}
+      </div>
+    );
   }
 }

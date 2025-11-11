@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassCheckboxGroup matches snapshot 1`] = `
+<div
+  class="glass-checkbox-group-container"
+>
+  <div
+    class="glass-checkbox-group flex flex-col glass-gap-3"
+    id="glass-checkbox-group-:rg:"
+    role="group"
+  />
+</div>
+`;

@@ -8,9 +8,13 @@ exports[`GlassMetricChip matches snapshot 1`] = `
 >
   <span
     class="glass-text-xs text-primary/70"
-  />
+  >
+    Metric
+  </span>
   <span
     class="font-semibold glass-text-primary"
-  />
+  >
+    --
+  </span>
 </div>
 `;

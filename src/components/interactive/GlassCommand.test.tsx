@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassCommand Component Tests
  *
@@ -11,53 +11,55 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassCommand } from '@/components/interactive/GlassCommand';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassCommand } from "@/components/interactive/GlassCommand";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassCommand', () => {
+describe("GlassCommand", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassCommand />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassCommand items={[]} />);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCommand />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassCommand items={[]} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Component has accessible name and description
    */
-  describe('ARIA Attributes', () => {
-    it('supports aria-label', () => {
-      const { container } = render(<GlassCommand aria-label="Test component" />);
+  describe("ARIA Attributes", () => {
+    it("supports aria-label", () => {
+      const { container } = render(
+        <GlassCommand items={[]} aria-label="Test component" />
+      );
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
   });
 
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
-      render(<GlassCommand />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
+      render(<GlassCommand items={[]} />);
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -65,45 +67,47 @@ describe('GlassCommand', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
-      const { container } = render(<GlassCommand />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+    it("shows visible focus indicator", () => {
+      const { container } = render(<GlassCommand items={[]} />);
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassCommand
+        items={[]}
         className="custom-class"
         data-testid="glasscommand"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasscommand"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscommand"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassCommand />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassCommand items={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

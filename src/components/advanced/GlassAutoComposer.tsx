@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Auto Composer
@@ -855,17 +855,17 @@ export function GlassAutoComposerInterface({
   return (
     <div className={cn("space-y-6", className)}>
       <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6">
-        <h2 className='glass-text-2xl font-bold text-primary mb-4'>
+        <h2 className="glass-text-2xl font-bold text-primary mb-4">
           AI Layout Generator
         </h2>
 
         <div className="glass-gap-4">
           <div>
-            <label className='block glass-text-sm font-medium glass-text-secondary mb-2'>
+            <label className="block glass-text-sm font-medium glass-text-secondary mb-2">
               Describe the layout you want
             </label>
             <textarea
-              className='glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 text-primary glass-touch-target glass-contrast-guard'
+              className="glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 text-primary glass-touch-target glass-contrast-guard"
               rows={3}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
@@ -874,7 +874,7 @@ export function GlassAutoComposerInterface({
           </div>
 
           <motion.button
-            className='glass-surface-accent glass-px-6 glass-py-3 glass-radius-md font-medium'
+            className="glass-surface-accent glass-px-6 glass-py-3 glass-radius-md font-medium"
             onClick={handleGenerate}
             disabled={isGenerating || !prompt.trim()}
             whileHover={{ scale: 1.02 }}
@@ -888,8 +888,8 @@ export function GlassAutoComposerInterface({
       {/* Generated Layout Preview */}
       {generatedLayout && (
         <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6">
-          <div className='glass-flex glass-items-center glass-justify-between mb-4'>
-            <h3 className='glass-text-xl font-semibold text-primary'>
+          <div className="glass-flex glass-items-center glass-justify-between mb-4">
+            <h3 className="glass-text-xl font-semibold text-primary">
               Generated Layout
             </h3>
             <div className="glass-flex glass-items-center glass-gap-2">
@@ -901,19 +901,19 @@ export function GlassAutoComposerInterface({
 
           <div className="glass-gap-4">
             <div>
-              <h4 className='glass-text-sm font-medium glass-text-secondary mb-2'>
+              <h4 className="glass-text-sm font-medium glass-text-secondary mb-2">
                 JSX Code
               </h4>
-              <pre className='glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs text-primary overflow-x-auto'>
+              <pre className="glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs text-primary overflow-x-auto">
                 {generatedLayout.jsx}
               </pre>
             </div>
 
             <div>
-              <h4 className='glass-text-sm font-medium glass-text-secondary mb-2'>
+              <h4 className="glass-text-sm font-medium glass-text-secondary mb-2">
                 CSS Styles
               </h4>
-              <pre className='glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs text-primary overflow-x-auto'>
+              <pre className="glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs text-primary overflow-x-auto">
                 {generatedLayout.css}
               </pre>
             </div>
@@ -938,11 +938,11 @@ export function GlassGeneratedLayoutRenderer({
     // In a real implementation, this would safely execute the generated JSX
     // For demo purposes, we'll show a placeholder
     return (
-      <div className='generated-component glass-p-6 text-center'>
-        <h3 className='glass-text-xl font-bold text-primary mb-2'>
+      <div className="generated-component glass-p-6 text-center">
+        <h3 className="glass-text-xl font-bold text-primary mb-2">
           Generated Component Preview
         </h3>
-        <p className='glass-text-secondary mb-4'>
+        <p className="glass-text-secondary mb-4">
           Based on: "{layout.prompt.description}"
         </p>
         <div className="glass-text-xs glass-text-tertiary">
@@ -1006,3 +1006,21 @@ export const autoComposerPresets = {
     iterations: 2,
   },
 };
+
+// Main component wrapper for testing and simple usage
+export function GlassAutoComposer({
+  children,
+  className,
+  ...props
+}: {
+  children?: React.ReactNode;
+  className?: string;
+} & React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <GlassAutoComposerProvider>
+      <div className={className} {...props}>
+        {children || <GlassAutoComposerInterface />}
+      </div>
+    </GlassAutoComposerProvider>
+  );
+}

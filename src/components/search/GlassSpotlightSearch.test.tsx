@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassSpotlightSearch Component Tests
  *
@@ -11,53 +11,59 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassSpotlightSearch } from '@/components/search/GlassSpotlightSearch';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassSpotlightSearch } from "@/components/search/GlassSpotlightSearch";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassSpotlightSearch', () => {
+describe("GlassSpotlightSearch", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassSpotlightSearch />);
+  it("renders without crashing", () => {
+    const { container } = render(
+      <GlassSpotlightSearch placeholder="Search..." />
+    );
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassSpotlightSearch />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <GlassSpotlightSearch placeholder="Search..." />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Component has accessible name and description
    */
-  describe('ARIA Attributes', () => {
-    it('supports aria-label', () => {
-      const { container } = render(<GlassSpotlightSearch aria-label="Test component" />);
+  describe("ARIA Attributes", () => {
+    it("supports aria-label", () => {
+      const { container } = render(
+        <GlassSpotlightSearch aria-label="Test component" />
+      );
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
   });
 
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
       render(<GlassSpotlightSearch />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -65,45 +71,49 @@ describe('GlassSpotlightSearch', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
+    it("shows visible focus indicator", () => {
       const { container } = render(<GlassSpotlightSearch />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassSpotlightSearch
+        placeholder="Search..."
         className="custom-class"
         data-testid="glassspotlightsearch"
       />
     );
 
-    const element = container.querySelector('[data-testid="glassspotlightsearch"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassspotlightsearch"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassSpotlightSearch />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <GlassSpotlightSearch placeholder="Search..." />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

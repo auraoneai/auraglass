@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassDataGrid Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassDataGrid } from '@/components/data-display/GlassDataGrid';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassDataGrid } from "@/components/data-display/GlassDataGrid";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassDataGrid', () => {
+describe("GlassDataGrid", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassDataGrid />);
     expect(container).toBeInTheDocument();
   });
@@ -32,32 +32,34 @@ describe('GlassDataGrid', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassDataGrid />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Component has accessible name and description
    */
-  describe('ARIA Attributes', () => {
-    it('supports aria-label', () => {
-      const { container } = render(<GlassDataGrid aria-label="Test component" />);
-      const element = container.querySelector('[aria-label="Test component"]');
-      expect(element).toBeInTheDocument();
+  describe("ARIA Attributes", () => {
+    it("supports aria-label", () => {
+      const { getByRole } = render(
+        <GlassDataGrid aria-label="Test component" />
+      );
+      const region = getByRole("region", { name: /test component/i });
+      expect(region).toBeInTheDocument();
     });
   });
 
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
       render(<GlassDataGrid />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -65,44 +67,42 @@ describe('GlassDataGrid', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
+    it("shows visible focus indicator", () => {
       const { container } = render(<GlassDataGrid />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <GlassDataGrid
-        className="custom-class"
-        data-testid="glassdatagrid"
-      />
+      <GlassDataGrid className="custom-class" data-testid="glassdatagrid" />
     );
 
-    const element = container.querySelector('[data-testid="glassdatagrid"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassdatagrid"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassDataGrid />);
     expect(container.firstChild).toMatchSnapshot();
   });

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSelfHealingSystem matches snapshot 1`] = `
+<div
+  class="relative self-healing-wrapper"
+  data-component-id="test-component"
+  data-component-type="test"
+>
+  <div>
+    <div>
+      Self-Healing System
+    </div>
+  </div>
+</div>
+`;

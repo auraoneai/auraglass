@@ -5,6 +5,7 @@ exports[`GlassButton matches snapshot 1`] = `
   class="motion-primitive inline-block"
 >
   <button
+    aria-label="Test button"
     class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
     data-magnet="true"
     data-performance-mode="ultra"
@@ -13,7 +14,9 @@ exports[`GlassButton matches snapshot 1`] = `
   >
     <span
       class="relative z-10"
-    />
+    >
+      Click me
+    </span>
   </button>
 </div>
 `;

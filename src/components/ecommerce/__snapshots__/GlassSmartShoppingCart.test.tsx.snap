@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSmartShoppingCart matches snapshot 1`] = `
+<div>
+  <div
+    class="glass-foundation-basic p-6"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="text-center"
+    >
+      <div
+        class="text-6xl mb-4"
+      >
+        🛒
+      </div>
+      <h2
+        class="glass-text-xl font-semibold glass-text-secondary mb-2"
+      >
+        Your cart is empty
+      </h2>
+      <p
+        class="glass-text-secondary mb-6"
+      >
+        Looks like you haven't added any items to your cart yet.
+      </p>
+      <button
+        class="glass-px-6 glass-py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+      >
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>
+`;

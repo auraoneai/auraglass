@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "@/lib/utils";
 
 import React from "react";
@@ -13,7 +13,8 @@ export interface Comment {
   replies?: Comment[];
 }
 
-export interface GlassCommentThreadProps {
+export interface GlassCommentThreadProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   comments: Comment[];
   onReply?: (parentId: string, text: string) => void;
 }
@@ -21,6 +22,8 @@ export interface GlassCommentThreadProps {
 export function GlassCommentThread({
   comments,
   onReply,
+  className,
+  ...props
 }: GlassCommentThreadProps) {
   const [drafts, setDrafts] = React.useState<Record<string, string>>({});
   const setDraft = (id: string, v: string) =>
@@ -87,7 +90,7 @@ export function GlassCommentThread({
   );
 
   return (
-    <div className={cn("glass-gap-3")}>
+    <div className={cn("glass-gap-3", className)} {...props}>
       {(comments || []).map((c: any) => render(c))}
     </div>
   );

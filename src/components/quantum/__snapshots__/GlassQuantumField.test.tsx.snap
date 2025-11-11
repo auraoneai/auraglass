@@ -18,11 +18,13 @@ exports[`GlassQuantumField matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="quantum-type-select"
         >
           Type:
         </label>
         <select
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+          id="quantum-type-select"
         >
           <option
             value="particle"
@@ -51,11 +53,13 @@ exports[`GlassQuantumField matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="quantum-coherence-range"
         >
           Coherence:
         </label>
         <input
           class="w-20"
+          id="quantum-coherence-range"
           max="1"
           min="0"
           step="0.1"
@@ -68,11 +72,13 @@ exports[`GlassQuantumField matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="quantum-entanglement-range"
         >
           Entanglement:
         </label>
         <input
           class="w-20"
+          id="quantum-entanglement-range"
           max="1"
           min="0"
           step="0.1"
@@ -85,11 +91,13 @@ exports[`GlassQuantumField matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="quantum-temperature-range"
         >
           Temperature:
         </label>
         <input
           class="w-20"
+          id="quantum-temperature-range"
           max="1"
           min="0"
           step="0.1"
@@ -106,6 +114,7 @@ exports[`GlassQuantumField matches snapshot 1`] = `
           <input
             checked=""
             class="glass-mr-1"
+            id="quantum-waves-checkbox"
             type="checkbox"
           />
           Waves
@@ -116,6 +125,7 @@ exports[`GlassQuantumField matches snapshot 1`] = `
           <input
             checked=""
             class="glass-mr-1"
+            id="quantum-probability-checkbox"
             type="checkbox"
           />
           Probability
@@ -126,6 +136,7 @@ exports[`GlassQuantumField matches snapshot 1`] = `
           <input
             checked=""
             class="glass-mr-1"
+            id="quantum-entanglement-checkbox"
             type="checkbox"
           />
           Entanglement
@@ -136,6 +147,7 @@ exports[`GlassQuantumField matches snapshot 1`] = `
           <input
             checked=""
             class="glass-mr-1"
+            id="quantum-evolution-checkbox"
             type="checkbox"
           />
           Evolution

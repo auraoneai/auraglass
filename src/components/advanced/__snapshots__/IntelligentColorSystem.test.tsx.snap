@@ -1,0 +1,299 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IntelligentColorSystem matches snapshot 1`] = `
+<div>
+  <div
+    class="glass-p-6 glass-radius-2xl glass-blur-backdrop glass-border glass-border-white/20"
+    style="opacity: 0; transform: translateY(20px);"
+  >
+    <h3
+      class="glass-text-xl glass-font-bold glass-mb-4"
+      style="color: rgb(248, 250, 252);"
+    >
+      Intelligent Color System Demo
+    </h3>
+    <div
+      class="glass-grid glass-grid-cols-4 glass-gap-2 glass-mb-6"
+    >
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(249, 115, 22);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          primary
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(234, 179, 8);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          secondary
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(6, 182, 212);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          accent
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(2, 6, 23);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          background
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(30, 41, 59);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          surface
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(248, 250, 252);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          text
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgb(203, 213, 225);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          textSecondary
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          border
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgba(249, 115, 22, 0.1);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          glassBase
+        </div>
+      </div>
+      <div
+        class="glass-text-center"
+      >
+        <div
+          class="glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+          style="background-color: rgba(255, 255, 255, 0.05);"
+        />
+        <div
+          class="glass-text-xs"
+          style="color: rgb(203, 213, 225);"
+        >
+          glassTint
+        </div>
+      </div>
+    </div>
+    <div
+      class="glass-space-y-4"
+    >
+      <div>
+        <label
+          class="glass-block glass-text-sm glass-font-medium glass-mb-2"
+          style="color: rgb(248, 250, 252);"
+        >
+          Time of Day
+        </label>
+        <div
+          class="glass-flex glass-space-x-2"
+        >
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
+            style="color: rgb(2, 6, 23); background-color: rgb(249, 115, 22);"
+            tabindex="0"
+          >
+            Morning
+          </button>
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
+            style="color: rgb(2, 6, 23); background-color: rgb(249, 115, 22);"
+            tabindex="0"
+          >
+            Day
+          </button>
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
+            style="color: rgb(2, 6, 23); background-color: rgb(249, 115, 22);"
+            tabindex="0"
+          >
+            Evening
+          </button>
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
+            style="color: rgb(2, 6, 23); background-color: rgb(249, 115, 22);"
+            tabindex="0"
+          >
+            Night
+          </button>
+        </div>
+      </div>
+      <div>
+        <label
+          class="glass-block glass-text-sm glass-font-medium glass-mb-2"
+          style="color: rgb(248, 250, 252);"
+        >
+          Season
+        </label>
+        <div
+          class="glass-flex glass-space-x-2"
+        >
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+            style="background-color: rgb(234, 179, 8); color: rgb(2, 6, 23);"
+            tabindex="0"
+          >
+            spring
+          </button>
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+            style="background-color: rgb(234, 179, 8); color: rgb(2, 6, 23);"
+            tabindex="0"
+          >
+            summer
+          </button>
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+            style="background-color: rgb(234, 179, 8); color: rgb(2, 6, 23);"
+            tabindex="0"
+          >
+            autumn
+          </button>
+          <button
+            class="glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+            style="background-color: rgb(234, 179, 8); color: rgb(2, 6, 23);"
+            tabindex="0"
+          >
+            winter
+          </button>
+        </div>
+      </div>
+      <div>
+        <label
+          class="glass-block glass-text-sm glass-font-medium glass-mb-2"
+          style="color: rgb(248, 250, 252);"
+        >
+          Brand Colors
+        </label>
+        <div
+          class="glass-flex glass-space-x-2"
+        >
+          <button
+            class="glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+            tabindex="0"
+          />
+          <button
+            class="glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+            tabindex="0"
+          />
+          <button
+            class="glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+            tabindex="0"
+          />
+          <button
+            class="glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+            tabindex="0"
+          />
+          <button
+            class="glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+            style="background-color: rgb(139, 92, 246);"
+            tabindex="0"
+          />
+          <button
+            class="glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+            style="background-color: rgb(6, 182, 212);"
+            tabindex="0"
+          />
+        </div>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-justify-between"
+      >
+        <label
+          style="color: rgb(248, 250, 252);"
+        >
+          Auto-adaptation enabled
+        </label>
+        <button
+          class="glass-w-12 glass-h-6 glass-radius-full glass-p-1 glass-surface-success"
+          tabindex="0"
+        >
+          <div
+            class="glass-w-4 glass-h-4 glass-surface-light glass-radius-full"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

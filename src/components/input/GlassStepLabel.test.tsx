@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassStepLabel Component Tests
  *
@@ -11,61 +11,77 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassStepLabel } from '@/components/input/GlassStepLabel';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassStepLabel } from "@/components/input/GlassStepLabel";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassStepLabel', () => {
+describe("GlassStepLabel", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassStepLabel />);
+  it("renders without crashing", () => {
+    const { container } = render(
+      <GlassStepLabel
+        active={false}
+        completed={false}
+        orientation="horizontal"
+      />
+    );
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassStepLabel />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <GlassStepLabel
+        active={false}
+        completed={false}
+        orientation="horizontal"
+      />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassStepLabel
+        active={false}
+        completed={false}
+        orientation="horizontal"
         className="custom-class"
         data-testid="glasssteplabel"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasssteplabel"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasssteplabel"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassStepLabel />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <GlassStepLabel
+        active={false}
+        completed={false}
+        orientation="horizontal"
+      />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

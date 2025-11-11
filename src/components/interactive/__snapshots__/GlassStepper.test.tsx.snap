@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassStepper matches snapshot 1`] = `
+<div
+  class="flex items-center glass-gap-3"
+  data-glass-component="true"
+>
+  <div
+    class="glass-flex glass-items-center glass-gap-3"
+  >
+    <button
+      aria-current="step"
+      aria-label="Go to Step 1 (current step)"
+      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200 ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary"
+      type="button"
+    >
+      <span
+        class="relative glass-pulse-ring"
+      >
+        Step 1
+      </span>
+    </button>
+    <div
+      class="w-8 h-px glass-surface-subtle/15"
+    />
+  </div>
+  <div
+    class="glass-flex glass-items-center glass-gap-3"
+  >
+    <button
+      aria-label="Go to Step 2"
+      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200 ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary/80"
+      type="button"
+    >
+      <span
+        class="relative"
+      >
+        Step 2
+      </span>
+    </button>
+    <div
+      class="w-8 h-px glass-surface-subtle/15"
+    />
+  </div>
+  <div
+    class="glass-flex glass-items-center glass-gap-3"
+  >
+    <button
+      aria-label="Go to Step 3"
+      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200 ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary/80"
+      type="button"
+    >
+      <span
+        class="relative"
+      >
+        Step 3
+      </span>
+    </button>
+  </div>
+</div>
+`;

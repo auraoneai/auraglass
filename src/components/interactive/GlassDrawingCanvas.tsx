@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -437,7 +437,7 @@ export const GlassDrawingCanvas = forwardRef<
                 title={toolType.charAt(0).toUpperCase() + toolType.slice(1)}
               >
                 {/* Tool icons would go here */}
-                <span className='w-4 h-4 block'>
+                <span className="w-4 h-4 block">
                   {toolType[0].toUpperCase()}
                 </span>
               </button>
@@ -446,8 +446,14 @@ export const GlassDrawingCanvas = forwardRef<
 
           {/* Size control */}
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className="glass-text-sm glass-text-secondary">Size:</span>
+            <label
+              htmlFor={`${drawingCanvasId}-size`}
+              className="glass-text-sm glass-text-secondary"
+            >
+              Size:
+            </label>
             <input
+              id={`${drawingCanvasId}-size`}
               type="range"
               min="1"
               max="50"
@@ -458,30 +464,44 @@ export const GlassDrawingCanvas = forwardRef<
                   size: parseInt(e.target.value),
                 })
               }
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              aria-label={`Brush size: ${currentTool.size}`}
             />
-            <span className='glass-text-sm min-w-[2ch]'>
+            <span className="glass-text-sm min-w-[2ch]" aria-live="polite">
               {currentTool.size}
             </span>
           </div>
 
           {/* Color picker */}
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className="glass-text-sm glass-text-secondary">Color:</span>
+            <label
+              htmlFor={`${drawingCanvasId}-color`}
+              className="glass-text-sm glass-text-secondary"
+            >
+              Color:
+            </label>
             <input
+              id={`${drawingCanvasId}-color`}
               type="color"
               value={currentTool.color}
               onChange={(e) =>
                 setCurrentTool({ ...currentTool, color: e.target.value })
               }
-              className='w-8 h-8 glass-radius-md glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard'
+              className="w-8 h-8 glass-radius-md glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
+              aria-label={`Brush color: ${currentTool.color}`}
             />
           </div>
 
           {/* Opacity control */}
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className="glass-text-sm glass-text-secondary">Opacity:</span>
+            <label
+              htmlFor={`${drawingCanvasId}-opacity`}
+              className="glass-text-sm glass-text-secondary"
+            >
+              Opacity:
+            </label>
             <input
+              id={`${drawingCanvasId}-opacity`}
               type="range"
               min="0.1"
               max="1"
@@ -493,16 +513,17 @@ export const GlassDrawingCanvas = forwardRef<
                   opacity: parseFloat(e.target.value),
                 })
               }
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              aria-label={`Brush opacity: ${(currentTool.opacity * 100).toFixed(0)}%`}
             />
           </div>
 
           {/* Actions */}
-          <div className='glass-flex glass-gap-1 ml-auto'>
+          <div className="glass-flex glass-gap-1 ml-auto">
             <button
               onClick={undo}
               disabled={historyIndex <= 0}
-              className='glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               title="Undo"
             >
               ↶
@@ -510,21 +531,21 @@ export const GlassDrawingCanvas = forwardRef<
             <button
               onClick={redo}
               disabled={historyIndex >= history.length - 1}
-              className='glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard"
               title="Redo"
             >
               ↷
             </button>
             <button
               onClick={clear}
-              className='glass-p-2 glass-radius-md hover:glass-surface-overlay text-primary glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay text-primary glass-focus glass-touch-target glass-contrast-guard"
               title="Clear"
             >
               🗑
             </button>
             <button
               onClick={() => exportCanvas("png")}
-              className='glass-p-2 glass-radius-md hover:glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-p-2 glass-radius-md hover:glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard"
               title="Export"
             >
               💾
@@ -566,7 +587,7 @@ export const GlassDrawingCanvas = forwardRef<
             )}
 
             {/* Canvas container */}
-            <div className='relative'>
+            <div className="relative">
               <canvas
                 ref={canvasRef}
                 width={width}
@@ -585,7 +606,7 @@ export const GlassDrawingCanvas = forwardRef<
 
               {/* Floating tool panel */}
               {toolPanelPosition === "floating" && (
-                <div className='absolute top-4 right-4'>
+                <div className="absolute top-4 right-4">
                   {renderToolPanel()}
                 </div>
               )}

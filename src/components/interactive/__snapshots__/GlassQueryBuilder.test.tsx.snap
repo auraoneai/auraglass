@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassQueryBuilder matches snapshot 1`] = `
+<div
+  aria-label="Query builder"
+  class="glass-gap-2"
+  role="group"
+>
+  <div
+    class="glass-radius-xl glass-border glass-border-white/20 glass-p-3 glass-gap-2"
+  >
+    <div
+      class="glass-flex glass-items-center glass-gap-2"
+    >
+      <button
+        aria-autocomplete="none"
+        aria-controls="radix-:rf:"
+        aria-expanded="false"
+        aria-label="Select combinator (AND/OR)"
+        class="glass-select-trigger group flex items-center justify-between glass-radius-lg glass-backdrop-blur-md transition-all duration-200 text-foreground placeholder:glass-text-secondary focus:outline-none focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 glass-px-3 glass-py-2 glass-text-sm bg-background/50 border border-border/20 focus:border-primary focus:ring-1 focus:ring-primary w-24 h-8 glass-text-sm"
+        data-glass-component="true"
+        data-state="closed"
+        dir="ltr"
+        role="combobox"
+        type="button"
+      >
+        <span
+          style="pointer-events: none;"
+        >
+          AND
+        </span>
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-chevron-down h-4 w-4 opacity-50 transition-transform group-data-[state=open]:rotate-180"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m6 9 6 6 6-6"
+          />
+        </svg>
+      </button>
+      <div
+        class="motion-primitive inline-block"
+      >
+        <button
+          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+          data-magnet="true"
+          data-performance-mode="ultra"
+          data-refraction="true"
+          id="glass-button-:rg:"
+          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+        >
+          <span
+            class="relative z-10"
+          >
+            + Rule
+          </span>
+        </button>
+      </div>
+      <div
+        class="motion-primitive inline-block"
+        data-glass-component="true"
+      >
+        <button
+          class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+          id="glass-button-:rh:"
+        >
+          + Group
+        </button>
+      </div>
+    </div>
+    <div
+      class="glass-gap-2"
+    />
+  </div>
+</div>
+`;

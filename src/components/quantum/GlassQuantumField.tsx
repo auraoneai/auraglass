@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -604,7 +604,7 @@ export const GlassQuantumField = forwardRef<
 
           // Imaginary part
           ctx.strokeStyle = `hsl(${(phaseColor + 90) % 360}, 70%, 60%)`;
-          ctx.setLineDash([5, 5]);
+          if (ctx.setLineDash) ctx.setLineDash([5, 5]);
 
           ctx.beginPath();
           for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
@@ -624,7 +624,7 @@ export const GlassQuantumField = forwardRef<
           ctx.closePath();
           ctx.stroke();
 
-          ctx.setLineDash([]);
+          if (ctx.setLineDash) ctx.setLineDash([]);
         });
       }
 
@@ -667,14 +667,14 @@ export const GlassQuantumField = forwardRef<
 
             ctx.strokeStyle = "rgba(255, 255, 100, 0.6)";
             ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
+            if (ctx.setLineDash) ctx.setLineDash([5, 5]);
 
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
 
-            ctx.setLineDash([]);
+            if (ctx.setLineDash) ctx.setLineDash([]);
           }
         });
       }
@@ -827,8 +827,11 @@ export const GlassQuantumField = forwardRef<
           className="glass-quantum-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Type:</label>
+            <label htmlFor="quantum-type-select" className="glass-text-sm">
+              Type:
+            </label>
             <select
+              id="quantum-type-select"
               value={simulationType}
               onChange={(e) => {}}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
@@ -841,47 +844,63 @@ export const GlassQuantumField = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Coherence:</label>
+            <label htmlFor="quantum-coherence-range" className="glass-text-sm">
+              Coherence:
+            </label>
             <input
+              id="quantum-coherence-range"
               type="range"
               min="0"
               max="1"
               step="0.1"
               value={coherence}
               onChange={(e) => {}}
-              className='w-20'
+              className="w-20"
             />
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Entanglement:</label>
+            <label
+              htmlFor="quantum-entanglement-range"
+              className="glass-text-sm"
+            >
+              Entanglement:
+            </label>
             <input
+              id="quantum-entanglement-range"
               type="range"
               min="0"
               max="1"
               step="0.1"
               value={entanglementStrength}
               onChange={(e) => {}}
-              className='w-20'
+              className="w-20"
             />
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Temperature:</label>
+            <label
+              htmlFor="quantum-temperature-range"
+              className="glass-text-sm"
+            >
+              Temperature:
+            </label>
             <input
+              id="quantum-temperature-range"
               type="range"
               min="0"
               max="1"
               step="0.1"
               value={temperature}
               onChange={(e) => {}}
-              className='w-20'
+              className="w-20"
             />
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
             <label className="glass-text-sm">
               <input
+                id="quantum-waves-checkbox"
                 type="checkbox"
                 checked={showWaveFunctions}
                 onChange={(e) => {}}
@@ -891,6 +910,7 @@ export const GlassQuantumField = forwardRef<
             </label>
             <label className="glass-text-sm">
               <input
+                id="quantum-probability-checkbox"
                 type="checkbox"
                 checked={showProbabilityClouds}
                 onChange={(e) => {}}
@@ -900,6 +920,7 @@ export const GlassQuantumField = forwardRef<
             </label>
             <label className="glass-text-sm">
               <input
+                id="quantum-entanglement-checkbox"
                 type="checkbox"
                 checked={showEntanglement}
                 onChange={(e) => {}}
@@ -909,6 +930,7 @@ export const GlassQuantumField = forwardRef<
             </label>
             <label className="glass-text-sm">
               <input
+                id="quantum-evolution-checkbox"
                 type="checkbox"
                 checked={timeEvolution}
                 onChange={(e) => {}}
@@ -920,7 +942,7 @@ export const GlassQuantumField = forwardRef<
 
           <button
             onClick={() => initializeParticles()}
-            className='glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary'
+            className="glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
           >
             Reset
           </button>
@@ -949,7 +971,7 @@ export const GlassQuantumField = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}

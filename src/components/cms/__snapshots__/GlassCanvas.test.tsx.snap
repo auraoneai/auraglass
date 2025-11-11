@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassCanvas matches snapshot 1`] = `
+<div
+  class="glass-dragdrop-provider"
+  data-glass-component="true"
+>
+  <div
+    aria-label="Page canvas for drag and drop editing"
+    class="flex-1 h-full flex flex-col overflow-hidden"
+    role="main"
+  >
+    <div
+      class="glass-foundation-basic glass-flex-1 glass-flex glass-flex-col glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
+      >
+        <div
+          class="glass-flex glass-items-center glass-gap-2"
+        >
+          <span
+            class="glass-text-sm font-medium glass-text-secondary"
+          >
+            Canvas
+          </span>
+          <span
+            class="glass-text-xs glass-text-secondary capitalize"
+          >
+            (
+            desktop
+            )
+          </span>
+        </div>
+        <div
+          class="glass-text-xs glass-text-secondary"
+        >
+          0
+           components
+        </div>
+      </div>
+      <div
+        class="glass-flex-1 overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
+        style="background-image: none; background-size: auto;"
+      >
+        <div
+          class="glass-mx-auto glass-surface-subtle glass-min-h-full glass-shadow-sm transition-all duration-300 glass-contrast-guard"
+          style="max-width: none; width: 100%;"
+        >
+          <div
+            class="min-h-full relative transition-all duration-200 glass-focus glass-touch-target"
+          >
+            <div
+              class="glass-flex glass-items-center glass-justify-center glass-min-glass-h-96 glass-p-12 glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <div
+                class="text-center"
+              >
+                <div
+                  class="text-6xl mb-4"
+                >
+                  🎨
+                </div>
+                <h3
+                  class="glass-text-lg font-medium glass-text-secondary mb-2"
+                >
+                  Start Building Your Page
+                </h3>
+                <p
+                  class="glass-text-secondary mb-6 max-w-sm"
+                >
+                  Drag components from the palette on the left to start building your page.
+                </p>
+                <div
+                  class="space-y-2 glass-text-sm glass-text-secondary"
+                >
+                  <p>
+                    💡 Try dragging a Container or Row component first
+                  </p>
+                  <p>
+                    🖱️ Double-click text elements to edit them inline
+                  </p>
+                  <p>
+                    ⌨️ Use Ctrl+Z to undo changes
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

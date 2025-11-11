@@ -1,38 +1,51 @@
-'use client';
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { cn } from '../../../lib/utilsComprehensive';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+"use client";
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import { cn } from "../../../lib/utilsComprehensive";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 export interface AtmosphericEffectsProps {
-  qualityTier?: 'low' | 'medium' | 'high' | 'ultra';
+  qualityTier?: "low" | "medium" | "high" | "ultra";
   color?: string;
   isReducedMotion?: boolean;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
+
+  /** Custom className */
+  className?: string;
+
+  /** Test ID */
+  "data-testid"?: string;
 }
 
 export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
   // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
 
-  qualityTier = 'medium',
-  color = 'var(--glass-color-primary)',
+  qualityTier = "medium",
+  color = "var(--glass-color-primary)",
   isReducedMotion = false,
+  className,
+  "data-testid": dataTestId,
 }) => {
-  const [particles, setParticles] = useState<Array<{
-    id: number;
-    x: number;
-    y: number;
-    size: number;
-    opacity: number;
-    velocity: { x: number; y: number };
-  }>>([]);
+  const [particles, setParticles] = useState<
+    Array<{
+      id: number;
+      x: number;
+      y: number;
+      size: number;
+      opacity: number;
+      velocity: { x: number; y: number };
+    }>
+  >([]);
 
   const animationRef = useRef<number>();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -40,17 +53,22 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
   // Particle count based on quality tier
   const particleCount = useMemo(() => {
     switch (qualityTier) {
-      case 'low': return 0;
-      case 'medium': return 15;
-      case 'high': return 30;
-      case 'ultra': return 50;
-      default: return 15;
+      case "low":
+        return 0;
+      case "medium":
+        return 15;
+      case "high":
+        return 30;
+      case "ultra":
+        return 50;
+      default:
+        return 15;
     }
   }, [qualityTier]);
 
   // Initialize particles
   useEffect(() => {
-    if (isReducedMotion || qualityTier === 'low') {
+    if (isReducedMotion || qualityTier === "low") {
       setParticles([]);
       return;
     }
@@ -72,10 +90,10 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
 
   // Animate particles
   useEffect(() => {
-        if (isReducedMotion || !particles || particles.length === 0) return;
+    if (isReducedMotion || !particles || particles.length === 0) return;
 
     const animate = () => {
-      setParticles(prevParticles =>
+      setParticles((prevParticles) =>
         prevParticles.map((particle: any) => ({
           ...particle,
           x: (particle.x + particle.velocity.x + 100) % 100,
@@ -96,27 +114,33 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
     };
   }, [isReducedMotion, particles.length]);
 
-  if (qualityTier === 'low' || isReducedMotion) {
+  if (qualityTier === "low" || isReducedMotion) {
     return null;
   }
 
   const effectStyle: React.CSSProperties = {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    pointerEvents: 'none',
-    overflow: 'hidden',
+    pointerEvents: "none",
+    overflow: "hidden",
     zIndex: -1,
   };
 
   return (
-    <div data-glass-component ref={containerRef} style={effectStyle}>
+    <div
+      data-glass-component
+      ref={containerRef}
+      style={effectStyle}
+      className={className}
+      data-testid={dataTestId}
+    >
       {/* Gradient background */}
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
           right: 0,
@@ -131,15 +155,19 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
         <div
           key={particle.id}
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: `${particle.size}px`,
             height: `${particle.size}px`,
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${color}${Math.round(particle.opacity * 255).toString(16).padStart(2, '0')}, transparent)`,
+            borderRadius: "50%",
+            background: `radial-gradient(circle, ${color}${Math.round(
+              particle.opacity * 255
+            )
+              .toString(16)
+              .padStart(2, "0")}, transparent)`,
             filter: `blur(${particle.size * 0.5}px)`,
-            transition: 'all 0.3s ease',
+            transition: "all 0.3s ease",
           }}
         />
       ))}
@@ -147,15 +175,15 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
       {/* Ambient glow effect */}
       <div
         style={{
-          position: 'absolute',
-          top: '20%',
-          left: '20%',
-          width: '60%',
-          height: '60%',
+          position: "absolute",
+          top: "20%",
+          left: "20%",
+          width: "60%",
+          height: "60%",
           background: `radial-gradient(ellipse, ${color}08, transparent)`,
-          borderRadius: '50%',
-          filter: 'blur(var(--glass-blur-lg))',
-          animation: isReducedMotion ? 'none' : 'pulse 8s ease-in-out infinite',
+          borderRadius: "50%",
+          filter: "blur(var(--glass-blur-lg))",
+          animation: isReducedMotion ? "none" : "pulse 8s ease-in-out infinite",
         }}
       />
     </div>

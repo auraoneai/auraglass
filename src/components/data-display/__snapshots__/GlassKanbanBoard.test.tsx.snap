@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassKanbanBoard matches snapshot 1`] = `
+<div
+  aria-label="Kanban Board"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-kanban-board glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  id="glass-kanban-board-:r7:"
+  role="region"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive glass-flex glass-flex-col glass-h-full"
+  >
+    <div
+      class="glass-flex-1 overflow-x-auto overflow-y-hidden"
+    >
+      <div
+        class="glass-flex glass-gap-6 glass-p-6 glass-h-full"
+        style="min-width: fit-content;"
+      />
+    </div>
+  </div>
+</div>
+`;

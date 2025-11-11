@@ -2,8 +2,10 @@
 
 exports[`GlassWhiteboard matches snapshot 1`] = `
 <div
+  aria-label="Drawing whiteboard"
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-relative"
   data-glass-component="true"
+  role="application"
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
@@ -52,32 +54,48 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
       class="glass-flex glass-gap-1"
     >
       <button
+        aria-label="Select color var(--glass-white)"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
       />
       <button
+        aria-label="Select color var(--glass-black)"
+        aria-pressed="true"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white glass-scale-110"
       />
       <button
+        aria-label="Select color #ff0000"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
         style="background-color: rgb(255, 0, 0);"
       />
       <button
+        aria-label="Select color #00ff00"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
         style="background-color: rgb(0, 255, 0);"
       />
       <button
+        aria-label="Select color #0000ff"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
         style="background-color: rgb(0, 0, 255);"
       />
       <button
+        aria-label="Select color #ffff00"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
         style="background-color: rgb(255, 255, 0);"
       />
       <button
+        aria-label="Select color #ff00ff"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
         style="background-color: rgb(255, 0, 255);"
       />
       <button
+        aria-label="Select color #00ffff"
+        aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
         style="background-color: rgb(0, 255, 255);"
       />
@@ -85,13 +103,16 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
     <div
       class="glass-flex glass-items-center glass-gap-2"
     >
-      <span
+      <label
         class="glass-text-sm glass-text-primary-70"
+        for="brush-size"
       >
         Size:
-      </span>
+      </label>
       <input
+        aria-label="Brush size"
         class="glass-w-16 glass-focus glass-touch-target glass-contrast-guard"
+        id="brush-size"
         max="20"
         min="1"
         type="range"
@@ -106,13 +127,16 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
     <div
       class="glass-flex glass-items-center glass-gap-2"
     >
-      <span
+      <label
         class="glass-text-sm glass-text-primary-70"
+        for="brush-opacity"
       >
         Opacity:
-      </span>
+      </label>
       <input
+        aria-label="Brush opacity"
         class="glass-w-16 glass-focus glass-touch-target glass-contrast-guard"
+        id="brush-opacity"
         max="1"
         min="0.1"
         step="0.1"

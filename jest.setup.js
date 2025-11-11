@@ -60,6 +60,58 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
 };
 
+// Mock Canvas 2D Context with resetTransform method (required for Chart.js tests)
+HTMLCanvasElement.prototype.getContext = jest.fn((contextType) => {
+  if (contextType === '2d') {
+    return {
+      fillStyle: '',
+      strokeStyle: '',
+      lineWidth: 1,
+      font: '',
+      textAlign: 'start',
+      textBaseline: 'alphabetic',
+      fillRect: jest.fn(),
+      strokeRect: jest.fn(),
+      clearRect: jest.fn(),
+      beginPath: jest.fn(),
+      closePath: jest.fn(),
+      moveTo: jest.fn(),
+      lineTo: jest.fn(),
+      arc: jest.fn(),
+      fill: jest.fn(),
+      stroke: jest.fn(),
+      save: jest.fn(),
+      restore: jest.fn(),
+      translate: jest.fn(),
+      rotate: jest.fn(),
+      scale: jest.fn(),
+      transform: jest.fn(),
+      setTransform: jest.fn(),
+      resetTransform: jest.fn(), // Required for Chart.js 4.x
+      drawImage: jest.fn(),
+      createImageData: jest.fn(() => ({ data: new Uint8ClampedArray(4), width: 1, height: 1 })),
+      getImageData: jest.fn(() => ({ data: new Uint8ClampedArray(4), width: 1, height: 1 })),
+      putImageData: jest.fn(),
+      measureText: jest.fn(() => ({ width: 0 })),
+      createLinearGradient: jest.fn(() => ({
+        addColorStop: jest.fn(),
+      })),
+      createRadialGradient: jest.fn(() => ({
+        addColorStop: jest.fn(),
+      })),
+      createPattern: jest.fn(),
+      clip: jest.fn(),
+      isPointInPath: jest.fn(() => false),
+      canvas: {
+        width: 800,
+        height: 600,
+        style: {},
+      },
+    };
+  }
+  return null;
+});
+
 // Mock requestAnimationFrame (required for animation tests)
 global.requestAnimationFrame = (callback) => {
   return setTimeout(callback, 0);

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDashboard matches snapshot 1`] = `
+<div
+  class="w-full glass-auto-gap glass-auto-gap-2xl"
+  data-glass-component="true"
+>
+  <div
+    class="glass-gap-4 pb-8 border-b border-border/20 text-left"
+  >
+    <div
+      class="flex glass-gap-4 flex-col sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div
+        class="glass-gap-2"
+      >
+        <h1
+          class="glass-text-3xl font-bold text-primary"
+        >
+          Dashboard
+        </h1>
+      </div>
+      <div
+        class="glass-flex-shrink-0"
+      >
+        <div
+          class="flex flex-row glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="grid grid-cols-4 glass-gap-4 grid-flow-row items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none glass-min-h-96"
+  />
+</div>
+`;

@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassCollaborativeCursor matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-overflow-hidden glass-min-h-96"
+  id="glass-collaborative-cursor-:r3:"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-absolute glass-inset-0"
+  >
+    <svg
+      class="glass-absolute glass-inset-0 glass-pointer-events-none"
+      style="z-index: 10;"
+    />
+  </div>
+  <div
+    class="glass-relative glass-z-0 glass-p-8 glass-space-y-4 glass-text-secondary"
+  >
+    <h2
+      class="glass-text-2xl glass-font-bold"
+    >
+      Collaborative Workspace
+    </h2>
+    <p>
+      This is a collaborative document where multiple users can work together.
+    </p>
+    <div
+      class="glass-grid glass-grid-cols-2 glass-gap-4"
+    >
+      <div
+        class="glass-p-4 glass-surface-secondary glass-radius-lg"
+      >
+        <h3
+          class="glass-font-semibold glass-mb-2"
+        >
+          Section A
+        </h3>
+        <p>
+          Content that users can interact with...
+        </p>
+      </div>
+      <div
+        class="glass-p-4 glass-surface-secondary glass-radius-lg"
+      >
+        <h3
+          class="glass-font-semibold glass-mb-2"
+        >
+          Section B
+        </h3>
+        <p>
+          More interactive content here...
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-p-3 glass-surface-overlay glass-blur-backdrop glass-border-t glass-border-white/10"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-muted"
+    >
+      <div
+        class="glass-flex glass-items-center glass-space-x-4"
+      >
+        <span>
+          0
+           active users
+        </span>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-space-x-2"
+      />
+    </div>
+  </div>
+</div>
+`;

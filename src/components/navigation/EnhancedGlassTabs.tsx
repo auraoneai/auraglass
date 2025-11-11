@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * EnhancedGlassTabs Component
  *
@@ -56,7 +56,7 @@ export interface EnhancedGlassTabsProps {
   /**
    * Array of tab items
    */
-  tabs: TabItem[];
+  tabs?: TabItem[];
 
   /**
    * Currently active tab ID
@@ -132,6 +132,16 @@ export interface EnhancedGlassTabsProps {
    * Whether to respect motion preferences for animations
    */
   respectMotionPreference?: boolean;
+
+  /**
+   * Accessible label for the tabs
+   */
+  "aria-label"?: string;
+
+  /**
+   * Test ID for testing
+   */
+  "data-testid"?: string;
 }
 
 // Ref interface
@@ -211,7 +221,7 @@ export const EnhancedGlassTabs = forwardRef<
 >(
   (
     {
-      tabs,
+      tabs = [],
       activeTab,
       onChange,
       variant = "default",
@@ -227,6 +237,8 @@ export const EnhancedGlassTabs = forwardRef<
       className,
       style,
       respectMotionPreference = true,
+      "aria-label": ariaLabel = "Tabs",
+      "data-testid": dataTestId,
     },
     ref
   ) => {
@@ -388,124 +400,131 @@ export const EnhancedGlassTabs = forwardRef<
     };
 
     return (
-      <OptimizedGlass
-        ref={containerRef}
-        intent="neutral"
-        elevation={variant === "elevated" ? "level2" : "level1"}
-        tier="medium"
-        intensity="medium"
-        depth={2}
-        tint="neutral"
-        border={variant === "outlined" ? "subtle" : "none"}
-        animation={shouldReduceMotion ? "none" : "gentle"}
-        performanceMode="medium"
-        className={cn(
-          "flex relative overflow-hidden w-full glass-radius-lg",
-          {
-            "bg-transparent": variant === "text",
-          },
-          className
-        )}
-        style={style}
+      <nav
+        aria-label={ariaLabel}
+        data-testid={dataTestId}
+        className={cn(className)}
       >
-        <div
-          className={cn("flex w-full relative", {
-            "[&>*]:flex-1": fullWidth,
-          })}
-          role="tablist"
-          aria-orientation="horizontal"
-          id={tablistId}
+        <OptimizedGlass
+          ref={containerRef}
+          intent="neutral"
+          elevation={variant === "elevated" ? "level2" : "level1"}
+          tier="medium"
+          intensity="medium"
+          depth={2}
+          tint="neutral"
+          border={variant === "outlined" ? "subtle" : "none"}
+          animation={shouldReduceMotion ? "none" : "gentle"}
+          performanceMode="medium"
+          className={cn(
+            "flex relative overflow-hidden w-full glass-radius-lg",
+            {
+              "bg-transparent": variant === "text",
+            }
+          )}
+          style={style}
         >
-          {tabs.map((tab) => {
-            const isActive = currentTab === tab.id;
-
-            return (
-              <button
-                key={tab.id}
-                ref={(element) => {
-                  if (tabRefs.current) tabRefs.current[tab.id] = element;
-                }}
-                role="tab"
-                id={`${tabIdPrefix}-${tab.id}`}
-                tabIndex={tab.disabled ? -1 : isActive ? 0 : -1}
-                aria-selected={isActive}
-                aria-controls={`tabpanel-${tab.id}`}
-                disabled={tab.disabled}
-                className={cn(
-                  "relative flex items-center glass-gap-2 whitespace-nowrap border-none cursor-pointer",
-                  "outline-none transition-all duration-200 ease-out",
-                  "glass-focus glass-touch-target glass-contrast-guard",
-                  "focus-visible:ring-2 focus-visible:ring-offset-2",
-                  sizeConfig.padding,
-                  sizeConfig.text,
-                  alignmentClasses[textAlign],
-                  {
-                    "cursor-not-allowed opacity-50": tab.disabled,
-                    "bg-transparent": !isActive,
-                    "font-semibold": isActive,
-                    "font-medium": !isActive,
-                  }
-                )}
-                style={
-                  {
-                    color: tab.disabled
-                      ? colors.disabledText
-                      : isActive
-                        ? colors.activeText
-                        : colors.inactiveText,
-                    backgroundColor: isActive ? colors.activeBg : "transparent",
-                  } as React.CSSProperties
-                }
-                onMouseEnter={(e) => {
-                  if (!tab.disabled && !isActive) {
-                    e.currentTarget.style.backgroundColor = colors.hoverBg;
-                    e.currentTarget.style.color = colors.activeText;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!tab.disabled && !isActive) {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = colors.inactiveText;
-                  }
-                }}
-                onClick={() => !tab.disabled && handleTabChange(tab.id)}
-              >
-                {tab.icon && <span aria-hidden="true">{tab.icon}</span>}
-                <span>{tab.label}</span>
-                {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
-                  <span
-                    className='glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-radius-full'
-                    style={{ backgroundColor: colors.activeColor }}
-                  >
-                    {tab.badgeCount > 99 ? "99+" : tab.badgeCount}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Active indicator */}
-        {showIndicator && currentTab && (
           <div
-            className={cn("absolute pointer-events-none", {
-              "transition-all duration-300 ease-out":
-                indicatorAnimation === "slide" && !shouldReduceMotion,
-              "transition-opacity duration-200 ease-out":
-                indicatorAnimation === "fade" && !shouldReduceMotion,
+            className={cn("flex w-full relative", {
+              "[&>*]:flex-1": fullWidth,
             })}
-            style={{
-              left: `${indicatorStyle.left}px`,
-              width: `${indicatorStyle.width}px`,
-              height: `${sizeConfig.indicatorHeight}px`,
-              bottom: `${indicatorStyle.bottom}px`,
-              backgroundColor: colors.activeColor,
-              borderRadius: `${sizeConfig.indicatorHeight / 2}px`,
-              boxShadow: "var(--glass-elev-2)",
-            }}
-          />
-        )}
-      </OptimizedGlass>
+            role="tablist"
+            aria-orientation="horizontal"
+            id={tablistId}
+          >
+            {tabs.map((tab) => {
+              const isActive = currentTab === tab.id;
+
+              return (
+                <button
+                  key={tab.id}
+                  ref={(element) => {
+                    if (tabRefs.current) tabRefs.current[tab.id] = element;
+                  }}
+                  role="tab"
+                  id={`${tabIdPrefix}-${tab.id}`}
+                  tabIndex={tab.disabled ? -1 : isActive ? 0 : -1}
+                  aria-selected={isActive}
+                  aria-controls={`tabpanel-${tab.id}`}
+                  disabled={tab.disabled}
+                  className={cn(
+                    "relative flex items-center glass-gap-2 whitespace-nowrap border-none cursor-pointer",
+                    "outline-none transition-all duration-200 ease-out",
+                    "glass-focus glass-touch-target glass-contrast-guard",
+                    "focus-visible:ring-2 focus-visible:ring-offset-2",
+                    sizeConfig.padding,
+                    sizeConfig.text,
+                    alignmentClasses[textAlign],
+                    {
+                      "cursor-not-allowed opacity-50": tab.disabled,
+                      "bg-transparent": !isActive,
+                      "font-semibold": isActive,
+                      "font-medium": !isActive,
+                    }
+                  )}
+                  style={
+                    {
+                      color: tab.disabled
+                        ? colors.disabledText
+                        : isActive
+                          ? colors.activeText
+                          : colors.inactiveText,
+                      backgroundColor: isActive
+                        ? colors.activeBg
+                        : "transparent",
+                    } as React.CSSProperties
+                  }
+                  onMouseEnter={(e) => {
+                    if (!tab.disabled && !isActive) {
+                      e.currentTarget.style.backgroundColor = colors.hoverBg;
+                      e.currentTarget.style.color = colors.activeText;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!tab.disabled && !isActive) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                      e.currentTarget.style.color = colors.inactiveText;
+                    }
+                  }}
+                  onClick={() => !tab.disabled && handleTabChange(tab.id)}
+                >
+                  {tab.icon && <span aria-hidden="true">{tab.icon}</span>}
+                  <span>{tab.label}</span>
+                  {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
+                    <span
+                      className="glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-radius-full"
+                      style={{ backgroundColor: colors.activeColor }}
+                    >
+                      {tab.badgeCount > 99 ? "99+" : tab.badgeCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active indicator */}
+          {showIndicator && currentTab && (
+            <div
+              className={cn("absolute pointer-events-none", {
+                "transition-all duration-300 ease-out":
+                  indicatorAnimation === "slide" && !shouldReduceMotion,
+                "transition-opacity duration-200 ease-out":
+                  indicatorAnimation === "fade" && !shouldReduceMotion,
+              })}
+              style={{
+                left: `${indicatorStyle.left}px`,
+                width: `${indicatorStyle.width}px`,
+                height: `${sizeConfig.indicatorHeight}px`,
+                bottom: `${indicatorStyle.bottom}px`,
+                backgroundColor: colors.activeColor,
+                borderRadius: `${sizeConfig.indicatorHeight / 2}px`,
+                boxShadow: "var(--glass-elev-2)",
+              }}
+            />
+          )}
+        </OptimizedGlass>
+      </nav>
     );
   }
 );

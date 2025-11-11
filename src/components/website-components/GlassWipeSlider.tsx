@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import {
@@ -11,7 +11,7 @@ import { useCallback, useEffect, useRef, useState, memo } from "react";
 
 // Memoized icons for handle indicators to prevent unnecessary re-renders
 const ChevronLeftIcon = memo(() => (
-  <svg className='w-3 h-3' fill="currentColor" viewBox="0 0 20 20">
+  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
     <path
       fillRule="evenodd"
       d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
@@ -21,7 +21,7 @@ const ChevronLeftIcon = memo(() => (
 ));
 
 const ChevronRightIcon = memo(() => (
-  <svg className='w-3 h-3' fill="currentColor" viewBox="0 0 20 20">
+  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
     <path
       fillRule="evenodd"
       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -31,7 +31,7 @@ const ChevronRightIcon = memo(() => (
 ));
 
 const ChevronUpIcon = memo(() => (
-  <svg className='w-3 h-3' fill="currentColor" viewBox="0 0 20 20">
+  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
     <path
       fillRule="evenodd"
       d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
@@ -41,7 +41,7 @@ const ChevronUpIcon = memo(() => (
 ));
 
 const ChevronDownIcon = memo(() => (
-  <svg className='w-3 h-3' fill="currentColor" viewBox="0 0 20 20">
+  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
     <path
       fillRule="evenodd"
       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -77,13 +77,40 @@ export interface ComparisonLabels {
   afterDescription?: string;
 }
 
-interface GlassWipeSliderProps {
+interface GlassWipeSliderProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    keyof {
+      beforeContent: React.ReactNode;
+      afterContent: React.ReactNode;
+      initialPosition?: number;
+      orientation?: "horizontal" | "vertical";
+      enableSnapping?: boolean;
+      snapThreshold?: number;
+      enableMomentum?: boolean;
+      momentumMultiplier?: number;
+      debounceMs?: number;
+      handleSize?: "sm" | "md" | "lg";
+      showLabels?: boolean;
+      showProgress?: boolean;
+      showMetrics?: boolean;
+      labels?: ComparisonLabels;
+      metrics?: SliderMetric[];
+      trackStyle?: "default" | "minimal" | "bold";
+      gradientOverlay?: boolean;
+      height?: string | number;
+      minHeight?: string | number;
+      onPositionChange?: (position: number) => void;
+      onSnapToPreset?: (preset: PresetPosition) => void;
+      onDragStart?: () => void;
+      onDragEnd?: () => void;
+    }
+  > {
   // Content
   beforeContent: React.ReactNode;
   afterContent: React.ReactNode;
 
   // Configuration
-  className?: string;
   initialPosition?: number; // 0-100
   orientation?: "horizontal" | "vertical";
 
@@ -142,7 +169,16 @@ const GlassWipeSliderComponent = ({
   onSnapToPreset,
   onDragStart,
   onDragEnd,
+  ...props
 }: GlassWipeSliderProps) => {
+  // Separate HTML attributes that should go to the root container
+  const {
+    "aria-label": ariaLabel,
+    "aria-describedby": ariaDescribedBy,
+    "aria-expanded": ariaExpanded,
+    "data-testid": dataTestId,
+    ...containerProps
+  } = props;
   // Motion-aware hooks
   const { getAnimationProps, getTransition } = useMotionAwareAnimation();
   const { duration } = useAnimationDuration(200);
@@ -504,25 +540,37 @@ const GlassWipeSliderComponent = ({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(position)}
-      aria-label={`${labels.before} vs ${labels.after} comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets.`}
-      aria-describedby={
-        showMetrics && (metrics?.length || 0) > 0 ? "slider-metrics" : undefined
+      aria-label={
+        ariaLabel ||
+        `${labels.before} vs ${labels.after} comparison slider. Use arrow keys, Home, End, or number keys 0-5 for presets.`
       }
+      aria-describedby={
+        ariaDescribedBy
+          ? showMetrics && (metrics?.length || 0) > 0
+            ? `${ariaDescribedBy} slider-metrics`
+            : ariaDescribedBy
+          : showMetrics && (metrics?.length || 0) > 0
+            ? "slider-metrics"
+            : undefined
+      }
+      aria-expanded={ariaExpanded}
+      data-testid={dataTestId}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
+      {...containerProps}
     >
       {/* Before content (background layer) */}
-      <div className='absolute inset-0 glass-w-full glass-h-full'>
+      <div className="absolute inset-0 glass-w-full glass-h-full">
         {beforeContent}
       </div>
 
       {/* After content (clipped layer) */}
       <div
-        className='absolute inset-0 overflow-hidden transition-all duration-75 ease-out'
+        className="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
         style={{
           clipPath,
           ...(isVertical
@@ -536,7 +584,7 @@ const GlassWipeSliderComponent = ({
       {/* Gradient overlay for smooth transitions */}
       {gradientOverlay && (
         <div
-          className='absolute pointer-events-none transition-opacity duration-300'
+          className="absolute pointer-events-none transition-opacity duration-300"
           style={{
             ...(isVertical
               ? {
@@ -661,7 +709,7 @@ const GlassWipeSliderComponent = ({
         transition={getTransition(duration / 1000)}
       >
         {/* Glass handle */}
-        <div className='glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard'>
+        <div className="glass-w-full glass-h-full glass-radius-full glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-border glass-border-white/30 glass-flex glass-items-center glass-justify-center group relative overflow-hidden glass-contrast-guard">
           {/* Arrow indicators */}
           <div
             className={cn(
@@ -672,23 +720,23 @@ const GlassWipeSliderComponent = ({
             {isVertical ? (
               <>
                 <ChevronUpIcon />
-                <div className='w-1 h-1 glass-radius-full bg-transparent opacity-50' />
+                <div className="w-1 h-1 glass-radius-full bg-transparent opacity-50" />
                 <ChevronDownIcon />
               </>
             ) : (
               <>
                 <ChevronLeftIcon />
-                <div className='w-1 h-1 glass-radius-full bg-transparent opacity-50' />
+                <div className="w-1 h-1 glass-radius-full bg-transparent opacity-50" />
                 <ChevronRightIcon />
               </>
             )}
           </div>
 
           {/* Multi-layer glow effects */}
-          <div className='absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+          <div className="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           <div
-            className='absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200'
+            className="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary transition-opacity duration-200"
             style={{
               opacity: isDragging ? 0.7 : 0,
             }}
@@ -696,12 +744,12 @@ const GlassWipeSliderComponent = ({
 
           {/* Focus ring */}
           {isFocused && (
-            <div className='absolute -inset-1 glass-radius-full glass-border-2 glass-border-blue/50 animate-pulse' />
+            <div className="absolute -inset-1 glass-radius-full glass-border-2 glass-border-blue/50 animate-pulse" />
           )}
 
           {/* Ripple effect for interactions */}
           <div
-            className='absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200'
+            className="absolute inset-0 glass-radius-full glass-surface-subtle/20 scale-0 transition-transform duration-200"
             style={{
               transform: isDragging ? "scale(1.5)" : "scale(0)",
               opacity: isDragging ? 0.3 : 0,
@@ -726,9 +774,9 @@ const GlassWipeSliderComponent = ({
             })}
             transition={getTransition(0.3, "ease-out")}
           >
-            <div className='font-medium'>{labels.after}</div>
+            <div className="font-medium">{labels.after}</div>
             {labels.afterDescription && (
-              <div className='glass-text-xs text-primary/60 glass-mt-0-5'>
+              <div className="glass-text-xs text-primary/60 glass-mt-0-5">
                 {labels.afterDescription}
               </div>
             )}
@@ -747,9 +795,9 @@ const GlassWipeSliderComponent = ({
             })}
             transition={getTransition(0.3, "ease-out")}
           >
-            <div className='font-medium'>{labels.before}</div>
+            <div className="font-medium">{labels.before}</div>
             {labels.beforeDescription && (
-              <div className='glass-text-xs text-primary/60 glass-mt-0-5'>
+              <div className="glass-text-xs text-primary/60 glass-mt-0-5">
                 {labels.beforeDescription}
               </div>
             )}
@@ -773,9 +821,9 @@ const GlassWipeSliderComponent = ({
           transition={getTransition(0.3, "ease-out")}
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <div className='font-mono font-medium'>{Math.round(position)}%</div>
+            <div className="font-mono font-medium">{Math.round(position)}%</div>
             {enableSnapping && (
-              <div className='w-1 h-1 glass-radius-full glass-surface-subtle/40' />
+              <div className="w-1 h-1 glass-radius-full glass-surface-subtle/40" />
             )}
           </div>
         </motion.div>
@@ -783,7 +831,7 @@ const GlassWipeSliderComponent = ({
 
       {/* Preset position indicators */}
       {enableSnapping && (
-        <div className='absolute inset-0 pointer-events-none z-5'>
+        <div className="absolute inset-0 pointer-events-none z-5">
           {Object.entries(SLIDER_PRESETS).map(([key, value]) => (
             <div
               key={key}
@@ -836,13 +884,13 @@ const GlassWipeSliderComponent = ({
                     : "glass-text-primary/80"
                 )}
               >
-                <span className='font-medium'>{metric?.label}</span>
-                <div className='glass-flex glass-items-center glass-gap-2 font-mono'>
+                <span className="font-medium">{metric?.label}</span>
+                <div className="glass-flex glass-items-center glass-gap-2 font-mono">
                   <span className="glass-text-danger">
                     {metric?.beforeValue}
                     {metric?.unit}
                   </span>
-                  <span className='text-primary/50'>→</span>
+                  <span className="text-primary/50">→</span>
                   <span className="glass-text-success">
                     {metric?.afterValue}
                     {metric?.unit}
@@ -855,7 +903,7 @@ const GlassWipeSliderComponent = ({
       )}
 
       {/* Keyboard instructions */}
-      <div className='sr-only'>
+      <div className="sr-only">
         Use arrow keys to adjust the comparison. Press Home for 0%, End for
         100%, Space for 50%. Number keys 0-5 jump to preset positions.
         Shift+arrows for larger steps.
@@ -946,9 +994,9 @@ export function FeatureComparison({
 }) {
   return (
     <ComparisonContent className={className} background="glass">
-      <div className='glass-w-full max-w-md glass-auto-gap glass-auto-gap-lg'>
+      <div className="glass-w-full max-w-md glass-auto-gap glass-auto-gap-lg">
         {title && (
-          <h3 className='glass-text-lg font-semibold text-primary text-center mb-6'>
+          <h3 className="glass-text-lg font-semibold text-primary text-center mb-6">
             {title}
           </h3>
         )}
@@ -958,7 +1006,7 @@ export function FeatureComparison({
             return (
               <div
                 key={feature.name}
-                className='glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1'
+                className="glass-flex glass-items-center glass-justify-between glass-py-2 glass-px-3 surface-1"
               >
                 <span
                   className={cn(
@@ -981,7 +1029,7 @@ export function FeatureComparison({
                   />
                   {afterFeature && (
                     <>
-                      <span className='text-primary/40'>→</span>
+                      <span className="text-primary/40">→</span>
                       <div
                         className={cn(
                           "w-2 h-2 glass-radius-full",
@@ -1014,16 +1062,16 @@ export function MetricsComparison({
 }) {
   return (
     <ComparisonContent className={className} background="glass">
-      <div className='glass-w-full max-w-lg glass-auto-gap glass-auto-gap-lg'>
+      <div className="glass-w-full max-w-lg glass-auto-gap glass-auto-gap-lg">
         {title && (
-          <h3 className='glass-text-xl font-semibold text-primary text-center mb-6'>
+          <h3 className="glass-text-xl font-semibold text-primary text-center mb-6">
             {title}
           </h3>
         )}
         <div className="glass-grid glass-gap-4">
           {metrics.map((metric, index) => (
-            <div key={index} className='surface-1 glass-p-4'>
-              <div className='text-center glass-auto-gap glass-auto-gap-md'>
+            <div key={index} className="surface-1 glass-p-4">
+              <div className="text-center glass-auto-gap glass-auto-gap-md">
                 <div
                   className={cn(
                     "glass-text-sm font-medium",
@@ -1035,22 +1083,22 @@ export function MetricsComparison({
                   {metric?.label}
                 </div>
                 <div className="glass-flex glass-items-center glass-justify-center glass-gap-4">
-                  <div className='text-center'>
-                    <div className='glass-text-2xl font-bold glass-text-danger font-mono'>
+                  <div className="text-center">
+                    <div className="glass-text-2xl font-bold glass-text-danger font-mono">
                       {metric?.beforeValue}
                       {metric?.unit}
                     </div>
-                    <div className='glass-text-xs text-primary/50 glass-mt-1'>
+                    <div className="glass-text-xs text-primary/50 glass-mt-1">
                       Before
                     </div>
                   </div>
-                  <div className='text-primary/40 glass-text-xl'>→</div>
-                  <div className='text-center'>
-                    <div className='glass-text-2xl font-bold glass-text-success font-mono'>
+                  <div className="text-primary/40 glass-text-xl">→</div>
+                  <div className="text-center">
+                    <div className="glass-text-2xl font-bold glass-text-success font-mono">
                       {metric?.afterValue}
                       {metric?.unit}
                     </div>
-                    <div className='glass-text-xs text-primary/50 glass-mt-1'>
+                    <div className="glass-text-xs text-primary/50 glass-mt-1">
                       After
                     </div>
                   </div>

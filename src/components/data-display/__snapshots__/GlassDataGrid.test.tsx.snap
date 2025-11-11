@@ -2,9 +2,11 @@
 
 exports[`GlassDataGrid matches snapshot 1`] = `
 <div
+  aria-label="Data Grid"
   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-w-full glass-p-6 glass-text-center"
   data-glass-component="true"
   data-performance-mode="medium"
+  role="region"
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <p

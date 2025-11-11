@@ -4,28 +4,5 @@ exports[`GlassContextAware matches snapshot 1`] = `
 <div
   class="relative OptimizedGlass intensity={0.2} glassBlur={6} transform-gpu will-change-transform"
   style="background-color: rgba(255, 255, 255, 0.1); --glass-adaptive-intensity: 0.7; --glass-adaptive-blur: 16; --glass-adaptive-opacity: 0.1; --glass-adaptive-contrast: 1; --glass-adaptive-saturation: 1;"
->
-  <div
-    class="absolute glass-top-2 right-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm opacity-50"
-  >
-    <div>
-      Light: 
-      50
-      %
-    </div>
-    <div>
-      Battery: 
-      100
-      %
-    </div>
-    <div>
-      Task: 
-      casual
-    </div>
-    <div>
-      Intensity: 
-      0.70
-    </div>
-  </div>
-</div>
+/>
 `;

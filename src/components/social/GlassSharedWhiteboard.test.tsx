@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassSharedWhiteboard Component Tests
  *
@@ -11,61 +11,64 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassSharedWhiteboard } from '@/components/social/GlassSharedWhiteboard';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassSharedWhiteboard } from "@/components/social/GlassSharedWhiteboard";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassSharedWhiteboard', () => {
+describe("GlassSharedWhiteboard", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassSharedWhiteboard />);
+  it("renders without crashing", () => {
+    const { container } = render(
+      <GlassSharedWhiteboard users={[]} currentUserId="user1" />
+    );
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassSharedWhiteboard />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <GlassSharedWhiteboard users={[]} currentUserId="user1" />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassSharedWhiteboard
+        users={[]}
+        currentUserId="user1"
         className="custom-class"
         data-testid="glasssharedwhiteboard"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasssharedwhiteboard"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasssharedwhiteboard"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassSharedWhiteboard />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <GlassSharedWhiteboard users={[]} currentUserId="user1" />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

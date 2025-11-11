@@ -534,6 +534,7 @@ exports[`GlassDeepDreamGlass matches snapshot 1`] = `
             20
           </label>
           <input
+            aria-label="Iterations: 20"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="100"
             min="5"
@@ -549,6 +550,7 @@ exports[`GlassDeepDreamGlass matches snapshot 1`] = `
             0.010
           </label>
           <input
+            aria-label="Learning Rate: 0.010"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="0.1"
             min="0.001"
@@ -565,6 +567,7 @@ exports[`GlassDeepDreamGlass matches snapshot 1`] = `
             4
           </label>
           <input
+            aria-label="Octaves: 4"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="8"
             min="1"
@@ -580,6 +583,7 @@ exports[`GlassDeepDreamGlass matches snapshot 1`] = `
             1.4
           </label>
           <input
+            aria-label="Octave Scale: 1.4"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="2.0"
             min="1.1"
@@ -596,6 +600,7 @@ exports[`GlassDeepDreamGlass matches snapshot 1`] = `
             1.5
           </label>
           <input
+            aria-label="Step Size: 1.5"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="5.0"
             min="0.5"
@@ -612,6 +617,7 @@ exports[`GlassDeepDreamGlass matches snapshot 1`] = `
             10.0
           </label>
           <input
+            aria-label="Max Loss: 10.0"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="50.0"
             min="1.0"

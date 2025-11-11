@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderUserMenu matches snapshot 1`] = `
+<nav
+  aria-label="User menu"
+  role="navigation"
+>
+  <button
+    aria-expanded="false"
+    aria-haspopup="menu"
+    aria-label="User"
+    class="flex items-center glass-gap-2 glass-px-1.5 glass-py-1 glass-radius-full bg-transparent text-foreground hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 glass-focus glass-touch-target glass-contrast-guard"
+    id="user-menu-:rc:"
+    type="button"
+  >
+    <div
+      class="relative inline-block"
+      data-glass-component="true"
+    >
+      <div
+        aria-label="Avatar for User"
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative overflow-hidden w-8 h-8 glass-text-sm glass-radius-full glass-backdrop-blur-md bg-white/10 border border-white/20"
+        data-performance-mode="medium"
+        id="avatar-:rd:"
+        role="img"
+        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-full"
+        >
+          <span
+            class="font-medium text-primary/80"
+          >
+            U
+          </span>
+        </div>
+      </div>
+      <div
+        aria-label="Status: offline"
+        class="absolute bottom-0 right-0 w-3 h-3 glass-radius-full border-2 border-white glass-surface-primary"
+        role="status"
+      />
+    </div>
+  </button>
+</nav>
+`;

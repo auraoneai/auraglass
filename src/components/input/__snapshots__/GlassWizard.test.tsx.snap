@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassWizard matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full max-w-4xl glass-mx-auto"
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="relative z-10"
+    >
+      <div
+        class="card-header glass-border-b glass-border-white/10"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <div />
+          <div
+            class="glass-flex glass-items-center glass-gap-3"
+          >
+            <span
+              class="glass-text-sm text-primary/60"
+            >
+              Step 
+              1
+               of 
+              0
+            </span>
+            <div
+              class="w-24"
+            >
+              <div
+                class="w-full"
+              >
+                <div
+                  aria-label="Progress"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="0"
+                  class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative w-full overflow-hidden bg-muted/30 glass-backdrop-blur-md h-2 glass-radius-md"
+                  data-performance-mode="medium"
+                  id="progress-:r9:"
+                  role="progressbar"
+                  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+                >
+                  <div
+                    class="h-full transition-all ease-out relative glass-surface-primary"
+                    style="width: 0%; transition-duration: 500ms;"
+                  >
+                    <div
+                      class="pointer-events-none absolute inset-0 glass-sheen"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nav
+          aria-label="Wizard steps"
+          class="glass-flex glass-items-center glass-gap-2 mt-6 overflow-x-auto pb-2"
+        />
+      </div>
+      <div
+        class="card-content glass-p-6"
+      >
+        <div
+          class="motion-primitive min-h-[300px]"
+        >
+          <div
+            class="glass-flex glass-items-center glass-justify-center glass-p-8"
+          >
+            <p
+              class="glass-text-sm text-primary/60"
+            >
+              No steps configured
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-border-t glass-border-white/10 glass-p-6"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <div
+            class="glass-flex glass-gap-3"
+          />
+          <div
+            class="glass-flex glass-gap-3"
+          >
+            <div
+              class="motion-primitive inline-block"
+              data-glass-component="true"
+            >
+              <button
+                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+                id="glass-button-:ra:"
+              >
+                Cancel
+              </button>
+            </div>
+            <div
+              class="motion-primitive inline-block"
+            >
+              <button
+                class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-flex glass-items-center glass-gap-2"
+                data-caustics="true"
+                data-magnet="true"
+                data-performance-mode="ultra"
+                id="glass-button-:rb:"
+                style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+              >
+                <span
+                  class="relative z-10"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-check w-4 h-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6 9 17l-5-5"
+                    />
+                  </svg>
+                  Complete
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

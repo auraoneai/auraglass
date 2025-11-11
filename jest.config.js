@@ -38,11 +38,7 @@ module.exports = {
   // Transform files with ts-jest
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: {
-        jsx: 'react-jsx',
-        esModuleInterop: true,
-        allowSyntheticDefaultImports: true,
-      },
+      tsconfig: '<rootDir>/tsconfig.tests.json',
     }],
   },
 
@@ -90,13 +86,6 @@ module.exports = {
 
   // Module file extensions
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-
-  // Globals
-  globals: {
-    'ts-jest': {
-      isolatedModules: true,
-    },
-  },
 
   // Verbose output
   verbose: true,

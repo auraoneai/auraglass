@@ -1,3 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GlassDrawer matches snapshot 1`] = `null`;
+exports[`GlassDrawer matches snapshot 1`] = `
+<div
+  aria-label="Drawer"
+  aria-modal="true"
+  class="fixed inset-0 z-50"
+  data-consciousness-active="false"
+  data-consciousness-drawer="true"
+  data-drawer-position="right"
+  data-drawer-size="md"
+  data-glass-component="true"
+  role="dialog"
+>
+  <div
+    class="motion-primitive absolute inset-0 bg-black/20 cursor-pointer glass-backdrop-blur-md"
+    data-consciousness-backdrop="true"
+    data-drawer-backdrop-position="right"
+  />
+  <div
+    class="motion-primitive absolute flex flex-col top-0 right-0 bottom-0 w-96"
+    data-consciousness-content="true"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-hover-sheen glass-tier-high h-full flex flex-col border border-border/20 glass-radial-reveal rounded-l-xl"
+      data-performance-mode="medium"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0"
+      >
+        <div
+          class="glass-flex-1 glass-min-w-0"
+        />
+        <div
+          class="motion-primitive inline-block"
+        >
+          <button
+            aria-label="Close drawer"
+            class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-ml-4 glass-p-2 glass-radius-lg glass-text-secondary hover:text-foreground hover:bg-muted/20 transition-colors"
+            data-consciousness-close="true"
+            data-magnet="true"
+            data-performance-mode="ultra"
+            id="glass-button-:r6:"
+            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+            type="button"
+          >
+            <span
+              class="relative z-10"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-x w-4 h-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 6 6 18"
+                />
+                <path
+                  d="m6 6 12 12"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

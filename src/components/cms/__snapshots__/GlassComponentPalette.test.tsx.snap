@@ -6,7 +6,9 @@ exports[`GlassComponentPalette matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
+    aria-label="Component palette"
     class="w-80 h-full flex flex-col"
+    role="complementary"
   >
     <div
       class="glass-foundation-basic glass-h-full glass-flex glass-flex-col glass-contrast-guard"

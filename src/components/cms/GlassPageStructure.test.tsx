@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassPageStructure Component Tests
  *
@@ -11,61 +11,69 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassPageStructure } from '@/components/cms/GlassPageStructure';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassPageStructure } from "@/components/cms/GlassPageStructure";
+import { DragDropProvider } from "@/components/cms/GlassDragDropProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassPageStructure', () => {
+// Test wrapper component
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <DragDropProvider>{children}</DragDropProvider>
+);
+
+describe("GlassPageStructure", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassPageStructure />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassPageStructure />, {
+      wrapper: TestWrapper,
+    });
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassPageStructure />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassPageStructure />, {
+      wrapper: TestWrapper,
+    });
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassPageStructure
         className="custom-class"
         data-testid="glasspagestructure"
-      />
+      />,
+      { wrapper: TestWrapper }
     );
 
-    const element = container.querySelector('[data-testid="glasspagestructure"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasspagestructure"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassPageStructure />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassPageStructure />, {
+      wrapper: TestWrapper,
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 });

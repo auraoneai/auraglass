@@ -1,3 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GlassForm matches snapshot 1`] = `null`;
+exports[`GlassForm matches snapshot 1`] = `
+<form
+  data-testid="glassform"
+>
+  <div>
+    Test form content
+  </div>
+</form>
+`;

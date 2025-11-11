@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSuperpositionalMenu matches snapshot 1`] = `
+<div
+  aria-label="Quantum superposition menu"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-p-6 glass-space-y-4"
+  data-glass-component="true"
+  role="region"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-absolute glass-inset-0 glass-pointer-events-none"
+  >
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 56.75605362205023%; top: 25.072335596538764%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 63.35732003291843%; top: 30.23657825523538%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 90.39738939826742%; top: 76.76616448949775%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 48.57621698600345%; top: 19.21029662363103%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 97.76744573061865%; top: 89.82711131151031%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 68.83139989761827%; top: 22.506875641650748%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 7.2844724029401675%; top: 30.539947495818588%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 56.710266292678035%; top: 10.585466956092148%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 94.65570455845267%; top: 70.94239111171514%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 46.00081291602835%; top: 31.071214893197663%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 75.02904503665788%; top: 66.00234700382089%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 71.01129803026869%; top: 40.34429909386821%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 82.16524747188994%; top: 47.58383909949026%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 39.64469653336027%; top: 58.151830685108784%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 94.02414719444505%; top: 51.47336490602024%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 65.5177428445325%; top: 89.53278708141352%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 87.85341158497799%; top: 63.962471537173386%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 51.24931330763347%; top: 86.18898541403466%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 99.22791505698294%; top: 39.00552767548247%;"
+    />
+    <div
+      class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
+      style="left: 55.564124773714305%; top: 63.47344785934928%;"
+    />
+  </div>
+  <svg
+    class="glass-absolute glass-inset-0 glass-pointer-events-none"
+    style="z-index: 10;"
+  />
+  <div
+    class="glass-flex glass-items-center glass-justify-between"
+  >
+    <div>
+      <h2
+        class="glass-text-xl glass-font-semibold glass-text-primary"
+      >
+        Quantum Menu
+      </h2>
+      <p
+        class="glass-text-sm glass-text-secondary"
+      >
+        0 superpositions
+      </p>
+    </div>
+    <div
+      class="glass-flex glass-items-center glass-space-x-4"
+    >
+      <button
+        class="glass-px-4 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors glass-duration-200 position overflow borderRadius boxShadow background glass-text-primary hover:glass-text-white glass-border glass-border-primary hover:glass-border-white"
+      >
+        🔬 Measure
+      </button>
+      <button
+        class="glass-px-4 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors glass-duration-200 position overflow borderRadius boxShadow background glass-text-accent hover:glass-text-accent-light glass-border glass-border-accent hover:glass-border-accent-light"
+      >
+        ⚛ Entangle
+      </button>
+      <div
+        class="glass-text-sm glass-text-muted"
+      >
+        t: 
+        0.0
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-space-y-3"
+  />
+  <div
+    class="glass-p-4 glass-radius-lg glass-border glass-border-subtle position overflow borderRadius boxShadow background"
+  >
+    <div
+      class="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm"
+    >
+      <div>
+        <span
+          class="glass-text-secondary"
+        >
+          Total Coherence:
+        </span>
+        <span
+          class="glass-ml-2 glass-text-primary"
+        >
+          NaN
+          %
+        </span>
+      </div>
+      <div>
+        <span
+          class="glass-text-secondary"
+        >
+          Entangled Pairs:
+        </span>
+        <span
+          class="glass-ml-2 glass-text-primary"
+        >
+          0
+        </span>
+      </div>
+      <div>
+        <span
+          class="glass-text-secondary"
+        >
+          Measurements:
+        </span>
+        <span
+          class="glass-ml-2 glass-text-primary"
+        >
+          0
+        </span>
+      </div>
+      <div>
+        <span
+          class="glass-text-secondary"
+        >
+          State:
+        </span>
+        <span
+          class="glass-ml-2 glass-text-primary"
+        >
+          Superposition
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

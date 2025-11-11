@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassCollaborationDashboard Component Tests
  *
@@ -11,61 +11,69 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassCollaborationDashboard } from '@/components/collaboration/GlassCollaborationDashboard';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassCollaborationDashboard } from "@/components/collaboration/GlassCollaborationDashboard";
+import { CollaborationProvider } from "@/components/collaboration/GlassCollaborationProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassCollaborationDashboard', () => {
+// Test wrapper component
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <CollaborationProvider roomId="test-room">{children}</CollaborationProvider>
+);
+
+describe("GlassCollaborationDashboard", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassCollaborationDashboard />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassCollaborationDashboard />, {
+      wrapper: TestWrapper,
+    });
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCollaborationDashboard />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassCollaborationDashboard />, {
+      wrapper: TestWrapper,
+    });
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassCollaborationDashboard
         className="custom-class"
         data-testid="glasscollaborationdashboard"
-      />
+      />,
+      { wrapper: TestWrapper }
     );
 
-    const element = container.querySelector('[data-testid="glasscollaborationdashboard"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscollaborationdashboard"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassCollaborationDashboard />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassCollaborationDashboard />, {
+      wrapper: TestWrapper,
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 });

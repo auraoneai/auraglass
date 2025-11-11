@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassFormBuilder Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassFormBuilder } from '@/components/interactive/GlassFormBuilder';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassFormBuilder } from "@/components/interactive/GlassFormBuilder";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassFormBuilder', () => {
+describe("GlassFormBuilder", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassFormBuilder />);
     expect(container).toBeInTheDocument();
   });
@@ -32,30 +32,32 @@ describe('GlassFormBuilder', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassFormBuilder />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Form component has proper labels and descriptions
    */
-  describe('ARIA Attributes', () => {
-    it('has proper form control role', () => {
-      render(<GlassFormBuilder id="test-input" />);
-      const element = screen.getByTestId('glassformbuilder') || document.querySelector('#test-input');
+  describe("ARIA Attributes", () => {
+    it("has proper form control role", () => {
+      render(
+        <GlassFormBuilder id="test-input" data-testid="glassformbuilder" />
+      );
+      const element = screen.getByTestId("glassformbuilder");
       expect(element).toBeInTheDocument();
+      expect(element.tagName).toBe("FORM");
     });
 
-    it('supports aria-label', () => {
+    it("supports aria-label", () => {
       render(<GlassFormBuilder aria-label="Test input" />);
       const element = screen.getByLabelText(/test input/i);
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-describedby for help text', () => {
+    it("supports aria-describedby for help text", () => {
       render(
         <>
           <GlassFormBuilder aria-describedby="help-text" />
@@ -67,14 +69,10 @@ describe('GlassFormBuilder', () => {
     });
   });
 
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassFormBuilder
         className="custom-class"
@@ -82,16 +80,17 @@ describe('GlassFormBuilder', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassformbuilder"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassformbuilder"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassFormBuilder />);
     expect(container.firstChild).toMatchSnapshot();
   });

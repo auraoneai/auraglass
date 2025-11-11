@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef, useRef, useEffect } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
@@ -34,6 +34,8 @@ export interface GlassTextareaProps
   loading?: boolean;
   /** Icon to display */
   icon?: React.ReactNode;
+  /** Data test id */
+  "data-testid"?: string;
 }
 
 export const GlassTextarea = forwardRef<
@@ -61,6 +63,7 @@ export const GlassTextarea = forwardRef<
       rows = minRows,
       value,
       onChange,
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -152,7 +155,12 @@ export const GlassTextarea = forwardRef<
     return (
       <div
         data-glass-component
-        className={cn("glass-textarea-wrapper", fullWidth && "w-full")}
+        className={cn(
+          "glass-textarea-wrapper",
+          fullWidth && "w-full",
+          className
+        )}
+        data-testid={dataTestId}
       >
         {/* Label */}
         {label && (
@@ -166,7 +174,7 @@ export const GlassTextarea = forwardRef<
           >
             {label}
             {props?.required && (
-              <span className='text-primary glass-ml-1' aria-label="required">
+              <span className="text-primary glass-ml-1" aria-label="required">
                 *
               </span>
             )}
@@ -174,7 +182,7 @@ export const GlassTextarea = forwardRef<
         )}
 
         {/* Textarea Container */}
-        <div className='relative'>
+        <div className="relative">
           <textarea
             ref={combinedRef}
             id={textareaId}
@@ -182,6 +190,7 @@ export const GlassTextarea = forwardRef<
             value={value}
             onChange={handleChange}
             maxLength={maxLength}
+            aria-label={!label ? props["aria-label"] || "Text area" : undefined}
             aria-describedby={
               helperText
                 ? `${textareaId}-helper`
@@ -215,9 +224,7 @@ export const GlassTextarea = forwardRef<
               loading && "animate-pulse cursor-wait",
 
               // Full width
-              fullWidth && "w-full",
-
-              className
+              fullWidth && "w-full"
             )}
             {...props}
           />
@@ -236,8 +243,8 @@ export const GlassTextarea = forwardRef<
 
           {/* Error Icon */}
           {hasError && (
-            <div className='absolute top-3 right-3 text-primary'>
-              <AlertCircle className='h-5 w-5' />
+            <div className="absolute top-3 right-3 text-primary">
+              <AlertCircle className="h-5 w-5" />
             </div>
           )}
         </div>
@@ -274,9 +281,9 @@ export const GlassTextarea = forwardRef<
         {errorText && (
           <p
             id={`${textareaId}-error`}
-            className='glass-mt-2 glass-text-xs text-primary glass-flex glass-items-center glass-gap-1'
+            className="glass-mt-2 glass-text-xs text-primary glass-flex glass-items-center glass-gap-1"
           >
-            <AlertCircle className='h-3 w-3' />
+            <AlertCircle className="h-3 w-3" />
             {errorText}
           </p>
         )}

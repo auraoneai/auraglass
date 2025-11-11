@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassChart Component Tests
  *
@@ -11,58 +11,66 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassChart } from '@/components/charts/GlassChart';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassChart } from "@/components/charts/GlassChart";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassChart', () => {
+describe("GlassChart", () => {
+  const mockData = [
+    {
+      id: "series-1",
+      name: "Series 1",
+      color: "#6366F1",
+      data: [
+        { value: 10, label: "A" },
+        { value: 20, label: "B" },
+      ],
+    },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassChart />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassChart type="bar" data={mockData} />);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassChart />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassChart type="bar" data={mockData} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Component has accessible name and description
    */
-  describe('ARIA Attributes', () => {
-    it('supports aria-label', () => {
+  describe("ARIA Attributes", () => {
+    it("supports aria-label", () => {
       const { container } = render(<GlassChart aria-label="Test component" />);
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
   });
 
-  
-
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -76,11 +84,13 @@ describe('GlassChart', () => {
       const { container } = render(<GlassChart />);
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -92,25 +102,28 @@ describe('GlassChart', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassChart
+        type="bar"
+        data={mockData}
         className="custom-class"
         data-testid="glasschart"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasschart"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasschart"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassChart />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassChart type="bar" data={mockData} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

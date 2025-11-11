@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Ambient Mesh Gradients
@@ -31,6 +31,7 @@ interface GlassMeshGradientProps {
   interactive?: boolean;
   complexity?: "simple" | "moderate" | "complex";
   variant?: "ambient" | "vibrant" | "subtle" | "dark";
+  "aria-label"?: string;
 }
 
 export function GlassMeshGradient({
@@ -49,6 +50,7 @@ export function GlassMeshGradient({
   interactive = false,
   complexity = "moderate",
   variant = "ambient",
+  "aria-label": ariaLabel,
 }: GlassMeshGradientProps) {
   const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -212,10 +214,13 @@ export function GlassMeshGradient({
   }, [variant]);
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
+    <div
+      className={cn("relative overflow-hidden", className)}
+      aria-label={ariaLabel}
+    >
       <canvas
         ref={canvasRef}
-        className='absolute inset-0 glass-w-full glass-h-full'
+        className="absolute inset-0 glass-w-full glass-h-full"
         style={{
           filter: `blur(${blur}px) ${filterStyle}`,
           opacity,
@@ -229,7 +234,10 @@ export function GlassMeshGradient({
 export const GlassMeshBackground = forwardRef<
   HTMLDivElement,
   GlassMeshGradientProps & { children?: React.ReactNode }
->(function GlassMeshBackground({ children, className, ...meshProps }, ref) {
+>(function GlassMeshBackground(
+  { children, className, "aria-label": ariaLabel, ...meshProps },
+  ref
+) {
   const backgroundId = useA11yId("mesh-background");
 
   return (
@@ -240,11 +248,11 @@ export const GlassMeshBackground = forwardRef<
       className={cn("relative", className)}
       id={backgroundId}
       role="presentation"
-      aria-label="Mesh gradient background"
+      aria-label={ariaLabel || "Mesh gradient background"}
       aria-hidden="true"
     >
-      <GlassMeshGradient className='absolute inset-0' {...meshProps} />
-      <div className='relative z-10'>{children}</div>
+      <GlassMeshGradient className="absolute inset-0" {...meshProps} />
+      <div className="relative z-10">{children}</div>
     </OptimizedGlass>
   );
 });

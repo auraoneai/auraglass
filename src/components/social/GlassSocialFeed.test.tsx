@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassSocialFeed Component Tests
  *
@@ -11,61 +11,59 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassSocialFeed } from '@/components/social/GlassSocialFeed';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassSocialFeed } from "@/components/social/GlassSocialFeed";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassSocialFeed', () => {
+describe("GlassSocialFeed", () => {
+  const mockPosts = [{ id: "1", content: "Test post", author: "User 1" }];
+
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassSocialFeed />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassSocialFeed posts={mockPosts} />);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassSocialFeed />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassSocialFeed posts={mockPosts} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassSocialFeed
+        posts={mockPosts}
         className="custom-class"
         data-testid="glasssocialfeed"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasssocialfeed"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasssocialfeed"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassSocialFeed />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassSocialFeed posts={mockPosts} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

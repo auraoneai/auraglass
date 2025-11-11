@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassKanban matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full glass-h-full"
+  data-glass-component="true"
+>
+  <div
+    class="grid glass-gap-4 glass-p-4"
+    data-adaptive="false"
+    data-consciousness-active="false"
+    data-consciousness-kanban="true"
+    data-eye-tracking="false"
+    data-predictive="false"
+    data-spatial-audio="false"
+    style="grid-template-columns: repeat(0, minmax(280px, 1fr));"
+  />
+</div>
+`;

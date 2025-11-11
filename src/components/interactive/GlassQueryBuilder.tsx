@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { GlassButton } from "../button/GlassButton";
 import { cn } from "../../lib/utilsComprehensive";
@@ -27,10 +27,14 @@ export interface RuleGroup {
 }
 
 export interface GlassQueryBuilderProps {
-  fields: FieldDef[];
-  value: RuleGroup;
-  onChange: (v: RuleGroup) => void;
+  fields?: FieldDef[];
+  value?: RuleGroup;
+  onChange?: (v: RuleGroup) => void;
   className?: string;
+  /**
+   * Custom data-testid for testing
+   */
+  "data-testid"?: string;
 }
 
 function isGroup(x: any): x is RuleGroup {
@@ -38,10 +42,11 @@ function isGroup(x: any): x is RuleGroup {
 }
 
 export function GlassQueryBuilder({
-  fields,
-  value,
-  onChange,
+  fields = [],
+  value = { combinator: "AND", rules: [] },
+  onChange = () => {},
   className,
+  "data-testid": dataTestId,
 }: GlassQueryBuilderProps) {
   const update = (group: RuleGroup) => onChange({ ...group });
 
@@ -60,7 +65,10 @@ export function GlassQueryBuilder({
             update(value);
           }}
         >
-          <GlassSelectTrigger className='w-40 h-8 glass-text-sm'>
+          <GlassSelectTrigger
+            className="w-40 h-8 glass-text-sm"
+            aria-label="Select field"
+          >
             <GlassSelectValue placeholder="Field" />
           </GlassSelectTrigger>
           <GlassSelectContent>
@@ -78,7 +86,10 @@ export function GlassQueryBuilder({
             update(value);
           }}
         >
-          <GlassSelectTrigger className='w-28 h-8 glass-text-sm'>
+          <GlassSelectTrigger
+            className="w-28 h-8 glass-text-sm"
+            aria-label="Select operator"
+          >
             <GlassSelectValue placeholder="Op" />
           </GlassSelectTrigger>
           <GlassSelectContent>
@@ -98,7 +109,10 @@ export function GlassQueryBuilder({
               update(value);
             }}
           >
-            <GlassSelectTrigger className='w-48 h-8 glass-text-sm'>
+            <GlassSelectTrigger
+              className="w-48 h-8 glass-text-sm"
+              aria-label="Select value"
+            >
               <GlassSelectValue placeholder="Value" />
             </GlassSelectTrigger>
             <GlassSelectContent>
@@ -117,7 +131,7 @@ export function GlassQueryBuilder({
               rule.value = e.target.value;
               update(value);
             }}
-            className='bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+            className="bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
           />
         )}
         <GlassButton
@@ -144,7 +158,10 @@ export function GlassQueryBuilder({
             update(value);
           }}
         >
-          <GlassSelectTrigger className='w-24 h-8 glass-text-sm'>
+          <GlassSelectTrigger
+            className="w-24 h-8 glass-text-sm"
+            aria-label="Select combinator (AND/OR)"
+          >
             <GlassSelectValue />
           </GlassSelectTrigger>
           <GlassSelectContent>
@@ -198,7 +215,14 @@ export function GlassQueryBuilder({
   );
 
   return (
-    <div className={cn("glass-gap-2", className)}>{renderGroup(value)}</div>
+    <div
+      className={cn("glass-gap-2", className)}
+      data-testid={dataTestId}
+      role="group"
+      aria-label="Query builder"
+    >
+      {renderGroup(value)}
+    </div>
   );
 }
 

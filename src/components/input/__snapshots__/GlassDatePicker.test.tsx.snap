@@ -17,7 +17,6 @@ exports[`GlassDatePicker matches snapshot 1`] = `
       >
         <input
           class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed pr-8"
-          id="glass-input-:rg:"
           placeholder="Select date..."
           value=""
         />
@@ -31,6 +30,7 @@ exports[`GlassDatePicker matches snapshot 1`] = `
               class="motion-primitive inline-block"
             >
               <button
+                aria-label="Open calendar"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
                 data-magnet="true"
                 data-performance-mode="ultra"
@@ -42,6 +42,7 @@ exports[`GlassDatePicker matches snapshot 1`] = `
                   class="relative z-10"
                 >
                   <svg
+                    aria-hidden="true"
                     class="w-4 h-4"
                     fill="none"
                     stroke="currentColor"

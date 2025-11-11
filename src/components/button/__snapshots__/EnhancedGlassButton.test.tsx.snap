@@ -4917,7 +4917,9 @@ exports[`EnhancedGlassButton matches snapshot 1`] = `
               <button
                 class="glass-foundation-complete inline-flex items-center justify-center whitespace-nowrap glass-radius-md glass-transition glass-focus font-medium cursor-pointer select-none disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax glass-magnet glass-ripple glass-press glass-h-md glass-px-md glass-text-sm glass-surface-primary glass-text-primary hover:glass-surface-primary-hover"
                 style="transition-duration: NaNms;"
-              />
+              >
+                Snapshot Button
+              </button>
             </div>
           </div>
         </div>
@@ -4949,18 +4951,6 @@ exports[`EnhancedGlassButton matches snapshot 1`] = `
         }
       
     </style>
-  </div>
-  <div
-    class="animation-debug-info glass-focus glass-touch-target glass-contrast-guard"
-    style="position: absolute; top: 0px; right: 0px; color: white; padding: 4px 8px; font-size: 10px; border-radius: 0 0 0 8px; pointer-events: none;"
-  >
-    Emotion: 
-    calm
-     | Active: 
-    0
-     | Perf:
-     
-    high
   </div>
 </div>
 `;

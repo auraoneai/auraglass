@@ -67,6 +67,8 @@ exports[`GlassChatInput matches snapshot 1`] = `
               data-glass-component="true"
             >
               <button
+                aria-label="Show emoji picker"
+                aria-pressed="false"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 id="glass-button-:rg:"
               >
@@ -111,6 +113,7 @@ exports[`GlassChatInput matches snapshot 1`] = `
             >
               <button
                 aria-disabled="true"
+                aria-label="Send message"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2"
                 data-caustics="true"
                 data-magnet="true"
@@ -149,6 +152,7 @@ exports[`GlassChatInput matches snapshot 1`] = `
         </div>
         <input
           accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt"
+          aria-label="File upload input"
           class="hidden glass-touch-target glass-contrast-guard"
           multiple=""
           type="file"

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassPropertyPanel matches snapshot 1`] = `
+<div
+  class="glass-dragdrop-provider"
+  data-glass-component="true"
+>
+  <div
+    class="w-80 h-full flex flex-col"
+  >
+    <div
+      class="glass-foundation-basic glass-h-full glass-flex glass-flex-col glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
+      >
+        <h2
+          class="glass-text-lg font-semibold glass-text-secondary"
+        >
+          Properties
+        </h2>
+        <button
+          class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+          title="Collapse Panel"
+        >
+          ▶
+        </button>
+      </div>
+      <div
+        class="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-p-6"
+      >
+        <div
+          class="text-center"
+        >
+          <div
+            class="glass-text-4xl mb-4"
+          >
+            🎯
+          </div>
+          <h3
+            class="glass-text-lg font-medium glass-text-secondary mb-2"
+          >
+            No Component Selected
+          </h3>
+          <p
+            class="glass-text-secondary glass-text-sm"
+          >
+            Click on a component in the canvas to edit its properties.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

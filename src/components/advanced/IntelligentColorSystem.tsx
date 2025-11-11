@@ -1,8 +1,15 @@
-'use client';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+"use client";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 interface ColorPalette {
   primary: string;
@@ -21,9 +28,9 @@ interface ColorAnalysis {
   dominantColors: string[];
   brightness: number;
   contrast: number;
-  temperature: 'warm' | 'cool' | 'neutral';
+  temperature: "warm" | "cool" | "neutral";
   saturation: number;
-  mood: 'energetic' | 'calm' | 'vibrant' | 'muted';
+  mood: "energetic" | "calm" | "vibrant" | "muted";
 }
 
 interface ColorAdaptationConfig {
@@ -42,7 +49,7 @@ interface IntelligentColorContextType {
   config: ColorAdaptationConfig;
   adaptToPalette: (analysis: ColorAnalysis) => void;
   adaptToTime: (timeOfDay: number) => void;
-  adaptToSeason: (season: 'spring' | 'summer' | 'autumn' | 'winter') => void;
+  adaptToSeason: (season: "spring" | "summer" | "autumn" | "winter") => void;
   adaptToBrand: (brandColors: string[]) => void;
   updateConfig: (newConfig: Partial<ColorAdaptationConfig>) => void;
   analyzeContent: (element: HTMLElement) => ColorAnalysis;
@@ -50,39 +57,42 @@ interface IntelligentColorContextType {
 }
 
 const defaultPalette: ColorPalette = {
-  primary: 'var(--glass-color-primary)',
-  secondary: '#8b5cf6',
-  accent: '#06b6d4',
-  background: '#0f172a',
-  surface: '#1e293b',
-  text: '#f8fafc',
-  textSecondary: '#cbd5e1',
-  border: 'var(--glass-bg-default)',
-  glassBase: 'var(--glass-bg-default)',
-  glassTint: 'rgba(255, 255, 255, 0.05)'
+  primary: "var(--glass-color-primary)",
+  secondary: "#8b5cf6",
+  accent: "#06b6d4",
+  background: "#0f172a",
+  surface: "#1e293b",
+  text: "#f8fafc",
+  textSecondary: "#cbd5e1",
+  border: "var(--glass-bg-default)",
+  glassBase: "var(--glass-bg-default)",
+  glassTint: "rgba(255, 255, 255, 0.05)",
 };
 
 // Dark theme palette with high contrast text colors
 const darkThemePalette: ColorPalette = {
-  primary: 'var(--glass-color-primary)',
-  secondary: '#8b5cf6',
-  accent: '#06b6d4',
-  background: '#020617',
-  surface: '#1e293b',
-  text: 'var(--glass-text-primary)',
-  textSecondary: 'rgba(255, 255, 255, 0.80)',
-  border: 'var(--glass-bg-disabled)',
-  glassBase: 'var(--glass-bg-disabled)',
-  glassTint: 'rgba(255, 255, 255, 0.08)'
+  primary: "var(--glass-color-primary)",
+  secondary: "#8b5cf6",
+  accent: "#06b6d4",
+  background: "#020617",
+  surface: "#1e293b",
+  text: "var(--glass-text-primary)",
+  textSecondary: "rgba(255, 255, 255, 0.80)",
+  border: "var(--glass-bg-disabled)",
+  glassBase: "var(--glass-bg-disabled)",
+  glassTint: "rgba(255, 255, 255, 0.08)",
 };
 
-const IntelligentColorContext = createContext<IntelligentColorContextType | null>(null);
+const IntelligentColorContext =
+  createContext<IntelligentColorContextType | null>(null);
 
 export const useIntelligentColor = () => {
   const prefersReducedMotion = useReducedMotion();
   const context = useContext(IntelligentColorContext);
   if (!context) {
-    throw new Error('useIntelligentColor must be used within IntelligentColorProvider');
+    throw new Error(
+      "useIntelligentColor must be used within IntelligentColorProvider"
+    );
   }
   return context;
 };
@@ -95,18 +105,24 @@ const hexToRgb = (hex: string): [number, number, number] | null => {
   }
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  const rgb: [number, number, number] | null = result ? [
-    parseInt(result[1], 16),
-    parseInt(result[2], 16),
-    parseInt(result[3], 16)
-  ] : null;
+  const rgb: [number, number, number] | null = result
+    ? [
+        parseInt(result[1], 16),
+        parseInt(result[2], 16),
+        parseInt(result[3], 16),
+      ]
+    : null;
 
   hexToRgbCache.set(hex, rgb);
   return rgb;
 };
 
 const rgbToHslCache = new Map<string, [number, number, number]>();
-const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => {
+const rgbToHsl = (
+  r: number,
+  g: number,
+  b: number
+): [number, number, number] => {
   const key = `${r},${g},${b}`;
   if (rgbToHslCache.has(key)) {
     return rgbToHslCache.get(key)!;
@@ -118,16 +134,24 @@ const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => 
 
   const max = Math.max(rNorm, gNorm, bNorm);
   const min = Math.min(rNorm, gNorm, bNorm);
-  let h = 0, s = 0, l = (max + min) / 2;
+  let h = 0,
+    s = 0,
+    l = (max + min) / 2;
 
   if (max !== min) {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
     switch (max) {
-      case rNorm: h = (gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0); break;
-      case gNorm: h = (bNorm - rNorm) / d + 2; break;
-      case bNorm: h = (rNorm - gNorm) / d + 4; break;
+      case rNorm:
+        h = (gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0);
+        break;
+      case gNorm:
+        h = (bNorm - rNorm) / d + 2;
+        break;
+      case bNorm:
+        h = (rNorm - gNorm) / d + 4;
+        break;
     }
     h /= 6;
   }
@@ -151,22 +175,22 @@ const hslToHex = (h: number, s: number, l: number): string => {
   const hue2rgb = (p: number, q: number, t: number) => {
     if (t < 0) t += 1;
     if (t > 1) t -= 1;
-    if (t < 1/6) return p + (q - p) * 6 * t;
-    if (t < 1/2) return q;
-    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
     return p;
   };
 
   const q = lNorm < 0.5 ? lNorm * (1 + sNorm) : lNorm + sNorm - lNorm * sNorm;
   const p = 2 * lNorm - q;
 
-  const r = hue2rgb(p, q, hNorm + 1/3);
+  const r = hue2rgb(p, q, hNorm + 1 / 3);
   const g = hue2rgb(p, q, hNorm);
-  const b = hue2rgb(p, q, hNorm - 1/3);
+  const b = hue2rgb(p, q, hNorm - 1 / 3);
 
   const toHex = (c: number) => {
     const hex = Math.round(c * 255).toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
+    return hex.length === 1 ? "0" + hex : hex;
   };
 
   const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
@@ -228,11 +252,14 @@ const adjustColorForAccessibility = (
   return foreground;
 };
 
-export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const IntelligentColorProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   // Detect if we're in a dark theme context
-  const isDarkTheme = typeof document !== 'undefined' &&
-    (document.documentElement.classList.contains('dark') ||
-     document.documentElement.getAttribute('data-theme') === 'dark');
+  const isDarkTheme =
+    typeof document !== "undefined" &&
+    (document.documentElement.classList.contains("dark") ||
+      document.documentElement.getAttribute("data-theme") === "dark");
 
   const [currentPalette, setCurrentPalette] = useState<ColorPalette>(
     isDarkTheme ? darkThemePalette : defaultPalette
@@ -245,20 +272,21 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     contextualAwareness: true,
     timeBasedShifts: true,
     seasonalAdaptation: true,
-    brandColorInfluence: 0.3
+    brandColorInfluence: 0.3,
   });
 
   const analyzeContent = useCallback((element: HTMLElement): ColorAnalysis => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return {
-      dominantColors: [],
-      brightness: 0.5,
-      contrast: 0.5,
-      temperature: 'neutral',
-      saturation: 0.5,
-      mood: 'calm'
-    };
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx)
+      return {
+        dominantColors: [],
+        brightness: 0.5,
+        contrast: 0.5,
+        temperature: "neutral",
+        saturation: 0.5,
+        mood: "calm",
+      };
 
     // Basic implementation - in production, would use more sophisticated color analysis
     const computedStyle = getComputedStyle(element);
@@ -285,18 +313,22 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     };
 
     // Determine color temperature
-    const determineTemperature = (color: string): 'warm' | 'cool' | 'neutral' => {
+    const determineTemperature = (
+      color: string
+    ): "warm" | "cool" | "neutral" => {
       const rgb = color.match(/\d+/g);
-      if (!rgb) return 'neutral';
+      if (!rgb) return "neutral";
       const [r, g, b] = rgb.map(Number);
       const warmth = (r - b) / 255;
-      return warmth > 0.1 ? 'warm' : warmth < -0.1 ? 'cool' : 'neutral';
+      return warmth > 0.1 ? "warm" : warmth < -0.1 ? "cool" : "neutral";
     };
 
     const brightness = colors.length > 0 ? calculateBrightness(colors[0]) : 0.5;
-    const contrast = colors.length > 1 ? calculateContrast(colors[0], colors[1]) / 21 : 0.5;
-    const temperature = colors.length > 0 ? determineTemperature(colors[0]) : 'neutral';
-    
+    const contrast =
+      colors.length > 1 ? calculateContrast(colors[0], colors[1]) / 21 : 0.5;
+    const temperature =
+      colors.length > 0 ? determineTemperature(colors[0]) : "neutral";
+
     // Calculate saturation from primary color
     const calculateSaturation = (color: string): number => {
       const rgb = color.match(/\d+/g);
@@ -308,13 +340,16 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     };
 
     const saturation = colors.length > 0 ? calculateSaturation(colors[0]) : 0.5;
-    
+
     // Determine mood based on brightness and saturation
-    const determineMood = (brightness: number, saturation: number): 'energetic' | 'calm' | 'vibrant' | 'muted' => {
-      if (brightness > 0.7 && saturation > 0.5) return 'energetic';
-      if (brightness < 0.3 && saturation < 0.3) return 'muted';
-      if (saturation > 0.6) return 'vibrant';
-      return 'calm';
+    const determineMood = (
+      brightness: number,
+      saturation: number
+    ): "energetic" | "calm" | "vibrant" | "muted" => {
+      if (brightness > 0.7 && saturation > 0.5) return "energetic";
+      if (brightness < 0.3 && saturation < 0.3) return "muted";
+      if (saturation > 0.6) return "vibrant";
+      return "calm";
     };
 
     return {
@@ -323,158 +358,186 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
       contrast,
       temperature,
       saturation,
-      mood: determineMood(brightness, saturation)
+      mood: determineMood(brightness, saturation),
     };
   }, []);
 
-  const adaptToPalette = useCallback((analysis: ColorAnalysis) => {
-    if (!config.enabled) return;
+  const adaptToPalette = useCallback(
+    (analysis: ColorAnalysis) => {
+      if (!config.enabled) return;
 
-    setCurrentPalette((prev: any) => {
-      const { dominantColors, brightness, saturation } = analysis;
-      let newPalette = { ...prev };
+      setCurrentPalette((prev: any) => {
+        const { dominantColors, brightness, saturation } = analysis;
+        let newPalette = { ...prev };
 
-      if (dominantColors.length > 0) {
-        const primaryColor = dominantColors[0];
-        const rgb = hexToRgb(primaryColor);
-        if (rgb) {
-          const [h, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
-          const brightnessMultiplier = brightness > 0.6 ? 0.8 : 1.2;
-          const saturationMultiplier = saturation > 0.7 ? 0.9 : 1.1;
-          newPalette.primary = hslToHex(h, s * saturationMultiplier, l * brightnessMultiplier);
-          newPalette.secondary = hslToHex((h + 30) % 360, s * 0.8, l * 0.9);
-          newPalette.accent = hslToHex((h + 120) % 360, s * 1.1, l * 0.85);
-          newPalette.glassBase = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
-          newPalette.glassTint = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.05)`;
-        }
-      }
-
-      if (config.preserveAccessibility) {
-        newPalette = computeAccessiblePalette(newPalette);
-      }
-      return newPalette;
-    });
-  }, [config.enabled, config.preserveAccessibility]);
-
-  const adaptToTime = useCallback((timeOfDay: number) => {
-    if (!config.timeBasedShifts) return;
-    const hour = timeOfDay;
-    setCurrentPalette((prev: any) => {
-      const timeBasePalette = { ...prev };
-      if (hour >= 5 && hour < 9) {
-        timeBasePalette.primary = 'var(--glass-color-warning)';
-        timeBasePalette.glassBase = 'var(--glass-color-warning, 0.1)';
-      } else if (hour >= 9 && hour < 17) {
-        timeBasePalette.primary = 'var(--glass-color-primary)';
-        timeBasePalette.glassBase = 'var(--glass-color-primary, 0.1)';
-      } else if (hour >= 17 && hour < 21) {
-        timeBasePalette.primary = '#f97316';
-        timeBasePalette.glassBase = 'rgba(249, 115, 22, 0.1)';
-      } else {
-        timeBasePalette.primary = '#6366f1';
-        timeBasePalette.background = '#020617';
-        timeBasePalette.glassBase = 'rgba(99, 102, 241, 0.08)';
-      }
-      return timeBasePalette;
-    });
-  }, [config.timeBasedShifts]);
-
-  const adaptToSeason = useCallback((season: 'spring' | 'summer' | 'autumn' | 'winter') => {
-    if (!config.seasonalAdaptation) return;
-    setCurrentPalette((prev: any) => {
-      const seasonPalette = { ...prev };
-      switch (season) {
-        case 'spring':
-          seasonPalette.primary = 'var(--glass-color-success)';
-          seasonPalette.secondary = 'var(--glass-color-warning)';
-          seasonPalette.accent = '#ec4899';
-          seasonPalette.glassBase = 'var(--glass-color-success, 0.1)';
-          break;
-        case 'summer':
-          seasonPalette.primary = '#06b6d4';
-          seasonPalette.secondary = 'var(--glass-color-warning)';
-          seasonPalette.accent = 'var(--glass-color-danger)';
-          seasonPalette.glassBase = 'rgba(6, 182, 212, 0.1)';
-          break;
-        case 'autumn':
-          seasonPalette.primary = '#f97316';
-          seasonPalette.secondary = '#eab308';
-          seasonPalette.accent = 'var(--glass-color-danger-dark)';
-          seasonPalette.glassBase = 'rgba(249, 115, 22, 0.1)';
-          break;
-        case 'winter':
-          seasonPalette.primary = '#6366f1';
-          seasonPalette.secondary = '#06b6d4';
-          seasonPalette.accent = '#8b5cf6';
-          seasonPalette.background = '#020617';
-          seasonPalette.glassBase = 'rgba(99, 102, 241, 0.08)';
-          break;
-      }
-      return seasonPalette;
-    });
-  }, [config.seasonalAdaptation]);
-
-  const adaptToBrand = useCallback((brandColors: string[]) => {
-    if (brandColors.length === 0) return;
-    const influence = config.brandColorInfluence;
-    setCurrentPalette((prev: any) => {
-      const brandPalette = { ...prev };
-      brandColors.forEach((color, index) => {
-        const rgb = hexToRgb(color);
-        if (rgb) {
-          const [h, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
-          switch (index) {
-            case 0: {
-              const currentRgb = hexToRgb(brandPalette.primary);
-              if (currentRgb) {
-                const [currentH, currentS, currentL] = rgbToHsl(currentRgb[0], currentRgb[1], currentRgb[2]);
-                const newH = currentH + (h - currentH) * influence;
-                const newS = currentS + (s - currentS) * influence;
-                const newL = currentL + (l - currentL) * influence;
-                brandPalette.primary = hslToHex(newH, newS, newL);
-              }
-              break;
-            }
-            case 1:
-              brandPalette.secondary = color;
-              break;
-            case 2:
-              brandPalette.accent = color;
-              break;
+        if (dominantColors.length > 0) {
+          const primaryColor = dominantColors[0];
+          const rgb = hexToRgb(primaryColor);
+          if (rgb) {
+            const [h, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+            const brightnessMultiplier = brightness > 0.6 ? 0.8 : 1.2;
+            const saturationMultiplier = saturation > 0.7 ? 0.9 : 1.1;
+            newPalette.primary = hslToHex(
+              h,
+              s * saturationMultiplier,
+              l * brightnessMultiplier
+            );
+            newPalette.secondary = hslToHex((h + 30) % 360, s * 0.8, l * 0.9);
+            newPalette.accent = hslToHex((h + 120) % 360, s * 1.1, l * 0.85);
+            newPalette.glassBase = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
+            newPalette.glassTint = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.05)`;
           }
-          brandPalette.glassBase = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
-          brandPalette.glassTint = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.05)`;
         }
+
+        if (config.preserveAccessibility) {
+          newPalette = computeAccessiblePalette(newPalette);
+        }
+        return newPalette;
       });
-      return brandPalette;
-    });
-  }, [config.brandColorInfluence]);
+    },
+    [config.enabled, config.preserveAccessibility]
+  );
 
-  const getAccessiblePalette = useCallback((basePalette: ColorPalette): ColorPalette => {
-    const accessiblePalette = { ...basePalette };
+  const adaptToTime = useCallback(
+    (timeOfDay: number) => {
+      if (!config.timeBasedShifts) return;
+      const hour = timeOfDay;
+      setCurrentPalette((prev: any) => {
+        const timeBasePalette = { ...prev };
+        if (hour >= 5 && hour < 9) {
+          timeBasePalette.primary = "var(--glass-color-warning)";
+          timeBasePalette.glassBase = "var(--glass-color-warning, 0.1)";
+        } else if (hour >= 9 && hour < 17) {
+          timeBasePalette.primary = "var(--glass-color-primary)";
+          timeBasePalette.glassBase = "var(--glass-color-primary, 0.1)";
+        } else if (hour >= 17 && hour < 21) {
+          timeBasePalette.primary = "#f97316";
+          timeBasePalette.glassBase = "rgba(249, 115, 22, 0.1)";
+        } else {
+          timeBasePalette.primary = "#6366f1";
+          timeBasePalette.background = "#020617";
+          timeBasePalette.glassBase = "rgba(99, 102, 241, 0.08)";
+        }
+        return timeBasePalette;
+      });
+    },
+    [config.timeBasedShifts]
+  );
 
-    // Ensure text has sufficient contrast against backgrounds
-    accessiblePalette.text = adjustColorForAccessibility(
-      accessiblePalette.text,
-      accessiblePalette.background,
-      4.5
-    );
+  const adaptToSeason = useCallback(
+    (season: "spring" | "summer" | "autumn" | "winter") => {
+      if (!config.seasonalAdaptation) return;
+      setCurrentPalette((prev: any) => {
+        const seasonPalette = { ...prev };
+        switch (season) {
+          case "spring":
+            seasonPalette.primary = "var(--glass-color-success)";
+            seasonPalette.secondary = "var(--glass-color-warning)";
+            seasonPalette.accent = "#ec4899";
+            seasonPalette.glassBase = "var(--glass-color-success, 0.1)";
+            break;
+          case "summer":
+            seasonPalette.primary = "#06b6d4";
+            seasonPalette.secondary = "var(--glass-color-warning)";
+            seasonPalette.accent = "var(--glass-color-danger)";
+            seasonPalette.glassBase = "rgba(6, 182, 212, 0.1)";
+            break;
+          case "autumn":
+            seasonPalette.primary = "#f97316";
+            seasonPalette.secondary = "#eab308";
+            seasonPalette.accent = "var(--glass-color-danger-dark)";
+            seasonPalette.glassBase = "rgba(249, 115, 22, 0.1)";
+            break;
+          case "winter":
+            seasonPalette.primary = "#6366f1";
+            seasonPalette.secondary = "#06b6d4";
+            seasonPalette.accent = "#8b5cf6";
+            seasonPalette.background = "#020617";
+            seasonPalette.glassBase = "rgba(99, 102, 241, 0.08)";
+            break;
+        }
+        return seasonPalette;
+      });
+    },
+    [config.seasonalAdaptation]
+  );
 
-    accessiblePalette.textSecondary = adjustColorForAccessibility(
-      accessiblePalette.textSecondary,
-      accessiblePalette.background,
-      3.0
-    );
+  const adaptToBrand = useCallback(
+    (brandColors: string[]) => {
+      if (brandColors.length === 0) return;
+      const influence = config.brandColorInfluence;
+      setCurrentPalette((prev: any) => {
+        const brandPalette = { ...prev };
+        brandColors.forEach((color, index) => {
+          const rgb = hexToRgb(color);
+          if (rgb) {
+            const [h, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+            switch (index) {
+              case 0: {
+                const currentRgb = hexToRgb(brandPalette.primary);
+                if (currentRgb) {
+                  const [currentH, currentS, currentL] = rgbToHsl(
+                    currentRgb[0],
+                    currentRgb[1],
+                    currentRgb[2]
+                  );
+                  const newH = currentH + (h - currentH) * influence;
+                  const newS = currentS + (s - currentS) * influence;
+                  const newL = currentL + (l - currentL) * influence;
+                  brandPalette.primary = hslToHex(newH, newS, newL);
+                }
+                break;
+              }
+              case 1:
+                brandPalette.secondary = color;
+                break;
+              case 2:
+                brandPalette.accent = color;
+                break;
+            }
+            brandPalette.glassBase = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
+            brandPalette.glassTint = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.05)`;
+          }
+        });
+        return brandPalette;
+      });
+    },
+    [config.brandColorInfluence]
+  );
 
-    return accessiblePalette;
-  }, []);
+  const getAccessiblePalette = useCallback(
+    (basePalette: ColorPalette): ColorPalette => {
+      const accessiblePalette = { ...basePalette };
 
-  const updateConfig = useCallback((newConfig: Partial<ColorAdaptationConfig>) => {
-    setConfig((prev: any) => ({ ...prev, ...newConfig }));
-  }, []);
+      // Ensure text has sufficient contrast against backgrounds
+      accessiblePalette.text = adjustColorForAccessibility(
+        accessiblePalette.text,
+        accessiblePalette.background,
+        4.5
+      );
+
+      accessiblePalette.textSecondary = adjustColorForAccessibility(
+        accessiblePalette.textSecondary,
+        accessiblePalette.background,
+        3.0
+      );
+
+      return accessiblePalette;
+    },
+    []
+  );
+
+  const updateConfig = useCallback(
+    (newConfig: Partial<ColorAdaptationConfig>) => {
+      setConfig((prev: any) => ({ ...prev, ...newConfig }));
+    },
+    []
+  );
 
   // Pure helper to compute accessible palette without relying on hooks ordering
-  const computeAccessiblePalette = (basePalette: ColorPalette): ColorPalette => {
+  const computeAccessiblePalette = (
+    basePalette: ColorPalette
+  ): ColorPalette => {
     const accessiblePalette = { ...basePalette };
     accessiblePalette.text = adjustColorForAccessibility(
       accessiblePalette.text,
@@ -500,15 +563,19 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
 
       lastThemeCheck = now;
 
-      const isDarkTheme = document.documentElement.classList.contains('dark') ||
-                         document.documentElement.getAttribute('data-theme') === 'dark';
+      const isDarkTheme =
+        document.documentElement.classList.contains("dark") ||
+        document.documentElement.getAttribute("data-theme") === "dark";
 
       // Only update if the theme state actually changed
       const shouldBeDarkPalette = isDarkTheme;
-      const isCurrentlyDarkPalette = currentPalette.text === darkThemePalette.text;
+      const isCurrentlyDarkPalette =
+        currentPalette.text === darkThemePalette.text;
 
       if (shouldBeDarkPalette !== isCurrentlyDarkPalette) {
-        setCurrentPalette(shouldBeDarkPalette ? darkThemePalette : defaultPalette);
+        setCurrentPalette(
+          shouldBeDarkPalette ? darkThemePalette : defaultPalette
+        );
       }
     };
 
@@ -519,7 +586,10 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     const observer = new MutationObserver((mutations) => {
       let hasRelevantChange = false;
       mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
           hasRelevantChange = true;
         }
       });
@@ -532,7 +602,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ["class"],
     });
 
     return () => observer.disconnect();
@@ -560,11 +630,11 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
       const now = new Date();
       const month = now.getMonth();
 
-      let season: 'spring' | 'summer' | 'autumn' | 'winter';
-      if (month >= 2 && month <= 4) season = 'spring';
-      else if (month >= 5 && month <= 7) season = 'summer';
-      else if (month >= 8 && month <= 10) season = 'autumn';
-      else season = 'winter';
+      let season: "spring" | "summer" | "autumn" | "winter";
+      if (month >= 2 && month <= 4) season = "spring";
+      else if (month >= 5 && month <= 7) season = "summer";
+      else if (month >= 8 && month <= 10) season = "autumn";
+      else season = "winter";
 
       adaptToSeason(season);
     }
@@ -578,29 +648,34 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     const updates: Record<string, string> = {};
 
     // Check and queue text property updates
-    const currentTextPrimary = root.style.getPropertyValue('--glass-text-primary');
+    const currentTextPrimary = root.style.getPropertyValue(
+      "--glass-text-primary"
+    );
     if (currentTextPrimary !== currentPalette.text) {
-      updates['--glass-text-primary'] = currentPalette.text;
+      updates["--glass-text-primary"] = currentPalette.text;
     }
 
-    const currentTextSecondary = root.style.getPropertyValue('--glass-text-secondary');
+    const currentTextSecondary = root.style.getPropertyValue(
+      "--glass-text-secondary"
+    );
     if (currentTextSecondary !== currentPalette.textSecondary) {
-      updates['--glass-text-secondary'] = currentPalette.textSecondary;
-      updates['--glass-text-tertiary'] = currentPalette.textSecondary;
-      updates['--glass-text-disabled'] = currentPalette.textSecondary;
+      updates["--glass-text-secondary"] = currentPalette.textSecondary;
+      updates["--glass-text-tertiary"] = currentPalette.textSecondary;
+      updates["--glass-text-disabled"] = currentPalette.textSecondary;
     }
 
     // Check and queue background/border updates
-    const currentSurface = root.style.getPropertyValue('--glass-bg-default');
+    const currentSurface = root.style.getPropertyValue("--glass-bg-default");
     if (currentSurface !== currentPalette.surface) {
-      updates['--glass-bg-default'] = currentPalette.surface;
-      updates['--glass-border-default'] = currentPalette.border;
-      updates['--glass-border-subtle'] = currentPalette.border;
-      updates['--glass-gradient-default'] = `linear-gradient(135deg, ${currentPalette.surface}, ${currentPalette.glassTint})`;
+      updates["--glass-bg-default"] = currentPalette.surface;
+      updates["--glass-border-default"] = currentPalette.border;
+      updates["--glass-border-subtle"] = currentPalette.border;
+      updates["--glass-gradient-default"] =
+        `linear-gradient(135deg, ${currentPalette.surface}, ${currentPalette.glassTint})`;
     }
 
     // Check and queue essential palette properties
-    const essentialProps = ['primary', 'secondary', 'accent', 'background'];
+    const essentialProps = ["primary", "secondary", "accent", "background"];
     essentialProps.forEach((key: any) => {
       const currentValue = root.style.getPropertyValue(`--glass-${key}`);
       const newValue = currentPalette[key as keyof ColorPalette] as string;
@@ -628,7 +703,7 @@ export const IntelligentColorProvider: React.FC<{ children: React.ReactNode }> =
     adaptToBrand,
     updateConfig,
     analyzeContent,
-    getAccessiblePalette
+    getAccessiblePalette,
   };
 
   return (
@@ -646,37 +721,61 @@ export const ColorAdaptationDemo: React.FC = () => {
     adaptToTime,
     adaptToSeason,
     adaptToBrand,
-    updateConfig
+    updateConfig,
   } = useIntelligentColor();
 
-  const demoColors = useMemo(() => [
-    'var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8b5cf6', '#06b6d4'
-  ], []);
+  const demoColors = useMemo(
+    () => [
+      "var(--glass-color-primary)",
+      "var(--glass-color-danger)",
+      "var(--glass-color-success)",
+      "var(--glass-color-warning)",
+      "#8b5cf6",
+      "#06b6d4",
+    ],
+    []
+  );
 
   return (
     <motion.div
-      className={cn('glass-p-6 glass-radius-2xl glass-blur-backdrop glass-border glass-border-white/20')}
+      className={cn(
+        "glass-p-6 glass-radius-2xl glass-blur-backdrop glass-border glass-border-white/20"
+      )}
       style={{
         background: `linear-gradient(135deg, ${currentPalette.glassBase}, ${currentPalette.glassTint})`,
-        borderColor: currentPalette.border
+        borderColor: currentPalette.border,
       }}
       initial={{ opacity: 0, y: 20 }}
       animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: config.transitionDuration  }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: config.transitionDuration }
+      }
     >
-      <h3 className={cn('glass-text-xl glass-font-bold glass-mb-4')} style={{ color: currentPalette.text }}>
+      <h3
+        className={cn("glass-text-xl glass-font-bold glass-mb-4")}
+        style={{ color: currentPalette.text }}
+      >
         Intelligent Color System Demo
       </h3>
 
       {/* Current Palette Display */}
-      <div className={cn('glass-grid glass-grid-cols-4 glass-gap-2 glass-mb-6')}>
+      <div
+        className={cn("glass-grid glass-grid-cols-4 glass-gap-2 glass-mb-6")}
+      >
         {Object.entries(currentPalette).map(([name, color]) => (
-          <div key={name} className={cn('glass-text-center')}>
+          <div key={name} className={cn("glass-text-center")}>
             <div
-              className={cn('glass-w-full glass-h-12 glass-radius-lg glass-mb-2')}
+              className={cn(
+                "glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
+              )}
               style={{ backgroundColor: color }}
             />
-            <div className={cn('glass-text-xs')} style={{ color: currentPalette.textSecondary }}>
+            <div
+              className={cn("glass-text-xs")}
+              style={{ color: currentPalette.textSecondary }}
+            >
               {name}
             </div>
           </div>
@@ -684,19 +783,26 @@ export const ColorAdaptationDemo: React.FC = () => {
       </div>
 
       {/* Controls */}
-      <div className={cn('glass-space-y-4')}>
+      <div className={cn("glass-space-y-4")}>
         <div>
-          <label className={cn('glass-block glass-text-sm glass-font-medium glass-mb-2')} style={{ color: currentPalette.text }}>
+          <label
+            className={cn(
+              "glass-block glass-text-sm glass-font-medium glass-mb-2"
+            )}
+            style={{ color: currentPalette.text }}
+          >
             Time of Day
           </label>
-          <div className={cn('glass-flex glass-space-x-2')}>
-            {['Morning', 'Day', 'Evening', 'Night'].map((time, index) => (
+          <div className={cn("glass-flex glass-space-x-2")}>
+            {["Morning", "Day", "Evening", "Night"].map((time, index) => (
               <motion.button
                 key={time}
-                className={cn('glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium')}
+                className={cn(
+                  "glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
+                )}
                 style={{
                   backgroundColor: currentPalette.primary,
-                  color: currentPalette.background
+                  color: currentPalette.background,
                 }}
                 onClick={() => adaptToTime([6, 12, 18, 0][index])}
                 whileHover={{ scale: 1.05 }}
@@ -709,40 +815,56 @@ export const ColorAdaptationDemo: React.FC = () => {
         </div>
 
         <div>
-          <label className={cn('glass-block glass-text-sm glass-font-medium glass-mb-2')} style={{ color: currentPalette.text }}>
+          <label
+            className={cn(
+              "glass-block glass-text-sm glass-font-medium glass-mb-2"
+            )}
+            style={{ color: currentPalette.text }}
+          >
             Season
           </label>
-          <div className={cn('glass-flex glass-space-x-2')}>
-            {(['spring', 'summer', 'autumn', 'winter'] as const).map((season) => (
-              <motion.button
-                key={season}
-                className={cn('glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize')}
-                style={{
-                  backgroundColor: currentPalette.secondary,
-                  color: currentPalette.background
-                }}
-                onClick={() => adaptToSeason(season)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {season}
-              </motion.button>
-            ))}
+          <div className={cn("glass-flex glass-space-x-2")}>
+            {(["spring", "summer", "autumn", "winter"] as const).map(
+              (season) => (
+                <motion.button
+                  key={season}
+                  className={cn(
+                    "glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+                  )}
+                  style={{
+                    backgroundColor: currentPalette.secondary,
+                    color: currentPalette.background,
+                  }}
+                  onClick={() => adaptToSeason(season)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {season}
+                </motion.button>
+              )
+            )}
           </div>
         </div>
 
         <div>
-          <label className={cn('glass-block glass-text-sm glass-font-medium glass-mb-2')} style={{ color: currentPalette.text }}>
+          <label
+            className={cn(
+              "glass-block glass-text-sm glass-font-medium glass-mb-2"
+            )}
+            style={{ color: currentPalette.text }}
+          >
             Brand Colors
           </label>
-          <div className={cn('glass-flex glass-space-x-2')}>
+          <div className={cn("glass-flex glass-space-x-2")}>
             {demoColors.map((color, i) => (
               <motion.button
                 key={`${color}-${i}`}
-                className={cn('glass-w-8 glass-h-8 glass-radius-full glass-border-2')}
+                className={cn(
+                  "glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+                )}
                 style={{
                   backgroundColor: color,
-                  borderColor: currentPalette.border
+                  borderColor: currentPalette.border,
                 }}
                 onClick={() => adaptToBrand([color])}
                 whileHover={{ scale: 1.1 }}
@@ -752,19 +874,30 @@ export const ColorAdaptationDemo: React.FC = () => {
           </div>
         </div>
 
-        <div className={cn('glass-flex glass-items-center glass-justify-between')}>
+        <div
+          className={cn("glass-flex glass-items-center glass-justify-between")}
+        >
           <label style={{ color: currentPalette.text }}>
             Auto-adaptation enabled
           </label>
           <motion.button
-            className={cn('glass-w-12 glass-h-6 glass-radius-full glass-p-1', config.enabled ? 'glass-surface-success' : 'glass-surface-muted')}
+            className={cn(
+              "glass-w-12 glass-h-6 glass-radius-full glass-p-1",
+              config.enabled ? "glass-surface-success" : "glass-surface-muted"
+            )}
             onClick={() => updateConfig({ enabled: !config.enabled })}
             whileTap={{ scale: 0.95 }}
           >
             <motion.div
-              className={cn('glass-w-4 glass-h-4 glass-surface-light glass-radius-full')}
-              animate={prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }}
-              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+              className={cn(
+                "glass-w-4 glass-h-4 glass-surface-light glass-radius-full"
+              )}
+              animate={
+                prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }
+              }
+              transition={
+                prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              }
             />
           </motion.button>
         </div>
@@ -772,5 +905,25 @@ export const ColorAdaptationDemo: React.FC = () => {
     </motion.div>
   );
 };
+
+// Main component wrapper for testing and simple usage
+export function IntelligentColorSystem({
+  children,
+  className,
+  colors = [],
+  ...props
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  colors?: string[];
+} & React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <IntelligentColorProvider>
+      <div className={className} {...props}>
+        {children || <ColorAdaptationDemo />}
+      </div>
+    </IntelligentColorProvider>
+  );
+}
 
 export default IntelligentColorProvider;

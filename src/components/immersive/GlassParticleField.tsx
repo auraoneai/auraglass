@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useState,
@@ -64,7 +64,7 @@ export interface ParticleForce {
 export interface GlassParticleFieldProps
   extends React.HTMLAttributes<HTMLDivElement> {
   /** Particle emitters */
-  emitters: ParticleEmitter[];
+  emitters?: ParticleEmitter[];
   /** Environmental forces */
   forces?: ParticleForce[];
   /** Maximum number of particles */
@@ -126,7 +126,7 @@ export const GlassParticleField = forwardRef<
 >(
   (
     {
-      emitters,
+      emitters = [],
       forces = [],
       maxParticles = 1000,
       physics = true,
@@ -463,7 +463,10 @@ export const GlassParticleField = forwardRef<
     // Start animation
     useEffect(() => {
       if (shouldAnimate && !paused) {
-        lastTimeRef.current = (performance as any).now();
+        lastTimeRef.current =
+          typeof performance !== "undefined" && performance.now
+            ? performance.now()
+            : Date.now();
         animationFrameRef.current = requestAnimationFrame(animate);
       }
 
@@ -630,6 +633,7 @@ export const GlassParticleField = forwardRef<
 
     return (
       <OptimizedGlass
+        data-glass-component
         ref={ref}
         id={particleFieldId}
         elevation="level1"
@@ -643,16 +647,18 @@ export const GlassParticleField = forwardRef<
         )}
         style={{ width: bounds.width, height: bounds.height }}
         onMouseMove={handleMouseMove}
+        role="region"
+        aria-label="Particle field visualization"
         {...props}
       >
         <Motion
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
-          className='relative glass-w-full glass-h-full'
+          className="relative glass-w-full glass-h-full"
         >
           {/* Canvas */}
           <canvas
             ref={canvasRef}
-            className='absolute inset-0 glass-w-full glass-h-full'
+            className="absolute inset-0 glass-w-full glass-h-full"
             style={{
               filter: effects.bloom
                 ? "drop-shadow(0 0 10px var(--glass-color-primary, 0.3))"
@@ -662,11 +668,11 @@ export const GlassParticleField = forwardRef<
 
           {/* React Particles (for custom rendering) */}
           {renderParticle && (
-            <div className='absolute inset-0 pointer-events-none'>
+            <div className="absolute inset-0 pointer-events-none">
               {particles.map((particle: any) => (
                 <div
                   key={particle.id}
-                  className='absolute pointer-events-auto cursor-pointer'
+                  className="absolute pointer-events-auto cursor-pointer"
                   style={{
                     left: particle.x - particle.size / 2,
                     top: particle.y - particle.size / 2,
@@ -682,7 +688,7 @@ export const GlassParticleField = forwardRef<
           )}
 
           {/* Controls */}
-          <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2'>
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
             <OptimizedGlass
               elevation="level3"
               intensity="strong"
@@ -693,7 +699,7 @@ export const GlassParticleField = forwardRef<
             >
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className='glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all'
+                className="glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all"
                 title={isPlaying ? "Pause" : "Play"}
               >
                 {isPlaying ? "⏸" : "▶"}
@@ -714,7 +720,7 @@ export const GlassParticleField = forwardRef<
           {/* Mouse force indicator */}
           {interactive && mouseForce && (
             <div
-              className='absolute glass-radius-full glass-border glass-border-primary/30 pointer-events-none'
+              className="absolute glass-radius-full glass-border glass-border-primary/30 pointer-events-none"
               style={{
                 left: mousePosition.x - mouseForce.radius,
                 top: mousePosition.y - mouseForce.radius,

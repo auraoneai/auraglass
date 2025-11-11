@@ -2,8 +2,10 @@
 
 exports[`GlassWeatherGlass matches snapshot 1`] = `
 <div
+  aria-label="Weather visualization with controls"
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-weather-glass relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20"
   id="glass-weather-glass-:r4:"
+  role="region"
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
@@ -18,11 +20,14 @@ exports[`GlassWeatherGlass matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="weather-type"
         >
           Weather:
         </label>
         <select
+          aria-label="Weather type selection"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard glass-focus glass-touch-target"
+          id="weather-type"
         >
           <option
             value="clear"
@@ -71,11 +76,14 @@ exports[`GlassWeatherGlass matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="weather-intensity"
         >
           Intensity:
         </label>
         <input
+          aria-label="Weather intensity"
           class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          id="weather-intensity"
           max="1"
           min="0"
           step="0.1"
@@ -88,11 +96,14 @@ exports[`GlassWeatherGlass matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="weather-temp"
         >
           Temp:
         </label>
         <input
+          aria-label="Temperature in Celsius"
           class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          id="weather-temp"
           max="40"
           min="-20"
           type="range"
@@ -112,6 +123,7 @@ exports[`GlassWeatherGlass matches snapshot 1`] = `
           class="glass-text-sm"
         >
           <input
+            aria-label="Enable auto update"
             class="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
             type="checkbox"
           />
@@ -121,6 +133,7 @@ exports[`GlassWeatherGlass matches snapshot 1`] = `
           class="glass-text-sm"
         >
           <input
+            aria-label="Enable weather responsive styling"
             checked=""
             class="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
             type="checkbox"

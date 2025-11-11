@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassParticleField matches snapshot 1`] = `
+<div
+  aria-label="Particle field visualization"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-particle-field relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden"
+  data-glass-component="true"
+  id="glass-particle-field-:r4:"
+  role="region"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 800px; height: 600px;"
+>
+  <div
+    class="motion-primitive relative glass-w-full glass-h-full"
+  >
+    <canvas
+      class="absolute inset-0 glass-w-full glass-h-full"
+      height="600"
+      style="filter: drop-shadow(0 0 10px var(--glass-color-primary, 0.3));"
+      width="800"
+    />
+    <div
+      class="absolute bottom-4 left-1/2 transform -translate-x-1/2"
+    >
+      <div
+        class="optimized-glass-surface glass-neutral-level3 glass-tier-high glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+        style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <button
+          class="glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all"
+          title="Pause"
+        >
+          ⏸
+        </button>
+        <div
+          class="glass-text-xs glass-text-secondary"
+        >
+          Particles: 
+          0
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

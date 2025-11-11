@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTransferList matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high flex gap-4 glass-p-4 glass-radius-lg"
+  data-glass-component="true"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-flex-1 glass-flex glass-flex-col"
+  >
+    <div
+      class="glass-p-3 glass-border-b glass-border-subtle"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between mb-2"
+      >
+        <h3
+          class="glass-text-base font-semibold glass-text-primary"
+        >
+          Available
+        </h3>
+        <span
+          class="glass-text-sm glass-text-secondary"
+        >
+          0
+           item
+          s
+        </span>
+      </div>
+      <input
+        class="w-full glass-p-2 glass-radius-md glass-text-sm glass-text-primary bg-white/5 border glass-border-subtle focus:outline-none glass-focus disabled:opacity-50 disabled:cursor-not-allowed"
+        placeholder="Search available..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="glass-flex-1 overflow-y-auto glass-p-2"
+      style="min-height: 300px; max-height: 400px;"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary glass-text-sm"
+      >
+        No items
+      </div>
+    </div>
+  </div>
+  <div
+    class="glass-flex glass-flex-col glass-justify-center glass-gap-2 glass-p-2"
+  >
+    <button
+      aria-label="Move all to selected"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      disabled=""
+      title="Move all to selected"
+      type="button"
+    >
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M13 5l7 7-7 7M5 5l7 7-7 7"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="Move selected to right"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      disabled=""
+      title="Move selected to right"
+      type="button"
+    >
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M5 12h14m-7-7l7 7-7 7"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="Move selected to left"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      disabled=""
+      title="Move selected to left"
+      type="button"
+    >
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 12H5m7 7l-7-7 7-7"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+    <button
+      aria-label="Move all to available"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      disabled=""
+      title="Move all to available"
+      type="button"
+    >
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11 5l-7 7 7 7M19 5l-7 7 7 7"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    class="glass-flex-1 glass-flex glass-flex-col"
+  >
+    <div
+      class="glass-p-3 glass-border-b glass-border-subtle"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-between mb-2"
+      >
+        <h3
+          class="glass-text-base font-semibold glass-text-primary"
+        >
+          Selected
+        </h3>
+        <span
+          class="glass-text-sm glass-text-secondary"
+        >
+          0
+           item
+          s
+        </span>
+      </div>
+      <input
+        class="w-full glass-p-2 glass-radius-md glass-text-sm glass-text-primary bg-white/5 border glass-border-subtle focus:outline-none glass-focus disabled:opacity-50 disabled:cursor-not-allowed"
+        placeholder="Search selected..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="glass-flex-1 overflow-y-auto glass-p-2"
+      style="min-height: 300px; max-height: 400px;"
+    >
+      <div
+        class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-secondary glass-text-sm"
+      >
+        No items
+      </div>
+    </div>
+  </div>
+</div>
+`;

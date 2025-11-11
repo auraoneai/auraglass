@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassCanvas Component Tests
  *
@@ -11,43 +11,49 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassCanvas } from '@/components/cms/GlassCanvas';
+import React from "react";
+import { screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassCanvas } from "@/components/cms/GlassCanvas";
+import { renderWithProviders } from "@/utils/testing/renderWithProviders";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassCanvas', () => {
+describe("GlassCanvas", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassCanvas />);
+  it("renders without crashing", () => {
+    const { container } = renderWithProviders(<GlassCanvas />, {
+      providers: { dragDrop: true },
+    });
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCanvas />);
+  it("has no accessibility violations", async () => {
+    const { container } = renderWithProviders(<GlassCanvas />, {
+      providers: { dragDrop: true },
+    });
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
-      render(<GlassCanvas />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
+      renderWithProviders(<GlassCanvas />, {
+        providers: { dragDrop: true },
+      });
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -55,45 +61,48 @@ describe('GlassCanvas', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
-      const { container } = render(<GlassCanvas />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+    it("shows visible focus indicator", () => {
+      const { container } = renderWithProviders(<GlassCanvas />, {
+        providers: { dragDrop: true },
+      });
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
-    const { container } = render(
-      <GlassCanvas
-        className="custom-class"
-        data-testid="glasscanvas"
-      />
+  it("accepts and renders with custom props", () => {
+    const { container } = renderWithProviders(
+      <GlassCanvas className="custom-class" data-testid="glasscanvas" />,
+      { providers: { dragDrop: true } }
     );
 
-    const element = container.querySelector('[data-testid="glasscanvas"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscanvas"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassCanvas />);
+  it("matches snapshot", () => {
+    const { container } = renderWithProviders(<GlassCanvas />, {
+      providers: { dragDrop: true },
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 });

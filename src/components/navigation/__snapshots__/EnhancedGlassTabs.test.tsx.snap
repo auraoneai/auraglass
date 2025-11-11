@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EnhancedGlassTabs matches snapshot 1`] = `
+<nav
+  aria-label="Tabs"
+  class=""
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-medium flex relative overflow-hidden w-full glass-radius-lg"
+    data-performance-mode="medium"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      aria-orientation="horizontal"
+      class="flex w-full relative"
+      id="tablist-:rg:"
+      role="tablist"
+    />
+  </div>
+</nav>
+`;

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -51,6 +51,10 @@ export interface GlassDrawerProps extends ConsciousnessFeatures {
    * Drawer content
    */
   children?: React.ReactNode;
+  /**
+   * Accessible label for the drawer
+   */
+  "aria-label"?: string;
   /**
    * Glass material variant
    */
@@ -114,6 +118,10 @@ export interface GlassDrawerProps extends ConsciousnessFeatures {
    */
   resizable?: boolean;
   className?: string;
+  /**
+   * Custom data-testid attribute
+   */
+  "data-testid"?: string;
 
   // Consciousness features
   /**
@@ -156,6 +164,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
       resizable = false,
       className,
       contentClassName,
+      "aria-label": ariaLabel,
+      "data-testid": dataTestId,
       // Consciousness features
       consciousness = false,
       predictive = false,
@@ -698,6 +708,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
     return (
       <div
         data-glass-component
+        data-testid={dataTestId}
         className={cn(
           "fixed inset-0",
           `z-${zIndex}`,
@@ -705,10 +716,12 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           adaptive &&
             drawerInsights?.urgency === "high" &&
             "consciousness-urgent-drawer",
-          eyeTracking && "consciousness-eye-trackable"
+          eyeTracking && "consciousness-eye-trackable",
+          className
         )}
         role="dialog"
         aria-modal={modal}
+        aria-label={ariaLabel || (title ? undefined : "Drawer")}
         aria-labelledby={title ? "drawer-title" : undefined}
         aria-describedby={description ? "drawer-description" : undefined}
         data-consciousness-drawer="true"
@@ -776,10 +789,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                 adaptive &&
                   drawerInsights?.urgency === "high" &&
                   "consciousness-urgent-glass",
-                predictive &&
-                  drawerInsights &&
-                  "consciousness-predictive-glass",
-                className
+                predictive && drawerInsights && "consciousness-predictive-glass"
               )}
               style={
                 {
@@ -808,7 +818,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {title && (
                           <h2
                             id="drawer-title"
-                            className='glass-text-lg font-semibold text-primary mb-1'
+                            className="glass-text-lg font-semibold text-primary mb-1"
                           >
                             {title}
                           </h2>
@@ -816,7 +826,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {description && (
                           <p
                             id="drawer-description"
-                            className='glass-text-sm text-muted-foreground'
+                            className="glass-text-sm text-muted-foreground"
                           >
                             {description}
                           </p>
@@ -878,10 +888,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                 adaptive &&
                   drawerInsights?.urgency === "high" &&
                   "consciousness-urgent-glass",
-                predictive &&
-                  drawerInsights &&
-                  "consciousness-predictive-glass",
-                className
+                predictive && drawerInsights && "consciousness-predictive-glass"
               )}
               {...props}
             >
@@ -894,7 +901,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {title && (
                           <h2
                             id="drawer-title"
-                            className='glass-text-lg font-semibold text-primary mb-1'
+                            className="glass-text-lg font-semibold text-primary mb-1"
                           >
                             {title}
                           </h2>
@@ -925,7 +932,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                       aria-label="Close drawer"
                       data-consciousness-close="true"
                     >
-                      <X className='w-4 h-4' />
+                      <X className="w-4 h-4" />
                     </GlassButton>
                   )}
                 </div>
@@ -986,7 +993,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                   {predictive && drawerInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='text-primary'>Drawer Insights</span>
+                        <span className="text-primary">Drawer Insights</span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

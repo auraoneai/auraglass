@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassImageProcessingProvider Component Tests
  *
@@ -11,61 +11,70 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassImageProcessingProvider } from '@/components/image/GlassImageProcessingProvider';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassImageProcessingProvider } from "@/components/image/GlassImageProcessingProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassImageProcessingProvider', () => {
+describe("GlassImageProcessingProvider", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassImageProcessingProvider />);
+  it("renders without crashing", () => {
+    const { container } = render(
+      <GlassImageProcessingProvider>
+        <div>Test content</div>
+      </GlassImageProcessingProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassImageProcessingProvider />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <GlassImageProcessingProvider>
+        <div>Test content</div>
+      </GlassImageProcessingProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassImageProcessingProvider
         className="custom-class"
         data-testid="glassimageprocessingprovider"
-      />
+      >
+        <div>Test content</div>
+      </GlassImageProcessingProvider>
     );
 
-    const element = container.querySelector('[data-testid="glassimageprocessingprovider"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassimageprocessingprovider"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassImageProcessingProvider />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <GlassImageProcessingProvider>
+        <div>Test content</div>
+      </GlassImageProcessingProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

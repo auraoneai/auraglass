@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMindMap matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative overflow-hidden"
+  data-glass-component="true"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="absolute top-4 left-4 z-10 glass-flex glass-gap-2"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-3 glass-py-1 glass-radius-md glass-text-sm cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      Reset Zoom
+    </div>
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-3 glass-py-1 glass-radius-md glass-text-sm"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      Zoom: 
+      100
+      %
+    </div>
+  </div>
+  <div
+    class="absolute bottom-4 right-4 z-10 w-32 h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20"
+  >
+    <svg
+      class="glass-w-full glass-h-full"
+      viewBox="0 0 320 240"
+    >
+      <circle
+        cx="53.333333333333336"
+        cy="30"
+        fill="var(--glass-white)60"
+        r="2"
+      />
+    </svg>
+  </div>
+  <div
+    class="glass-w-full glass-h-full overflow-hidden"
+    style="cursor: grab;"
+  >
+    <svg
+      class="glass-w-full glass-h-full"
+      style="transform: scale(1) translate(0px, 0px); transform-origin: center;"
+    >
+      <defs>
+        <marker
+          id="arrowhead"
+          markerHeight="7"
+          markerWidth="10"
+          orient="auto"
+          refX="9"
+          refY="3.5"
+        >
+          <polygon
+            fill="var(--glass-white)40"
+            points="0 0, 10 3.5, 0 7"
+          />
+        </marker>
+      </defs>
+      <g>
+        <g
+          class="cursor-pointer glass-focus glass-touch-target glass-contrast-guard cursor-grab"
+        >
+          <circle
+            cx="40"
+            cy="-10"
+            fill="var(--glass-white)20"
+            r="20"
+            stroke="var(--glass-white)30"
+            stroke-width="1"
+          />
+          <text
+            class="glass-text-sm fill-white font-medium pointer-events-none select-none"
+            text-anchor="middle"
+            x="40"
+            y="-6"
+          >
+            <tspan
+              x="40"
+            >
+              Root
+            </tspan>
+          </text>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>
+`;

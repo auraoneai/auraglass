@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -793,10 +793,14 @@ export const GlassNebulaClouds = forwardRef<
           className="glass-nebula-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Type:</label>
+            <label htmlFor="nebula-type" className="glass-text-sm">
+              Type:
+            </label>
             <select
+              id="nebula-type"
               value={nebulaType}
               onChange={(e) => {}}
+              aria-label="Nebula type selection"
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard glass-focus glass-touch-target"
             >
               <option value="emission">Emission</option>
@@ -808,28 +812,36 @@ export const GlassNebulaClouds = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Density:</label>
+            <label htmlFor="nebula-density" className="glass-text-sm">
+              Density:
+            </label>
             <input
+              id="nebula-density"
               type="range"
               min="0.1"
               max="1"
               step="0.1"
               value={density}
               onChange={(e) => {}}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Nebula density"
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Temperature:</label>
+            <label htmlFor="nebula-temperature" className="glass-text-sm">
+              Temperature:
+            </label>
             <input
+              id="nebula-temperature"
               type="range"
               min="10"
               max="100000"
               step="1000"
               value={temperature}
               onChange={(e) => {}}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Nebula temperature in Kelvin"
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
             <span className="glass-text-xs">
               {(temperature / 1000).toFixed(1)}K K
@@ -837,15 +849,19 @@ export const GlassNebulaClouds = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Time Scale:</label>
+            <label htmlFor="nebula-timescale" className="glass-text-sm">
+              Time Scale:
+            </label>
             <input
+              id="nebula-timescale"
               type="range"
               min="0.1"
               max="10"
               step="0.1"
               value={timeScale}
               onChange={(e) => {}}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Time scale multiplier"
+              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
           </div>
 
@@ -855,6 +871,7 @@ export const GlassNebulaClouds = forwardRef<
                 type="checkbox"
                 checked={showStarClusters}
                 onChange={(e) => {}}
+                aria-label="Show star clusters"
                 className="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
               />
               Stars
@@ -864,6 +881,7 @@ export const GlassNebulaClouds = forwardRef<
                 type="checkbox"
                 checked={showCosmicDust}
                 onChange={(e) => {}}
+                aria-label="Show cosmic dust"
                 className="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
               />
               Dust
@@ -873,6 +891,7 @@ export const GlassNebulaClouds = forwardRef<
                 type="checkbox"
                 checked={showEmissionLines}
                 onChange={(e) => {}}
+                aria-label="Show emission lines"
                 className="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
               />
               Emission
@@ -882,6 +901,7 @@ export const GlassNebulaClouds = forwardRef<
                 type="checkbox"
                 checked={showMagneticField}
                 onChange={(e) => {}}
+                aria-label="Show magnetic field"
                 className="glass-mr-1 glass-focus glass-touch-target glass-contrast-guard"
               />
               Magnetic
@@ -904,6 +924,9 @@ export const GlassNebulaClouds = forwardRef<
           "glass-nebula-clouds relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20",
           className
         )}
+        data-testid={props["data-testid"]}
+        role="region"
+        aria-label="Nebula clouds visualization with controls"
         {...props}
       >
         <Motion
@@ -912,7 +935,7 @@ export const GlassNebulaClouds = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className="relative">
             <canvas
               ref={canvasRef}
               width={width}

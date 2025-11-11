@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "@/lib/utils";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useAccessibleAnimation } from "../../hooks/useAccessibilitySettings";
@@ -22,6 +22,8 @@ export interface GlassSkeletonLoaderProps {
   className?: string;
   /** Children to show when not loading */
   children?: React.ReactNode;
+  /** ARIA label for accessibility */
+  "aria-label"?: string;
 }
 
 /** Animation keyframes for different variants */
@@ -81,6 +83,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
     variant = "pulse",
     className = "",
     children,
+    "aria-label": ariaLabel,
   }) => {
     const [mounted, setMounted] = useState(false);
     const { shouldAnimate, animationDuration } = useAccessibleAnimation();
@@ -146,6 +149,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
             "glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-4",
             className
           )}
+          aria-label={ariaLabel}
         >
           <div style={{ position: "relative" }}>
             <OptimizedGlass

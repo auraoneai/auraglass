@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassMagneticButton matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-inline-block"
+>
+  <div
+    class="motion-primitive inline-block"
+  >
+    <button
+      aria-label="Test button"
+      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+      data-magnet="true"
+      data-performance-mode="ultra"
+      id="glass-button-:r3:"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: none; position: relative; transform: none; cursor: pointer; user-select: none; will-change: auto;"
+    >
+      <span
+        class="relative z-10"
+      >
+        Click me
+      </span>
+    </button>
+  </div>
+</div>
+`;

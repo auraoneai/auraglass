@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -145,6 +145,10 @@ export interface GlassVoiceInputProps
   showControls?: boolean;
   /** Respect user's motion preferences */
   respectMotionPreference?: boolean;
+  /**
+   * Custom data-testid for testing
+   */
+  "data-testid"?: string;
 }
 
 export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
@@ -176,6 +180,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
       showControls = true,
       respectMotionPreference = true,
       className,
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -677,17 +682,21 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
             <button
               onClick={clearTranscript}
-              className='glass-px-3 glass-py-2 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-3 glass-py-2 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
             >
               Clear
             </button>
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className="glass-text-sm">Language:</span>
+            <label htmlFor="voice-language" className="glass-text-sm">
+              Language:
+            </label>
             <select
+              id="voice-language"
               value={language}
               onChange={(e) => {}}
+              aria-label="Select voice recognition language"
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
             >
               <option value="en-US">English (US)</option>
@@ -703,10 +712,14 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className="glass-text-sm">Style:</span>
+            <label htmlFor="visualizer-style" className="glass-text-sm">
+              Style:
+            </label>
             <select
+              id="visualizer-style"
               value={visualizerStyle}
               onChange={(e) => {}}
+              aria-label="Select visualizer style"
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-focus glass-touch-target glass-contrast-guard"
             >
               <option value="waveform">Waveform</option>
@@ -739,9 +752,9 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
           <div className="glass-flex glass-items-center glass-gap-2">
             <span className="glass-text-sm">Audio Level:</span>
-            <div className='w-20 h-2 glass-surface-overlay glass-radius-full overflow-hidden'>
+            <div className="w-20 h-2 glass-surface-overlay glass-radius-full overflow-hidden">
               <div
-                className='glass-h-full glass-surface-green/60 transition-all duration-100'
+                className="glass-h-full glass-surface-green/60 transition-all duration-100"
                 style={{ width: `${audioLevel * 100}%` }}
               />
             </div>
@@ -763,6 +776,9 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           "glass-voice-input relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20",
           className
         )}
+        role="region"
+        aria-label="Voice input"
+        data-testid={dataTestId}
         {...props}
       >
         <Motion
@@ -780,7 +796,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
                   isListening ? "bg-green-500 animate-pulse" : "bg-red-500"
                 )}
               />
-              <span className='glass-text-sm font-medium'>
+              <span className="glass-text-sm font-medium">
                 {isListening ? "Listening..." : "Ready"}
               </span>
               {frequency > 0 && (
@@ -812,11 +828,11 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           {/* Transcript */}
           {showTranscript && (transcript || interimTranscript) && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm font-medium mb-2'>Transcript:</div>
+              <div className="glass-text-sm font-medium mb-2">Transcript:</div>
               <div className="glass-text-sm">
                 <span>{transcript}</span>
                 {interimTranscript && (
-                  <span className='glass-text-secondary italic'>
+                  <span className="glass-text-secondary italic">
                     {" "}
                     {interimTranscript}
                   </span>
@@ -828,16 +844,16 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           {/* Recent commands */}
           {recognizedCommands.length > 0 && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm font-medium mb-2'>
+              <div className="glass-text-sm font-medium mb-2">
                 Recent Commands:
               </div>
-              <div className='space-y-1'>
+              <div className="space-y-1">
                 {recognizedCommands.slice(-5).map((command: any) => (
                   <div
                     key={command.id}
                     className="glass-text-xs glass-p-2 glass-surface-primary/10 glass-radius-sm"
                   >
-                    <span className='font-medium'>{command.phrase}</span>
+                    <span className="font-medium">{command.phrase}</span>
                     <span className="glass-text-secondary glass-ml-2">
                       ({Math.round(command.confidence * 100)}% confidence)
                     </span>

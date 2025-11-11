@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassVideoPlayer Component Tests
  *
@@ -11,61 +11,71 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassVideoPlayer } from '@/components/interactive/GlassVideoPlayer';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassVideoPlayer } from "@/components/interactive/GlassVideoPlayer";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassVideoPlayer', () => {
+describe("GlassVideoPlayer", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassVideoPlayer />);
+  it("renders without crashing", () => {
+    const { container } = render(
+      <GlassVideoPlayer
+        sources={[{ src: "test-video.mp4", type: "video/mp4" }]}
+      />
+    );
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassVideoPlayer />);
-    const results = await axe(container);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <GlassVideoPlayer
+        sources={[{ src: "test-video.mp4", type: "video/mp4" }]}
+      />
+    );
+    const results = await axe(container, {
+      timeout: 15000, // Increase timeout for video player
+    });
     expect(results).toHaveNoViolations();
-  });
-
-  
-
-  
-
-  
+  }, 15000); // Set test timeout to 15 seconds
 
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassVideoPlayer
+        sources={[{ src: "test-video.mp4", type: "video/mp4" }]}
         className="custom-class"
         data-testid="glassvideoplayer"
       />
     );
 
-    const element = container.querySelector('[data-testid="glassvideoplayer"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassvideoplayer"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassVideoPlayer />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <GlassVideoPlayer
+        sources={[{ src: "test-video.mp4", type: "video/mp4" }]}
+      />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

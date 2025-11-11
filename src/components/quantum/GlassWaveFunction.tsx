@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
@@ -24,7 +24,7 @@ export interface WaveEquation {
 export interface GlassWaveFunctionProps {
   width?: number;
   height?: number;
-  waveEquations: WaveEquation[];
+  waveEquations?: WaveEquation[];
   showInterference?: boolean;
   showPhaseSpace?: boolean;
   showAmplitude?: boolean;
@@ -122,7 +122,7 @@ export const GlassWaveFunction = forwardRef<
     {
       width = 800,
       height = 400,
-      waveEquations,
+      waveEquations = [],
       showInterference = true,
       showPhaseSpace = false,
       showAmplitude = true,
@@ -163,6 +163,11 @@ export const GlassWaveFunction = forwardRef<
     const calculateWaves = useMemo(() => {
       const points = Math.floor(width / resolution);
       const newWaveData: Record<string, number[]> = {};
+
+      if (!waveEquations || waveEquations.length === 0) {
+        setWaveData({});
+        return {};
+      }
 
       waveEquations.forEach((wave: any) => {
         const k = (2 * Math.PI) / wave.wavelength;

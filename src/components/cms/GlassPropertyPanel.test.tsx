@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassPropertyPanel Component Tests
  *
@@ -11,61 +11,69 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassPropertyPanel } from '@/components/cms/GlassPropertyPanel';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassPropertyPanel } from "@/components/cms/GlassPropertyPanel";
+import { DragDropProvider } from "@/components/cms/GlassDragDropProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassPropertyPanel', () => {
+// Test wrapper component
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <DragDropProvider>{children}</DragDropProvider>
+);
+
+describe("GlassPropertyPanel", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassPropertyPanel />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassPropertyPanel />, {
+      wrapper: TestWrapper,
+    });
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassPropertyPanel />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassPropertyPanel />, {
+      wrapper: TestWrapper,
+    });
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassPropertyPanel
         className="custom-class"
         data-testid="glasspropertypanel"
-      />
+      />,
+      { wrapper: TestWrapper }
     );
 
-    const element = container.querySelector('[data-testid="glasspropertypanel"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasspropertypanel"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassPropertyPanel />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassPropertyPanel />, {
+      wrapper: TestWrapper,
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 });

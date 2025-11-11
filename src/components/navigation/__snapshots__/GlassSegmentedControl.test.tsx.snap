@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSegmentedControl matches snapshot 1`] = `
+<nav
+  aria-label="Segmented control"
+>
+  <div
+    aria-label="Segmented control"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-radius-xl glass-p-1 glass-gap-1 overflow-visible"
+    id="segmented-control-:r6:"
+    role="group"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  />
+</nav>
+`;

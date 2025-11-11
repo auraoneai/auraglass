@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -70,7 +70,8 @@ export interface CommandGroup {
   priority?: number;
 }
 
-export interface GlassCommandPaletteProps {
+export interface GlassCommandPaletteProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Command items (flat list or grouped)
    */
@@ -156,6 +157,8 @@ export interface GlassCommandPaletteProps {
    */
   loadingMessage?: string;
   className?: string;
+  "data-testid"?: string;
+  "aria-label"?: string;
 }
 
 /**
@@ -190,6 +193,8 @@ export const GlassCommandPalette = forwardRef<
       loading = false,
       loadingMessage = "Loading commands...",
       className,
+      "data-testid": dataTestId,
+      "aria-label": ariaLabel,
       ...props
     },
     ref
@@ -428,7 +433,10 @@ export const GlassCommandPalette = forwardRef<
         const selectedElement = listRef.current.children?.[
           selectedIndex
         ] as HTMLElement;
-        if (selectedElement) {
+        if (
+          selectedElement &&
+          typeof selectedElement.scrollIntoView === "function"
+        ) {
           selectedElement.scrollIntoView({
             block: "nearest",
             behavior: "smooth",
@@ -442,7 +450,7 @@ export const GlassCommandPalette = forwardRef<
     return (
       <div
         data-glass-component
-        className='fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center pt-[10vh]'
+        className="fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center pt-[10vh]"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             onOpenChange?.(false);
@@ -461,7 +469,7 @@ export const GlassCommandPalette = forwardRef<
         <Motion
           preset="scaleIn"
           duration={200}
-          className='relative glass-w-full max-w-2xl glass-mx-4'
+          className="relative glass-w-full max-w-2xl glass-mx-4"
         >
           <OptimizedGlass
             ref={ref}
@@ -478,7 +486,10 @@ export const GlassCommandPalette = forwardRef<
               className
             )}
             onKeyDown={handleKeyDown}
-            {...props}
+            data-testid={dataTestId}
+            aria-label={ariaLabel || "Command palette"}
+            role="dialog"
+            aria-modal="true"
           >
             {/* Search Input */}
             <div className="glass-p-4 glass-border-b glass-border-glass-border/10">
@@ -490,7 +501,7 @@ export const GlassCommandPalette = forwardRef<
                 size="lg"
                 leftIcon={
                   <svg
-                    className='w-5 h-5'
+                    className="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -507,11 +518,11 @@ export const GlassCommandPalette = forwardRef<
                   search && (
                     <GlassButton
                       type="button"
-                      className='glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors'
+                      className="glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors"
                       onClick={(e) => setSearch("")}
                     >
                       <svg
-                        className='w-4 h-4'
+                        className="w-4 h-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -526,27 +537,28 @@ export const GlassCommandPalette = forwardRef<
                     </GlassButton>
                   )
                 }
-                className='glass-border-0 bg-transparent focus:ring-0'
+                className="glass-border-0 bg-transparent focus:ring-0"
               />
             </div>
 
             {/* Results */}
             <div
               ref={listRef}
-              className='max-h-96 overflow-y-auto overscroll-contain'
+              className="max-h-96 overflow-y-auto overscroll-contain"
               role="listbox"
+              aria-label="Command results"
             >
               {loading ? (
                 <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
                   <div className="glass-flex glass-items-center glass-gap-3">
-                    <div className='w-5 h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
+                    <div className="w-5 h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
                     <span className="glass-text-secondary">
                       {loadingMessage}
                     </span>
                   </div>
                 </div>
               ) : (filteredItems?.length || 0) === 0 ? (
-                <div className='glass-py-8 text-center glass-text-secondary'>
+                <div className="glass-py-8 text-center glass-text-secondary">
                   {emptyMessage}
                 </div>
               ) : (
@@ -555,7 +567,7 @@ export const GlassCommandPalette = forwardRef<
                     <div key={category}>
                       {showCategories &&
                         Object.keys(groupedItems).length > 1 && (
-                          <div className='glass-px-4 glass-py-2 glass-text-xs font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5'>
+                          <div className="glass-px-4 glass-py-2 glass-text-xs font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5">
                             {search ? "Results" : category}
                           </div>
                         )}
@@ -602,11 +614,11 @@ export const GlassCommandPalette = forwardRef<
 
                             {/* Content */}
                             <div className="glass-flex-1 glass-min-w-0">
-                              <div className='font-medium text-primary'>
+                              <div className="font-medium text-primary">
                                 {item?.label}
                               </div>
                               {item?.description && (
-                                <div className='glass-text-sm glass-text-secondary truncate'>
+                                <div className="glass-text-sm glass-text-secondary truncate">
                                   {item?.description}
                                 </div>
                               )}

@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VoiceGlassControl matches snapshot 1`] = `
+<div
+  class="fixed z-50 top-4 left-4"
+>
+  <div
+    class="glass-glass-glass-backdrop-blur-lg glass-border glass-border-red/20 glass-surface-red/10 glass-p-3 glass-radius-lg glass-contrast-guard"
+  >
+    <div
+      class="glass-flex glass-items-center glass-gap-2 text-primary"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-circle-alert h-4 w-4"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+        />
+        <line
+          x1="12"
+          x2="12"
+          y1="8"
+          y2="12"
+        />
+        <line
+          x1="12"
+          x2="12.01"
+          y1="16"
+          y2="16"
+        />
+      </svg>
+      <span
+        class="glass-text-sm"
+      >
+        Voice control not supported
+      </span>
+    </div>
+  </div>
+</div>
+`;

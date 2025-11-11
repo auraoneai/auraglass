@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   forwardRef,
@@ -28,11 +28,11 @@ export interface GlassModalProps extends ConsciousnessFeatures {
   /**
    * Whether the modal is open
    */
-  open: boolean;
+  open?: boolean;
   /**
    * Callback when modal should close
    */
-  onClose: () => void;
+  onClose?: () => void;
   /**
    * Modal title
    */
@@ -138,6 +138,10 @@ export interface GlassModalProps extends ConsciousnessFeatures {
    * Custom className for modal content
    */
   contentClassName?: string;
+  /**
+   * Custom data-testid attribute
+   */
+  "data-testid"?: string;
 }
 
 /**
@@ -174,6 +178,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       initialFocus,
       restoreFocus,
       contentClassName,
+      "data-testid": dataTestId,
       // Consciousness features
       consciousness,
       predictive,
@@ -255,13 +260,13 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       modal: true,
     });
 
-    // Create final a11y props with role override
+    // Create final a11y props with role override and default label
     const a11yProps = {
       ...baseA11yProps,
       ...(role && { role }),
-      ...(ariaLabel &&
-        !ariaLabelledBy &&
-        !titleId && { "aria-label": ariaLabel }),
+      // Provide aria-label if no title or labelledby is provided
+      ...(!ariaLabelledBy &&
+        !titleId && { "aria-label": ariaLabel || "Modal" }),
     };
 
     useEffect(() => {
@@ -328,7 +333,14 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           body.style.top = "";
           body.style.width = "";
           body.style.overflow = "";
-          window.scrollTo(0, scrollY);
+          // Only scroll in real browser, not jsdom
+          if (typeof window !== "undefined" && window.scrollTo) {
+            try {
+              window.scrollTo(0, scrollY);
+            } catch (e) {
+              // Ignore scrollTo errors in test environment
+            }
+          }
         };
       }
     }, [open, lockScroll, mounted]);
@@ -666,6 +678,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     return (
       <div
         data-glass-component
+        data-testid={dataTestId}
         className={cn(
           "fixed inset-0 flex",
           variantClasses[variant],
@@ -674,7 +687,8 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           adaptive &&
             modalInsights?.urgency === "high" &&
             "consciousness-urgent-modal",
-          eyeTracking && "consciousness-eye-trackable"
+          eyeTracking && "consciousness-eye-trackable",
+          className
         )}
         style={{ zIndex }}
         data-consciousness-modal="true"
@@ -689,7 +703,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         {backdrop || (
           <Motion
             preset="fadeIn"
-            className='absolute inset-0 glass-surface-dark/50'
+            className="absolute inset-0 glass-surface-dark/50"
             onClick={handleBackdropClick}
           />
         )}
@@ -741,8 +755,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                     "consciousness-urgent-glass",
                   predictive &&
                     modalInsights &&
-                    "consciousness-predictive-glass",
-                  className
+                    "consciousness-predictive-glass"
                 )}
                 style={
                   {
@@ -766,7 +779,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {title && (
                           <h2
                             id={titleId}
-                            className='glass-text-lg font-semibold text-primary'
+                            className="glass-text-lg font-semibold text-primary"
                           >
                             {title}
                           </h2>
@@ -774,7 +787,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {description && (
                           <p
                             id={descriptionId}
-                            className='glass-text-sm text-muted-foreground glass-mt-1'
+                            className="glass-text-sm text-muted-foreground glass-mt-1"
                           >
                             {description}
                           </p>
@@ -839,8 +852,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                     "consciousness-urgent-glass",
                   predictive &&
                     modalInsights &&
-                    "consciousness-predictive-glass",
-                  className
+                    "consciousness-predictive-glass"
                 )}
                 {...props}
               >
@@ -852,7 +864,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {title && (
                           <h2
                             id={titleId}
-                            className='glass-text-lg font-semibold text-primary'
+                            className="glass-text-lg font-semibold text-primary"
                           >
                             {title}
                           </h2>
@@ -873,7 +885,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                             <IconButton
                               icon={
                                 <svg
-                                  className='w-4 h-4'
+                                  className="w-4 h-4"
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -989,7 +1001,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                   {predictive && modalInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='text-primary'>Modal Insights</span>
+                        <span className="text-primary">Modal Insights</span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

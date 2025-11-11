@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassIntelligentImageUploader matches snapshot 1`] = `
+<div
+  class="glass-foundation-basic p-6"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="space-y-6"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-between"
+    >
+      <div>
+        <h2
+          class="glass-text-xl font-semibold glass-text-secondary"
+        >
+          🤖 Intelligent Image Uploader
+        </h2>
+        <p
+          class="glass-text-secondary glass-mt-1"
+        >
+          AI-powered image optimization and editing
+        </p>
+      </div>
+      <button
+        class="glass-px-4 glass-py-2 glass-surface-subtle text-primary glass-radius-lg hover:glass-surface-subtle transition-colors"
+      >
+        📊 Stats
+      </button>
+    </div>
+    <div
+      class="relative border-2 border-dashed rounded-lg p-12 text-center transition-colors border-gray-300 hover:border-gray-400"
+    >
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="text-6xl"
+        >
+          📸
+        </div>
+        <div>
+          <h3
+            class="glass-text-lg font-medium glass-text-secondary"
+          >
+            Drop images here or click to upload
+          </h3>
+          <p
+            class="glass-text-secondary glass-mt-1"
+          >
+            Supports JPEG, PNG, WebP, GIF up to 
+            10
+            MB each
+          </p>
+        </div>
+        <button
+          class="glass-px-6 glass-py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors"
+        >
+          Choose Files
+        </button>
+        <div
+          class="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-text-sm text-primary"
+        >
+          <span>
+            ✅
+          </span>
+          <span>
+            Auto-optimization enabled
+          </span>
+        </div>
+      </div>
+      <input
+        accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+        aria-label="Upload images"
+        class="hidden glass-touch-target glass-contrast-guard"
+        multiple=""
+        type="file"
+      />
+    </div>
+    <div
+      class="glass-grid glass-grid-cols-1 md:grid-cols-3 glass-gap-4"
+    >
+      <div
+        class="text-center glass-p-4 glass-surface-subtle glass-radius-lg"
+      >
+        <div
+          class="glass-text-2xl mb-2"
+        >
+          🤖
+        </div>
+        <h3
+          class="font-medium text-primary"
+        >
+          AI Enhancement
+        </h3>
+        <p
+          class="glass-text-sm text-primary glass-mt-1"
+        >
+          Automatic brightness, contrast, and sharpness optimization
+        </p>
+      </div>
+      <div
+        class="text-center glass-p-4 glass-surface-subtle glass-radius-lg"
+      >
+        <div
+          class="glass-text-2xl mb-2"
+        >
+          ✂️
+        </div>
+        <h3
+          class="font-medium text-primary"
+        >
+          Smart Tools
+        </h3>
+        <p
+          class="glass-text-sm text-primary glass-mt-1"
+        >
+          Background removal, face detection, and smart cropping
+        </p>
+      </div>
+      <div
+        class="text-center glass-p-4 glass-surface-subtle glass-radius-lg"
+      >
+        <div
+          class="glass-text-2xl mb-2"
+        >
+          ⚡
+        </div>
+        <h3
+          class="font-medium text-primary"
+        >
+          Optimization
+        </h3>
+        <p
+          class="glass-text-sm text-primary glass-mt-1"
+        >
+          Reduce file sizes by up to 80% while maintaining quality
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

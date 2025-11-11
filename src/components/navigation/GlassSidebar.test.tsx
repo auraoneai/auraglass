@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassSidebar Component Tests
  *
@@ -11,77 +11,77 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassSidebar } from '@/components/navigation/GlassSidebar';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassSidebar } from "@/components/navigation/GlassSidebar";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassSidebar', () => {
+describe("GlassSidebar", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassSidebar />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassSidebar items={[]} />);
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassSidebar />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassSidebar items={[]} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Navigation component has proper roles and labels
    */
-  describe('ARIA Attributes', () => {
-    it('has proper navigation role', () => {
-      render(<GlassSidebar />);
-      const nav = screen.queryByRole('navigation') || screen.queryByRole('menu') || screen.queryByRole('menubar');
+  describe("ARIA Attributes", () => {
+    it("has proper navigation role", () => {
+      render(<GlassSidebar items={[]} />);
+      const nav =
+        screen.queryByRole("navigation") ||
+        screen.queryByRole("menu") ||
+        screen.queryByRole("menubar");
       expect(nav).toBeInTheDocument();
     });
 
-    it('has accessible name', () => {
-      render(<GlassSidebar aria-label="Main navigation" />);
-      const nav = screen.getByRole('navigation', { name: /main navigation/i });
+    it("has accessible name", () => {
+      render(<GlassSidebar items={[]} aria-label="Main navigation" />);
+      const nav = screen.getByRole("navigation", { name: /main navigation/i });
       expect(nav).toBeInTheDocument();
     });
   });
 
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassSidebar
+        items={[]}
         className="custom-class"
         data-testid="glasssidebar"
       />
     );
 
-    const element = container.querySelector('[data-testid="glasssidebar"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasssidebar"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassSidebar />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassSidebar items={[]} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

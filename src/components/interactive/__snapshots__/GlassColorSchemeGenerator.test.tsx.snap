@@ -2,8 +2,10 @@
 
 exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
 <div
+  aria-label="Color scheme generator"
   class="space-y-6 "
   data-glass-component="true"
+  role="region"
 >
   <div
     class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-p-6"
@@ -24,6 +26,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
           class="glass-flex glass-items-center glass-gap-4"
         >
           <input
+            aria-label="Base color picker"
             class="w-16 h-16 glass-radius-lg glass-border-2 glass-border-white/20 cursor-pointer"
             type="color"
             value="#0066cc"

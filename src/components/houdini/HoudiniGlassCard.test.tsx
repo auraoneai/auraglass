@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * HoudiniGlassCard Component Tests
  *
@@ -11,61 +11,67 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { HoudiniGlassCard } from '@/components/houdini/HoudiniGlassCard';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { HoudiniGlassCard } from "@/components/houdini/HoudiniGlassCard";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('HoudiniGlassCard', () => {
+describe("HoudiniGlassCard", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<HoudiniGlassCard />);
+  it("renders without crashing", () => {
+    const { container } = render(
+      <HoudiniGlassCard>
+        <div>Test content</div>
+      </HoudiniGlassCard>
+    );
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<HoudiniGlassCard />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(
+      <HoudiniGlassCard>
+        <div>Test content</div>
+      </HoudiniGlassCard>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <HoudiniGlassCard
-        className="custom-class"
-        data-testid="houdiniglasscard"
-      />
+      <HoudiniGlassCard className="custom-class" data-testid="houdiniglasscard">
+        <div>Custom content</div>
+      </HoudiniGlassCard>
     );
 
-    const element = container.querySelector('[data-testid="houdiniglasscard"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="houdiniglasscard"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<HoudiniGlassCard />);
+  it("matches snapshot", () => {
+    const { container } = render(
+      <HoudiniGlassCard>
+        <div>Test content</div>
+      </HoudiniGlassCard>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

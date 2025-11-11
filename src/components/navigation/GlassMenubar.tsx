@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -25,7 +25,7 @@ export interface GlassMenubarProps {
   /**
    * Menu items
    */
-  items: MenuItem[];
+  items?: MenuItem[];
   /**
    * Menubar orientation
    */
@@ -46,6 +46,10 @@ export interface GlassMenubarProps {
    * Accessible label for the menubar
    */
   "aria-label"?: string;
+  /**
+   * Test ID for testing
+   */
+  "data-testid"?: string;
 }
 
 export interface GlassMenubarContentProps {
@@ -119,12 +123,13 @@ export interface GlassMenubarItemProps {
  * A glassmorphism menubar with dropdown menus
  */
 export const GlassMenubar: React.FC<GlassMenubarProps> = ({
-  items,
+  items = [],
   orientation = "horizontal",
   size = "md",
   className,
   disabled = false,
   "aria-label": ariaLabel = "Menu bar",
+  "data-testid": dataTestId,
 }) => {
   const [openMenus, setOpenMenus] = useState<Set<string>>(new Set());
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -170,6 +175,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
   return (
     <OptimizedGlass
       data-glass-component
+      data-testid={dataTestId}
       intent="neutral"
       elevation="level2"
       intensity="medium"
@@ -360,7 +366,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
   if (item?.separator) {
     return (
       <div
-        className='h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+        className="h-px glass-surface-subtle/20 glass-mx-2 glass-my-1"
         role="separator"
       />
     );
@@ -443,7 +449,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
       <div className="glass-flex glass-items-center glass-gap-3">
         {/* Icon */}
         {item?.icon && (
-          <div className='glass-flex glass-items-center glass-justify-center w-4 h-4'>
+          <div className="glass-flex glass-items-center glass-justify-center w-4 h-4">
             {item?.icon}
           </div>
         )}
@@ -458,7 +464,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           >
             {item?.checked && (
               <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center">
-                <div className='w-2 h-2 glass-surface-dark glass-radius-sm' />
+                <div className="w-2 h-2 glass-surface-dark glass-radius-sm" />
               </div>
             )}
           </div>
@@ -473,27 +479,27 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           >
             {item?.checked && (
               <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center">
-                <div className='w-2 h-2 glass-surface-subtle glass-radius-full' />
+                <div className="w-2 h-2 glass-surface-subtle glass-radius-full" />
               </div>
             )}
           </div>
         )}
 
         {/* Label */}
-        <span className='glass-flex-1 text-left truncate'>{item?.label}</span>
+        <span className="glass-flex-1 text-left truncate">{item?.label}</span>
       </div>
 
       <div className="glass-flex glass-items-center glass-gap-2">
         {/* Shortcut */}
         {item?.shortcut && (
-          <span className='text-primary/50 glass-text-xs font-mono'>
+          <span className="text-primary/50 glass-text-xs font-mono">
             {item?.shortcut}
           </span>
         )}
 
         {/* Submenu indicator */}
         {item?.children && item?.children.length > 0 && (
-          <ChevronRight className='w-4 h-4 text-primary/50' />
+          <ChevronRight className="w-4 h-4 text-primary/50" />
         )}
       </div>
     </GlassButton>

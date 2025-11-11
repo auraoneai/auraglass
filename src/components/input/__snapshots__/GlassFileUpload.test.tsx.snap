@@ -7,49 +7,54 @@ exports[`GlassFileUpload matches snapshot 1`] = `
   <input
     aria-label="File upload input"
     class="hidden glass-touch-target glass-contrast-guard"
-    id="file-upload-input"
+    id="file-upload-input-:r3:"
     multiple=""
     type="file"
   />
-  <div
+  <label
     aria-describedby="file-upload-instructions"
     aria-disabled="false"
     aria-label="Drag and drop files here, or click to browse"
-    class="glass-foundation-basic border-2 border-dashed glass-p-8 text-center transition-all duration-200 cursor-pointer hover:border-primary hover:bg-primary/5 glass-radius-xl"
+    class="block cursor-pointer"
+    for="file-upload-input-:r3:"
     role="button"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     tabindex="0"
   >
     <div
-      class="glass-flex glass-flex-col glass-items-center glass-gap-4"
+      class="glass-foundation-basic border-2 border-dashed glass-p-8 text-center transition-all duration-200 hover:border-primary hover:bg-primary/5 glass-radius-xl"
+      role="presentation"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
-        class="glass-text-4xl opacity-60"
+        class="glass-flex glass-flex-col glass-items-center glass-gap-4 pointer-events-none"
       >
-        📁
-      </div>
-      <div>
-        <p
-          class="glass-text-lg font-medium text-primary mb-2"
+        <div
+          class="glass-text-4xl opacity-60"
         >
-          Drag and drop files here, or click to browse
-        </p>
-        <p
-          class="glass-text-secondary"
-          id="file-upload-instructions"
+          📁
+        </div>
+        <div>
+          <p
+            class="glass-text-lg font-medium text-primary mb-2"
+          >
+            Drag and drop files here, or click to browse
+          </p>
+          <p
+            class="glass-text-secondary"
+            id="file-upload-instructions"
+          >
+             • Max size: 10 MB
+             • Max files: 5
+          </p>
+        </div>
+        <span
+          aria-hidden="true"
+          class="glass-px-4 glass-py-2 glass-surface-primary text-primary-foreground glass-radius-lg transition-colors font-medium inline-flex"
         >
-           • Max size: 10 MB
-           • Max files: 5
-        </p>
+          Browse Files
+        </span>
       </div>
-      <button
-        aria-label="Browse Files"
-        class="glass-px-4 glass-py-2 glass-surface-primary text-primary-foreground glass-radius-lg hover:glass-surface-primary/90 transition-colors font-medium"
-        type="button"
-      >
-        Browse Files
-      </button>
     </div>
-  </div>
+  </label>
 </div>
 `;

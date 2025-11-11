@@ -63,6 +63,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
             >
               <button
                 aria-disabled="true"
+                aria-label="Save search"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 disabled=""
                 id="glass-button-:rg:"
@@ -97,6 +98,8 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               data-glass-component="true"
             >
               <button
+                aria-label="Show filters"
+                aria-pressed="false"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 relative"
                 id="glass-button-:rh:"
               >

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassSmartShoppingCart Component Tests
  *
@@ -11,43 +11,52 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassSmartShoppingCart } from '@/components/ecommerce/GlassSmartShoppingCart';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassSmartShoppingCart } from "@/components/ecommerce/GlassSmartShoppingCart";
+import { EcommerceProvider } from "@/components/ecommerce/GlassEcommerceProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassSmartShoppingCart', () => {
+// Test wrapper component
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <EcommerceProvider>{children}</EcommerceProvider>
+);
+
+describe("GlassSmartShoppingCart", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
-    const { container } = render(<GlassSmartShoppingCart />);
+  it("renders without crashing", () => {
+    const { container } = render(<GlassSmartShoppingCart />, {
+      wrapper: TestWrapper,
+    });
     expect(container).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<GlassSmartShoppingCart />);
+  it("has no accessibility violations", async () => {
+    const { container } = render(<GlassSmartShoppingCart />, {
+      wrapper: TestWrapper,
+    });
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
-      render(<GlassSmartShoppingCart />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
+      render(<GlassSmartShoppingCart />, { wrapper: TestWrapper });
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -55,45 +64,51 @@ describe('GlassSmartShoppingCart', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
-      const { container } = render(<GlassSmartShoppingCart />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+    it("shows visible focus indicator", () => {
+      const { container } = render(<GlassSmartShoppingCart />, {
+        wrapper: TestWrapper,
+      });
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassSmartShoppingCart
         className="custom-class"
         data-testid="glasssmartshoppingcart"
-      />
+      />,
+      { wrapper: TestWrapper }
     );
 
-    const element = container.querySelector('[data-testid="glasssmartshoppingcart"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasssmartshoppingcart"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassSmartShoppingCart />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassSmartShoppingCart />, {
+      wrapper: TestWrapper,
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 });
