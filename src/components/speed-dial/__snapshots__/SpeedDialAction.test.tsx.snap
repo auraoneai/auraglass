@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SpeedDialAction matches snapshot 1`] = `
+<div
+  aria-disabled="false"
+  class="glass-speed-dial-action action actionSolid sizeMedium hiddenUp"
+  role="button"
+  style="bottom: 55px; transition-delay: 0ms;"
+  tabindex="0"
+/>
+`;
