@@ -1,368 +1,610 @@
-# Autonomous Test Fix Execution Prompt
-
-## Mission
-You are tasked with autonomously fixing all 147 failing test suites, 397 failing tests, and 27 failed snapshots identified in `FAILURE_ANALYSIS.md`. You must work systematically through every category and file without interruption, updating the analysis document as you progress.
-
-## Critical Directives
-
-### Primary Rule: NO PAUSES, NO UPDATES, NO INTERRUPTIONS
-- **NEVER pause** or send interim updates during execution
-- **NEVER request** feedback, clarification, or confirmation
-- **NEVER interrupt** the user for any reason
-- Work continuously and independently until ALL tasks are complete
-- Only provide a final comprehensive status report after everything is finished
-
-### Document Update Requirement
-- **IMMEDIATELY update** `FAILURE_ANALYSIS.md` upon completion of each task
-- Mark completed items with ✅
-- Update progress counters in the document
-- Track which files have been fixed
-
-### Task Management
-- Add ALL remaining tasks to your immediate todo list at the start
-- Work through tasks systematically by category
-- Complete one category before moving to the next
-- Update todos as you progress
-
-## Execution Plan
-
-### Phase 1: Quick Wins (High Impact, Low Effort)
-
-#### Task 1.1: Provider Wrappers
-**Status**: 5/5 files fixed, ~41 remaining
-
-**Action Items**:
-1. Search codebase for all components using `useEcommerce` hook
-2. Search codebase for all components using `useCollaboration` hook
-3. For each test file that renders these components:
-   - Add provider import
-   - Create TestWrapper component
-   - Wrap all render() calls with `{ wrapper: TestWrapper }`
-   - Update FAILURE_ANALYSIS.md to mark as fixed
-
-**Files to Fix**:
-- All ecommerce component tests using `useEcommerce`
-- All collaboration component tests using `useCollaboration`
-- Any other provider-dependent tests
-
-**Fix Pattern**:
-```typescript
-import { EcommerceProvider } from '@/components/ecommerce/GlassEcommerceProvider';
-// OR
-import { CollaborationProvider } from '@/components/collaboration/GlassCollaborationProvider';
-
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <EcommerceProvider>{children}</EcommerceProvider>
-  // OR
-  <CollaborationProvider roomId="test-room">{children}</CollaborationProvider>
-);
-
-// Update all render calls:
-render(<Component />, { wrapper: TestWrapper });
-```
-
-#### Task 1.2: Missing Default Props
-**Status**: 2/2 files fixed, check for more
-
-**Action Items**:
-1. Search for all components using `.map()`, `.filter()`, `.forEach()` on props
-2. Identify props that could be undefined
-3. Add default values (empty arrays/objects) where appropriate
-4. Update component interfaces to make props optional
-5. Update FAILURE_ANALYSIS.md
-
-**Fix Pattern**:
-```typescript
-// Before
-export interface Props {
-  items: Item[];
-}
-export function Component({ items }: Props) {
-  return items.map(...); // ❌ Crashes if undefined
-}
-
-// After
-export interface Props {
-  items?: Item[];
-}
-export function Component({ items = [] }: Props) {
-  return items.map(...); // ✅ Safe
-}
-```
-
-#### Task 1.3: Import/Export Fixes
-**Status**: 1/1 file fixed, check for more
-
-**Action Items**:
-1. Find all test files with import errors
-2. Check component export type (default vs named)
-3. Fix imports to match exports
-4. Update FAILURE_ANALYSIS.md
-
-### Phase 2: Accessibility Fixes (High Impact, Medium Effort)
-
-#### Task 2.1: Button aria-labels
-**Status**: 9/68+ buttons fixed (~13%)
-
-**Action Items**:
-1. Search codebase for all `<button>` and `<GlassButton>` elements
-2. Identify icon-only buttons (buttons with only icons, no text)
-3. Add descriptive `aria-label` to each icon-only button
-4. Ensure buttons have either visible text OR aria-label
-5. Update FAILURE_ANALYSIS.md progress
-
-**Search Commands**:
-```bash
-grep -r "<button\|<GlassButton" src/components --include="*.tsx" | grep -v "aria-label"
-```
-
-**Fix Pattern**:
-```typescript
-// Icon-only button - REQUIRES aria-label
-<GlassButton onClick={handleAction} aria-label="Close dialog">
-  <XIcon />
-</GlassButton>
-
-// Button with text - aria-label optional
-<GlassButton onClick={handleAction}>
-  Save Changes {/* Visible text is sufficient */}
-</GlassButton>
-```
-
-#### Task 2.2: Form Element Labels
-**Status**: 2/10+ fixed (20%)
-
-**Action Items**:
-1. Find all `<input>`, `<select>`, `<textarea>` elements
-2. Check if they have labels or aria-label
-3. Add labels or aria-label where missing
-4. Fix `GlassFileUpload` aria-allowed-role violation (remove role="button" from label)
-5. Fix `GlassAuroraDisplay` range input labels
-6. Update FAILURE_ANALYSIS.md
-
-**Fix Pattern**:
-```typescript
-// Option 1: Explicit label
-<label htmlFor="input-id">Label Text</label>
-<input id="input-id" />
-
-// Option 2: aria-label
-<input aria-label="Label Text" />
-
-// Option 3: aria-labelledby
-<span id="label-id">Label Text</span>
-<input aria-labelledby="label-id" />
-```
-
-#### Task 2.3: Landmark Structure
-**Status**: 1/1 fixed
-
-**Action Items**:
-1. Check for nested `<main>` elements
-2. Ensure only one `<main>` per page
-3. Remove role="application" from containers with main landmarks
-4. Update FAILURE_ANALYSIS.md
-
-### Phase 3: Test Logic Fixes (Medium Impact, Low Effort)
-
-#### Task 3.1: Test Expectations
-**Status**: 1/3+ fixed
-
-**Action Items**:
-1. Fix `GlassDialog.test.tsx` - aria-label test (element not found)
-2. Fix `GlassTooltip.test.tsx` - aria-label test (role="tooltip" not found)
-3. Review all tests querying by aria-label or role
-4. Update queries to match actual component structure
-5. Update FAILURE_ANALYSIS.md
-
-**Fix Pattern**:
-```typescript
-// If aria-label is on wrapper, query container:
-const { container } = render(<Component aria-label="Test" />);
-const element = container.querySelector('[aria-label="Test"]');
-expect(element).toBeInTheDocument();
-
-// Not screen.getByLabelText() if label is on wrapper
-```
-
-#### Task 3.2: Custom Props Forwarding
-**Status**: 0/1+ fixed
-
-**Action Items**:
-1. Fix `GlassLoadingSkeleton.test.tsx` - className forwarding
-2. Review components wrapped in `OptimizedGlass` or `Motion`
-3. Ensure className and data-testid are forwarded to root element
-4. Update FAILURE_ANALYSIS.md
-
-**Fix Pattern**:
-```typescript
-export const Component = forwardRef<HTMLDivElement, Props>(
-  ({ className, 'data-testid': dataTestId, ...props }, ref) => {
-    return (
-      <OptimizedGlass
-        ref={ref}
-        className={cn('base-classes', className)}
-        data-testid={dataTestId}
-        {...props}
-      >
-        {/* content */}
-      </OptimizedGlass>
-    );
-  }
-);
-```
-
-### Phase 4: Snapshot Updates (Low Impact, Low Effort)
-
-#### Task 4.1: Update All Snapshots
-**Status**: 0/27 snapshots updated
-
-**Action Items**:
-1. **WAIT** until all component fixes are complete
-2. Run `pnpm test -- -u` to update all snapshots
-3. Review snapshot diffs to ensure changes are expected
-4. Update FAILURE_ANALYSIS.md to mark all snapshots as fixed
-
-**Files with Snapshot Failures** (27 total):
-1. `src/components/navigation/GlassPagination.test.tsx`
-2. `src/components/navigation/GlassMobileNav.test.tsx`
-3. `src/components/dashboard/GlassStatCard.test.tsx`
-4. `src/components/image-list/ImageListItem.test.tsx`
-5. `src/components/modal/GlassTooltip.test.tsx`
-6. `src/components/dashboard/GlassMetricCard.test.tsx`
-7. `src/components/ecommerce/GlassEcommerceProvider.test.tsx`
-8. `src/components/button/GlassFab.test.tsx`
-9. `src/components/ai/AIGlassThemeProvider.test.tsx`
-10. `src/components/input/GlassStepIcon.test.tsx`
-11. `src/components/accessibility/AccessibilityProvider.test.tsx`
-12. `src/components/navigation/GlassCommandBar.test.tsx`
-13. `src/components/GlassErrorBoundary.test.tsx`
-14. `src/components/button/GlassMagneticButton.test.tsx`
-15. `src/components/collaboration/GlassCollaborationProvider.test.tsx`
-16. `src/components/media/GlassMediaProvider.test.tsx`
-17. `src/components/cms/GlassComponentPalette.test.tsx`
-18. `src/components/image/GlassIntelligentImageUploader.test.tsx`
-19. `src/components/quantum/GlassSuperpositionalMenu.test.tsx`
-20. `src/components/cms/GlassCanvas.test.tsx`
-21-27. (Additional snapshot failures to be identified)
-
-## Execution Workflow
-
-### Step 1: Initialization
-1. Read `FAILURE_ANALYSIS.md` completely
-2. Extract all failing test files from logs.txt
-3. Create comprehensive todo list with ALL tasks
-4. Categorize each file by failure type
-5. Prioritize tasks by impact and effort
-
-### Step 2: Systematic Execution
-For each category in priority order:
-1. Identify all files in that category
-2. Fix each file systematically
-3. After each file fix:
-   - Update FAILURE_ANALYSIS.md (mark as ✅)
-   - Update progress counters
-   - Update todo list
-4. Move to next file without pausing
-5. Complete entire category before moving to next
-
-### Step 3: Verification
-1. After all fixes complete, run full test suite
-2. Verify all tests pass
-3. Update FAILURE_ANALYSIS.md with final status
-
-### Step 4: Final Report
-Only after ALL tasks are complete, provide:
-- Total files fixed
-- Total tests fixed
-- Total snapshots updated
-- Summary of changes made
-- Any remaining issues (if any)
-
-## File-by-File Checklist
-
-Work through this list systematically, marking each as complete in FAILURE_ANALYSIS.md:
-
-### Provider Wrappers (~41 remaining)
-- [ ] Find all ecommerce components using `useEcommerce`
-- [ ] Find all collaboration components using `useCollaboration`
-- [ ] Fix each test file with provider wrapper
-- [ ] Update FAILURE_ANALYSIS.md after each fix
-
-### Missing Default Props
-- [ ] Search for components with array/object props used in `.map()/.filter()`
-- [ ] Add default values to each
-- [ ] Update FAILURE_ANALYSIS.md
-
-### Button aria-labels (~59 remaining)
-- [ ] Find all icon-only buttons
-- [ ] Add aria-label to each
-- [ ] Update FAILURE_ANALYSIS.md progress
-
-### Form Element Labels (~8 remaining)
-- [ ] Fix `GlassAuroraDisplay` range inputs
-- [ ] Fix `GlassFileUpload` aria-allowed-role
-- [ ] Find and fix other form elements
-- [ ] Update FAILURE_ANALYSIS.md
-
-### Test Logic Fixes (~2 remaining)
-- [ ] Fix `GlassDialog.test.tsx`
-- [ ] Fix `GlassTooltip.test.tsx`
-- [ ] Fix `GlassLoadingSkeleton.test.tsx`
-- [ ] Update FAILURE_ANALYSIS.md
-
-### Snapshot Updates (27 files)
-- [ ] Wait until all component fixes complete
-- [ ] Run `pnpm test -- -u`
-- [ ] Review diffs
-- [ ] Update FAILURE_ANALYSIS.md
-
-## Success Criteria
-
-All tasks are complete when:
-- ✅ All 147 test suites pass
-- ✅ All 397 tests pass
-- ✅ All 27 snapshots updated
-- ✅ FAILURE_ANALYSIS.md fully updated with ✅ marks
-- ✅ No remaining failing tests
-
-## Important Notes
-
-1. **Never pause** - Work continuously through all tasks
-2. **Update document immediately** - After each fix, update FAILURE_ANALYSIS.md
-3. **No interim reports** - Only final comprehensive report
-4. **Use your judgment** - Make decisions autonomously
-5. **Fix systematically** - One category at a time, one file at a time
-6. **Verify fixes** - Run tests after each category to ensure fixes work
-
-## Commands Reference
-
-```bash
-# Find components using useEcommerce
-grep -r "useEcommerce" src/components --include="*.tsx" | grep -v "GlassEcommerceProvider"
-
-# Find components using useCollaboration
-grep -r "useCollaboration" src/components --include="*.tsx" | grep -v "GlassCollaborationProvider"
-
-# Find buttons without aria-label
-grep -r "<button\|<GlassButton" src/components --include="*.tsx" | grep -v "aria-label"
-
-# Find select elements without labels
-grep -r "<select" src/components --include="*.tsx" | grep -v "aria-label\|aria-labelledby\|<label"
-
-# Update all snapshots
-pnpm test -- -u
-
-# Run specific test file
-pnpm test GlassPagination.test.tsx
-
-# Run full test suite
-pnpm test
-```
-
-## Begin Execution
-
-Start immediately. Work through every task systematically. Update FAILURE_ANALYSIS.md continuously. Complete all work before providing final report.
-
-**DO NOT PAUSE. DO NOT UPDATE. WORK AUTONOMOUSLY UNTIL COMPLETE.**
-
+# AUTONOMOUS TEST FAILURE RESOLUTION EXECUTION PROMPT
+
+Execute the following systematic test failure resolution plan autonomously and without interruption. Work through each task in priority order, updating FAILURE_ANALYSIS.md immediately upon completion of each component fix.
+
+## EXECUTION DIRECTIVES
+
+**CRITICAL OPERATING PRINCIPLES:**
+- Immediately update FAILURE_ANALYSIS.md upon completion of each task with status changes and completion timestamps
+- Never pause or send interim updates during execution
+- Add all tasks directly to immediate to-do list and work continuously
+- Work autonomously until every task is fully completed
+- Provide no communications until all tasks finished - only then submit comprehensive status report
+- Never interrupt for feedback, clarification, or support - rely solely on judgment and problem-solving abilities
+
+## EXECUTION WORKFLOW
+
+**Phase 1: Critical Priority Fixes (Components that are completely broken - crash on render)**
+Execute these first as they represent functional failures:
+
+1. **ChartRenderer** (`src/components/charts/components/ChartRenderer.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+2. **ModularGlassDataChart** (`src/components/charts/ModularGlassDataChart.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+3. **HoudiniGlassCard** (`src/components/houdini/HoudiniGlassCard.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+4. **GlassPrismComparison** (`src/components/website-components/GlassPrismComparison.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+5. **GlassChat** (`src/components/interactive/GlassChat.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+6. **KpiChart** (`src/components/charts/components/KpiChart.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+7. **GlassAdvancedVideoPlayer** (`src/components/media/GlassAdvancedVideoPlayer.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+8. **ParticleBackground** (`src/components/backgrounds/ParticleBackground.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+9. **SpeedDialAction** (`src/components/speed-dial/SpeedDialAction.test.tsx`)
+   - **Issue:** renders without crashing
+   - **Action:**
+     - Track down the runtime error/exception raised during render
+     - Fix the cause (missing props, undefined hooks, etc.)
+     - Verify the component mounts cleanly
+   - **Completion Criteria:** All tests pass, component renders successfully
+
+10. **GlassTimeline** (`src/components/data-display/GlassTimeline.test.tsx`)
+    - **Issue:** renders without crashing
+    - **Action:**
+      - Track down the runtime error/exception raised during render
+      - Fix the cause (missing props, undefined hooks, etc.)
+      - Verify the component mounts cleanly
+    - **Completion Criteria:** All tests pass, component renders successfully
+
+11. **GlassKeyValueEditor** (`src/components/interactive/GlassKeyValueEditor.test.tsx`)
+    - **Issue:** renders without crashing
+    - **Action:**
+      - Track down the runtime error/exception raised during render
+      - Fix the cause (missing props, undefined hooks, etc.)
+      - Verify the component mounts cleanly
+    - **Completion Criteria:** All tests pass, component renders successfully
+
+12. **GlassFormStepper** (`src/components/input/GlassFormStepper.test.tsx`)
+    - **Issue:** renders without crashing
+    - **Action:**
+      - Track down the runtime error/exception raised during render
+      - Fix the cause (missing props, undefined hooks, etc.)
+      - Verify the component mounts cleanly
+    - **Completion Criteria:** All tests pass, component renders successfully
+
+13. **VoiceGlassControl** (`src/components/voice/VoiceGlassControl.test.tsx`)
+    - **Issue:** renders without crashing
+    - **Action:**
+      - Track down the runtime error/exception raised during render
+      - Fix the cause (missing props, undefined hooks, etc.)
+      - Verify the component mounts cleanly
+    - **Completion Criteria:** All tests pass, component renders successfully
+
+14. **GlassFocusIndicators** (`src/components/accessibility/GlassFocusIndicators.test.tsx`)
+    - **Issue:** renders without crashing
+    - **Action:**
+      - Track down the runtime error/exception raised during render
+      - Fix the cause (missing props, undefined hooks, etc.)
+      - Verify the component mounts cleanly
+    - **Completion Criteria:** All tests pass, component renders successfully
+
+15. **ai-services** (`src/services/ai/__tests__/ai-services.test.ts`)
+    - **Issue:** Test suite failed to run - module resolution issue
+    - **Action:**
+      - Fix the module resolution (restore referenced file or point import at .ts.bak copy)
+      - Verify Jest loads the module successfully
+    - **Completion Criteria:** Test suite runs without module resolution errors
+
+16. **ProductionAIIntegration** (`src/components/ai/ProductionAIIntegration.test.tsx`)
+    - **Issue:** Test suite failed to run - module resolution issue
+    - **Action:**
+      - Fix the module resolution (restore referenced file or point import at .ts.bak copy)
+      - Verify Jest loads the module successfully
+    - **Completion Criteria:** Test suite runs without module resolution errors
+
+**Phase 2: High Priority Fixes (Accessibility and ARIA attribute issues)**
+
+17. **GlassWipeSliderExamples** (`src/components/website-components/GlassWipeSliderExamples.test.tsx`)
+    - **Issue:** supports aria-label - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+18. **GlassTrophyCase** (`src/components/advanced/GlassTrophyCase.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+19. **GlassThemeDemo** (`src/components/interactive/GlassThemeDemo.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+20. **GlassDataTable** (`src/components/data-display/GlassDataTable.test.tsx`)
+    - **Issue:** supports aria-label - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+21. **CollaborativeGlassWorkspace** (`src/components/collaboration/CollaborativeGlassWorkspace.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+22. **GlassPagination** (`src/components/navigation/GlassPagination.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+23. **IntelligentColorSystem** (`src/components/advanced/IntelligentColorSystem.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+24. **GlassGenerativeArt** (`src/components/ai/GlassGenerativeArt.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+25. **GlassWizardTemplate** (`src/components/templates/forms/GlassWizardTemplate.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+26. **GlassColorWheel** (`src/components/interactive/GlassColorWheel.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+27. **GlassSharedWhiteboard** (`src/components/social/GlassSharedWhiteboard.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+28. **GlassGallery** (`src/components/interactive/GlassGallery.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+29. **GlassMultiStepForm** (`src/components/input/GlassMultiStepForm.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+30. **GlassOrbitalMenu** (`src/components/layouts/GlassOrbitalMenu.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+31. **GlassToggle** (`src/components/input/GlassToggle.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+32. **GlassTabBar** (`src/components/navigation/GlassTabBar.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+33. **TreeItem** (`src/components/tree-view/TreeItem.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+34. **GlassFormTemplate** (`src/components/templates/forms/GlassFormTemplate.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+35. **GlassCommandPalette** (`src/components/interactive/GlassCommandPalette.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+36. **GlassFileUpload** (`src/components/input/GlassFileUpload.test.tsx`)
+    - **Issue:** has proper form control role - missing ARIA attributes
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+37. **GlassCheckbox** (`src/components/input/GlassCheckbox.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+38. **GlassMultiSelect** (`src/components/input/GlassMultiSelect.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+39. **GlassSlider** (`src/components/input/GlassSlider.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+40. **GlassSeparator** (`src/components/layout/GlassSeparator.test.tsx`)
+    - **Issue:** has no accessibility violations
+    - **Action:**
+      - Inspect axe output and resolve each reported violation
+      - Verify accessibility tests complete without errors
+    - **Completion Criteria:** Accessibility tests pass
+
+41. **GlassCollaborativeComments** (`src/components/collaboration/GlassCollaborativeComments.test.tsx`)
+    - **Issue:** supports aria-label - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+42. **GlassSplitPane** (`src/components/layout/GlassSplitPane.test.tsx`)
+    - **Issue:** supports aria-label - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+43. **GlassToolbar** (`src/components/navigation/GlassToolbar.test.tsx`)
+    - **Issue:** has proper navigation role - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+44. **GlassResponsiveNav** (`src/components/navigation/GlassResponsiveNav.test.tsx`)
+    - **Issue:** has accessible name - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+45. **GlassActionSheet** (`src/components/mobile/GlassActionSheet.test.tsx`)
+    - **Issue:** supports aria-label - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+46. **GlassTabs** (`src/components/navigation/GlassTabs.test.tsx`)
+    - **Issue:** has proper navigation role - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+47. **CollapsedMenu** (`src/components/navigation/components/CollapsedMenu.test.tsx`)
+    - **Issue:** has accessible name - missing accessible labels/roles
+    - **Action:**
+      - Add or forward accessible labels/roles so the test sees expected ARIA attributes/name
+      - Run accessibility tests to confirm resolution
+    - **Completion Criteria:** Accessibility tests pass
+
+**Phase 3: Medium Priority Fixes (Prop forwarding and functionality issues)**
+
+48. **GlassDialog** (`src/components/modal/GlassDialog.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+49. **liquidGlass** (`src/tests/liquidGlass.test.tsx`)
+    - **Issue:** renders with default props - assertion missing its target
+    - **Action:**
+      - Review failure message and component under test
+      - Adjust component/fixture so expected markup exists
+    - **Completion Criteria:** renders with default props test passes
+
+50. **GlassCollaborativeCursor** (`src/components/collaboration/GlassCollaborativeCursor.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+51. **RippleButton** (`src/components/visual-feedback/RippleButton.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+52. **GlassButton** (`src/__tests__/components/GlassButton.test.tsx`)
+    - **Issue:** renders with custom className - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** renders with custom className test passes
+
+53. **GlassProductRecommendations** (`src/components/ecommerce/GlassProductRecommendations.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+54. **GlassSmartShoppingCart** (`src/components/ecommerce/GlassSmartShoppingCart.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+55. **GlassKanban** (`src/components/interactive/GlassKanban.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+56. **GlassPropertyPanel** (`src/components/cms/GlassPropertyPanel.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+57. **GlassStepIcon** (`src/components/input/GlassStepIcon.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+58. **GlassAvatar** (`src/components/data-display/GlassAvatar.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+59. **GlassCollaborationDashboard** (`src/components/collaboration/GlassCollaborationDashboard.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+60. **GlassPopover** (`src/components/modal/GlassPopover.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+61. **GlassStepLabel** (`src/components/input/GlassStepLabel.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+62. **ChartTooltip** (`src/components/charts/components/ChartTooltip.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+63. **GlassCoachmarks** (`src/components/interactive/GlassCoachmarks.test.tsx`)
+    - **Issue:** accepts and renders with custom props - className not forwarded
+    - **Action:**
+      - Make sure the component forwards provided className/props to the element the test queries
+      - Verify the target element is rendered before asserting on its class
+    - **Completion Criteria:** accepts and renders with custom props test passes
+
+64. **GlassProgress** (`src/components/data-display/GlassProgress.test.tsx`)
+    - **Issue:** respects prefers-reduced-motion - assertion missing its target
+    - **Action:**
+      - Review failure message and component under test
+      - Adjust component/fixture so expected markup exists
+    - **Completion Criteria:** respects prefers-reduced-motion test passes
+
+**Phase 4: Low Priority Fixes (Snapshot updates only)**
+
+65. **HeaderUserMenu** (`src/components/navigation/HeaderUserMenu.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+66. **GlassFileExplorer** (`src/components/interactive/GlassFileExplorer.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+67. **GlassFilterPanel** (`src/components/interactive/GlassFilterPanel.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+68. **GlassFacetSearch** (`src/components/interactive/GlassFacetSearch.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+69. **GlassHeader** (`src/components/navigation/GlassHeader.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+70. **GlassSearchInterface** (`src/components/interactive/GlassSearchInterface.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+71. **GlassListView** (`src/components/templates/list/GlassListView.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+72. **PageTransitionDemo** (`src/components/interactive/PageTransitionDemo.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+73. **GlassLiquidTransition** (`src/components/advanced/GlassLiquidTransition.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+74. **GlassSidebar** (`src/components/navigation/GlassSidebar.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+75. **GlassRating** (`src/components/rating/GlassRating.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+76. **GlassFileUpload** (`src/components/input/GlassFileUpload.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+77. **GlassVirtualTable** (`src/components/data-display/GlassVirtualTable.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+78. **GlassFormWizardSteps** (`src/components/input/GlassFormWizardSteps.test.tsx`)
+    - **Issue:** matches snapshot - snapshot outdated
+    - **Action:**
+      - Ensure rendered output matches current markup
+      - Update snapshot only when intentional
+      - Verify accessibility and visual requirements satisfied
+    - **Completion Criteria:** Snapshot test passes
+
+## FINAL VERIFICATION
+
+After completing all individual fixes:
+- Run full test suite to confirm all 78 failing test files now pass
+- Update FAILURE_ANALYSIS.md with final completion status and summary
+- Submit comprehensive status report showing:
+  - Total tasks completed: 78
+  - Tests now passing: 2042/2042
+  - Test suites now passing: 362/362
+  - Snapshots now passing: 317/317
+  - Any remaining issues or edge cases discovered

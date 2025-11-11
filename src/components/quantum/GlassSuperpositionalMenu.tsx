@@ -282,19 +282,25 @@ export const GlassSuperpositionalMenu = forwardRef<
       );
     };
 
+    const QUANTUM_NOISE_POINTS = Array.from({ length: 20 }, (_, i) => ({
+      left: (i * 13) % 100,
+      top: (i * 29) % 100,
+      delay: (i * 37) % 3,
+    }));
+
     const QuantumNoise = () => (
       <div
         className={cn("glass-absolute glass-inset-0 glass-pointer-events-none")}
       >
-        {[...Array(20)].map((_, i) => (
+        {QUANTUM_NOISE_POINTS.map((point, i) => (
           <motion.div
             key={i}
             className={cn(
               "glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
             )}
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${point.left}%`,
+              top: `${point.top}%`,
             }}
             animate={
               prefersReducedMotion
@@ -308,9 +314,9 @@ export const GlassSuperpositionalMenu = forwardRef<
               prefersReducedMotion
                 ? { duration: 0 }
                 : {
-                    duration: 2 + Math.random() * 3,
+                    duration: 3,
                     repeat: Infinity,
-                    delay: Math.random() * 2,
+                    delay: point.delay,
                   }
             }
           />

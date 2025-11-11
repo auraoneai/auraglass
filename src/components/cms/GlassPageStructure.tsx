@@ -12,6 +12,7 @@ interface PageStructureProps {
   className?: string;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  'data-testid'?: string;
 }
 
 interface TreeItemProps {
@@ -189,6 +190,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   className,
   collapsed = false,
   onToggleCollapse,
+  'data-testid': dataTestId,
 }) => {
   const {
     pageState,
@@ -308,7 +310,10 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   }
 
   return (
-    <div className={cn("w-80 h-full flex flex-col", className)}>
+    <div 
+      className={cn("w-80 h-full flex flex-col", className)}
+      data-testid={dataTestId}
+    >
       <Glass className="glass-h-full glass-flex glass-flex-col glass-contrast-guard">
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">

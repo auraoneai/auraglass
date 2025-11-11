@@ -21,6 +21,14 @@ import { GlassSuperpositionalMenu } from '@/components/quantum/GlassSuperpositio
 expect.extend(toHaveNoViolations);
 
 describe('GlassSuperpositionalMenu', () => {
+  beforeAll(() => {
+    jest.spyOn(Math, 'random').mockReturnValue(0.5); // Mock Math.random to return a consistent value
+  });
+
+  afterAll(() => {
+    jest.spyOn(Math, 'random').mockRestore(); // Restore Math.random after all tests
+  });
+
   /**
    * Smoke Test: Component renders without crashing
    */

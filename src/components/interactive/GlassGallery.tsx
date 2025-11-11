@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   ChevronLeft,
@@ -38,7 +38,7 @@ export interface GlassGalleryProps {
   /**
    * Gallery images
    */
-  images: GalleryImage[];
+  images?: GalleryImage[];
   /**
    * Gallery layout
    */
@@ -90,7 +90,7 @@ export interface GlassGalleryProps {
  * A responsive image gallery with grid, masonry, and list layouts
  */
 export const GlassGallery: React.FC<GlassGalleryProps> = ({
-  images,
+  images = [],
   layout = "grid",
   columns = 3,
   aspectRatio = "square",

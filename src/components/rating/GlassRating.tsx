@@ -128,6 +128,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
       glass = true,
       labels,
       className,
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -298,7 +299,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
 
     if (!glass) {
       return (
-        <div ref={ref} className={cn("inline-flex", className)} {...props}>
+        <div ref={ref} className={cn("inline-flex", className)} data-testid={dataTestId || "glassrating"} {...props}>
           {content}
         </div>
       );
@@ -308,6 +309,7 @@ export const GlassRating = forwardRef<HTMLDivElement, GlassRatingProps>(
       <OptimizedGlass
         ref={ref}
         elevation={elevation}
+        data-testid={dataTestId || "glassrating"}
         className={cn("inline-flex glass-p-2 glass-radius-lg", className)}
         {...props}
       >

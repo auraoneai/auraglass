@@ -21,12 +21,27 @@ import { GlassWizardTemplate } from "@/components/templates/forms/GlassWizardTem
 expect.extend(toHaveNoViolations);
 
 describe("GlassWizardTemplate", () => {
+  const mockSteps = [
+    {
+      id: "step1",
+      title: "Step 1",
+      description: "First step",
+      schema: [],
+    },
+    {
+      id: "step2",
+      title: "Step 2",
+      description: "Second step",
+      schema: [],
+    },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it("renders without crashing", () => {
     const { container } = render(
-      <GlassWizardTemplate title="Test Wizard" steps={[]} />
+      <GlassWizardTemplate title="Test Wizard" steps={mockSteps} />
     );
     expect(container).toBeInTheDocument();
   });
@@ -36,7 +51,7 @@ describe("GlassWizardTemplate", () => {
    */
   it("has no accessibility violations", async () => {
     const { container } = render(
-      <GlassWizardTemplate title="Test Wizard" steps={[]} />
+      <GlassWizardTemplate title="Test Wizard" steps={mockSteps} />
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -49,7 +64,7 @@ describe("GlassWizardTemplate", () => {
     const { container } = render(
       <GlassWizardTemplate
         title="Test Wizard"
-        steps={[]}
+        steps={mockSteps}
         className="custom-class"
         data-testid="glasswizardtemplate"
       />
@@ -67,7 +82,7 @@ describe("GlassWizardTemplate", () => {
    */
   it("matches snapshot", () => {
     const { container } = render(
-      <GlassWizardTemplate title="Test Wizard" steps={[]} />
+      <GlassWizardTemplate title="Test Wizard" steps={mockSteps} />
     );
     expect(container.firstChild).toMatchSnapshot();
   });

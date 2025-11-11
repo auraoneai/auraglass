@@ -23,3 +23,7 @@
 .wrapper.glass-focus-keyboard::before {
   box-shadow: 0 0 var(--glass-focus-spread) var(--glass-focus-color);
 }
+
+.placeholder {
+  display: inline-flex;
+}

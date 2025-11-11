@@ -30,6 +30,7 @@ export interface ChartTooltipProps {
   followCursor?: boolean;
   children?: React.ReactNode;
   className?: string;
+  "data-testid"?: string;
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
@@ -73,7 +74,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   };
 
   return (
-    <div data-glass-component style={style} className={className}>
+    <div data-glass-component style={style} className={className} data-testid={dataTestId || "charttooltip"}>
       <div
         style={{
           fontWeight: "var(--typography-heading-weight)",

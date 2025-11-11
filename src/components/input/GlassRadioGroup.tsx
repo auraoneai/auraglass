@@ -97,6 +97,10 @@ export interface GlassRadioGroupProps {
    * Additional aria attributes
    */
   "aria-label"?: string;
+  /**
+   * Test ID for testing
+   */
+  "data-testid"?: string;
 }
 
 export interface GlassRadioGroupItemProps {
@@ -183,6 +187,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
       "aria-label": ariaLabel,
+      "data-testid": dataTestId,
     },
     ref
   ) => {
@@ -251,7 +256,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
     };
 
     return (
-      <div data-glass-component className={cn("relative", className)}>
+      <div data-glass-component className='relative'>
         {/* Label */}
         {label && (
           <label
@@ -280,13 +285,15 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
           <div
             ref={ref}
             {...a11yProps}
+            data-testid={dataTestId || "glassradiogroup"}
             className={cn(
               "flex glass-gap-3",
               {
                 "flex-col": orientation === "vertical",
                 "flex-row flex-wrap": orientation === "horizontal",
               },
-              error && "ring-2 ring-destructive/50 glass-radius-lg glass-p-2"
+              error && "ring-2 ring-destructive/50 glass-radius-lg glass-p-2",
+              className
             )}
             role="radiogroup"
             aria-invalid={isInvalid || undefined}

@@ -438,7 +438,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         aria-describedby="file-upload-instructions"
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : 0}
-        className="block cursor-pointer"
+        className='block cursor-pointer'
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -465,7 +465,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
             files.length > 0 ? "glass-radius-t-xl" : "glass-radius-xl"
           )}
         >
-          <div className="glass-flex glass-flex-col glass-items-center glass-gap-4 pointer-events-none">
+          <div className='glass-flex glass-flex-col glass-items-center glass-gap-4 pointer-events-none'>
             <div className='glass-text-4xl opacity-60'>
               {isUploading ? "⏳" : "📁"}
             </div>
@@ -483,7 +483,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
             {!isUploading && (
               <span
-                className='glass-px-4 glass-py-2 glass-surface-primary text-primary-foreground glass-radius-lg transition-colors font-medium inline-flex'
+                className='glass-px-4 glass-py-2 glass-surface-primary text-primary-foreground glass-radius-lg transition-colors font-medium glass-inline-flex'
                 aria-hidden="true"
               >
                 {browseText}

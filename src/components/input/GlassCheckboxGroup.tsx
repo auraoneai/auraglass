@@ -320,7 +320,7 @@ export const GlassCheckboxItem = forwardRef<
               >
                 {indeterminate ? (
                   // Indeterminate indicator (horizontal line)
-                  <div className="w-2 h-0-5 bg-transparent glass-radius-full" />
+                  <div className='w-2 h-0-5 bg-transparent glass-radius-full' />
                 ) : (
                   // Check mark
                   <svg
@@ -341,7 +341,7 @@ export const GlassCheckboxItem = forwardRef<
             )}
 
             {/* Inner glow effect */}
-            <div className="absolute inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary" />
+            <div className='absolute inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary' />
           </OptimizedGlass>
         </Motion>
 
@@ -356,7 +356,7 @@ export const GlassCheckboxItem = forwardRef<
           checked={isSelected}
           onChange={() => {}} // Handled by onClick
           disabled={isDisabled}
-          className="sr-only"
+          className='sr-only'
           tabIndex={-1}
         />
       </OptimizedGlass>

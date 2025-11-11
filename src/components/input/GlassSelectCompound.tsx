@@ -89,6 +89,7 @@ const GlassSelectTrigger = React.forwardRef<
 
           className
         )}
+        aria-label="Select option"
         {...props}
       >
         {children}
@@ -315,4 +316,29 @@ export {
   GlassSelectScrollDownButton as SelectScrollDownButton,
 };
 
-export default GlassSelect;
+type GlassSelectCompoundType = typeof GlassSelect & {
+  Trigger: typeof GlassSelectTrigger;
+  Content: typeof GlassSelectContent;
+  Item: typeof GlassSelectItem;
+  Label: typeof GlassSelectLabel;
+  Separator: typeof GlassSelectSeparator;
+  ScrollUpButton: typeof GlassSelectScrollUpButton;
+  ScrollDownButton: typeof GlassSelectScrollDownButton;
+  Group: typeof GlassSelectGroup;
+  Value: typeof GlassSelectValue;
+};
+
+const GlassSelectCompound = GlassSelect as GlassSelectCompoundType;
+GlassSelectCompound.Trigger = GlassSelectTrigger;
+GlassSelectCompound.Content = GlassSelectContent;
+GlassSelectCompound.Item = GlassSelectItem;
+GlassSelectCompound.Label = GlassSelectLabel;
+GlassSelectCompound.Separator = GlassSelectSeparator;
+GlassSelectCompound.ScrollUpButton = GlassSelectScrollUpButton;
+GlassSelectCompound.ScrollDownButton = GlassSelectScrollDownButton;
+GlassSelectCompound.Group = GlassSelectGroup;
+GlassSelectCompound.Value = GlassSelectValue;
+
+export { GlassSelectCompound };
+
+export default GlassSelectCompound;

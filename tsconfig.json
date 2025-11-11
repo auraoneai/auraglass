@@ -50,7 +50,6 @@
         "*.config.js",
         "src/**/*.test.ts",
         "src/**/*.test.tsx",
-        "src/**/*.stories.tsx",
         "src/**/__tests__/**",
         "**/*.spec.ts",
         "**/*.spec.tsx"

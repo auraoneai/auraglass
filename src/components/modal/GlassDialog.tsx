@@ -530,7 +530,8 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
           adaptive &&
             dialogInsights?.urgency === "high" &&
             "consciousness-urgent-dialog",
-          eyeTracking && "consciousness-eye-trackable"
+          eyeTracking && "consciousness-eye-trackable",
+          className
         )}
         onClick={handleBackdropClick}
         role="dialog"

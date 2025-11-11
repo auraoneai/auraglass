@@ -169,7 +169,7 @@ export const GlassSpotlightSearch = forwardRef<
         const selectedElement = resultsRef.current.children[
           selectedIndex
         ] as HTMLElement;
-        if (selectedElement) {
+        if (selectedElement && typeof selectedElement.scrollIntoView === 'function') { // Add check here
           selectedElement.scrollIntoView({
             block: "nearest",
             behavior: "smooth",

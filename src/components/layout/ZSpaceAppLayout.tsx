@@ -36,6 +36,7 @@ export interface ZSpaceAppLayoutProps {
   sidebarPosition?: "left" | "right";
   collapsedSidebar?: boolean;
   onSidebarToggle?: () => void;
+  "aria-label"?: string; // Add aria-label to props
 }
 
 /**
@@ -65,6 +66,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
       sidebarPosition = "left",
       collapsedSidebar = false,
       onSidebarToggle,
+      "aria-label": ariaLabel, // Destructure aria-label
     },
     ref
   ) => {
@@ -189,6 +191,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
         ref={ref}
         className={`zspace-app-layout ${className}`}
         style={containerStyles}
+        aria-label={ariaLabel} // Pass aria-label here
       >
         {/* Header */}
         {header && (

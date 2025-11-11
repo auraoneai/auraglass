@@ -545,7 +545,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
             {/* Main Content */}
             <div className='glass-flex-1 glass-p-6 overflow-auto'>
               {!hasCells ? (
-                <div className="glass-text-sm glass-text-secondary text-center glass-p-10">
+                <div className='glass-text-sm glass-text-secondary text-center glass-p-10'>
                   No heatmap data available.
                 </div>
               ) : (

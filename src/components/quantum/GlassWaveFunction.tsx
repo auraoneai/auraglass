@@ -1,5 +1,4 @@
 "use client";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { OptimizedGlass } from "../../primitives";
@@ -139,33 +138,48 @@ export const GlassWaveFunction = forwardRef<
     },
     ref
   ) => {
-    const prefersReducedMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const phaseCanvasRef = useRef<HTMLCanvasElement>(null);
     const spectrumCanvasRef = useRef<HTMLCanvasElement>(null);
+    const animationFrameRef = useRef<number | null>(null);
     const [currentTime, setCurrentTime] = useState(0);
     const [selectedWave, setSelectedWave] = useState<string | null>(null);
-    const [waveData, setWaveData] = useState<Record<string, number[]>>({});
     const id = useA11yId("glass-wave-function");
     const { shouldAnimate } = useMotionPreference();
 
     // Time evolution
     useEffect(() => {
-      if (!realTimeMode) return;
+      const cancelAnimation = () => {
+        if (animationFrameRef.current !== null) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
+        }
+      };
 
-      const interval = setInterval(() => {
-        setCurrentTime((prev: any) => prev + 0.1 * animationSpeed * timeScale);
-      }, 16);
-      return () => clearInterval(interval);
-    }, [realTimeMode, animationSpeed, timeScale]);
+      if (!realTimeMode || !shouldAnimate) {
+        cancelAnimation();
+        setCurrentTime((prev) => (prev !== 0 ? 0 : prev));
+        return;
+      }
 
-    // Generate wave data
-    const calculateWaves = useMemo(() => {
+      const tick = () => {
+        setCurrentTime((prev) => prev + 0.1 * animationSpeed * timeScale);
+        animationFrameRef.current = requestAnimationFrame(tick);
+      };
+
+      animationFrameRef.current = requestAnimationFrame(tick);
+
+      return () => {
+        cancelAnimation();
+      };
+    }, [realTimeMode, animationSpeed, timeScale, shouldAnimate]);
+
+    // Generate wave data (pure calculation, no side effects)
+    const waveData = useMemo(() => {
       const points = Math.floor(width / resolution);
       const newWaveData: Record<string, number[]> = {};
 
       if (!waveEquations || waveEquations.length === 0) {
-        setWaveData({});
         return {};
       }
 
@@ -197,7 +211,6 @@ export const GlassWaveFunction = forwardRef<
         newWaveData[wave.id] = data;
       });
 
-      setWaveData(newWaveData);
       return newWaveData;
     }, [waveEquations, currentTime, width, resolution]);
 

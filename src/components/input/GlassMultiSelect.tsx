@@ -588,7 +588,6 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
             disabled={disabled || !searchable}
             aria-autocomplete="list"
             aria-controls={`${inputId}-listbox`}
-            aria-expanded={isOpen}
             aria-label={ariaLabel || label || placeholder}
             autoComplete="off"
           />

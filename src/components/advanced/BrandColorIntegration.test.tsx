@@ -20,12 +20,18 @@ import { BrandColorIntegration } from '@/components/advanced/BrandColorIntegrati
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
+import { IntelligentColorProvider } from '@/components/advanced/IntelligentColorSystem';
+
 describe('BrandColorIntegration', () => {
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<BrandColorIntegration />);
+    const { container } = render(
+      <IntelligentColorProvider>
+        <BrandColorIntegration />
+      </IntelligentColorProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +39,11 @@ describe('BrandColorIntegration', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<BrandColorIntegration />);
+    const { container } = render(
+      <IntelligentColorProvider>
+        <BrandColorIntegration />
+      </IntelligentColorProvider>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -49,10 +59,12 @@ describe('BrandColorIntegration', () => {
    */
   it('accepts and renders with custom props', () => {
     const { container } = render(
-      <BrandColorIntegration
-        className="custom-class"
-        data-testid="brandcolorintegration"
-      />
+      <IntelligentColorProvider>
+        <BrandColorIntegration
+          className="custom-class"
+          data-testid="brandcolorintegration"
+        />
+      </IntelligentColorProvider>
     );
 
     const element = container.querySelector('[data-testid="brandcolorintegration"]')
@@ -65,7 +77,11 @@ describe('BrandColorIntegration', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<BrandColorIntegration />);
+    const { container } = render(
+      <IntelligentColorProvider>
+        <BrandColorIntegration />
+      </IntelligentColorProvider>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

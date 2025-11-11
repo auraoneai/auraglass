@@ -1112,10 +1112,10 @@ function BiometricSummaryCard() {
       data-testid="glass-biometric-summary"
     >
       <div>
-        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
           Biometric adaptation
         </p>
-        <h2 className="glass-text-2xl glass-text-primary font-semibold">
+        <h2 className='glass-text-2xl glass-text-primary font-semibold'>
           {isInitialized ? "Monitoring" : "Initializing"}
         </h2>
         <p className="glass-text-sm glass-text-secondary">
@@ -1124,16 +1124,16 @@ function BiometricSummaryCard() {
       </div>
       <div className="glass-grid glass-grid-cols-2 glass-gap-3">
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className="glass-text-xs glass-text-tertiary mb-1">Heart rate</p>
-          <p className="glass-text-lg glass-text-primary font-semibold">
+          <p className='glass-text-xs glass-text-tertiary mb-1'>Heart rate</p>
+          <p className='glass-text-lg glass-text-primary font-semibold'>
             {latestReading?.heartRate
               ? `${latestReading.heartRate.toFixed(0)} bpm`
               : "—"}
           </p>
         </div>
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className="glass-text-xs glass-text-tertiary mb-1">Respiratory</p>
-          <p className="glass-text-lg glass-text-primary font-semibold">
+          <p className='glass-text-xs glass-text-tertiary mb-1'>Respiratory</p>
+          <p className='glass-text-lg glass-text-primary font-semibold'>
             {latestReading?.respiratoryRate
               ? `${latestReading.respiratoryRate.toFixed(0)} rpm`
               : "—"}

@@ -22,7 +22,7 @@ import {
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 
-interface LiquidTransitionProps {
+export interface LiquidTransitionProps {
   children: React.ReactNode;
   className?: string;
   variant?: "morph" | "flow" | "ripple" | "dissolve" | "splash";
@@ -34,6 +34,7 @@ interface LiquidTransitionProps {
   interactive?: boolean;
   trigger?: "hover" | "click" | "auto" | "scroll";
   intensity?: number;
+  "aria-label"?: string;
 }
 
 export const GlassLiquidTransition = forwardRef<
@@ -53,6 +54,7 @@ export const GlassLiquidTransition = forwardRef<
       interactive = true,
       trigger = "hover",
       intensity = 1,
+      "aria-label": ariaLabelProp,
       ...restProps
     },
     ref
@@ -67,7 +69,7 @@ export const GlassLiquidTransition = forwardRef<
     // Default values for missing props
     const containerId = `liquid-transition-${Math.random().toString(36).substr(2, 9)}`;
     const role = "region";
-    const ariaLabel = "Liquid morphing container";
+    const ariaLabel = ariaLabelProp || "Liquid morphing container";
     const shouldAnimate = true;
     const morphAmount = isActive ? 1 : 0;
     const morphOnScroll = trigger === "scroll";
@@ -279,7 +281,10 @@ export const GlassLiquidTransition = forwardRef<
         onMouseEnter={() => trigger === "hover" && setIsActive(true)}
         onMouseLeave={() => trigger === "hover" && setIsActive(false)}
         onClick={handleTrigger}
+        role={role}
+        aria-label={ariaLabel}
         {...animationProps}
+        {...restProps}
       >
         {/* Liquid glass overlay */}
         <motion.div

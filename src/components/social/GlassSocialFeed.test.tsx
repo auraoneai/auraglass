@@ -21,7 +21,22 @@ import { GlassSocialFeed } from "@/components/social/GlassSocialFeed";
 expect.extend(toHaveNoViolations);
 
 describe("GlassSocialFeed", () => {
-  const mockPosts = [{ id: "1", content: "Test post", author: "User 1" }];
+  const mockPosts = [
+    {
+      id: "1",
+      content: "Test post",
+      author: {
+        id: "user1",
+        name: "User 1",
+        username: "user1",
+        verified: false,
+      },
+      timestamp: new Date(),
+      likes: 10,
+      shares: 5,
+      comments: 3,
+    },
+  ];
 
   /**
    * Smoke Test: Component renders without crashing

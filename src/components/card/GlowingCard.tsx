@@ -26,6 +26,7 @@ export interface GlowingCardProps {
   onClick?: () => void;
   interactive?: boolean;
   disabled?: boolean;
+  "aria-label"?: string; // Add aria-label to props
 }
 
 /**
@@ -46,6 +47,8 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
       onClick,
       interactive = true,
       disabled = false,
+      "data-testid": dataTestId,
+      "aria-label": ariaLabel, // Destructure aria-label
     },
     ref
   ) => {
@@ -124,6 +127,7 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
     return (
       <div
         ref={ref}
+        data-testid={dataTestId || "glowingcard"}
         className={`glowing-card ${variant} ${getAnimationClass()} ${className}`}
         style={containerStyles}
         onClick={!disabled ? onClick : undefined}
@@ -139,6 +143,7 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
               }
             : undefined
         }
+        aria-label={ariaLabel} // Pass aria-label here
       >
         {/* Glow Layer */}
         {!prefersReducedMotion && (

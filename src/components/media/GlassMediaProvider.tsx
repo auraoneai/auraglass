@@ -283,6 +283,15 @@ export const MediaProvider: React.FC<{
   // Initialize recording devices
   useEffect(() => {
     const getDevices = async () => {
+      if (
+        typeof navigator === "undefined" ||
+        !navigator.mediaDevices ||
+        typeof navigator.mediaDevices.enumerateDevices !== "function"
+      ) {
+        setRecordingDevices([]);
+        return;
+      }
+
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         setRecordingDevices(
@@ -293,6 +302,7 @@ export const MediaProvider: React.FC<{
         );
       } catch (error) {
         console.error("Error getting media devices:", error);
+        setRecordingDevices([]);
       }
     };
 

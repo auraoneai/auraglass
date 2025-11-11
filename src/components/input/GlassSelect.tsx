@@ -369,7 +369,8 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
     return (
       <div
         data-glass-component
-        className={cn("relative inline-block", { "w-full": fullWidth })}
+        data-testid={props['data-testid'] || 'glassselect'}
+        className={cn("relative inline-block", { "w-full": fullWidth }, className)}
       >
         {/* Hidden native select for form compatibility */}
         <select
@@ -378,6 +379,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
           onChange={onChange}
           multiple={multiple}
           className='sr-only glass-touch-target glass-contrast-guard'
+          aria-label={props.label || props['aria-label'] || placeholder || "Select option"}
           {...props}
         >
           {options.map((option: any) => (
@@ -411,6 +413,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
               aria-haspopup="listbox"
               aria-expanded={isOpen}
               aria-busy={loading || undefined}
+              aria-label={props.label || props['aria-label'] || placeholder || "Select option"}
             >
               <div className="glass-flex glass-items-center glass-flex-1 glass-min-w-0">
                 {leftIcon && (
@@ -486,6 +489,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
               aria-haspopup="listbox"
               aria-expanded={isOpen}
               aria-busy={loading || undefined}
+              aria-label={props.label || props['aria-label'] || placeholder || "Select option"}
             >
               <div className="glass-flex glass-items-center glass-flex-1 glass-min-w-0">
                 {leftIcon && (

@@ -807,6 +807,7 @@ export const ColorAdaptationDemo: React.FC = () => {
                 onClick={() => adaptToTime([6, 12, 18, 0][index])}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                aria-label={`Switch to ${time} color scheme`}
               >
                 {time}
               </motion.button>
@@ -838,6 +839,7 @@ export const ColorAdaptationDemo: React.FC = () => {
                   onClick={() => adaptToSeason(season)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  aria-label={`Switch to ${season} color scheme`}
                 >
                   {season}
                 </motion.button>
@@ -869,6 +871,7 @@ export const ColorAdaptationDemo: React.FC = () => {
                 onClick={() => adaptToBrand([color])}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label={`Apply brand color ${i + 1}`}
               />
             ))}
           </div>

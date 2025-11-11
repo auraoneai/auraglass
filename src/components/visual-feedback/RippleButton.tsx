@@ -215,3 +215,4 @@ function RippleButtonComponent(
 const RippleButton = forwardRef(RippleButtonComponent);
 
 export default RippleButton;
+export { RippleButton };

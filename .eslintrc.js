@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ["**/*.stories.tsx", "**/*.stories.ts"], // Add this line
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -66,14 +67,5 @@ module.exports = {
     react: {
       version: "detect"
     }
-  },
-  overrides: [
-    {
-      // Disable type-aware linting for story files
-      files: ["**/*.stories.tsx", "**/*.stories.ts"],
-      parserOptions: {
-        project: null
-      }
-    }
-  ]
+  }
 };

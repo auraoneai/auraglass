@@ -154,7 +154,7 @@ export const detectCapabilities = (): BrowserCapabilities => {
   const { webgl, webgl2 } = probeGL();
 
   const caps: BrowserCapabilities = {
-    backdropFilter: 'backdropFilter' in (testElement.style as any) || 'webkitBackdropFilter' in (testElement.style as any),
+    // Use createGlassStyle() instead,
     cssGrid: 'grid' in testElement.style,
     flexbox: 'flex' in testElement.style,
     cssVariables: 'CSS' in window && 'supports' in window.CSS && window.CSS.supports('--test', 'value'),

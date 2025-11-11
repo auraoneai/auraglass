@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef, useCallback, useRef, useState } from "react";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
@@ -100,6 +100,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
+      "data-testid": dataTestId,
       className,
       id,
       ...props
@@ -454,7 +455,12 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
     };
 
     return (
-      <div className={cn("glass-slider-container", className)}>
+      <div
+        ref={ref}
+        className={cn("glass-slider-container", className)}
+        data-testid={dataTestId || "glassslider"}
+        {...props}
+      >
         {/* Label */}
         {label && (
           <label
@@ -473,7 +479,6 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
 
         {/* Slider */}
         <div
-          ref={ref}
           id={finalId}
           className={cn(
             "glass-slider relative flex items-center",
@@ -482,18 +487,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             error && "ring-2 ring-destructive/50 glass-radius-lg"
           )}
           {...a11yProps}
-          aria-orientation={orientation}
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={isRange ? undefined : valueArray[0]}
-          aria-valuetext={
-            isRange
-              ? `Range from ${formatValue(valueArray[0])} to ${formatValue(valueArray[1] || valueArray[0])}`
-              : formatValue(valueArray[0])
-          }
-          aria-invalid={isInvalid || undefined}
-          aria-required={required || undefined}
-          {...props}
+          role={isRange ? undefined : "group"}
         >
           {/* Track */}
           <div

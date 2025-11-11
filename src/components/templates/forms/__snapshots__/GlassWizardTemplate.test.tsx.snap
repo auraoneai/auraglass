@@ -1,0 +1,242 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassWizardTemplate matches snapshot 1`] = `
+<div
+  class="w-full glass-auto-gap glass-auto-gap-3xl"
+>
+  <div
+    class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+  >
+    <div
+      class="flex flex-col glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+    >
+      <h1
+        class="glass-text-2xl font-bold text-primary"
+      >
+        Test Wizard
+      </h1>
+    </div>
+    <div
+      class="w-full"
+    >
+      <div
+        class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+      >
+        <div
+          class="flex flex-col glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+        >
+          <div
+            class="flex flex-row glass-gap-2 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
+          >
+            <span
+              class="glass-text-sm font-medium text-primary"
+            >
+              Step 
+              1
+               of 
+              2
+            </span>
+            <span
+              class="glass-text-sm glass-text-secondary"
+            >
+              50
+              % Complete
+            </span>
+          </div>
+          <div
+            class="w-full"
+          >
+            <div
+              aria-label="Progress"
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="50"
+              class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative w-full overflow-hidden bg-muted/30 glass-backdrop-blur-md h-2 glass-radius-md"
+              data-performance-mode="medium"
+              id="progress-:r1u:"
+              role="progressbar"
+              style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+            >
+              <div
+                class="h-full transition-all ease-out relative glass-surface-primary"
+                style="width: 0%; transition-duration: 500ms;"
+              >
+                <div
+                  class="pointer-events-none absolute inset-0 glass-sheen"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-between"
+        >
+          <div
+            class="animate-slide-in-up"
+            style="animation-delay: 0ms; animation-fill-mode: both;"
+          >
+            <div
+              class="flex flex-col items-center transition-opacity cursor-pointer hover:opacity-80"
+            >
+              <div
+                class="flex flex-col glass-gap-1 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+              >
+                <div
+                  class="w-8 h-8 glass-radius-full flex items-center justify-center glass-text-sm font-medium border-2 transition-colors bg-primary border-primary text-primary-foreground"
+                >
+                  1
+                </div>
+                <div
+                  class="flex flex-col glass-gap-1 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+                >
+                  <span
+                    class="glass-text-sm font-medium transition-colors text-primary"
+                  >
+                    Step 1
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex-1 h-0.5 glass-mx-4 transition-colors bg-border"
+          />
+          <div
+            class="animate-slide-in-up"
+            style="animation-delay: 100ms; animation-fill-mode: both;"
+          >
+            <div
+              class="flex flex-col items-center transition-opacity cursor-default"
+            >
+              <div
+                class="flex flex-col glass-gap-1 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+              >
+                <div
+                  class="w-8 h-8 glass-radius-full flex items-center justify-center glass-text-sm font-medium border-2 transition-colors bg-background border-border glass-text-secondary"
+                >
+                  2
+                </div>
+                <div
+                  class="flex flex-col glass-gap-1 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+                >
+                  <span
+                    class="glass-text-sm font-medium transition-colors glass-text-secondary"
+                  >
+                    Step 2
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="motion-primitive"
+  >
+    <div
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 glass-p-6"
+      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    >
+      <div
+        class="relative z-10"
+      >
+        <div
+          class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+        >
+          <div
+            class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+          >
+            <div
+              class="flex flex-col glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+            >
+              <div
+                class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
+              >
+                <h2
+                  class="glass-text-xl font-semibold text-primary"
+                >
+                  Step 1
+                </h2>
+              </div>
+              <p
+                class="glass-text-secondary"
+              >
+                First step
+              </p>
+            </div>
+            <div
+              class="glass-flex-1"
+            >
+              <form
+                class="w-full"
+              >
+                <div
+                  class="glass-auto-gap glass-auto-gap-2xl"
+                >
+                  <div
+                    class="text-center glass-py-8 glass-text-secondary"
+                  >
+                    <p>
+                      No form sections configured
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8"
+                >
+                  <div
+                    class="motion-primitive inline-block"
+                  >
+                    <button
+                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                      data-magnet="true"
+                      data-performance-mode="ultra"
+                      id="glass-button-:r27:"
+                      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+                      type="submit"
+                    >
+                      <span
+                        class="relative z-10"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div
+            class="flex flex-row glass-gap-2 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
+          >
+            <div
+              class="flex flex-row glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+            />
+            <div
+              class="flex flex-row glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+            >
+              <div
+                class="motion-primitive inline-block"
+              >
+                <button
+                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                  data-magnet="true"
+                  data-performance-mode="ultra"
+                  id="glass-button-:r2b:"
+                  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+                >
+                  <span
+                    class="relative z-10"
+                  >
+                    Next
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

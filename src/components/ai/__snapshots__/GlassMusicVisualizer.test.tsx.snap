@@ -78,13 +78,16 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
     <div
       class="glass-flex glass-items-center space-x-2"
     >
-      <span
+      <label
         class="glass-text-xs text-primary/80"
+        for="glass-music-volume-:rm:"
       >
         Volume:
-      </span>
+      </label>
       <input
+        aria-label="Volume"
         class="w-16 h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+        id="glass-music-volume-:rm:"
         max="1"
         min="0"
         step="0.1"
@@ -130,11 +133,14 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
         <div>
           <label
             class="block glass-text-xs text-primary/70 mb-1"
+            for="glass-music-mode-:ri:"
           >
             Mode
           </label>
           <select
+            aria-label="Visualization mode"
             class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            id="glass-music-mode-:ri:"
           >
             <option
               value="bars"
@@ -171,11 +177,14 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
         <div>
           <label
             class="block glass-text-xs text-primary/70 mb-1"
+            for="glass-music-color-scheme-:rj:"
           >
             Color Scheme
           </label>
           <select
+            aria-label="Color scheme"
             class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            id="glass-music-color-scheme-:rj:"
           >
             <option
               value="rainbow"
@@ -217,6 +226,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
             1.0
           </label>
           <input
+            aria-label="Sensitivity"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="3.0"
             min="0.1"
@@ -246,6 +256,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
             0.8
           </label>
           <input
+            aria-label="Smoothing"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
             max="1.0"
             min="0.0"
@@ -261,6 +272,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
             FFT Size
           </label>
           <select
+            aria-label="FFT size"
             class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
           >
             <option

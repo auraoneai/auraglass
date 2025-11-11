@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTabBar matches snapshot 1`] = `
+<div
+  aria-label="Tab Navigation"
+  aria-orientation="horizontal"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-medium container horizontal glass-tab-bar"
+  data-glass-variant="frosted"
+  data-orientation="horizontal"
+  data-responsive="false"
+  data-variant="default"
+  role="tablist"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: auto; --ag-tabbar-blur: var(--glass-blur-md, 12px);"
+>
+  <button
+    aria-controls="panel-1"
+    aria-disabled="false"
+    aria-selected="true"
+    class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+    data-glass-component="true"
+    id="tab-1"
+    role="tab"
+    style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; cursor: pointer; opacity: 1; font-size: 0.875rem; font-weight: 600; transition: all 0.2s ease;"
+    tabindex="0"
+  >
+    <span>
+      Tab 1
+    </span>
+  </button>
+  <button
+    aria-controls="panel-2"
+    aria-disabled="false"
+    aria-selected="false"
+    class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+    data-glass-component="true"
+    id="tab-2"
+    role="tab"
+    style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: transparent; border-radius: 6px; color: rgba(255, 255, 255, 0.88); cursor: pointer; opacity: 1; font-size: 0.875rem; font-weight: 400; transition: all 0.2s ease;"
+    tabindex="-1"
+  >
+    <span>
+      Tab 2
+    </span>
+  </button>
+  <button
+    aria-controls="panel-3"
+    aria-disabled="false"
+    aria-selected="false"
+    class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+    data-glass-component="true"
+    id="tab-3"
+    role="tab"
+    style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: transparent; border-radius: 6px; color: rgba(255, 255, 255, 0.88); cursor: pointer; opacity: 1; font-size: 0.875rem; font-weight: 400; transition: all 0.2s ease;"
+    tabindex="-1"
+  >
+    <span>
+      Tab 3
+    </span>
+  </button>
+</div>
+`;

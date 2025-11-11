@@ -98,7 +98,7 @@ export class GlassErrorBoundary extends Component<Props, State> {
           {...props}
         >
           <div className="glass-stack glass-gap-4">
-            <div className="glass-text-2xl font-bold glass-text-balance">
+            <div className='glass-text-2xl font-bold glass-text-balance'>
               ⚠️ Something went wrong
             </div>
 
@@ -109,10 +109,10 @@ export class GlassErrorBoundary extends Component<Props, State> {
 
             {process.env.NODE_ENV === "development" && this.state.error && (
               <details className="glass-mt-4">
-                <summary className="font-semibold cursor-pointer glass-focus">
+                <summary className='font-semibold cursor-pointer glass-focus'>
                   Error Details (Development Only)
                 </summary>
-                <pre className="glass-mt-2 glass-p-4 glass-radius-md glass-text-xs overflow-auto glass-surface-danger">
+                <pre className='glass-mt-2 glass-p-4 glass-radius-md glass-text-xs overflow-auto glass-surface-danger'>
                   {this.state.error.toString()}
                   {this.state.errorInfo?.componentStack}
                 </pre>

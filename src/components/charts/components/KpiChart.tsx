@@ -24,6 +24,8 @@ export interface KpiChartProps {
   qualityTier?: 'low' | 'medium' | 'high' | 'ultra';
   color?: string;
   isReducedMotion?: boolean;
+  className?: string;
+  "data-testid"?: string;
 }
 
 export const KpiChart: React.FC<KpiChartProps> = ({
@@ -54,7 +56,7 @@ export const KpiChart: React.FC<KpiChartProps> = ({
   const style = createGlassStyle({ intent: "neutral", elevation: "level2" });
 
   return (
-    <div data-glass-component style={style}>
+    <div data-glass-component style={style} className={className} data-testid={dataTestId || "kpichart"}>
       <div style={{ fontSize: '2.25rem', marginBottom: '8px' }}>
         {formatValue(kpi.value, kpi.format)}
       </div>

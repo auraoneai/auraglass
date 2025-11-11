@@ -27,7 +27,7 @@ export interface Step {
 }
 
 export interface GlassStepInternalProps {
-  step: Step;
+  step?: Step;
   index: number;
   active: boolean;
   completed: boolean;

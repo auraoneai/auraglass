@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
@@ -105,6 +105,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
       lineColor,
       dotColor,
       "aria-label": ariaLabel,
+      "data-testid": dataTestId,
       className,
       ...props
     },
@@ -245,6 +246,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
       <div
         ref={ref}
         id={timelineId}
+        data-testid={dataTestId || "glasstimeline"}
         className={cn("relative", config.container, className)}
         role="list"
         aria-label={ariaLabel || "Timeline"}

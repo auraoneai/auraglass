@@ -74,6 +74,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
+      "data-testid": dataTestId,
       className,
       id,
       required,
@@ -179,7 +180,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
     const isCheckedOrIndeterminate = checked || indeterminate;
 
     const checkboxElement = (
-      <div className='relative glass-inline-flex glass-items-center'>
+      <div className='relative glass-inline-flex glass-items-center' data-testid={dataTestId || "glasscheckbox"}>
         {/* Hidden input */}
         <input
           ref={ref}
@@ -228,8 +229,11 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
             error && !isCheckedOrIndeterminate && "ring-2 ring-destructive/50"
           )}
           role="checkbox"
-          aria-checked={indeterminate ? "mixed" : checked}
+          aria-checked={!!checked} // Ensure it's always a boolean
           aria-busy={loading || undefined}
+          aria-label={a11yProps['aria-label'] || label || description || "checkbox"}
+          aria-labelledby={a11yProps['aria-labelledby']}
+          aria-describedby={a11yProps['aria-describedby']}
         >
           {/* Check/indeterminate icon */}
           <Motion
@@ -318,21 +322,16 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
 
     // Render based on label position
     if (!label && !description && !error) {
-      return checkboxElement;
+      return React.cloneElement(checkboxElement, {
+        className: cn(checkboxElement.props.className, className),
+      });
     }
 
-    const containerClass = cn(
-      "glass-checkbox-container flex",
-      config.gap,
-      labelPosition === "left" && "flex-row-reverse items-start",
-      labelPosition === "right" && "flex-row items-start",
-      labelPosition === "top" && "flex-col",
-      labelPosition === "bottom" && "flex-col-reverse",
-      className
-    );
-
     return (
-      <div className={containerClass}>
+      <div className={cn("glass-flex", {
+        "glass-flex-row glass-items-start": labelPosition === "left" || labelPosition === "right",
+        "glass-flex-col glass-items-start": labelPosition === "top" || labelPosition === "bottom",
+      }, config.gap, className)} data-testid={dataTestId || "glasscheckbox"}>
         {(labelPosition === "left" || labelPosition === "right") && (
           <div className='glass-flex glass-items-start pt-0.5'>
             {checkboxElement}

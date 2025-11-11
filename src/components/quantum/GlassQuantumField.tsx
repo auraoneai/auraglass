@@ -855,7 +855,7 @@ export const GlassQuantumField = forwardRef<
               step="0.1"
               value={coherence}
               onChange={(e) => {}}
-              className="w-20"
+              className='w-20'
             />
           </div>
 
@@ -874,7 +874,7 @@ export const GlassQuantumField = forwardRef<
               step="0.1"
               value={entanglementStrength}
               onChange={(e) => {}}
-              className="w-20"
+              className='w-20'
             />
           </div>
 
@@ -893,7 +893,7 @@ export const GlassQuantumField = forwardRef<
               step="0.1"
               value={temperature}
               onChange={(e) => {}}
-              className="w-20"
+              className='w-20'
             />
           </div>
 
@@ -942,7 +942,7 @@ export const GlassQuantumField = forwardRef<
 
           <button
             onClick={() => initializeParticles()}
-            className="glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary"
+            className='glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary'
           >
             Reset
           </button>
@@ -971,7 +971,7 @@ export const GlassQuantumField = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

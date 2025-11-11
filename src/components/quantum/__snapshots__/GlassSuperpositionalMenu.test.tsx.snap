@@ -13,83 +13,83 @@ exports[`GlassSuperpositionalMenu matches snapshot 1`] = `
   >
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 14.490989873193417%; top: 73.78978631077375%;"
+      style="left: 0%; top: 0%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 79.17980618025007%; top: 43.37224252751606%;"
+      style="left: 13%; top: 29%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 0.26260426917161794%; top: 16.411887532824565%;"
+      style="left: 26%; top: 58%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 38.686152021637696%; top: 92.29539256621734%;"
+      style="left: 39%; top: 87%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 41.478940892271396%; top: 85.63525844697237%;"
+      style="left: 52%; top: 16%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 22.449604620346598%; top: 39.65792097609015%;"
+      style="left: 65%; top: 45%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 12.343841999724937%; top: 52.864058682129645%;"
+      style="left: 78%; top: 74%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 7.265183395489649%; top: 96.1184856001194%;"
+      style="left: 91%; top: 3%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 21.70681496374227%; top: 52.61876628849376%;"
+      style="left: 4%; top: 32%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 10.074963968369577%; top: 88.36001961997732%;"
+      style="left: 17%; top: 61%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 59.6325038495586%; top: 97.9666996550653%;"
+      style="left: 30%; top: 90%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 16.122456960975672%; top: 36.767676569204745%;"
+      style="left: 43%; top: 19%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 4.3797371983465005%; top: 26.113654873317426%;"
+      style="left: 56%; top: 48%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 41.00142826516835%; top: 68.96546567804491%;"
+      style="left: 69%; top: 77%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 56.39098775696061%; top: 30.635266681628636%;"
+      style="left: 82%; top: 6%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 50.898792477089906%; top: 19.286895835871864%;"
+      style="left: 95%; top: 35%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 78.60858049704646%; top: 32.17021617539453%;"
+      style="left: 8%; top: 64%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 73.38322945868237%; top: 82.97870461099643%;"
+      style="left: 21%; top: 93%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 81.29486292426908%; top: 12.902289195236705%;"
+      style="left: 34%; top: 22%;"
     />
     <div
       class="glass-absolute glass-w-1 glass-h-1 glass-surface-muted glass-radius-full"
-      style="left: 86.89447585272102%; top: 14.749860611691567%;"
+      style="left: 47%; top: 51%;"
     />
   </div>
   <svg

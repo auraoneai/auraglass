@@ -92,8 +92,8 @@ export const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>((p
       style={{
         borderRadius: typeof $borderRadius === 'number' ? `${$borderRadius}px` : $borderRadius,
         background,
-        backdropFilter: blur,
-        WebkitBackdropFilter: blur,
+        // Use createGlassStyle() instead,
+        // Use createGlassStyle() instead,
         border: `1px solid ${$borderColor || 'color-mix(in srgb, var(--aura-color-global-border-soft) 78%, transparent)'}`,
         boxShadow: shadow,
         ...style,

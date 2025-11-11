@@ -185,7 +185,7 @@ export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
       {...rest}
     >
       {children ?? (
-        <div className="glass-grid sm:grid-cols-2 glass-gap-4">
+        <div className='glass-grid sm:grid-cols-2 glass-gap-4'>
           {keys.map((key) => {
             const preset = glassTransitionPresets[key];
             return (
@@ -199,10 +199,10 @@ export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
                   ease: preset.ease as any
                 }}
               >
-                <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+                <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
                   {key}
                 </p>
-                <h3 className="glass-text-xl glass-text-primary font-semibold">
+                <h3 className='glass-text-xl glass-text-primary font-semibold'>
                   {key === 'glass' ? 'Material physics' : 'Easing preview'}
                 </h3>
                 <div className="glass-h-2 glass-rounded-full glass-surface-subtle">

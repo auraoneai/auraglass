@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Glass360Viewer matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-360-viewer relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden"
+  id="glass-360-viewer-:r3:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="motion-primitive relative glass-w-full glass-h-full"
+  >
+    <div
+      class="relative glass-w-full glass-h-full cursor-move"
+    >
+      <div
+        class="absolute inset-0 glass-flex glass-items-center glass-justify-center"
+      >
+        <div
+          class="glass-flex glass-flex-col glass-items-center glass-gap-4"
+        >
+          <div
+            class="w-12 h-12 glass-border-4 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin"
+          />
+          <div
+            class="glass-text-sm glass-text-secondary"
+          >
+            Loading 360° media...
+          </div>
+        </div>
+      </div>
+      <button
+        class="absolute top-4 right-4 glass-p-2 glass-radius-full glass-surface-overlay hover:glass-surface-overlay transition-all"
+        title="Toggle Controls"
+      >
+        🎛
+      </button>
+    </div>
+  </div>
+</div>
+`;

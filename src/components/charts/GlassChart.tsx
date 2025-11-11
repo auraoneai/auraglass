@@ -520,6 +520,8 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
   trackAchievements = false,
   achievementId,
   usageContext = 'dashboard',
+  'aria-label': ariaLabel,
+  ...restProps
 }, ref) => {
   // Get theme from context or use the provided theme, and ensure it's valid
   const theme = ensureValidTheme(providedTheme);
@@ -1040,7 +1042,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(({
       data-adaptive-complexity={adaptiveComplexity}
       data-insights-count={chartInsights.length}
       data-patterns-count={dataPatterns.length}
-      aria-label={`Interactive ${currentType} chart${title ? ` titled ${title}` : ''}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ''}`}
+      aria-label={ariaLabel || `Interactive ${currentType} chart${title ? ` titled ${title}` : ''}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ''}`}
       role="img"
     >
       <div 

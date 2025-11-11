@@ -6,6 +6,7 @@ export interface ScrollButtonsProps {
   onScrollRight?: () => void;
   showLeft?: boolean;
   showRight?: boolean;
+  className?: string; // Add className to props
 }
 
 export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
@@ -13,6 +14,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
   onScrollRight,
   showLeft = false,
   showRight = false,
+  className, // Destructure className
 }) => {
   return (
     <>
@@ -33,7 +35,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
             zIndex: 10,
           }}
           onClick={onScrollLeft}
-          className="glass-focus glass-touch-target glass-contrast-guard"
+          className={`glass-focus glass-touch-target glass-contrast-guard ${className}`} // Apply className here
         >
           ‹
         </button>
@@ -55,7 +57,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
             zIndex: 10,
           }}
           onClick={onScrollRight}
-          className="glass-focus glass-touch-target glass-contrast-guard"
+          className={`glass-focus glass-touch-target glass-contrast-guard ${className}`} // Apply className here
         >
           ›
         </button>

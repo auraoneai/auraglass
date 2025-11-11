@@ -703,7 +703,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         {backdrop || (
           <Motion
             preset="fadeIn"
-            className="absolute inset-0 glass-surface-dark/50"
+            className='absolute inset-0 glass-surface-dark/50'
             onClick={handleBackdropClick}
           />
         )}
@@ -779,7 +779,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {title && (
                           <h2
                             id={titleId}
-                            className="glass-text-lg font-semibold text-primary"
+                            className='glass-text-lg font-semibold text-primary'
                           >
                             {title}
                           </h2>
@@ -787,7 +787,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {description && (
                           <p
                             id={descriptionId}
-                            className="glass-text-sm text-muted-foreground glass-mt-1"
+                            className='glass-text-sm text-muted-foreground glass-mt-1'
                           >
                             {description}
                           </p>
@@ -864,7 +864,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {title && (
                           <h2
                             id={titleId}
-                            className="glass-text-lg font-semibold text-primary"
+                            className='glass-text-lg font-semibold text-primary'
                           >
                             {title}
                           </h2>
@@ -885,7 +885,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                             <IconButton
                               icon={
                                 <svg
-                                  className="w-4 h-4"
+                                  className='w-4 h-4'
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -1001,7 +1001,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                   {predictive && modalInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className="text-primary">Modal Insights</span>
+                        <span className='text-primary'>Modal Insights</span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

@@ -220,7 +220,7 @@ export function GlassMeshGradient({
     >
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 glass-w-full glass-h-full"
+        className='absolute inset-0 glass-w-full glass-h-full'
         style={{
           filter: `blur(${blur}px) ${filterStyle}`,
           opacity,
@@ -251,8 +251,8 @@ export const GlassMeshBackground = forwardRef<
       aria-label={ariaLabel || "Mesh gradient background"}
       aria-hidden="true"
     >
-      <GlassMeshGradient className="absolute inset-0" {...meshProps} />
-      <div className="relative z-10">{children}</div>
+      <GlassMeshGradient className='absolute inset-0' {...meshProps} />
+      <div className='relative z-10'>{children}</div>
     </OptimizedGlass>
   );
 });

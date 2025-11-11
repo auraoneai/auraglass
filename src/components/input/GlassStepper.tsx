@@ -425,7 +425,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "increment",
       incrementContent || (
         <svg
-          className="w-4 h-4"
+          className='w-4 h-4'
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -446,7 +446,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "decrement",
       decrementContent || (
         <svg
-          className="w-4 h-4"
+          className='w-4 h-4'
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

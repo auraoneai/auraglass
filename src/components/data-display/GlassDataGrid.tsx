@@ -348,7 +348,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
             ) : (
               <tr>
                 <td className={styles.cell} colSpan={Math.max(1, totalColumns)}>
-                  <div className="glass-text-sm glass-text-secondary text-center">
+                  <div className='glass-text-sm glass-text-secondary text-center'>
                     No data available.
                   </div>
                 </td>

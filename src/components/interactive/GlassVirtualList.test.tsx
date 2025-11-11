@@ -21,11 +21,31 @@ import { GlassVirtualList } from '@/components/interactive/GlassVirtualList';
 expect.extend(toHaveNoViolations);
 
 describe('GlassVirtualList', () => {
+  const mockItems = [
+    {
+      id: '1',
+      height: 50,
+      component: () => <div>Item 1</div>,
+    },
+    {
+      id: '2',
+      height: 50,
+      component: () => <div>Item 2</div>,
+    },
+    {
+      id: '3',
+      height: 50,
+      component: () => <div>Item 3</div>,
+    },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassVirtualList />);
+    const { container } = render(
+      <GlassVirtualList items={mockItems} height={300} />
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +53,9 @@ describe('GlassVirtualList', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassVirtualList />);
+    const { container } = render(
+      <GlassVirtualList items={mockItems} height={300} />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,6 +72,8 @@ describe('GlassVirtualList', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassVirtualList
+        items={mockItems}
+        height={300}
         className="custom-class"
         data-testid="glassvirtuallist"
       />
@@ -65,7 +89,9 @@ describe('GlassVirtualList', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassVirtualList />);
+    const { container } = render(
+      <GlassVirtualList items={mockItems} height={300} />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

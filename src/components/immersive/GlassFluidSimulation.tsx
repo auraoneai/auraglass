@@ -695,11 +695,13 @@ export const GlassFluidSimulation = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Preset:</label>
+            <label className="glass-text-sm" htmlFor="preset-select">Preset:</label>
             <select
+              id="preset-select"
               value={currentPreset}
               onChange={(e) => setCurrentPreset(e.target.value as any)}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+              aria-label="Select fluid simulation preset"
             >
               {Object.keys(fluidPresets).map((preset: any) => (
                 <option key={preset} value={preset}>

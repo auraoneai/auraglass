@@ -431,29 +431,31 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
     };
 
     // Clone trigger with event handlers
-    const triggerElement = React.cloneElement(children as any, {
-      ref: triggerRef,
-      onClick: (e: MouseEvent) => {
-        (children as any).props?.onClick?.(e);
-        handleClick();
-      },
-      onMouseEnter: (e: MouseEvent) => {
-        (children as any).props?.onMouseEnter?.(e);
-        if (triggerType === "hover") handleShow();
-      },
-      onMouseLeave: (e: MouseEvent) => {
-        (children as any).props?.onMouseLeave?.(e);
-        if (triggerType === "hover") handleHide();
-      },
-      onFocus: (e: FocusEvent) => {
-        (children as any).props?.onFocus?.(e);
-        if (triggerType === "focus") handleShow();
-      },
-      onBlur: (e: FocusEvent) => {
-        (children as any).props?.onBlur?.(e);
-        if (triggerType === "focus") handleHide();
-      },
-    });
+    const triggerElement = children
+      ? React.cloneElement(children as any, {
+          ref: triggerRef,
+          onClick: (e: MouseEvent) => {
+            (children as any).props?.onClick?.(e);
+            handleClick();
+          },
+          onMouseEnter: (e: MouseEvent) => {
+            (children as any).props?.onMouseEnter?.(e);
+            if (triggerType === "hover") handleShow();
+          },
+          onMouseLeave: (e: MouseEvent) => {
+            (children as any).props?.onMouseLeave?.(e);
+            if (triggerType === "hover") handleHide();
+          },
+          onFocus: (e: FocusEvent) => {
+            (children as any).props?.onFocus?.(e);
+            if (triggerType === "focus") handleShow();
+          },
+          onBlur: (e: FocusEvent) => {
+            (children as any).props?.onBlur?.(e);
+            if (triggerType === "focus") handleHide();
+          },
+        })
+      : null;
 
     return (
       <>

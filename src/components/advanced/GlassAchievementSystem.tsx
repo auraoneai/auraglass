@@ -1312,10 +1312,10 @@ function AchievementSummaryCard() {
       data-testid="glass-achievement-summary"
     >
       <div>
-        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
           Achievement System
         </p>
-        <h2 className="glass-text-2xl glass-text-primary font-semibold">
+        <h2 className='glass-text-2xl glass-text-primary font-semibold'>
           {progress ? progress.stats.totalInteractions : "Calibrating"}
         </h2>
         <p className="glass-text-sm glass-text-secondary">
@@ -1328,10 +1328,10 @@ function AchievementSummaryCard() {
             key={stat.label}
             className="glass-surface-subtle glass-radius-xl glass-p-3"
           >
-            <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+            <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
               {stat.label}
             </p>
-            <p className="glass-text-lg glass-text-primary font-semibold">
+            <p className='glass-text-lg glass-text-primary font-semibold'>
               {stat.value}
             </p>
           </div>

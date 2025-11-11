@@ -33,7 +33,7 @@ describe('GlassCheckboxUI', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCheckboxUI />);
+    const { container } = render(<GlassCheckboxUI aria-label="Test checkbox" />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

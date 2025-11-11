@@ -32,11 +32,14 @@ exports[`GlassFluidSimulation matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="preset-select"
         >
           Preset:
         </label>
         <select
+          aria-label="Select fluid simulation preset"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+          id="preset-select"
         >
           <option
             value="water"

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef } from "react";
 import { OptimizedGlass } from "../../primitives";
@@ -91,6 +91,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
       fallback,
       fallbackText,
       "aria-label": ariaLabel,
+      "data-testid": dataTestId,
       className,
       src,
       alt,
@@ -168,7 +169,11 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     };
 
     return (
-      <div data-glass-component className='relative inline-block'>
+      <div
+        data-glass-component
+        className='relative inline-block'
+        data-testid={dataTestId || "glassavatar"}
+      >
         <OptimizedGlass
           elevation={
             elevation === 1

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassThemeDemo Component
  *
@@ -215,7 +215,18 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
             <Typography variant="h6" className='mb-4 font-semibold'>
               Slider
             </Typography>
-            <Slider defaultValue={50} aria-label="Slider" />
+            <Slider
+              defaultValue={50}
+              aria-label="Theme intensity slider"
+              aria-labelledby="glass-theme-demo-slider-label"
+            />
+            <Typography
+              id="glass-theme-demo-slider-label"
+              variant="p"
+              className='glass-text-secondary glass-text-xs mt-1'
+            >
+              Adjust theme intensity for preview components.
+            </Typography>
             {showCode && (
               <pre className='glass-surface-dark/10 glass-radius-md glass-p-3 font-mono glass-text-sm overflow-auto glass-mt-4'>{`<Slider defaultValue={50} aria-label="Slider" />`}</pre>
             )}

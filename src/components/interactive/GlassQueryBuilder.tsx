@@ -66,7 +66,7 @@ export function GlassQueryBuilder({
           }}
         >
           <GlassSelectTrigger
-            className="w-40 h-8 glass-text-sm"
+            className='w-40 h-8 glass-text-sm'
             aria-label="Select field"
           >
             <GlassSelectValue placeholder="Field" />
@@ -87,7 +87,7 @@ export function GlassQueryBuilder({
           }}
         >
           <GlassSelectTrigger
-            className="w-28 h-8 glass-text-sm"
+            className='w-28 h-8 glass-text-sm'
             aria-label="Select operator"
           >
             <GlassSelectValue placeholder="Op" />
@@ -110,7 +110,7 @@ export function GlassQueryBuilder({
             }}
           >
             <GlassSelectTrigger
-              className="w-48 h-8 glass-text-sm"
+              className='w-48 h-8 glass-text-sm'
               aria-label="Select value"
             >
               <GlassSelectValue placeholder="Value" />
@@ -131,7 +131,7 @@ export function GlassQueryBuilder({
               rule.value = e.target.value;
               update(value);
             }}
-            className="bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+            className='bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
           />
         )}
         <GlassButton
@@ -159,7 +159,7 @@ export function GlassQueryBuilder({
           }}
         >
           <GlassSelectTrigger
-            className="w-24 h-8 glass-text-sm"
+            className='w-24 h-8 glass-text-sm'
             aria-label="Select combinator (AND/OR)"
           >
             <GlassSelectValue />

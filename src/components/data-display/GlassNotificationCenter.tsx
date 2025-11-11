@@ -204,7 +204,7 @@ export const GlassNotificationCenter = forwardRef<
           data-empty
           {...props}
         >
-          <span className="sr-only">No notifications</span>
+          <span className='sr-only'>No notifications</span>
         </div>
       );
     }

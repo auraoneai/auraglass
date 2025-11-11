@@ -589,6 +589,8 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
         border={variant === "floating" ? "gradient" : "subtle"}
         animation="none"
         performanceMode="medium"
+        role="navigation"
+        aria-label={commonProps['aria-label'] || "Main navigation"}
       >
         {/* Removed extra color overlay to follow global background */}
         {/* Left section */}

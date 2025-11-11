@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassSocialFeed matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-p-4 space-y-4"
+  >
+    <div
+      class="glass-flex glass-items-center glass-justify-between"
+    >
+      <h2
+        class="glass-text-lg font-semibold text-primary/90"
+      >
+        Social Feed (
+        1
+        )
+      </h2>
+      <div
+        class="glass-flex glass-items-center space-x-2 glass-text-sm"
+      >
+        <label
+          class="sr-only"
+          for="glass-social-sort-:rd:"
+        >
+          Sort posts by
+        </label>
+        <select
+          aria-label="Sort posts by"
+          class="glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-px-2 glass-py-1 text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+          id="glass-social-sort-:rd:"
+        >
+          <option
+            value="timestamp"
+          >
+            Latest
+          </option>
+          <option
+            value="likes"
+          >
+            Most Liked
+          </option>
+          <option
+            value="engagement"
+          >
+            Most Engaging
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="
+              space-y-4 
+              
+            "
+    >
+      <div
+        class="
+            relative p-4 rounded-lg cursor-pointer transition-all duration-200
+            [object Object]
+            hover:bg-white/5 border border-white/10
+          "
+        style="opacity: 0; transform: translateY(20px);"
+      >
+        <div
+          class="glass-flex glass-items-start space-x-3 mb-3"
+        >
+          <div
+            class="relative cursor-pointer"
+            tabindex="0"
+          >
+            <div
+              class="
+                w-12 h-12
+                rounded-full bg-gradient-to-br from-gray-300 to-gray-500
+                flex items-center justify-center text-white font-semibold
+                [object Object]
+              "
+            >
+              U
+            </div>
+          </div>
+          <div
+            class="glass-flex-1 glass-min-w-0"
+          >
+            <div
+              class="glass-flex glass-items-center space-x-2"
+            >
+              <h3
+                class="
+                  font-semibold text-white/90 truncate
+                  text-base
+                "
+              >
+                User 1
+              </h3>
+              <span
+                class="
+                  text-white/60
+                  text-sm
+                "
+              >
+                @
+                user1
+              </span>
+              <div
+                class="w-2 h-2 glass-radius-full"
+                title="medium engagement"
+              />
+            </div>
+            <p
+              class="
+                  text-white/50
+                  text-sm
+                "
+            >
+              Just now
+            </p>
+          </div>
+        </div>
+        <div
+          class="mb-3"
+        >
+          <p
+            class="
+              text-white/90 leading-relaxed
+              text-base
+            "
+          >
+            Test post
+          </p>
+        </div>
+        <div
+          class="glass-flex glass-items-center glass-justify-between pt-3 glass-border-t glass-border-white/10"
+        >
+          <div
+            class="glass-flex glass-items-center space-x-6"
+          >
+            <button
+              class="
+                    flex items-center space-x-2 text-sm transition-colors duration-200
+                    text-white/60 hover:text-red-400
+                  "
+              tabindex="0"
+            >
+              <span>
+                🤍
+              </span>
+              <span>
+                10
+              </span>
+            </button>
+            <button
+              class="glass-flex glass-items-center space-x-2 glass-text-sm text-primary/60 hover:text-primary transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard"
+            >
+              <span>
+                💬
+              </span>
+              <span>
+                3
+              </span>
+            </button>
+            <button
+              class="
+                    flex items-center space-x-2 text-sm transition-colors duration-200
+                    text-white/60 hover:text-green-400
+                  "
+              tabindex="0"
+            >
+              <span>
+                🔄
+              </span>
+              <span>
+                5
+              </span>
+            </button>
+          </div>
+          <div
+            class="glass-flex glass-items-center space-x-2 glass-text-sm text-primary/50"
+          >
+            <span>
+              📈
+            </span>
+            <span>
+              18
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

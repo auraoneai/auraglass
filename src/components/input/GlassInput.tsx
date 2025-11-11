@@ -128,6 +128,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
       "aria-required": ariaRequired,
       "aria-invalid": ariaInvalid,
       "aria-errormessage": ariaErrorMessage,
+      "data-testid": dataTestId,
       required,
       ...props
     },
@@ -160,6 +161,11 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
       descriptionId: helperTextId,
       errorId: errorId || ariaErrorMessage,
     });
+
+    // Add aria-label if no explicit label is provided
+    if (!label && !props['aria-label'] && !ariaLabelledBy) {
+      a11yProps['aria-label'] = props.placeholder || "Input field";
+    }
 
     // Announce error state changes
     React.useEffect(() => {
@@ -208,7 +214,8 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     return (
       <div
         data-glass-component
-        className={cn("relative", { "w-full": fullWidth })}
+        data-testid={dataTestId || "glassinput"}
+        className={cn("relative", { "w-full": fullWidth }, className)}
       >
         {/* Label */}
         {label && (

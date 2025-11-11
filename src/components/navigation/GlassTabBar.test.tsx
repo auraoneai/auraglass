@@ -21,11 +21,20 @@ import { GlassTabBar } from '@/components/navigation/GlassTabBar';
 expect.extend(toHaveNoViolations);
 
 describe('GlassTabBar', () => {
+  const mockTabs = [
+    { id: '1', value: 'tab1', label: 'Tab 1' },
+    { id: '2', value: 'tab2', label: 'Tab 2' },
+    { id: '3', value: 'tab3', label: 'Tab 3' },
+  ];
+  const mockOnChange = jest.fn();
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassTabBar />);
+    const { container } = render(
+      <GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +42,9 @@ describe('GlassTabBar', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassTabBar />);
+    const { container } = render(
+      <GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -44,14 +55,14 @@ describe('GlassTabBar', () => {
    */
   describe('ARIA Attributes', () => {
     it('has proper navigation role', () => {
-      render(<GlassTabBar />);
-      const nav = screen.queryByRole('navigation') || screen.queryByRole('menu') || screen.queryByRole('menubar');
+      render(<GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />);
+      const nav = screen.queryByRole('tablist') || screen.queryByRole('navigation') || screen.queryByRole('menu') || screen.queryByRole('menubar');
       expect(nav).toBeInTheDocument();
     });
 
     it('has accessible name', () => {
-      render(<GlassTabBar aria-label="Main navigation" />);
-      const nav = screen.getByRole('navigation', { name: /main navigation/i });
+      render(<GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} ariaLabel="Main navigation" />);
+      const nav = screen.getByRole('tablist', { name: /main navigation/i });
       expect(nav).toBeInTheDocument();
     });
   });
@@ -62,7 +73,7 @@ describe('GlassTabBar', () => {
    */
   describe('Focus Management', () => {
     it('can receive focus', () => {
-      render(<GlassTabBar />);
+      render(<GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />);
       const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
 
       if (element) {
@@ -72,7 +83,7 @@ describe('GlassTabBar', () => {
     });
 
     it('shows visible focus indicator', () => {
-      const { container } = render(<GlassTabBar />);
+      const { container } = render(<GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />);
       const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
 
       if (element) {
@@ -107,7 +118,7 @@ describe('GlassTabBar', () => {
         })),
       });
 
-      const { container } = render(<GlassTabBar />);
+      const { container } = render(<GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />);
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
@@ -129,6 +140,9 @@ describe('GlassTabBar', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassTabBar
+        tabs={mockTabs}
+        activeTab={0}
+        onChange={mockOnChange}
         className="custom-class"
         data-testid="glasstabbar"
       />
@@ -144,7 +158,7 @@ describe('GlassTabBar', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassTabBar />);
+    const { container } = render(<GlassTabBar tabs={mockTabs} activeTab={0} onChange={mockOnChange} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

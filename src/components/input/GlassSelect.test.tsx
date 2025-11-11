@@ -51,7 +51,7 @@ describe('GlassSelect', () => {
 
     it('supports aria-label', () => {
       render(<GlassSelect aria-label="Test input" />);
-      const element = screen.getByLabelText(/test input/i);
+      const element = screen.getByRole('button', { name: /test input/i });
       expect(element).toBeInTheDocument();
     });
 

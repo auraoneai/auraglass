@@ -713,15 +713,21 @@ export const GlassBiomeSimulator = forwardRef<
                   element.height * 0.3
                 ); // trunk
                 ctx.beginPath();
-                ctx.ellipse(
-                  0,
-                  -element.height * 0.3,
-                  element.width * 0.5,
-                  element.height * 0.7,
-                  0,
-                  0,
-                  Math.PI * 2
-                );
+                // Use arc instead of ellipse for better compatibility
+                if (ctx.ellipse) {
+                  ctx.ellipse(
+                    0,
+                    -element.height * 0.3,
+                    element.width * 0.5,
+                    element.height * 0.7,
+                    0,
+                    0,
+                    Math.PI * 2
+                  );
+                } else {
+                  // Fallback for environments without ellipse support
+                  ctx.arc(0, -element.height * 0.3, element.width * 0.5, 0, Math.PI * 2);
+                }
                 ctx.fill();
                 break;
 
@@ -799,15 +805,21 @@ export const GlassBiomeSimulator = forwardRef<
               case "rock":
                 ctx.fillStyle = color;
                 ctx.beginPath();
-                ctx.ellipse(
-                  0,
-                  0,
-                  element.width * 0.5,
-                  element.height * 0.3,
-                  0,
-                  0,
-                  Math.PI * 2
-                );
+                // Use arc instead of ellipse for better compatibility
+                if (ctx.ellipse) {
+                  ctx.ellipse(
+                    0,
+                    0,
+                    element.width * 0.5,
+                    element.height * 0.3,
+                    0,
+                    0,
+                    Math.PI * 2
+                  );
+                } else {
+                  // Fallback for environments without ellipse support
+                  ctx.arc(0, 0, element.width * 0.5, 0, Math.PI * 2);
+                }
                 ctx.fill();
                 break;
 
@@ -824,7 +836,13 @@ export const GlassBiomeSimulator = forwardRef<
                   ctx.save();
                   ctx.rotate((i / 5) * Math.PI * 2);
                   ctx.beginPath();
-                  ctx.ellipse(0, -8, 3, 6, 0, 0, Math.PI * 2);
+                  // Use arc instead of ellipse for better compatibility
+                  if (ctx.ellipse) {
+                    ctx.ellipse(0, -8, 3, 6, 0, 0, Math.PI * 2);
+                  } else {
+                    // Fallback for environments without ellipse support
+                    ctx.arc(0, -8, 3, 0, Math.PI * 2);
+                  }
                   ctx.fill();
                   ctx.restore();
                 }
@@ -854,15 +872,21 @@ export const GlassBiomeSimulator = forwardRef<
           case "leaf":
             ctx.fillStyle = color;
             ctx.beginPath();
-            ctx.ellipse(
-              0,
-              0,
-              particle.size,
-              particle.size * 0.6,
-              0,
-              0,
-              Math.PI * 2
-            );
+            // Use arc instead of ellipse for better compatibility
+            if (ctx.ellipse) {
+              ctx.ellipse(
+                0,
+                0,
+                particle.size,
+                particle.size * 0.6,
+                0,
+                0,
+                Math.PI * 2
+              );
+            } else {
+              // Fallback for environments without ellipse support
+              ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
+            }
             ctx.fill();
             break;
 
@@ -1057,8 +1081,9 @@ export const GlassBiomeSimulator = forwardRef<
           className="glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Biome:</label>
+            <label className="glass-text-sm" htmlFor="biome-select">Biome:</label>
             <select
+              id="biome-select"
               value={currentBiome.type}
               onChange={(e) => {
                 const newBiome = {
@@ -1069,6 +1094,7 @@ export const GlassBiomeSimulator = forwardRef<
                 onBiomeChange?.(newBiome);
               }}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+              aria-label="Select biome type"
             >
               <option value="forest">Forest</option>
               <option value="ocean">Ocean</option>
@@ -1082,8 +1108,9 @@ export const GlassBiomeSimulator = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Season:</label>
+            <label className="glass-text-sm" htmlFor="biome-season-select">Season:</label>
             <select
+              id="biome-season-select"
               value={currentBiome.season}
               onChange={(e) => {
                 const newBiome = {
@@ -1094,6 +1121,7 @@ export const GlassBiomeSimulator = forwardRef<
                 onSeasonChange?.(e.target.value as any);
               }}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+              aria-label="Select season"
             >
               <option value="spring">Spring</option>
               <option value="summer">Summer</option>
@@ -1103,8 +1131,9 @@ export const GlassBiomeSimulator = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Time:</label>
+            <label className="glass-text-sm" htmlFor="biome-time-range">Time:</label>
             <input
+              id="biome-time-range"
               type="range"
               min="0"
               max="24"
@@ -1119,6 +1148,7 @@ export const GlassBiomeSimulator = forwardRef<
                 onTimeChange?.(newTime);
               }}
               className='w-20'
+              aria-label="Adjust time of day"
             />
           </div>
 

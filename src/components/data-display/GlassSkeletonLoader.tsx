@@ -84,6 +84,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
     className = "",
     children,
     "aria-label": ariaLabel,
+    "data-testid": dataTestId,
   }) => {
     const [mounted, setMounted] = useState(false);
     const { shouldAnimate, animationDuration } = useAccessibleAnimation();
@@ -145,6 +146,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
       return (
         <div
           data-glass-component
+          data-testid={dataTestId || "glassskeletonloader"}
           className={cn(
             "glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-4",
             className

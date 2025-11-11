@@ -21,11 +21,25 @@ import { ChartRenderer } from '@/components/charts/components/ChartRenderer';
 expect.extend(toHaveNoViolations);
 
 describe('ChartRenderer', () => {
+  const mockDatasets = [
+    {
+      name: 'Dataset 1',
+      data: [
+        { x: 0, y: 10 },
+        { x: 1, y: 20 },
+        { x: 2, y: 15 },
+      ],
+      color: '#FF6B6B',
+    },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<ChartRenderer />);
+    const { container } = render(
+      <ChartRenderer chartType="line" datasets={mockDatasets} />
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +47,9 @@ describe('ChartRenderer', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<ChartRenderer />);
+    const { container } = render(
+      <ChartRenderer chartType="line" datasets={mockDatasets} />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,6 +66,8 @@ describe('ChartRenderer', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <ChartRenderer
+        chartType="line"
+        datasets={mockDatasets}
         className="custom-class"
         data-testid="chartrenderer"
       />
@@ -65,7 +83,9 @@ describe('ChartRenderer', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<ChartRenderer />);
+    const { container } = render(
+      <ChartRenderer chartType="line" datasets={mockDatasets} />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

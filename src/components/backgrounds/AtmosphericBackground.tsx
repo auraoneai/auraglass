@@ -127,8 +127,8 @@ const AtmosphericBackgroundComponent = (
   );
 
   const blurStyle: React.CSSProperties = {
-    backdropFilter: blur ? `blur(${blurAmount}px)` : 'none',
-    WebkitBackdropFilter: blur ? `blur(${blurAmount}px)` : 'none',
+    // Use createGlassStyle() instead,
+    // Use createGlassStyle() instead,
   };
 
   return (

@@ -15,7 +15,12 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
-import { GlassSelectCompound } from '@/components/input/GlassSelectCompound';
+import GlassSelectCompound, {
+  GlassSelectTrigger,
+  GlassSelectValue,
+  GlassSelectContent,
+  GlassSelectItem,
+} from '@/components/input/GlassSelectCompound';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
@@ -25,7 +30,17 @@ describe('GlassSelectCompound', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassSelectCompound />);
+    const { container } = render(
+      <GlassSelectCompound>
+        <GlassSelectTrigger>
+          <GlassSelectValue placeholder="Select an option" />
+        </GlassSelectTrigger>
+        <GlassSelectContent>
+          <GlassSelectItem value="option1">Option 1</GlassSelectItem>
+          <GlassSelectItem value="option2">Option 2</GlassSelectItem>
+        </GlassSelectContent>
+      </GlassSelectCompound>
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +48,17 @@ describe('GlassSelectCompound', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassSelectCompound />);
+    const { container } = render(
+      <GlassSelectCompound>
+        <GlassSelectTrigger>
+          <GlassSelectValue placeholder="Select an option" />
+        </GlassSelectTrigger>
+        <GlassSelectContent>
+          <GlassSelectItem value="option1">Option 1</GlassSelectItem>
+          <GlassSelectItem value="option2">Option 2</GlassSelectItem>
+        </GlassSelectContent>
+      </GlassSelectCompound>
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -49,13 +74,18 @@ describe('GlassSelectCompound', () => {
    */
   it('accepts and renders with custom props', () => {
     const { container } = render(
-      <GlassSelectCompound
-        className="custom-class"
-        data-testid="glassselectcompound"
-      />
+      <GlassSelectCompound data-testid="glassselectcompound">
+        <GlassSelectTrigger className="custom-class">
+          <GlassSelectValue placeholder="Select an option" />
+        </GlassSelectTrigger>
+        <GlassSelectContent>
+          <GlassSelectItem value="option1">Option 1</GlassSelectItem>
+          <GlassSelectItem value="option2">Option 2</GlassSelectItem>
+        </GlassSelectContent>
+      </GlassSelectCompound>
     );
 
-    const element = container.querySelector('[data-testid="glassselectcompound"]')
+    const element = container.querySelector('[data-glass-component]')
       || container.firstChild;
 
     expect(element).toHaveClass('custom-class');
@@ -65,7 +95,17 @@ describe('GlassSelectCompound', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassSelectCompound />);
+    const { container } = render(
+      <GlassSelectCompound>
+        <GlassSelectTrigger>
+          <GlassSelectValue placeholder="Select an option" />
+        </GlassSelectTrigger>
+        <GlassSelectContent>
+          <GlassSelectItem value="option1">Option 1</GlassSelectItem>
+          <GlassSelectItem value="option2">Option 2</GlassSelectItem>
+        </GlassSelectContent>
+      </GlassSelectCompound>
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

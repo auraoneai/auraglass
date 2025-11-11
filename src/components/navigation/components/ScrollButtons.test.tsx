@@ -50,13 +50,13 @@ describe('ScrollButtons', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <ScrollButtons
+        showLeft={true}
         className="custom-class"
         data-testid="scrollbuttons"
       />
     );
 
-    const element = container.querySelector('[data-testid="scrollbuttons"]')
-      || container.firstChild;
+    const element = screen.getByRole('button', { name: /scroll left/i });
 
     expect(element).toHaveClass('custom-class');
   });

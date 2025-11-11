@@ -181,13 +181,13 @@ export const GlassDropdownMenuItem = forwardRef<
         {...props}
       >
         {icon && (
-          <span className="mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center">
+          <span className='mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center'>
             {icon}
           </span>
         )}
         <span className="glass-flex-1">{children}</span>
         {shortcut && (
-          <span className="ml-auto glass-text-xs glass-text-secondary">
+          <span className='ml-auto glass-text-xs glass-text-secondary'>
             {shortcut}
           </span>
         )}
@@ -225,11 +225,11 @@ export const GlassDropdownMenuCheckboxItem = forwardRef<
       checked={checked}
       {...props}
     >
-      <DropdownMenuPrimitive.ItemIndicator className="absolute left-2 glass-flex h-3.5 w-3.5 glass-items-center glass-justify-center">
-        <Check className="h-3 w-3" />
+      <DropdownMenuPrimitive.ItemIndicator className='absolute left-2 glass-flex h-3.5 w-3.5 glass-items-center glass-justify-center'>
+        <Check className='h-3 w-3' />
       </DropdownMenuPrimitive.ItemIndicator>
       {icon && (
-        <span className="ml-6 mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center">
+        <span className='ml-6 mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center'>
           {icon}
         </span>
       )}
@@ -268,11 +268,11 @@ export const GlassDropdownMenuRadioItem = forwardRef<
       )}
       {...props}
     >
-      <DropdownMenuPrimitive.ItemIndicator className="absolute left-2 glass-flex h-3.5 w-3.5 glass-items-center glass-justify-center">
-        <div className="h-2 w-2 glass-radius-full bg-transparent" />
+      <DropdownMenuPrimitive.ItemIndicator className='absolute left-2 glass-flex h-3.5 w-3.5 glass-items-center glass-justify-center'>
+        <div className='h-2 w-2 glass-radius-full bg-transparent' />
       </DropdownMenuPrimitive.ItemIndicator>
       {icon && (
-        <span className="ml-6 mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center">
+        <span className='ml-6 mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center'>
           {icon}
         </span>
       )}
@@ -379,12 +379,12 @@ export const GlassDropdownMenuSubTrigger = forwardRef<
       {...props}
     >
       {icon && (
-        <span className="mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center">
+        <span className='mr-3 glass-flex h-4 w-4 glass-items-center glass-justify-center'>
           {icon}
         </span>
       )}
       <span className="glass-flex-1">{children}</span>
-      <ChevronRight className="ml-auto h-4 w-4" />
+      <ChevronRight className='ml-auto h-4 w-4' />
     </DropdownMenuPrimitive.SubTrigger>
   );
 });

@@ -198,6 +198,12 @@ export const GlassMusicVisualizer = forwardRef<
       }>
     >([]);
 
+    const modeSelectId = useA11yId("glass-music-mode");
+    const colorSchemeSelectId = useA11yId("glass-music-color-scheme");
+    const smoothingId = useA11yId("glass-music-smoothing");
+    const fftSelectId = useA11yId("glass-music-fft-size");
+    const volumeControlId = useA11yId("glass-music-volume");
+
     const id = useA11yId("glass-music-visualizer");
     const { shouldAnimate } = useMotionPreference();
     const { play } = useGlassSound();
@@ -689,7 +695,9 @@ export const GlassMusicVisualizer = forwardRef<
         </div>
 
         <div className='glass-flex glass-items-center space-x-2'>
-          <span className='glass-text-xs text-primary/80'>Volume:</span>
+          <label htmlFor={volumeControlId} className='glass-text-xs text-primary/80'>
+            Volume:
+          </label>
           <input
             type="range"
             min="0"
@@ -704,6 +712,8 @@ export const GlassMusicVisualizer = forwardRef<
               }
             }}
             className='w-16 h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+            aria-label="Volume"
+            id={volumeControlId}
           />
         </div>
       </div>
@@ -805,10 +815,11 @@ export const GlassMusicVisualizer = forwardRef<
 
             <div className='space-y-3'>
               <div>
-                <label className='block glass-text-xs text-primary/70 mb-1'>
+                <label htmlFor={modeSelectId} className='block glass-text-xs text-primary/70 mb-1'>
                   Mode
                 </label>
                 <select
+                  id={modeSelectId}
                   value={visualConfig.mode}
                   onChange={(e) =>
                     setVisualConfig((prev: any) => ({
@@ -817,6 +828,7 @@ export const GlassMusicVisualizer = forwardRef<
                     }))
                   }
                   className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+                  aria-label="Visualization mode"
                 >
                   <option value="bars">Frequency Bars</option>
                   <option value="wave">Waveform</option>
@@ -828,10 +840,11 @@ export const GlassMusicVisualizer = forwardRef<
               </div>
 
               <div>
-                <label className='block glass-text-xs text-primary/70 mb-1'>
+                <label htmlFor={colorSchemeSelectId} className='block glass-text-xs text-primary/70 mb-1'>
                   Color Scheme
                 </label>
                 <select
+                  id={colorSchemeSelectId}
                   value={visualConfig.colorScheme}
                   onChange={(e) =>
                     setVisualConfig((prev: any) => ({
@@ -840,6 +853,7 @@ export const GlassMusicVisualizer = forwardRef<
                     }))
                   }
                   className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+                  aria-label="Color scheme"
                 >
                   <option value="rainbow">Rainbow</option>
                   <option value="monochrome">Monochrome</option>
@@ -867,6 +881,7 @@ export const GlassMusicVisualizer = forwardRef<
                     }))
                   }
                   className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+                  aria-label="Sensitivity"
                 />
               </div>
             </div>
@@ -896,6 +911,7 @@ export const GlassMusicVisualizer = forwardRef<
                     }
                   }}
                   className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+                  aria-label="Smoothing"
                 />
               </div>
 
@@ -912,6 +928,7 @@ export const GlassMusicVisualizer = forwardRef<
                     }))
                   }
                   className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+                  aria-label="FFT size"
                 >
                   <option value="128">128</option>
                   <option value="256">256</option>

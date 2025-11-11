@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassBottomNav matches snapshot 1`] = `
+<div
+  aria-label="Bottom navigation"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high w-full flex items-center h-16 glass-px-4 glass-py-3 border-t border-border/20 sticky bottom-0 pb-safe"
+  data-performance-mode="medium"
+  id="bottom-nav-:r18:"
+  role="tablist"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="flex flex-row glass-gap-0 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none glass-w-full"
+  >
+    <div
+      class="relative glass-flex-1"
+    >
+      <div
+        class="motion-primitive inline-block"
+        data-glass-component="true"
+      >
+        <button
+          aria-controls="nav-panel-1"
+          aria-selected="false"
+          class="font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press w-full h-full flex flex-col items-center justify-center glass-gap-1 relative"
+          id="glass-button-:r1a:"
+          role="tab"
+          tabindex="-1"
+        >
+          <div
+            class="flex-shrink-0 transition-all duration-200 glass-text-lg"
+          >
+            <span>
+              🏠
+            </span>
+          </div>
+          <span
+            class="font-medium transition-all duration-200 truncate glass-text-xs glass-text-secondary"
+          >
+            Home
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="relative glass-flex-1"
+    >
+      <div
+        class="motion-primitive inline-block"
+        data-glass-component="true"
+      >
+        <button
+          aria-controls="nav-panel-2"
+          aria-selected="false"
+          class="font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press w-full h-full flex flex-col items-center justify-center glass-gap-1 relative"
+          id="glass-button-:r1b:"
+          role="tab"
+          tabindex="-1"
+        >
+          <div
+            class="flex-shrink-0 transition-all duration-200 glass-text-lg"
+          >
+            <span>
+              🔍
+            </span>
+          </div>
+          <span
+            class="font-medium transition-all duration-200 truncate glass-text-xs glass-text-secondary"
+          >
+            Search
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="relative glass-flex-1"
+    >
+      <div
+        class="motion-primitive inline-block"
+        data-glass-component="true"
+      >
+        <button
+          aria-controls="nav-panel-3"
+          aria-selected="false"
+          class="font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press w-full h-full flex flex-col items-center justify-center glass-gap-1 relative"
+          id="glass-button-:r1c:"
+          role="tab"
+          tabindex="-1"
+        >
+          <div
+            class="flex-shrink-0 transition-all duration-200 glass-text-lg"
+          >
+            <span>
+              👤
+            </span>
+          </div>
+          <span
+            class="font-medium transition-all duration-200 truncate glass-text-xs glass-text-secondary"
+          >
+            Profile
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

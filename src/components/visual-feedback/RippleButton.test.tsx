@@ -15,7 +15,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
-import { RippleButton } from "@/components/visual-feedback/RippleButton";
+import RippleButton from "@/components/visual-feedback/RippleButton";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);

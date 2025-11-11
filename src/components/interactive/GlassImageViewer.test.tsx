@@ -15,17 +15,32 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
-import { GlassImageViewer } from '@/components/interactive/GlassImageViewer';
+import { GlassImageViewer, ImageViewerImage } from '@/components/interactive/GlassImageViewer';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
+
+const mockImages: ImageViewerImage[] = [
+  {
+    src: 'https://via.placeholder.com/800x600.png?text=Image+1',
+    alt: 'Image 1',
+    title: 'Image 1 Title',
+    description: 'Image 1 Description',
+  },
+  {
+    src: 'https://via.placeholder.com/800x600.png?text=Image+2',
+    alt: 'Image 2',
+    title: 'Image 2 Title',
+    description: 'Image 2 Description',
+  },
+];
 
 describe('GlassImageViewer', () => {
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassImageViewer />);
+    const { container } = render(<GlassImageViewer images={mockImages} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +48,7 @@ describe('GlassImageViewer', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassImageViewer />);
+    const { container } = render(<GlassImageViewer images={mockImages} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,6 +65,7 @@ describe('GlassImageViewer', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassImageViewer
+        images={mockImages}
         className="custom-class"
         data-testid="glassimageviewer"
       />
@@ -65,7 +81,7 @@ describe('GlassImageViewer', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassImageViewer />);
+    const { container } = render(<GlassImageViewer images={mockImages} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

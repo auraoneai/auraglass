@@ -741,11 +741,13 @@ export const GlassVortexPortal = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Type:</label>
+            <label className="glass-text-sm" htmlFor="vortex-type-select">Type:</label>
             <select
+              id="vortex-type-select"
               value={type}
               onChange={(e) => {}}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+              aria-label="Select vortex type"
             >
               <option value="dimensional">Dimensional</option>
               <option value="energy">Energy</option>
@@ -756,11 +758,13 @@ export const GlassVortexPortal = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Color:</label>
+            <label className="glass-text-sm" htmlFor="vortex-color-select">Color:</label>
             <select
+              id="vortex-color-select"
               value={colorScheme}
               onChange={(e) => {}}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+              aria-label="Select color scheme"
             >
               <option value="blue">Blue</option>
               <option value="purple">Purple</option>
@@ -772,8 +776,9 @@ export const GlassVortexPortal = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Intensity:</label>
+            <label className="glass-text-sm" htmlFor="vortex-intensity-range">Intensity:</label>
             <input
+              id="vortex-intensity-range"
               type="range"
               min="0"
               max="1"
@@ -781,6 +786,7 @@ export const GlassVortexPortal = forwardRef<
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
               className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Adjust vortex intensity"
             />
             <span className='glass-text-sm min-w-[3ch]'>
               {(currentIntensity * 100).toFixed(0)}%

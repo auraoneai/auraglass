@@ -25,7 +25,7 @@ describe('GlassFocusRing', () => {
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassFocusRing />);
+    const { container } = render(<GlassFocusRing><div /></GlassFocusRing>);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +33,7 @@ describe('GlassFocusRing', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassFocusRing />);
+    const { container } = render(<GlassFocusRing><button>Test</button></GlassFocusRing>);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -46,8 +46,8 @@ describe('GlassFocusRing', () => {
    */
   describe('Focus Management', () => {
     it('can receive focus', () => {
-      render(<GlassFocusRing />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      render(<GlassFocusRing><button>Focusable</button></GlassFocusRing>);
+      const element = screen.getByRole('button');
 
       if (element) {
         (element as HTMLElement).focus();
@@ -56,8 +56,8 @@ describe('GlassFocusRing', () => {
     });
 
     it('shows visible focus indicator', () => {
-      const { container } = render(<GlassFocusRing />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      render(<GlassFocusRing><button>Focusable</button></GlassFocusRing>);
+      const element = screen.getByRole('button');
 
       if (element) {
         (element as HTMLElement).focus();
@@ -70,6 +70,16 @@ describe('GlassFocusRing', () => {
     });
   });
 
+  it('renders even when multiple children are provided', () => {
+    const { container } = render(
+      <GlassFocusRing>
+        <button>One</button>
+        <button>Two</button>
+      </GlassFocusRing>
+    );
+    expect(container).toBeInTheDocument();
+  });
+
   
 
   /**
@@ -80,7 +90,9 @@ describe('GlassFocusRing', () => {
       <GlassFocusRing
         className="custom-class"
         data-testid="glassfocusring"
-      />
+      >
+        <div />
+      </GlassFocusRing>
     );
 
     const element = container.querySelector('[data-testid="glassfocusring"]')
@@ -93,7 +105,7 @@ describe('GlassFocusRing', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassFocusRing />);
+    const { container } = render(<GlassFocusRing><div /></GlassFocusRing>);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

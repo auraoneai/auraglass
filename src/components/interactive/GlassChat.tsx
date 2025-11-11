@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   File,
@@ -141,7 +141,7 @@ export interface GlassChatProps extends ConsciousnessFeatures {
  * A comprehensive chat interface with messages, participants, and real-time features
  */
 export const GlassChat: React.FC<GlassChatProps> = ({
-  messages,
+  messages = [],
   participants = [],
   currentUser,
   title = "Chat",
@@ -602,19 +602,39 @@ export const GlassChat: React.FC<GlassChatProps> = ({
             </div>
 
             <div className="glass-flex glass-items-center glass-gap-2">
-              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="Search messages">
+              <GlassButton
+                variant="ghost"
+                size="sm"
+                className="glass-p-2"
+                aria-label="Search messages"
+              >
                 <Search className='w-4 h-4' />
               </GlassButton>
 
-              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="Start voice call">
+              <GlassButton
+                variant="ghost"
+                size="sm"
+                className="glass-p-2"
+                aria-label="Start voice call"
+              >
                 <Phone className='w-4 h-4' />
               </GlassButton>
 
-              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="Start video call">
+              <GlassButton
+                variant="ghost"
+                size="sm"
+                className="glass-p-2"
+                aria-label="Start video call"
+              >
                 <Video className='w-4 h-4' />
               </GlassButton>
 
-              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="More options">
+              <GlassButton
+                variant="ghost"
+                size="sm"
+                className="glass-p-2"
+                aria-label="More options"
+              >
                 <MoreVertical className='w-4 h-4' />
               </GlassButton>
             </div>
@@ -1005,7 +1025,9 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                     size="sm"
                     onClick={handleVoiceToggle}
                     className="glass-p-2"
-                    aria-label={isRecording ? "Stop recording" : "Start voice recording"}
+                    aria-label={
+                      isRecording ? "Stop recording" : "Start voice recording"
+                    }
                   >
                     {isRecording ? (
                       <MicOff className='w-4 h-4' />

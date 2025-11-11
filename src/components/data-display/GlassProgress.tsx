@@ -74,6 +74,10 @@ export interface GlassProgressProps
    * Respect user's motion preferences
    */
   respectMotionPreference?: boolean;
+  /**
+   * Optional camelCase test id for testing utilities
+   */
+  dataTestId?: string;
 }
 
 /**
@@ -100,6 +104,8 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
       labelPosition = "top",
       respectMotionPreference = true,
       className,
+      "data-testid": dataTestIdAttr,
+      dataTestId: dataTestIdProp,
       ...props
     },
     ref
@@ -186,9 +192,10 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
     };
 
     const labelContent = getLabelContent();
+    const resolvedDataTestId = dataTestIdAttr ?? dataTestIdProp ?? "glassprogress";
 
     return (
-      <div ref={ref} className={cn("w-full", className)} {...props}>
+      <div ref={ref} className={cn("w-full", className)} data-testid={resolvedDataTestId} {...props}>
         {/* Top label */}
         {labelContent && labelPosition === "top" && (
           <div

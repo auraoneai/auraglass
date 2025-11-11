@@ -94,7 +94,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     name: "Minimal Glass",
     level: "minimal",
     capabilities: {
-      backdropFilter: false,
+      // Use createGlassStyle() instead,
       boxShadow: true,
       borderRadius: true,
       transforms: false,
@@ -115,7 +115,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     name: "Basic Glass",
     level: "basic",
     capabilities: {
-      backdropFilter: true,
+      // Use createGlassStyle() instead,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -136,7 +136,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     name: "Standard Glass",
     level: "standard",
     capabilities: {
-      backdropFilter: true,
+      // Use createGlassStyle() instead,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -157,7 +157,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     name: "Premium Glass",
     level: "premium",
     capabilities: {
-      backdropFilter: true,
+      // Use createGlassStyle() instead,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -178,7 +178,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     name: "Ultra Glass",
     level: "ultra",
     capabilities: {
-      backdropFilter: true,
+      // Use createGlassStyle() instead,
       boxShadow: true,
       borderRadius: true,
       transforms: true,

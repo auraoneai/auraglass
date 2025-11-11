@@ -426,28 +426,31 @@ export const GlassGoldenRatioGrid = forwardRef<
                   onMouseEnter={() => hasItem && handleItemHover(section.item!)}
                   onMouseLeave={() => handleItemHover(null)}
                   onClick={() => hasItem && handleItemClick(section.item!)}
+                  role="row"
                 >
-                  {hasItem ? (
-                    <div
-                      className={`
-                        w-full h-full glass-surface rounded-lg border border-white/20 
-                        glass-backdrop-blur-md transition-all duration-200 p-3
-                        flex items-center justify-center text-center
-                        ${
-                          isHovered || isSelected
-                            ? "bg-white/20 border-white/40"
-                            : "bg-white/10 border-white/20"
-                        }
-                      `}
-                    >
-                      {section.item!.content}
-                    </div>
-                  ) : (
-                    <div className='glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30'>
-                      <div className="glass-text-xs">Empty</div>
-                    </div>
-                  )}
-
+                                    {hasItem ? (
+                                      <div
+                                        className={`
+                                          w-full h-full glass-surface rounded-lg border border-white/20
+                                          glass-backdrop-blur-md transition-all duration-200 p-3
+                                          flex items-center justify-center text-center
+                                          ${
+                                            isHovered || isSelected
+                                              ? "bg-white/20 border-white/40"
+                                              : "bg-white/10 border-white/20"
+                                          }
+                                        `}
+                                        role="gridcell"
+                                      >
+                                        {section.item!.content}
+                                      </div>
+                                    ) : (
+                                      <div className='glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30'
+                                           role="gridcell"
+                                      >
+                                        <div className="glass-text-xs">Empty</div>
+                                      </div>
+                                    )}
                   {/* Section info overlay */}
                   {(showGrid || isHovered) && (
                     <div className='absolute glass-top-1 left-1 glass-surface-dark/50 text-primary glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard'>

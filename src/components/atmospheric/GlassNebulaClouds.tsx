@@ -824,7 +824,7 @@ export const GlassNebulaClouds = forwardRef<
               value={density}
               onChange={(e) => {}}
               aria-label="Nebula density"
-              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
           </div>
 
@@ -841,7 +841,7 @@ export const GlassNebulaClouds = forwardRef<
               value={temperature}
               onChange={(e) => {}}
               aria-label="Nebula temperature in Kelvin"
-              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
             <span className="glass-text-xs">
               {(temperature / 1000).toFixed(1)}K K
@@ -861,7 +861,7 @@ export const GlassNebulaClouds = forwardRef<
               value={timeScale}
               onChange={(e) => {}}
               aria-label="Time scale multiplier"
-              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
           </div>
 
@@ -935,7 +935,7 @@ export const GlassNebulaClouds = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

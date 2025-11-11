@@ -9,6 +9,7 @@ exports[`GlassDatePicker matches snapshot 1`] = `
     <div
       class="relative"
       data-glass-component="true"
+      data-testid="glassinput"
     >
       <div
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50"

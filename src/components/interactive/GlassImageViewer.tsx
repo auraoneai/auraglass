@@ -130,7 +130,7 @@ export interface GlassImageViewerProps {
  * A comprehensive image viewer with zoom, pan, rotation, and slideshow features
  */
 export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
-  images,
+  images = [],
   initialIndex = 0,
   enableZoom = true,
   enablePan = true,
@@ -156,7 +156,12 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
   ...props
 }) => {
   const prefersReducedMotion = useReducedMotion();
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const safeImages = Array.isArray(images) ? images : [];
+  const safeImageCount = safeImages.length;
+  const normalizedInitialIndex = safeImageCount
+    ? Math.min(Math.max(initialIndex, 0), safeImageCount - 1)
+    : 0;
+  const [currentIndex, setCurrentIndex] = useState(normalizedInitialIndex);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -171,22 +176,24 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
   const imageRef = useRef<HTMLImageElement>(null);
   const autoPlayRef = useRef<NodeJS.Timeout>();
 
-  const currentImage = images[currentIndex];
+  const currentImage = safeImages[currentIndex];
 
   // Handle image change
   const handleImageChange = useCallback(
     (index: number) => {
-      if (index < 0 || index >= images.length) return;
+      if (safeImageCount === 0) return;
 
-      setCurrentIndex(index);
+      const clampedIndex = Math.min(Math.max(index, 0), safeImageCount - 1);
+
+      setCurrentIndex(clampedIndex);
       setZoom(1);
       setRotation(0);
       setPan({ x: 0, y: 0 });
       setImageLoading(true);
       setImageError(false);
-      onImageChange?.(index);
+      onImageChange?.(clampedIndex);
     },
-    [images.length, onImageChange]
+    [onImageChange, safeImageCount]
   );
 
   // Handle zoom
@@ -354,9 +361,9 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
   // Auto-play functionality
   useEffect(() => {
-    if (isAutoPlaying && images && images.length > 1) {
+    if (isAutoPlaying && safeImageCount > 1) {
       autoPlayRef.current = setInterval(() => {
-        setCurrentIndex((prev: any) => (prev + 1) % images.length);
+        setCurrentIndex((prev: any) => (prev + 1) % safeImageCount);
       }, autoPlayInterval);
     } else {
       if (autoPlayRef.current) {
@@ -369,7 +376,20 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
         clearInterval(autoPlayRef.current);
       }
     };
-  }, [isAutoPlaying, images.length, autoPlayInterval]);
+  }, [isAutoPlaying, safeImageCount, autoPlayInterval]);
+
+  useEffect(() => {
+    setCurrentIndex((prevIndex) => {
+      if (safeImageCount === 0) {
+        return prevIndex === 0 ? prevIndex : 0;
+      }
+      const boundedIndex = Math.min(
+        Math.max(prevIndex, 0),
+        safeImageCount - 1
+      );
+      return boundedIndex;
+    });
+  }, [safeImageCount]);
 
   // Reset zoom and pan when image changes
   useEffect(() => {
@@ -484,14 +504,15 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
           <div className='absolute top-4 left-4 right-4 glass-flex glass-justify-between glass-items-start'>
             {/* Left Controls */}
             <div className="glass-flex glass-items-center glass-gap-2">
-              {enableNavigation && images.length > 1 && (
+              {enableNavigation && safeImageCount > 1 && (
                 <>
                   <GlassButton
                     variant="secondary"
                     size="sm"
                     onClick={(e) => handleImageChange(currentIndex - 1)}
-                    disabled={currentIndex === 0}
+                    disabled={currentIndex === 0 || safeImageCount === 0}
                     className="glass-p-2 glass-focus glass-touch-target"
+                    aria-label="Previous image"
                   >
                     <ChevronLeft className='w-4 h-4' />
                   </GlassButton>
@@ -500,14 +521,20 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     variant="secondary"
                     size="sm"
                     onClick={(e) => handleImageChange(currentIndex + 1)}
-                    disabled={currentIndex === images.length - 1}
+                    disabled={
+                      safeImageCount === 0 ||
+                      currentIndex >= safeImageCount - 1
+                    }
                     className="glass-p-2 glass-focus glass-touch-target"
+                    aria-label="Next image"
                   >
                     <ChevronRight className='w-4 h-4' />
                   </GlassButton>
 
                   <span className='text-primary/80 glass-text-sm glass-px-2'>
-                    {currentIndex + 1} / {images.length}
+                    {safeImageCount > 0
+                      ? `${currentIndex + 1} / ${safeImageCount}`
+                      : "0 / 0"}
                   </span>
                 </>
               )}
@@ -523,6 +550,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     onClick={handleZoomOut}
                     disabled={zoom <= minZoom}
                     className="glass-p-2 glass-focus glass-touch-target"
+                    aria-label="Zoom out"
                   >
                     <ZoomOut className='w-4 h-4' />
                   </GlassButton>
@@ -537,6 +565,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     onClick={handleZoomIn}
                     disabled={zoom >= maxZoom}
                     className="glass-p-2 glass-focus glass-touch-target"
+                    aria-label="Zoom in"
                   >
                     <ZoomIn className='w-4 h-4' />
                   </GlassButton>
@@ -550,6 +579,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     size="sm"
                     onClick={(e) => handleRotate(-90)}
                     className="glass-p-2 glass-focus glass-touch-target"
+                    aria-label="Rotate counter-clockwise"
                   >
                     <RotateCcw className='w-4 h-4' />
                   </GlassButton>
@@ -559,6 +589,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     size="sm"
                     onClick={(e) => handleRotate(90)}
                     className="glass-p-2 glass-focus glass-touch-target"
+                    aria-label="Rotate clockwise"
                   >
                     <RotateCw className='w-4 h-4' />
                   </GlassButton>
@@ -571,6 +602,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   size="sm"
                   onClick={handleDownload}
                   className="glass-p-2 glass-focus glass-touch-target"
+                  aria-label="Download image"
                 >
                   <Download className='w-4 h-4' />
                 </GlassButton>
@@ -582,6 +614,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   size="sm"
                   onClick={handleFullscreenToggle}
                   className="glass-p-2 glass-focus glass-touch-target"
+                  aria-label="Toggle fullscreen"
                 >
                   {isFullscreen ? (
                     <Minimize2 className='w-4 h-4' />
@@ -594,7 +627,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
           </div>
 
           {/* Auto-play Controls */}
-          {enableNavigation && images.length > 1 && (
+          {enableNavigation && safeImageCount > 1 && (
             <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2'>
               <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/50 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-px-4 glass-py-2 glass-contrast-guard">
                 <GlassButton
@@ -602,6 +635,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   size="sm"
                   onClick={(e) => setIsAutoPlaying(!isAutoPlaying)}
                   className="glass-p-1 glass-focus glass-touch-target"
+                  aria-label={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
                 >
                   {isAutoPlaying ? (
                     <Pause className='w-4 h-4' />
@@ -611,7 +645,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                 </GlassButton>
 
                 <div className="glass-flex glass-gap-1">
-                  {images.map((_, index) => (
+                  {safeImages.map((_, index) => (
                     <button
                       key={index}
                       onClick={(e) => handleImageChange(index)}
@@ -619,6 +653,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                         "w-2 h-2 glass-radius-full transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard",
                         index === currentIndex ? "bg-white" : "bg-white/40"
                       )}
+                      aria-label={`Go to image ${index + 1}`}
                     />
                   ))}
                 </div>
@@ -638,6 +673,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   setPan({ x: 0, y: 0 });
                 }}
                 className="glass-p-2 glass-focus glass-touch-target"
+                aria-label="Reset view"
               >
                 <Home className='w-4 h-4' />
               </GlassButton>

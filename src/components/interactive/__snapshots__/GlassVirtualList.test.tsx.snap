@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassVirtualList matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full"
+  data-glass-component="true"
+>
+  <div
+    class="relative overflow-auto scroll-smooth"
+    style="height: 300px;"
+  >
+    <div
+      class="relative"
+      style="height: 150px;"
+    >
+      <div
+        class="absolute top-0 left-0 right-0"
+        style="transform: translateY(0px);"
+      >
+        <div
+          style="height: 50px;"
+        >
+          <div>
+            Item 1
+          </div>
+        </div>
+        <div
+          style="height: 50px;"
+        >
+          <div>
+            Item 2
+          </div>
+        </div>
+        <div
+          style="height: 50px;"
+        >
+          <div>
+            Item 3
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

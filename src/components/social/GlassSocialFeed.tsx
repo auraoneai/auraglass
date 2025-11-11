@@ -96,6 +96,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
     const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set());
     const [simulatedPosts, setSimulatedPosts] = useState(posts);
     const id = useA11yId("glass-social-feed");
+    const sortSelectId = useA11yId("glass-social-sort");
 
     // Motion preference hook
     const { shouldAnimate } = useMotionPreference();
@@ -275,14 +276,14 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
 
             <div className="glass-flex-1 glass-min-w-0">
               <div className='glass-flex glass-items-center space-x-2'>
-                <h4
+                <h3
                   className={`
                   font-semibold text-white/90 truncate
                   ${compactMode ? "text-sm" : "text-base"}
                 `}
                 >
                   {post.author.name}
-                </h4>
+                </h3>
                 <span
                   className={`
                   text-white/60
@@ -482,12 +483,17 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                   <span>Live</span>
                 </div>
               )}
+              <label htmlFor={sortSelectId} className='sr-only'>
+                Sort posts by
+              </label>
               <select
+                id={sortSelectId}
                 value={sortBy}
                 onChange={(e) => {
                   /* Would update sortBy in real implementation */
                 }}
                 className='glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-px-2 glass-py-1 text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+                aria-label="Sort posts by"
               >
                 <option value="timestamp">Latest</option>
                 <option value="likes">Most Liked</option>

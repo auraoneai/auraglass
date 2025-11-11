@@ -74,7 +74,10 @@ describe("GlassTooltip", () => {
       const user = userEvent.setup();
       await user.hover(trigger!);
       
-      // Now check for tooltip element
+      // Wait for tooltip to appear
+      await new Promise(resolve => setTimeout(resolve, 400));
+      
+      // Now check for tooltip element with role
       const tooltip = container.querySelector('[role="tooltip"]');
       expect(tooltip).toBeInTheDocument();
     });

@@ -18,11 +18,14 @@ exports[`GlassBiomeSimulator matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="biome-select"
         >
           Biome:
         </label>
         <select
+          aria-label="Select biome type"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+          id="biome-select"
         >
           <option
             value="forest"
@@ -71,11 +74,14 @@ exports[`GlassBiomeSimulator matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="biome-season-select"
         >
           Season:
         </label>
         <select
+          aria-label="Select season"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+          id="biome-season-select"
         >
           <option
             value="spring"
@@ -104,11 +110,14 @@ exports[`GlassBiomeSimulator matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="biome-time-range"
         >
           Time:
         </label>
         <input
+          aria-label="Adjust time of day"
           class="w-20"
+          id="biome-time-range"
           max="24"
           min="0"
           step="0.5"

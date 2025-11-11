@@ -637,7 +637,7 @@ export const GlassSpatialAudio: React.FC<GlassSpatialAudioProps> = ({
         {...rest}
       >
         {children ?? (
-          <span className="sr-only">Glass spatial audio provider active</span>
+          <span className='sr-only'>Glass spatial audio provider active</span>
         )}
       </div>
     </GlassSpatialAudioProvider>

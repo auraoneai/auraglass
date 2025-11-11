@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassStep matches snapshot 1`] = `
+<div
+  class="motion-primitive"
+  data-glass-component="true"
+>
+  <div
+    aria-disabled="false"
+    aria-label="Step 1: Step 1"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-medium flex items-center relative flex-1 glass-p-2 transition-all duration-300 ease-in-out cursor-default flex-row text-left"
+    role="listitem"
+    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    tabindex="-1"
+  >
+    <div
+      class="motion-primitive inline-block"
+      data-glass-component="true"
+    >
+      <div
+        aria-hidden="true"
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-medium w-6 h-6 min-w-6 glass-radius-full flex items-center justify-center relative z-[1] flex-shrink-0 glass-text-xs font-semibold transition-all duration-300 ease-in-out border bg-gray-200 glass-text-secondary border-gray-200 dark:bg-gray-700 dark:glass-text-secondary dark:border-gray-600"
+        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        1
+      </div>
+    </div>
+    <div
+      class="motion-primitive glass-ml-2 transition-all duration-300 ease-in-out"
+      data-glass-component="true"
+    >
+      <span
+        class="glass-text-sm leading-tight transition-all duration-300 ease-in-out glass-text-secondary font-normal dark:glass-text-secondary"
+      >
+        Step 1
+      </span>
+    </div>
+  </div>
+</div>
+`;

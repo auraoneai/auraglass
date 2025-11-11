@@ -55,7 +55,7 @@ describe("GlassChart", () => {
    */
   describe("ARIA Attributes", () => {
     it("supports aria-label", () => {
-      const { container } = render(<GlassChart aria-label="Test component" />);
+      const { container } = render(<GlassChart type="bar" data={mockData} aria-label="Test component" />);
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });

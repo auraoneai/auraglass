@@ -250,6 +250,8 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
             border={variant === "floating" ? "gradient" : "subtle"}
             animation="none"
             performanceMode="medium"
+            role="navigation"
+            aria-label={props['aria-label'] || "Main navigation"}
             className={cn(
               "h-screen max-h-screen flex flex-col transition-colors overflow-visible",
               widthClasses?.[width],

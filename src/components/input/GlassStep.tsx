@@ -65,12 +65,21 @@ export const GlassStep = forwardRef<HTMLDivElement, GlassStepInternalProps>((
   ref // Receive the forwarded ref
 ) => {
   const isClickable = !!onClick;
-  const isDisabled = step.disabled || false;
   const finalOrientation = orientation || 'horizontal';
+
+  const fallbackStep: Step = {
+    id: `step-${index}`,
+    title: `Step ${index + 1}`,
+    label: `Step ${index + 1}`,
+    disabled: true,
+  };
+  const safeStep = step ?? fallbackStep;
+  const isDisabled = safeStep.disabled ?? false;
+  const safeLabelText = safeStep.label || safeStep.title;
 
   const handleClick = () => {
     if (onClick && !isDisabled) {
-      onClick(step);
+      onClick(safeStep);
     }
   };
 
@@ -92,7 +101,7 @@ export const GlassStep = forwardRef<HTMLDivElement, GlassStepInternalProps>((
         style={style}
         onClick={handleClick}
         role={isClickable ? 'button' : 'listitem'}
-        aria-label={`Step ${index + 1}: ${step.label || step.title}${active ? ' (current)' : ''}${completed ? ' (completed)' : ''}${isDisabled ? ' (disabled)' : ''}`}
+        aria-label={`Step ${index + 1}: ${safeLabelText}${active ? ' (current)' : ''}${completed ? ' (completed)' : ''}${isDisabled ? ' (disabled)' : ''}`}
         aria-current={active ? 'step' : undefined}
         aria-disabled={isDisabled}
         tabIndex={isClickable && !isDisabled ? 0 : -1}
@@ -108,14 +117,14 @@ export const GlassStep = forwardRef<HTMLDivElement, GlassStepInternalProps>((
             index={index} 
             active={active} 
             completed={completed} 
-            icon={step.icon}
+            icon={safeStep.icon}
             intent={intent}
             elevation={elevation}
             tier={tier}
         />
         {/* Use GlassStepLabel component */}
         <GlassStepLabel
-            label={step.label || step.title}
+            label={safeLabelText}
             active={active}
             completed={completed}
             orientation={finalOrientation}

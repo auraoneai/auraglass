@@ -3,6 +3,7 @@
 exports[`GlowingCard matches snapshot 1`] = `
 <div
   class="glowing-card default  "
+  data-testid="glowingcard"
   style="--glow-color: #00d4ff; --glow-intensity: 0.8; --animation-duration: 3000ms; --glow-spread: 4px; --glow-blur: 16px; position: relative; overflow: hidden; cursor: pointer; transition: none; opacity: 1; pointer-events: auto;"
 >
   <div

@@ -69,7 +69,7 @@ export function GlassStepper({
               </span>
             </button>
             {i < steps.length - 1 && (
-              <div className="w-8 h-px glass-surface-subtle/15" />
+              <div className='w-8 h-px glass-surface-subtle/15' />
             )}
           </div>
         );

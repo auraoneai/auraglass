@@ -842,7 +842,7 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
               }}
               aria-label="Weather intensity"
-              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
           </div>
 
@@ -864,9 +864,9 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
               }}
               aria-label="Temperature in Celsius"
-              className="w-20 glass-focus glass-touch-target glass-contrast-guard"
+              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
-            <span className="glass-text-sm min-w-[3ch]">
+            <span className='glass-text-sm min-w-[3ch]'>
               {currentWeather.temperature}°C
             </span>
           </div>
@@ -921,7 +921,7 @@ export const GlassWeatherGlass = forwardRef<
         >
           {renderControls()}
 
-          <div className="relative">
+          <div className='relative'>
             <canvas
               ref={canvasRef}
               width={width}

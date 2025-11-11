@@ -1429,16 +1429,16 @@ function ContextualEngineSummary() {
     >
       <div className="glass-flex glass-items-center glass-justify-between">
         <div>
-          <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+          <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
             Contextual Engine
           </p>
-          <h2 className="glass-text-xl glass-text-primary font-semibold">
+          <h2 className='glass-text-xl glass-text-primary font-semibold'>
             {isAdapting ? "Adaptive Mode" : "Learning Mode"}
           </h2>
         </div>
         <div className="glass-text-right">
           <p className="glass-text-xs glass-text-tertiary">Battery</p>
-          <p className="glass-text-lg glass-text-primary font-medium">
+          <p className='glass-text-lg glass-text-primary font-medium'>
             {device?.batteryLevel
               ? `${Math.round(device.batteryLevel * 100)}%`
               : "—"}
@@ -1448,10 +1448,10 @@ function ContextualEngineSummary() {
 
       <div className="glass-grid glass-grid-cols-2 glass-gap-3">
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className="glass-text-xs glass-text-tertiary mb-1">
+          <p className='glass-text-xs glass-text-tertiary mb-1'>
             Time of day
           </p>
-          <p className="glass-text-lg glass-text-primary font-medium capitalize">
+          <p className='glass-text-lg glass-text-primary font-medium capitalize'>
             {environment?.timeOfDay || "detecting"}
           </p>
           <p className="glass-text-xs glass-text-secondary">
@@ -1459,8 +1459,8 @@ function ContextualEngineSummary() {
           </p>
         </div>
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className="glass-text-xs glass-text-tertiary mb-1">Motion</p>
-          <p className="glass-text-lg glass-text-primary font-medium capitalize">
+          <p className='glass-text-xs glass-text-tertiary mb-1'>Motion</p>
+          <p className='glass-text-lg glass-text-primary font-medium capitalize'>
             {device?.deviceMotion || "idle"}
           </p>
           <p className="glass-text-xs glass-text-secondary">
@@ -1472,7 +1472,7 @@ function ContextualEngineSummary() {
       </div>
 
       <div>
-        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2">
+        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2'>
           Active adaptations
         </p>
         <div className="glass-flex glass-flex-wrap glass-gap-2">

@@ -24,7 +24,12 @@ export const GlassFocusRing: React.FC<GlassFocusRingProps> = ({
   className,
   // Extract other potential UseGlassFocusOptions if needed
 }) => {
-  const child = React.Children.only(children);
+  const childNodes = React.Children.toArray(children);
+  const child = childNodes.length === 1 ? childNodes[0] : (
+    <span className={styles.placeholder} aria-hidden>
+      {childNodes}
+    </span>
+  );
 
   // Determine effective color (fallback to accessibility token)
   const effectiveColor = color ?? ACCESSIBILITY.focusRing.color;

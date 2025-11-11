@@ -32,11 +32,14 @@ exports[`GlassVortexPortal matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="vortex-type-select"
         >
           Type:
         </label>
         <select
+          aria-label="Select vortex type"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+          id="vortex-type-select"
         >
           <option
             value="dimensional"
@@ -70,11 +73,14 @@ exports[`GlassVortexPortal matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="vortex-color-select"
         >
           Color:
         </label>
         <select
+          aria-label="Select color scheme"
           class="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20"
+          id="vortex-color-select"
         >
           <option
             value="blue"
@@ -113,11 +119,14 @@ exports[`GlassVortexPortal matches snapshot 1`] = `
       >
         <label
           class="glass-text-sm"
+          for="vortex-intensity-range"
         >
           Intensity:
         </label>
         <input
+          aria-label="Adjust vortex intensity"
           class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          id="vortex-intensity-range"
           max="1"
           min="0"
           step="0.1"

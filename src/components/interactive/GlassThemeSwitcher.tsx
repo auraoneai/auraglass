@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   Check,
@@ -72,7 +72,7 @@ export interface GlassThemeSwitcherProps {
  */
 export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
   currentTheme = "light",
-  themes,
+  themes = [],
   enableSystemTheme = true,
   showPreview = true,
   showCustomOption = false,

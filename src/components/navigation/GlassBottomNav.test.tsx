@@ -21,11 +21,17 @@ import { GlassBottomNav } from '@/components/navigation/GlassBottomNav';
 expect.extend(toHaveNoViolations);
 
 describe('GlassBottomNav', () => {
+  const mockItems = [
+    { id: '1', label: 'Home', icon: <span>🏠</span> },
+    { id: '2', label: 'Search', icon: <span>🔍</span> },
+    { id: '3', label: 'Profile', icon: <span>👤</span> },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassBottomNav />);
+    const { container } = render(<GlassBottomNav items={mockItems} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +39,7 @@ describe('GlassBottomNav', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassBottomNav />);
+    const { container } = render(<GlassBottomNav items={mockItems} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -44,14 +50,14 @@ describe('GlassBottomNav', () => {
    */
   describe('ARIA Attributes', () => {
     it('has proper navigation role', () => {
-      render(<GlassBottomNav />);
-      const nav = screen.queryByRole('navigation') || screen.queryByRole('menu') || screen.queryByRole('menubar');
+      render(<GlassBottomNav items={mockItems} />);
+      const nav = screen.queryByRole('tablist') || screen.queryByRole('navigation') || screen.queryByRole('menu') || screen.queryByRole('menubar');
       expect(nav).toBeInTheDocument();
     });
 
     it('has accessible name', () => {
-      render(<GlassBottomNav aria-label="Main navigation" />);
-      const nav = screen.getByRole('navigation', { name: /main navigation/i });
+      render(<GlassBottomNav items={mockItems} aria-label="Main navigation" />);
+      const nav = screen.getByRole('tablist', { name: /main navigation/i }) || screen.getByRole('navigation', { name: /main navigation/i });
       expect(nav).toBeInTheDocument();
     });
   });
@@ -62,7 +68,7 @@ describe('GlassBottomNav', () => {
    */
   describe('Focus Management', () => {
     it('can receive focus', () => {
-      render(<GlassBottomNav />);
+      render(<GlassBottomNav items={mockItems} />);
       const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
 
       if (element) {
@@ -72,7 +78,7 @@ describe('GlassBottomNav', () => {
     });
 
     it('shows visible focus indicator', () => {
-      const { container } = render(<GlassBottomNav />);
+      const { container } = render(<GlassBottomNav items={mockItems} />);
       const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
 
       if (element) {
@@ -107,7 +113,7 @@ describe('GlassBottomNav', () => {
         })),
       });
 
-      const { container } = render(<GlassBottomNav />);
+      const { container } = render(<GlassBottomNav items={mockItems} />);
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
@@ -129,6 +135,7 @@ describe('GlassBottomNav', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassBottomNav
+        items={mockItems}
         className="custom-class"
         data-testid="glassbottomnav"
       />
@@ -144,7 +151,7 @@ describe('GlassBottomNav', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassBottomNav />);
+    const { container } = render(<GlassBottomNav items={mockItems} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

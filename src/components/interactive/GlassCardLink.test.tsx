@@ -21,11 +21,17 @@ import { GlassCardLink } from '@/components/interactive/GlassCardLink';
 expect.extend(toHaveNoViolations);
 
 describe('GlassCardLink', () => {
+  const mockProps = {
+    title: 'Test Card',
+    description: 'Test description',
+    link: '/test',
+  };
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassCardLink />);
+    const { container } = render(<GlassCardLink {...mockProps} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +39,7 @@ describe('GlassCardLink', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassCardLink />);
+    const { container } = render(<GlassCardLink {...mockProps} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -44,7 +50,7 @@ describe('GlassCardLink', () => {
    */
   describe('ARIA Attributes', () => {
     it('supports aria-label', () => {
-      const { container } = render(<GlassCardLink aria-label="Test component" />);
+      const { container } = render(<GlassCardLink {...mockProps} aria-label="Test component" />);
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
@@ -73,7 +79,7 @@ describe('GlassCardLink', () => {
         })),
       });
 
-      const { container } = render(<GlassCardLink />);
+      const { container } = render(<GlassCardLink {...mockProps} />);
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
@@ -95,6 +101,7 @@ describe('GlassCardLink', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassCardLink
+        {...mockProps}
         className="custom-class"
         data-testid="glasscardlink"
       />
@@ -110,7 +117,7 @@ describe('GlassCardLink', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassCardLink />);
+    const { container } = render(<GlassCardLink {...mockProps} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

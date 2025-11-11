@@ -20,6 +20,7 @@ export interface AdvancedAudioPlayerProps {
   onEnded?: () => void;
   onError?: (error: string) => void;
   playlist?: MediaFile[];
+  "data-testid"?: string; // Add data-testid to props
 }
 
 interface WaveformProps {
@@ -453,23 +454,24 @@ const TranscriptPanel: React.FC<{
   );
 };
 
-export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
-  mediaFile,
-  className,
-  variant = "full",
-  showTranscript = false,
-  showPlaylist = false,
-  showWaveform = false,
-  showLyrics = false,
-  autoplay = false,
-  loop = false,
-  preload = "metadata",
-  visualizerType = "bars",
-  onTimeUpdate,
-  onEnded,
-  onError,
-  playlist = [],
-}) => {
+export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (props) => {
+  const {
+    mediaFile,
+    className,
+    variant = "full",
+    showTranscript = false,
+    showPlaylist = false,
+    showWaveform = false,
+    showLyrics = false,
+    autoplay = false,
+    loop = false,
+    preload = "metadata",
+    visualizerType = "bars",
+    onTimeUpdate,
+    onEnded,
+    onError,
+    playlist = [],
+  } = props;
   const {
     playbackState,
     setPlaybackState,
@@ -750,6 +752,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
             value={isMuted ? 0 : volume}
             onChange={(e) => handleVolumeChange(Number(e.target.value))}
             className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+            aria-label="Volume"
           />
         </div>
 
@@ -759,6 +762,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
             value={playbackRate}
             onChange={(e) => setPlaybackRate(Number(e.target.value))}
             className="glass-text-sm glass-border glass-border-subtle glass-radius glass-px-2 glass-py-1 glass-focus glass-touch-target glass-contrast-guard"
+            aria-label="Playback speed"
           >
             <option value={0.5}>0.5x</option>
             <option value={0.75}>0.75x</option>
@@ -773,7 +777,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = ({
   );
 
   return (
-    <Glass className={cn("overflow-hidden", className)}>
+    <Glass className={cn("overflow-hidden", className)} data-testid={props['data-testid']}>
       <div className="glass-flex">
         {/* Main Player */}
         <div className="glass-flex-1">

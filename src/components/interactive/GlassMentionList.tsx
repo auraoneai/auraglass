@@ -32,7 +32,7 @@ export function GlassMentionList({
     >
       <ul className='max-h-60 overflow-auto'>
         {items.length === 0 ? (
-          <li className="glass-text-sm glass-text-secondary glass-py-3 text-center">
+          <li className='glass-text-sm glass-text-secondary glass-py-3 text-center'>
             No mentions available.
           </li>
         ) : (

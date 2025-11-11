@@ -163,7 +163,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
         aria-labelledby={splitPaneLabelId}
         {...props}
       >
-        <span id={splitPaneLabelId} className="sr-only">
+        <span id={splitPaneLabelId} className='sr-only'>
           {ariaLabel}
         </span>
         {/* Left/Top Pane */}
@@ -172,7 +172,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           role="region"
           aria-labelledby={leftPaneLabelId}
         >
-          <span id={leftPaneLabelId} className="sr-only">
+          <span id={leftPaneLabelId} className='sr-only'>
             {direction === "horizontal" ? "Left pane" : "Top pane"}
           </span>
           {left}
@@ -211,7 +211,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           role="region"
           aria-labelledby={rightPaneLabelId}
         >
-          <span id={rightPaneLabelId} className="sr-only">
+          <span id={rightPaneLabelId} className='sr-only'>
             {direction === "horizontal" ? "Right pane" : "Bottom pane"}
           </span>
           {right}

@@ -336,7 +336,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
           <Glass className="glass-p-4 glass-radius-lg">
             <VStack space="md">
               <HStack space="sm" align="center" justify="between">
-                <h3 className="glass-text-sm font-medium text-primary">
+                <h3 className='glass-text-sm font-medium text-primary'>
                   Filters
                 </h3>
                 <GlassButton
@@ -349,10 +349,10 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                 </GlassButton>
               </HStack>
 
-              <div className="glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 glass-gap-4">
+              <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 glass-gap-4'>
                 {filters.map((filter) => (
                   <div key={filter.id}>
-                    <label className="block glass-text-sm font-medium text-primary mb-2">
+                    <label className='block glass-text-sm font-medium text-primary mb-2'>
                       {filter.label}
                     </label>
 
@@ -365,7 +365,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                             [filter.id]: e.target.value,
                           })
                         }
-                        className="glass-w-full glass-px-3 glass-py-2 bg-background glass-border glass-border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        className='glass-w-full glass-px-3 glass-py-2 bg-background glass-border glass-border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary'
                       >
                         <option value="">
                           {filter.placeholder || "Select..."}
@@ -389,7 +389,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                           })
                         }
                         placeholder={filter.placeholder}
-                        className="glass-w-full glass-px-3 glass-py-2 bg-background glass-border glass-border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        className='glass-w-full glass-px-3 glass-py-2 bg-background glass-border glass-border-glass-border glass-radius-md focus:outline-none focus:ring-2 focus:ring-primary'
                       />
                     )}
                   </div>
@@ -474,11 +474,11 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             ) : (
               <GlassCard
                 variant="default"
-                className="glass-h-full cursor-pointer hover:shadow-lg transition-shadow"
+                className='glass-h-full cursor-pointer hover:shadow-lg transition-shadow'
                 onClick={(e) => onRowClick?.(item)}
               >
                 <VStack space="sm">
-                  <div className="glass-text-sm font-medium text-primary">
+                  <div className='glass-text-sm font-medium text-primary'>
                     {item?.name || item?.title || item?.id}
                   </div>
                   <div className="glass-text-xs glass-text-secondary">
@@ -498,7 +498,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
         {currentPageData.map((item, index) => (
           <div
             key={item?.id}
-            className="animate-fade-in-up"
+            className='animate-fade-in-up'
             style={{
               animationDelay: `${Math.min(index, 10) * 50}ms`,
               animationFillMode: "both",
@@ -509,7 +509,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             ) : (
               <GlassCard
                 variant="outlined"
-                className="glass-foundation-complete glass-glass-glass-backdrop-blur-md bg-transparent glass-border-white/40 glass-shadow-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all glass-focus glass-touch-target glass-contrast-guard"
+                className='glass-foundation-complete glass-glass-glass-backdrop-blur-md bg-transparent glass-border-white/40 glass-shadow-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all glass-focus glass-touch-target glass-contrast-guard'
                 onClick={(e) => onRowClick?.(item)}
               >
                 <HStack space="md" align="center">
@@ -524,15 +524,15 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                         handleSelectionChange(newSelection);
                       }}
                       onClick={(e) => e.stopPropagation()}
-                      className="glass-radius-md glass-border-glass-border focus:ring-primary"
+                      className='glass-radius-md glass-border-glass-border focus:ring-primary'
                     />
                   )}
 
                   <VStack space="xs" className="glass-flex-1">
-                    <div className="glass-text-sm font-medium text-primary">
+                    <div className='glass-text-sm font-medium text-primary'>
                       {item?.name || item?.title || item?.id}
                     </div>
-                    <div className="glass-text-xs text-primary/70">
+                    <div className='glass-text-xs text-primary/70'>
                       {item?.description || "No description"}
                     </div>
                   </VStack>
@@ -554,8 +554,8 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     const renderContent = () => {
       if (loading) {
         return (
-          <div className="glass-flex glass-items-center glass-justify-center h-64">
-            <div className="w-8 h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin" />
+          <div className='glass-flex glass-items-center glass-justify-center h-64'>
+            <div className='w-8 h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
           </div>
         );
       }
@@ -563,8 +563,8 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       if ((currentPageData?.length || 0) === 0) {
         return (
           emptyState || (
-            <div className="glass-flex glass-flex-col glass-items-center glass-justify-center h-64 text-center">
-              <div className="glass-text-lg font-medium glass-text-secondary mb-2">
+            <div className='glass-flex glass-flex-col glass-items-center glass-justify-center h-64 text-center'>
+              <div className='glass-text-lg font-medium glass-text-secondary mb-2'>
                 No items found
               </div>
               <div className="glass-text-sm glass-text-secondary">
@@ -620,7 +620,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
               onChange={onSearchChange}
               showFilters={false}
               showCategories={false}
-              className="w-64"
+              className='w-64'
             />
           }
         />

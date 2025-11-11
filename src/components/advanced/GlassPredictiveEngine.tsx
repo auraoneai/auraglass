@@ -1105,10 +1105,10 @@ function PredictiveEngineSummary() {
       data-testid="glass-predictive-engine-summary"
     >
       <div>
-        <p className="glass-text-xs glass-text-tertiary uppercase tracking-wide">
+        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
           Predictive Engine
         </p>
-        <h2 className="glass-text-2xl glass-text-primary font-semibold">
+        <h2 className='glass-text-2xl glass-text-primary font-semibold'>
           {topPrediction ? topPrediction.type : "Monitoring behavior"}
         </h2>
         <p className="glass-text-sm glass-text-secondary">
@@ -1117,16 +1117,16 @@ function PredictiveEngineSummary() {
       </div>
       <div className="glass-grid glass-grid-cols-2 glass-gap-3">
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className="glass-text-xs glass-text-tertiary mb-1">
+          <p className='glass-text-xs glass-text-tertiary mb-1'>
             Predictions
           </p>
-          <p className="glass-text-lg glass-text-primary font-semibold">
+          <p className='glass-text-lg glass-text-primary font-semibold'>
             {predictions.length}
           </p>
         </div>
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className="glass-text-xs glass-text-tertiary mb-1">Insights</p>
-          <p className="glass-text-lg glass-text-primary font-semibold">
+          <p className='glass-text-xs glass-text-tertiary mb-1'>Insights</p>
+          <p className='glass-text-lg glass-text-primary font-semibold'>
             {insights.length}
           </p>
         </div>

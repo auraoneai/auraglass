@@ -5,12 +5,24 @@ import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
 import { AnimatePresence, motion } from "framer-motion";
 
-export const PageTransitionDemo: React.FC = () => {
+export interface PageTransitionDemoProps {
+  className?: string;
+  'data-testid'?: string;
+}
+
+export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({ 
+  className,
+  'data-testid': dataTestId,
+}) => {
   const prefersReducedMotion = useReducedMotion();
   const [page, setPage] = useState(0);
 
   return (
-    <div style={{ position: "relative", width: 520, height: 320 }}>
+    <div 
+      className={cn("relative", className)}
+      data-testid={dataTestId}
+      style={{ position: "relative", width: 520, height: 320 }}
+    >
       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
         <button
           onClick={(e) => setPage(0)}

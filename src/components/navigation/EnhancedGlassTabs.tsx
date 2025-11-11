@@ -492,7 +492,7 @@ export const EnhancedGlassTabs = forwardRef<
                   <span>{tab.label}</span>
                   {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
                     <span
-                      className="glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-radius-full"
+                      className='glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-radius-full'
                       style={{ backgroundColor: colors.activeColor }}
                     >
                       {tab.badgeCount > 99 ? "99+" : tab.badgeCount}

@@ -142,6 +142,7 @@ export const GlassToggle = React.forwardRef<
       className,
       shape = "glass-radius-md",
       animation = "scale",
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -260,6 +261,7 @@ export const GlassToggle = React.forwardRef<
           animation="none"
           performanceMode="medium"
           ref={ref as any}
+          data-testid={dataTestId || "glasstoggle"}
           className={cn(
             "relative flex items-center justify-center glass-gap-2 font-medium",
             "focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent",
