@@ -33,7 +33,7 @@ export const auraTokens = {
         "id": "auraglass-default",
         "displayName": "AuraGlass Default",
         "description": "Baseline AuraGlass persona with light and dark modes driven by canonical design tokens.",
-        "version": "2.0.39",
+        "version": "2.0.98",
         "modes": [
           "light",
           "dark"
