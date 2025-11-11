@@ -602,19 +602,19 @@ export const GlassChat: React.FC<GlassChatProps> = ({
             </div>
 
             <div className="glass-flex glass-items-center glass-gap-2">
-              <GlassButton variant="ghost" size="sm" className="glass-p-2">
+              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="Search messages">
                 <Search className='w-4 h-4' />
               </GlassButton>
 
-              <GlassButton variant="ghost" size="sm" className="glass-p-2">
+              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="Start voice call">
                 <Phone className='w-4 h-4' />
               </GlassButton>
 
-              <GlassButton variant="ghost" size="sm" className="glass-p-2">
+              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="Start video call">
                 <Video className='w-4 h-4' />
               </GlassButton>
 
-              <GlassButton variant="ghost" size="sm" className="glass-p-2">
+              <GlassButton variant="ghost" size="sm" className="glass-p-2" aria-label="More options">
                 <MoreVertical className='w-4 h-4' />
               </GlassButton>
             </div>
@@ -862,6 +862,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                                   setShowEmojiPicker(!showEmojiPicker)
                                 }
                                 className="glass-p-1"
+                                aria-label="Add reaction"
                               >
                                 <Smile className='w-3 h-3' />
                               </GlassButton>
@@ -973,6 +974,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                         size="sm"
                         onClick={(e) => removeAttachment(index)}
                         className='glass-p-1 h-auto'
+                        aria-label={`Remove attachment ${file.name}`}
                       >
                         <X className='w-3 h-3' />
                       </GlassButton>
@@ -990,6 +992,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                     size="sm"
                     onClick={handleFileAttachment}
                     className="glass-p-2"
+                    aria-label="Attach file"
                   >
                     <Paperclip className='w-4 h-4' />
                   </GlassButton>
@@ -1002,6 +1005,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                     size="sm"
                     onClick={handleVoiceToggle}
                     className="glass-p-2"
+                    aria-label={isRecording ? "Stop recording" : "Start voice recording"}
                   >
                     {isRecording ? (
                       <MicOff className='w-4 h-4' />
@@ -1049,6 +1053,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                     size="sm"
                     onClick={(e) => setShowEmojiPicker(!showEmojiPicker)}
                     className='absolute right-2 glass-top-1/2 transform -translate-y-1/2 glass-p-1'
+                    aria-label="Open emoji picker"
                   >
                     <Smile className='w-4 h-4' />
                   </GlassButton>
@@ -1077,6 +1082,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                   data-urgency={conversationInsights?.urgency}
                   data-has-attachments={attachments.length > 0}
                   data-message-length={newMessage.trim().length}
+                  aria-label="Send message"
                 >
                   <Send className='w-4 h-4' />
                 </GlassButton>

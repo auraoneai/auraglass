@@ -37,7 +37,7 @@ export interface GlassUserPresenceProps {
   /**
    * List of users to display
    */
-  users: UserPresence[];
+  users?: UserPresence[];
   /**
    * Show online count
    */
@@ -98,7 +98,7 @@ export interface GlassUserPresenceProps {
  */
 export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
   currentUser,
-  users,
+  users = [],
   showOnlineCount = true,
   showRoles = false,
   showLocations = false,
@@ -331,6 +331,7 @@ export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
                           onClick={(e) => handleStatusChange(status)}
                           className="glass-p-2"
                           title={config.label}
+                          aria-label={`Set status to ${config.label}`}
                         >
                           <IconComponent className='w-3 h-3' />
                         </GlassButton>
@@ -641,6 +642,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
               onUserAction?.(user.id, "message");
             }}
             className="glass-p-1"
+            aria-label={`Send message to ${user.name}`}
           >
             <MessageCircle className='w-3 h-3' />
           </GlassButton>
@@ -653,6 +655,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
               onUserAction?.(user.id, "call");
             }}
             className="glass-p-1"
+            aria-label={`Call ${user.name}`}
           >
             <Phone className='w-3 h-3' />
           </GlassButton>
@@ -665,6 +668,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
               onUserAction?.(user.id, "video");
             }}
             className="glass-p-1"
+            aria-label={`Start video call with ${user.name}`}
           >
             <Video className='w-3 h-3' />
           </GlassButton>
@@ -674,6 +678,7 @@ const UserPresenceItem: React.FC<UserPresenceItemProps> = ({
             size="sm"
             onClick={(e) => e.stopPropagation()}
             className="glass-p-1"
+            aria-label={`More options for ${user.name}`}
           >
             <MoreHorizontal className='w-3 h-3' />
           </GlassButton>

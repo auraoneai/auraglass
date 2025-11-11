@@ -672,6 +672,7 @@ const GlassFileExplorer = React.forwardRef<
                                     variant="ghost"
                                     size="sm"
                                     onClick={handleRenameSubmit}
+                                    aria-label="Confirm rename"
                                   >
                                     <Check className="w-4 h-4" />
                                   </GlassButton>
@@ -679,6 +680,7 @@ const GlassFileExplorer = React.forwardRef<
                                     variant="ghost"
                                     size="sm"
                                     onClick={(e) => setRenamingFile(null)}
+                                    aria-label="Cancel rename"
                                   >
                                     <X className="w-4 h-4" />
                                   </GlassButton>
@@ -710,6 +712,7 @@ const GlassFileExplorer = React.forwardRef<
                           // Simple action - could be expanded to show a menu
                           handleContextMenuAction("open", file);
                         }}
+                        aria-label={`More options for ${file.name}`}
                       >
                         <MoreVertical className="w-3 h-3" />
                       </GlassButton>

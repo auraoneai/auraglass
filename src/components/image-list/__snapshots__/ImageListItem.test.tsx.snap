@@ -1,15 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ImageListItem matches snapshot 1`] = `
-<li
-  aria-label="Image in gallery"
-  class="item galileo-image-list-item"
-  role="listitem"
-  style="--image-item-col-span: 1; --image-item-row-span: 1; --image-item-scale: 1; transition: none;"
-  tabindex="-1"
+<ul
+  role="list"
 >
-  <div
-    class="media"
-  />
-</li>
+  <li
+    aria-label="Image in gallery"
+    class="item galileo-image-list-item"
+    role="listitem"
+    style="--image-item-col-span: 1; --image-item-row-span: 1; --image-item-scale: 1; transition: none;"
+    tabindex="-1"
+  >
+    <div
+      class="media"
+    />
+  </li>
+</ul>
 `;

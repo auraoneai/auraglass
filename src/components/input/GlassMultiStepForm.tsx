@@ -30,7 +30,7 @@ export interface GlassMultiStepFormProps {
   /**
    * Form steps configuration
    */
-  steps: FormStep[];
+  steps?: FormStep[];
   /**
    * Initial form data
    */
@@ -137,7 +137,7 @@ export const useFormContext = () => {
  * A comprehensive multi-step form with validation, progress tracking, and smooth transitions
  */
 export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
-  steps,
+  steps = [],
   initialData = {},
   onSubmit,
   onCancel,

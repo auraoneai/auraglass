@@ -297,6 +297,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                 intensity="medium"
                 tint="neutral"
                 border="subtle"
+                aria-label="Previous month"
               >
                 <ChevronLeft className='w-4 h-4 glass-focus glass-touch-target glass-contrast-guard' />
               </GlassButton>
@@ -323,6 +324,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                 intensity="medium"
                 tint="neutral"
                 border="subtle"
+                aria-label="Next month"
               >
                 <ChevronRight className='w-4 h-4 glass-focus glass-touch-target glass-contrast-guard' />
               </GlassButton>
@@ -397,6 +399,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                         "glass-text-primary/90": isCurrentMonth(date),
                       }
                     )}
+                    aria-label={`Select date ${date.toLocaleDateString(locale, { month: "long", day: "numeric", year: "numeric" })}`}
                   >
                     <span className='glass-body font-medium leading-none glass-touch-target glass-contrast-guard'>
                       {date.getDate()}

@@ -93,6 +93,7 @@ exports[`GlassMasonryGrid matches snapshot 1`] = `
         Sort:
       </span>
       <select
+        aria-label="Sort items"
         class="glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius text-primary/90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
       >
         <option

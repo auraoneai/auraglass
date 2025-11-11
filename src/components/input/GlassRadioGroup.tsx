@@ -24,7 +24,7 @@ export interface GlassRadioGroupProps {
   /**
    * Radio options
    */
-  options: RadioOption[];
+  options?: RadioOption[];
   /**
    * Selected value
    */
@@ -164,7 +164,7 @@ const useRadioGroupContext = () => {
 export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
   (
     {
-      options,
+      options = [],
       value: controlledValue,
       defaultValue,
       onValueChange,

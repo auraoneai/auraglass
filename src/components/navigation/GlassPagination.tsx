@@ -301,7 +301,7 @@ export const GlassPagination: React.FC<GlassPaginationProps> = ({
           {pageNumbers.map((page, index) => (
             <React.Fragment key={index}>
               {page === "..." ? (
-                <GlassPaginationItem disabled size={size}>
+                <GlassPaginationItem disabled size={size} ariaLabel="More pages">
                   <MoreHorizontal className='w-4 h-4' />
                 </GlassPaginationItem>
               ) : (

@@ -1,3 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GlassCommandBar matches snapshot 1`] = `null`;
+exports[`GlassCommandBar matches snapshot 1`] = `
+<div
+  class="w-full glass-mb-2"
+>
+  <div
+    aria-label="Command bar"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-radius-xl glass-px-2 glass-py-1 flex flex-wrap glass-gap-1 overflow-visible"
+    id="command-bar-:r6:"
+    role="toolbar"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  />
+</div>
+`;

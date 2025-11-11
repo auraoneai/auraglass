@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassGanttChart matches snapshot 1`] = `
+<div
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-gantt-chart glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden"
+  id="glass-gantt-chart-:r3:"
+  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); height: 600px;"
+>
+  <div
+    class="motion-primitive glass-h-full glass-flex glass-flex-col"
+  >
+    <div
+      class="glass-flex glass-border-b glass-border-glass-border/20"
+    >
+      <div
+        class="w-64 glass-p-4 glass-border-r glass-border-glass-border/20 glass-surface-overlay"
+      >
+        <h3
+          class="glass-text-sm font-semibold text-primary"
+        >
+          Tasks
+        </h3>
+      </div>
+      <div
+        class="glass-flex-1 overflow-x-hidden glass-surface-overlay"
+      >
+        <div
+          class="glass-flex h-16"
+          style="width: 0px;"
+        />
+      </div>
+    </div>
+    <div
+      class="glass-flex glass-flex-1 overflow-hidden"
+    >
+      <div
+        class="w-64 glass-border-r glass-border-glass-border/20 overflow-y-hidden glass-surface-overlay"
+      >
+        <div />
+      </div>
+      <div
+        class="glass-flex-1 overflow-auto relative"
+      >
+        <div
+          class="relative"
+          style="width: 0px; height: 0px;"
+        >
+          <div
+            class="absolute inset-0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -28,7 +28,7 @@ export interface GlassCommandProps {
   /**
    * Command items to display
    */
-  items: CommandItem[];
+  items?: CommandItem[];
   /**
    * Placeholder text for search input
    */
@@ -69,6 +69,18 @@ export interface GlassCommandProps {
    * Callback when search query changes
    */
   onSearchChange?: (query: string) => void;
+  /**
+   * Custom className
+   */
+  className?: string;
+  /**
+   * Accessible label for the command palette
+   */
+  "aria-label"?: string;
+  /**
+   * Custom data-testid
+   */
+  "data-testid"?: string;
 }
 
 export interface GlassCommandDialogProps extends GlassCommandProps {
@@ -136,7 +148,7 @@ const useCommandContext = () => {
  * A glassmorphism command palette with search functionality
  */
 export const GlassCommand: React.FC<GlassCommandProps> = ({
-  items,
+  items = [],
   placeholder = "Search commands...",
   emptyMessage = "No commands found",
   loading = false,
@@ -147,6 +159,9 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
   renderEmpty,
   onSelect,
   onSearchChange,
+  className,
+  "aria-label": ariaLabel,
+  "data-testid": dataTestId,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -245,7 +260,9 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
         border="subtle"
         animation="pulse"
         performanceMode="high"
-        className="glass-radius-lg"
+        className={cn("glass-radius-lg", className)}
+        aria-label={ariaLabel}
+        data-testid={dataTestId}
       >
         <div className="glass-p-4">
           {/* Search Input */}

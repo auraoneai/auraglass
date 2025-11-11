@@ -16,7 +16,7 @@ export interface CommandItem {
 
 export interface GlassCommandBarProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  items: CommandItem[];
+  items?: CommandItem[];
   position?: "top" | "bottom";
   /**
    * Whether to respect motion preferences for animations
@@ -27,7 +27,7 @@ export interface GlassCommandBarProps
 export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
   (
     {
-      items,
+      items = [],
       position = "bottom",
       respectMotionPreference = true,
       className,

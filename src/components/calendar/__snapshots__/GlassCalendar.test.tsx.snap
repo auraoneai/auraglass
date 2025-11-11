@@ -61,6 +61,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
               class="motion-primitive inline-block"
             >
               <button
+                aria-label="Previous month"
                 class="optimized-glass-surface glass-neutral-level1 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                 data-magnet="true"
                 data-performance-mode="ultra"
@@ -111,6 +112,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
               class="motion-primitive inline-block"
             >
               <button
+                aria-label="Next month"
                 class="optimized-glass-surface glass-neutral-level1 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                 data-magnet="true"
                 data-performance-mode="ultra"
@@ -194,6 +196,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date October 26, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -207,6 +210,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date October 27, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -220,6 +224,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date October 28, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -233,6 +238,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date October 29, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -246,6 +252,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date October 30, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -259,6 +266,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date October 31, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -272,6 +280,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 1, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -285,6 +294,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 2, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -298,6 +308,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 3, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -311,6 +322,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 4, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -324,6 +336,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 5, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -337,6 +350,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 6, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -350,6 +364,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 7, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -363,6 +378,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 8, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -376,6 +392,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 9, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -389,6 +406,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 10, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -402,6 +420,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 11, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-foundation-complete glass-glass-backdrop-blur-md bg-transparent border-white/40 glass-text-primary/90"
             >
               <span
@@ -415,6 +434,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 12, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -428,6 +448,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 13, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -441,6 +462,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 14, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -454,6 +476,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 15, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -467,6 +490,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 16, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -480,6 +504,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 17, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -493,6 +518,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 18, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -506,6 +532,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 19, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -519,6 +546,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 20, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -532,6 +560,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 21, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -545,6 +574,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 22, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -558,6 +588,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 23, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -571,6 +602,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 24, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -584,6 +616,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 25, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -597,6 +630,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 26, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -610,6 +644,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 27, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -623,6 +658,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 28, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -636,6 +672,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 29, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -649,6 +686,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date November 30, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/90"
             >
               <span
@@ -662,6 +700,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date December 1, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -675,6 +714,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date December 2, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -688,6 +728,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date December 3, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -701,6 +742,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date December 4, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -714,6 +756,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date December 5, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span
@@ -727,6 +770,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             class="aspect-square"
           >
             <button
+              aria-label="Select date December 6, 2025"
               class="w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard flex flex-col items-center justify-start glass-p-1 hover:bg-white/10 focus:bg-white/15 focus:outline-none hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary/60"
             >
               <span

@@ -3,6 +3,7 @@
 exports[`GlassSwitch matches snapshot 1`] = `
 <button
   aria-checked="false"
+  aria-label="Toggle switch"
   class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 h-6 w-11 glass-focus"
   data-performance-mode="medium"
   id="glass-switch-:r7:"

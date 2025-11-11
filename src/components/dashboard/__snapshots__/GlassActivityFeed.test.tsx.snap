@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassActivityFeed matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full"
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="relative z-10"
+    >
+      <div
+        class="card-header pb-4"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <div>
+            <h3
+              class="card-title text-primary glass-text-xl font-semibold"
+            >
+              Activity Feed
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card-content pt-0"
+      >
+        <div
+          class="glass-flex glass-flex-col glass-items-center glass-justify-center glass-py-12"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-activity w-12 h-12 text-primary/40 mb-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"
+            />
+          </svg>
+          <p
+            class="text-primary/60 text-center"
+          >
+            No recent activity
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

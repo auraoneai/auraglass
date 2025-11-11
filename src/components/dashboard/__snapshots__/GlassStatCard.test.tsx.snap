@@ -22,7 +22,9 @@ exports[`GlassStatCard matches snapshot 1`] = `
           >
             <h3
               class="card-title glass-text-base font-medium glass-text-primary/90 flex items-center glass-gap-2"
-            />
+            >
+              Test Stat
+            </h3>
           </div>
         </div>
       </div>
@@ -34,7 +36,9 @@ exports[`GlassStatCard matches snapshot 1`] = `
         >
           <span
             class="glass-text-2xl font-bold glass-text-primary"
-          />
+          >
+            100
+          </span>
         </div>
       </div>
     </div>

@@ -782,6 +782,7 @@ export const GlassPatternBuilder = forwardRef<
                       : "border-border/30"
                   )}
                   style={{ backgroundColor: color }}
+                  aria-label={`Select color ${i + 1}`}
                 />
               ))}
             </div>
@@ -820,6 +821,7 @@ export const GlassPatternBuilder = forwardRef<
               value={currentZoom}
               onChange={(e) => setCurrentZoom(parseFloat(e.target.value))}
               className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              aria-label="Zoom level"
             />
             <span className='glass-text-sm min-w-[3ch]'>
               {Math.round(currentZoom * 100)}%
@@ -880,6 +882,7 @@ export const GlassPatternBuilder = forwardRef<
                         setCurrentLayers(updated);
                       }}
                       className='glass-text-xs glass-px-1 hover:glass-surface-overlay glass-radius-sm glass-focus glass-touch-target glass-contrast-guard'
+                      aria-label={layer.visible ? `Hide layer ${layer.name}` : `Show layer ${layer.name}`}
                     >
                       {layer.visible ? "👁" : "👁‍🗨"}
                     </button>
@@ -889,6 +892,7 @@ export const GlassPatternBuilder = forwardRef<
                         deleteLayer(index);
                       }}
                       className='glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm text-primary glass-focus glass-touch-target glass-contrast-guard'
+                      aria-label={`Delete layer ${layer.name}`}
                     >
                       🗑
                     </button>

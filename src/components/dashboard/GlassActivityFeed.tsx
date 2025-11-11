@@ -56,7 +56,7 @@ export interface GlassActivityFeedProps {
   /**
    * Activity items to display
    */
-  activities: ActivityItem[];
+  activities?: ActivityItem[];
   /**
    * Feed title
    */
@@ -130,7 +130,7 @@ export interface GlassActivityFeedProps {
 export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
   // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
-  activities,
+  activities = [],
   title = "Activity Feed",
   subtitle,
   maxItems,
@@ -317,6 +317,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                   value={selectedFilter}
                   onChange={(e) => setSelectedFilter(e.target.value)}
                   className='bg-glass-fill ring-1 ring-white/10 glass-radius-md glass-px-3 glass-py-1 glass-text-sm text-primary focus:outline-none focus:ring-white/30'
+                  aria-label="Filter activity feed"
                 >
                   <option value="all">All Types</option>
                   {filterOptions.slice(1).map((type: any) => (
@@ -451,6 +452,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                                 action.onClick();
                                               }}
                                               className="glass-p-1"
+                                              aria-label={action.label || `Action ${actionIndex + 1} for ${activity.title}`}
                                             >
                                               {action.icon || (
                                                 <MoreHorizontal className='w-3 h-3' />

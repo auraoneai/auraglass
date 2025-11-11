@@ -399,6 +399,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                 handleClear();
               }}
               className="glass-p-1 hover:glass-surface-subtle/20 glass-radius-md transition-colors"
+              aria-label="Clear date range"
             >
               <X className="w-3 h-3 text-primary/60" />
             </button>

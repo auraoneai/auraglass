@@ -33,7 +33,7 @@ export interface GlassChartWidgetProps {
   /**
    * Widget title
    */
-  title: string;
+  title?: string;
   /**
    * Widget subtitle/description
    */
@@ -135,7 +135,7 @@ export interface GlassChartWidgetProps {
 export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
   // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
 
-  title,
+  title = "Chart Widget",
   subtitle,
   children,
   size = "md",
@@ -306,6 +306,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       onClick={handleRefresh}
                       disabled={loading}
                       className="glass-p-2"
+                      aria-label="Refresh chart data"
                     >
                       <RefreshCw
                         className={cn("w-4 h-4", loading && "animate-spin")}
@@ -319,6 +320,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       size="sm"
                       onClick={handleDownload}
                       className="glass-p-2"
+                      aria-label="Download chart data"
                     >
                       <Download className='w-4 h-4' />
                     </GlassButton>
@@ -330,6 +332,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       size="sm"
                       onClick={handleFullscreenToggle}
                       className="glass-p-2"
+                      aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
                     >
                       {isFullscreen ? (
                         <Minimize2 className='w-4 h-4' />
@@ -348,6 +351,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       size="sm"
                       onClick={(e) => setShowActionMenu(!showActionMenu)}
                       className="glass-p-2"
+                      aria-label="Chart actions menu"
                     >
                       <MoreVertical className='w-4 h-4' />
                     </GlassButton>

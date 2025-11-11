@@ -42,7 +42,7 @@ export interface SearchSuggestion {
 }
 
 export interface IntelligentSearchProps {
-  data: SearchResult[];
+  data?: SearchResult[];
   onSearch?: (query: string, filters: Record<string, any>) => void;
   onResultClick?: (result: SearchResult) => void;
   placeholder?: string;
@@ -52,6 +52,7 @@ export interface IntelligentSearchProps {
   enableVoiceSearch?: boolean;
   maxResults?: number;
   className?: string;
+  "aria-label"?: string;
 }
 
 // NLP Query Analysis
@@ -346,6 +347,8 @@ const generateSuggestions = (
   recentSearches: string[]
 ): SearchSuggestion[] => {
   const suggestions: SearchSuggestion[] = [];
+  if (!data || data.length === 0) return suggestions;
+  
   const lowercaseQuery = query.toLowerCase();
 
   // Recent searches
@@ -403,7 +406,7 @@ const generateSuggestions = (
 };
 
 export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
-  data,
+  data = [],
   onSearch,
   onResultClick,
   placeholder = "Search with natural language...",
@@ -413,6 +416,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   enableVoiceSearch = false,
   maxResults = 50,
   className,
+  "aria-label": ariaLabel,
 }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -427,16 +431,22 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
   const suggestionRefs = useRef<(HTMLElement | null)[]>([]);
+  const isMountedRef = useRef(false);
+  const isInitialMountRef = useRef(true);
 
   const accessibility = useAccessibility();
 
-  // Generate available filters from data
+  // Generate available filters from data - memoize to prevent unnecessary recalculations
   const availableFilters = useMemo((): SearchFilter[] => {
-    const categories = [...new Set(data.map((item: any) => item.category))];
-    const allTags = data.flatMap((item) => item.tags);
+    if (!data || data.length === 0) return [];
+    
+    const categories = [...new Set(data.map((item: any) => item?.category).filter(Boolean))];
+    const allTags = data.flatMap((item) => item?.tags || []);
     const tagCounts = allTags.reduce(
       (acc, tag) => {
-        acc[tag] = (acc[tag] || 0) + 1;
+        if (tag) {
+          acc[tag] = (acc[tag] || 0) + 1;
+        }
         return acc;
       },
       {} as Record<string, number>
@@ -455,7 +465,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         options: categories.map((cat: any) => ({
           value: cat,
           label: cat,
-          count: data.filter((item: any) => item.category === cat).length,
+          count: data.filter((item: any) => item?.category === cat).length,
         })),
       },
       {
@@ -473,13 +483,39 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     ];
   }, [data]);
 
+  // Set initial mount flag and cleanup - run FIRST before any other effects
+  useEffect(() => {
+    isMountedRef.current = true;
+    isInitialMountRef.current = true;
+    
+    return () => {
+      isMountedRef.current = false;
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Debounced search
   const performSearch = useCallback(
     (searchQuery: string, currentFilters: Record<string, any>) => {
+      if (!isMountedRef.current) return;
+      
       setIsSearching(true);
 
-      clearTimeout(searchTimeoutRef.current);
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
       searchTimeoutRef.current = setTimeout(() => {
+        if (!isMountedRef.current) return;
+        
+        // Don't search if query is empty and filters are empty
+        if (!searchQuery.trim() && Object.keys(currentFilters).length === 0) {
+          setResults([]);
+          setIsSearching(false);
+          return;
+        }
+        
         const searchResults = performIntelligentSearch(
           searchQuery,
           data,
@@ -501,22 +537,60 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     [data, enableNLP, maxResults, onSearch]
   );
 
-  // Update suggestions when query changes
+  // Update suggestions when query changes - prevent infinite loops
   useEffect(() => {
+    // Skip initial mount completely
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      return;
+    }
+    
+    if (!isMountedRef.current) return;
+    
+    // Only update suggestions if query has content - don't depend on data to prevent loops
     if (query.length > 0) {
-      const newSuggestions = generateSuggestions(query, data, recentSearches);
+      // Use current data from closure, but don't include in deps
+      const currentData = data.length > 0 ? data : [];
+      const newSuggestions = generateSuggestions(query, currentData, recentSearches);
       setSuggestions(newSuggestions);
       setShowSuggestionsList(true);
     } else {
       setSuggestions([]);
       setShowSuggestionsList(false);
     }
-  }, [query, data, recentSearches]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]); // Only depend on query - data and recentSearches accessed via closure
 
-  // Perform search when query or filters change
+  // Perform search when query or filters change - use ref to avoid infinite loop
+  const performSearchRef = useRef(performSearch);
+  performSearchRef.current = performSearch;
+
   useEffect(() => {
-    performSearch(query, filters);
-  }, [query, filters, performSearch]);
+    // Skip initial mount to prevent infinite loop
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      return;
+    }
+    
+    // Only perform search if component is mounted and we have a query or filters
+    if (!isMountedRef.current) return;
+    
+    // Don't search if query is empty and filters are empty
+    if (!query.trim() && Object.keys(filters).length === 0) {
+      setResults([]);
+      setIsSearching(false);
+      return;
+    }
+    
+    // Use ref to avoid dependency on performSearch
+    performSearchRef.current(query, filters);
+    
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [query, filters]); // Only depend on query and filters
 
   const handleQueryChange = (value: string) => {
     setQuery(value);
@@ -620,6 +694,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     <div
       data-glass-component
       className={cn("w-full max-w-4xl mx-auto", className)}
+      aria-label={ariaLabel}
     >
       {/* Search Input */}
       <Glass className='relative'>

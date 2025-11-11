@@ -909,6 +909,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                                 )
                               }
                               className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+                              aria-label={`${paramName.charAt(0).toUpperCase() + paramName.slice(1)} filter parameter`}
                             />
                           ) : (
                             <input
@@ -925,6 +926,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                                 )
                               }
                               className='w-8 h-6 glass-radius glass-border glass-border-white/20'
+                              aria-label={`${paramName.charAt(0).toUpperCase() + paramName.slice(1)} color picker`}
                             />
                           )}
                         </div>
@@ -1043,6 +1045,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                       }))
                     }
                     className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+                    aria-label="Processing quality"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -1067,6 +1070,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                       }))
                     }
                     className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+                    aria-label="Frames per second"
                   />
                 </div>
               </div>

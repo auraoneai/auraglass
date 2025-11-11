@@ -17,7 +17,6 @@ exports[`GlassFileUpload matches snapshot 1`] = `
     aria-label="Drag and drop files here, or click to browse"
     class="block cursor-pointer"
     for="file-upload-input-:r3:"
-    role="button"
     tabindex="0"
   >
     <div

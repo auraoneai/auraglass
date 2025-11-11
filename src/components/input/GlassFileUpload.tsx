@@ -434,7 +434,6 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
       {/* Upload area */}
       <label
         htmlFor={inputId}
-        role="button"
         aria-label={uploadText}
         aria-describedby="file-upload-instructions"
         aria-disabled={disabled}

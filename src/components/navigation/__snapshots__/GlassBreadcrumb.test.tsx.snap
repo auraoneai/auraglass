@@ -12,7 +12,15 @@ exports[`GlassBreadcrumb matches snapshot 1`] = `
   >
     <ol
       class="glass-flex glass-items-center glass-gap-2"
-    />
+    >
+      <li
+        class="glass-flex glass-items-center"
+      >
+        <span>
+          Home
+        </span>
+      </li>
+    </ol>
   </nav>
 </div>
 `;

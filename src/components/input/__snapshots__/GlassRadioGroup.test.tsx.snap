@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassRadioGroup matches snapshot 1`] = `
+<div
+  class="relative"
+  data-glass-component="true"
+>
+  <div
+    class="flex glass-gap-3 flex-col"
+    role="radiogroup"
+  />
+</div>
+`;

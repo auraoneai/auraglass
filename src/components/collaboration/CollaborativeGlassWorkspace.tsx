@@ -27,6 +27,7 @@ interface CollaborativeGlassWorkspaceProps {
   userRole?: "admin" | "editor" | "viewer";
   userAvatar?: string;
   className?: string;
+  "aria-label"?: string;
 
   // Workspace configuration
   enableVoiceChat?: boolean;
@@ -107,6 +108,7 @@ function WorkspaceContent({
   onUserLeft,
   onElementSelected,
   onError,
+  "aria-label": ariaLabel,
 }: Omit<
   CollaborativeGlassWorkspaceProps,
   "workspaceId" | "userId" | "userName" | "userEmail"
@@ -259,6 +261,7 @@ function WorkspaceContent({
       )}
       role="main"
       aria-live="polite"
+      aria-label={ariaLabel}
     >
       {/* Workspace Header */}
       {showToolbar && (
@@ -494,6 +497,7 @@ function WorkspaceHeader({
               disabled={!canUndo}
               className='glass-p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               title="Undo"
+              aria-label="Undo last action"
             >
               <Undo className='w-4 h-4' />
             </button>
@@ -502,6 +506,7 @@ function WorkspaceHeader({
               disabled={!canRedo}
               className='glass-p-2 glass-radius hover:glass-surface-subtle/10 disabled:opacity-50 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               title="Redo"
+              aria-label="Redo last action"
             >
               <Redo className='w-4 h-4' />
             </button>
@@ -521,6 +526,7 @@ function WorkspaceHeader({
             onClick={() => setShowLayoutMenu(!showLayoutMenu)}
             className='glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary'
             title="Change Layout"
+            aria-label="Change workspace layout"
           >
             🔀
           </button>
@@ -557,6 +563,7 @@ function WorkspaceHeader({
                 : "hover:bg-white/10 text-white"
             }`}
             title={isVoiceActive ? "Leave Voice Chat" : "Join Voice Chat"}
+            aria-label={isVoiceActive ? "Leave voice chat" : "Join voice chat"}
           >
             {isVoiceActive ? (
               <Mic className='w-4 h-4' />
@@ -601,6 +608,7 @@ function WorkspaceHeader({
           onClick={onToggleSidebar}
           className='glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
           title="Toggle Sidebar"
+          aria-label="Toggle sidebar"
         >
           <Layers className='w-4 h-4' />
         </button>
@@ -608,6 +616,7 @@ function WorkspaceHeader({
           onClick={onToggleFullscreen}
           className='glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
           title="Toggle Fullscreen"
+          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
         >
           {isFullscreen ? (
             <Minimize className='w-4 h-4' />
@@ -761,6 +770,7 @@ function MultiUserGlassEditor({
                   type="number"
                   className='glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius text-primary glass-text-sm glass-touch-target glass-contrast-guard'
                   placeholder="Auto"
+                  aria-label="Width"
                 />
               </div>
               <div className="glass-flex glass-items-center glass-gap-2">
@@ -771,6 +781,7 @@ function MultiUserGlassEditor({
                   type="number"
                   className='glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius text-primary glass-text-sm glass-touch-target glass-contrast-guard'
                   placeholder="Auto"
+                  aria-label="Height"
                 />
               </div>
               <div className="glass-flex glass-items-center glass-gap-2">
@@ -783,6 +794,7 @@ function MultiUserGlassEditor({
                   max="1"
                   step="0.1"
                   className="glass-flex-1 glass-touch-target glass-contrast-guard"
+                  aria-label="Opacity"
                 />
               </div>
             </div>
@@ -911,6 +923,7 @@ function VoiceChatPanel({ isActive, voiceUsers, onClose, onToggleVoice }: any) {
         <button
           onClick={onClose}
           className='glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/70'
+          aria-label="Close voice chat panel"
         >
           ✕
         </button>
@@ -960,6 +973,7 @@ function VersionControlPanel({
         <button
           onClick={onClose}
           className='glass-contrast-guard glass-focus glass-touch-target hover:text-primary text-primary/70'
+          aria-label="Close version control panel"
         >
           ✕
         </button>
@@ -1018,6 +1032,7 @@ function WorkspaceFloatingActions({
             onClick={onShowVoicePanel}
             className='w-12 h-12 glass-radius-full glass-surface-green text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-green glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
             title="Voice Chat"
+            aria-label="Open voice chat panel"
           >
             <Mic className='w-4 h-4' />
           </button>
@@ -1028,6 +1043,7 @@ function WorkspaceFloatingActions({
             onClick={onShowVersionPanel}
             className='w-12 h-12 glass-radius-full glass-surface-blue text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
             title="Version Control"
+            aria-label="Open version control panel"
           >
             <Settings className='w-4 h-4' />
           </button>
@@ -1037,6 +1053,7 @@ function WorkspaceFloatingActions({
           onClick={onToggleFullscreen}
           className='w-12 h-12 glass-radius-full glass-surface-primary text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-subtle glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
           title="Fullscreen"
+          aria-label="Toggle fullscreen mode"
         >
           <Maximize className='w-4 h-4' />
         </button>
@@ -1047,6 +1064,7 @@ function WorkspaceFloatingActions({
         onClick={() => setIsExpanded(!isExpanded)}
         className='w-14 h-14 glass-radius-full bg-slate-700 text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:bg-slate-600 mt-2'
         style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
+        aria-label={isExpanded ? "Close floating actions menu" : "Open floating actions menu"}
       >
         {isExpanded ? "✕" : "⚡"}
       </button>

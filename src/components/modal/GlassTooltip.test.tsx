@@ -58,16 +58,25 @@ describe("GlassTooltip", () => {
    * ARIA Tests: Component has accessible name and description
    */
   describe("ARIA Attributes", () => {
-    it("supports aria-label", () => {
+    it("supports aria-label", async () => {
       const { container } = render(
         <GlassTooltip content="Tooltip content" aria-label="Test component">
           <button>Hover me</button>
         </GlassTooltip>,
         { wrapper: TestWrapper }
       );
-      // Tooltip aria-label is on the tooltip element, not the trigger
-      const element = container.querySelector('[role="tooltip"]');
-      expect(element).toBeInTheDocument();
+      // Tooltip aria-label is on the tooltip element which appears on hover
+      // Check the trigger element has aria-describedby when tooltip is visible
+      const trigger = container.querySelector('button');
+      expect(trigger).toBeInTheDocument();
+      
+      // Simulate hover to show tooltip
+      const user = userEvent.setup();
+      await user.hover(trigger!);
+      
+      // Now check for tooltip element
+      const tooltip = container.querySelector('[role="tooltip"]');
+      expect(tooltip).toBeInTheDocument();
     });
   });
 

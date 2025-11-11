@@ -103,9 +103,11 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
     const isInvalid = !!error;
 
     // Create accessibility attributes
+    // If no label or aria-label provided, use default for accessibility
+    const defaultAriaLabel = !label && !ariaLabel && !ariaLabelledBy ? "Toggle switch" : undefined;
     const a11yProps = createFormFieldA11y({
       id: finalId,
-      label: !ariaLabelledBy && !labelId ? ariaLabel || label : undefined,
+      label: !ariaLabelledBy && !labelId ? ariaLabel || label || defaultAriaLabel : undefined,
       description: description,
       error: error,
       required: required,

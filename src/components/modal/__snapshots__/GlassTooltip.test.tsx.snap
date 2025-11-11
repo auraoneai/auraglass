@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GlassTooltip matches snapshot 1`] = `
-<div
-  class="inline-block"
-/>
+<div>
+  <div
+    class="inline-block"
+  >
+    <button>
+      Hover me
+    </button>
+  </div>
+</div>
 `;

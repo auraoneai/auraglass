@@ -45,7 +45,7 @@ describe('GlassSwitch', () => {
   describe('ARIA Attributes', () => {
     it('has proper form control role', () => {
       render(<GlassSwitch id="test-input" />);
-      const element = screen.getByTestId('glassswitch') || document.querySelector('#test-input');
+      const element = document.querySelector('#test-input');
       expect(element).toBeInTheDocument();
     });
 

@@ -72,6 +72,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               data-glass-component="true"
             >
               <button
+                aria-label="Generate random gradient"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
                 id="glass-button-:rl:"
                 title="Random Gradient"
@@ -112,6 +113,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               data-glass-component="true"
             >
               <button
+                aria-label="Copy gradient to clipboard"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
                 id="glass-button-:rm:"
                 title="Copy Gradient"
@@ -168,6 +170,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               data-glass-component="true"
             >
               <button
+                aria-label="Reset gradient to default"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
                 id="glass-button-:rn:"
                 title="Reset"
@@ -260,6 +263,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             °
           </h4>
           <input
+            aria-label="Gradient angle"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
             max="360"
             min="0"
@@ -283,6 +287,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               data-glass-component="true"
             >
               <button
+                aria-label="Add color stop"
                 class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
                 id="glass-button-:rr:"
               >
@@ -319,6 +324,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               class="flex items-center glass-gap-3 glass-p-3 glass-radius-lg border transition-all border-white/20 bg-white/5"
             >
               <input
+                aria-label="Color stop 1 color picker"
                 class="w-8 h-8 glass-radius-md glass-border glass-border-white/20 cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
                 value="var(--glass-color-primary)"
@@ -327,6 +333,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 class="glass-flex-1"
               >
                 <input
+                  aria-label="Color stop 1 position"
                   class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                   max="100"
                   min="0"
@@ -346,6 +353,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               class="flex items-center glass-gap-3 glass-p-3 glass-radius-lg border transition-all border-white/20 bg-white/5"
             >
               <input
+                aria-label="Color stop 2 color picker"
                 class="w-8 h-8 glass-radius-md glass-border glass-border-white/20 cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
                 value="#8b5cf6"
@@ -354,6 +362,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 class="glass-flex-1"
               >
                 <input
+                  aria-label="Color stop 2 position"
                   class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                   max="100"
                   min="0"

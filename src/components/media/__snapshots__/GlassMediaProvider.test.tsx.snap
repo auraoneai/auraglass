@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GlassMediaProvider matches snapshot 1`] = `
-<div
-  data-testid="host"
-/>
+<div>
+  <div
+    data-testid="host"
+  />
+</div>
 `;

@@ -151,7 +151,7 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
         )}
         {...props}
       >
-        <nav aria-label="Breadcrumb" id={navId}>
+        <nav aria-label={props['aria-label'] || "Breadcrumb"} id={navId}>
           <ol className="glass-flex glass-items-center glass-gap-2">
             {itemsToRender.map((item, index) => (
               <li key={index} className="glass-flex glass-items-center">

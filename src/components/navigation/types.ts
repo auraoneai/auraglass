@@ -94,9 +94,9 @@ export interface TabBarRef {
 }
 
 export interface GlassTabBarProps {
-  tabs: TabItem[];
+  tabs?: TabItem[];
   activeTab?: number;
-  onChange: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>, index: number) => void;
+  onChange?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>, index: number) => void;
   onTabChange?: (index: number) => void;
   onTabClick?: (tab: TabItem, index: number) => void;
   orientation?: 'horizontal' | 'vertical';

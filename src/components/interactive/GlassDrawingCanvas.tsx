@@ -435,6 +435,7 @@ export const GlassDrawingCanvas = forwardRef<
                   currentTool.type === toolType && "bg-primary/20 text-primary"
                 )}
                 title={toolType.charAt(0).toUpperCase() + toolType.slice(1)}
+                aria-label={`Select ${toolType} tool`}
               >
                 {/* Tool icons would go here */}
                 <span className="w-4 h-4 block">

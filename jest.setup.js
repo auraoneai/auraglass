@@ -78,6 +78,7 @@ HTMLCanvasElement.prototype.getContext = jest.fn((contextType) => {
       moveTo: jest.fn(),
       lineTo: jest.fn(),
       arc: jest.fn(),
+      ellipse: jest.fn(), // Required for GlassBiomeSimulator
       fill: jest.fn(),
       stroke: jest.fn(),
       save: jest.fn(),

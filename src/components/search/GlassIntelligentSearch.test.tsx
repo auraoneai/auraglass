@@ -21,22 +21,39 @@ import { GlassIntelligentSearch } from '@/components/search/GlassIntelligentSear
 expect.extend(toHaveNoViolations);
 
 describe('GlassIntelligentSearch', () => {
+  // Cleanup after each test to prevent hanging
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+    jest.clearAllTimers();
+  });
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassIntelligentSearch />);
+    const { container, unmount } = render(<GlassIntelligentSearch />);
     expect(container).toBeInTheDocument();
+    jest.advanceTimersByTime(400); // Advance past debounce timeout
+    unmount();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassIntelligentSearch />);
+    const { container, unmount } = render(<GlassIntelligentSearch />);
+    jest.advanceTimersByTime(400); // Advance past debounce timeout
+    jest.useRealTimers(); // Use real timers for axe
     const results = await axe(container);
     expect(results).toHaveNoViolations();
-  });
+    jest.useFakeTimers(); // Switch back to fake timers
+    unmount(); // Cleanup
+  }, 15000); // Increase timeout
 
   
   /**
@@ -44,9 +61,11 @@ describe('GlassIntelligentSearch', () => {
    */
   describe('ARIA Attributes', () => {
     it('supports aria-label', () => {
-      const { container } = render(<GlassIntelligentSearch aria-label="Test component" />);
+      const { container, unmount } = render(<GlassIntelligentSearch aria-label="Test component" />);
+      jest.advanceTimersByTime(400); // Advance past debounce timeout
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
+      unmount();
     });
   });
 
@@ -56,17 +75,20 @@ describe('GlassIntelligentSearch', () => {
    */
   describe('Focus Management', () => {
     it('can receive focus', () => {
-      render(<GlassIntelligentSearch />);
+      const { unmount } = render(<GlassIntelligentSearch />);
+      jest.advanceTimersByTime(400); // Advance past debounce timeout
       const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
 
       if (element) {
         (element as HTMLElement).focus();
         expect(element).toHaveFocus();
       }
+      unmount();
     });
 
     it('shows visible focus indicator', () => {
-      const { container } = render(<GlassIntelligentSearch />);
+      const { container, unmount } = render(<GlassIntelligentSearch />);
+      jest.advanceTimersByTime(400); // Advance past debounce timeout
       const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
 
       if (element) {
@@ -77,6 +99,7 @@ describe('GlassIntelligentSearch', () => {
           window.getComputedStyle(element).outline !== 'none';
         expect(hasFocusIndicator).toBe(true);
       }
+      unmount();
     });
   });
 
@@ -86,24 +109,28 @@ describe('GlassIntelligentSearch', () => {
    * Props Validation: Accepts and renders with custom props
    */
   it('accepts and renders with custom props', () => {
-    const { container } = render(
+    const { container, unmount } = render(
       <GlassIntelligentSearch
         className="custom-class"
         data-testid="glassintelligentsearch"
       />
     );
+    jest.advanceTimersByTime(400); // Advance past debounce timeout
 
     const element = container.querySelector('[data-testid="glassintelligentsearch"]')
       || container.firstChild;
 
     expect(element).toHaveClass('custom-class');
+    unmount();
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassIntelligentSearch />);
+    const { container, unmount } = render(<GlassIntelligentSearch />);
+    jest.advanceTimersByTime(400); // Advance past debounce timeout
     expect(container.firstChild).toMatchSnapshot();
+    unmount(); // Cleanup
   });
 });

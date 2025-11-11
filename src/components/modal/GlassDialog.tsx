@@ -543,6 +543,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         data-dialog-urgency={dialogInsights?.urgency}
         data-user-stress={dialogInsights?.userStress}
         data-interaction-count={interactionCount}
+        {...props}
       >
         {/* Backdrop */}
         <Motion

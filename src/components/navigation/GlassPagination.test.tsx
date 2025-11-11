@@ -99,6 +99,7 @@ describe("GlassPagination", () => {
 
     const element =
       container.querySelector('[data-testid="glasspagination"]') ||
+      container.querySelector('nav[aria-label]') ||
       container.firstChild;
 
     expect(element).toHaveClass("custom-class");

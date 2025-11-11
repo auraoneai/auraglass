@@ -55,6 +55,7 @@ export const GlassLoadingSkeleton = forwardRef<
       "aria-label": ariaLabel,
       className,
       children,
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -359,6 +360,7 @@ export const GlassLoadingSkeleton = forwardRef<
           aria-busy="true"
           aria-live="polite"
           className='relative'
+          data-testid={dataTestId}
           {...props}
         >
           {renderSkeleton()}

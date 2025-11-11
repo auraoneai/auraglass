@@ -54,30 +54,37 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
           class="glass-flex glass-gap-1"
         >
           <button
+            aria-label="Select color 1"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-primary"
             style="background-color: rgb(255, 107, 107);"
           />
           <button
+            aria-label="Select color 2"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
             style="background-color: rgb(78, 205, 196);"
           />
           <button
+            aria-label="Select color 3"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
             style="background-color: rgb(69, 183, 209);"
           />
           <button
+            aria-label="Select color 4"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
             style="background-color: rgb(150, 206, 180);"
           />
           <button
+            aria-label="Select color 5"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
             style="background-color: rgb(255, 234, 167);"
           />
           <button
+            aria-label="Select color 6"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
             style="background-color: rgb(221, 160, 221);"
           />
           <button
+            aria-label="Select color 7"
             class="w-6 h-6 glass-radius-sm border-2 transition-all glass-focus glass-touch-target glass-contrast-guard border-border/30"
             style="background-color: rgb(248, 196, 113);"
           />
@@ -111,6 +118,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
           Zoom:
         </span>
         <input
+          aria-label="Zoom level"
           class="w-20 glass-focus glass-touch-target glass-contrast-guard"
           max="3"
           min="0.5"
@@ -168,11 +176,13 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
                   class="glass-flex glass-items-center glass-gap-1"
                 >
                   <button
+                    aria-label="Hide layer Layer 1"
                     class="glass-text-xs glass-px-1 hover:glass-surface-overlay glass-radius-sm glass-focus glass-touch-target glass-contrast-guard"
                   >
                     👁
                   </button>
                   <button
+                    aria-label="Delete layer Layer 1"
                     class="glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm text-primary glass-focus glass-touch-target glass-contrast-guard"
                   >
                     🗑

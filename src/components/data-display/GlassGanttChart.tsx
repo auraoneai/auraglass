@@ -58,7 +58,7 @@ export interface GanttViewOptions {
 export interface GlassGanttChartProps
   extends React.HTMLAttributes<HTMLDivElement> {
   /** Tasks data */
-  tasks: GanttTask[];
+  tasks?: GanttTask[];
   /** Chart start date */
   startDate?: Date;
   /** Chart end date */
@@ -105,7 +105,7 @@ export interface GlassGanttChartProps
 export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
   (
     {
-      tasks,
+      tasks = [],
       startDate,
       endDate,
       timeScale = { unit: "day", step: 1 },

@@ -26,7 +26,9 @@ exports[`GlassChartWidget matches snapshot 1`] = `
             >
               <h3
                 class="card-title glass-text-xl font-semibold glass-text-primary flex items-center glass-gap-2"
-              />
+              >
+                Chart Widget
+              </h3>
             </div>
           </div>
           <div
@@ -40,6 +42,7 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 data-glass-component="true"
               >
                 <button
+                  aria-label="Refresh chart data"
                   class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:r9:"
                 >
@@ -76,6 +79,7 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 data-glass-component="true"
               >
                 <button
+                  aria-label="Download chart data"
                   class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:ra:"
                 >
@@ -109,6 +113,7 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 data-glass-component="true"
               >
                 <button
+                  aria-label="Enter fullscreen"
                   class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:rb:"
                 >

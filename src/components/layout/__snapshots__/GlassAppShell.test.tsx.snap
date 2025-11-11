@@ -5,7 +5,6 @@ exports[`GlassAppShell matches snapshot 1`] = `
   aria-label="Application shell"
   class="flex h-screen overflow-hidden bg-gradient-to-br from-background via-background/95 to-surface/50 motion-safe:transition-all motion-reduce:transition-none"
   id=":r5:"
-  role="application"
 >
   <div
     class="glass-flex glass-flex-col glass-flex-1 overflow-hidden"

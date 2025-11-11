@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassUserPresence matches snapshot 1`] = `
+<div
+  class="motion-primitive glass-w-full"
+  data-glass-component="true"
+>
+  <div
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  >
+    <div
+      class="relative z-10"
+    >
+      <div
+        class="card-header pb-3"
+      >
+        <div
+          class="glass-flex glass-items-center glass-justify-between"
+        >
+          <h3
+            class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-users w-5 h-5"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+              />
+              <path
+                d="M16 3.128a4 4 0 0 1 0 7.744"
+              />
+              <path
+                d="M22 21v-2a4 4 0 0 0-3-3.87"
+              />
+              <circle
+                cx="9"
+                cy="7"
+                r="4"
+              />
+            </svg>
+            Team Presence
+          </h3>
+          <div
+            aria-label="Badge: 0, online"
+            class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-1 font-medium transition-all duration-200 glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-secondary/10 glass-text-primary/90 border-0"
+            data-performance-mode="medium"
+            id="badge-:r3:"
+            role="status"
+            style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          >
+            <span
+              class="whitespace-nowrap"
+            >
+              0
+               online
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card-content pt-0"
+      >
+        <div
+          class="glass-gap-2"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

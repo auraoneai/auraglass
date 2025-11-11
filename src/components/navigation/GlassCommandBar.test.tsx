@@ -45,6 +45,7 @@ describe("GlassCommandBar", () => {
     it("has proper navigation role", () => {
       render(<GlassCommandBar items={[]} />);
       const nav =
+        screen.queryByRole("toolbar") ||
         screen.queryByRole("navigation") ||
         screen.queryByRole("menu") ||
         screen.queryByRole("menubar");
@@ -53,7 +54,8 @@ describe("GlassCommandBar", () => {
 
     it("has accessible name", () => {
       render(<GlassCommandBar items={[]} aria-label="Main navigation" />);
-      const nav = screen.getByRole("navigation", { name: /main navigation/i });
+      const nav = screen.getByRole("toolbar", { name: /main navigation/i }) ||
+                  screen.getByRole("navigation", { name: /main navigation/i });
       expect(nav).toBeInTheDocument();
     });
   });

@@ -61,6 +61,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   data-glass-component="true"
                 >
                   <button
+                    aria-label="Video settings"
                     class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary"
                     id="glass-button-:rl:"
                   >
@@ -100,6 +101,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   class="motion-primitive inline-block"
                 >
                   <button
+                    aria-label="Rewind 10 seconds"
                     class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-3"
                     data-magnet="true"
                     data-performance-mode="ultra"
@@ -137,6 +139,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   class="motion-primitive inline-block"
                 >
                   <button
+                    aria-label="Play video"
                     class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-4"
                     data-magnet="true"
                     data-performance-mode="ultra"
@@ -171,6 +174,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   class="motion-primitive inline-block"
                 >
                   <button
+                    aria-label="Forward 10 seconds"
                     class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-3"
                     data-magnet="true"
                     data-performance-mode="ultra"
@@ -228,6 +232,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     data-glass-component="true"
                   >
                     <button
+                      aria-label="Play video"
                       class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary glass-p-2"
                       id="glass-button-:rp:"
                     >
@@ -258,6 +263,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                       data-glass-component="true"
                     >
                       <button
+                        aria-label="Mute video"
                         class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary glass-p-2"
                         id="glass-button-:rq:"
                       >
@@ -317,6 +323,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     data-glass-component="true"
                   >
                     <button
+                      aria-label="Enter fullscreen"
                       class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary glass-p-2"
                       id="glass-button-:rr:"
                     >

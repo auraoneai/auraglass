@@ -44,7 +44,7 @@ describe('GlassDialog', () => {
    */
   describe('ARIA Attributes', () => {
     it('supports aria-label', () => {
-      const { container } = render(<GlassDialog aria-label="Test component" />);
+      const { container } = render(<GlassDialog aria-label="Test component" open={true} />);
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });

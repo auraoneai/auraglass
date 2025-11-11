@@ -720,8 +720,9 @@ export const GlassAuroraDisplay = forwardRef<
           className="glass-aurora-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Intensity:</label>
+            <label htmlFor="aurora-intensity" className="glass-text-sm">Intensity:</label>
             <input
+              id="aurora-intensity"
               type="range"
               min="0"
               max="1"
@@ -729,6 +730,7 @@ export const GlassAuroraDisplay = forwardRef<
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
               className='w-20'
+              aria-label="Aurora intensity"
             />
             <span className='glass-text-sm min-w-[3ch]'>
               {Math.round(currentIntensity * 100)}%
@@ -736,11 +738,13 @@ export const GlassAuroraDisplay = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Colors:</label>
+            <label htmlFor="aurora-colors" className="glass-text-sm">Colors:</label>
             <select
+              id="aurora-colors"
               value={colorPreset}
               onChange={(e) => {}}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+              aria-label="Aurora color preset"
             >
               <option value="classic">Classic</option>
               <option value="rare">Rare</option>
@@ -751,11 +755,13 @@ export const GlassAuroraDisplay = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Activity:</label>
+            <label htmlFor="aurora-activity" className="glass-text-sm">Activity:</label>
             <select
+              id="aurora-activity"
               value={activityLevel}
               onChange={(e) => {}}
               className="glass-px-2 glass-py-1 glass-radius-md glass-surface-overlay glass-border glass-border-glass-border/20 glass-contrast-guard"
+              aria-label="Aurora activity level"
             >
               <option value="low">Low</option>
               <option value="moderate">Moderate</option>
@@ -765,8 +771,9 @@ export const GlassAuroraDisplay = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm">Time:</label>
+            <label htmlFor="aurora-time" className="glass-text-sm">Time:</label>
             <input
+              id="aurora-time"
               type="range"
               min="0"
               max="24"
@@ -774,6 +781,7 @@ export const GlassAuroraDisplay = forwardRef<
               value={observationTime}
               onChange={(e) => {}}
               className='w-20'
+              aria-label="Observation time in hours"
             />
           </div>
 

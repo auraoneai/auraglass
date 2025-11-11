@@ -17,6 +17,7 @@ exports[`GlassDrawingCanvas matches snapshot 1`] = `
         class="glass-flex glass-gap-1"
       >
         <button
+          aria-label="Select pen tool"
           class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard bg-primary/20 text-primary"
           title="Pen"
         >
@@ -27,6 +28,7 @@ exports[`GlassDrawingCanvas matches snapshot 1`] = `
           </span>
         </button>
         <button
+          aria-label="Select brush tool"
           class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
           title="Brush"
         >
@@ -37,6 +39,7 @@ exports[`GlassDrawingCanvas matches snapshot 1`] = `
           </span>
         </button>
         <button
+          aria-label="Select eraser tool"
           class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
           title="Eraser"
         >
@@ -47,6 +50,7 @@ exports[`GlassDrawingCanvas matches snapshot 1`] = `
           </span>
         </button>
         <button
+          aria-label="Select line tool"
           class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
           title="Line"
         >
@@ -57,6 +61,7 @@ exports[`GlassDrawingCanvas matches snapshot 1`] = `
           </span>
         </button>
         <button
+          aria-label="Select rectangle tool"
           class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
           title="Rectangle"
         >
@@ -67,6 +72,7 @@ exports[`GlassDrawingCanvas matches snapshot 1`] = `
           </span>
         </button>
         <button
+          aria-label="Select circle tool"
           class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-background/20 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard"
           title="Circle"
         >
