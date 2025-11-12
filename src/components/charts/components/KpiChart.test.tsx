@@ -21,11 +21,19 @@ import { KpiChart } from '@/components/charts/components/KpiChart';
 expect.extend(toHaveNoViolations);
 
 describe('KpiChart', () => {
+  const mockKpi = {
+    value: 1234,
+    label: 'Test KPI',
+    change: 5,
+    changeLabel: 'vs last month',
+    format: 'number' as const,
+  };
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<KpiChart />);
+    const { container } = render(<KpiChart kpi={mockKpi} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +41,7 @@ describe('KpiChart', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<KpiChart />);
+    const { container } = render(<KpiChart kpi={mockKpi} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,6 +58,7 @@ describe('KpiChart', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <KpiChart
+        kpi={mockKpi}
         className="custom-class"
         data-testid="kpichart"
       />
@@ -65,7 +74,7 @@ describe('KpiChart', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<KpiChart />);
+    const { container } = render(<KpiChart kpi={mockKpi} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

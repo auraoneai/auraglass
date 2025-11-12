@@ -94,6 +94,10 @@ export interface GlassResponsiveNavProps {
    * Whether to respect motion preferences for animations
    */
   respectMotionPreference?: boolean;
+  /**
+   * ARIA label for the navigation
+   */
+  "aria-label"?: string;
 }
 
 /**
@@ -122,6 +126,7 @@ export const GlassResponsiveNav = forwardRef<
       respectMotionPreference = true,
       className,
       children,
+      "aria-label": ariaLabel,
     },
     ref
   ) => {
@@ -185,7 +190,7 @@ export const GlassResponsiveNav = forwardRef<
         className={cn("relative", className)}
         id={navId}
         role="navigation"
-        aria-label="Responsive navigation"
+        aria-label={ariaLabel || "Responsive navigation"}
       >
         {/* Mobile/Drawer Navigation */}
         {shouldShowMobileNav() && (

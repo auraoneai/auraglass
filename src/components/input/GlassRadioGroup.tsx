@@ -454,17 +454,6 @@ export const GlassRadioGroupItem = forwardRef<
             aria-disabled={isDisabled}
             {...itemA11yProps}
           >
-            {/* Hidden native radio for form compatibility */}
-            <GlassInput
-              type="radio"
-              name={name}
-              value={option.value}
-              checked={isSelected}
-              disabled={isDisabled}
-              onChange={() => onSelect(option.value)}
-              className='sr-only'
-            />
-
             <div className="glass-flex glass-items-start glass-gap-3">
               {/* Custom radio indicator */}
               <div
@@ -500,14 +489,14 @@ export const GlassRadioGroupItem = forwardRef<
                       {option.icon}
                     </div>
                   )}
-                  <h3
+                  <span
                     className={cn(
                       "font-medium glass-text-primary",
                       textSizeClasses[size]
                     )}
                   >
                     {option.label}
-                  </h3>
+                  </span>
                 </div>
 
                 {option.description && (
@@ -553,17 +542,6 @@ export const GlassRadioGroupItem = forwardRef<
         aria-disabled={isDisabled}
         {...itemA11yProps}
       >
-        {/* Hidden native radio for form compatibility */}
-        <GlassInput
-          type="radio"
-          name={name}
-          value={option.value}
-          checked={isSelected}
-          disabled={isDisabled}
-          onChange={() => onSelect(option.value)}
-          className='sr-only'
-        />
-
         {/* Custom radio indicator */}
         <div
           className={cn(

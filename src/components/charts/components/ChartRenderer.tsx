@@ -45,6 +45,9 @@ export interface ChartRendererProps {
   onChartLeave?: () => void;
   chartRefCallback?: (chart: any) => void;
   glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  className?: string;
+  'data-testid'?: string;
+  'aria-label'?: string;
 
   /** Glass surface intent */
   intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
@@ -74,6 +77,9 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
   onChartLeave,
   chartRefCallback,
   glassVariant = 'frosted',
+  className,
+  'data-testid': dataTestId,
+  'aria-label': ariaLabel,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
@@ -105,27 +111,36 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
           display: axis?.x?.show !== false,
           grid: {
             display: axis?.x?.grid !== false,
-            color: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
+            color: axis?.x?.gridColor || 'var(--glass-bg-default)',
           },
           ticks: {
-            color: '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}',
+            color: axis?.x?.tickColor || 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
           },
         },
         y: {
           display: axis?.y?.show !== false,
           grid: {
             display: axis?.y?.grid !== false,
-            color: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
+            color: axis?.y?.gridColor || 'var(--glass-bg-default)',
           },
           ticks: {
-            color: '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}',
+            color: axis?.y?.tickColor || 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
           },
         },
+      },
+      // Accessibility plugin to add aria-label to canvas
+      onResize: (chart: any) => {
+        const canvas = chart.canvas;
+        if (canvas) {
+          const label = ariaLabel || `${chartType} chart`;
+          canvas.setAttribute('aria-label', label);
+          canvas.setAttribute('role', 'img');
+        }
       },
     };
 
     return baseConfig;
-  }, [qualityTier, isReducedMotion, animation, axis]);
+  }, [qualityTier, isReducedMotion, animation, axis, ariaLabel, chartType]);
 
   // Prepare chart data
   const chartData = useMemo(() => {
@@ -198,6 +213,25 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
     setIsLoaded(true);
   }, []);
 
+  // Set aria-label on canvas element for accessibility after chart renders
+  useEffect(() => {
+    if (isLoaded && canvasRef.current) {
+      // Use requestAnimationFrame to ensure Chart.js has rendered the canvas
+      const setAriaLabel = () => {
+        const canvas = canvasRef.current?.querySelector('canvas');
+        if (canvas) {
+          const label = ariaLabel || `${chartType} chart`;
+          canvas.setAttribute('aria-label', label);
+          canvas.setAttribute('role', 'img');
+        } else {
+          // If canvas not found yet, try again on next frame
+          requestAnimationFrame(setAriaLabel);
+        }
+      };
+      requestAnimationFrame(setAriaLabel);
+    }
+  }, [isLoaded, ariaLabel, chartType]);
+
   const containerStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
@@ -224,7 +258,19 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
   }
 
   return (
-    <div style={containerStyle} ref={chartRefCallback}>
+    <div 
+      style={containerStyle} 
+      ref={(el) => {
+        (canvasRef as any).current = el;
+        if (typeof chartRefCallback === 'function') {
+          chartRefCallback(el as any);
+        }
+      }}
+      className={cn('glass-chart-renderer', className)}
+      data-testid={dataTestId || 'chartrenderer'}
+      aria-label={ariaLabel || `${chartType} chart`}
+      role="img"
+    >
       <ChartComponent
         data={chartData}
         options={{
@@ -232,6 +278,19 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
           onClick: handleChartClick,
           onHover: handleChartHoverEvent,
         }}
+        plugins={[
+          {
+            id: 'accessibility',
+            afterRender: (chart: any) => {
+              const canvas = chart.canvas;
+              if (canvas) {
+                const label = ariaLabel || `${chartType} chart`;
+                canvas.setAttribute('aria-label', label);
+                canvas.setAttribute('role', 'img');
+              }
+            },
+          },
+        ]}
       />
       {enablePhysicsAnimation && (
         <div style={{

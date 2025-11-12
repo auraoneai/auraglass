@@ -2,9 +2,11 @@
 
 exports[`GlassHeader matches snapshot 1`] = `
 <div
+  aria-label="Main navigation"
   class="optimized-glass-surface glass-primary-level2 glass-tier-high glass-w-full glass-flex glass-items-center glass-justify-between glass-transition h-16 glass-px-6 border-b border-border/20"
   data-overflow="visible"
   data-performance-mode="medium"
+  role="navigation"
   style="border-radius: 8px; box-shadow: 0px 8px 24px 0px var(--glass-color-primary,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div

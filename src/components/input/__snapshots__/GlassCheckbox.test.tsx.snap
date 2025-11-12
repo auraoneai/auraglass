@@ -3,13 +3,17 @@
 exports[`GlassCheckbox matches snapshot 1`] = `
 <div
   class="relative glass-inline-flex glass-items-center"
+  data-testid="glasscheckbox"
 >
   <input
+    aria-label="Checkbox"
     class="sr-only glass-touch-target glass-contrast-guard"
     id="glass-checkbox-:r7:"
     type="checkbox"
   />
   <div
+    aria-checked="false"
+    aria-label="checkbox"
     class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-checkbox-box relative inline-flex items-center justify-center cursor-pointer group glass-radius-lg transition-all duration-200 h-5 w-5 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary focus-within:ring-offset-background"
     data-performance-mode="medium"
     role="checkbox"

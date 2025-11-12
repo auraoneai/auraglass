@@ -6,7 +6,6 @@ exports[`GlassMultiSelect matches snapshot 1`] = `
   style="--multi-select-dropdown-height: 280px;"
 >
   <div
-    aria-controls="glass-multi-select-:r7:-listbox"
     aria-expanded="false"
     aria-haspopup="listbox"
     class="container sizeMedium"
@@ -22,8 +21,6 @@ exports[`GlassMultiSelect matches snapshot 1`] = `
       </span>
       <input
         aria-autocomplete="list"
-        aria-controls="glass-multi-select-:r7:-listbox"
-        aria-expanded="false"
         aria-label="Select…"
         autocomplete="off"
         class="input"

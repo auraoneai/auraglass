@@ -323,7 +323,7 @@ export interface CardTitleProps
 }
 
 export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
-  ({ size = "md", level = 3, className, children, ...props }, ref) => {
+  ({ size = "md", level = 2, className, children, ...props }, ref) => {
     const sizeClasses = {
       sm: "glass-text-base font-medium",
       md: "glass-text-lg font-semibold",
@@ -356,7 +356,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
       case 6:
         return <h6 {...headingProps} />;
       default:
-        return <h3 {...headingProps} />;
+        return <h2 {...headingProps} />;
     }
   }
 );

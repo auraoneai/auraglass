@@ -15,7 +15,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
-import { VoiceGlassControl } from '@/components/voice/VoiceGlassControl';
+import VoiceGlassControl from '@/components/voice/VoiceGlassControl';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);

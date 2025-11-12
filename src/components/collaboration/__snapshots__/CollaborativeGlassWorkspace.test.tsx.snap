@@ -249,11 +249,11 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
             <div
               class="glass-flex glass-items-center glass-justify-between mb-4"
             >
-              <h3
+              <h2
                 class="text-primary font-semibold"
               >
                 Properties Editor
-              </h3>
+              </h2>
               <div
                 class="glass-flex glass-gap-2"
               >

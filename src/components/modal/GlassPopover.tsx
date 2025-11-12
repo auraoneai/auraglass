@@ -124,6 +124,14 @@ export interface GlassPopoverProps {
     variant?: "regular" | "clear";
     quality?: "ultra" | "high" | "balanced" | "efficient";
   };
+  /**
+   * Additional CSS classes
+   */
+  className?: string;
+  /**
+   * Test ID for the popover
+   */
+  "data-testid"?: string;
 }
 
 /**
@@ -155,6 +163,8 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
       radialReveal = true,
       title,
       description,
+      className,
+      "data-testid": dataTestId,
       ...props
     },
     ref
@@ -486,8 +496,10 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                     className={cn(
                       "relative max-w-xs liquid-glass-popover-surface",
                       radialReveal && "glass-radial-reveal",
+                      className,
                       contentClassName
                     )}
+                    data-testid={dataTestId}
                     style={
                       {
                         "--liquid-glass-popover-density": "0.8",
@@ -538,8 +550,10 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                       radialReveal && "glass-radial-reveal",
                       "bg-background/95 glass-backdrop-blur-md",
                       "border border-border/20 shadow-lg",
+                      className,
                       contentClassName
                     )}
+                    data-testid={dataTestId}
                     onMouseEnter={
                       triggerType === "hover" ? handleShow : undefined
                     }
@@ -585,8 +599,10 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                   className={cn(
                     "relative max-w-xs glass-radius-xl bg-background text-foreground",
                     "border border-border/30 shadow-2xl",
+                    className,
                     contentClassName
                   )}
+                  data-testid={dataTestId}
                   onMouseEnter={
                     triggerType === "hover" ? handleShow : undefined
                   }

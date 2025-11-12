@@ -574,13 +574,15 @@ export function GlassTrophyCase({
 
         {/* Achievement details */}
         <div className='text-center mb-4'>
-          <h3
+          <div
+            role="heading"
+            aria-level={2}
             className={`text-lg font-bold mb-2 ${
               achievement.unlocked ? "text-white" : "text-white/60"
             }`}
           >
             {achievement.title}
-          </h3>
+          </div>
           <p
             className={`text-sm ${
               achievement.unlocked ? "text-white/80" : "text-white/50"
@@ -690,6 +692,7 @@ export function GlassTrophyCase({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search achievements..."
+            aria-label="Search achievements"
             className={cn(
               "glass-foundation-complete glass-w-full glass-pl-10 glass-pr-4 glass-py-3",
               "glass-text-primary placeholder:glass-text-muted glass-radius-xl",
@@ -702,6 +705,7 @@ export function GlassTrophyCase({
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value as any)}
+          aria-label="Filter by category"
           className={cn(
             "glass-foundation-complete glass-px-4 glass-py-3 glass-radius-xl",
             "glass-text-primary glass-border-subtle glass-focus glass-transition glass-touch-target glass-contrast-guard"
@@ -719,6 +723,7 @@ export function GlassTrophyCase({
         <select
           value={selectedTier}
           onChange={(e) => setSelectedTier(e.target.value as any)}
+          aria-label="Filter by tier"
           className={cn(
             "glass-foundation-complete glass-px-4 glass-py-3 glass-radius-xl",
             "glass-text-primary glass-border-subtle glass-focus glass-transition glass-touch-target glass-contrast-guard"
@@ -736,6 +741,7 @@ export function GlassTrophyCase({
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as any)}
+          aria-label="Sort by"
           className={cn(
             "glass-foundation-complete glass-px-4 glass-py-3 glass-radius-xl",
             "glass-text-primary glass-border-subtle glass-focus glass-transition"
@@ -751,6 +757,7 @@ export function GlassTrophyCase({
         <div className="glass-flex glass-surface-subtle/10 glass-radius-xl glass-p-1">
           <motion.button
             onClick={() => setViewMode("grid")}
+            aria-label="Grid view"
             className={`p-2 rounded-lg transition-all ${
               viewMode === "grid" ? "bg-white/20 text-white" : "text-white/60"
             }`}
@@ -761,6 +768,7 @@ export function GlassTrophyCase({
           </motion.button>
           <motion.button
             onClick={() => setViewMode("list")}
+            aria-label="List view"
             className={`p-2 rounded-lg transition-all ${
               viewMode === "list" ? "bg-white/20 text-white" : "text-white/60"
             }`}
@@ -774,6 +782,7 @@ export function GlassTrophyCase({
         {/* Show locked toggle */}
         <motion.button
           onClick={() => setShowLocked(!showLocked)}
+          aria-label={showLocked ? "Hide locked achievements" : "Show locked achievements"}
           className={`px-4 py-3 border border-white/20 rounded-xl transition-all ${
             showLocked ? "bg-white/10 text-white" : "bg-white/5 text-white/60"
           }`}
@@ -939,9 +948,9 @@ export function GlassTrophyCase({
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
         >
           <Trophy className='w-16 h-16 text-primary/30 glass-mx-auto mb-4' />
-          <h3 className='glass-text-xl font-semibold text-primary/60 mb-2'>
+          <div role="heading" aria-level={2} className='glass-text-xl font-semibold text-primary/60 mb-2'>
             No achievements found
-          </h3>
+          </div>
           <p className='text-primary/40'>
             Try adjusting your filters or{" "}
             {!showLocked

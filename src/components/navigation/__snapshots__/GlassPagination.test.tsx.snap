@@ -3,6 +3,7 @@
 exports[`GlassPagination matches snapshot 1`] = `
 <nav
   aria-label="Pagination"
+  class=""
   data-glass-component="true"
   role="navigation"
 >
@@ -19,6 +20,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         aria-label="First page"
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
         data-performance-mode="medium"
+        role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
@@ -51,6 +53,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         aria-label="Previous page"
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
         data-performance-mode="medium"
+        role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
@@ -87,6 +90,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 1"
           class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/40 glass-text-primary shadow-lg ring-1 ring-white/30 border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           1
@@ -99,6 +103,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 2"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           2
@@ -111,6 +116,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 3"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           3
@@ -123,6 +129,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 4"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           4
@@ -135,6 +142,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 5"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           5
@@ -147,6 +155,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 6"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           6
@@ -160,6 +169,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="More pages"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <svg
@@ -200,6 +210,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           aria-label="Page 10"
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
+          role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           10
@@ -213,6 +224,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         aria-label="Next page"
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
         data-performance-mode="medium"
+        role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
@@ -241,6 +253,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         aria-label="Last page"
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:-translate-y-0.5 border-white/20 hover:border-white/30"
         data-performance-mode="medium"
+        role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg

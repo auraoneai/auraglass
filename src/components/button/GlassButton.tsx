@@ -683,13 +683,13 @@ export const GlassButton = forwardRef(function GlassButton(
     return (
       <>
         {leftIcon && (
-          <span className='mr-2' data-icon>
+          <span className='mr-2' data-icon data-testid="left-icon">
             {leftIcon}
           </span>
         )}
         {children}
         {rightIcon && (
-          <span className='ml-2' data-icon>
+          <span className='ml-2' data-icon data-testid="right-icon">
             {rightIcon}
           </span>
         )}
@@ -780,6 +780,8 @@ export const GlassButton = forwardRef(function GlassButton(
           data-button-size={size}
           disabled={disabled || loading}
           onClick={handleInteraction}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           ref={buttonRef}
           {...a11yProps}
           {...(() => {

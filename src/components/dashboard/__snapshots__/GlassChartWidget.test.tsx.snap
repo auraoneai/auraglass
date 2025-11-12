@@ -24,11 +24,11 @@ exports[`GlassChartWidget matches snapshot 1`] = `
             <div
               class="glass-flex glass-items-center glass-gap-3 mb-2"
             >
-              <h3
+              <h2
                 class="card-title glass-text-xl font-semibold glass-text-primary flex items-center glass-gap-2"
               >
                 Chart Widget
-              </h3>
+              </h2>
             </div>
           </div>
           <div

@@ -576,7 +576,7 @@ export function GlassWipeSliderShowcase({ className }: { className?: string }) {
 }
 
 // Main GlassWipeSliderExamples component
-export interface GlassWipeSliderExamplesProps {
+export interface GlassWipeSliderExamplesProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   children?: React.ReactNode;
 }
@@ -584,9 +584,10 @@ export interface GlassWipeSliderExamplesProps {
 export function GlassWipeSliderExamples({
   className,
   children,
+  ...props
 }: GlassWipeSliderExamplesProps) {
   return (
-    <div className={className}>
+    <div className={className} {...props}>
       <GlassWipeSliderShowcase />
       {children}
     </div>

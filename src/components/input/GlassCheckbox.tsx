@@ -190,6 +190,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
           onChange={handleChange}
           disabled={disabled || loading}
           className='sr-only glass-touch-target glass-contrast-guard'
+          aria-label={ariaLabel || label || a11yProps['aria-label'] || 'Checkbox'}
           {...props}
         />
 

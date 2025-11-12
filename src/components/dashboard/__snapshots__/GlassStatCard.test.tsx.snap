@@ -20,11 +20,11 @@ exports[`GlassStatCard matches snapshot 1`] = `
           <div
             class="glass-flex-1"
           >
-            <h3
+            <h2
               class="card-title glass-text-base font-medium glass-text-primary/90 flex items-center glass-gap-2"
             >
               Test Stat
-            </h3>
+            </h2>
           </div>
         </div>
       </div>

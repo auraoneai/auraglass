@@ -49,6 +49,7 @@ export interface KanbanColumn {
 export interface GlassKanbanProps extends ConsciousnessFeatures {
   columns: KanbanColumn[];
   className?: string;
+  "data-testid"?: string;
   /**
    * Enable drag and drop
    */
@@ -90,6 +91,7 @@ export function GlassKanban({
   onCardClick,
   onColumnClick,
   onCardMove,
+  "data-testid": dataTestId,
   // Consciousness features
   consciousness = false,
   predictive = false,
@@ -379,7 +381,8 @@ export function GlassKanban({
     <Motion
       data-glass-component
       preset="fadeIn"
-      className="glass-w-full glass-h-full"
+      className={cn("glass-w-full glass-h-full", className)}
+      data-testid={dataTestId || "glasskanban"}
     >
       <div
         className={cn(

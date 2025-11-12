@@ -11,6 +11,7 @@ exports[`GlassSearchInterface matches snapshot 1`] = `
     <div
       class="relative w-full"
       data-glass-component="true"
+      data-testid="glassinput"
     >
       <div
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50"
@@ -35,6 +36,7 @@ exports[`GlassSearchInterface matches snapshot 1`] = `
           </svg>
         </div>
         <input
+          aria-label="Search..."
           class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed pr-8"
           id="glass-input-:r5:"
           placeholder="Search..."

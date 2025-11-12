@@ -14,6 +14,7 @@ export interface CollapsedMenuProps {
    */
   respectMotionPreference?: boolean;
   className?: string;
+  'aria-label'?: string;
 }
 
 const CollapsedMenu = forwardRef<HTMLDivElement, CollapsedMenuProps>(({ 
@@ -21,6 +22,7 @@ const CollapsedMenu = forwardRef<HTMLDivElement, CollapsedMenuProps>(({
   onItemClick,
   respectMotionPreference = true,
   className,
+  'aria-label': ariaLabel,
 }, ref) => {
   // Accessibility and motion preferences
   const menuId = useA11yId('collapsed-menu');
@@ -37,8 +39,8 @@ const CollapsedMenu = forwardRef<HTMLDivElement, CollapsedMenuProps>(({
       border="subtle"
       animation={shouldReduceMotion ? 'none' : 'gentle'}
       performanceMode="medium"
-      role="menu"
-      aria-orientation="vertical"
+      role="navigation"
+      aria-label={ariaLabel}
       id={menuId}
       className={cn(
         'absolute top-full right-0 min-w-[200px] z-[1000] glass-p-2',

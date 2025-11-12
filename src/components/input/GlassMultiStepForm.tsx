@@ -306,7 +306,8 @@ export const GlassMultiStepForm: React.FC<GlassMultiStepFormProps> = ({
 
   // Get step progress percentage
   const getProgressPercentage = useCallback(() => {
-    return ((currentStep + 1) / steps.length) * 100;
+    if (!steps || steps.length === 0) return 0;
+    return Math.min(100, Math.max(0, ((currentStep + 1) / steps.length) * 100));
   }, [currentStep, steps.length]);
 
   // Context value

@@ -13,11 +13,12 @@ import { cn } from "../../lib/utilsComprehensive";
 interface ProductionAIIntegrationProps extends React.HTMLAttributes<HTMLDivElement> {
   authToken?: string;
   userId?: string;
+  'data-testid'?: string;
 }
 
 export const ProductionAIIntegration: React.FC<
   ProductionAIIntegrationProps
-> = ({ authToken, userId, className, ...props }) => {
+> = ({ authToken, userId, className, 'data-testid': dataTestId, ...props }) => {
   const prefersReducedMotion = useReducedMotion();
   const [isInitialized, setIsInitialized] = useState(false);
   const [formFields, setFormFields] = useState<any[]>([]);
@@ -266,6 +267,7 @@ export const ProductionAIIntegration: React.FC<
           "glass-flex glass-items-center glass-justify-center glass-p-8",
           className
         )}
+        data-testid={dataTestId || 'productionaiintegration'}
         {...props}
       >
         <div className='text-center'>
@@ -280,6 +282,7 @@ export const ProductionAIIntegration: React.FC<
     <div
       data-glass-component
       className={cn('production-ai-integration glass-p-6', className)}
+      data-testid={dataTestId || 'productionaiintegration'}
       {...props}
     >
       {error && (

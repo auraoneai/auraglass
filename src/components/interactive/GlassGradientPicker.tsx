@@ -341,9 +341,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {/* Gradient Type Selector */}
           {showTypeSelector && (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <h4 className='text-primary/80 glass-text-sm font-medium'>
+              <h3 className='text-primary/80 glass-text-sm font-medium'>
                 Type
-              </h4>
+              </h3>
               <div className="glass-flex glass-gap-2">
                 {(["linear", "radial", "conic"] as const).map((type) => (
                   <GlassButton
@@ -363,9 +363,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {/* Angle Control for Linear */}
           {showAngleControl && selectedType === "linear" && (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <h4 className='text-primary/80 glass-text-sm font-medium'>
+              <h3 className='text-primary/80 glass-text-sm font-medium'>
                 Angle: {angle}°
-              </h4>
+              </h3>
               <input
                 type="range"
                 min="0"
@@ -382,9 +382,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {showStopsEditor && enableCustom && (
             <div className="glass-auto-gap glass-auto-gap-md">
               <div className="glass-flex glass-items-center glass-justify-between">
-                <h4 className='text-primary/80 glass-text-sm font-medium'>
+                <h3 className='text-primary/80 glass-text-sm font-medium'>
                   Color Stops
-                </h4>
+                </h3>
                 {stops.length < maxStops && (
                   <GlassButton
                     variant="ghost"
@@ -460,9 +460,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           {/* Presets */}
           {allPresets.length > 0 && (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <h4 className='text-primary/80 glass-text-sm font-medium'>
+              <h3 className='text-primary/80 glass-text-sm font-medium'>
                 Presets
-              </h4>
+              </h3>
               <div className="glass-grid glass-grid-cols-2 glass-gap-3">
                 {allPresets.map((preset) => (
                   <div

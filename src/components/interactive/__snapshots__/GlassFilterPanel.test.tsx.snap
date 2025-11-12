@@ -64,8 +64,9 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
     class="mb-4"
   >
     <div
-      class="relative"
+      class="relative glass-w-full"
       data-glass-component="true"
+      data-testid="glassinput"
     >
       <div
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-full"
@@ -99,6 +100,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
           </svg>
         </div>
         <input
+          aria-label="Search filters..."
           class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
           id="glass-input-:r7:"
           placeholder="Search filters..."

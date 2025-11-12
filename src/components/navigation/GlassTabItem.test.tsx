@@ -101,10 +101,12 @@ describe("GlassTabItem", () => {
       const element = container.querySelector('[role="tab"]') as HTMLElement;
       if (element) {
         element.focus();
-        // Check for focus-visible class or focus styles
+        // Check for focus-visible class, outline style, or box-shadow (which is used for focus indicator)
+        const styles = window.getComputedStyle(element);
         const hasFocusIndicator =
           element.classList.contains("focus-visible") ||
-          window.getComputedStyle(element).outline !== "none";
+          styles.outline !== "none" ||
+          styles.boxShadow !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });

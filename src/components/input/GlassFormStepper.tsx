@@ -56,6 +56,10 @@ export interface GlassFormStepperProps {
    * Custom className
    */
   className?: string;
+  /**
+   * Test ID for the component
+   */
+  'data-testid'?: string;
 }
 
 /**
@@ -73,6 +77,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
   allowClickCompleted = true,
   showProgressLine = true,
   className,
+  'data-testid': dataTestId,
   ...props
 }) => {
   // Size configurations
@@ -179,7 +184,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
         const isLast = index === steps.length - 1;
 
         return (
-          <React.Fragment data-glass-component key={step.id}>
+          <React.Fragment key={step.id}>
             {/* Step */}
             <div className='glass-flex glass-flex-col glass-items-center group'>
               <Motion
@@ -283,6 +288,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
     <nav
       aria-label="Form steps"
       className={cn("flex flex-col", config.spacing, className)}
+      data-testid={dataTestId || 'glassformstepper'}
     >
       {steps.map((step, index) => {
         const state = getStepState(index, step);

@@ -557,7 +557,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
     };
 
     return (
-      <div ref={ref} className={cn("w-full", className)} {...props}>
+      <div ref={ref} className={cn("w-full", className)} data-testid={props['data-testid'] || 'glassfileupload'} {...props}>
         {/* Hidden file input */}
         <GlassInput
           ref={fileInputRef}

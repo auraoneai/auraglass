@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassDataTable matches snapshot 1`] = `
+<div
+  class="glass-foundation-basic glass-radius-xl overflow-hidden"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    class="glass-p-4 glass-border-b glass-border-glass-border"
+  >
+    <div
+      class="relative"
+    >
+      <input
+        class="glass-w-full glass-px-4 glass-py-2 glass-pl-10 bg-background glass-border glass-border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
+      <div
+        class="absolute left-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary"
+      >
+        🔍
+      </div>
+    </div>
+  </div>
+  <div
+    class="overflow-x-auto"
+  >
+    <table
+      class="glass-w-full"
+    >
+      <thead
+        class="glass-surface-subtle"
+      >
+        <tr>
+          <th
+            class="glass-px-4 glass-py-3 text-left text-sm font-medium glass-text-secondary cursor-pointer hover:bg-muted/80 transition-colors select-none"
+          >
+            <div
+              class="glass-flex glass-items-center glass-gap-2"
+            >
+              ID
+              <div
+                class="glass-flex glass-flex-col"
+              >
+                <div
+                  class="text-xs transition-colors glass-text-secondary/50"
+                >
+                  ▲
+                </div>
+                <div
+                  class="text-xs transition-colors -mt-1 glass-text-secondary/50"
+                >
+                  ▼
+                </div>
+              </div>
+            </div>
+          </th>
+          <th
+            class="glass-px-4 glass-py-3 text-left text-sm font-medium glass-text-secondary cursor-pointer hover:bg-muted/80 transition-colors select-none"
+          >
+            <div
+              class="glass-flex glass-items-center glass-gap-2"
+            >
+              Name
+              <div
+                class="glass-flex glass-flex-col"
+              >
+                <div
+                  class="text-xs transition-colors glass-text-secondary/50"
+                >
+                  ▲
+                </div>
+                <div
+                  class="text-xs transition-colors -mt-1 glass-text-secondary/50"
+                >
+                  ▼
+                </div>
+              </div>
+            </div>
+          </th>
+          <th
+            class="glass-px-4 glass-py-3 text-left text-sm font-medium glass-text-secondary cursor-pointer hover:bg-muted/80 transition-colors select-none"
+          >
+            <div
+              class="glass-flex glass-items-center glass-gap-2"
+            >
+              Value
+              <div
+                class="glass-flex glass-flex-col"
+              >
+                <div
+                  class="text-xs transition-colors glass-text-secondary/50"
+                >
+                  ▲
+                </div>
+                <div
+                  class="text-xs transition-colors -mt-1 glass-text-secondary/50"
+                >
+                  ▼
+                </div>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+        >
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            1
+          </td>
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            Item 1
+          </td>
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            100
+          </td>
+        </tr>
+        <tr
+          class="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+        >
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            2
+          </td>
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            Item 2
+          </td>
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            200
+          </td>
+        </tr>
+        <tr
+          class="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+        >
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            3
+          </td>
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            Item 3
+          </td>
+          <td
+            class="glass-px-4 glass-py-3 glass-text-sm"
+          >
+            300
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

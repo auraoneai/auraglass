@@ -14,6 +14,7 @@ interface CollaborationDashboardProps {
   showUserList?: boolean;
   showActivityFeed?: boolean;
   showControls?: boolean;
+  "data-testid"?: string;
 }
 
 const UserAvatar: React.FC<{
@@ -196,6 +197,7 @@ export const GlassCollaborationDashboard: React.FC<
   showUserList = true,
   showActivityFeed = true,
   showControls = true,
+  "data-testid": dataTestId,
 }) => {
   const {
     users,
@@ -227,7 +229,7 @@ export const GlassCollaborationDashboard: React.FC<
   const unresolvedComments = comments.filter((c: any) => !c.resolved);
 
   return (
-    <div className={cn("fixed z-40", positionClasses[position], className)}>
+    <div className={cn("fixed z-40", positionClasses[position], className)} data-testid={dataTestId}>
       {!isExpanded ? (
         // Collapsed state
         <Glass className="glass-p-3 glass-contrast-guard">

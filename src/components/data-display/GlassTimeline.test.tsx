@@ -21,11 +21,17 @@ import { GlassTimeline } from '@/components/data-display/GlassTimeline';
 expect.extend(toHaveNoViolations);
 
 describe('GlassTimeline', () => {
+  const mockItems = [
+    { id: '1', title: 'Event 1', subtitle: 'Description 1', time: '2024-01-01' },
+    { id: '2', title: 'Event 2', subtitle: 'Description 2', time: '2024-01-02' },
+    { id: '3', title: 'Event 3', subtitle: 'Description 3', time: '2024-01-03' },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassTimeline />);
+    const { container } = render(<GlassTimeline items={mockItems} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +39,7 @@ describe('GlassTimeline', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassTimeline />);
+    const { container } = render(<GlassTimeline items={mockItems} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -44,7 +50,7 @@ describe('GlassTimeline', () => {
    */
   describe('ARIA Attributes', () => {
     it('supports aria-label', () => {
-      const { container } = render(<GlassTimeline aria-label="Test component" />);
+      const { container } = render(<GlassTimeline items={mockItems} aria-label="Test component" />);
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
@@ -60,6 +66,7 @@ describe('GlassTimeline', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassTimeline
+        items={mockItems}
         className="custom-class"
         data-testid="glasstimeline"
       />
@@ -75,7 +82,7 @@ describe('GlassTimeline', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassTimeline />);
+    const { container } = render(<GlassTimeline items={mockItems} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

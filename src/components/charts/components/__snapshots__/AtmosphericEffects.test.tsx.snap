@@ -9,49 +9,49 @@ exports[`AtmosphericEffects matches snapshot 1`] = `
     style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; opacity: 0.3;"
   />
   <div
-    style="position: absolute; left: 19.306546390477997%; top: 84.8704795656474%; width: 1.321708065492286px; height: 1.321708065492286px; border-radius: 50%; filter: blur(0.660854032746143px); transition: all 0.3s ease;"
+    style="position: absolute; left: 10%; top: 20%; width: 1.9000000000000001px; height: 1.9000000000000001px; border-radius: 50%; filter: blur(0.9500000000000001px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 88.59721409210555%; top: 42.01265097805036%; width: 2.336470716568872px; height: 2.336470716568872px; border-radius: 50%; filter: blur(1.168235358284436px); transition: all 0.3s ease;"
+    style="position: absolute; left: 70%; top: 80%; width: 3.7px; height: 3.7px; border-radius: 50%; filter: blur(1.85px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 83.54237926417647%; top: 95.18279827002532%; width: 2.6376258178502763px; height: 2.6376258178502763px; border-radius: 50%; filter: blur(1.3188129089251381px); transition: all 0.3s ease;"
+    style="position: absolute; left: 30.000000000000004%; top: 40%; width: 2.5px; height: 2.5px; border-radius: 50%; filter: blur(1.25px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 71.51719866424237%; top: 78.37513225830428%; width: 3.8728359489198096px; height: 3.8728359489198096px; border-radius: 50%; filter: blur(1.9364179744599048px); transition: all 0.3s ease;"
+    style="position: absolute; left: 90%; top: 100%; width: 1.3px; height: 1.3px; border-radius: 50%; filter: blur(0.65px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 81.67469498849694%; top: 48.701321626177574%; width: 1.3531048422773115px; height: 1.3531048422773115px; border-radius: 50%; filter: blur(0.6765524211386558px); transition: all 0.3s ease;"
+    style="position: absolute; left: 50%; top: 60%; width: 3.0999999999999996px; height: 3.0999999999999996px; border-radius: 50%; filter: blur(1.5499999999999998px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 14.317644448731958%; top: 34.14398047087464%; width: 1.1758490160223496px; height: 1.1758490160223496px; border-radius: 50%; filter: blur(0.5879245080111748px); transition: all 0.3s ease;"
+    style="position: absolute; left: 10%; top: 20%; width: 1.9000000000000001px; height: 1.9000000000000001px; border-radius: 50%; filter: blur(0.9500000000000001px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 76.69808980532149%; top: 16.56475559704873%; width: 3.575257615175863px; height: 3.575257615175863px; border-radius: 50%; filter: blur(1.7876288075879314px); transition: all 0.3s ease;"
+    style="position: absolute; left: 70%; top: 80%; width: 3.7px; height: 3.7px; border-radius: 50%; filter: blur(1.85px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 56.23075048788557%; top: 85.35290318362472%; width: 1.4222005998565153px; height: 1.4222005998565153px; border-radius: 50%; filter: blur(0.7111002999282576px); transition: all 0.3s ease;"
+    style="position: absolute; left: 30.000000000000004%; top: 40%; width: 2.5px; height: 2.5px; border-radius: 50%; filter: blur(1.25px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 74.88097239362457%; top: 85.91510256933783%; width: 1.7680784991813518px; height: 1.7680784991813518px; border-radius: 50%; filter: blur(0.8840392495906759px); transition: all 0.3s ease;"
+    style="position: absolute; left: 90%; top: 100%; width: 1.3px; height: 1.3px; border-radius: 50%; filter: blur(0.65px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 74.74359787220264%; top: 43.125994373216784%; width: 2.6115653562032537px; height: 2.6115653562032537px; border-radius: 50%; filter: blur(1.3057826781016268px); transition: all 0.3s ease;"
+    style="position: absolute; left: 50%; top: 60%; width: 3.0999999999999996px; height: 3.0999999999999996px; border-radius: 50%; filter: blur(1.5499999999999998px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 86.37367513551763%; top: 93.05947280847138%; width: 1.348410433086838px; height: 1.348410433086838px; border-radius: 50%; filter: blur(0.674205216543419px); transition: all 0.3s ease;"
+    style="position: absolute; left: 10%; top: 20%; width: 1.9000000000000001px; height: 1.9000000000000001px; border-radius: 50%; filter: blur(0.9500000000000001px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 20.453622035651243%; top: 9.15600686285023%; width: 3.6578337278406234px; height: 3.6578337278406234px; border-radius: 50%; filter: blur(1.8289168639203117px); transition: all 0.3s ease;"
+    style="position: absolute; left: 70%; top: 80%; width: 3.7px; height: 3.7px; border-radius: 50%; filter: blur(1.85px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 97.06292679407822%; top: 6.7727209165711955%; width: 2.31381878795767px; height: 2.31381878795767px; border-radius: 50%; filter: blur(1.156909393978835px); transition: all 0.3s ease;"
+    style="position: absolute; left: 30.000000000000004%; top: 40%; width: 2.5px; height: 2.5px; border-radius: 50%; filter: blur(1.25px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 55.166474878391234%; top: 77.56562952775454%; width: 2.2579557163746px; height: 2.2579557163746px; border-radius: 50%; filter: blur(1.1289778581873px); transition: all 0.3s ease;"
+    style="position: absolute; left: 90%; top: 100%; width: 1.3px; height: 1.3px; border-radius: 50%; filter: blur(0.65px); transition: all 0.3s ease;"
   />
   <div
-    style="position: absolute; left: 21.186845740709394%; top: 22.542421660372057%; width: 2.1264979015005645px; height: 2.1264979015005645px; border-radius: 50%; filter: blur(1.0632489507502823px); transition: all 0.3s ease;"
+    style="position: absolute; left: 50%; top: 60%; width: 3.0999999999999996px; height: 3.0999999999999996px; border-radius: 50%; filter: blur(1.5499999999999998px); transition: all 0.3s ease;"
   />
   <div
     style="position: absolute; top: 20%; left: 20%; width: 60%; height: 60%; border-radius: 50%; filter: blur(var(--glass-blur-lg)); animation: pulse 8s ease-in-out infinite;"

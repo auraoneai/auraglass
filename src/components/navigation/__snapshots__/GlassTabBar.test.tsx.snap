@@ -13,7 +13,6 @@ exports[`GlassTabBar matches snapshot 1`] = `
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: auto; --ag-tabbar-blur: var(--glass-blur-md, 12px);"
 >
   <button
-    aria-controls="panel-1"
     aria-disabled="false"
     aria-selected="true"
     class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
@@ -28,7 +27,6 @@ exports[`GlassTabBar matches snapshot 1`] = `
     </span>
   </button>
   <button
-    aria-controls="panel-2"
     aria-disabled="false"
     aria-selected="false"
     class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
@@ -43,7 +41,6 @@ exports[`GlassTabBar matches snapshot 1`] = `
     </span>
   </button>
   <button
-    aria-controls="panel-3"
     aria-disabled="false"
     aria-selected="false"
     class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"

@@ -48,8 +48,14 @@ describe('ChartRenderer', () => {
    */
   it('has no accessibility violations', async () => {
     const { container } = render(
-      <ChartRenderer chartType="line" datasets={mockDatasets} />
+      <ChartRenderer 
+        chartType="line" 
+        datasets={mockDatasets}
+        aria-label="Line chart showing dataset 1"
+      />
     );
+    // Wait for Chart.js to render the canvas
+    await new Promise(resolve => setTimeout(resolve, 100));
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

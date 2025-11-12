@@ -55,7 +55,8 @@ describe("GlassActionSheet", () => {
           aria-label="Test component"
         />
       );
-      const element = container.querySelector('[aria-label="Test component"]');
+      // Component uses createPortal, so query document.body instead of container
+      const element = document.body.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
   });
@@ -74,9 +75,10 @@ describe("GlassActionSheet", () => {
       />
     );
 
+    // Component uses createPortal, so query document.body instead of container
     const element =
-      container.querySelector('[data-testid="glassactionsheet"]') ||
-      container.firstChild;
+      document.body.querySelector('[data-testid="glassactionsheet"]') ||
+      document.body.querySelector('[role="dialog"]');
 
     expect(element).toHaveClass("custom-class");
   });

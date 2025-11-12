@@ -35,20 +35,21 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
               aria-live="polite"
               class="glass-text-sm text-primary/60"
             >
-              Infinity
+              0
               % Complete
             </span>
           </div>
           <div
-            aria-label="Form progress: Infinity% complete"
+            aria-label="Form progress: 0% complete"
             aria-valuemax="100"
             aria-valuemin="0"
-            aria-valuenow="Infinity"
+            aria-valuenow="0"
             class="glass-w-full glass-surface-subtle/10 glass-radius-full h-2 overflow-hidden"
             role="progressbar"
           >
             <div
               class="motion-primitive glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full"
+              style="width: 0%;"
             />
           </div>
           <nav

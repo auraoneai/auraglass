@@ -692,6 +692,7 @@ export const GlassFormBuilder = forwardRef<
             size={size}
             loading={loading}
             disabled={disabled}
+            aria-label={submitText || "Submit form"}
           >
             {submitText}
           </GlassButton>

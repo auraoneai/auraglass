@@ -12,6 +12,7 @@ import {
 export interface AdvancedVideoPlayerProps {
   mediaFile: MediaFile;
   className?: string;
+  'data-testid'?: string;
   showControls?: boolean;
   showTranscript?: boolean;
   showChapters?: boolean;
@@ -141,6 +142,7 @@ const VideoControls: React.FC<ControlsProps> = ({
           <button
             onClick={onPlayPause}
             className='w-12 h-12 glass-flex glass-items-center glass-justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
+            aria-label={isPlaying ? 'Pause video' : 'Play video'}
           >
             {isPlaying ? (
               <div className="glass-flex glass-gap-1">
@@ -161,6 +163,7 @@ const VideoControls: React.FC<ControlsProps> = ({
             <button
               onClick={onMuteToggle}
               className='w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              aria-label={isMuted || volume === 0 ? 'Unmute video' : 'Mute video'}
             >
               {isMuted || volume === 0 ? "🔇" : volume < 0.5 ? "🔉" : "🔊"}
             </button>
@@ -193,6 +196,7 @@ const VideoControls: React.FC<ControlsProps> = ({
             <button
               onClick={() => setShowSpeedMenu(!showSpeedMenu)}
               className='glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              aria-label={`Playback speed: ${playbackRate}x`}
             >
               {playbackRate}x
             </button>
@@ -223,6 +227,7 @@ const VideoControls: React.FC<ControlsProps> = ({
             <button
               onClick={() => setShowQualityMenu(!showQualityMenu)}
               className='glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              aria-label={`Video quality: ${quality}`}
             >
               {quality}
             </button>
@@ -252,6 +257,7 @@ const VideoControls: React.FC<ControlsProps> = ({
           <button
             onClick={onFullscreenToggle}
             className='w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard'
+            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
           >
             {isFullscreen ? "⊟" : "⊞"}
           </button>
@@ -464,6 +470,7 @@ const TranscriptPanel: React.FC<{
 export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
   mediaFile,
   className,
+  'data-testid': dataTestId,
   showControls = true,
   showTranscript = false,
   showChapters = false,
@@ -663,6 +670,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
   return (
     <div
       className={cn("relative bg-black rounded-lg overflow-hidden", className)}
+      data-testid={dataTestId || "glassadvancedvideoplayer"}
     >
       <div
         ref={containerRef}

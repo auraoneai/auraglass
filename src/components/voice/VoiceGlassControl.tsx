@@ -30,6 +30,7 @@ interface VoiceGlassControlProps {
   enableFeedback?: boolean;
   showHelp?: boolean;
   maxTranscriptLength?: number;
+  'data-testid'?: string;
 }
 
 interface VoiceCommand {
@@ -182,6 +183,7 @@ export default function VoiceGlassControl({
   enableFeedback = true,
   showHelp = true,
   maxTranscriptLength = 100,
+  'data-testid': dataTestId,
 }: VoiceGlassControlProps) {
   const prefersReducedMotion = useReducedMotion();
   const { state, actions } = useVoiceGlassControl();
@@ -473,7 +475,10 @@ export default function VoiceGlassControl({
 
   if (!state.isSupported) {
     return (
-      <div className={cn("fixed z-50", positionClasses[position], className)}>
+      <div 
+        className={cn("fixed z-50", positionClasses[position], className)}
+        data-testid={dataTestId || 'voiceglasscontrol'}
+      >
         <motion.div
           className="glass-glass-glass-backdrop-blur-lg glass-border glass-border-red/20 glass-surface-red/10 glass-p-3 glass-radius-lg glass-contrast-guard"
           whileHover={{ scale: 1.05 }}
@@ -488,7 +493,10 @@ export default function VoiceGlassControl({
   }
 
   return (
-    <div className={cn("fixed z-50", positionClasses[position], className)}>
+    <div 
+      className={cn("fixed z-50", positionClasses[position], className)}
+      data-testid={dataTestId || 'voiceglasscontrol'}
+    >
       <div className="glass-flex glass-flex-col glass-gap-2">
         {/* Main Control */}
         <motion.div

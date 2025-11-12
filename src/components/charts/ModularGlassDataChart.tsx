@@ -261,6 +261,8 @@ export const ModularGlassDataChart = React.forwardRef<
     renderExportButton,
     kpi,
     useAdaptiveQuality = true,
+    'aria-label': ariaLabel,
+    ...restProps
   } = props;
 
   // Quality tier system integration
@@ -304,6 +306,7 @@ export const ModularGlassDataChart = React.forwardRef<
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
+  const hasAnimatedRef = useRef(false); // Track if initial animation has run
 
   // Consciousness feature hooks - only initialize if features are enabled
   const predictiveEngine = predictive ? usePredictiveEngine() : null;
@@ -542,14 +545,17 @@ export const ModularGlassDataChart = React.forwardRef<
 
   // Apply initial animations based on quality tier
   useEffect(() => {
-    if (enablePhysicsAnimation) {
+    // Only run once on mount to prevent infinite loops
+    if (!hasAnimatedRef.current && enablePhysicsAnimation) {
       // Trigger a pop-in animation on mount for better visual impact
       if (activeQuality !== ("low" as any)) {
         // Start a simple animation from 0 to 1
         animate("chart-mount", 0, 1, 500);
+        hasAnimatedRef.current = true;
       }
     }
-  }, [enablePhysicsAnimation, activeQuality, animate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps - only run once on mount
 
   // Handle chart type change with consciousness features
   const handleTypeChange = (type: ChartType) => {
@@ -866,8 +872,7 @@ export const ModularGlassDataChart = React.forwardRef<
         data-adaptive-complexity={adaptiveComplexity}
         data-insights-count={chartInsights.length}
         data-patterns-count={dataPatterns.length}
-        aria-label={`Interactive KPI chart${title ? ` titled ${title}` : ""}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ""}`}
-        role="img"
+        aria-label={ariaLabel || `Interactive KPI chart${title ? ` titled ${title}` : ""}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ""}`}
       >
         {/* Chart title with consciousness insights */}
         {(title || subtitle || chartInsights.length > 0) && (
@@ -947,8 +952,7 @@ export const ModularGlassDataChart = React.forwardRef<
       data-adaptive-complexity={adaptiveComplexity}
       data-insights-count={chartInsights.length}
       data-patterns-count={dataPatterns.length}
-      aria-label={`Interactive ${chartType} chart${title ? ` titled ${title}` : ""}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ""}`}
-      role="img"
+      aria-label={ariaLabel || `Interactive ${chartType} chart${title ? ` titled ${title}` : ""}${chartInsights.length > 0 ? ` with ${chartInsights.length} insights` : ""}`}
     >
       {/* SVG Filters */}
       {/* <ChartFilters

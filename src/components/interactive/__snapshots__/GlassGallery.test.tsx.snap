@@ -20,6 +20,7 @@ exports[`GlassGallery matches snapshot 1`] = `
           class="motion-primitive inline-block"
         >
           <button
+            aria-label="Switch to grid view"
             class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2"
             data-caustics="true"
             data-magnet="true"
@@ -71,6 +72,7 @@ exports[`GlassGallery matches snapshot 1`] = `
           data-glass-component="true"
         >
           <button
+            aria-label="Switch to list view"
             class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
             id="glass-button-:r7:"
           >

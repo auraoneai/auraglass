@@ -205,6 +205,8 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       trackAchievements = false,
       achievementId,
       usageContext = "main",
+      'aria-label': ariaLabel,
+      ...restProps
     },
     ref
   ) => {
@@ -540,7 +542,13 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       );
 
     return (
-      <div data-glass-component ref={ref} className={cn("w-full", className)}>
+      <div 
+        data-glass-component 
+        ref={ref} 
+        className={cn("w-full", className)}
+        aria-label={ariaLabel}
+        {...restProps}
+      >
         {/* Table header with search and actions */}
         {(searchable || actions || filterable) && (
           <div className='glass-flex glass-items-center glass-justify-between glass-gap-4 mb-4'>

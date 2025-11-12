@@ -20,6 +20,8 @@ interface GlassStepIconProps {
   className?: string;
   /** Inline styles */
   style?: React.CSSProperties;
+  /** Data test id */
+  "data-testid"?: string;
 }
 
 // Get icon state classes
@@ -43,6 +45,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
   tier = "medium",
   className,
   style,
+  "data-testid": dataTestId,
 }) => {
   const getIconContent = () => {
     if (icon) {
@@ -58,7 +61,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
   const iconStateClasses = getIconStateClasses(active, completed);
 
   return (
-    <Motion data-glass-component className='inline-block'>
+    <Motion data-glass-component className={cn('inline-block', className)} data-testid={dataTestId}>
       <OptimizedGlass
         intent={intent}
         elevation={elevation}
@@ -73,8 +76,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
           "transition-all duration-300 ease-in-out",
           "border",
           // State-based styles
-          iconStateClasses,
-          className
+          iconStateClasses
         )}
         style={style}
       >

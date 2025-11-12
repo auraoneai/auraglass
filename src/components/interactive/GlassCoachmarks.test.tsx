@@ -48,8 +48,14 @@ describe('GlassCoachmarks', () => {
    * Props Validation: Accepts and renders with custom props
    */
   it('accepts and renders with custom props', () => {
+    const steps = [{ id: '1', content: 'Test step' }];
     const { container } = render(
       <GlassCoachmarks
+        steps={steps}
+        current={0}
+        onNext={() => {}}
+        onPrev={() => {}}
+        onClose={() => {}}
         className="custom-class"
         data-testid="glasscoachmarks"
       />

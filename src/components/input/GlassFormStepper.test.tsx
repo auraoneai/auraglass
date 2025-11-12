@@ -21,11 +21,17 @@ import { GlassFormStepper } from '@/components/input/GlassFormStepper';
 expect.extend(toHaveNoViolations);
 
 describe('GlassFormStepper', () => {
+  const mockSteps = [
+    { id: '1', title: 'Step 1', description: 'First step' },
+    { id: '2', title: 'Step 2', description: 'Second step' },
+    { id: '3', title: 'Step 3', description: 'Third step' },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassFormStepper />);
+    const { container } = render(<GlassFormStepper steps={mockSteps} />);
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +39,7 @@ describe('GlassFormStepper', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassFormStepper />);
+    const { container } = render(<GlassFormStepper steps={mockSteps} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,13 +56,14 @@ describe('GlassFormStepper', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassFormStepper
+        steps={mockSteps}
         className="custom-class"
         data-testid="glassformstepper"
       />
     );
 
-    const element = container.querySelector('[data-testid="glassformstepper"]')
-      || container.firstChild;
+    const element = container.querySelector('[data-testid="glassformstepper"]') ||
+      screen.getByRole('navigation');
 
     expect(element).toHaveClass('custom-class');
   });
@@ -65,7 +72,8 @@ describe('GlassFormStepper', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassFormStepper />);
-    expect(container.firstChild).toMatchSnapshot();
+    const { container } = render(<GlassFormStepper steps={mockSteps} />);
+    const navElement = screen.getByRole('navigation');
+    expect(navElement).toMatchSnapshot();
   });
 });

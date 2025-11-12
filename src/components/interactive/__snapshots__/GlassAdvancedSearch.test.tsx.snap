@@ -27,7 +27,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
-          <h3
+          <h2
             class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
           >
             <svg
@@ -53,7 +53,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               />
             </svg>
             Advanced Search
-          </h3>
+          </h2>
           <div
             class="glass-flex glass-items-center glass-gap-2"
           >

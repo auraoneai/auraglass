@@ -135,6 +135,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         />
       </svg>
       <input
+        aria-label="Search achievements"
         class="glass-foundation-complete glass-w-full glass-pl-10 glass-pr-4 glass-py-3 glass-text-primary placeholder:glass-text-muted glass-radius-xl glass-border-subtle glass-focus glass-transition glass-touch-target glass-contrast-guard"
         placeholder="Search achievements..."
         type="text"
@@ -142,6 +143,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       />
     </div>
     <select
+      aria-label="Filter by category"
       class="glass-foundation-complete glass-px-4 glass-py-3 glass-radius-xl glass-text-primary glass-border-subtle glass-focus glass-transition glass-touch-target glass-contrast-guard"
     >
       <option
@@ -199,6 +201,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </option>
     </select>
     <select
+      aria-label="Filter by tier"
       class="glass-foundation-complete glass-px-4 glass-py-3 glass-radius-xl glass-text-primary glass-border-subtle glass-focus glass-transition glass-touch-target glass-contrast-guard"
     >
       <option
@@ -233,6 +236,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </option>
     </select>
     <select
+      aria-label="Sort by"
       class="glass-foundation-complete glass-px-4 glass-py-3 glass-radius-xl glass-text-primary glass-border-subtle glass-focus glass-transition"
     >
       <option
@@ -260,6 +264,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       class="glass-flex glass-surface-subtle/10 glass-radius-xl glass-p-1"
     >
       <button
+        aria-label="Grid view"
         class="p-2 rounded-lg transition-all bg-white/20 text-white"
         tabindex="0"
       >
@@ -298,6 +303,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         </svg>
       </button>
       <button
+        aria-label="List view"
         class="p-2 rounded-lg transition-all text-white/60"
         tabindex="0"
       >
@@ -336,6 +342,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </button>
     </div>
     <button
+      aria-label="Hide locked achievements"
       class="px-4 py-3 border border-white/20 rounded-xl transition-all bg-white/10 text-white"
       tabindex="0"
     >
@@ -414,11 +421,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white"
+          role="heading"
         >
           First Steps
-        </h3>
+        </div>
         <p
           class="text-sm text-white/80"
         >
@@ -576,11 +585,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Speed Reader
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -759,11 +770,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Bookworm
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -939,11 +952,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Streak Master
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -1132,11 +1147,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Early Bird
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -1336,11 +1353,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Social Butterfly
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -1528,11 +1547,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Curator
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -1713,11 +1734,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Explorer
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -1896,11 +1919,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Trendsetter
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -2079,11 +2104,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Perfectionist
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >
@@ -2272,11 +2299,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       <div
         class="text-center mb-4"
       >
-        <h3
+        <div
+          aria-level="2"
           class="text-lg font-bold mb-2 text-white/60"
+          role="heading"
         >
           Night Owl
-        </h3>
+        </div>
         <p
           class="text-sm text-white/50"
         >

@@ -171,7 +171,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     return (
       <div
         data-glass-component
-        className='relative inline-block'
+        className={cn('relative inline-block', className)}
         data-testid={dataTestId || "glassavatar"}
       >
         <OptimizedGlass

@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassFormStepper matches snapshot 1`] = `
+<nav
+  aria-label="Form steps"
+  class="flex items-center justify-center glass-gap-6"
+>
+  <div
+    class="glass-flex glass-flex-col glass-items-center group"
+  >
+    <div
+      aria-current="step"
+      aria-disabled="false"
+      aria-label="Step 1: Step 1 (current)"
+      class="motion-primitive glass-flex glass-flex-col glass-items-center cursor-pointer"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 group-hover:shadow-lg w-10 h-10 bg-primary border-primary glass-text-primary"
+      >
+        <span
+          class="font-medium glass-text-base glass-text-primary"
+        >
+          1
+        </span>
+      </div>
+      <div
+        class="mt-3 text-center max-w-24"
+      >
+        <h3
+          class="font-medium leading-tight glass-text-base glass-text-primary"
+        >
+          Step 1
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex-1 glass-mx-2 transition-all duration-300 h-0.5 bg-white/20"
+  />
+  <div
+    class="glass-flex glass-flex-col glass-items-center group"
+  >
+    <div
+      aria-disabled="false"
+      aria-label="Step 2: Step 2"
+      class="motion-primitive glass-flex glass-flex-col glass-items-center cursor-pointer"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 group-hover:shadow-lg w-10 h-10 bg-white/10 border-white/30 glass-text-primary/60"
+      >
+        <span
+          class="font-medium glass-text-base glass-text-primary/60"
+        >
+          2
+        </span>
+      </div>
+      <div
+        class="mt-3 text-center max-w-24"
+      >
+        <h3
+          class="font-medium leading-tight glass-text-base glass-text-primary/60"
+        >
+          Step 2
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex-1 glass-mx-2 transition-all duration-300 h-0.5 bg-white/20"
+  />
+  <div
+    class="glass-flex glass-flex-col glass-items-center group"
+  >
+    <div
+      aria-disabled="false"
+      aria-label="Step 3: Step 3"
+      class="motion-primitive glass-flex glass-flex-col glass-items-center cursor-pointer"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 group-hover:shadow-lg w-10 h-10 bg-white/10 border-white/30 glass-text-primary/60"
+      >
+        <span
+          class="font-medium glass-text-base glass-text-primary/60"
+        >
+          3
+        </span>
+      </div>
+      <div
+        class="mt-3 text-center max-w-24"
+      >
+        <h3
+          class="font-medium leading-tight glass-text-base glass-text-primary/60"
+        >
+          Step 3
+        </h3>
+      </div>
+    </div>
+  </div>
+</nav>
+`;

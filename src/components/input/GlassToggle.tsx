@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 
-export interface GlassToggleProps {
+export interface GlassToggleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {
   /**
    * Whether toggle is pressed/active
    */
@@ -143,6 +143,7 @@ export const GlassToggle = React.forwardRef<
       shape = "glass-radius-md",
       animation = "scale",
       "data-testid": dataTestId,
+      "aria-label": ariaLabel,
       ...props
     },
     ref
@@ -272,7 +273,9 @@ export const GlassToggle = React.forwardRef<
             className
           )}
           onClick={handleClick}
+          role="button"
           aria-pressed={pressed}
+          aria-label={ariaLabel || (children ? undefined : "Toggle")}
           {...props}
         >
           {/* Content */}

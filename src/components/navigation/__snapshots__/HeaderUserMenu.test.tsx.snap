@@ -16,6 +16,7 @@ exports[`HeaderUserMenu matches snapshot 1`] = `
     <div
       class="relative inline-block"
       data-glass-component="true"
+      data-testid="glassavatar"
     >
       <div
         aria-label="Avatar for User"

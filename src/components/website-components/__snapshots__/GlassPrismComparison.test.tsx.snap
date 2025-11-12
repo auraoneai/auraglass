@@ -9,7 +9,7 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
   >
     <div
       class="text-center glass-mb-20"
-      style="opacity: 0; transform: translateY(50px);"
+      initial="[object Object]"
     >
       <h2
         class="glass-text-5xl md:text-7xl font-black mb-8"
@@ -220,7 +220,7 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
       </div>
       <div
         class="absolute top-0 bottom-0 w-1 pointer-events-none"
-        style="left: 50%; transform: none;"
+        style="left: 50%; transform: translateX(-50%);"
       >
         <div
           class="relative glass-w-full glass-h-full"
@@ -256,7 +256,7 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
       </div>
       <div
         class="absolute pointer-events-none z-50"
-        style="left: 50%; top: 50%; transform: none;"
+        style="left: 50%; top: 50%;"
       >
         <div
           class="w-8 h-8 glass-radius-full glass-surface-subtle/30 glass-glass-backdrop-blur-md glass-border glass-border-white/50 glass-flex glass-items-center glass-justify-center glass-contrast-guard"
@@ -286,11 +286,12 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
     </div>
     <div
       class="glass-flex glass-justify-center glass-gap-6 glass-mt-12"
-      style="opacity: 0; transform: translateY(30px);"
+      initial="[object Object]"
     >
       <button
         class="glass-px-6 glass-py-3 glass-radius-full border-2 transition-all duration-300 glass-border glass-surface-primary/20 glass-text-primary"
-        tabindex="0"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
       >
         <span
           class="font-medium"
@@ -300,7 +301,8 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
       </button>
       <button
         class="glass-px-6 glass-py-3 glass-radius-full border-2 transition-all duration-300 border-white/30 glass-text-primary/60 hover:border-white/50 hover:glass-text-primary/80"
-        tabindex="0"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
       >
         <span
           class="font-medium"
@@ -310,7 +312,8 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
       </button>
       <button
         class="glass-px-6 glass-py-3 glass-radius-full border-2 transition-all duration-300 border-white/30 glass-text-primary/60 hover:border-white/50 hover:glass-text-primary/80"
-        tabindex="0"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
       >
         <span
           class="font-medium"
@@ -320,7 +323,8 @@ exports[`GlassPrismComparison matches snapshot 1`] = `
       </button>
       <button
         class="glass-px-6 glass-py-3 glass-radius-full border-2 transition-all duration-300 border-white/30 glass-text-primary/60 hover:border-white/50 hover:glass-text-primary/80"
-        tabindex="0"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
       >
         <span
           class="font-medium"

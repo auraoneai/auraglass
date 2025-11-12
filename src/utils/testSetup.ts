@@ -117,6 +117,7 @@ const canvas2DContext = {
   putImageData: jest.fn(),
   createImageData: jest.fn(() => createImageDataStub()),
   setTransform: jest.fn(),
+  resetTransform: jest.fn(),
   drawImage: jest.fn(),
   save: jest.fn(),
   restore: jest.fn(),

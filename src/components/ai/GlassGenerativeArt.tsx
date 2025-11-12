@@ -464,10 +464,11 @@ export const GlassGenerativeArt = forwardRef<
 
         <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4'>
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-2'>
+            <label htmlFor="model-select" className='block glass-text-xs text-primary/70 mb-2'>
               Model
             </label>
             <select
+              id="model-select"
               value={settings.model}
               onChange={(e) =>
                 setSettings((prev: any) => ({
@@ -476,6 +477,7 @@ export const GlassGenerativeArt = forwardRef<
                 }))
               }
               className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+              aria-label="AI model"
             >
               <option value="stable-diffusion">Stable Diffusion</option>
               <option value="midjourney">Midjourney</option>
@@ -485,10 +487,11 @@ export const GlassGenerativeArt = forwardRef<
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-2'>
+            <label htmlFor="style-select" className='block glass-text-xs text-primary/70 mb-2'>
               Style
             </label>
             <select
+              id="style-select"
               value={settings.style}
               onChange={(e) =>
                 setSettings((prev: any) => ({
@@ -497,6 +500,7 @@ export const GlassGenerativeArt = forwardRef<
                 }))
               }
               className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+              aria-label="Art style preset"
             >
               {stylePresets.map((style: any) => (
                 <option key={style} value={style}>
@@ -507,10 +511,11 @@ export const GlassGenerativeArt = forwardRef<
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-2'>
+            <label htmlFor="resolution-select" className='block glass-text-xs text-primary/70 mb-2'>
               Resolution
             </label>
             <select
+              id="resolution-select"
               value={settings.resolution}
               onChange={(e) =>
                 setSettings((prev: any) => ({
@@ -519,6 +524,7 @@ export const GlassGenerativeArt = forwardRef<
                 }))
               }
               className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm'
+              aria-label="Image resolution"
             >
               <option value="512x512">512 × 512</option>
               <option value="768x768">768 × 768</option>
@@ -528,10 +534,11 @@ export const GlassGenerativeArt = forwardRef<
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-2'>
+            <label htmlFor="iterations-slider" className='block glass-text-xs text-primary/70 mb-2'>
               Iterations: {settings.iterations}
             </label>
             <input
+              id="iterations-slider"
               type="range"
               min="1"
               max="4"
@@ -543,14 +550,16 @@ export const GlassGenerativeArt = forwardRef<
                 }))
               }
               className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              aria-label="Number of iterations"
             />
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-2'>
+            <label htmlFor="steps-slider" className='block glass-text-xs text-primary/70 mb-2'>
               Steps: {settings.steps}
             </label>
             <input
+              id="steps-slider"
               type="range"
               min="10"
               max="50"
@@ -562,14 +571,16 @@ export const GlassGenerativeArt = forwardRef<
                 }))
               }
               className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              aria-label="Number of steps"
             />
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-2'>
+            <label htmlFor="guidance-slider" className='block glass-text-xs text-primary/70 mb-2'>
               Guidance: {settings.guidance}
             </label>
             <input
+              id="guidance-slider"
               type="range"
               min="1"
               max="20"
@@ -582,6 +593,7 @@ export const GlassGenerativeArt = forwardRef<
                 }))
               }
               className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              aria-label="Guidance scale"
             />
           </div>
         </div>

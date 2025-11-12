@@ -228,7 +228,7 @@ export const GlassOrbitalMenu = forwardRef<
           ...glassConfig,
         }}
         aria-label="Orbital navigation menu"
-        role="menu"
+        role="toolbar"
         id={menuId}
         {...props}
       >
@@ -308,7 +308,7 @@ export const GlassOrbitalMenu = forwardRef<
                         onMouseEnter={() => handleItemHover(item.id)}
                         onMouseLeave={() => handleItemHover(null)}
                         disabled={item.disabled}
-                        role="menuitem"
+                        role="button"
                         aria-label={item.label}
                         title={
                           item.shortcut

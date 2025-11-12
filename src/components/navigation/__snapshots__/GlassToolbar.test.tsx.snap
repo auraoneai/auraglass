@@ -5,7 +5,7 @@ exports[`GlassToolbar matches snapshot 1`] = `
   aria-label="Toolbar"
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high w-full flex items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl"
   id="toolbar-:r6:"
-  role="toolbar"
+  role="navigation"
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div

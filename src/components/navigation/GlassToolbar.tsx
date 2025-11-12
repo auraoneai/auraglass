@@ -28,6 +28,7 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
       floating = false,
       respectMotionPreference = true,
       className,
+      'aria-label': ariaLabel,
       ...rest
     },
     ref
@@ -41,8 +42,8 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
         ref={ref}
         elevation={floating ? "level2" : "level1"}
         animation={shouldReduceMotion ? "none" : "gentle"}
-        role="toolbar"
-        aria-label="Toolbar"
+        role="navigation"
+        aria-label={ariaLabel || "Toolbar"}
         id={toolbarId}
         className={cn(
           "w-full flex items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl",

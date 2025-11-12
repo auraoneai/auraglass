@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChartRenderer matches snapshot 1`] = `
+<div
+  aria-label="line chart"
+  class="glass-chart-renderer"
+  data-testid="chartrenderer"
+  role="img"
+  style="width: 100%; height: 100%; position: relative; background: transparent; border-radius: 8px; overflow: hidden;"
+>
+  <canvas
+    aria-label="line chart"
+    height="0"
+    role="img"
+    style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
+    width="0"
+  />
+</div>
+`;

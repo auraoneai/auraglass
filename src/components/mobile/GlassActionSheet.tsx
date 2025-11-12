@@ -95,6 +95,7 @@ export const GlassActionSheet = forwardRef<
       closeOnBackdrop = true,
       animationDuration = 300,
       className,
+      "aria-label": ariaLabel,
       ...props
     },
     ref
@@ -193,18 +194,21 @@ export const GlassActionSheet = forwardRef<
           className={cn(
             "w-full max-w-2xl mx-auto glass-p-4 pb-safe",
             "transition-transform duration-300 ease-out",
-            isAnimating ? "translate-y-0" : "translate-y-full"
+            isAnimating ? "translate-y-0" : "translate-y-full",
+            className
           )}
           role="dialog"
           aria-modal="true"
-          aria-labelledby={title ? "action-sheet-title" : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={title && !ariaLabel ? "action-sheet-title" : undefined}
           aria-describedby={message ? "action-sheet-message" : undefined}
+          data-testid={props['data-testid']}
+          {...props}
         >
           <OptimizedGlass
             ref={ref}
             elevation={elevation}
-            className={cn("overflow-hidden glass-radius-2xl", className)}
-            {...props}
+            className={cn("overflow-hidden glass-radius-2xl")}
           >
             {(title || message) && (
               <div className='glass-p-4 text-center glass-border-b glass-border-subtle'>

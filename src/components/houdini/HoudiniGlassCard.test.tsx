@@ -16,6 +16,7 @@ import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
 import { HoudiniGlassCard } from "@/components/houdini/HoudiniGlassCard";
+import { HoudiniGlassProvider } from "@/components/houdini/HoudiniGlassProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
@@ -26,9 +27,11 @@ describe("HoudiniGlassCard", () => {
    */
   it("renders without crashing", () => {
     const { container } = render(
-      <HoudiniGlassCard>
-        <div>Test content</div>
-      </HoudiniGlassCard>
+      <HoudiniGlassProvider>
+        <HoudiniGlassCard>
+          <div>Test content</div>
+        </HoudiniGlassCard>
+      </HoudiniGlassProvider>
     );
     expect(container).toBeInTheDocument();
   });
@@ -38,9 +41,11 @@ describe("HoudiniGlassCard", () => {
    */
   it("has no accessibility violations", async () => {
     const { container } = render(
-      <HoudiniGlassCard>
-        <div>Test content</div>
-      </HoudiniGlassCard>
+      <HoudiniGlassProvider>
+        <HoudiniGlassCard>
+          <div>Test content</div>
+        </HoudiniGlassCard>
+      </HoudiniGlassProvider>
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -51,15 +56,15 @@ describe("HoudiniGlassCard", () => {
    */
   it("accepts and renders with custom props", () => {
     const { container } = render(
-      <HoudiniGlassCard className="custom-class" data-testid="houdiniglasscard">
-        <div>Custom content</div>
-      </HoudiniGlassCard>
+      <HoudiniGlassProvider>
+        <HoudiniGlassCard className="custom-class" data-testid="houdiniglasscard">
+          <div>Custom content</div>
+        </HoudiniGlassCard>
+      </HoudiniGlassProvider>
     );
 
-    const element =
-      container.querySelector('[data-testid="houdiniglasscard"]') ||
-      container.firstChild;
-
+    const element = container.querySelector('[data-testid="houdiniglasscard"]');
+    expect(element).toBeInTheDocument();
     expect(element).toHaveClass("custom-class");
   });
 
@@ -68,10 +73,14 @@ describe("HoudiniGlassCard", () => {
    */
   it("matches snapshot", () => {
     const { container } = render(
-      <HoudiniGlassCard>
-        <div>Test content</div>
-      </HoudiniGlassCard>
+      <HoudiniGlassProvider>
+        <HoudiniGlassCard>
+          <div>Test content</div>
+        </HoudiniGlassCard>
+      </HoudiniGlassProvider>
     );
-    expect(container.firstChild).toMatchSnapshot();
+    // Get the card element, not the provider wrapper
+    const cardElement = container.querySelector('[data-glass-component]') || container.firstChild?.firstChild;
+    expect(cardElement).toMatchSnapshot();
   });
 });

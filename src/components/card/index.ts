@@ -10,7 +10,7 @@ export const CardHeader = ({ children, className, ...props }: any) => {
 };
 
 export const CardTitle = ({ children, className, ...props }: any) => {
-  return React.createElement('h3', {
+  return React.createElement('h2', {
     className: `card-title ${className || ''}`,
     ...props
   }, children);

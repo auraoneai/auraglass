@@ -12,19 +12,19 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
     <div
       aria-hidden="true"
       class="glass-absolute glass-inset-0 glass-pointer-events-none glass-z-2"
-      id="cursor-glow-:r3o:"
+      id="cursor-glow-:r3j:"
       style="mix-blend-mode: screen; filter: blur(18px) saturate(136%);"
     />
   </div>
   <header
     class="mb-4"
   >
-    <h4
-      class="glass-text-primary glass-text-xl"
-      style="margin-bottom: 8px;"
+    <h1
+      class="glass-text-primary glass-text-5xl"
+      style="margin-bottom: 8px; font-size: 2rem;"
     >
       Glass UI Theme Demo
-    </h4>
+    </h1>
     <p
       class="glass-text-primary glass-text-base"
     >
@@ -51,7 +51,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
             <div
               class="glass-flex glass-items-center glass-justify-between"
             >
-              <h3
+              <h2
                 class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
               >
                 <svg
@@ -96,7 +96,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   />
                 </svg>
                 Theme
-              </h3>
+              </h2>
             </div>
           </div>
           <div
@@ -323,6 +323,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
     <div
       class="glass-tabs w-full"
       data-orientation="horizontal"
+      role="navigation"
     >
       <div
         aria-orientation="horizontal"
@@ -502,11 +503,11 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               <div
                 class="relative z-10"
               >
-                <h6
-                  class="glass-text-primary glass-text-base mb-4 font-semibold"
+                <h2
+                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
                 >
                   Button
-                </h6>
+                </h2>
                 <div
                   class="motion-safe:transition-all motion-reduce:transition-none"
                   style="display: flex; flex-direction: column; gap: 8px;"
@@ -519,7 +520,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       data-caustics="true"
                       data-magnet="true"
                       data-performance-mode="ultra"
-                      id="glass-button-:r3v:"
+                      id="glass-button-:r3q:"
                       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     >
                       <span
@@ -537,7 +538,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       data-adaptive="true"
                       data-magnet="true"
                       data-performance-mode="ultra"
-                      id="glass-button-:r40:"
+                      id="glass-button-:r3r:"
                       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     >
                       <span
@@ -553,7 +554,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   >
                     <button
                       class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
-                      id="glass-button-:r41:"
+                      id="glass-button-:r3s:"
                     >
                       Ghost
                     </button>
@@ -568,11 +569,11 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               <div
                 class="relative z-10"
               >
-                <h6
-                  class="glass-text-primary glass-text-base mb-4 font-semibold"
+                <h2
+                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
                 >
                   Text Field
-                </h6>
+                </h2>
                 <div
                   class="motion-safe:transition-all motion-reduce:transition-none"
                   style="display: flex; flex-direction: column; gap: 8px;"
@@ -580,6 +581,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   <div
                     class="relative"
                     data-glass-component="true"
+                    data-testid="glassinput"
                   >
                     <div
                       class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50"
@@ -587,8 +589,9 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
                     >
                       <input
+                        aria-label="Standard"
                         class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
-                        id="glass-input-:r43:"
+                        id="glass-input-:r3u:"
                         placeholder="Standard"
                       />
                       <div
@@ -599,6 +602,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   <div
                     class="relative"
                     data-glass-component="true"
+                    data-testid="glassinput"
                   >
                     <div
                       class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50"
@@ -606,8 +610,9 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
                     >
                       <input
+                        aria-label="With placeholder"
                         class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
-                        id="glass-input-:r44:"
+                        id="glass-input-:r3v:"
                         placeholder="With placeholder"
                       />
                       <div
@@ -618,6 +623,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   <div
                     class="relative"
                     data-glass-component="true"
+                    data-testid="glassinput"
                   >
                     <div
                       class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 opacity-50"
@@ -626,9 +632,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <input
                         aria-disabled="true"
+                        aria-label="Disabled"
                         class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
                         disabled=""
-                        id="glass-input-:r45:"
+                        id="glass-input-:r40:"
                         placeholder="Disabled"
                       />
                       <div
@@ -646,16 +653,18 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               <div
                 class="relative z-10"
               >
-                <h6
-                  class="glass-text-primary glass-text-base mb-4 font-semibold"
+                <h2
+                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
                 >
                   Select
-                </h6>
+                </h2>
                 <div
                   class="relative inline-block"
                   data-glass-component="true"
+                  data-testid="glassselect"
                 >
                   <select
+                    aria-label="Select Option"
                     class="sr-only glass-touch-target glass-contrast-guard"
                   >
                     <option
@@ -683,10 +692,11 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       <button
                         aria-expanded="false"
                         aria-haspopup="listbox"
+                        aria-label="Select Option"
                         class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:border-white/30 glass-radius-xl outline-none text-left text-primary/90 hover:text-primary glass-glass-glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
                         data-magnet="true"
                         data-performance-mode="ultra"
-                        id="glass-button-:r46:"
+                        id="glass-button-:r41:"
                         style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                         type="button"
                       >
@@ -725,31 +735,37 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               <div
                 class="relative z-10"
               >
-                <h6
-                  class="glass-text-primary glass-text-base mb-4 font-semibold"
+                <h2
+                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
                 >
                   Checkbox & Radio
-                </h6>
+                </h2>
                 <div
                   class="motion-safe:transition-all motion-reduce:transition-none"
                   style="display: flex; flex-direction: column; gap: 8px;"
                 >
                   <div
-                    class="glass-checkbox-container flex glass-gap-3 flex-row items-start"
+                    class="glass-flex glass-flex-row glass-items-start glass-gap-3"
+                    data-testid="glasscheckbox"
                   >
                     <div
                       class="glass-flex glass-items-start pt-0.5"
                     >
                       <div
                         class="relative glass-inline-flex glass-items-center"
+                        data-testid="glasscheckbox"
                       >
                         <input
-                          aria-labelledby="glass-checkbox-label-:r49:"
+                          aria-label="Checkbox Option"
+                          aria-labelledby="glass-checkbox-label-:r44:"
                           class="sr-only glass-touch-target glass-contrast-guard"
-                          id="glass-checkbox-:r48:"
+                          id="glass-checkbox-:r43:"
                           type="checkbox"
                         />
                         <div
+                          aria-checked="false"
+                          aria-label="Checkbox Option"
+                          aria-labelledby="glass-checkbox-label-:r44:"
                           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-checkbox-box relative inline-flex items-center justify-center cursor-pointer group glass-radius-lg transition-all duration-200 h-5 w-5 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary focus-within:ring-offset-background"
                           data-performance-mode="medium"
                           role="checkbox"
@@ -766,8 +782,8 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <label
                         class="glass-checkbox-label cursor-pointer font-medium text-foreground glass-text-sm"
-                        for="glass-checkbox-:r48:"
-                        id="glass-checkbox-label-:r49:"
+                        for="glass-checkbox-:r43:"
+                        id="glass-checkbox-label-:r44:"
                       >
                         Checkbox Option
                       </label>
@@ -779,6 +795,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   >
                     <div
                       class="flex glass-gap-3 flex-col"
+                      data-testid="glassradiogroup"
                       role="radiogroup"
                     >
                       <div
@@ -787,31 +804,11 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                         aria-label="Radio Option"
                         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high flex items-center glass-gap-3 cursor-pointer group transition-all duration-200 glass-p-3 glass-radius-lg"
                         data-performance-mode="medium"
-                        id="glass-radio-item-:r4b:"
+                        id="glass-radio-item-:r46:"
                         role="radio"
                         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
                         tabindex="0"
                       >
-                        <div
-                          class="relative"
-                          data-glass-component="true"
-                        >
-                          <div
-                            class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 sr-only"
-                            data-performance-mode="medium"
-                            style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
-                          >
-                            <input
-                              class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
-                              id="glass-input-:r4c:"
-                              type="radio"
-                              value="radio1"
-                            />
-                            <div
-                              class="glass-flex glass-items-center glass-gap-1"
-                            />
-                          </div>
-                        </div>
                         <div
                           class="relative flex items-center justify-center glass-radius-full border-2 transition-all duration-200 w-5 h-5 border-white/40 bg-white/10"
                         />
@@ -839,10 +836,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <button
                         aria-checked="false"
-                        aria-labelledby="glass-switch-label-:r4e:"
+                        aria-labelledby="glass-switch-label-:r48:"
                         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 h-6 w-11 glass-focus"
                         data-performance-mode="medium"
-                        id="glass-switch-:r4d:"
+                        id="glass-switch-:r47:"
                         role="switch"
                         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
                         type="button"
@@ -857,8 +854,8 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <label
                         class="glass-switch-label cursor-pointer font-medium text-foreground glass-text-sm"
-                        for="glass-switch-:r4d:"
-                        id="glass-switch-label-:r4e:"
+                        for="glass-switch-:r47:"
+                        id="glass-switch-label-:r48:"
                       >
                         Switch Option
                       </label>
@@ -874,23 +871,20 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               <div
                 class="relative z-10"
               >
-                <h6
-                  class="glass-text-primary glass-text-base mb-4 font-semibold"
+                <h2
+                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
                 >
                   Slider
-                </h6>
+                </h2>
                 <div
                   class="glass-slider-container"
+                  data-testid="glassslider"
                 >
                   <div
-                    aria-label="Slider"
-                    aria-orientation="horizontal"
-                    aria-valuemax="100"
-                    aria-valuemin="0"
-                    aria-valuenow="50"
-                    aria-valuetext="50"
+                    aria-labelledby="glass-theme-demo-slider-label"
                     class="glass-slider relative flex items-center w-full h-6"
-                    id="glass-slider-:r4f:"
+                    id="glass-slider-:r49:"
+                    role="group"
                   >
                     <div
                       class="glass-slider-track relative glass-backdrop-blur-md glass-radius-full border border-border/20 w-full h-2 bg-muted/50 cursor-pointer"
@@ -908,6 +902,8 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       />
                     </div>
                     <div
+                      aria-label="Theme intensity slider"
+                      aria-labelledby="glass-theme-demo-slider-label"
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="50"
@@ -920,6 +916,12 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     />
                   </div>
                 </div>
+                <p
+                  class="glass-text-primary glass-text-base glass-text-secondary glass-text-xs mt-1"
+                  id="glass-theme-demo-slider-label"
+                >
+                  Adjust theme intensity for preview components.
+                </p>
               </div>
             </div>
           </div>

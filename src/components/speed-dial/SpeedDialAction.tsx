@@ -57,6 +57,9 @@ const SpeedDialActionComponent = (
     showTooltip = true,
     size = 'medium',
     open = false,
+    'data-testid': dataTestId,
+    children,
+    'aria-label': ariaLabel,
     ...rest
   } = props;
 
@@ -94,6 +97,8 @@ const SpeedDialActionComponent = (
   );
 
   const tooltipContent = tooltipTitle ?? tooltip;
+  // Use children, tooltipContent, or aria-label as accessible name
+  const accessibleName = ariaLabel ?? (typeof children === 'string' ? children : tooltipContent);
 
   const actionClassName = cn(
     styles.action,
@@ -126,6 +131,8 @@ const SpeedDialActionComponent = (
       role="button"
       tabIndex={disabled ? -1 : 0}
       aria-disabled={disabled}
+      aria-label={accessibleName}
+      data-testid={dataTestId || 'speeddialaction'}
       style={{
         ...positionStyle,
         transitionDelay,
@@ -136,6 +143,7 @@ const SpeedDialActionComponent = (
       {...rest}
     >
       {icon}
+      {children && typeof children !== 'string' && children}
       {tooltipContent && (
         <div className={tooltipClassName}>{tooltipContent}</div>
       )}

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParticleBackground matches snapshot 1`] = `
+<div
+  aria-label="Interactive particle background with 50 connected particles"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-medium container glass-particle-background"
+  id="particle-bg-:r7:"
+  role="img"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 19px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  tabindex="0"
+>
+  <div
+    class="backgroundLayer"
+    style="background-color: rgba(10, 10, 20, 0.8);"
+  />
+  <canvas
+    aria-hidden="true"
+    class="canvas"
+    height="0"
+    role="presentation"
+    width="0"
+  />
+  <div
+    aria-hidden="true"
+    class="blurLayer"
+    style="--particle-blur: none;"
+  />
+  <div
+    class="contentLayer"
+  />
+</div>
+`;

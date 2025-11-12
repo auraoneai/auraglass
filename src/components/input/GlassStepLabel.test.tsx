@@ -56,6 +56,7 @@ describe("GlassStepLabel", () => {
   it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassStepLabel
+        label="Step 1"
         active={false}
         completed={false}
         orientation="horizontal"

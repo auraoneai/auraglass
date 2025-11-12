@@ -60,6 +60,7 @@ describe('GlassDialog', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassDialog
+        open={true}
         className="custom-class"
         data-testid="glassdialog"
       />

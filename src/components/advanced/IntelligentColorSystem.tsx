@@ -890,6 +890,7 @@ export const ColorAdaptationDemo: React.FC = () => {
             )}
             onClick={() => updateConfig({ enabled: !config.enabled })}
             whileTap={{ scale: 0.95 }}
+            aria-label={config.enabled ? "Disable auto-adaptation" : "Enable auto-adaptation"}
           >
             <motion.div
               className={cn(

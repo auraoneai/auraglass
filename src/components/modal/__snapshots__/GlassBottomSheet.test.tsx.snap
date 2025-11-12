@@ -2,6 +2,7 @@
 
 exports[`GlassBottomSheet matches snapshot 1`] = `
 <div
+  aria-label="Bottom sheet"
   aria-modal="true"
   class="motion-primitive fixed left-0 right-0 bottom-0 z-[1101] pointer-events-none"
   id="glass-bottom-sheet-:r7:"

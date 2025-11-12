@@ -564,7 +564,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-disabled={disabled}
-        aria-controls={`${inputId}-listbox`}
+        aria-controls={isOpen && flatOptionList.length > 0 ? `${inputId}-listbox` : undefined}
       >
         <div className={styles.tokenList}>
           {selectedOptions.length > 0 ? (
@@ -587,7 +587,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
             placeholder={selectedOptions.length === 0 ? placeholder : ''}
             disabled={disabled || !searchable}
             aria-autocomplete="list"
-            aria-controls={`${inputId}-listbox`}
+            aria-controls={isOpen && flatOptionList.length > 0 ? `${inputId}-listbox` : undefined}
             aria-label={ariaLabel || label || placeholder}
             autoComplete="off"
           />

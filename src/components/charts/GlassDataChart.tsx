@@ -224,6 +224,7 @@ interface GlassDataChartProps {
     hoverEffect?: { scale: number; opacity: number };
     clickEffect?: { scale: number; opacity: number };
   } | null;
+  'aria-label'?: string;
 }
 
 interface GlassDataChartRef {
@@ -802,6 +803,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
     kpi,
     useAdaptiveQuality = true,
     getElementPhysicsOptions,
+    'aria-label': ariaLabel,
   } = props;
   
   // Hooks
@@ -1530,6 +1532,7 @@ const GlassDataChartComponent = React.forwardRef<GlassDataChartRef, GlassDataCha
           onClick={handleDataPointClick}
           onMouseMove={handleChartHover} 
           onMouseLeave={handleChartLeave}
+          aria-label={ariaLabel || (title ? `${title} chart` : 'Data chart')}
         />
       </ChartWrapper>
       

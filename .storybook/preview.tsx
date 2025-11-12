@@ -3,6 +3,11 @@ import { ThemeProvider } from '../src/theme/ThemeProvider';
 import { AnimationProvider } from '../src/contexts/AnimationContext';
 import { CursorGlow } from '../src/components/interactive/CursorGlow';
 import '../src/styles/index.css';
+import {
+  DEFAULT_PERSONA_ID,
+  PERSONA_LIST,
+  type PersonaId,
+} from '../src/theme/designMatrix';
 
 // Import and register ALL Chart.js components to prevent scale registration errors
 import {
@@ -58,6 +63,21 @@ document.body.style.lineHeight = '1.6';
 document.body.style.fontWeight = '400';
 document.body.style.letterSpacing = '-0.01em';
 
+export const globalTypes = {
+  persona: {
+    name: 'Persona',
+    description: 'Design Matrix persona selection',
+    defaultValue: DEFAULT_PERSONA_ID,
+    toolbar: {
+      icon: 'paintbrush',
+      items: PERSONA_LIST.map((persona) => ({
+        value: persona.meta.id,
+        title: persona.meta.name,
+      })),
+    },
+  },
+};
+
 const preview: Preview = {
   parameters: {
     // Limit implicit actions to DOM-like handlers to avoid SB_PREVIEW_API_0002
@@ -111,9 +131,16 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story) => (
-      <AnimationProvider>
-        <ThemeProvider forceColorMode="dark">
+    (Story, context) => {
+      const personaId = (context.globals.persona || DEFAULT_PERSONA_ID) as PersonaId;
+
+      return (
+        <AnimationProvider>
+          <ThemeProvider
+            forceColorMode="dark"
+            initialPersona={personaId}
+            persona={personaId}
+          >
         <div
           style={{
             padding: '20px',
@@ -172,9 +199,10 @@ const preview: Preview = {
             <Story />
           </div>
         </div>
-      </ThemeProvider>
-      </AnimationProvider>
-    ),
+          </ThemeProvider>
+        </AnimationProvider>
+      );
+    },
   ],
 };
 

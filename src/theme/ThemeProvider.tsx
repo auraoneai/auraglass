@@ -31,7 +31,6 @@ const deepmerge = (target: any, source: any): any => {
 };
 
 // import { GlassTheme } from '../core/theme'; // Removed, theme type is handled internally
-import { createThemeContext as ___createThemeContext } from "../core/themeContext";
 // import type { ThemeContext as _ThemeContextType} from '../core/themeUtils'; // Not exported
 import type {
   ColorMode,
@@ -49,11 +48,50 @@ import {
 } from "./themeConstants";
 import { AURA_GLASS } from "../tokens/glass";
 import {
+  DEFAULT_PERSONA_ID,
+  DESIGN_MATRIX,
+  PERSONA_LIST,
+  type PersonaConfig,
+  type PersonaId,
+} from "./designMatrix";
+import {
   getSafeDocument,
   getSafeWindow,
   isBrowser,
   safeMatchMedia,
 } from "../utils/env";
+
+const PERSONA_STORAGE_KEY = "glass-ui-persona-id";
+
+const warnBeforeInit = (method: string) => {
+  if (process.env.NODE_ENV === "development") {
+    console.warn(`${method} was called before ThemeProvider was initialized`);
+  }
+};
+
+const isPersonaId = (value: string): value is PersonaId =>
+  Object.prototype.hasOwnProperty.call(DESIGN_MATRIX, value);
+
+const LEGACY_THEME_VARIANT_TO_PERSONA: Record<string, PersonaId> = {
+  default: DEFAULT_PERSONA_ID,
+  compact: "midnight-meridian",
+  expanded: "ultrathink",
+};
+
+const resolveLegacyPersona = (variant: string | undefined): PersonaId | null => {
+  if (!variant) return null;
+  const normalized = variant.toLowerCase();
+  return LEGACY_THEME_VARIANT_TO_PERSONA[normalized] || null;
+};
+
+const getValueByPath = (root: any, path: string[]): unknown => {
+  return path.reduce<unknown>((value, key) => {
+    if (value && typeof value === "object" && key in value) {
+      return (value as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, root);
+};
 
 // ------ ColorMode Context ------
 interface ColorModeContextType {
@@ -101,6 +139,21 @@ const ThemeVariantContext = createContext<ThemeVariantContextType>({
     }
   },
   availableThemes: [..._THEME_VARIANTS],
+});
+
+// ------ Persona Context ------
+export interface PersonaContextType {
+  personaId: PersonaId;
+  persona: PersonaConfig;
+  setPersona: (persona: PersonaId) => void;
+  personas: PersonaConfig[];
+}
+
+const PersonaContext = createContext<PersonaContextType>({
+  personaId: DEFAULT_PERSONA_ID,
+  persona: DESIGN_MATRIX[DEFAULT_PERSONA_ID],
+  setPersona: (id: PersonaId) => warnBeforeInit(`setPersona(${id})`),
+  personas: PERSONA_LIST,
 });
 
 // ------ StyleUtils Context ------
@@ -205,8 +258,6 @@ const ResponsiveContext = createContext<ResponsiveContextType>({
 // ------ ThemeProvider Presence Context ------
 const ThemeProviderPresenceContext = createContext<boolean>(false);
 
-const DEFAULT_PERSONA_ID = "auraglass-default";
-
 export const useThemeProviderPresence = () =>
   useContext(ThemeProviderPresenceContext);
 
@@ -226,6 +277,21 @@ export interface ThemeProviderProps {
    * Initial theme variant
    */
   initialTheme?: string;
+
+  /**
+   * Initial persona to hydrate with. Falls back to stored preference or default if absent.
+   */
+  initialPersona?: PersonaId;
+
+  /**
+   * Controlled persona id. When provided, internal state will mirror this value.
+   */
+  persona?: PersonaId;
+
+  /**
+   * Persist persona selection in localStorage. Defaults to true.
+   */
+  persistPersona?: boolean;
 
   /**
    * If true, automatically detect system preferences
@@ -296,6 +362,11 @@ export interface ThemeProviderProps {
    * Callback when theme variant changes
    */
   onThemeChange?: (theme: string) => void;
+
+  /**
+   * Callback when persona changes
+   */
+  onPersonaChange?: (persona: PersonaId) => void;
 }
 
 /**
@@ -307,6 +378,9 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
   initialColorMode = "system",
   initialTheme = _THEME_VARIANTS[0] || "default",
+  initialPersona = DEFAULT_PERSONA_ID,
+  persona,
+  persistPersona = true,
   enableAutoDetection = true,
   respectSystemPreference = true,
   forceColorMode,
@@ -321,11 +395,71 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   updateOnlyOnCommit = false,
   onColorModeChange,
   onThemeChange,
+  onPersonaChange,
 }) => {
   // ------ Color Mode State ------
   const themeHostRef = useRef<HTMLDivElement | null>(null);
 
-  const resolvedPersonaId = DEFAULT_PERSONA_ID;
+  const [internalPersonaId, setInternalPersonaId] = useState<PersonaId>(() => {
+    if (persona) {
+      return persona;
+    }
+
+    const legacyMatch = resolveLegacyPersona(initialTheme);
+    if (legacyMatch) {
+      return legacyMatch;
+    }
+
+    return initialPersona;
+  });
+
+  const resolvedPersonaId = persona ?? internalPersonaId;
+
+  const personaConfig = useMemo(() => {
+    const fallback = DESIGN_MATRIX[DEFAULT_PERSONA_ID];
+    return DESIGN_MATRIX[resolvedPersonaId] || fallback;
+  }, [resolvedPersonaId]);
+
+  const setPersona = useCallback(
+    (nextPersona: PersonaId) => {
+      if (!isPersonaId(nextPersona)) {
+        if (process.env.NODE_ENV === "development") {
+          console.warn(`Attempted to set unknown persona "${nextPersona}".`);
+        }
+        return;
+      }
+
+      const storage = persistPersona ? getSafeWindow()?.localStorage : null;
+
+      if (persona) {
+        if (persistPersona) {
+          storage?.setItem(PERSONA_STORAGE_KEY, nextPersona);
+        }
+        onPersonaChange?.(nextPersona);
+        return;
+      }
+
+      setInternalPersonaId((current) => {
+        if (current === nextPersona) {
+          return current;
+        }
+
+        if (persistPersona) {
+          storage?.setItem(PERSONA_STORAGE_KEY, nextPersona);
+        }
+
+        onPersonaChange?.(nextPersona);
+        return nextPersona;
+      });
+    },
+    [persona, persistPersona, onPersonaChange]
+  );
+
+  useEffect(() => {
+    if (!persona || !persistPersona) return;
+    const storage = getSafeWindow()?.localStorage;
+    storage?.setItem(PERSONA_STORAGE_KEY, persona);
+  }, [persona, persistPersona]);
 
   const [colorMode, setColorModeState] = useState<ColorMode>(initialColorMode);
 
@@ -415,6 +549,19 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       const savedThemeVariant = storage.getItem("glass-ui-theme-variant");
       if (savedThemeVariant) {
         setThemeVariantState(savedThemeVariant);
+        if (!persona) {
+          const legacyPersona = resolveLegacyPersona(savedThemeVariant);
+          if (legacyPersona) {
+            setPersona(legacyPersona);
+          }
+        }
+      }
+
+      if (!persona && persistPersona) {
+        const savedPersonaId = storage.getItem(PERSONA_STORAGE_KEY);
+        if (savedPersonaId && isPersonaId(savedPersonaId)) {
+          setPersona(savedPersonaId as PersonaId);
+        }
       }
 
       const savedQualityTier = storage.getItem("glass-ui-quality-tier");
@@ -438,7 +585,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
         console.warn("ThemeProvider: failed to load saved preferences", error);
       }
     }
-  }, [forceColorMode]);
+  }, [forceColorMode, persona, persistPersona, setPersona]);
 
   // ------ Initialize Responsive Breakpoints ------
   useEffect(() => {
@@ -535,8 +682,15 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       if (onThemeChange) onThemeChange(variant);
       const storage = getSafeWindow()?.localStorage;
       storage?.setItem("glass-ui-theme-variant", variant);
+
+      if (!persona) {
+        const mappedPersona = resolveLegacyPersona(variant);
+        if (mappedPersona) {
+          setPersona(mappedPersona);
+        }
+      }
     },
-    [onThemeChange]
+    [onThemeChange, persona, setPersona]
   );
 
   // Handle quality tier change
@@ -601,9 +755,11 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
     const previousTheme = el.getAttribute("data-aura-theme");
     const previousMode = el.getAttribute("data-aura-mode");
+    const previousPersona = el.getAttribute("data-persona");
 
     el.setAttribute("data-aura-theme", resolvedPersonaId);
     el.setAttribute("data-aura-mode", resolvedMode);
+    el.setAttribute("data-persona", resolvedPersonaId);
 
     return () => {
       if (previousTheme) {
@@ -617,24 +773,38 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       } else {
         el.removeAttribute("data-aura-mode");
       }
+
+      if (previousPersona) {
+        el.setAttribute("data-persona", previousPersona);
+      } else {
+        el.removeAttribute("data-persona");
+      }
     };
   }, [isolateTheme, resolvedPersonaId, resolvedMode]);
 
   // Create style utility functions
-  const getColor = useCallback((path: string, fallback = "") => {
-    const parts = path.split(".");
-    let value: any = AURA_GLASS.surfaces;
+  const getColor = useCallback(
+    (path: string, fallback = "") => {
+      const parts = path.split(".");
+      const normalizedParts =
+        parts[0] === "colors" ? parts.slice(1) : parts;
+      const personaValue = getValueByPath(
+        personaConfig.colors,
+        normalizedParts
+      );
 
-    for (const part of parts) {
-      if (value && typeof value === "object" && part in value) {
-        value = value[part];
-      } else {
-        return fallback;
+      if (typeof personaValue === "string") {
+        return personaValue;
       }
-    }
 
-    return typeof value === "string" ? value : fallback;
-  }, []);
+      const glassValue =
+        getValueByPath(AURA_GLASS, normalizedParts) ??
+        getValueByPath(AURA_GLASS.surfaces, normalizedParts);
+
+      return typeof glassValue === "string" ? (glassValue as string) : fallback;
+    },
+    [personaConfig.colors]
+  );
 
   // Create glass effect utilities
   const getBlurStrength = useCallback((strength: string | number) => {
@@ -976,54 +1146,113 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   );
 
   // Theme utility functions
-  const getSpacing = useCallback((size: string | number) => {
-    const spacingMap = {
-      xs: "0.25rem",
-      sm: "0.5rem",
-      md: "1rem",
-      lg: "1.5rem",
-      xl: "2rem",
-    };
-    if (typeof size === "number") return `${size * 8}px`;
-    return spacingMap[size as keyof typeof spacingMap] || "0";
-  }, []);
+  const getSpacing = useCallback(
+    (size: string | number) => {
+      if (typeof size === "number") return `${size * 8}px`;
 
-  const getShadow = useCallback((level: number, color?: string): string => {
-    const shadowMap = {
-      none: "none",
-      sm: "0 1px 2px rgba(0,0,0,0.05)",
-      md: "0 4px 6px rgba(0,0,0,0.07)",
-      lg: "0 10px 15px rgba(0,0,0,0.1)",
-    };
-    const key =
-      level < 1 ? "none" : level === 1 ? "sm" : level === 2 ? "md" : "lg";
-    return shadowMap[key as keyof typeof shadowMap] || shadowMap.md;
-  }, []);
+      const key = size.startsWith("spacing.")
+        ? size.replace("spacing.", "")
+        : size;
 
-  const getBorderRadius = useCallback((size: string) => {
-    const borderRadiusMap = {
-      none: "0",
-      sm: "0.25rem",
-      md: "0.5rem",
-      lg: "1rem",
-    };
-    return borderRadiusMap[size as keyof typeof borderRadiusMap] || "0";
-  }, []);
+      const personaSpacing = personaConfig.spacing as Record<string, string>;
+      if (key in personaSpacing) {
+        return personaSpacing[key];
+      }
+
+      const spacingMap = {
+        xs: "0.25rem",
+        sm: "0.5rem",
+        md: "1rem",
+        lg: "1.5rem",
+        xl: "2rem",
+      } as const;
+
+      return spacingMap[key as keyof typeof spacingMap] || "0";
+    },
+    [personaConfig.spacing]
+  );
+
+  const getShadow = useCallback(
+    (level: number, color?: string): string => {
+      if (level <= 0) {
+        return "none";
+      }
+
+      if (level === 1 && color) {
+        return `0 1px 2px ${color}`;
+      }
+
+      if (level >= 1) {
+        return personaConfig.colors.shadow.panel;
+      }
+
+      return personaConfig.colors.shadow.panel;
+    },
+    [personaConfig.colors.shadow.panel]
+  );
+
+  const getBorderRadius = useCallback(
+    (size: string) => {
+      const key = size.startsWith("radius.")
+        ? size.replace("radius.", "")
+        : size;
+
+      if (key === "panel" || key === "panelRadius") {
+        return personaConfig.spacing.panelRadius;
+      }
+
+      if (key === "button" || key === "buttonRadius") {
+        return personaConfig.spacing.buttonRadius;
+      }
+
+      const borderRadiusMap = {
+        none: "0",
+        sm: "0.25rem",
+        md: "0.5rem",
+        lg: "1rem",
+      } as const;
+      return borderRadiusMap[key as keyof typeof borderRadiusMap] || "0";
+    },
+    [personaConfig.spacing.buttonRadius, personaConfig.spacing.panelRadius]
+  );
 
   const getZIndex = useCallback((layer: string): number => {
     const zIndexMap = { base: 0, modal: 1000, tooltip: 1100 };
     return zIndexMap[layer as keyof typeof zIndexMap] || 0;
   }, []);
 
-  const getTypography = useCallback((variant: string) => {
-    const typographyMap = {
-      h1: { fontSize: "2.5rem", fontWeight: 600 },
-      h2: { fontSize: "2rem", fontWeight: 600 },
-      h3: { fontSize: "1.5rem", fontWeight: 600 },
-      body: { fontSize: "1rem", fontWeight: 400 },
-    };
-    return typographyMap[variant as keyof typeof typographyMap] || {};
-  }, []);
+  const getTypography = useCallback(
+    (variant: string) => {
+      const key = variant.startsWith("typography.")
+        ? variant.replace("typography.", "")
+        : variant;
+
+      const personaTypography = personaConfig.typography as Record<
+        string,
+        { weight: number; size: string; letterSpacing: string; lineHeight?: string }
+      >;
+
+      if (key in personaTypography) {
+        const spec = personaTypography[key];
+        return {
+          fontWeight: spec.weight,
+          fontSize: spec.size,
+          letterSpacing: spec.letterSpacing,
+          ...(spec.lineHeight ? { lineHeight: spec.lineHeight } : {}),
+        };
+      }
+
+      const typographyMap = {
+        h1: { fontSize: "2.5rem", fontWeight: 600 },
+        h2: { fontSize: "2rem", fontWeight: 600 },
+        h3: { fontSize: "1.5rem", fontWeight: 600 },
+        body: { fontSize: "1rem", fontWeight: 400 },
+      } as const;
+
+      return typographyMap[key as keyof typeof typographyMap] || {};
+    },
+    [personaConfig.typography]
+  );
 
   // StyleUtils context
   const styleUtilsContextValue = useMemo(
@@ -1036,6 +1265,16 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       getTypography,
     }),
     [getColor, getSpacing, getShadow, getBorderRadius, getZIndex, getTypography]
+  );
+
+  const personaContextValue = useMemo(
+    () => ({
+      personaId: resolvedPersonaId,
+      persona: personaConfig,
+      setPersona,
+      personas: PERSONA_LIST,
+    }),
+    [personaConfig, resolvedPersonaId, setPersona]
   );
 
   // GlassEffects context including the component
@@ -1165,6 +1404,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       ref={themeHostRef}
       data-aura-theme={resolvedPersonaId}
       data-aura-mode={resolvedMode}
+      data-persona={resolvedPersonaId}
     >
       {children}
     </div>
@@ -1176,15 +1416,17 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     <ThemeProviderPresenceContext.Provider value={true}>
       <ColorModeContext.Provider value={colorModeContextValue}>
         <ThemeVariantContext.Provider value={themeVariantContextValue}>
-          <StyleUtilsContext.Provider value={styleUtilsContextValue}>
-            <GlassEffectsContext.Provider value={glassEffectsContextValue}>
-              <PreferencesContext.Provider value={preferencesContextValue}>
-                <ResponsiveContext.Provider value={responsiveContextValue}>
-                  {themedChildren}
-                </ResponsiveContext.Provider>
-              </PreferencesContext.Provider>
-            </GlassEffectsContext.Provider>
-          </StyleUtilsContext.Provider>
+          <PersonaContext.Provider value={personaContextValue}>
+            <StyleUtilsContext.Provider value={styleUtilsContextValue}>
+              <GlassEffectsContext.Provider value={glassEffectsContextValue}>
+                <PreferencesContext.Provider value={preferencesContextValue}>
+                  <ResponsiveContext.Provider value={responsiveContextValue}>
+                    {themedChildren}
+                  </ResponsiveContext.Provider>
+                </PreferencesContext.Provider>
+              </GlassEffectsContext.Provider>
+            </StyleUtilsContext.Provider>
+          </PersonaContext.Provider>
         </ThemeVariantContext.Provider>
       </ColorModeContext.Provider>
     </ThemeProviderPresenceContext.Provider>
@@ -1207,8 +1449,14 @@ export const useTheme = () => {
   const colorModeContext = useContext(ColorModeContext);
   const themeVariantContext = useContext(ThemeVariantContext);
   const styleUtilsContext = useContext(StyleUtilsContext);
+  const personaContext = useContext(PersonaContext);
 
-  if (!colorModeContext || !themeVariantContext || !styleUtilsContext) {
+  if (
+    !colorModeContext ||
+    !themeVariantContext ||
+    !styleUtilsContext ||
+    !personaContext
+  ) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
 
@@ -1220,6 +1468,10 @@ export const useTheme = () => {
     currentTheme: themeVariantContext.themeVariant,
     setTheme: themeVariantContext.setThemeVariant,
     availableThemes: themeVariantContext.availableThemes,
+    personaId: personaContext.personaId,
+    setPersona: personaContext.setPersona,
+    persona: personaContext.persona,
+    personas: personaContext.personas,
     ...styleUtilsContext,
   };
 };
@@ -1247,6 +1499,16 @@ export const useThemeVariant = (): ThemeVariantContextType => {
 
   if (!context) {
     throw new Error("useThemeVariant must be used within a ThemeProvider");
+  }
+
+  return context;
+};
+
+export const usePersonaTheme = (): PersonaContextType => {
+  const context = useContext(PersonaContext);
+
+  if (!context) {
+    throw new Error("usePersonaTheme must be used within a ThemeProvider");
   }
 
   return context;

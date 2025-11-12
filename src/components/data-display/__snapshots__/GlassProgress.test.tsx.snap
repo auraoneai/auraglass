@@ -3,6 +3,7 @@
 exports[`GlassProgress matches snapshot 1`] = `
 <div
   class="w-full"
+  data-testid="glassprogress"
 >
   <div
     aria-label="Progress"

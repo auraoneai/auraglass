@@ -7,6 +7,9 @@ module.exports = {
   // Use jsdom for browser-like environment
   testEnvironment: 'jsdom',
 
+  // Add the project root to the roots
+  roots: ['<rootDir>'],
+
   // Setup files
   setupFilesAfterEnv: [
     '@testing-library/jest-dom',

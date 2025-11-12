@@ -14,6 +14,7 @@ interface PageBuilderProps {
   onSave?: (data: any) => void;
   onPreview?: (data: any) => void;
   onPublish?: (data: any) => void;
+  "data-testid"?: string;
 }
 
 const Toolbar: React.FC = () => {
@@ -230,6 +231,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
   onSave,
   onPreview,
   onPublish,
+  "data-testid": dataTestId,
 }) => {
   const { importPage } = useDragDrop();
 
@@ -296,6 +298,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
         "h-screen flex flex-col overflow-hidden bg-gray-100",
         className
       )}
+      data-testid={dataTestId}
     >
       {/* Toolbar */}
       <Toolbar />

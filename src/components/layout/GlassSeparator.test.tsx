@@ -44,7 +44,7 @@ describe('GlassSeparator', () => {
    */
   describe('ARIA Attributes', () => {
     it('supports aria-label', () => {
-      const { container } = render(<GlassSeparator aria-label="Test component" />);
+      const { container } = render(<GlassSeparator aria-label="Test component" decorative={false} />);
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });

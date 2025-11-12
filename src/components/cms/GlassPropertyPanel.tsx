@@ -8,6 +8,7 @@ interface PropertyPanelProps {
   className?: string;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  "data-testid"?: string;
 }
 
 interface PropertyInputProps {
@@ -217,6 +218,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
   className,
   collapsed = false,
   onToggleCollapse,
+  "data-testid": dataTestId,
 }) => {
   const {
     pageState,
@@ -249,7 +251,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
 
   if (collapsed) {
     return (
-      <div className={cn("w-12", className)}>
+      <div className={cn("w-12", className)} data-testid={dataTestId}>
         <Glass className="glass-h-full glass-contrast-guard">
           <button
             onClick={onToggleCollapse}
@@ -264,7 +266,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
   }
 
   return (
-    <div className={cn("w-80 h-full flex flex-col", className)}>
+    <div className={cn("w-80 h-full flex flex-col", className)} data-testid={dataTestId}>
       <Glass className="glass-h-full glass-flex glass-flex-col glass-contrast-guard">
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">

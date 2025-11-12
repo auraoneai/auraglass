@@ -63,9 +63,24 @@ describe('AtmosphericEffects', () => {
 
   /**
    * Snapshot Test: Matches snapshot
+   * Note: Mocking Math.random to ensure deterministic particle positions
    */
   it('matches snapshot', () => {
+    // Mock Math.random to return deterministic values for snapshot testing
+    const originalRandom = Math.random;
+    let callCount = 0;
+    Math.random = jest.fn(() => {
+      callCount++;
+      // Return deterministic sequence: 0.1, 0.2, 0.3, ... wrapping at 1.0
+      return ((callCount - 1) % 10) / 10 + 0.1;
+    });
+
     const { container } = render(<AtmosphericEffects />);
+    
+    // Snapshot should be deterministic now with mocked Math.random
     expect(container.firstChild).toMatchSnapshot();
+    
+    // Restore original Math.random
+    Math.random = originalRandom;
   });
 });

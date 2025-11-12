@@ -2,7 +2,9 @@
 
 exports[`GlassLiquidTransition matches snapshot 1`] = `
 <div
+  aria-label="Liquid morphing container"
   class="relative overflow-hidden transform-gpu will-change-transform"
+  role="region"
   style="border-radius: 12px; transform: none;"
 >
   <div

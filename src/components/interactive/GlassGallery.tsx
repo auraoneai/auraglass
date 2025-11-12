@@ -250,6 +250,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                           if (enableLightbox) setLightboxIndex(index);
                         }}
                         className="glass-p-2"
+                        aria-label={`View ${image.title || image.alt || 'image'} in lightbox`}
                       >
                         <ZoomIn className='w-4 h-4' />
                       </GlassButton>
@@ -261,6 +262,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                             size="sm"
                             onClick={(e) => e.stopPropagation()}
                             className="glass-p-2"
+                            aria-label={`Like ${image.title || image.alt || 'image'}`}
                           >
                             <Heart className='w-4 h-4' />
                           </GlassButton>
@@ -270,6 +272,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                             size="sm"
                             onClick={(e) => e.stopPropagation()}
                             className="glass-p-2"
+                            aria-label={`Share ${image.title || image.alt || 'image'}`}
                           >
                             <Share2 className='w-4 h-4' />
                           </GlassButton>
@@ -406,6 +409,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                             if (enableLightbox) setLightboxIndex(index);
                           }}
                           className="glass-p-2"
+                          aria-label={`View ${image.title || image.alt || 'image'} in lightbox`}
                         >
                           <ZoomIn className='w-4 h-4' />
                         </GlassButton>
@@ -415,6 +419,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                           size="sm"
                           onClick={(e) => e.stopPropagation()}
                           className="glass-p-2"
+                          aria-label={`Like ${image.title || image.alt || 'image'}`}
                         >
                           <Heart className='w-4 h-4' />
                         </GlassButton>
@@ -424,6 +429,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                           size="sm"
                           onClick={(e) => e.stopPropagation()}
                           className="glass-p-2"
+                          aria-label={`Share ${image.title || image.alt || 'image'}`}
                         >
                           <Share2 className='w-4 h-4' />
                         </GlassButton>
@@ -467,6 +473,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
             size="sm"
             onClick={(e) => setLightboxIndex(null)}
             className='absolute top-4 right-4 z-10'
+            aria-label="Close lightbox"
           >
             <X className='w-4 h-4' />
           </GlassButton>
@@ -479,6 +486,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                 size="lg"
                 onClick={(e) => handleLightboxNav("prev")}
                 className='absolute left-4 glass-top-1/2 transform -translate-y-1/2'
+                aria-label="Previous image"
               >
                 <ChevronLeft className='w-6 h-6' />
               </GlassButton>
@@ -488,6 +496,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
                 size="lg"
                 onClick={(e) => handleLightboxNav("next")}
                 className='absolute right-4 glass-top-1/2 transform -translate-y-1/2'
+                aria-label="Next image"
               >
                 <ChevronRight className='w-6 h-6' />
               </GlassButton>
@@ -564,6 +573,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
               size="sm"
               onClick={(e) => setViewMode("grid")}
               className="glass-p-2"
+              aria-label="Switch to grid view"
             >
               <Grid3X3 className='w-4 h-4' />
             </GlassButton>
@@ -573,6 +583,7 @@ export const GlassGallery: React.FC<GlassGalleryProps> = ({
               size="sm"
               onClick={(e) => setViewMode("list")}
               className="glass-p-2"
+              aria-label="Switch to list view"
             >
               <List className='w-4 h-4' />
             </GlassButton>

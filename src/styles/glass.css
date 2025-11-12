@@ -1,6 +1,7 @@
 /* AuraGlass Global Utilities - Token-First Architecture */
 
 @import './tokens.css';
+@import './generated/persona-variables.css';
 @import './themes/dark.css';
 @import './themes/light.css';
 
@@ -11,14 +12,15 @@
 .glass,
 .glass-foundation-complete {
   position: relative;
+  --glass-backdrop-blur: blur(var(--glass-theme-overlay-blur, var(--glass-blur-lg)));
   backdrop-filter: var(--glass-backdrop-blur) var(--glass-filter-base);
   -webkit-backdrop-filter: var(--glass-backdrop-blur) var(--glass-filter-base);
-  background: var(--glass-gradient-default);
+  background: var(--glass-theme-background-surface, var(--glass-gradient-default));
   border: 2px solid var(--glass-border-default);
-  box-shadow: var(--glass-elev-2);
-  border-radius: var(--glass-radius-lg);
+  box-shadow: var(--glass-theme-shadow-panel, var(--glass-elev-2));
+  border-radius: var(--glass-theme-panel-radius, var(--glass-radius-lg));
   transition: var(--glass-transition);
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 /* ========================================
@@ -252,7 +254,10 @@
 .glass-focus-strong:focus-visible {
   outline: calc(var(--glass-focus-width) + 1px) solid var(--glass-focus-color);
   outline-offset: var(--glass-focus-offset);
-  box-shadow: 0 0 0 4px rgba(var(--glass-color-primary) / var(--glass-opacity-20));
+  box-shadow: var(
+    --glass-theme-focus-ring,
+    0 0 0 4px rgba(var(--glass-color-primary) / var(--glass-opacity-20))
+  );
 }
 
 /* ========================================
@@ -260,7 +265,7 @@
    ======================================== */
 
 .glass-contrast-guard {
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 /* ========================================
@@ -436,10 +441,11 @@
   border-color: var(--glass-border-subtle);
   /* Override text tokens for this subtree to ensure readability */
   --glass-text-primary: rgba(var(--glass-color-black) / var(--glass-opacity-90));
+  --glass-theme-text: rgba(var(--glass-color-black) / var(--glass-opacity-90));
   --glass-text-secondary: rgba(var(--glass-color-black) / var(--glass-opacity-70));
   --glass-text-tertiary: rgba(var(--glass-color-black) / var(--glass-opacity-60));
   --glass-text-disabled: rgba(var(--glass-color-black) / var(--glass-opacity-40));
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 /* Explicit utilities to force contrast-aware text tokens on any element */
@@ -453,35 +459,39 @@
 
 .glass-on-light {
   --glass-text-primary: rgba(var(--glass-color-black) / var(--glass-opacity-90));
+  --glass-theme-text: rgba(var(--glass-color-black) / var(--glass-opacity-90));
   --glass-text-secondary: rgba(var(--glass-color-black) / var(--glass-opacity-70));
   --glass-text-tertiary: rgba(var(--glass-color-black) / var(--glass-opacity-60));
   --glass-text-disabled: rgba(var(--glass-color-black) / var(--glass-opacity-40));
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 .glass-on-dark {
   --glass-text-primary: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+  --glass-theme-text: rgba(var(--glass-color-white) / var(--glass-opacity-95));
   --glass-text-secondary: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   --glass-text-tertiary: rgba(var(--glass-color-white) / var(--glass-opacity-60));
   --glass-text-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-40));
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 /* Attribute-driven context (auto or manual) */
 [data-bg='light'] {
   --glass-text-primary: rgba(var(--glass-color-black) / var(--glass-opacity-90));
+  --glass-theme-text: rgba(var(--glass-color-black) / var(--glass-opacity-90));
   --glass-text-secondary: rgba(var(--glass-color-black) / var(--glass-opacity-70));
   --glass-text-tertiary: rgba(var(--glass-color-black) / var(--glass-opacity-60));
   --glass-text-disabled: rgba(var(--glass-color-black) / var(--glass-opacity-40));
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 [data-bg='dark'] {
   --glass-text-primary: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+  --glass-theme-text: rgba(var(--glass-color-white) / var(--glass-opacity-95));
   --glass-text-secondary: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   --glass-text-tertiary: rgba(var(--glass-color-white) / var(--glass-opacity-60));
   --glass-text-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-40));
-  color: var(--glass-text-primary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 /* ========================================
@@ -914,27 +924,57 @@
    ======================================== */
 
 .glass-glow {
-  filter: drop-shadow(0 0 14px rgba(var(--glass-color-primary) / var(--glass-opacity-30)));
+  filter: drop-shadow(
+    0 0 14px rgba(
+      var(--glass-theme-accent-primary-rgb, 99 102 241) /
+        var(--glass-opacity-30)
+    )
+  );
 }
 
 .glass-glow-primary {
-  filter: drop-shadow(0 0 14px hsl(var(--glass-color-primary) / var(--glass-opacity-30)));
+  filter: drop-shadow(
+    0 0 14px rgba(
+      var(--glass-theme-accent-primary-rgb, 99 102 241) /
+        var(--glass-opacity-30)
+    )
+  );
 }
 
 .glass-glow-success {
-  filter: drop-shadow(0 0 14px hsl(var(--glass-color-success) / var(--glass-opacity-30)));
+  filter: drop-shadow(
+    0 0 14px rgba(
+      var(--glass-theme-state-success-rgb, 34 197 94) /
+        var(--glass-opacity-30)
+    )
+  );
 }
 
 .glass-glow-warning {
-  filter: drop-shadow(0 0 14px hsl(var(--glass-color-warning) / var(--glass-opacity-30)));
+  filter: drop-shadow(
+    0 0 14px rgba(
+      var(--glass-theme-state-warning-rgb, 245 158 11) /
+        var(--glass-opacity-30)
+    )
+  );
 }
 
 .glass-glow-danger {
-  filter: drop-shadow(0 0 14px hsl(var(--glass-color-danger) / var(--glass-opacity-30)));
+  filter: drop-shadow(
+    0 0 14px rgba(
+      var(--glass-theme-state-error-rgb, 239 68 68) /
+        var(--glass-opacity-30)
+    )
+  );
 }
 
 .glass-glow-info {
-  filter: drop-shadow(0 0 14px hsl(var(--glass-color-info) / var(--glass-opacity-30)));
+  filter: drop-shadow(
+    0 0 14px rgba(
+      var(--glass-theme-accent-secondary-rgb, 14 165 233) /
+        var(--glass-opacity-30)
+    )
+  );
 }
 
 /* ========================================

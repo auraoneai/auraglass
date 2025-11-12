@@ -727,7 +727,7 @@ function MultiUserGlassEditor({
     >
       <div className="glass-p-4">
         <div className='glass-flex glass-items-center glass-justify-between mb-4'>
-          <h3 className='text-primary font-semibold'>Properties Editor</h3>
+          <h2 className='text-primary font-semibold'>Properties Editor</h2>
           <div className="glass-flex glass-gap-2">
             {showHistory && (
               <button className='glass-p-2 glass-radius hover:glass-surface-subtle/10 text-primary'>

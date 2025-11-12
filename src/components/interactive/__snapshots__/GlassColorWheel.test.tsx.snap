@@ -43,7 +43,9 @@ exports[`GlassColorWheel matches snapshot 1`] = `
         style="background-color: rgb(255, 0, 0);"
       />
       <input
+        aria-label="Color value input"
         class="flex-1 glass-px-2 glass-radius-md border border-border/20 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary/50 glass-focus glass-touch-target glass-contrast-guard glass-text-sm h-8"
+        placeholder="#000000"
         type="text"
         value="#ff0000"
       />

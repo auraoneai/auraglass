@@ -18,6 +18,7 @@ export interface SmartShoppingCartProps {
   maxItems?: number;
   onCheckout?: () => void;
   onClose?: () => void;
+  "data-testid"?: string;
 }
 
 interface CartItemCardProps {
@@ -390,6 +391,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   maxItems = 20,
   onCheckout,
   onClose,
+  "data-testid": dataTestId,
 }) => {
   const {
     cart,
@@ -471,9 +473,9 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   const itemCount = getCartItemCount();
 
   if (cart.length === 0) {
-    return (
-      <Glass className={cn("p-6", className)}>
-        <div className='text-center'>
+  return (
+    <Glass className={cn("p-6", className)} data-testid={dataTestId}>
+      <div className='text-center'>
           <div className='text-6xl mb-4'>🛒</div>
           <h2 className='glass-text-xl font-semibold glass-text-secondary mb-2'>
             Your cart is empty
@@ -493,7 +495,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   }
 
   return (
-    <Glass className={cn("overflow-hidden", className)}>
+    <Glass className={cn("overflow-hidden", className)} data-testid={dataTestId}>
       <div className="glass-flex glass-flex-col glass-h-full">
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-p-6 glass-border-b glass-border-subtle">

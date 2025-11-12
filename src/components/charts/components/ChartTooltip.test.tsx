@@ -48,8 +48,16 @@ describe('ChartTooltip', () => {
    * Props Validation: Accepts and renders with custom props
    */
   it('accepts and renders with custom props', () => {
+    const tooltipData = {
+      datasetIndex: 0,
+      dataIndex: 0,
+      x: 100,
+      y: 100,
+      value: { dataset: 'Test', label: 'Label', value: 10 },
+    };
     const { container } = render(
       <ChartTooltip
+        tooltipData={tooltipData}
         className="custom-class"
         data-testid="charttooltip"
       />

@@ -26,6 +26,7 @@ export interface ProductRecommendationsProps {
     | "all";
   className?: string;
   onProductClick?: (product: Product) => void;
+  "data-testid"?: string;
 }
 
 interface ProductCardProps {
@@ -422,6 +423,7 @@ export const GlassProductRecommendations: React.FC<
   recommendationType = "all",
   className,
   onProductClick,
+  "data-testid": dataTestId,
 }) => {
   const {
     recommendations,
@@ -523,7 +525,7 @@ export const GlassProductRecommendations: React.FC<
 
   if (currentRecommendations.length === 0) {
     return (
-      <Glass className={cn("p-6", className)}>
+      <Glass className={cn("p-6", className)} data-testid={dataTestId}>
         <div className='text-center glass-py-12'>
           <div className='glass-text-4xl mb-4'>🤖</div>
           <h3 className='glass-text-lg font-medium glass-text-secondary mb-2'>
@@ -538,7 +540,7 @@ export const GlassProductRecommendations: React.FC<
   }
 
   return (
-    <Glass className={cn("p-6", className)}>
+    <Glass className={cn("p-6", className)} data-testid={dataTestId}>
       {/* Header */}
       <div className='glass-flex glass-items-center glass-justify-between mb-6'>
         <div>

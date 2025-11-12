@@ -60,7 +60,9 @@ describe("TreeItem", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(
       <MockTreeViewProvider>
-        <TreeItem nodeId="node-1" label="Test Node" />
+        <ul role="tree">
+          <TreeItem nodeId="node-1" label="Test Node" />
+        </ul>
       </MockTreeViewProvider>
     );
     const results = await axe(container);

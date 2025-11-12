@@ -102,7 +102,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Button
             </Typography>
             <Box
@@ -128,7 +128,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Text Field
             </Typography>
             <Box
@@ -154,7 +154,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Select
             </Typography>
             <Select
@@ -186,7 +186,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Checkbox & Radio
             </Typography>
             <Box
@@ -212,7 +212,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Slider
             </Typography>
             <Slider
@@ -243,7 +243,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Alert
             </Typography>
             <Box
@@ -271,7 +271,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Progress
             </Typography>
             <Box
@@ -295,7 +295,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Badge
             </Typography>
             <Box style={{ display: "flex", gap: "16px" }}>
@@ -329,7 +329,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Card
             </Typography>
             <Card>
@@ -345,7 +345,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               <pre className='glass-surface-dark/10 glass-radius-md glass-p-3 font-mono glass-text-sm overflow-auto glass-mt-4'>
                 {`<Card>
   <Box p={2}>
-    <Typography variant="h6">Card Title</Typography>
+    <Typography variant="h5">Card Title</Typography>
     <Typography variant="body2">Card content with text</Typography>
     <Box mt={2}>
       <Button size="small">Action</Button>
@@ -363,7 +363,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Paper Card
             </Typography>
             <Card>
@@ -389,7 +389,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Box Layout
             </Typography>
             <Box>
@@ -424,7 +424,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Tabs
             </Typography>
             <Tabs defaultValue="tab1">
@@ -459,15 +459,15 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Typography
             </Typography>
             <Box
               style={{ display: "flex", flexDirection: "column", gap: "8px" }}
             >
+              <Typography variant="h2">Heading 2</Typography>
               <Typography variant="h3">Heading 3</Typography>
-              <Typography variant="h5">Heading 5</Typography>
-              <Typography variant="h6">Subtitle 1</Typography>
+              <Typography variant="h4">Heading 4</Typography>
               <Typography variant="p">Body 1 text</Typography>
               <Typography variant="span">Body 2 text</Typography>
               <Typography variant="p">Caption text</Typography>
@@ -491,7 +491,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Chip
             </Typography>
             <Box style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
@@ -517,7 +517,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
               !prefersReducedMotion && "hover:scale-[1.02]"
             )}
           >
-            <Typography variant="h6" className='mb-4 font-semibold'>
+            <Typography variant="h2" className='mb-4 font-semibold'>
               Avatar
             </Typography>
             <Box style={{ display: "flex", gap: "8px" }}>
@@ -573,7 +573,7 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
         <header className='mb-4'>
           {header || (
             <>
-              <Typography variant="h4" style={{ marginBottom: "8px" }}>
+              <Typography variant="h1" style={{ marginBottom: "8px", fontSize: "2rem" }}>
                 {title}
               </Typography>
               {typeof description === "string" ? (

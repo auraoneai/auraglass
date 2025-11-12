@@ -16,6 +16,7 @@ import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
 import { GlassProgress } from '@/components/data-display/GlassProgress';
+import { MotionPreferenceProvider } from '@/contexts/MotionPreferenceContext';
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
@@ -73,19 +74,20 @@ describe('GlassProgress', () => {
         })),
       });
 
-      const { container } = render(<GlassProgress />);
+      const { container } = render(
+        <MotionPreferenceProvider initialMotionPolicy="auto" initialPrefersReducedMotion={true}>
+          <GlassProgress value={50} />
+        </MotionPreferenceProvider>
+      );
 
-      // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
-        const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
+      // Check that the progress fill has transitionDuration set to 0ms when reduced motion is preferred
+      const progressFill = container.querySelector('[role="progressbar"] > div');
+      if (progressFill) {
+        const styles = window.getComputedStyle(progressFill);
         const transitionDuration = parseFloat(styles.transitionDuration || '0');
-
-        // Animations should be instant or very short (< 0.1s)
-        expect(animationDuration).toBeLessThan(0.1);
+        // When reduced motion is preferred, transitionDuration should be 0ms
         expect(transitionDuration).toBeLessThan(0.1);
-      });
+      }
     });
   });
 

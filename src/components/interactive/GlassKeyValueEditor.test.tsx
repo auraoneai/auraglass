@@ -21,11 +21,19 @@ import { GlassKeyValueEditor } from '@/components/interactive/GlassKeyValueEdito
 expect.extend(toHaveNoViolations);
 
 describe('GlassKeyValueEditor', () => {
+  const mockValue = [
+    { key: 'key1', value: 'value1' },
+    { key: 'key2', value: 'value2' },
+  ];
+  const mockOnChange = jest.fn();
+
   /**
    * Smoke Test: Component renders without crashing
    */
   it('renders without crashing', () => {
-    const { container } = render(<GlassKeyValueEditor />);
+    const { container } = render(
+      <GlassKeyValueEditor value={mockValue} onChange={mockOnChange} />
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +41,9 @@ describe('GlassKeyValueEditor', () => {
    * Accessibility Test: No axe violations
    */
   it('has no accessibility violations', async () => {
-    const { container } = render(<GlassKeyValueEditor />);
+    const { container } = render(
+      <GlassKeyValueEditor value={mockValue} onChange={mockOnChange} />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -50,6 +60,8 @@ describe('GlassKeyValueEditor', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassKeyValueEditor
+        value={mockValue}
+        onChange={mockOnChange}
         className="custom-class"
         data-testid="glasskeyvalueeditor"
       />
@@ -65,7 +77,9 @@ describe('GlassKeyValueEditor', () => {
    * Snapshot Test: Matches snapshot
    */
   it('matches snapshot', () => {
-    const { container } = render(<GlassKeyValueEditor />);
+    const { container } = render(
+      <GlassKeyValueEditor value={mockValue} onChange={mockOnChange} />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

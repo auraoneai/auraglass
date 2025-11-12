@@ -634,6 +634,8 @@ export const GlassColorWheel = forwardRef<HTMLDivElement, GlassColorWheelProps>(
                   "glass-focus glass-touch-target glass-contrast-guard",
                   config.input
                 )}
+                aria-label="Color value input"
+                placeholder={inputFormat === "hex" ? "#000000" : inputFormat === "rgb" ? "rgb(0,0,0)" : inputFormat === "hsl" ? "hsl(0,0%,0%)" : "hsv(0,0%,0%)"}
               />
             )}
           </div>

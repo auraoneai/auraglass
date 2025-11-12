@@ -1,4 +1,4 @@
-import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
+import { describe, it, expect, jest, beforeEach, afterEach, beforeAll } from '@jest/globals';
 import { OpenAIService } from '../openai-service';
 import { SemanticSearchService } from '../semantic-search-service';
 import { VisionService } from '../vision-service';
@@ -6,10 +6,133 @@ import { defaultAIConfig } from '../config';
 
 type MutableConfig = typeof defaultAIConfig;
 
-jest.mock('openai');
-jest.mock('redis');
-jest.mock('@pinecone-database/pinecone');
-jest.mock('@google-cloud/vision');
+// Mock optional dependencies - use virtual mocks if modules don't exist
+const mockOpenAICreate = jest.fn().mockImplementation((params: any) => {
+  const userContent = params.messages?.find((m: any) => m.role === 'user')?.content || '';
+  
+  // Return different responses based on the prompt content
+  if (userContent.includes('form') || userContent.includes('field')) {
+    return Promise.resolve({
+      choices: [{
+        message: {
+          content: JSON.stringify({
+            fields: [
+              { fieldName: 'email', fieldType: 'email', label: 'Email', required: true, validation: { pattern: '^[^@]+@[^@]+\\.[^@]+$' } },
+              { fieldName: 'password', fieldType: 'password', label: 'Password', required: true },
+            ],
+          }),
+        },
+      }],
+    });
+  } else if (userContent.includes('search') || userContent.includes('query')) {
+    return Promise.resolve({
+      choices: [{
+        message: {
+          content: JSON.stringify({
+            enhancedQuery: userContent.includes('authentication') ? 'user authentication settings configuration' : 'find user settings',
+            searchTerms: userContent.includes('authentication') ? ['authentication', 'settings'] : ['user', 'settings'],
+            intent: 'search',
+            confidence: 0.9,
+          }),
+        },
+      }],
+    });
+  } else if (userContent.includes('summary') || userContent.includes('summarize')) {
+    return Promise.resolve({
+      choices: [{
+        message: {
+          content: 'This is a concise summary of the content.',
+        },
+      }],
+    });
+  }
+  
+  // Default response
+  return Promise.resolve({
+    choices: [{
+      message: {
+        content: JSON.stringify({ fields: [] }),
+      },
+    }],
+  });
+});
+
+jest.mock('openai', () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => ({
+      chat: {
+        completions: {
+          create: mockOpenAICreate,
+        },
+      },
+      embeddings: {
+        create: jest.fn().mockResolvedValue({
+          data: [{
+            embedding: Array(1536).fill(0).map(() => Math.random()),
+          }],
+        }),
+      },
+    })),
+  };
+}, { virtual: true });
+
+jest.mock('redis', () => ({
+  __esModule: true,
+  createClient: jest.fn().mockImplementation(() => {
+    const mockClient = {
+      on: jest.fn(),
+      connect: jest.fn().mockResolvedValue(undefined),
+      get: jest.fn().mockResolvedValue(null),
+      setEx: jest.fn().mockResolvedValue(undefined),
+      del: jest.fn().mockResolvedValue(undefined),
+      flushAll: jest.fn().mockResolvedValue(undefined),
+      quit: jest.fn().mockResolvedValue(undefined),
+    };
+    return mockClient;
+  }),
+}), { virtual: true });
+
+jest.mock('@pinecone-database/pinecone', () => ({
+  __esModule: true,
+  Pinecone: jest.fn().mockImplementation(() => ({
+    index: jest.fn().mockReturnValue({
+      upsert: jest.fn().mockResolvedValue(undefined),
+      query: jest.fn().mockResolvedValue({ matches: [] }),
+    }),
+    listIndexes: jest.fn().mockResolvedValue({
+      indexes: [{ name: 'aura-glass-embeddings', status: { ready: true } }],
+    }),
+    createIndex: jest.fn().mockResolvedValue(undefined),
+  })),
+}), { virtual: true });
+
+jest.mock('@google-cloud/vision', () => ({
+  __esModule: true,
+  default: {
+    ImageAnnotatorClient: jest.fn().mockImplementation(() => ({
+      faceDetection: jest.fn().mockResolvedValue([{
+        faceAnnotations: [{
+          boundingPoly: { vertices: [{ x: 0, y: 0 }, { x: 100, y: 100 }] },
+          detectionConfidence: 0.9,
+          joyLikelihood: 'VERY_LIKELY',
+          sorrowLikelihood: 'UNLIKELY',
+          angerLikelihood: 'UNLIKELY',
+          surpriseLikelihood: 'UNLIKELY',
+        }],
+      }]),
+      documentTextDetection: jest.fn().mockResolvedValue([{
+        fullTextAnnotation: { text: 'test', pages: [] },
+        textAnnotations: [{ locale: 'en' }],
+      }]),
+      annotateImage: jest.fn().mockResolvedValue([{
+        labelAnnotations: [{ description: 'test', score: 0.9 }],
+        safeSearchAnnotation: {},
+        imagePropertiesAnnotation: { dominantColors: { colors: [] } },
+      }]),
+    })),
+  },
+}), { virtual: true });
 
 describe('AI Services Test Suite', () => {
   let openAIService: OpenAIService;
@@ -19,10 +142,10 @@ describe('AI Services Test Suite', () => {
 
   const createTestConfig = (): MutableConfig => ({
     ...defaultAIConfig,
-    openai: { ...defaultAIConfig.openai },
-    googleCloud: { ...defaultAIConfig.googleCloud },
-    pinecone: { ...defaultAIConfig.pinecone },
-    removeBg: { ...defaultAIConfig.removeBg },
+    openai: { ...defaultAIConfig.openai, apiKey: 'test-key' },
+    googleCloud: { ...defaultAIConfig.googleCloud, apiKey: 'test-key' },
+    pinecone: { ...defaultAIConfig.pinecone, apiKey: 'test-key' },
+    removeBg: { ...defaultAIConfig.removeBg, apiKey: 'test-key' },
     redis: { ...defaultAIConfig.redis },
     rateLimit: { ...defaultAIConfig.rateLimit },
     costOptimization: {

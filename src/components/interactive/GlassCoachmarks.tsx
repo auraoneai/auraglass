@@ -12,6 +12,8 @@ export interface GlassCoachmarksProps {
   onNext: () => void;
   onPrev: () => void;
   onClose: () => void;
+  className?: string;
+  "data-testid"?: string;
 }
 
 export function GlassCoachmarks({
@@ -21,8 +23,9 @@ export function GlassCoachmarks({
   onPrev = () => {},
   onClose = () => {},
   className,
+  "data-testid": dataTestId,
   ...props
-}: GlassCoachmarksProps & { className?: string }) {
+}: GlassCoachmarksProps) {
   const steps = Array.isArray(incomingSteps) ? incomingSteps : [];
   const step = steps[current];
   if (!step) {
@@ -32,6 +35,7 @@ export function GlassCoachmarks({
     <div
       data-glass-component
       className={cn("fixed inset-0 z-[2000]", className)}
+      data-testid={dataTestId}
       {...props}
     >
       <div

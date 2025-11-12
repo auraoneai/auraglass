@@ -51,6 +51,7 @@ export const GlassTabs = forwardRef<HTMLDivElement, GlassTabsProps>(
       activationMode = "automatic",
       className,
       children,
+      'aria-label': ariaLabel,
       ...props
     },
     ref
@@ -125,6 +126,8 @@ export const GlassTabs = forwardRef<HTMLDivElement, GlassTabsProps>(
       <TabsContext.Provider data-glass-component value={contextValue}>
         <div
           ref={ref}
+          role="navigation"
+          aria-label={ariaLabel}
           className={cn(
             "glass-tabs",
             orientation === "vertical" ? "flex glass-gap-6" : "w-full",

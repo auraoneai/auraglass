@@ -2,6 +2,7 @@
 
 exports[`GlassSplitPane matches snapshot 1`] = `
 <div
+  aria-label="Split pane"
   aria-labelledby="split-pane-label-:r15:"
   class="relative w-full h-full grid grid-cols-[var(--a)_12px_1fr] motion-safe:transition-all motion-reduce:transition-none"
   id=":r13:"

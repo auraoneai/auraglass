@@ -43,6 +43,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   tooltipStyle = "frosted",
   followCursor = false,
   className,
+  "data-testid": dataTestId,
 }) => {
   if (!tooltipData) return null;
 

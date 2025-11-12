@@ -100,8 +100,8 @@ export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
             className
           )}
           role={decorative ? 'presentation' : 'separator'}
-          aria-orientation={orientation}
-          aria-label={ariaLabel || (content ? `Separator with content: ${content}` : undefined)}
+          aria-orientation={decorative ? undefined : orientation}
+          aria-label={decorative ? undefined : (ariaLabel || (content ? `Separator with content: ${content}` : undefined))}
           {...props}
         >
           {/* Left separator */}
@@ -170,8 +170,8 @@ export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
           className
         )}
         role={decorative ? 'presentation' : 'separator'}
-        aria-orientation={orientation}
-        aria-label={ariaLabel || `${orientation} separator`}
+        aria-orientation={decorative ? undefined : orientation}
+        aria-label={decorative ? undefined : (ariaLabel || `${orientation} separator`)}
         {...props}
       />
     );

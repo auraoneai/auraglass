@@ -50,8 +50,8 @@ describe('GlassCheckbox', () => {
     });
 
     it('supports aria-label', () => {
-      render(<GlassCheckbox aria-label="Test input" />);
-      const element = screen.getByLabelText(/test input/i);
+      const { container } = render(<GlassCheckbox aria-label="Test input" />);
+      const element = container.querySelector('input[aria-label="Test input"]');
       expect(element).toBeInTheDocument();
     });
 

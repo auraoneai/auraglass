@@ -61,12 +61,14 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           class="glass-flex space-x-1"
         >
           <button
+            aria-label="Select color var(--glass-black)"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white scale-110
                       "
           />
           <button
+            aria-label="Select color #FF0000"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -74,6 +76,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(255, 0, 0);"
           />
           <button
+            aria-label="Select color #00FF00"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -81,6 +84,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(0, 255, 0);"
           />
           <button
+            aria-label="Select color #0000FF"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -88,6 +92,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(0, 0, 255);"
           />
           <button
+            aria-label="Select color #FFFF00"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -95,6 +100,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(255, 255, 0);"
           />
           <button
+            aria-label="Select color #FF00FF"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -102,6 +108,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(255, 0, 255);"
           />
           <button
+            aria-label="Select color #00FFFF"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -109,6 +116,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(0, 255, 255);"
           />
           <button
+            aria-label="Select color #FF8000"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -116,6 +124,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(255, 128, 0);"
           />
           <button
+            aria-label="Select color #8000FF"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -123,6 +132,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             style="background-color: rgb(128, 0, 255);"
           />
           <button
+            aria-label="Select color #FF0080"
             class="
                         w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
                         border-white/30 hover:scale-105
@@ -134,6 +144,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           class="glass-flex space-x-1"
         >
           <button
+            aria-label="Select brush size 2px"
             class="
                         w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
                         text-white/70 hover:text-white hover:bg-white/10
@@ -145,6 +156,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             />
           </button>
           <button
+            aria-label="Select brush size 4px"
             class="
                         w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
                         bg-white/20 text-white
@@ -156,6 +168,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             />
           </button>
           <button
+            aria-label="Select brush size 8px"
             class="
                         w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
                         text-white/70 hover:text-white hover:bg-white/10
@@ -167,6 +180,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             />
           </button>
           <button
+            aria-label="Select brush size 12px"
             class="
                         w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
                         text-white/70 hover:text-white hover:bg-white/10
@@ -178,6 +192,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             />
           </button>
           <button
+            aria-label="Select brush size 16px"
             class="
                         w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
                         text-white/70 hover:text-white hover:bg-white/10
@@ -189,6 +204,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
             />
           </button>
           <button
+            aria-label="Select brush size 24px"
             class="
                         w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
                         text-white/70 hover:text-white hover:bg-white/10

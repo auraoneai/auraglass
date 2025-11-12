@@ -94,6 +94,7 @@ function RippleButtonComponent(
     fullWidth = false,
     className,
     style,
+    'data-testid': dataTestId,
     ...rest // Rest are Button props
   } = props;
 
@@ -159,6 +160,7 @@ function RippleButtonComponent(
         ref={wrapperRef}
         style={wrapperStyle}
         className={cn(styles.wrapper, 'glass-ripple-button glass-contrast-guard', className)} // Pass className to wrapper for styling
+        data-testid={dataTestId}
     >
       <Button
         ref={ref} // Forward the ref to the underlying Button

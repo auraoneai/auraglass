@@ -259,7 +259,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
           }
 
           .zspace-sidebar-toggle:hover {
-            background: var(--aura-glass-bg-hover, rgba(255, 255, 255, 0.15)) !important;
+            background: color-mix(in srgb, var(--glass-theme-accent-primary, rgba(255, 255, 255, 0.2)) 22%, transparent) !important;
             transform: translateY(-50%) scale(1.05);
           }
 
@@ -268,8 +268,11 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
           }
 
           .zspace-sidebar-toggle:focus-visible {
-            outline: 2px solid var(--aura-accent-color, #00d4ff);
-            outline-offset: 2px;
+            outline: none;
+            box-shadow: var(
+              --glass-theme-focus-ring,
+              0 0 0 3px rgba(99, 102, 241, 0.3)
+            );
           }
 
           @media (prefers-reduced-motion: reduce) {

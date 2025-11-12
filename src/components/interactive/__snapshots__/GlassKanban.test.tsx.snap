@@ -4,6 +4,7 @@ exports[`GlassKanban matches snapshot 1`] = `
 <div
   class="motion-primitive glass-w-full glass-h-full"
   data-glass-component="true"
+  data-testid="glasskanban"
 >
   <div
     class="grid glass-gap-4 glass-p-4"

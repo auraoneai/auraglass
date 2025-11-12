@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KpiChart matches snapshot 1`] = `
+<div
+  data-glass-component="true"
+  data-testid="kpichart"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+>
+  <div
+    style="font-size: 2.25rem; margin-bottom: 8px;"
+  >
+    1,234
+  </div>
+  <div
+    style="opacity: 0.8;"
+  >
+    Test KPI
+  </div>
+  <div
+    style="margin-top: 4px;"
+  >
+    ↑
+     
+    5
+    % 
+    vs last month
+  </div>
+</div>
+`;

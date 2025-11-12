@@ -545,8 +545,8 @@ export const GlassCommandPalette = forwardRef<
             <div
               ref={listRef}
               className='max-h-96 overflow-y-auto overscroll-contain'
-              role="listbox"
-              aria-label="Command results"
+              role={filteredItems && filteredItems.length > 0 ? "listbox" : "status"}
+              aria-label={filteredItems && filteredItems.length > 0 ? "Command results" : "No commands found"}
             >
               {loading ? (
                 <div className="glass-flex glass-items-center glass-justify-center glass-py-8">

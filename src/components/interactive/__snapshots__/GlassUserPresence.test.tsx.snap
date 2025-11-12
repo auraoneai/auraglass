@@ -18,7 +18,7 @@ exports[`GlassUserPresence matches snapshot 1`] = `
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
-          <h3
+          <h2
             class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
           >
             <svg
@@ -50,7 +50,7 @@ exports[`GlassUserPresence matches snapshot 1`] = `
               />
             </svg>
             Team Presence
-          </h3>
+          </h2>
           <div
             aria-label="Badge: 0, online"
             class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-1 font-medium transition-all duration-200 glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-secondary/10 glass-text-primary/90 border-0"

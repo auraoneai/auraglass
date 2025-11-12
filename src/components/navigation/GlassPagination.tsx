@@ -133,6 +133,7 @@ export const GlassPagination: React.FC<GlassPaginationProps> = ({
   loading = false,
   "aria-label": ariaLabel = "Pagination",
   announcePageChanges = true,
+  'data-testid': dataTestId,
 }) => {
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
@@ -247,7 +248,13 @@ export const GlassPagination: React.FC<GlassPaginationProps> = ({
   }, [updateInk]);
 
   return (
-    <nav data-glass-component aria-label={ariaLabel} role="navigation">
+    <nav 
+      data-glass-component 
+      aria-label={ariaLabel} 
+      role="navigation"
+      className={cn(className)}
+      data-testid={dataTestId}
+    >
       <OptimizedGlass
         intent="neutral"
         elevation="level2"
@@ -389,6 +396,11 @@ export const GlassPaginationItem: React.FC<GlassPaginationItemProps> = ({
     current: isActive,
     disabled,
   });
+  
+  // Add role="button" for interactive divs with aria-label
+  if (ariaLabel) {
+    a11yProps.role = 'button';
+  }
   const sizeClasses = {
     sm: "h-8 w-8 glass-text-sm",
     md: "h-10 w-10 glass-text-base",

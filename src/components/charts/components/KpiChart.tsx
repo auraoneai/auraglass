@@ -36,6 +36,8 @@ export const KpiChart: React.FC<KpiChartProps> = ({
   qualityTier = 'medium',
   color = 'var(--glass-color-primary)',
   isReducedMotion = false,
+  className,
+  'data-testid': dataTestId,
 }) => {
   const formatValue = (value: number | string, format?: string): string => {
     if (typeof value === 'string') return value;

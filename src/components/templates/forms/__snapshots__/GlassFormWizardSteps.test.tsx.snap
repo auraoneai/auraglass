@@ -30,6 +30,7 @@ exports[`GlassFormWizardSteps matches snapshot 1`] = `
       </div>
       <div
         class="w-full"
+        data-testid="glassprogress"
       >
         <div
           aria-label="Progress"

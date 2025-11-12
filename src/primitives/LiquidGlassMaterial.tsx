@@ -496,6 +496,7 @@ export const LiquidGlassMaterial = forwardRef<
         onMouseDown={interactive ? handleMouseDown : undefined}
         onMouseUp={interactive ? handleMouseUp : undefined}
         aria-disabled={disabled || undefined}
+        data-liquid-glass-material="true"
         {...props}
       >
         {/* Edge sheen layer */}

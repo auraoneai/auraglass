@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlassTimeline matches snapshot 1`] = `
+<div
+  aria-label="Timeline"
+  class="relative pl-6"
+  data-testid="glasstimeline"
+  id="timeline-:r4:"
+>
+  <div
+    class="absolute top-0 bottom-0 left-2 w-px bg-border/20"
+  />
+  <ul
+    class="relative glass-gap-4"
+    role="list"
+  >
+    <li
+      class="relative"
+      role="listitem"
+    >
+      <span
+        class="absolute top-2 glass-radius-full bg-primary shadow-lg w-3 h-3 -glass-ml-1.5"
+      />
+      <div
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-p-3 glass-text-base border-0"
+        data-performance-mode="medium"
+        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="glass-flex glass-items-start glass-justify-between glass-gap-4"
+        >
+          <div
+            class="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1"
+          >
+            <div
+              class="glass-min-w-0 glass-flex-1"
+            >
+              <div
+                class="font-medium text-foreground glass-text-base"
+              >
+                Event 1
+              </div>
+              <div
+                class="glass-text-secondary glass-mt-1 glass-text-sm"
+              >
+                Description 1
+              </div>
+            </div>
+          </div>
+          <div
+            class="glass-text-secondary whitespace-nowrap glass-text-xs"
+          >
+            2024-01-01
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="relative"
+      role="listitem"
+    >
+      <span
+        class="absolute top-2 glass-radius-full bg-primary shadow-lg w-3 h-3 -glass-ml-1.5"
+      />
+      <div
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-p-3 glass-text-base border-0"
+        data-performance-mode="medium"
+        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="glass-flex glass-items-start glass-justify-between glass-gap-4"
+        >
+          <div
+            class="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1"
+          >
+            <div
+              class="glass-min-w-0 glass-flex-1"
+            >
+              <div
+                class="font-medium text-foreground glass-text-base"
+              >
+                Event 2
+              </div>
+              <div
+                class="glass-text-secondary glass-mt-1 glass-text-sm"
+              >
+                Description 2
+              </div>
+            </div>
+          </div>
+          <div
+            class="glass-text-secondary whitespace-nowrap glass-text-xs"
+          >
+            2024-01-02
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="relative"
+      role="listitem"
+    >
+      <span
+        class="absolute top-2 glass-radius-full bg-primary shadow-lg w-3 h-3 -glass-ml-1.5"
+      />
+      <div
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-p-3 glass-text-base border-0"
+        data-performance-mode="medium"
+        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      >
+        <div
+          class="glass-flex glass-items-start glass-justify-between glass-gap-4"
+        >
+          <div
+            class="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1"
+          >
+            <div
+              class="glass-min-w-0 glass-flex-1"
+            >
+              <div
+                class="font-medium text-foreground glass-text-base"
+              >
+                Event 3
+              </div>
+              <div
+                class="glass-text-secondary glass-mt-1 glass-text-sm"
+              >
+                Description 3
+              </div>
+            </div>
+          </div>
+          <div
+            class="glass-text-secondary whitespace-nowrap glass-text-xs"
+          >
+            2024-01-03
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+`;

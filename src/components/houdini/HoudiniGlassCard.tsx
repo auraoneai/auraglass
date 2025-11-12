@@ -39,6 +39,7 @@ export function HoudiniGlassCard({
   showControls = false,
   title,
   description,
+  'data-testid': dataTestId,
 }: HoudiniGlassCardProps) {
   const prefersReducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -128,6 +129,7 @@ export function HoudiniGlassCard({
               ease: "easeOut",
             }
       }
+      data-testid={dataTestId}
     >
       {/* Header */}
       {(title || description || showControls) && (

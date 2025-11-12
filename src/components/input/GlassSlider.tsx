@@ -432,6 +432,9 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             aria-valuenow={val}
             aria-valuetext={formatValue(val)}
             aria-invalid={isInvalid || undefined}
+            aria-label={ariaLabel || label || (isRange ? `Range slider ${index === 0 ? 'minimum' : 'maximum'}` : 'Slider')}
+            aria-labelledby={ariaLabelledBy || (label ? labelId : undefined)}
+            aria-describedby={ariaDescribedBy || (description ? descriptionId : undefined) || (error ? errorId : undefined)}
             tabIndex={disabled ? -1 : 0}
           >
             {thumbContent}

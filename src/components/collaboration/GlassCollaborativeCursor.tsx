@@ -5,6 +5,7 @@ import { cn } from "../../lib/utilsComprehensive";
 
 interface CollaborativeCursorProps {
   className?: string;
+  "data-testid"?: string;
 }
 
 const CursorIcon: React.FC<{ color: string; name: string }> = ({
@@ -40,6 +41,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({
 
 export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   className,
+  "data-testid": dataTestId,
 }) => {
   const { users, currentUser, showCursors } = useCollaboration();
   const [visibleCursors, setVisibleCursors] = useState<typeof users>([]);
@@ -61,7 +63,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
     setVisibleCursors(otherUsers);
   }, [users, currentUser, showCursors]);
 
-  if (!showCursors || visibleCursors.length === 0) {
+  if (!showCursors) {
     return null;
   }
 
@@ -69,8 +71,9 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
     <div
       data-glass-component
       className={cn("fixed inset-0 pointer-events-none z-50", className)}
+      data-testid={dataTestId}
     >
-      {visibleCursors.map((user: any) => {
+      {visibleCursors.length > 0 && visibleCursors.map((user: any) => {
         if (!user.cursor) return null;
 
         return (

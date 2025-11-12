@@ -21,6 +21,7 @@ export { GlassLocalizationProvider } from "./lib/GlassLocalizationProvider";
 // Theme Components
 export { GlassContext } from "./theme/GlassContext";
 export { ThemeProvider } from "./theme/ThemeProvider";
+export { PersonaPicker } from "./components/theme/PersonaPicker";
 
 // Layout & Structure Components
 export { GlassAppShell } from "./components/layout/GlassAppShell";

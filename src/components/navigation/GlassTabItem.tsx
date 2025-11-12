@@ -48,6 +48,12 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
   ) => {
     const prefersReducedMotion = useReducedMotion();
 
+    const accentColor = "var(--glass-theme-accent-primary, #5ac8ff)";
+    const textPrimary = "var(--glass-theme-text, var(--glass-text-primary))";
+    const transitionDuration = prefersReducedMotion
+      ? "0ms"
+      : "var(--glass-theme-motion-hover, 180ms)";
+
     const handleClick = () => {
       if (!disabled && onClick) {
         onClick(value);
@@ -68,21 +74,19 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       gap: "8px",
       padding: "12px 20px",
       border: "none",
-      borderRadius: "8px",
+      borderRadius: "var(--glass-theme-button-radius, 12px)",
       background: active
-        ? "var(--aura-glass-bg-active, rgba(255, 255, 255, 0.15))"
+        ? "color-mix(in srgb, var(--glass-theme-accent-primary, rgba(96, 165, 250, 0.65)) 24%, transparent)"
         : "transparent",
       // Use createGlassStyle() instead,
-      color: active
-        ? "var(--aura-text-primary, #ffffff)"
-        : "var(--aura-text-secondary, rgba(255, 255, 255, 0.7))",
+      color: textPrimary,
       fontSize: "14px",
       fontWeight: active ? 600 : 400,
       cursor: disabled ? "not-allowed" : "pointer",
-      opacity: disabled ? 0.5 : 1,
+      opacity: disabled ? 0.5 : active ? 1 : 0.82,
       transition: prefersReducedMotion
         ? "none"
-        : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        : `all ${transitionDuration} cubic-bezier(0.4, 0, 0.2, 1)` ,
       textDecoration: "none",
       userSelect: "none",
       ...style,
@@ -127,8 +131,8 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
               height: "20px",
               padding: "0 6px",
               borderRadius: "10px",
-              background: "var(--aura-accent-color, #00d4ff)",
-              color: "var(--aura-text-on-accent, #000000)",
+              background: accentColor,
+              color: "var(--glass-theme-text, #05111d)",
               fontSize: "11px",
               fontWeight: 600,
             }}
@@ -148,7 +152,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
               transform: "translateX(-50%)",
               width: "80%",
               height: "2px",
-              background: "var(--aura-accent-color, #00d4ff)",
+              background: accentColor,
               borderRadius: "2px 2px 0 0",
             }}
             aria-hidden="true"
@@ -158,7 +162,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
         <style>{`
           .glass-tab-item:hover:not(.disabled) {
             background: var(
-              --aura-glass-bg-hover,
+              --glass-theme-accent-primary,
               rgba(255, 255, 255, 0.08)
             ) !important;
             transform: translateY(-1px);
@@ -169,8 +173,11 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
           }
 
           .glass-tab-item:focus-visible {
-            outline: 2px solid var(--aura-accent-color, #00d4ff);
-            outline-offset: 2px;
+            outline: none;
+            box-shadow: var(
+              --glass-theme-focus-ring,
+              0 0 0 3px rgba(99, 102, 241, 0.3)
+            );
           }
 
           .glass-tab-item-icon {

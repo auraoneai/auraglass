@@ -80,9 +80,12 @@ export const GlassBottomSheet = forwardRef<
       modal: true,
     });
 
-    // Add aria-label if provided and no title
-    if (ariaLabel && !ariaLabelledBy && !titleId) {
+    // Add aria-label if provided (or use default if no title/label)
+    if (ariaLabel) {
       a11yProps["aria-label"] = ariaLabel;
+    } else if (!ariaLabelledBy && !titleId) {
+      // Default aria-label if none provided
+      a11yProps["aria-label"] = title || "Bottom sheet";
     }
 
     // Handle escape key
@@ -119,20 +122,22 @@ export const GlassBottomSheet = forwardRef<
           duration={shouldAnimate ? 300 : 0}
           className={cn(
             "fixed left-0 right-0 bottom-0 z-[1101]",
-            open ? "pointer-events-auto" : "pointer-events-none"
+            open ? "pointer-events-auto" : "pointer-events-none",
+            className
           )}
           style={{
             height: typeof height === "number" ? `${height}px` : height,
             transform: !shouldAnimate && !open ? "translateY(100%)" : undefined,
           }}
           onKeyDown={handleEscape}
+          data-testid={props['data-testid']}
           {...a11yProps}
           {...props}
         >
           <OptimizedGlass
             ref={ref}
             elevation="level3"
-            className={cn("h-full rounded-t-2xl glass-p-4", className)}
+            className={cn("h-full rounded-t-2xl glass-p-4")}
             tabIndex={-1}
           >
             {/* Handle indicator */}

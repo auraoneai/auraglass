@@ -156,8 +156,8 @@ interface ChartLegendProps extends React.HTMLAttributes<HTMLDivElement> {
   $glassEffect?: boolean;
 }
 
-export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(({ $position, $glassEffect, className, style, ...props }, ref) => {
-  const layoutStyle: React.CSSProperties = { ...(style || {}) };
+export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(({ $position, $style, $glassEffect, className, style: styleProp, ...props }, ref) => {
+  const layoutStyle: React.CSSProperties = { ...(styleProp || {}) };
   switch ($position) {
     case 'top':
       layoutStyle.marginBottom = 'var(--aura-space-4)';
@@ -181,12 +181,15 @@ export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(({ $posi
       break;
   }
 
+  // Filter out styled-components props ($ prefix) before spreading
+  const { $position: _, $style: __, $glassEffect: ___, ...restProps } = props;
+
   return (
     <div
       ref={ref}
       className={cn(styles.legend, $glassEffect && styles.legendGlass, className)}
       style={layoutStyle}
-      {...props}
+      {...restProps}
     />
   );
 });
@@ -198,41 +201,56 @@ interface LegendItemProps extends React.HTMLAttributes<HTMLDivElement> {
   $active?: boolean;
 }
 
-export const LegendItem: React.FC<LegendItemProps> = ({ $active = true, className, ...props }) => (
-  <div
-    className={cn(styles.legendItem, !$active && styles.legendInactive, className)}
-    {...props}
-  />
-);
+export const LegendItem: React.FC<LegendItemProps> = ({ $active = true, $style, $color, className, ...props }) => {
+  // Filter out styled-components props ($ prefix) before spreading
+  const { $active: _, $style: __, $color: ___, ...restProps } = props;
+  
+  return (
+    <div
+      className={cn(styles.legendItem, !$active && styles.legendInactive, className)}
+      {...restProps}
+    />
+  );
+};
 
 interface LegendColorProps extends React.HTMLAttributes<HTMLDivElement> {
   $color?: string;
   $active?: boolean;
 }
 
-export const LegendColor: React.FC<LegendColorProps> = ({ $color, $active = true, className, style, ...props }) => (
-  <div
-    className={cn(styles.legendColor, className)}
-    style={{
-      background: $color || '#6366f1',
-      opacity: $active ? 1 : 0.5,
-      ...style,
-    }}
-    {...props}
-  />
-);
+export const LegendColor: React.FC<LegendColorProps> = ({ $color, $active = true, className, style, ...props }) => {
+  // Filter out styled-components props ($ prefix) before spreading
+  const { $color: _, $active: __, ...restProps } = props;
+  
+  return (
+    <div
+      className={cn(styles.legendColor, className)}
+      style={{
+        background: $color || '#6366f1',
+        opacity: $active ? 1 : 0.5,
+        ...style,
+      }}
+      {...restProps}
+    />
+  );
+};
 
 interface LegendLabelProps extends React.HTMLAttributes<HTMLSpanElement> {
   $active?: boolean;
 }
 
-export const LegendLabel: React.FC<LegendLabelProps> = ({ $active = true, className, style, ...props }) => (
-  <span
-    className={cn(styles.legendLabel, className)}
-    style={{ opacity: $active ? 1 : 0.6, ...style }}
-    {...props}
-  />
-);
+export const LegendLabel: React.FC<LegendLabelProps> = ({ $active = true, className, style, ...props }) => {
+  // Filter out styled-components props ($ prefix) before spreading
+  const { $active: _, ...restProps } = props;
+  
+  return (
+    <span
+      className={cn(styles.legendLabel, className)}
+      style={{ opacity: $active ? 1 : 0.6, ...style }}
+      {...restProps}
+    />
+  );
+};
 
 export const getColorPalette = (theme: 'light' | 'dark' | 'glass' = 'glass'): string[] => {
   if (theme === 'glass') {

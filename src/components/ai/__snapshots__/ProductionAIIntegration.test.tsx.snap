@@ -4,6 +4,7 @@ exports[`ProductionAIIntegration matches snapshot 1`] = `
 <div
   class="glass-flex glass-items-center glass-justify-center glass-p-8"
   data-glass-component="true"
+  data-testid="productionaiintegration"
 >
   <div
     class="text-center"

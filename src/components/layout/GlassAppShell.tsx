@@ -445,7 +445,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
           )}
         >
           <div className="glass-gap-2">
-            <h1 className='glass-text-3xl font-bold text-primary'>{title}</h1>
+            {title && <h1 className='glass-text-3xl font-bold text-primary'>{title}</h1>}
             {description && (
               <p
                 className={cn(

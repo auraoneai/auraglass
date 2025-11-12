@@ -3,6 +3,7 @@
 exports[`VoiceGlassControl matches snapshot 1`] = `
 <div
   class="fixed z-50 top-4 left-4"
+  data-testid="voiceglasscontrol"
 >
   <div
     class="glass-glass-glass-backdrop-blur-lg glass-border glass-border-red/20 glass-surface-red/10 glass-p-3 glass-radius-lg glass-contrast-guard"

@@ -5,6 +5,35 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-11-12
+
+### ✨ Added
+- Ten-persona Design Matrix system with `<PersonaPicker />`, `usePersonaTheme()`, and generated `[data-persona]` CSS for instant runtime theming.
+- Expanded quantum/advanced components (LivingEcosystemSimulator, QuantumEntanglementVisualizer, Neuromorphic Learning suites) plus `ConsciousnessStreamProvider`.
+- Liquid Glass Parity+ presets with IOR controls, environmental adaptation, GPU fallbacks, and deterministic `SeededRandom` utilities for SSR parity.
+
+### 🛠 Improvements
+- New SSR-safe environment helpers (`aura-glass/utils/env`), deterministic effect seeds, and exported build-time constants for automation pipelines.
+- Documentation refresh: Apple-grade README, clarified install/deploy workflows, and detailed marketing copy for 356 adaptive components.
+- Installation guide and sample apps now highlight the full peer dependency surface (Radix, lucide-react, react-hook-form, react-chartjs-2, @sentry/react, etc.).
+
+### 📚 Notes
+- README deployment steps now reference the canonical `docker-compose.yml`, usage snippets import from `aura-glass`, and Liquid Glass examples use the real `GlassModal` API.
+- Version metadata updated across tokens and package manifests to `2.1.0`.
+
+## [2.0.99] - 2025-11-11
+
+### ✨ Added
+- Canonical Design Matrix dataset (`src/theme/designMatrix.ts`) with ten personas, metadata, and tokens consumable across runtime and build pipelines.
+- `PersonaPicker` component plus `usePersonaTheme()` hook for runtime persona selection tied to the canonical data model.
+- Persona CSS generator (`npm run glass:generate-persona-css`) with matching `npm run glass:validate-persona-css` guard to keep `[data-persona]` variables synced in CI.
+- Storybook toolbar persona control wired through `ThemeProvider` globals for instant preview switching.
+
+### ♻️ Updated
+- `ThemeProvider` now manages `initialPersona`, controlled `persona`, persistence, and broadcasts persona-aware helpers consumed by `glass.css`.
+- `glass.css`, `GlassTabItem`, and `ZSpaceAppLayout` adopt persona-driven focus rings, shadows, and accent tokens for navigation/layout surfaces.
+- Documentation refreshed with setup guides, `PersonaPicker` usage, and CSS generation workflow references.
+
 ## [2.0.36] - 2025-11-09
 
 ### 🛠 Fixes

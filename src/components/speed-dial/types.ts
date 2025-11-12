@@ -210,6 +210,11 @@ export interface SpeedDialActionProps {
    * If true, tooltip is shown
    */
   showTooltip?: boolean;
+
+  /**
+   * Test ID for the component
+   */
+  'data-testid'?: string;
 }
 
 export interface SpeedDialIconProps {

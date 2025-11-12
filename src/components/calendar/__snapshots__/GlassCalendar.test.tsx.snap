@@ -17,7 +17,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
-          <h3
+          <h2
             class="card-title glass-subheading font-semibold text-primary glass-flex glass-items-center glass-gap-2"
           >
             <svg
@@ -53,7 +53,7 @@ exports[`GlassCalendar matches snapshot 1`] = `
             November
              
             2025
-          </h3>
+          </h2>
           <div
             class="glass-flex glass-items-center glass-gap-2"
           >

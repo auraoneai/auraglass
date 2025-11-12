@@ -4,6 +4,32 @@
 
 This document provides a complete reference for all design tokens in the AuraGlass system. Design tokens are the visual design atoms that store visual design decisions and are the foundation of consistent, world-class glassmorphism experiences.
 
+## Persona Token Schema
+
+The canonical source for persona-specific tokens lives in `src/theme/designMatrix.ts`. Each persona implements the following structure:
+
+```ts
+interface PersonaConfig {
+  meta: PersonaMetadata;              // Narrative, palette anchor, motion callouts
+  colors: PersonaColorTokens;         // Background, text, accent, state, focus, shadow
+  typography: PersonaTypographyScale; // Display → caption ladder with weight/size/letter spacing
+  spacing: PersonaSpacing;            // Base grid, radii, blur depth, layout pattern
+  motion: PersonaMotionDurations;     // Entry, hover, focus, async timing (ms strings)
+}
+```
+
+### Contribution Guidelines
+
+1. Update or add personas exclusively through `DESIGN_MATRIX` to keep docs, CSS, and runtime hooks in sync.
+2. Preserve existing `PersonaId` keys (kebab-case) and extend types when new fields are required.
+3. Validate changes by running `pnpm run typecheck` (types) and the persona CSS generation script (added in Workstream 3).
+4. Avoid hard-coded values elsewhere—import helpers from `src/theme/designMatrix.ts` when consuming persona data.
+
+#### Generation Commands
+
+- `npm run glass:generate-persona-css` – Emit `src/styles/generated/persona-variables.css` from `DESIGN_MATRIX`.
+- `npm run glass:validate-persona-css` – Verify the committed CSS matches the design matrix (recommended in CI).
+
 ## 🎯 Token Philosophy
 
 ### Token-First Architecture

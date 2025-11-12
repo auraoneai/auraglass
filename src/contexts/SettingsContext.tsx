@@ -170,7 +170,6 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Persist and notify

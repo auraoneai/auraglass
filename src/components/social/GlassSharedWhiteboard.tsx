@@ -507,6 +507,7 @@ export const GlassSharedWhiteboard = forwardRef<
                         }
                       `}
                       style={{ backgroundColor: color }}
+                      aria-label={`Select color ${color}`}
                     />
                   ))}
                 </div>
@@ -525,6 +526,7 @@ export const GlassSharedWhiteboard = forwardRef<
                             : "text-white/70 hover:text-white hover:bg-white/10"
                         }
                       `}
+                      aria-label={`Select brush size ${size}px`}
                     >
                       <div
                         className='bg-transparent glass-radius-full'

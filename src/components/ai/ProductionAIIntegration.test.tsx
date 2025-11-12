@@ -15,6 +15,65 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
+
+// Mock optional AI service dependencies
+jest.mock('openai', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    chat: { completions: { create: jest.fn() } },
+    embeddings: { create: jest.fn() },
+  })),
+}), { virtual: true });
+
+jest.mock('redis', () => ({
+  __esModule: true,
+  createClient: jest.fn().mockImplementation(() => ({
+    on: jest.fn(),
+    connect: jest.fn().mockResolvedValue(undefined),
+    get: jest.fn().mockResolvedValue(null),
+    setEx: jest.fn().mockResolvedValue(undefined),
+    del: jest.fn().mockResolvedValue(undefined),
+    flushAll: jest.fn().mockResolvedValue(undefined),
+    quit: jest.fn().mockResolvedValue(undefined),
+  })),
+}), { virtual: true });
+
+jest.mock('@pinecone-database/pinecone', () => ({
+  __esModule: true,
+  Pinecone: jest.fn().mockImplementation(() => ({
+    index: jest.fn().mockReturnValue({
+      upsert: jest.fn().mockResolvedValue(undefined),
+      query: jest.fn().mockResolvedValue({ matches: [] }),
+    }),
+    listIndexes: jest.fn().mockResolvedValue({
+      indexes: [{ name: 'aura-glass-embeddings', status: { ready: true } }],
+    }),
+    createIndex: jest.fn().mockResolvedValue(undefined),
+  })),
+}), { virtual: true });
+
+jest.mock('@google-cloud/vision', () => ({
+  __esModule: true,
+  default: {
+    ImageAnnotatorClient: jest.fn().mockImplementation(() => ({
+      faceDetection: jest.fn().mockResolvedValue([{ faceAnnotations: [] }]),
+      documentTextDetection: jest.fn().mockResolvedValue([{ fullTextAnnotation: { text: '' } }]),
+      annotateImage: jest.fn().mockResolvedValue([{ labelAnnotations: [] }]),
+    })),
+  },
+}), { virtual: true });
+
+jest.mock('jsonwebtoken', () => ({
+  sign: jest.fn(),
+  verify: jest.fn(),
+  decode: jest.fn(),
+}), { virtual: true });
+
+jest.mock('bcryptjs', () => ({
+  hash: jest.fn(),
+  compare: jest.fn(),
+}), { virtual: true });
+
 import { ProductionAIIntegration } from '@/components/ai/ProductionAIIntegration';
 
 // Extend Jest matchers

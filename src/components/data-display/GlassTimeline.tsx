@@ -248,7 +248,6 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
         id={timelineId}
         data-testid={dataTestId || "glasstimeline"}
         className={cn("relative", config.container, className)}
-        role="list"
         aria-label={ariaLabel || "Timeline"}
         {...props}
       >

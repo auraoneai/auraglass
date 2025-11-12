@@ -160,6 +160,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           ["--a" as any]: `${pct}%`,
         }}
         role="group"
+        aria-label={ariaLabel}
         aria-labelledby={splitPaneLabelId}
         {...props}
       >

@@ -1,3 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GlassCollaborativeCursor matches snapshot 1`] = `<div />`;
+exports[`GlassCollaborativeCursor matches snapshot 1`] = `
+<div>
+  <div
+    class="fixed inset-0 pointer-events-none z-50"
+    data-glass-component="true"
+  />
+</div>
+`;

@@ -82,7 +82,11 @@ const COMPARISON_DATA: ComparisonData[] = [
   },
 ];
 
-export function GlassPrismComparison() {
+export function GlassPrismComparison({
+  className,
+  'data-testid': dataTestId,
+  ...props
+}: React.HTMLAttributes<HTMLElement> = {}) {
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentComparison, setCurrentComparison] = useState(0);
@@ -96,8 +100,13 @@ export function GlassPrismComparison() {
   const x = useSpring(mouseX, springConfig);
   const y = useSpring(mouseY, springConfig);
 
-  const rotateX = useTransform(y, [-300, 300], [30, -30]);
-  const rotateY = useTransform(x, [-300, 300], [-30, 30]);
+  // Use default values to ensure motion values are always valid
+  const rotateX = useTransform(y, [-300, 300], [30, -30], { clamp: true });
+  const rotateY = useTransform(x, [-300, 300], [-30, 30], { clamp: true });
+
+  // Ensure motion values are always numbers (fallback for test environments)
+  const safeRotateX = prefersReducedMotion ? 0 : (rotateX.get() ?? 0);
+  const safeRotateY = prefersReducedMotion ? 0 : (rotateY.get() ?? 0);
 
   useAutoTextContrast(containerRef, { threshold: 0.55, observe: true });
 
@@ -128,7 +137,11 @@ export function GlassPrismComparison() {
   const currentData = COMPARISON_DATA[currentComparison];
 
   return (
-    <section className='relative glass-py-32 overflow-hidden glass-gradient-primary glass-gradient-primary via-gray-900 glass-gradient-primary cv-auto'>
+    <section 
+      className={cn('relative glass-py-32 overflow-hidden glass-gradient-primary glass-gradient-primary via-gray-900 glass-gradient-primary cv-auto', className)}
+      data-testid={dataTestId}
+      {...props}
+    >
       <div className='container-responsive'>
         {/* Section Header */}
         <motion.div
@@ -219,7 +232,7 @@ export function GlassPrismComparison() {
           <motion.div
             className='absolute inset-0 glass-flex glass-items-center glass-justify-center'
             style={{
-              clipPath: `polygon(0% 0%, ${prismPosition}% 0%, ${prismPosition}% 100%, 0% 100%)`,
+              clipPath: `polygon(0% 0%, ${prismPosition || 50}% 0%, ${prismPosition || 50}% 100%, 0% 100%)`,
             }}
           >
             <div className='text-center glass-p-8'>
@@ -260,7 +273,7 @@ export function GlassPrismComparison() {
           <motion.div
             className='absolute inset-0 glass-flex glass-items-center glass-justify-center'
             style={{
-              clipPath: `polygon(${prismPosition}% 0%, 100% 0%, 100% 100%, ${prismPosition}% 100%)`,
+              clipPath: `polygon(${prismPosition || 50}% 0%, 100% 0%, 100% 100%, ${prismPosition || 50}% 100%)`,
             }}
           >
             <div className='text-center glass-p-8'>
@@ -349,9 +362,14 @@ export function GlassPrismComparison() {
             style={{
               left: `${prismPosition}%`,
               transform: "translateX(-50%)",
-              rotateX,
-              rotateY,
-            }}
+              ...(prefersReducedMotion 
+                ? { rotateX: 0, rotateY: 0 }
+                : {
+                    rotateX: typeof rotateX === 'number' ? rotateX : (rotateX?.get?.() ?? 0),
+                    rotateY: typeof rotateY === 'number' ? rotateY : (rotateY?.get?.() ?? 0),
+                  }
+              ),
+            } as React.CSSProperties}
           >
             {/* Prism body */}
             <div className='relative glass-w-full glass-h-full'>

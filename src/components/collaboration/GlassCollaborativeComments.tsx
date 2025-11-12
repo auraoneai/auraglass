@@ -10,6 +10,8 @@ import { cn } from "../../lib/utilsComprehensive";
 interface CollaborativeCommentsProps {
   className?: string;
   allowComments?: boolean;
+  'aria-label'?: string;
+  'data-testid'?: string;
 }
 
 const CommentBubble: React.FC<{
@@ -255,7 +257,7 @@ const CommentDot: React.FC<{
 
 export const GlassCollaborativeComments: React.FC<
   CollaborativeCommentsProps
-> = ({ className, allowComments = true }) => {
+> = ({ className, allowComments = true, 'aria-label': ariaLabel, 'data-testid': dataTestId }) => {
   const {
     comments,
     users,
@@ -385,7 +387,12 @@ export const GlassCollaborativeComments: React.FC<
   }
 
   return (
-    <div ref={containerRef} className={cn("relative w-full h-full", className)}>
+    <div 
+      ref={containerRef} 
+      className={cn("relative w-full h-full", className)}
+      aria-label={ariaLabel}
+      data-testid={dataTestId}
+    >
       {/* Comment dots */}
       {groupedComments.map((group, index) => {
         const firstComment = group[0];

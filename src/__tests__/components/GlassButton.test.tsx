@@ -19,7 +19,8 @@ describe('GlassButton', () => {
       const { container } = render(
         <GlassButton className="custom-class">Button</GlassButton>
       );
-      expect(container.firstChild).toHaveClass('custom-class');
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('custom-class');
     });
 
     it('renders in disabled state', () => {
@@ -148,7 +149,7 @@ describe('GlassButton', () => {
     it('renders with left icon', () => {
       const IconComponent = () => <span data-testid="icon">Icon</span>;
       render(
-        <GlassButton icon={<IconComponent />} iconPosition="left">
+        <GlassButton leftIcon={<IconComponent />}>
           With Icon
         </GlassButton>
       );
@@ -159,7 +160,7 @@ describe('GlassButton', () => {
     it('renders with right icon', () => {
       const IconComponent = () => <span data-testid="icon">Icon</span>;
       render(
-        <GlassButton icon={<IconComponent />} iconPosition="right">
+        <GlassButton rightIcon={<IconComponent />}>
           With Icon
         </GlassButton>
       );

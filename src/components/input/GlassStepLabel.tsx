@@ -46,7 +46,8 @@ export const GlassStepLabel: React.FC<GlassStepLabelProps> = ({
     elevation = 'level1',
     tier = 'low',
     className,
-    style
+    style,
+    "data-testid": dataTestId
 }) => {
     if (!label) {
         return null;
@@ -69,6 +70,7 @@ export const GlassStepLabel: React.FC<GlassStepLabelProps> = ({
               className
             )}
             style={style}
+            data-testid={dataTestId}
           >
             {label}
           </span>

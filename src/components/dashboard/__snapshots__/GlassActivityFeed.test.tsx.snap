@@ -18,11 +18,11 @@ exports[`GlassActivityFeed matches snapshot 1`] = `
           class="glass-flex glass-items-center glass-justify-between"
         >
           <div>
-            <h3
+            <h2
               class="card-title text-primary glass-text-xl font-semibold"
             >
               Activity Feed
-            </h3>
+            </h2>
           </div>
         </div>
       </div>

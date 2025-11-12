@@ -78,9 +78,13 @@ describe('GlassPopover', () => {
   it('accepts and renders with custom props', () => {
     const { container } = render(
       <GlassPopover
+        content="Test content"
+        open={true}
         className="custom-class"
         data-testid="glasspopover"
-      />
+      >
+        <button>Trigger</button>
+      </GlassPopover>
     );
 
     const element = container.querySelector('[data-testid="glasspopover"]')

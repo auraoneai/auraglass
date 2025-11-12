@@ -51,7 +51,7 @@ describe('GlassSlider', () => {
 
     it('supports aria-label', () => {
       render(<GlassSlider aria-label="Test input" />);
-      const element = screen.getByLabelText(/test input/i);
+      const element = screen.getByRole('slider', { name: /test input/i });
       expect(element).toBeInTheDocument();
     });
 

@@ -18,7 +18,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
-          <h3
+          <h2
             class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
           >
             <svg
@@ -63,7 +63,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               />
             </svg>
             Gradient Picker
-          </h3>
+          </h2>
           <div
             class="glass-flex glass-gap-2"
           >
@@ -202,11 +202,11 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         <div
           class="glass-auto-gap glass-auto-gap-md"
         >
-          <h4
+          <h3
             class="text-primary/80 glass-text-sm font-medium"
           >
             Type
-          </h4>
+          </h3>
           <div
             class="glass-flex glass-gap-2"
           >
@@ -255,13 +255,13 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         <div
           class="glass-auto-gap glass-auto-gap-md"
         >
-          <h4
+          <h3
             class="text-primary/80 glass-text-sm font-medium"
           >
             Angle: 
             45
             °
-          </h4>
+          </h3>
           <input
             aria-label="Gradient angle"
             class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
@@ -277,11 +277,11 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
           <div
             class="glass-flex glass-items-center glass-justify-between"
           >
-            <h4
+            <h3
               class="text-primary/80 glass-text-sm font-medium"
             >
               Color Stops
-            </h4>
+            </h3>
             <div
               class="motion-primitive inline-block"
               data-glass-component="true"
@@ -383,11 +383,11 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         <div
           class="glass-auto-gap glass-auto-gap-md"
         >
-          <h4
+          <h3
             class="text-primary/80 glass-text-sm font-medium"
           >
             Presets
-          </h4>
+          </h3>
           <div
             class="glass-grid glass-grid-cols-2 glass-gap-3"
           >

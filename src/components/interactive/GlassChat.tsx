@@ -199,7 +199,9 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current && typeof messagesEndRef.current.scrollIntoView === 'function') {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   // Handle typing indicator
@@ -1118,6 +1120,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                 onChange={handleFileChange}
                 className='hidden glass-touch-target glass-contrast-guard'
                 accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt"
+                aria-label="Upload file attachment"
               />
             </div>
           </div>

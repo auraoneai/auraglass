@@ -2,7 +2,6 @@
 
 exports[`TabItem matches snapshot 1`] = `
 <button
-  aria-controls="panel-overview"
   aria-disabled="false"
   aria-selected="false"
   class="glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"

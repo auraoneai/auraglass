@@ -11,12 +11,14 @@ export interface GlassKeyValueEditorProps {
   value: Pair[];
   onChange: (pairs: Pair[]) => void;
   className?: string;
+  'data-testid'?: string;
 }
 
 export function GlassKeyValueEditor({
   value,
   onChange,
   className,
+  'data-testid': dataTestId,
 }: GlassKeyValueEditorProps) {
   const update = (i: number, patch: Partial<Pair>) => {
     const next = value.slice();
@@ -32,6 +34,7 @@ export function GlassKeyValueEditor({
       className={cn("glass-gap-2", className)}
       role="group"
       aria-label="Key-value pair editor"
+      data-testid={dataTestId || 'glasskeyvalueeditor'}
     >
       {value.map((p, i) => (
         <div
