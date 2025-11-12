@@ -4,7 +4,7 @@ export type PersonaId =
   | "midnight-slate"
   | "midnight-meridian"
   | "solar-apex"
-  | "ultrathink"
+  | "violet-nebula"
   | "aurora-noir"
   | "helios-foundry"
   | "glacier-morn"
@@ -378,10 +378,10 @@ export const DESIGN_MATRIX: Record<PersonaId, PersonaConfig> = {
       async: "360ms"
     }
   },
-  ultrathink: {
+  "violet-nebula": {
     meta: {
-      name: "Ultrathink",
-      id: "ultrathink",
+      name: "Violet Nebula",
+      id: "violet-nebula",
       primaryContext:
         "Strategic foresight tooling, model governance and scenario planning",
       paletteAnchor:

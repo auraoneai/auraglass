@@ -28,7 +28,7 @@ A new class of interface deserves more than a component library. AuraGlass sense
 
 ## What’s New in 2.1
 ### Design Matrix Persona System
-AuraGlass 2.1 introduces the Design Matrix: a canonical system of ten personas (Midnight Slate, Midnight Meridian, Solar Apex, Ultrathink, Aurora Noir, Helios Foundry, Glacier Morn, Terra Inflect, Lumen Veil, Nimbus Relay) that power runtime theming, metadata, and adaptive styling. Each persona defines semantic tokens for backgrounds, text, borders, accents, states, shadows, gradients, and charts, ensuring cohesive experiences across applications.
+AuraGlass 2.1 introduces the Design Matrix: a canonical system of ten personas (Midnight Slate, Midnight Meridian, Solar Apex, Violet Nebula, Aurora Noir, Helios Foundry, Glacier Morn, Terra Inflect, Lumen Veil, Nimbus Relay) that power runtime theming, metadata, and adaptive styling. Each persona defines semantic tokens for backgrounds, text, borders, accents, states, shadows, gradients, and charts, ensuring cohesive experiences across applications.
 
 **Key Features:**
 - **Canonical Dataset:** Defined in `src/theme/designMatrix.ts`, personas include metadata (name, description, context) and tokens for colors, typography, motion, and glassmorphism parameters.

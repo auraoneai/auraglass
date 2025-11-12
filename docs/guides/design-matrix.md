@@ -62,7 +62,7 @@ export function PersonaBadge() {
 | **Midnight Slate** | Experimental intelligence workspaces, telemetry-heavy research platforms | Deep charcoal / ultraviolet base with cyan ion accents, magenta diagnostics | Layered glass panes (20–28px rhythm), 10px radius, spectral edge lighting, kinetic glow | Body 15/22px, metrics 18/26px, hero 28/34px; cyan accent drives hierarchy | Spectral pulses, cyan focus ring, prefers-reduced-motion fallbacks on glows |
 | **Midnight Meridian** | Operational productivity suites, task orchestration dashboards | Teal/emerald base with amber highlights, indigo support tones | Elevated panels (16–24px rhythm), 12px radius, ambient shadows, subtle borders | Body 14/20px, KPIs 16/24px, hero 24/30px; teal CTA halo | Smooth ease-out motions, teal focus ring, timer pulses mapped to semantic state tokens |
 | **Solar Apex** | Executive control centers, compliance and governance consoles | Midnight indigo charcoal with molten solar gradients (amber → persimmon), auric gold highlights | Beveled 12px radii, luminous borders, long warm shadows, prismatic edges | Body 15/22px, analytics 18/26px, hero 28/34px; auric headline emphasis | Solar flare highlights, warm focus ring, gradient sweeps gated by motion preferences |
-| **Ultrathink** | Strategic foresight tooling, model governance and scenario planning | Nebula violet base, electric fuchsia highlights, silver neutrals | High-polish glass slabs (24–32px rhythm), 16px radius, holographic edge traces | Body 16/24px, strategy cards 20/28px, hero 32/40px; silver typographic anchors | Holographic shimmer loops (1200ms), depth parallax on hero panels, cyan-fuchsia focus gradient |
+| **Violet Nebula** | Strategic foresight tooling, model governance and scenario planning | Nebula violet base, electric fuchsia highlights, silver neutrals | High-polish glass slabs (24–32px rhythm), 16px radius, holographic edge traces | Body 16/24px, strategy cards 20/28px, hero 32/40px; silver typographic anchors | Holographic shimmer loops (1200ms), depth parallax on hero panels, cyan-fuchsia focus gradient |
 | **Aurora Noir** | Observability networks, mission-critical operations command | Midnight navy foundation with aurora green ribbons and cobalt glows | Layered glass struts (22–30px rhythm), 12px radius, polar sheen overlays, dynamic depth fog | Body 15/22px, metrics 17/24px, hero 26/32px; luminous aqua headlines | Aurora sweep gradients (2400ms), telemetry ripple feedback, emerald focus corona |
 | **Helios Foundry** | Industrial automation platforms, robotics coordination suites | Graphite slate with molten copper cores and brass highlights | Structured pane grid (24–28px rhythm), 12px chamfer, brushed metal borders, volumetric glow | Body 15/22px, metrics 18/26px, hero 30/36px; copper-accented numerals | Mechanized slide-ins (220ms), gear pulse focus ring, thermal status flares on alerts |
 | **Glacier Morn** | Clinical oversight systems, healthcare compliance dashboards | Deep arctic blue with icy cyan accents and pearl neutrals | Frosted glass planes (18–24px rhythm), 10px radius, clinical translucency, low-noise shadows | Body 15/22px, metrics 18/26px, hero 28/34px; icy teal emphasis | Measured fades (200ms), heartbeat diagnostics glow, sterile focus outline |
@@ -92,7 +92,7 @@ export function PersonaBadge() {
 - **Microinteractions:** Radiant sweeps on filters, warm flare on alert acknowledgements, prismatic overlay transitions.
 - **Accessibility:** Maintain persistent alert badges; reduce gradient intensity for low-vision modes.
 
-### Ultrathink Playbook
+### Violet Nebula Playbook
 - **Narrative Pillars:** Futurist, predictive, multidimensional thinking.
 - **Key Tokens:** Nebula violet canvas, electric fuchsia highlights, silver typography anchors.
 - **Layouts:** Scenario canvases, branching narrative cards, and holographic overlays with depth stacking.
@@ -131,7 +131,7 @@ export function PersonaBadge() {
 - **Narrative Pillars:** Expressive storytelling, immersive creativity, luminous ambiance.
 - **Key Tokens:** Lavender halos, rose quartz highlights, charcoal neutrals.
 - **Layouts:** Storyboards, media spotlight strips, layered diffusion panels.
-- **Microinteractions:** Cinematic cross-fades, parallax tilt on hero frames, gradient-focused highlight loops.
+- **Microinteractions:** Cinematic cross-fades, parallax tilt on hero frames, gradient focus highlights.
 - **Accessibility:** Provide motion toggles, maintain minimum 3:1 contrast during fades.
 
 ### Nimbus Relay Playbook
@@ -148,7 +148,7 @@ export function PersonaBadge() {
 | Midnight Slate | `#090B1A` | `rgba(18,20,43,0.72)` | `#F2F5FF` | `#4FD6FF` | `#B26CFF` | `#3BE0AA` | `#F5B94C` | `#FF4D8D` | `0 24px 60px -30px rgba(79,214,255,0.45)` | `0 0 0 3px rgba(79,214,255,0.32)` |
 | Midnight Meridian | `#081418` | `rgba(9,21,24,0.68)` | `#F3F9F9` | `#34D2B4` | `#FDB565` | `#2CB67D` | `#FFBE55` | `#FF5A65` | `0 18px 46px -28px rgba(52,210,180,0.38)` | `0 0 0 3px rgba(52,210,180,0.30)` |
 | Solar Apex | `#0D1324` | `rgba(17,23,38,0.70)` | `#F9F4EC` | `#FFB545` | `#FF784A` | `#66DA8B` | `#FF9548` | `#FF4A4A` | `0 28px 64px -32px rgba(255,181,69,0.42)` | `0 0 0 3px rgba(255,181,69,0.35)` |
-| Ultrathink | `#08091C` | `rgba(16,18,44,0.68)` | `#F5F3FF` | `#C06CFF` | `#7AEFFF` | `#62F5BF` | `#FFD470` | `#FF5FB7` | `0 30px 70px -34px rgba(192,108,255,0.45)` | `0 0 0 3px rgba(192,108,255,0.35)` |
+| Violet Nebula | `#08091C` | `rgba(16,18,44,0.68)` | `#F5F3FF` | `#C06CFF` | `#7AEFFF` | `#62F5BF` | `#FFD470` | `#FF5FB7` | `0 30px 70px -34px rgba(192,108,255,0.45)` | `0 0 0 3px rgba(192,108,255,0.35)` |
 | Aurora Noir | `#0A1026` | `rgba(10,16,38,0.70)` | `#E9FBFF` | `#3EF2A1` | `#6F7CFF` | `#38E8AE` | `#FFE27A` | `#FF6F8C` | `0 26px 62px -28px rgba(62,242,161,0.38)` | `0 0 0 3px rgba(62,242,161,0.30)` |
 | Helios Foundry | `#10141F` | `rgba(16,20,31,0.74)` | `#FFF3E4` | `#FF8450` | `#F0C85A` | `#6BDD8D` | `#FFC15A` | `#FF5A3C` | `0 30px 66px -30px rgba(255,132,80,0.44)` | `0 0 0 3px rgba(255,132,80,0.32)` |
 | Glacier Morn | `#071220` | `rgba(9,20,36,0.72)` | `#F0FAFF` | `#5BE1FF` | `#8AA8FF` | `#63E2C6` | `#FFE08B` | `#FF6B7D` | `0 26px 60px -30px rgba(91,225,255,0.40)` | `0 0 0 3px rgba(91,225,255,0.32)` |
@@ -182,7 +182,7 @@ Following the completion of PRDV2 (docs/PRDV2.md, ✅ complete), this section ma
 - **Glass Treatment:** Layered glass struts (22–30px rhythm), polar sheen overlays
 
 ### Feature 3: AI Market Analysis Assistant (Zara)
-- **Primary Persona:** Ultrathink (futurist, predictive, multidimensional)
+- **Primary Persona:** Violet Nebula (futurist, predictive, multidimensional)
 - **Design Context:** Scenario canvases with holographic overlays, branching narrative cards
 - **Key Components:** `ZaraChatInterface.tsx`, `QueryHistoryPanel.tsx`, `MarketSummaryCard.tsx`
 - **UI Patterns:** Chat bubbles with fuchsia highlights, holographic shimmer on hover, depth parallax
@@ -396,7 +396,7 @@ PortalTheme {
 | Midnight Slate | 24px | 10px | 8px | 32px | Analytics tri-column grid with stacked telemetry sidebars |
 | Midnight Meridian | 20px | 12px | 10px | 24px | Productivity split pane with task queues + KPI strip |
 | Solar Apex | 22px | 12px | 10px | 28px | Executive dashboard with 12-column oversight grid |
-| Ultrathink | 24px | 16px | 12px | 36px | Scenario canvas with 4-column narrative cards |
+| Violet Nebula | 24px | 16px | 12px | 36px | Scenario canvas with 4-column narrative cards |
 | Aurora Noir | 22px | 12px | 10px | 30px | Mission command board with timeline rail |
 | Helios Foundry | 24px | 12px | 10px | 28px | Industrial twin layout with control sidebar |
 | Glacier Morn | 20px | 10px | 8px | 26px | Clinical checklist layout with metrics spine |
@@ -410,7 +410,7 @@ PortalTheme {
 | Midnight Slate | 600 / 28px / 0.5px | 500 / 22px / 0.4px | 600 / 18px / 0.3px | 400 / 15px / 0.2px | 400 / 13px / 0.1px |
 | Midnight Meridian | 600 / 24px / 0.3px | 500 / 20px / 0.2px | 600 / 18px / 0.2px | 400 / 14px / 0.1px | 400 / 12px / 0px |
 | Solar Apex | 600 / 28px / 0.4px | 500 / 22px / 0.3px | 600 / 18px / 0.3px | 400 / 15px / 0.1px | 400 / 13px / 0.05px |
-| Ultrathink | 600 / 32px / 0.6px | 500 / 24px / 0.5px | 600 / 20px / 0.4px | 400 / 16px / 0.2px | 400 / 14px / 0.1px |
+| Violet Nebula | 600 / 32px / 0.6px | 500 / 24px / 0.5px | 600 / 20px / 0.4px | 400 / 16px / 0.2px | 400 / 14px / 0.1px |
 | Aurora Noir | 600 / 26px / 0.4px | 500 / 21px / 0.3px | 600 / 18px / 0.3px | 400 / 15px / 0.1px | 400 / 13px / 0.05px |
 | Helios Foundry | 600 / 30px / 0.35px | 500 / 22px / 0.25px | 600 / 19px / 0.25px | 400 / 15px / 0.1px | 400 / 13px / 0px |
 | Glacier Morn | 600 / 26px / 0.45px | 500 / 21px / 0.35px | 600 / 18px / 0.3px | 400 / 15px / 0.15px | 400 / 13px / 0.05px |
@@ -424,7 +424,7 @@ PortalTheme {
 | Midnight Slate | 32px Gaussian | 1px spectral cyan inset | Ionized glow (`shadow.panel`) + cyan halo | Cyan-magenta spectral edge |
 | Midnight Meridian | 24px Gaussian | 1px teal translucent border | Ambient teal shadow with soft falloff | Teal-to-amber halo band |
 | Solar Apex | 28px Gaussian | 1px auric border with 0.2 opacity | Warm elongated shadow with gradient tail | Amber-persimmon prismatic streak |
-| Ultrathink | 36px Gaussian | 1.5px chrome border with inner glow | Deep violet shadow with holographic shimmer | Fuchsia-cyan refractive edge |
+| Violet Nebula | 36px Gaussian | 1.5px chrome border with inner glow | Deep violet shadow with holographic shimmer | Fuchsia-cyan refractive edge |
 | Aurora Noir | 30px Gaussian | 1px polar white border | Polar mist shadow with axial fade | Aurora gradient sweep |
 | Helios Foundry | 28px Motion blur hybrid | 1px brushed brass border | Molten copper underside shadow | Copper ember edge core |
 | Glacier Morn | 26px Gaussian | 1px frosted white border | Soft diffused glacier shadow | Icy cyan refraction |
@@ -438,7 +438,7 @@ PortalTheme {
 | Midnight Slate | Hover analytics cards, focus tabs, async success states | Cyan pulse glow, data ripple animations, spectral toast lift | Reduced motion swaps glows for static borders; announce async via ARIA live |
 | Midnight Meridian | Task hover, timer start/stop, queue drag | Teal halo expansion, subtle scale, radial timer sweep | Timer audio cues optional; focus ring thickens under high contrast mode |
 | Solar Apex | Oversight filter changes, critical alerts, CTA presses | Radiant sweep across CTAs, warm flare on alerts, gradient progress arcs | Provide persistent alert badges; tone down gradients under low vision mode |
-| Ultrathink | Scenario card hover, graph node selection, insight reveal | Holographic shimmer, depth parallax, cyan-fuchsia focus gradient | Motion reduces to opacity fade; add outlines for 2D fallback |
+| Violet Nebula | Scenario card hover, graph node selection, insight reveal | Holographic shimmer, depth parallax, cyan-fuchsia focus gradient | Motion reduces to opacity fade; add outlines for 2D fallback |
 | Aurora Noir | Timeline scrub, telemetry hover, live badge updates | Aurora trail follow, telemetry ripple, emerald focus corona | Offer slower animation option; maintain text contrast during glows |
 | Helios Foundry | Machine state change, control knob interaction, alert escalation | Gear pulse, thermal glow escalation, mechanized slide-in | Provide haptic hook for hardware integrations; keep animations under 220ms |
 | Glacier Morn | Form validation, critical alert acknowledgement, tab navigation | Sterile glow, heartbeat pulse for vitals, calm fade transitions | Avoid red/green reliance; pair color with iconography |
@@ -452,7 +452,7 @@ PortalTheme {
 | Midnight Slate | 320 | 180 | 140 | 360 |
 | Midnight Meridian | 280 | 160 | 120 | 320 |
 | Solar Apex | 340 | 200 | 150 | 360 |
-| Ultrathink | 360 | 220 | 180 | 380 |
+| Violet Nebula | 360 | 220 | 180 | 380 |
 | Aurora Noir | 300 | 190 | 150 | 340 |
 | Helios Foundry | 260 | 150 | 130 | 320 |
 | Glacier Morn | 300 | 170 | 140 | 340 |
