@@ -160,9 +160,8 @@ After installation:
 
 **Still having issues?**
 
-- Check our [GitHub Issues](https://github.com/auraone/aura-glass/issues)
+- Check our [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)
 - Review the [Troubleshooting Guide](./docs/troubleshooting.md)
-- Join our [Discord Community](https://discord.gg/auraglass)
 
 ---
 

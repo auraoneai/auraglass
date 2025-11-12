@@ -12,8 +12,8 @@
 4. **Consume persona tokens** – Call `usePersonaTheme()` or read CSS variables to bind styling decisions to the active persona.
 
 ```tsx
-import { ThemeProvider } from "@/theme/ThemeProvider";
-import { PersonaPicker } from "@/components/theme/PersonaPicker";
+import { ThemeProvider } from "@aura/aura-glass";
+import { PersonaPicker } from "@aura/aura-glass";
 
 export function PersonaDemo({ children }: { children: React.ReactNode }) {
   return (
@@ -26,7 +26,7 @@ export function PersonaDemo({ children }: { children: React.ReactNode }) {
 ```
 
 ```tsx
-import { usePersonaTheme } from "@/theme/ThemeProvider";
+import { usePersonaTheme } from "@aura/aura-glass";
 
 export function PersonaBadge() {
   const { personaId, persona, setPersona, personas } = usePersonaTheme();
@@ -461,5 +461,4 @@ PortalTheme {
 | Nimbus Relay | 280 | 170 | 140 | 320 |
 
 ---
-
-This matrix encapsulates the current persona themes and extends the system with adaptive palettes, ensuring new applications can leverage AuraOne’s glassmorphism language while tailoring tone, motion, and accessibility to their domain.
+This matrix encapsulates the current persona themes and extends the system with adaptive palettes, ensuring new applications can leverage AuraOne's glassmorphism language while tailoring tone, motion, and accessibility to their domain.

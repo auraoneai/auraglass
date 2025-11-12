@@ -611,9 +611,8 @@ console.log('A11y violations:', validation.violations);
 ## Support & Resources
 
 - **Documentation**: [consciousness.aura.glass](https://consciousness.aura.glass)
-- **Examples**: [github.com/aura/consciousness-examples](https://github.com/aura/consciousness-examples)
-- **Community**: [discord.gg/aura-consciousness](https://discord.gg/aura-consciousness)
-- **Issues**: [github.com/aura/glass/issues](https://github.com/aura/glass/issues)
+- **Examples**: [github.com/VeerOneGPT/consciousness-examples](https://github.com/VeerOneGPT/consciousness-examples)
+- **Issues**: [github.com/VeerOneGPT/auraglass/issues](https://github.com/VeerOneGPT/auraglass/issues)
 
 ---
 

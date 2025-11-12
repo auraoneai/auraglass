@@ -1,6 +1,6 @@
 # Server-Side Rendering (SSR) Setup Guide
 
-AuraGlass v2.0.13+ includes comprehensive SSR support for Next.js, Remix, Gatsby, and other React frameworks.
+AuraGlass v2.1.0+ includes comprehensive SSR support for Next.js, Remix, Gatsby, and other React frameworks.
 
 ## Quick Start
 
@@ -243,5 +243,5 @@ If upgrading from 2.0.12:
 ## Support
 
 For issues or questions:
-- [GitHub Issues](https://github.com/auraone/aura-glass/issues)
+- [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)
 - [Documentation](https://aura-glass.auraone.com/docs/ssr)

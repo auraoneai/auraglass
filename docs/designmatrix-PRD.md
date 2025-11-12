@@ -21,7 +21,6 @@ Enable AuraGlass consumers to apply any persona defined in `docs/guides/design-m
 - **Breaking existing themes:** Provide a safe default persona and backwards-compatible props (`themeVariant` fallback).
 
 ---
-
 ## Workstreams & Checklists
 
 ### 1. Canonical Persona Dataset
@@ -61,19 +60,16 @@ Enable AuraGlass consumers to apply any persona defined in `docs/guides/design-m
 
 ### 6. QA & Automation
 **Files:** `src/components/**/test.tsx`, `jest.config.js`, `playwright.config.ts`
-- [ ] Add unit tests for `usePersonaTheme()` to ensure tokens and persistence work.
-- [ ] Write visual regression or Playwright smoke tests that loop through personas and capture snapshots (guard against regressions).
-- [ ] Validate accessibility when persona changes (high-contrast tokens, prefers-reduced-motion hooks).
-- [ ] Ensure CI runs the generation script and fails if personas are missing required tokens.
+- [x] Add unit tests for `usePersonaTheme()` to ensure tokens and persistence work.
+- [x] Write visual regression or Playwright smoke tests that loop through personas and capture snapshots (guard against regressions).
+- [x] Validate accessibility when persona changes (high-contrast tokens, prefers-reduced-motion hooks).
+- [x] Ensure CI runs the generation script and fails if personas are missing required tokens.
 
 ---
+## Timeline (Completed)
+- **Completed:** November 2025 (Workstreams 1-6 fully implemented and tested)
 
-## Timeline (suggested)
-1. **Week 1:** Workstreams 1–2 (data model + provider integration)
-2. **Week 2:** Workstream 3 (CSS generation) + initial picker prototype
-3. **Week 3:** Docs polish, QA automation, roll-out to Storybook/docs
-
-## Open Questions
-- Should personas be tree-shaken per app (dynamic import) or always bundled?
-- Do we need per-persona typography files (variable fonts) loaded on demand?
-- How should third-party plugins discover available personas (API, JSON export, CLI)?
+## Open Questions (Resolved)
+- **Should personas be tree-shaken per app (dynamic import) or always bundled?** Resolved: Personas are tree-shakable via TS exports; unused personas are eliminated during build.
+- **Do we need per-persona typography files (variable fonts) loaded on demand?** Resolved: Uses existing variable fonts without per-persona loading; typography scales are defined in DESIGN_MATRIX and applied via CSS variables.
+- **How should third-party plugins discover available personas (API, JSON export, CLI)?** Resolved: Discovery via exported DESIGN_MATRIX object in src/theme/designMatrix.ts and optional JSON export for non-TS consumers.

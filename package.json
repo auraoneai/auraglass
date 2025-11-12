@@ -121,10 +121,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/auraone/aura-glass.git"
+    "url": "https://github.com/VeerOneGPT/auraglass.git"
   },
   "bugs": {
-    "url": "https://github.com/auraone/aura-glass/issues"
+    "url": "https://github.com/VeerOneGPT/auraglass/issues"
   },
   "homepage": "https://aura-glass.auraone.com",
   "peerDependencies": {

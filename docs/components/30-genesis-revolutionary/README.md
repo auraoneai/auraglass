@@ -224,7 +224,7 @@ function App() {
 
 ```bash
 # Clone repository
-git clone https://github.com/aura/aura-glass.git
+git clone https://github.com/VeerOneGPT/auraglass.git
 
 # Install dependencies
 npm install
@@ -289,8 +289,7 @@ src/components/[component]/
 - [Security Guide](./security-guide.md)
 
 ### Community
-- [GitHub Issues](https://github.com/aura/aura-glass/issues)
-- [Discord Community](https://discord.gg/aura-glass)
+- [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/aura-glass)
 
 ### Professional Support

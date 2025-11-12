@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2025-11-12
 
 ### ✨ Added
-- Ten-persona Design Matrix system with `<PersonaPicker />`, `usePersonaTheme()`, and generated `[data-persona]` CSS for instant runtime theming.
-- Expanded quantum/advanced components (LivingEcosystemSimulator, QuantumEntanglementVisualizer, Neuromorphic Learning suites) plus `ConsciousnessStreamProvider`.
+- Ten-persona Design Matrix system with `<PersonaPicker />`, `usePersonaTheme()`, and generated `[data-persona]` CSS for instant runtime theming. Includes Persona CSS generation scripts: `npm run glass:generate-persona-css` to compile custom properties into `src/styles/generated/persona-variables.css`, and `npm run glass:validate-persona-css` for CI validation.
+- New SSR-safe environment helpers in `aura-glass/utils/env` for browser detection, safe media queries, and client-side effects.
+- Deterministic effects with `SeededRandom` utilities ensuring SSR/client parity for animations, physics, and random seeding.
+- Expanded quantum/advanced components including `LivingEcosystemSimulator`, `QuantumEntanglementVisualizer`, `Neuromorphic Learning suites`, and `ConsciousnessStreamProvider`.
 - Liquid Glass Parity+ presets with IOR controls, environmental adaptation, GPU fallbacks, and deterministic `SeededRandom` utilities for SSR parity.
 
 ### 🛠 Improvements
@@ -113,7 +115,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | WCAG AAA Compliance | ✅ Certified | Success Criterion 2.3.3 fully met |
 
 ### 📁 Reports & Documentation
-
 New comprehensive reports added to `/reports/`:
 - `REDUCED_MOTION_100_COMPLETE.md` - Full accessibility implementation report
 - `TYPESCRIPT_FIX_PROGRESS.md` - TypeScript error reduction progress  
@@ -136,13 +137,11 @@ New comprehensive reports added to `/reports/`:
 - ✅ Inclusive design for all users
 
 ### ⚠️ Known Issues
-
 - ~~106 TypeScript errors remaining~~ ✅ **RESOLVED - 0 errors**
 - ESLint warnings from existing raw Tailwind classes (non-blocking)
 - None blocking production deployment
 
 ### 🎯 Future Improvements
-
 - ✅ ~~Continue TypeScript error reduction to 0~~ **COMPLETE**
 - Increase automated test coverage
 - Enhanced type inference for better DX
@@ -150,7 +149,6 @@ New comprehensive reports added to `/reports/`:
 - Expand component test suite
 
 ### ♻️ Maintenance
-
 - Cleaned up documentation files
 - Updated component inventory
 - Enhanced automation scripts
@@ -160,7 +158,6 @@ New comprehensive reports added to `/reports/`:
 ### ♻️ Maintenance
 
 - Removed the redundant Z-Space layout and GlassTabItem utility styles from `src/styles/glass.css` now that the React components inject their own scoped styles, keeping the global stylesheet slim and avoiding repeated rules during SSR builds.
-
 
 ## [2.0.5] - 2025-11-07
 
@@ -255,7 +252,6 @@ These are server-side dependencies that don't belong in a UI component library. 
 - Added troubleshooting section for common errors
 
 ---
-
 ## [1.1.0] - 2025-11-07
 
 ### 📊 Added
@@ -288,7 +284,6 @@ All audit findings documented in `/reports/`:
 **Status:** Remediation planned for v2.1.0-v2.5.0 over 5 weeks
 
 ---
-
 ## [1.0.0] - 2025-11-06
 
 ### Initial Release
@@ -302,7 +297,6 @@ All audit findings documented in `/reports/`:
 - Performance optimization system
 
 ---
-
 ## Upgrade Guides
 
 ### v1.x → v2.0.0
@@ -316,10 +310,8 @@ See [INSTALLATION.md](./INSTALLATION.md#upgrading-from-v1x) for complete upgrade
 4. No code changes needed!
 
 ---
-
 ## Support
 
 For issues or questions:
 - 📖 Read [INSTALLATION.md](./INSTALLATION.md)
-- 🐛 File issues at [GitHub Issues](https://github.com/auraone/aura-glass/issues)
-- 💬 Join [Discord Community](https://discord.gg/auraglass)
+- 🐛 File issues at [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)

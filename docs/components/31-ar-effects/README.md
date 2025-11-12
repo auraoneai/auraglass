@@ -195,7 +195,6 @@ For questions, issues, or feature requests related to AR & Effects components:
 
 - 📖 Check component-specific documentation
 - 🐛 Report issues on GitHub
-- 💬 Join our Discord community
 - 📧 Contact support@aura-glass.com
 
 ---

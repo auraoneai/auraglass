@@ -1,5 +1,4 @@
-# 🚀 AuraGlass AI Infrastructure Setup Guide
-
+# AuraGlass AI Infrastructure Setup Guide
 Complete guide to setting up production-ready AI features in AuraGlass.
 
 ## 📋 Table of Contents
@@ -20,7 +19,7 @@ Complete guide to setting up production-ready AI features in AuraGlass.
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/yourusername/auraglass.git
+git clone https://github.com/VeerOneGPT/auraglass.git
 cd auraglass
 npm install
 
@@ -649,9 +648,7 @@ https://console.cloud.google.com/billing
 
 - **Documentation**: See [docs/ai/](../ai/)
 - **Examples**: See [src/components/ai/examples/](../../src/components/ai/examples/)
-- **Issues**: https://github.com/yourusername/auraglass/issues
-- **Discord**: Join our community server
+- **Issues**: https://github.com/VeerOneGPT/auraglass/issues
 
 ---
-
 **Ready to build AI-powered glassmorphism UIs! 🚀**
