@@ -71,7 +71,7 @@ export interface CommandGroup {
 }
 
 export interface GlassCommandPaletteProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
    * Command items (flat list or grouped)
    */

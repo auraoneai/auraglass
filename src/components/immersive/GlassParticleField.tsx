@@ -135,7 +135,7 @@ export const GlassParticleField = forwardRef<
       interactive = true,
       mouseForce,
       bounds = { width: 800, height: 600, depth: 100 },
-      performance = {
+      performance: performanceConfig = {
         culling: true,
         lodDistance: 200,
         targetFPS: 60,

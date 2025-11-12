@@ -90,6 +90,7 @@ export interface GlassSidebarProps {
    */
   renderItem?: (item: NavigationItem, level: number) => React.ReactNode;
   className?: string;
+  "aria-label"?: string;
 }
 
 interface SidebarContextValue {

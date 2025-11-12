@@ -212,6 +212,11 @@ export interface SpeedDialActionProps {
   showTooltip?: boolean;
 
   /**
+   * Accessible label for the action
+   */
+  'aria-label'?: string;
+
+  /**
    * Test ID for the component
    */
   'data-testid'?: string;

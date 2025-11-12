@@ -139,6 +139,8 @@ export interface GlassDataTableProps<T = any> extends ConsciousnessFeatures {
    */
   actions?: React.ReactNode;
   className?: string;
+  "aria-label"?: string;
+  "data-testid"?: string;
   /**
    * Optional per-column cell renderers by column id or accessorKey
    */

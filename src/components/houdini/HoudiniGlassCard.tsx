@@ -26,6 +26,7 @@ interface HoudiniGlassCardProps {
   showControls?: boolean;
   title?: string;
   description?: string;
+  "data-testid"?: string;
 }
 
 export function HoudiniGlassCard({

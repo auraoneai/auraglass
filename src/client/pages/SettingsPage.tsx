@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useSettings } from '../../contexts/SettingsContext';
+import { createGlassStyle } from '../../core/mixins/glassMixins';
 
 type Option<T extends string | number> = {
   value: T;

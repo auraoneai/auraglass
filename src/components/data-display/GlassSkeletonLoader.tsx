@@ -20,6 +20,8 @@ export interface GlassSkeletonLoaderProps {
   variant?: "pulse" | "wave" | "shimmer" | "sheen";
   /** Custom className */
   className?: string;
+  /** Testing identifier */
+  "data-testid"?: string;
   /** Children to show when not loading */
   children?: React.ReactNode;
   /** ARIA label for accessibility */

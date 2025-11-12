@@ -96,6 +96,8 @@ export const GlassTabBar = forwardRef<
     ...restProps
   } = props;
 
+  const normalizedTabs = useMemo(() => tabs ?? [], [tabs]);
+
   const responsiveState = useResponsive();
 
   // Calculate effective values based on responsive state
@@ -155,7 +157,7 @@ export const GlassTabBar = forwardRef<
   const [isScrolling, setIsScrolling] = useState(false);
 
   // State for collapsed tabs
-  const [visibleTabs, setVisibleTabs] = useState<TabItem[]>(tabs);
+  const [visibleTabs, setVisibleTabs] = useState<TabItem[]>(normalizedTabs);
   const [collapsedTabs, setCollapsedTabs] = useState<TabItem[]>([]);
   const [showCollapsedMenu, setShowCollapsedMenu] = useState(false);
 
@@ -225,7 +227,7 @@ export const GlassTabBar = forwardRef<
       },
       getActiveTab: () => activeTab || 0,
       setActiveTab: (index: number) => {
-        if (index >= 0 && index < tabs.length && !tabs[index].disabled) {
+        if (index >= 0 && index < normalizedTabs.length && !normalizedTabs[index].disabled) {
           // Create a synthetic mouse event
           const syntheticEvent = {
             currentTarget:
@@ -235,11 +237,11 @@ export const GlassTabBar = forwardRef<
           } as React.MouseEvent<HTMLButtonElement>;
 
           // Call the onChange handler with the synthetic event
-          onChange(syntheticEvent, index);
+          onChange?.(syntheticEvent, index);
         }
       },
       selectTab: (index: number) => {
-        if (index >= 0 && index < tabs.length && !tabs[index].disabled) {
+        if (index >= 0 && index < normalizedTabs.length && !normalizedTabs[index].disabled) {
           // Create a synthetic mouse event
           const syntheticEvent = {
             currentTarget:
@@ -249,7 +251,7 @@ export const GlassTabBar = forwardRef<
           } as React.MouseEvent<HTMLButtonElement>;
 
           // Call the onChange handler with the synthetic event
-          onChange(syntheticEvent, index);
+          onChange?.(syntheticEvent, index);
         }
       },
       scrollToTab: (index: number, smooth = true) => {
@@ -279,7 +281,7 @@ export const GlassTabBar = forwardRef<
     [
       tabsRef,
       tabRefs,
-      tabs,
+      normalizedTabs,
       onChange,
       effectiveOrientation,
       isScrolling,
@@ -300,14 +302,14 @@ export const GlassTabBar = forwardRef<
 
     // If this is a normal tab click, handle it normally
     if (visibleTabs[index].disabled) return;
-    onChange(event, index);
+    onChange?.(event, index);
   };
 
   // Handle collapsed tab selection
   const handleCollapsedTabSelect = (collapsedIndex: number) => {
     // Find the original index of this tab in the full tabs array
     const realIndex = collapsedTabs[collapsedIndex]
-      ? tabs.findIndex(
+      ? normalizedTabs.findIndex(
           (tab) => tab.value === collapsedTabs[collapsedIndex].value
         )
       : -1;
@@ -321,7 +323,7 @@ export const GlassTabBar = forwardRef<
         stopPropagation: () => {},
       } as React.MouseEvent<HTMLButtonElement>;
 
-      onChange(syntheticEvent, realIndex);
+      onChange?.(syntheticEvent, realIndex);
     }
 
     // Close the menu
@@ -342,7 +344,7 @@ export const GlassTabBar = forwardRef<
         if (effectiveOrientation === "horizontal") {
           event.preventDefault();
           newIndex = getNextEnabledTabIndex(
-            tabs as any,
+            normalizedTabs,
             activeTab || 0,
             "next"
           );
@@ -352,7 +354,7 @@ export const GlassTabBar = forwardRef<
         if (effectiveOrientation === "horizontal") {
           event.preventDefault();
           newIndex = getNextEnabledTabIndex(
-            tabs as any,
+            normalizedTabs,
             activeTab || 0,
             "prev"
           );
@@ -362,7 +364,7 @@ export const GlassTabBar = forwardRef<
         if (effectiveOrientation === "vertical") {
           event.preventDefault();
           newIndex = getNextEnabledTabIndex(
-            tabs as any,
+            normalizedTabs,
             activeTab || 0,
             "next"
           );
@@ -372,7 +374,7 @@ export const GlassTabBar = forwardRef<
         if (effectiveOrientation === "vertical") {
           event.preventDefault();
           newIndex = getNextEnabledTabIndex(
-            tabs as any,
+            normalizedTabs,
             activeTab || 0,
             "prev"
           );
@@ -384,13 +386,13 @@ export const GlassTabBar = forwardRef<
         break;
       case "End":
         event.preventDefault();
-        newIndex = tabs.length - 1;
+        newIndex = normalizedTabs.length - 1;
         break;
       case "Enter":
       case " ": // Space
         event.preventDefault();
-        if (!tabs[index].disabled) {
-          onChange(event, index);
+        if (normalizedTabs[index] && !normalizedTabs[index].disabled) {
+          onChange?.(event, index);
         }
         return; // Skip the auto-navigation below
       default:
@@ -399,7 +401,7 @@ export const GlassTabBar = forwardRef<
 
     // Only change tabs if we found a new enabled tab
     if (newIndex !== activeTab) {
-      onChange(event, newIndex || 0);
+      onChange?.(event, newIndex || 0);
       // Focus the new tab
       setTimeout(() => {
         const newTabEl = tabRefs.current[newIndex || 0];
@@ -756,7 +758,7 @@ export const GlassTabBar = forwardRef<
       !tabsRef.current ||
       !activeTab ||
       activeTab < 0 ||
-      activeTab >= tabs.length
+      activeTab >= normalizedTabs.length
     )
       return;
 
@@ -787,7 +789,7 @@ export const GlassTabBar = forwardRef<
 
     setSelectorStyle(newStyle);
     setSpringProps(newStyle);
-  }, [activeTab, effectiveOrientation, variant, tabs.length]);
+  }, [activeTab, effectiveOrientation, variant, normalizedTabs.length]);
 
   // Magnetic selector function
   const magneticSelector = useCallback(
@@ -863,7 +865,7 @@ export const GlassTabBar = forwardRef<
       !tabsRef.current ||
       !activeTab ||
       activeTab < 0 ||
-      activeTab >= tabs.length
+      activeTab >= normalizedTabs.length
     )
       return;
 
@@ -906,7 +908,7 @@ export const GlassTabBar = forwardRef<
     activeTab,
     effectiveOrientation,
     scrollable,
-    tabs.length,
+    normalizedTabs.length,
     variant,
     tabsRef,
     tabRefs,
@@ -943,7 +945,7 @@ export const GlassTabBar = forwardRef<
 
     // Reset tab state when tabs change
     // Initialize with all tabs visible temporarily
-    setVisibleTabs(tabs);
+    setVisibleTabs(normalizedTabs);
     setCollapsedTabs([]);
 
     // Re-calculate visible tabs after a short delay to allow DOM updates
@@ -952,7 +954,7 @@ export const GlassTabBar = forwardRef<
         if (!tabsRef.current) return;
 
         // Ensure tabRefs array is aligned with tabs array
-        if (tabRefs.current.length !== tabs.length) {
+        if (tabRefs.current.length !== normalizedTabs.length) {
           if (process.env.NODE_ENV === "development") {
             console.warn(
               "GlassTabBar: tabRefs length mismatch, delaying recalculation."
@@ -964,7 +966,7 @@ export const GlassTabBar = forwardRef<
 
         // Update tab width measurements more robustly
         const currentTabWidths: number[] = [];
-        tabs.forEach((_, index) => {
+        normalizedTabs.forEach((_, index) => {
           const tabRef = tabRefs.current[index];
           const width = tabRef ? tabRef.getBoundingClientRect().width : 50; // Use fallback if ref missing
           currentTabWidths[index] = width > 0 ? width : 50; // Use fallback if width is 0
@@ -972,7 +974,7 @@ export const GlassTabBar = forwardRef<
         tabWidthsRef.current = currentTabWidths;
 
         const { visibleTabs: newVisible, hiddenTabs: newCollapsed } =
-          calculateVisibleTabs(tabs as any, tabsRef.current.clientWidth);
+          calculateVisibleTabs(normalizedTabs, tabsRef.current.clientWidth);
 
         setVisibleTabs(newVisible);
         setCollapsedTabs(newCollapsed);

@@ -41,6 +41,10 @@ export interface GlassBottomSheetProps {
    * Custom aria-describedby
    */
   "aria-describedby"?: string;
+  /**
+   * Testing attribute
+   */
+  "data-testid"?: string;
 }
 
 export const GlassBottomSheet = forwardRef<

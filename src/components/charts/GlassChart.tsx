@@ -148,6 +148,11 @@ export interface GlassChartProps extends BaseChartProps, ConsciousnessFeatures {
   toolbarItems?: any;
 
   /**
+   * Accessible label for the chart container
+   */
+  "aria-label"?: string;
+
+  /**
    * Allow switching chart types
    */
   allowTypeSwitch?: boolean;

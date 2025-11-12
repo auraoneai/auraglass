@@ -3,7 +3,7 @@ import React, { Component, ErrorInfo, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { GlassAdvanced } from "../primitives/glass/GlassAdvanced";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends Omit<React.HTMLAttributes<HTMLDivElement>, "onError"> {
   children: ReactNode;
   fallback?: ReactNode;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;

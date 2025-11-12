@@ -19,6 +19,7 @@ export interface GlowingCardProps {
   children?: ReactNode;
   className?: string;
   style?: CSSProperties;
+  "data-testid"?: string;
   glowColor?: string;
   glowIntensity?: number; // 0-1
   animationDuration?: number; // milliseconds

@@ -19,6 +19,8 @@ interface GlassStepLabelProps {
   className?: string;
   /** Inline styles */
   style?: React.CSSProperties;
+  /** Test id attr */
+  'data-testid'?: string;
 }
 
 // Get label state classes

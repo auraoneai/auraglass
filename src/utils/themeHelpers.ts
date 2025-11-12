@@ -113,6 +113,7 @@ export const createGlassTheme = (baseTheme: Partial<GlassTheme> = {}): GlassThem
     },
     borderRadius: '12px',
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.18)',
+    backdropFilter: 'var(--glass-backdrop-filter, blur(16px))',
     // Use tokenized backdrop via CSS variables on surfaces
     // Use createGlassStyle() instead,
     transition: 'all 0.2s ease',

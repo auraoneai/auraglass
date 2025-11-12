@@ -181,15 +181,12 @@ export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(({ $posi
       break;
   }
 
-  // Filter out styled-components props ($ prefix) before spreading
-  const { $position: _, $style: __, $glassEffect: ___, ...restProps } = props;
-
   return (
     <div
       ref={ref}
       className={cn(styles.legend, $glassEffect && styles.legendGlass, className)}
       style={layoutStyle}
-      {...restProps}
+      {...props}
     />
   );
 });
@@ -202,13 +199,10 @@ interface LegendItemProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const LegendItem: React.FC<LegendItemProps> = ({ $active = true, $style, $color, className, ...props }) => {
-  // Filter out styled-components props ($ prefix) before spreading
-  const { $active: _, $style: __, $color: ___, ...restProps } = props;
-  
   return (
     <div
       className={cn(styles.legendItem, !$active && styles.legendInactive, className)}
-      {...restProps}
+      {...props}
     />
   );
 };
@@ -219,9 +213,6 @@ interface LegendColorProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const LegendColor: React.FC<LegendColorProps> = ({ $color, $active = true, className, style, ...props }) => {
-  // Filter out styled-components props ($ prefix) before spreading
-  const { $color: _, $active: __, ...restProps } = props;
-  
   return (
     <div
       className={cn(styles.legendColor, className)}
@@ -230,7 +221,7 @@ export const LegendColor: React.FC<LegendColorProps> = ({ $color, $active = true
         opacity: $active ? 1 : 0.5,
         ...style,
       }}
-      {...restProps}
+      {...props}
     />
   );
 };
@@ -240,14 +231,11 @@ interface LegendLabelProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const LegendLabel: React.FC<LegendLabelProps> = ({ $active = true, className, style, ...props }) => {
-  // Filter out styled-components props ($ prefix) before spreading
-  const { $active: _, ...restProps } = props;
-  
   return (
     <span
       className={cn(styles.legendLabel, className)}
       style={{ opacity: $active ? 1 : 0.6, ...style }}
-      {...restProps}
+      {...props}
     />
   );
 };

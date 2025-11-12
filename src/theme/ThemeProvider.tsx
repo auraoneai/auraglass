@@ -1154,7 +1154,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
         ? size.replace("spacing.", "")
         : size;
 
-      const personaSpacing = personaConfig.spacing as Record<string, string>;
+      const personaSpacing = personaConfig.spacing as unknown as Record<string, string>;
       if (key in personaSpacing) {
         return personaSpacing[key];
       }
@@ -1227,7 +1227,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
         ? variant.replace("typography.", "")
         : variant;
 
-      const personaTypography = personaConfig.typography as Record<
+      const personaTypography = personaConfig.typography as unknown as Record<
         string,
         { weight: number; size: string; letterSpacing: string; lineHeight?: string }
       >;

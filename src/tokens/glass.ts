@@ -620,6 +620,8 @@ export const glassTokenUtils = {
     return {
       background: surface.surface.base,
       backgroundColor: surface.surface.overlay ?? undefined,
+      backdropFilter,
+      WebkitBackdropFilter: backdropFilter,
       // Use createGlassStyle() instead,
       // Use createGlassStyle() instead,
       border: `${surface.border.width}px ${surface.border.style} ${surface.border.color}`,

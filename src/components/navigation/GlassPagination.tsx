@@ -68,6 +68,7 @@ export interface GlassPaginationProps {
    * Whether to announce page changes to screen readers
    */
   announcePageChanges?: boolean;
+  "data-testid"?: string;
 }
 
 export interface GlassPaginationContentProps {

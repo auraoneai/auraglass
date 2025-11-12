@@ -1,6 +1,6 @@
 import React from 'react';
 export interface TabItem {
-  id: string;
+  id?: string;
   label: string;
   disabled?: boolean;
   width?: number;

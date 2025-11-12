@@ -51,7 +51,7 @@ export interface SearchResult {
 }
 
 export interface GlassFacetSearchProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "results"> {
   query?: string;
   onQueryChange?: (query: string) => void;
   facets?: Facet[];
