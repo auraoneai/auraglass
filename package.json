@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -10,6 +10,25 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./tokens": {
+      "types": "./dist/tokens/generated.d.ts",
+      "import": "./dist/tokens/index.mjs",
+      "require": "./dist/tokens/index.cjs",
+      "default": "./dist/tokens/index.mjs"
+    },
+    "./tokens/json": {
+      "import": "./dist/tokens/tokens.json",
+      "default": "./dist/tokens/tokens.json"
+    },
+    "./tokens/tailwind": {
+      "import": "./dist/tokens/tailwind.theme.mjs",
+      "require": "./dist/tokens/tailwind.theme.cjs",
+      "default": "./dist/tokens/tailwind.theme.mjs"
+    },
+    "./tokens/manifest": {
+      "import": "./dist/tokens/manifest.mjs",
+      "default": "./dist/tokens/manifest.mjs"
     },
     "./styles": "./dist/styles/index.css",
     "./registry": {
@@ -64,6 +83,9 @@
     "lint:staged": "lint-staged",
     "prepare": "husky install",
     "test": "jest",
+    "test:tokens:exports:cjs": "jest tests/tokens/export.test.ts",
+    "test:tokens:exports:esm": "node tests/tokens/export.spec.mjs",
+    "test:tokens:exports": "npm run build:tokens && npm run test:tokens:exports:cjs && npm run test:tokens:exports:esm",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:a11y": "jest --testPathPattern=a11y",
@@ -88,7 +110,7 @@
     "glass:validate-persona-css": "node scripts/generate-persona-css-runner.js --check",
     "glass:validate": "node scripts/verify-glass-pipeline.js",
     "glass:visual-tests": "node scripts/glass-visual-test-generator.js",
-    "glass:full-check": "npm run typecheck && npm run lint:check && npm run lint:tokens && npm run lint:styles && npm run glass:validate-persona-css && npm run glass:validate && npm run test:glass-contrast",
+    "glass:full-check": "npm run typecheck && npm run lint:check && npm run lint:tokens && npm run lint:styles && npm run glass:validate-persona-css && npm run glass:validate && npm run test:glass-contrast && npm run test:tokens:exports",
     "codemod:tw-to-glass": "node scripts/codemods/tw-to-glass.js",
     "audit:ux": "npm run codemod:tw-to-glass && npm run lint:check && npm run lint:tokens && npm run lint:styles && npm run test:visual:ci",
     "audit:components": "node scripts/audit/universal-glass-audit.js",
@@ -288,9 +310,7 @@
   "lint-staged": {
     "src/**/!(*.stories).{ts,tsx}": [
       "eslint --fix --max-warnings 999999",
-      "prettier --write",
-      "node scripts/ci/token-lint.js",
-      "node scripts/ci/style-audit.js"
+      "prettier --write"
     ],
     "src/**/*.{css,scss}": [
       "prettier --write",

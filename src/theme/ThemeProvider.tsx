@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   createContext,
@@ -72,13 +72,15 @@ const warnBeforeInit = (method: string) => {
 const isPersonaId = (value: string): value is PersonaId =>
   Object.prototype.hasOwnProperty.call(DESIGN_MATRIX, value);
 
-const LEGACY_THEME_VARIANT_TO_PERSONA: Record<string, PersonaId> = {
+const LEGACY_THEME_VARIANT_TO_PERSONA: Record<string, PersonaId | null> = {
   default: DEFAULT_PERSONA_ID,
   compact: "midnight-meridian",
-  expanded: "ultrathink",
+  expanded: null,
 };
 
-const resolveLegacyPersona = (variant: string | undefined): PersonaId | null => {
+const resolveLegacyPersona = (
+  variant: string | undefined
+): PersonaId | null => {
   if (!variant) return null;
   const normalized = variant.toLowerCase();
   return LEGACY_THEME_VARIANT_TO_PERSONA[normalized] || null;
@@ -786,8 +788,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   const getColor = useCallback(
     (path: string, fallback = "") => {
       const parts = path.split(".");
-      const normalizedParts =
-        parts[0] === "colors" ? parts.slice(1) : parts;
+      const normalizedParts = parts[0] === "colors" ? parts.slice(1) : parts;
       const personaValue = getValueByPath(
         personaConfig.colors,
         normalizedParts
@@ -889,18 +890,20 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
       // Get glass-specific color values
       const backgroundColor = isDarkMode
-        ? "rgba(0, 0, 0, 0.2)"
-        : "rgba(255, 255, 255, 0.1)";
+        ? "var(--glass-bg-dark, rgba(0, 0, 0, 0.2))"
+        : "var(--glass-bg-light, rgba(255, 255, 255, 0.1))";
 
       const borderColor = isDarkMode
-        ? "rgba(255, 255, 255, 0.1)"
-        : "rgba(0, 0, 0, 0.1)";
+        ? "var(--glass-border-dark, rgba(255, 255, 255, 0.1))"
+        : "var(--glass-border-light, rgba(0, 0, 0, 0.1))";
 
       const shadowColor = isDarkMode
-        ? "rgba(0, 0, 0, 0.3)"
-        : "rgba(0, 0, 0, 0.1)";
+        ? "var(--glass-shadow-dark, rgba(0, 0, 0, 0.3))"
+        : "var(--glass-shadow-light, rgba(0, 0, 0, 0.1))";
 
-      const glowColor = isDarkMode ? "var(--glass-color-primary)" : "#6366f1";
+      const glowColor = isDarkMode
+        ? "var(--glass-glow-dark, var(--glass-color-primary))"
+        : "var(--glass-glow-light, #6366f1)";
 
       // Get opacity and blur values from qualityTier
       const bgOpacity = getBackgroundOpacity("medium");
@@ -974,8 +977,8 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
           variantStyles = `
           background: linear-gradient(
-            135deg, 
-            rgba(255, 255, 255, ${bgOpacityTop}) 0%, 
+            135deg,
+            rgba(255, 255, 255, ${bgOpacityTop}) 0%,
             rgba(${accentColor}, ${bgOpacityBottom}) 100%
           );
           box-shadow: 
@@ -1154,7 +1157,10 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
         ? size.replace("spacing.", "")
         : size;
 
-      const personaSpacing = personaConfig.spacing as unknown as Record<string, string>;
+      const personaSpacing = personaConfig.spacing as unknown as Record<
+        string,
+        string
+      >;
       if (key in personaSpacing) {
         return personaSpacing[key];
       }
@@ -1229,7 +1235,12 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
       const personaTypography = personaConfig.typography as unknown as Record<
         string,
-        { weight: number; size: string; letterSpacing: string; lineHeight?: string }
+        {
+          weight: number;
+          size: string;
+          letterSpacing: string;
+          lineHeight?: string;
+        }
       >;
 
       if (key in personaTypography) {

@@ -5,6 +5,17 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.4] - 2025-11-14
+
+### ✨ Added
+- Exposed canonical design token entrypoints via `aura-glass/tokens`, including dual-mode ESM/CJS wrappers backed by the generated `tokens.json` manifest.
+- Published Tailwind preset access under `aura-glass/tokens/tailwind` so configs can import the canonical theme without deep imports.
+- Added targeted smoke tests (`npm run test:tokens:exports`) to verify both `require()` and dynamic `import()` consumers after each build.
+
+### 🛠 Improvements
+- Broadened the package `exports` map to cover `./tokens`, `./tokens/json`, `./tokens/tailwind`, and `./tokens/manifest`, preventing modern bundlers from blocking deep token imports.
+- Refreshed README and docs to highlight the new token usage patterns, including Tailwind configuration and direct token manifest consumption.
+
 ## [2.1.0] - 2025-11-12
 
 ### ✨ Added

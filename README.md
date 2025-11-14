@@ -39,9 +39,7 @@ AuraGlass 2.1 introduces the Design Matrix: a canonical system of ten personas (
 
 **Usage Example:**
 ```tsx
-import { ThemeProvider } from 'aura-glass';
-import { PersonaPicker } from 'aura-glass';
-import { usePersonaTheme } from 'aura-glass';
+import { ThemeProvider, PersonaPicker, usePersonaTheme } from 'aura-glass';
 
 function App({ children }) {
   return (
@@ -152,6 +150,25 @@ import { AuraGlassSSRProvider } from 'aura-glass/ssr';
 export function App({ children }) {
   return <AuraGlassSSRProvider>{children}</AuraGlassSSRProvider>;
 }
+```
+
+**Step 5 – Design tokens & Tailwind helpers**
+```ts
+import auraTokens, { personas } from 'aura-glass/tokens';
+
+console.log(auraTokens.version); // 1.0.0
+console.log(personas[0].metadata.displayName);
+```
+
+```ts
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+import theme from 'aura-glass/tokens/tailwind';
+
+export default {
+  content: ['./src/**/*.{ts,tsx}'],
+  theme,
+} satisfies Config;
 ```
 
 > After adjusting personas inside `src/theme/designMatrix.ts`, run `npm run glass:generate-persona-css` (and `npm run glass:validate-persona-css` in CI) to regenerate `[data-persona]` variables at `src/styles/generated/persona-variables.css`.
