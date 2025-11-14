@@ -358,7 +358,7 @@ export function GlassEyeTrackingProvider({
   onGazeInteraction?: (interaction: GazeInteraction) => void;
 }) {
   const prefersReducedMotion = useReducedMotion();
-  const engineRef = useRef<EyeTrackingEngine>();
+  const engineRef = useRef<EyeTrackingEngine | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [activeInteractions, setActiveInteractions] = useState<GazeInteraction[]>([]);
