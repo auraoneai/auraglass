@@ -634,7 +634,7 @@ export function GlassBiometricAdaptationProvider({
   settings?: Partial<AdaptationSettings>;
   autoInitialize?: boolean;
 }) {
-  const engineRef = useRef<BiometricAdaptationEngine>();
+  const engineRef = useRef<BiometricAdaptationEngine | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [latestReading, setLatestReading] = useState<BiometricReading | null>(
     null
