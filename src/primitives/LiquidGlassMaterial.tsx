@@ -160,7 +160,7 @@ export const LiquidGlassMaterial = forwardRef<
     },
     ref
   ) => {
-    const elementRef = useRef<HTMLDivElement>(null);
+    const elementRef = useRef<HTMLElement>(null);
     const [isHovered, setIsHovered] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
     const [deviceTilt, setDeviceTilt] = useState({ x: 0, y: 0 });
