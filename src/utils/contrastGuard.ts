@@ -551,7 +551,7 @@ export const contrastGuard = new ContrastGuard();
  * Hook for React components to use contrast guard
  */
 export function useContrastGuard(
-  elementRef: React.RefObject<HTMLElement>,
+  elementRef: React.RefObject<HTMLElement | null>,
   options: {
     targetLevel?: ContrastLevel;
     material?: LiquidGlassMaterial;
