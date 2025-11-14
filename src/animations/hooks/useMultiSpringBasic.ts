@@ -45,7 +45,7 @@ export function useMultiSpring(
   const [values, setValues] = useState<Record<string, number>>(initialValues);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const stateRef = useRef<SpringState>({});
   const targetsRef = useRef<SpringTarget>({});
   const lastTimeRef = useRef<number>(0);
@@ -197,7 +197,7 @@ export function useMultiSpring(
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (animationRef.current) {
+      if (animationRef.current !== undefined) {
         cancelAnimationFrame(animationRef.current);
       }
     };
