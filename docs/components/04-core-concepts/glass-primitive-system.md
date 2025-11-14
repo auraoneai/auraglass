@@ -8,8 +8,8 @@ AuraGlass provides multiple primitive component variants that form the foundatio
 The fundamental glass component with mixin-based styling. Perfect for simple projects.
 
 ```tsx
-import { Glass } from '@aura/aura-glass';
-// or import { GlassCore } from '@aura/aura-glass';
+import { Glass } from 'aura-glass';
+// or import { GlassCore } from 'aura-glass';
 
 <Glass
   variant="frosted"       // Glass variant: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous'
@@ -28,7 +28,7 @@ import { Glass } from '@aura/aura-glass';
 Advanced glass component with complete design token integration and gradient support.
 
 ```tsx
-import { GlassAdvanced } from '@aura/aura-glass';
+import { GlassAdvanced } from 'aura-glass';
 
 <GlassAdvanced
   variant="iridescent"       // Advanced variants: 'iridescent' | 'mesh' | 'feature'  
@@ -47,8 +47,8 @@ import { GlassAdvanced } from '@aura/aura-glass';
 Performance-optimized glass with automatic device capability detection.
 
 ```tsx
-import { OptimizedGlass } from '@aura/aura-glass';
-// or import { OptimizedGlassCore } from '@aura/aura-glass';
+import { OptimizedGlass } from 'aura-glass';
+// or import { OptimizedGlassCore } from 'aura-glass';
 
 <OptimizedGlass
   variant="luminous"            // Glass variant
@@ -65,7 +65,7 @@ import { OptimizedGlass } from '@aura/aura-glass';
 Advanced performance optimization with CSS variables and lazy effects.
 
 ```tsx
-import { OptimizedGlassAdvanced } from '@aura/aura-glass';
+import { OptimizedGlassAdvanced } from 'aura-glass';
 
 <OptimizedGlassAdvanced
   variant="ethereal"              // Extended variants: 'frosted' | 'liquid' | 'crystal' | 'holographic' | 'neural' | 'ethereal'
@@ -89,8 +89,8 @@ import { OptimizedGlassAdvanced } from '@aura/aura-glass';
 Lightweight animation system using native browser APIs.
 
 ```tsx
-import { Motion } from '@aura/aura-glass';
-// or import { MotionNative } from '@aura/aura-glass';
+import { Motion } from 'aura-glass';
+// or import { MotionNative } from 'aura-glass';
 
 <Motion
   type="elastic"                // Animation type: 'fade' | 'slide' | 'scale' | 'bounce' | 'elastic'
@@ -113,7 +113,7 @@ import { Motion } from '@aura/aura-glass';
 Full-featured animation system with Framer Motion integration.
 
 ```tsx
-import { MotionFramer } from '@aura/aura-glass';
+import { MotionFramer } from 'aura-glass';
 
 <MotionFramer
   preset="bounceIn"             // Animation presets: 'fadeIn' | 'slideIn' | 'scaleIn' | 'bounceIn' | 'pulseIn'

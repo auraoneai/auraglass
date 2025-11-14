@@ -9,7 +9,7 @@ import {
   useSpatialAudio,
   useGlassSound,
   spatialAudioPresets
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Setup spatial audio system
 <GlassSpatialAudioProvider settings={spatialAudioPresets.immersive}>

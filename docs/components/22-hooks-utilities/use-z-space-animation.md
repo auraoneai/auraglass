@@ -2,7 +2,7 @@
 3D depth and layering animations with z-space management.
 
 ```tsx
-import { useZSpaceAnimation } from '@aura/aura-glass';
+import { useZSpaceAnimation } from 'aura-glass';
 
 function LayeredInterface() {
   const layers = [

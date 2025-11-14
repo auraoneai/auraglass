@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * ARGlassEffects Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { ARGlassEffects } from '@/components/ar/ARGlassEffects';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { ARGlassEffects } from "@/components/ar/ARGlassEffects";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('ARGlassEffects', () => {
+describe("ARGlassEffects", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<ARGlassEffects />);
     expect(container).toBeInTheDocument();
   });
@@ -32,40 +32,35 @@ describe('ARGlassEffects', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<ARGlassEffects />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <ARGlassEffects
-        className="custom-class"
-        data-testid="arglasseffects"
-      />
+      <ARGlassEffects className="custom-class" data-testid="arglasseffects" />
     );
 
-    const element = container.querySelector('[data-testid="arglasseffects"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="arglasseffects"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Fallback Behavior: Renders non-3D container when React 19 is unavailable
    */
-  it('matches snapshot', () => {
+  it("renders fallback container when three effects are disabled", () => {
     const { container } = render(<ARGlassEffects />);
-    expect(container.firstChild).toMatchSnapshot();
+    const root = container.firstChild as HTMLElement | null;
+
+    expect(root).toBeInTheDocument();
+    expect(root).toHaveClass("ar-glass-effects");
   });
 });

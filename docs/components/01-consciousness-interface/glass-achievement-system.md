@@ -9,7 +9,7 @@ import {
   useAchievements,
   useAchievementTracker,
   achievementPresets
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Setup achievement system
 <GlassAchievementProvider userId="user123">

@@ -3,25 +3,37 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: var(--glass-radius-pill, 9999px);
   box-shadow: var(--aura-shadow-elevation-sm);
-  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
   color: var(--aura-color-global-text-on-primary);
   cursor: pointer;
 }
 
 .actionGlass {
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 85%, transparent);
-  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 85%,
+    transparent
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
   backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
 }
 
 .actionSolid {
-  background: color-mix(in srgb, var(--aura-color-surface-base) 92%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-surface-base) 92%,
+    transparent
+  );
 }
 
 .actionDisabled {
@@ -83,8 +95,10 @@
   box-shadow: var(--aura-shadow-elevation-sm);
   opacity: 0;
   transform: translate3d(0, 0, 0);
-  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition:
+    opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
   white-space: nowrap;
 }
 

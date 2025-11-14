@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AuraGlass Progressive Glass Enhancement
  * Adaptive quality system that adjusts glass effects based on device capabilities
@@ -57,7 +57,7 @@ interface QualityTier {
   name: string;
   level: "minimal" | "basic" | "standard" | "premium" | "ultra";
   capabilities: {
-    backdropFilter: boolean;
+    backdropFilterEnabled: boolean;
     boxShadow: boolean;
     borderRadius: boolean;
     transforms: boolean;
@@ -95,7 +95,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     level: "minimal",
     capabilities: {
       // Use createGlassStyle() instead,
-      backdropFilter: false,
+      backdropFilterEnabled: false,
       boxShadow: true,
       borderRadius: true,
       transforms: false,
@@ -117,7 +117,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     level: "basic",
     capabilities: {
       // Use createGlassStyle() instead,
-      backdropFilter: false,
+      backdropFilterEnabled: false,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -139,7 +139,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     level: "standard",
     capabilities: {
       // Use createGlassStyle() instead,
-      backdropFilter: true,
+      backdropFilterEnabled: true,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -161,7 +161,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     level: "premium",
     capabilities: {
       // Use createGlassStyle() instead,
-      backdropFilter: true,
+      backdropFilterEnabled: true,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -183,7 +183,7 @@ const qualityTiers: Record<QualityTier["level"], QualityTier> = {
     level: "ultra",
     capabilities: {
       // Use createGlassStyle() instead,
-      backdropFilter: true,
+      backdropFilterEnabled: true,
       boxShadow: true,
       borderRadius: true,
       transforms: true,
@@ -652,7 +652,7 @@ export function GlassProgressiveEnhancement({
 
         {/* Quality indicator */}
         {process.env.NODE_ENV === "development" && (
-          <div className='fixed bottom-2 left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50 z-50'>
+          <div className="fixed bottom-2 left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50 z-50">
             <div>Quality: {currentTier.name}</div>
             <div>FPS: {Math.round(performanceMonitor.current.fps)}</div>
             {capabilities && <div>GPU: {capabilities.gpu.tier}</div>}
@@ -699,7 +699,7 @@ export function EnhancedGlass({
   const enableParticles = particles && tier.capabilities.particles;
   const enableAnimation = animation && tier.capabilities.animations;
   const enableWebGL = webgl && tier.capabilities.webgl;
-  const enableBackdropFilter = tier.capabilities.backdropFilter;
+  const enableBackdropFilter = tier.capabilities.backdropFilterEnabled;
 
   return (
     <motion.div
@@ -729,13 +729,13 @@ export function EnhancedGlass({
 
       {/* Conditional enhancements */}
       {enableParticles && (
-        <div className='absolute inset-0 pointer-events-none'>
+        <div className="absolute inset-0 pointer-events-none">
           {/* Particle system would go here */}
         </div>
       )}
 
       {enableWebGL && (
-        <canvas className='absolute inset-0 pointer-events-none' />
+        <canvas className="absolute inset-0 pointer-events-none" />
       )}
     </motion.div>
   );

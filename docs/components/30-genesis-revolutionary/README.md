@@ -116,7 +116,7 @@ All components include automatic fallback mechanisms:
 ### Basic Installation
 
 ```bash
-npm install @aura/aura-glass
+npm install aura-glass
 ```
 
 ### Advanced Configuration
@@ -127,7 +127,7 @@ import {
   CollaborativeGlassWorkspace,
   HoudiniGlassProvider,
   VoiceGlassControl
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 function App() {
   return (

@@ -65,12 +65,18 @@ describe("EnhancedGlassButton", () => {
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Debug Overlay: Renders animation debug info overlay
    */
-  it("matches snapshot", () => {
+  it("renders animation debug overlay", () => {
     const { container } = render(
       <EnhancedGlassButton>Snapshot Button</EnhancedGlassButton>
     );
-    expect(container.firstChild).toMatchSnapshot();
+
+    const debug = container.querySelector(
+      ".animation-debug-info"
+    ) as HTMLElement | null;
+
+    expect(debug).toBeInTheDocument();
+    expect(debug?.textContent || "").toContain("Emotion");
   });
 });

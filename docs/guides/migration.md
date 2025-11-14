@@ -8,7 +8,7 @@ This guide helps you migrate from raw values to the new token-first AuraGlass sy
 
 ```bash
 # 1. Install latest version
-npm install @aura/aura-glass@latest
+npm install aura-glass@latest
 
 # 2. Run automated migration
 npm run codemod:all
@@ -216,7 +216,7 @@ Interactive divs now require proper semantics:
 
 ```tsx
 // Before
-import { Glass } from '@aura/aura-glass';
+import { Glass } from 'aura-glass';
 import '../styles/custom-glass.css';
 
 // After
@@ -224,9 +224,8 @@ import {
   OptimizedGlass,
   GlassAdvanced,
   createGlassStyle 
-} from '@aura/aura-glass';
-import '@aura/aura-glass/styles/tokens.css';
-import '@aura/aura-glass/styles/glass.css';
+} from 'aura-glass';
+import 'aura-glass/styles';
 ```
 
 ### 2. Replace Raw Values
@@ -373,7 +372,7 @@ If you need to rollback:
 
 ```bash
 # Revert to previous version
-npm install @aura/aura-glass@1.x
+npm install aura-glass@1.x
 
 # Git revert migration commits
 git revert <migration-commit-hash>
@@ -474,7 +473,7 @@ const [isDark, setIsDark] = useState(false);
 const theme = isDark ? darkTheme : lightTheme;
 
 // After: Automatic theme system
-import { useGlassTheme } from '@aura/aura-glass';
+import { useGlassTheme } from 'aura-glass';
 const { theme, toggleTheme } = useGlassTheme();
 ```
 

@@ -1,3 +1,4 @@
+/* token-lint-ignore-file: Glass Morphing Engine uses raw channel math by design. */
 /* Glass Morphing Engine — CSS variable driven (no inline style attrs) */
 
 .glass-morphing-container {
@@ -17,21 +18,36 @@
   --gm-hue: 200; /* computed from temperature */
 }
 
-.glass-morphing-effects { position: absolute; inset: 0; }
-.glass-layer { position: absolute; inset: 0; border-radius: inherit; }
+.glass-morphing-effects {
+  position: absolute;
+  inset: 0;
+}
+.glass-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
 
 /* Base layer — token-friendly gradient using CSS vars */
 .glass-layer.glass-base {
   background: linear-gradient(
     45deg,
-    hsl(var(--gm-hue) 70% 80% / calc(var(--gm-opacity) * 0.10)),
-    hsl(calc(var(--gm-hue) + 60) 60% 75% / calc(var(--gm-opacity) * 0.10)),
-    hsl(calc(var(--gm-hue) + 120) 80% 85% / calc(var(--gm-iridescence) * 0.30))
+    hsl(var(--gm-hue) 70% 80% / calc(var(--gm-opacity) * 0.1)),
+    hsl(calc(var(--gm-hue) + 60) 60% 75% / calc(var(--gm-opacity) * 0.1)),
+    hsl(calc(var(--gm-hue) + 120) 80% 85% / calc(var(--gm-iridescence) * 0.3))
   );
 }
 
 /* Caustic shimmer — animated subtle overlay */
-@keyframes caustic-shimmer { 0%,100%{ opacity:.8 } 50%{ opacity:1 } }
+@keyframes caustic-shimmer {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 .glass-layer.glass-caustic {
   mix-blend-mode: screen;
   opacity: calc(var(--gm-caustic) * 0.8);
@@ -67,11 +83,11 @@
 .glass-layer.glass-crystalline {
   background: conic-gradient(
     from 45deg,
-    rgba(255 255 255 / calc(var(--gm-crystalline) * 0.10)) 0deg,
+    rgba(255 255 255 / calc(var(--gm-crystalline) * 0.1)) 0deg,
     transparent 60deg,
     rgba(255 255 255 / calc(var(--gm-crystalline) * 0.15)) 120deg,
     transparent 180deg,
-    rgba(255 255 255 / calc(var(--gm-crystalline) * 0.10)) 240deg,
+    rgba(255 255 255 / calc(var(--gm-crystalline) * 0.1)) 240deg,
     transparent 300deg
   );
   clip-path: polygon(
@@ -88,21 +104,43 @@
 .glass-layer.glass-viscosity {
   background: linear-gradient(
     180deg,
-    rgba(255 255 255 / calc(var(--gm-viscosity) * 0.10)) 0%,
-    rgba(255 255 255 / calc(var(--gm-viscosity) * 0.20)) 40%,
+    rgba(255 255 255 / calc(var(--gm-viscosity) * 0.1)) 0%,
+    rgba(255 255 255 / calc(var(--gm-viscosity) * 0.2)) 40%,
     rgba(255 255 255 / calc(var(--gm-viscosity) * 0.05)) 100%
   );
   transform: scaleY(calc(1 + var(--gm-viscosity) * 0.02));
   filter: blur(calc(var(--gm-viscosity) * 2px));
 }
 
-.glass-morphing-content { position: relative; z-index: 1; }
+.glass-morphing-content {
+  position: relative;
+  z-index: 1;
+}
 
 /* Transition shimmer indicator */
-.glass-morphing-transition-indicator { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.glass-morphing-transition-indicator {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
 .transition-shimmer {
-  position: absolute; inset: -2px; border-radius: inherit;
-  background: linear-gradient(90deg, transparent 0%, rgba(255 255 255 / .20) 50%, transparent 100%);
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255 255 255 / 0.2) 50%,
+    transparent 100%
+  );
   animation: shimmer 2s ease-in-out;
 }
-@keyframes shimmer { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

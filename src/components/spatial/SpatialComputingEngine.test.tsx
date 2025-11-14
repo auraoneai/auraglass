@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * SpatialComputingEngine Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { SpatialComputingEngine } from '@/components/spatial/SpatialComputingEngine';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { SpatialComputingEngine } from "@/components/spatial/SpatialComputingEngine";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('SpatialComputingEngine', () => {
+describe("SpatialComputingEngine", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<SpatialComputingEngine />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +32,16 @@ describe('SpatialComputingEngine', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<SpatialComputingEngine />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <SpatialComputingEngine
         className="custom-class"
@@ -55,17 +49,20 @@ describe('SpatialComputingEngine', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="spatialcomputingengine"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="spatialcomputingengine"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Debug Overlay: Renders spatial debug info overlay
    */
-  it('matches snapshot', () => {
-    const { container } = render(<SpatialComputingEngine />);
-    expect(container.firstChild).toMatchSnapshot();
+  it("renders spatial debug overlay", () => {
+    render(<SpatialComputingEngine />);
+
+    const envText = screen.getByText(/Env:/i);
+    expect(envText).toBeInTheDocument();
   });
 });

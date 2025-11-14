@@ -16,7 +16,7 @@ The `BrandColorIntegration` component provides seamless integration of brand col
 ## Usage
 
 ```tsx
-import { BrandColorIntegration, BrandGlassButton, useBrandColors } from '@aura/aura-glass'
+import { BrandColorIntegration, BrandGlassButton, useBrandColors } from 'aura-glass'
 
 // Basic usage with entity ID
 function BrandedComponent() {

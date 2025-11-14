@@ -5,7 +5,7 @@ Advanced Chart.js plugin for physics-based chart interactions.
 import { 
   Chart as ChartJS,
   GalileoElementInteractionPlugin 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Register the plugin
 ChartJS.register(GalileoElementInteractionPlugin);

@@ -68,6 +68,14 @@ This system eliminates manual theming, ensures WCAG compliance per persona, and 
 - **Consciousness streaming** – `ConsciousnessStreamProvider` centralizes event logging and response logic for consciousness-aware flows.
 - **Exported tooling constants** – Access `component_inventory_json_path` and reduced-motion guides at build time to automate audits.
 
+### React 18/19 + 3D Effects Compatibility (2.1.5)
+AuraGlass 2.1.5 hardens React 18/19 compatibility for all 3D glass effects while keeping standard components drop-in safe for existing React 18 stacks.
+
+- **Isolated 3D entrypoint** – All R3F-heavy components now live under the `aura-glass/three` entry (e.g. `GlassShatterEffects`, `SeasonalParticles`, `AuroraPro`, `ARGlassEffects` and helpers like `shatterPresets`, `auroraThemes`, `ARGlassAnimations`). The root `aura-glass` entry no longer imports `@react-three/fiber`.
+- **React-aware lazy loading** – 3D components are implemented as `.r3f` modules with thin wrappers that lazily import them only when React 19 is detected at runtime; React 18 receives styled fallback containers that preserve layout without touching R3F internals.
+- **Safer presets & factories** – Presets and AR helper factories have been moved into non-R3F helper modules so they can be imported without forcing Three/Fiber into SSR bundles.
+- **Next.js integration matrix** – CI now spins up two Next.js test apps from the published tarball: React 18 + Next 14.2 (root entry only) and React 19 + Next 15 (using `aura-glass/three`); Playwright smoke tests fail the build if hook/registry errors or reconciler crashes are detected.
+
 ## Signature Systems
 ### Living Intelligence
 - **GlassMetaEngine** rebalances layouts with quantum-inspired optimization and neural healing models.
@@ -124,10 +132,10 @@ AuraGlass reproduces the physics and restraint of handcrafted premium glass, the
 **Step 1 – Peer dependencies**
 ```bash
 npm install react react-dom react-hook-form react-chartjs-2 framer-motion lucide-react
-npm install three @react-three/fiber
+npm install three @react-three/fiber           # required only if you use 3D effects
 npm install @radix-ui/react-dropdown-menu @radix-ui/react-select @radix-ui/react-label @radix-ui/react-slot
 npm install @sentry/react
-npm install @react-three/drei        # optional helpers for advanced 3D scenes
+npm install @react-three/drei                  # optional helpers for advanced 3D scenes
 ```
 
 **Step 2 – AuraGlass**

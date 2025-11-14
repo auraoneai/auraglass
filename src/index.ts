@@ -275,8 +275,6 @@ export { GlassTreeView } from "./components/data-display/GlassTreeView";
 
 // Specialized Components
 export { DynamicAtmosphere } from "./components/backgrounds/GlassDynamicAtmosphere";
-export { SeasonalParticles } from "./components/effects/SeasonalParticles";
-export { GlassShatterEffects } from "./components/effects/GlassShatterEffects";
 
 // Missing Layout Components (from README)
 export { GlassMasonryGrid } from "./components/layouts/GlassMasonryGrid";
@@ -408,14 +406,7 @@ export { NeuralWeightVisualization } from "./components/ai/NeuralWeightVisualiza
 export { NeuromorphicLearningNetwork } from "./components/ai/NeuromorphicLearningNetwork";
 export { GlassStyleTransfer } from "./components/ai/GlassStyleTransfer";
 export { GlassTransitions } from "./components/animations/GlassTransitions";
-export {
-  ARGlassEffects,
-  ARGlassAnimations,
-  ARGlassGeometryFactory,
-  ARGlassInteractions,
-  ARGlassMaterialFactory,
-  ARGlassUtils,
-} from "./components/ar/ARGlassEffects";
+// Advanced AR / R3F-powered components are exposed via the `aura-glass/three` entrypoint.
 export { AccessibilityProvider } from "./components/accessibility/AccessibilityProvider";
 export { GlassFocusIndicators } from "./components/accessibility/GlassFocusIndicators";
 export {
@@ -427,7 +418,7 @@ export {
 export { EnhancedGlassButton } from "./components/button/EnhancedGlassButton";
 export { GalileoElementInteractionPlugin } from "./components/charts/plugins/GalileoElementInteractionPlugin";
 export { InterpolationUtils } from "./animations/physics/interpolation";
-export { AuroraPro } from "./components/effects/AuroraPro";
+// AuroraPro (R3F-powered) is exposed via the `aura-glass/three` entrypoint.
 export { Glass3DEngine } from "./components/effects/Glass3DEngine";
 export { GlassMorphingEngine } from "./components/effects/GlassMorphingEngine";
 export { GlassPhysicsEngine } from "./components/effects/GlassPhysicsEngine";
@@ -736,6 +727,7 @@ export {
 // Additional Mixins
 export { edgeHighlight } from "./core/mixins/edgeEffects";
 export { glowEffects } from "./core/mixins/glowEffects";
+// NOTE: interactiveGlass mixin is deprecated; only focused helpers remain for backward compatibility
 export {
   createMagneticEffect,
   createRippleEffect,
@@ -961,8 +953,7 @@ export type { DimensionalDashboardContainerProps } from "./components/dashboard/
 export type { ZSpaceAppLayoutProps } from "./components/layout/ZSpaceAppLayout";
 export type { ContentSectionProps } from "./components/layout/GlassAppShell";
 export type { LiquidGlassMaterialProps } from "./primitives/LiquidGlassMaterial";
-export type { SeasonalParticlesProps } from "./components/effects/SeasonalParticles";
-export type { GlassShatterEffectsProps } from "./components/effects/GlassShatterEffects";
+// R3F effect prop types live under the `aura-glass/three` entrypoint.
 export type { IntelligentFormBuilderProps } from "./components/ai/GlassIntelligentFormBuilder";
 export type { HoudiniGlassProviderProps } from "./components/houdini/HoudiniGlassProvider";
 export type { AuraGlassClientBoundaryProps } from "./components/ssr/AuraGlassClientBoundary";

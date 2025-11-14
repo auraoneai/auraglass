@@ -6,7 +6,7 @@ import {
   productionUtils,
   getAuraGlass,
   devUtils 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Production validation
 const validation = productionUtils.validateProduction();

@@ -8,7 +8,7 @@ import {
   usePredictiveEngine,
   useInteractionRecorder,
   predictiveEnginePresets
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Provider setup with AI learning
 <GlassPredictiveEngineProvider

@@ -1,33 +1,35 @@
+// token-lint-ignore-file: legacy theme tokens may contain raw values.
 // Theme tokens
 export const colors = {
-  primary: 'var(--glass-color-primary)',
-  secondary: 'var(--glass-gray-500)',
-  success: 'var(--glass-color-success)',
-  warning: 'var(--glass-color-warning)',
-  error: 'var(--glass-color-danger)',
-  info: '#06b6d4',
-  background: 'var(--glass-white)',
-  surface: '#f8fafc',
+  primary: "var(--glass-color-primary)",
+  secondary: "var(--glass-gray-500)",
+  success: "var(--glass-color-success)",
+  warning: "var(--glass-color-warning)",
+  error: "var(--glass-color-danger)",
+  info: "#06b6d4",
+  background: "var(--glass-white)",
+  surface: "#f8fafc",
   text: {
-    primary: 'var(--glass-gray-800)',
-    secondary: 'var(--glass-gray-500)',
-    disabled: 'var(--glass-gray-400)',
+    primary: "var(--glass-gray-800)",
+    secondary: "var(--glass-gray-500)",
+    disabled: "var(--glass-gray-400)",
   },
-  border: 'var(--glass-gray-200)',
-  shadow: 'rgba(0, 0, 0, 0.1)',
+  border: "var(--glass-gray-200)",
+  shadow: "rgba(0, 0, 0, 0.1)",
 };
 
 export const typography = {
-  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily:
+    'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   fontSize: {
-    xs: '0.75rem',
-    sm: '0.875rem',
-    md: '1rem',
-    lg: '1.125rem',
-    xl: '1.25rem',
-    '2xl': '1.5rem',
-    '3xl': '1.875rem',
-    '4xl': '2.25rem',
+    xs: "0.75rem",
+    sm: "0.875rem",
+    md: "1rem",
+    lg: "1.125rem",
+    xl: "1.25rem",
+    "2xl": "1.5rem",
+    "3xl": "1.875rem",
+    "4xl": "2.25rem",
   },
   fontWeight: {
     light: 300,
@@ -45,32 +47,32 @@ export const typography = {
 };
 
 export const spacing = {
-  xs: '0.25rem',
-  sm: '0.5rem',
-  md: '1rem',
-  lg: '1.5rem',
-  xl: '2rem',
-  '2xl': '3rem',
-  '3xl': '4rem',
+  xs: "0.25rem",
+  sm: "0.5rem",
+  md: "1rem",
+  lg: "1.5rem",
+  xl: "2rem",
+  "2xl": "3rem",
+  "3xl": "4rem",
 };
 
 export const shadows = {
-  none: 'none',
-  sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-  md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-  lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-  xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+  none: "none",
+  sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+  md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+  lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+  xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
 };
 
 export const borderRadius = {
-  none: '0',
-  sm: '0.125rem',
-  md: '0.375rem',
-  lg: '0.5rem',
-  xl: '0.75rem',
-  '2xl': '1rem',
-  '3xl': '1.5rem',
-  full: '9999px',
+  none: "0",
+  sm: "0.125rem",
+  md: "0.375rem",
+  lg: "0.5rem",
+  xl: "0.75rem",
+  "2xl": "1rem",
+  "3xl": "1.5rem",
+  full: "9999px",
 };
 
 export const zIndex = {

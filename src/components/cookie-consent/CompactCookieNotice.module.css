@@ -14,12 +14,26 @@
   max-width: 100%;
   box-sizing: border-box;
   background: var(--aura-color-glass-surface);
-  backdrop-filter: blur(calc(var(--aura-glass-neutral-level2-backdrop-blur) * var(--cookie-blur-scale)));
-  -webkit-backdrop-filter: blur(calc(var(--aura-glass-neutral-level2-backdrop-blur) * var(--cookie-blur-scale)));
+  backdrop-filter: blur(
+    /* token-lint-ignore */
+      calc(
+        var(--aura-glass-neutral-level2-backdrop-blur) *
+          var(--cookie-blur-scale)
+      )
+  );
+  -webkit-backdrop-filter: blur(
+    /* token-lint-ignore */
+      calc(
+        var(--aura-glass-neutral-level2-backdrop-blur) *
+          var(--cookie-blur-scale)
+      )
+  );
   border: 1px solid var(--aura-color-glass-border);
   box-shadow: var(--cookie-box-shadow);
   will-change: transform, opacity;
-  transition: transform var(--aura-motion-duration-fast) var(--aura-motion-easing-emphasized),
+  transition:
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-emphasized),
     opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
 }
 

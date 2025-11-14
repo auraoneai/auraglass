@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * IntelligentColorSystem Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { IntelligentColorSystem } from '@/components/advanced/IntelligentColorSystem';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { IntelligentColorSystem } from "@/components/advanced/IntelligentColorSystem";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('IntelligentColorSystem', () => {
+describe("IntelligentColorSystem", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<IntelligentColorSystem />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +32,16 @@ describe('IntelligentColorSystem', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<IntelligentColorSystem />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <IntelligentColorSystem
         className="custom-class"
@@ -55,17 +49,23 @@ describe('IntelligentColorSystem', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="intelligentcolorsystem"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="intelligentcolorsystem"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Structure Test: Renders theme mode controls
    */
-  it('matches snapshot', () => {
-    const { container } = render(<IntelligentColorSystem />);
-    expect(container.firstChild).toMatchSnapshot();
+  it("renders theme mode controls", () => {
+    render(<IntelligentColorSystem />);
+
+    const morningButton = screen.getByRole("button", {
+      name: /Morning color scheme/i,
+    });
+
+    expect(morningButton).toBeInTheDocument();
   });
 });

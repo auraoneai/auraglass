@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`GlassContextAware matches snapshot 1`] = `
-<div
-  class="relative OptimizedGlass intensity={0.2} glassBlur={6} transform-gpu will-change-transform"
-  style="background-color: rgba(255, 255, 255, 0.1); --glass-adaptive-intensity: 0.7; --glass-adaptive-blur: 16; --glass-adaptive-opacity: 0.1; --glass-adaptive-contrast: 1; --glass-adaptive-saturation: 1;"
-/>
-`;

@@ -12,8 +12,8 @@
 4. **Consume persona tokens** – Call `usePersonaTheme()` or read CSS variables to bind styling decisions to the active persona.
 
 ```tsx
-import { ThemeProvider } from "@aura/aura-glass";
-import { PersonaPicker } from "@aura/aura-glass";
+import { ThemeProvider } from "aura-glass";
+import { PersonaPicker } from "aura-glass";
 
 export function PersonaDemo({ children }: { children: React.ReactNode }) {
   return (
@@ -26,7 +26,7 @@ export function PersonaDemo({ children }: { children: React.ReactNode }) {
 ```
 
 ```tsx
-import { usePersonaTheme } from "@aura/aura-glass";
+import { usePersonaTheme } from "aura-glass";
 
 export function PersonaBadge() {
   const { personaId, persona, setPersona, personas } = usePersonaTheme();

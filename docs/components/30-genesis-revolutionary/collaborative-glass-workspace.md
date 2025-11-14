@@ -28,7 +28,7 @@
 ### Basic Implementation
 
 ```tsx
-import { CollaborativeGlassWorkspace } from '@aura/aura-glass';
+import { CollaborativeGlassWorkspace } from 'aura-glass';
 
 function App() {
   return (
@@ -287,7 +287,7 @@ const voiceSystem = {
 ### With Design Tools
 
 ```tsx
-import { CollaborativeGlassWorkspace } from '@aura/aura-glass';
+import { CollaborativeGlassWorkspace } from 'aura-glass';
 import { useDesignTools } from './design-tools-context';
 
 function DesignStudio() {
@@ -321,7 +321,7 @@ function DesignStudio() {
 ### With Version Control
 
 ```tsx
-import { CollaborativeGlassWorkspace } from '@aura/aura-glass';
+import { CollaborativeGlassWorkspace } from 'aura-glass';
 
 function VersionControlledWorkspace() {
   const [currentVersion, setCurrentVersion] = useState('1.0.0');
@@ -363,7 +363,7 @@ function VersionControlledWorkspace() {
 ### With External APIs
 
 ```tsx
-import { CollaborativeGlassWorkspace } from '@aura/aura-glass';
+import { CollaborativeGlassWorkspace } from 'aura-glass';
 
 function APIIntegratedWorkspace() {
   const [apiData, setApiData] = useState(null);
@@ -603,7 +603,7 @@ import {
   CollaborativeGlassWorkspace,
   GlassA11y,
   VoiceGlassControl
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 function CompleteDesignStudio() {
   const [selectedElement, setSelectedElement] = useState(null);

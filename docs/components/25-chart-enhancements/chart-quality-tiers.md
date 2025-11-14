@@ -2,7 +2,7 @@
 Adaptive chart rendering based on device performance.
 
 ```tsx
-import { useQualityTier, getQualityBasedPhysicsParams } from '@aura/aura-glass';
+import { useQualityTier, getQualityBasedPhysicsParams } from 'aura-glass';
 
 function AdaptiveChart() {
   const { currentTier, updateQuality } = useQualityTier('medium', true);

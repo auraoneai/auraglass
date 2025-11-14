@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * OrganicAnimationEngine Component Tests
  *
@@ -11,20 +11,20 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { OrganicAnimationEngine } from '@/components/animations/OrganicAnimationEngine';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { OrganicAnimationEngine } from "@/components/animations/OrganicAnimationEngine";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('OrganicAnimationEngine', () => {
+describe("OrganicAnimationEngine", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<OrganicAnimationEngine />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +32,21 @@ describe('OrganicAnimationEngine', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<OrganicAnimationEngine />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
       render(<OrganicAnimationEngine />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -55,32 +54,33 @@ describe('OrganicAnimationEngine', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
+    it("shows visible focus indicator", () => {
       const { container } = render(<OrganicAnimationEngine />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -94,11 +94,13 @@ describe('OrganicAnimationEngine', () => {
       const { container } = render(<OrganicAnimationEngine />);
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -110,7 +112,7 @@ describe('OrganicAnimationEngine', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <OrganicAnimationEngine
         className="custom-class"
@@ -118,17 +120,24 @@ describe('OrganicAnimationEngine', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="organicanimationengine"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="organicanimationengine"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Debug Overlay: Renders animation debug info overlay
    */
-  it('matches snapshot', () => {
+  it("renders animation debug overlay", () => {
     const { container } = render(<OrganicAnimationEngine />);
-    expect(container.firstChild).toMatchSnapshot();
+
+    const debug = container.querySelector(
+      ".animation-debug-info"
+    ) as HTMLElement | null;
+
+    expect(debug).toBeInTheDocument();
+    expect(debug?.textContent || "").toContain("Emotion");
   });
 });

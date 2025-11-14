@@ -2,7 +2,7 @@
 Real-time performance monitoring with automatic quality adjustment.
 
 ```tsx
-import { useGlassPerformance } from '@aura/aura-glass';
+import { useGlassPerformance } from 'aura-glass';
 
 function PerformanceAwareComponent() {
   const { metrics, quality, isLowPerformance, getOptimalSettings } = useGlassPerformance({

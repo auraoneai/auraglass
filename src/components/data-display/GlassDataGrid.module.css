@@ -13,13 +13,20 @@
 .headerCell {
   position: relative;
   text-align: left;
-  padding: 12px 32px 12px 16px;
+  padding: var(--glass-space-datagrid-header, 12px 32px 12px 16px);
   font-weight: var(--aura-font-weight-semibold);
   font-size: 0.875rem;
   color: var(--aura-color-global-text-secondary);
-  border-bottom: 1px solid color-mix(in srgb, var(--aura-color-global-text-secondary) 12%, transparent);
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 60%, transparent);
-  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+  border-bottom: var(--glass-space-datagrid-header-border, 1px) solid
+    color-mix(in srgb, var(--aura-color-global-text-secondary) 12%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 60%,
+    transparent
+  );
+  transition:
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
     color var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
 }
 
@@ -29,43 +36,59 @@
 }
 
 .headerSortable:hover {
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 80%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 80%,
+    transparent
+  );
 }
 
 .headerCell:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+  box-shadow: var(
+    --glass-elev-datagrid-header-focus,
+    0 0 0 2px rgba(99, 102, 241, 0.5)
+  );
 }
 
 .sortIndicator {
   position: absolute;
-  right: 8px;
+  right: var(--glass-space-datagrid-sort-right, 8px);
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.75rem;
   color: var(--aura-color-global-text-secondary);
   opacity: 0;
   transform-origin: center center;
-  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition: opacity var(--aura-motion-duration-fast)
+    var(--aura-motion-easing-standard);
 }
 
 .cell {
-  padding: 12px 16px;
-  border-bottom: 1px solid color-mix(in srgb, var(--aura-color-global-text-secondary) 8%, transparent);
+  padding: var(--glass-space-datagrid-cell, 12px 16px);
+  border-bottom: var(--glass-space-datagrid-cell-border, 1px) solid
+    color-mix(in srgb, var(--aura-color-global-text-secondary) 8%, transparent);
   font-size: 0.95rem;
   color: var(--aura-color-global-text-primary);
   background: transparent;
 }
 
 .row {
-  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition:
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
 }
 
 .rowDragging {
   background: color-mix(in srgb, var(--aura-color-highlight) 40%, transparent);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.24);
+  box-shadow: var(
+    --glass-elev-datagrid-row-drag,
+    0 12px 32px rgba(15, 23, 42, 0.24)
+  );
   position: relative;
   z-index: 5;
 }
@@ -73,7 +96,7 @@
 .dragHandleCell {
   text-align: center;
   width: 40px;
-  padding: 0 8px;
+  padding: 0 var(--glass-space-datagrid-handle-cell, 8px);
 }
 
 .dragHandle {
@@ -81,17 +104,26 @@
   align-items: center;
   justify-content: center;
   cursor: grab;
-  padding: 0 8px;
+  padding: 0 var(--glass-space-datagrid-handle, 8px);
   line-height: 1;
-  color: color-mix(in srgb, var(--aura-color-global-text-secondary) 70%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-secondary) 70%,
+    transparent
+  );
   border-radius: var(--aura-radius-sm);
-  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+  transition:
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
     color var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
 }
 
 .dragHandle:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.45);
+  box-shadow: var(
+    --glass-elev-datagrid-handle-focus,
+    0 0 0 2px rgba(99, 102, 241, 0.45)
+  );
 }
 
 .dragHandle:active {

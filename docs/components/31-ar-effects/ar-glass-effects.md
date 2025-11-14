@@ -18,7 +18,7 @@ ARGlassEffects brings the power of WebXR to AuraGlass, enabling developers to cr
 ## 📚 Basic Usage
 
 ```tsx
-import { ARGlassEffects } from '@aura/aura-glass';
+import { ARGlassEffects } from 'aura-glass';
 
 function ARExperience() {
   return (
@@ -124,7 +124,7 @@ const content = {
 
 ### Feature Detection
 ```tsx
-import { ARGlassEffects } from '@aura/aura-glass';
+import { ARGlassEffects } from 'aura-glass';
 
 // Check WebXR support
 function checkARSupport() {

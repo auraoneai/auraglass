@@ -28,7 +28,7 @@
 ### Basic Implementation
 
 ```tsx
-import { VoiceGlassControl } from '@aura/aura-glass';
+import { VoiceGlassControl } from 'aura-glass';
 
 function App() {
   const handleVoiceCommand = (command, result) => {
@@ -292,7 +292,7 @@ function processVoiceCommand(transcript: string) {
 ### With Design Tools
 
 ```tsx
-import { VoiceGlassControl } from '@aura/aura-glass';
+import { VoiceGlassControl } from 'aura-glass';
 
 function DesignStudio() {
   const [selectedTool, setSelectedTool] = useState('select');
@@ -688,7 +688,7 @@ When contributing to VoiceGlassControl:
 
 ```tsx
 import React, { useState } from 'react';
-import { VoiceGlassControl } from '@aura/aura-glass';
+import { VoiceGlassControl } from 'aura-glass';
 
 function VoiceControlledApp() {
   const [currentPage, setCurrentPage] = useState('home');

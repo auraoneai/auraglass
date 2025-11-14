@@ -2,7 +2,7 @@
 Magnetic interaction effects with customizable strength and range.
 
 ```tsx
-import { useMouseMagneticEffect } from '@aura/aura-glass';
+import { useMouseMagneticEffect } from 'aura-glass';
 
 function MagneticButton() {
   const { ref, state, reset } = useMouseMagneticEffect({

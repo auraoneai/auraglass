@@ -35,28 +35,35 @@
 }
 
 .glass-focus-ring.visible {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  box-shadow: var(
+    --glass-elev-focus-visible,
+    0 0 0 3px rgba(59, 130, 246, 0.5)
+  );
 }
 
 .glass-focus-ring.glass {
-  box-shadow:
+  box-shadow: var(
+    --glass-elev-focus-glass,
     0 0 0 2px rgba(var(--glass-color-white) / var(--glass-opacity-20)),
     0 0 0 4px rgba(59, 130, 246, 0.3),
-    0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15));
+    0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15))
+  );
   backdrop-filter: blur(var(--glass-blur-md));
 }
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
   .glass-focus-ring.visible {
-    box-shadow: 0 0 0 3px #000;
+    box-shadow: var(--glass-elev-focus-visible-high-contrast, 0 0 0 3px #000);
   }
 
   .glass-focus-ring.glass {
-    box-shadow:
+    box-shadow: var(
+      --glass-elev-focus-glass-high-contrast,
       0 0 0 2px #fff,
       0 0 0 4px #000,
-      0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-30));
+      0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-30))
+    );
   }
 }
 

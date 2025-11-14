@@ -19,7 +19,7 @@ AuraGlass features 15 production-ready AI-powered systems with real API integrat
 
 ### Usage Example
 ```tsx
-import { GlassIntelligentFormBuilder } from '@aura/aura-glass';
+import { GlassIntelligentFormBuilder } from 'aura-glass';
 
 <GlassIntelligentFormBuilder
   formId="user-registration"
@@ -44,7 +44,7 @@ import { GlassIntelligentFormBuilder } from '@aura/aura-glass';
 ### Production Integration (NEW!)
 ```typescript
 // Real OpenAI GPT-4 integration
-import { OpenAIService } from '@aura/aura-glass/services/ai';
+import { OpenAIService } from 'aura-glass/services/ai';
 
 const openAI = new OpenAIService(config);
 const formFields = await openAI.generateFormFieldSuggestions(
@@ -87,7 +87,7 @@ import {
   GlassCollaborationProvider, 
   GlassCollaborativeCursor,
   GlassCollaborativeComments 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 <GlassCollaborationProvider
   roomId="design-session-123"
@@ -112,7 +112,7 @@ import {
 ### Production Integration (NEW!)
 ```typescript
 // Real WebSocket collaboration server
-import { CollaborationService } from '@aura/aura-glass/services/websocket';
+import { CollaborationService } from 'aura-glass/services/websocket';
 
 const collab = new CollaborationService('ws://localhost:3001', authToken);
 await collab.connect();
@@ -150,7 +150,7 @@ collab.sendCursorPosition(x, y);
 
 ### Usage Example
 ```tsx
-import { GlassIntelligentSearch } from '@aura/aura-glass';
+import { GlassIntelligentSearch } from 'aura-glass';
 
 <GlassIntelligentSearch
   enableNLP={true}
@@ -190,7 +190,7 @@ import { GlassIntelligentSearch } from '@aura/aura-glass';
 
 ### Usage Example
 ```tsx
-import { GlassAdvancedDataViz } from '@aura/aura-glass';
+import { GlassAdvancedDataViz } from 'aura-glass';
 
 <GlassAdvancedDataViz
   data={chartData}
@@ -230,7 +230,7 @@ import { GlassAdvancedDataViz } from '@aura/aura-glass';
 
 ### Usage Example
 ```tsx
-import { GlassDragDropProvider, GlassPageBuilder } from '@aura/aura-glass';
+import { GlassDragDropProvider, GlassPageBuilder } from 'aura-glass';
 
 <GlassDragDropProvider>
   <GlassPageBuilder
@@ -275,7 +275,7 @@ import {
   GlassMediaProvider, 
   GlassAdvancedVideoPlayer,
   GlassAdvancedAudioPlayer 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 <GlassMediaProvider>
   <GlassAdvancedVideoPlayer
@@ -323,7 +323,7 @@ import {
   GlassEcommerceProvider, 
   GlassSmartShoppingCart,
   GlassProductRecommendations 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 <GlassEcommerceProvider>
   <GlassSmartShoppingCart
@@ -374,7 +374,7 @@ import {
 import { 
   GlassImageProcessingProvider, 
   GlassIntelligentImageUploader 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 <GlassImageProcessingProvider>
   <GlassIntelligentImageUploader
@@ -403,7 +403,7 @@ import {
 ### Production Integration (NEW!)
 ```typescript
 // Real Google Vision API integration
-import { VisionService } from '@aura/aura-glass/services/ai';
+import { VisionService } from 'aura-glass/services/ai';
 
 const vision = new VisionService(config);
 

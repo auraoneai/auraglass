@@ -23,7 +23,7 @@ import {
   GlassDepthScene,
   LayeredGlassStack,
   useDepthAnimation
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 function DepthDemo() {
   return (
@@ -368,7 +368,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 ```tsx
 import { motion } from 'framer-motion';
-import { useDepthAnimation } from '@aura/aura-glass';
+import { useDepthAnimation } from 'aura-glass';
 
 function AnimatedLayer() {
   const depthAnimation = useDepthAnimation('foreground');

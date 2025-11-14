@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   forwardRef,
@@ -8,16 +8,12 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { cn } from '@/lib/utils';
+} from "react";
+import { cn } from "@/lib/utils";
 
-import ClearIcon from '../icons/ClearIcon';
-import {
-  MultiSelectOption,
-  OptionGroup,
-  MultiSelectProps,
-} from './types';
-import styles from './GlassMultiSelect.module.css';
+import ClearIcon from "../icons/ClearIcon";
+import { MultiSelectOption, OptionGroup, MultiSelectProps } from "./types";
+import styles from "./GlassMultiSelect.module.css";
 
 type InternalOption<T extends string | number> = MultiSelectOption<T> & {
   __isCreatable__?: boolean;
@@ -25,25 +21,29 @@ type InternalOption<T extends string | number> = MultiSelectOption<T> & {
 
 const defaultFilter = <T extends string | number>(
   option: MultiSelectOption<T>,
-  input: string,
+  input: string
 ): boolean => {
   return option.label.toLowerCase().includes(input.toLowerCase());
 };
 
-const valueKey = <T extends string | number>(option: MultiSelectOption<T>): string => {
+const valueKey = <T extends string | number>(
+  option: MultiSelectOption<T>
+): string => {
   if (option.id !== undefined) return String(option.id);
   return String(option.value);
 };
 
-const normalizeValue = <T extends string | number>(value: T | undefined | null): string => {
-  if (value === undefined || value === null) return '';
+const normalizeValue = <T extends string | number>(
+  value: T | undefined | null
+): string => {
+  if (value === undefined || value === null) return "";
   return String(value);
 };
 
 const mergeOptionCollections = <T extends string | number>(
   options: MultiSelectOption<T>[],
   groups?: OptionGroup<T>[],
-  withGroups?: boolean,
+  withGroups?: boolean
 ) => {
   if (withGroups && groups && groups.length > 0) {
     return groups.flatMap((group) => group.options ?? []);
@@ -51,7 +51,9 @@ const mergeOptionCollections = <T extends string | number>(
   return options ?? [];
 };
 
-const buildOptionLookup = <T extends string | number>(options: MultiSelectOption<T>[]) => {
+const buildOptionLookup = <T extends string | number>(
+  options: MultiSelectOption<T>[]
+) => {
   const map = new Map<string, MultiSelectOption<T>>();
   options.forEach((option) => {
     map.set(valueKey(option), option);
@@ -61,7 +63,7 @@ const buildOptionLookup = <T extends string | number>(options: MultiSelectOption
 
 function ensureOption<T extends string | number>(
   optionLookup: Map<string, MultiSelectOption<T>>,
-  value: T,
+  value: T
 ): MultiSelectOption<T> {
   const existing = optionLookup.get(String(value));
   if (existing) return existing;
@@ -74,7 +76,7 @@ function ensureOption<T extends string | number>(
 function flattenGroups<T extends string | number>(
   groups: OptionGroup<T>[] | undefined,
   fallbackOptions: MultiSelectOption<T>[],
-  withGroups?: boolean,
+  withGroups?: boolean
 ): { group?: OptionGroup<T>; options: MultiSelectOption<T>[] }[] {
   if (withGroups && groups && groups.length > 0) {
     return groups.map((group) => ({ group, options: group.options ?? [] }));
@@ -82,7 +84,9 @@ function flattenGroups<T extends string | number>(
   return [{ options: fallbackOptions }];
 }
 
-const createCreatableOption = <T extends string | number>(inputValue: string): InternalOption<T> => ({
+const createCreatableOption = <T extends string | number>(
+  inputValue: string
+): InternalOption<T> => ({
   id: `__creatable__${inputValue}`,
   value: inputValue as unknown as T,
   label: inputValue,
@@ -91,7 +95,7 @@ const createCreatableOption = <T extends string | number>(inputValue: string): I
 
 const GlassMultiSelectInternal = <T extends string | number = string | number>(
   props: MultiSelectProps<T>,
-  ref: React.ForwardedRef<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>
 ) => {
   const {
     options = [],
@@ -100,14 +104,14 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     value,
     defaultValue,
     onChange,
-    placeholder = 'Select…',
+    placeholder = "Select…",
     label,
     helperText,
     error,
     errorMessage,
     fullWidth,
     width,
-    size = 'medium',
+    size = "medium",
     disabled,
     searchable = true,
     clearable = true,
@@ -124,8 +128,8 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     onOpen,
     onClose,
     loading,
-    loadingText = 'Loading…',
-    noOptionsText = 'No options',
+    loadingText = "Loading…",
+    noOptionsText = "No options",
     renderOption,
     renderToken,
     renderValue,
@@ -149,29 +153,34 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const [openDirectionUp, setOpenDirectionUp] = useState<boolean | undefined>(undefined);
+  const [openDirectionUp, setOpenDirectionUp] = useState<boolean | undefined>(
+    undefined
+  );
 
   const allOptions = useMemo(
     () => mergeOptionCollections<T>(options, groups, withGroups),
-    [options, groups, withGroups],
+    [options, groups, withGroups]
   );
 
-  const optionLookup = useMemo(() => buildOptionLookup(allOptions), [allOptions]);
+  const optionLookup = useMemo(
+    () => buildOptionLookup(allOptions),
+    [allOptions]
+  );
 
   const initializeValue = useCallback(
     (values: T[] | undefined): MultiSelectOption<T>[] => {
       if (!values || values.length === 0) return [];
       return values.map((val) => ensureOption(optionLookup, val));
     },
-    [optionLookup],
+    [optionLookup]
   );
 
   const isControlled = value !== undefined;
-  const [internalSelected, setInternalSelected] = useState<MultiSelectOption<T>[]>(
-    () => initializeValue(isControlled ? (value as T[]) : defaultValue),
-  );
+  const [internalSelected, setInternalSelected] = useState<
+    MultiSelectOption<T>[]
+  >(() => initializeValue(isControlled ? (value as T[]) : defaultValue));
 
   const selectedOptions = isControlled
     ? initializeValue(value as T[])
@@ -182,7 +191,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       const valuesOnly = next.map((opt) => opt.value);
       onChange?.(valuesOnly);
     },
-    [onChange],
+    [onChange]
   );
 
   const updateSelected = useCallback(
@@ -192,14 +201,13 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       }
       notifyChange(next);
     },
-    [isControlled, notifyChange],
+    [isControlled, notifyChange]
   );
 
   useEffect(() => {
     if (isControlled) {
       setInternalSelected(initializeValue(value as T[]));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isControlled, value, optionLookup]);
 
   useEffect(() => {
@@ -214,7 +222,8 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     const viewportHeight = window.innerHeight;
     const availableBelow = viewportHeight - rect.bottom;
     const availableAbove = rect.top;
-    const shouldOpenUp = availableBelow < 200 && availableAbove > availableBelow;
+    const shouldOpenUp =
+      availableBelow < 200 && availableAbove > availableBelow;
     setOpenDirectionUp(shouldOpenUp);
   }, [isOpen, openUp]);
 
@@ -228,9 +237,9 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
         onClose?.();
       }
     };
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen, onClose]);
 
@@ -242,7 +251,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
 
   const groupedOptions = useMemo(
     () => flattenGroups(groups, options, withGroups),
-    [groups, options, withGroups],
+    [groups, options, withGroups]
   );
 
   const filteredGroups = useMemo(() => {
@@ -280,10 +289,19 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     return groupedOptions
       .map((group) => ({
         group: group.group,
-        options: group.options.filter((option) => allowedKeys.has(valueKey(option))),
+        options: group.options.filter((option) =>
+          allowedKeys.has(valueKey(option))
+        ),
       }))
       .filter((group) => group.options.length > 0);
-  }, [searchable, inputValue, groupedOptions, filterOptions, filterFunction, allOptions]);
+  }, [
+    searchable,
+    inputValue,
+    groupedOptions,
+    filterOptions,
+    filterFunction,
+    allOptions,
+  ]);
 
   const flatOptionList: InternalOption<T>[] = useMemo(() => {
     const flattened: InternalOption<T>[] = [];
@@ -293,7 +311,9 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
 
     if (creatable && inputValue.trim()) {
       const existing = flattened.find(
-        (option) => normalizeValue(option.value) === normalizeValue(inputValue as unknown as T),
+        (option) =>
+          normalizeValue(option.value) ===
+          normalizeValue(inputValue as unknown as T)
       );
       if (!existing) {
         flattened.push(createCreatableOption<T>(inputValue.trim()));
@@ -336,14 +356,16 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       }
 
       const alreadySelected = selectedOptions.some(
-        (selected) => normalizeValue(selected.value) === normalizeValue(option.value),
+        (selected) =>
+          normalizeValue(selected.value) === normalizeValue(option.value)
       );
 
       let nextSelected: MultiSelectOption<T>[];
 
       if (alreadySelected) {
         nextSelected = selectedOptions.filter(
-          (selected) => normalizeValue(selected.value) !== normalizeValue(option.value),
+          (selected) =>
+            normalizeValue(selected.value) !== normalizeValue(option.value)
         );
         onRemove?.(option.value);
       } else {
@@ -357,26 +379,37 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       updateSelected(nextSelected);
 
       if (clearInputOnSelect) {
-        setInputValue('');
-        onInputChange?.('');
+        setInputValue("");
+        onInputChange?.("");
       }
 
       if (closeOnSelect) {
         handleClose();
       }
     },
-    [selectedOptions, updateSelected, clearInputOnSelect, closeOnSelect, handleClose, onInputChange, onSelect, onCreateOption, maxSelections],
+    [
+      selectedOptions,
+      updateSelected,
+      clearInputOnSelect,
+      closeOnSelect,
+      handleClose,
+      onInputChange,
+      onSelect,
+      onCreateOption,
+      maxSelections,
+    ]
   );
 
   const handleRemoveOption = useCallback(
     (option: MultiSelectOption<T>) => {
       const next = selectedOptions.filter(
-        (selected) => normalizeValue(selected.value) !== normalizeValue(option.value),
+        (selected) =>
+          normalizeValue(selected.value) !== normalizeValue(option.value)
       );
       updateSelected(next);
       onRemove?.(option.value);
     },
-    [selectedOptions, onRemove, updateSelected],
+    [selectedOptions, onRemove, updateSelected]
   );
 
   const handleClearAll = useCallback(() => {
@@ -384,8 +417,8 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       onRemove?.(option.value);
     });
     updateSelected([]);
-    setInputValue('');
-    onInputChange?.('');
+    setInputValue("");
+    onInputChange?.("");
   }, [selectedOptions, onRemove, onInputChange, updateSelected]);
 
   const handleInputChange = useCallback(
@@ -398,7 +431,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
         onOpen?.();
       }
     },
-    [isOpen, onInputChange, onOpen],
+    [isOpen, onInputChange, onOpen]
   );
 
   const focusPrevious = useCallback(() => {
@@ -424,30 +457,34 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       if (disabled) return;
 
       switch (event.key) {
-        case 'ArrowDown':
+        case "ArrowDown":
           event.preventDefault();
           handleOpen();
           focusNext();
           break;
-        case 'ArrowUp':
+        case "ArrowUp":
           event.preventDefault();
           handleOpen();
           focusPrevious();
           break;
-        case 'Enter':
-          if (isOpen && focusedIndex >= 0 && focusedIndex < flatOptionList.length) {
+        case "Enter":
+          if (
+            isOpen &&
+            focusedIndex >= 0 &&
+            focusedIndex < flatOptionList.length
+          ) {
             event.preventDefault();
             handleSelectOption(flatOptionList[focusedIndex]);
           }
           break;
-        case 'Escape':
+        case "Escape":
           if (isOpen) {
             event.preventDefault();
             handleClose();
           }
           break;
-        case 'Backspace':
-          if (inputValue === '' && selectedOptions.length > 0) {
+        case "Backspace":
+          if (inputValue === "" && selectedOptions.length > 0) {
             event.preventDefault();
             const lastOption = selectedOptions[selectedOptions.length - 1];
             handleRemoveOption(lastOption);
@@ -457,7 +494,20 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
           break;
       }
     },
-    [disabled, handleOpen, focusNext, focusPrevious, isOpen, focusedIndex, flatOptionList, handleSelectOption, handleClose, inputValue, selectedOptions, handleRemoveOption],
+    [
+      disabled,
+      handleOpen,
+      focusNext,
+      focusPrevious,
+      isOpen,
+      focusedIndex,
+      flatOptionList,
+      handleSelectOption,
+      handleClose,
+      inputValue,
+      selectedOptions,
+      handleRemoveOption,
+    ]
   );
 
   const handleContainerClick = useCallback(() => {
@@ -466,7 +516,8 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     inputRef.current?.focus();
   }, [disabled, handleOpen]);
 
-  const dropdownMaxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+  const dropdownMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
   const renderTokens = () => {
     if (renderValue) {
@@ -476,7 +527,10 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     return selectedOptions.map((option) => {
       if (renderToken) {
         return (
-          <div key={valueKey(option)} className={cn('galileo-multiselect-token-wrapper')}>
+          <div
+            key={valueKey(option)}
+            className={cn("galileo-multiselect-token-wrapper")}
+          >
             {renderToken(option, () => handleRemoveOption(option))}
           </div>
         );
@@ -485,13 +539,17 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       return (
         <span
           key={valueKey(option)}
-          className={cn(styles.token, 'galileo-multiselect-token', option.disabled && styles.tokenDisabled)}
+          className={cn(
+            styles.token,
+            "galileo-multiselect-token",
+            option.disabled && styles.tokenDisabled
+          )}
         >
           <span className={styles.tokenLabel}>{option.label}</span>
           {!disabled && !option.disabled && (
             <button
               type="button"
-              className={cn(styles.removeButton, 'remove-button')}
+              className={cn(styles.removeButton, "remove-button")}
               onClick={(event) => {
                 event.stopPropagation();
                 handleRemoveOption(option);
@@ -509,7 +567,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
   const dropdownClassName = cn(
     styles.dropdown,
     isOpen && styles.dropdownVisible,
-    openDirectionUp && styles.dropdownAbove,
+    openDirectionUp && styles.dropdownAbove
   );
 
   const containerClassName = cn(
@@ -517,19 +575,19 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     styles[`size${size.charAt(0).toUpperCase()}${size.slice(1)}`],
     error && styles.containerError,
     disabled && styles.containerDisabled,
-    !disabled && isOpen && styles.containerFocused,
+    !disabled && isOpen && styles.containerFocused
   );
 
   const rootClassName = cn(
     styles.root,
     fullWidth && styles.rootFullWidth,
-    className,
+    className
   );
 
   const resolvedWidthValue = fullWidth
-    ? '100%'
+    ? "100%"
     : width
-      ? typeof width === 'number'
+      ? typeof width === "number"
         ? `${width}px`
         : width
       : undefined;
@@ -539,10 +597,12 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
   };
 
   if (resolvedWidthValue) {
-    (inlineStyle as Record<string, unknown>)['--multi-select-width'] = resolvedWidthValue;
+    (inlineStyle as Record<string, unknown>)["--multi-select-width"] =
+      resolvedWidthValue;
   }
 
-  (inlineStyle as Record<string, unknown>)['--multi-select-dropdown-height'] = dropdownMaxHeight;
+  (inlineStyle as Record<string, unknown>)["--multi-select-dropdown-height"] =
+    dropdownMaxHeight;
 
   return (
     <div
@@ -564,16 +624,16 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-disabled={disabled}
-        aria-controls={isOpen && flatOptionList.length > 0 ? `${inputId}-listbox` : undefined}
+        aria-controls={
+          isOpen && flatOptionList.length > 0 ? `${inputId}-listbox` : undefined
+        }
       >
         <div className={styles.tokenList}>
-          {selectedOptions.length > 0 ? (
-            renderTokens()
-          ) : (
-            !inputValue && (
-              <span className={styles.placeholder}>{placeholder}</span>
-            )
-          )}
+          {selectedOptions.length > 0
+            ? renderTokens()
+            : !inputValue && (
+                <span className={styles.placeholder}>{placeholder}</span>
+              )}
 
           <input
             ref={inputRef}
@@ -584,10 +644,14 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
             onChange={handleInputChange}
             onFocus={handleOpen}
             onKeyDown={handleKeyDown}
-            placeholder={selectedOptions.length === 0 ? placeholder : ''}
+            placeholder={selectedOptions.length === 0 ? placeholder : ""}
             disabled={disabled || !searchable}
             aria-autocomplete="list"
-            aria-controls={isOpen && flatOptionList.length > 0 ? `${inputId}-listbox` : undefined}
+            aria-controls={
+              isOpen && flatOptionList.length > 0
+                ? `${inputId}-listbox`
+                : undefined
+            }
             aria-label={ariaLabel || label || placeholder}
             autoComplete="off"
           />
@@ -635,29 +699,34 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
             id={`${inputId}-listbox`}
           >
             {filteredGroups.map(({ group, options: groupOptions }) => (
-              <React.Fragment key={group?.id ?? group?.label ?? 'group-default'}>
-                {group?.label && (
-                  renderGroup ? (
+              <React.Fragment
+                key={group?.id ?? group?.label ?? "group-default"}
+              >
+                {group?.label &&
+                  (renderGroup ? (
                     renderGroup(group)
                   ) : (
                     <li className={styles.groupHeader}>{group.label}</li>
-                  )
-                )}
+                  ))}
 
                 {groupOptions.map((option) => {
                   const key = valueKey(option);
                   const isSelected = selectedOptions.some(
-                    (selected) => normalizeValue(selected.value) === normalizeValue(option.value),
+                    (selected) =>
+                      normalizeValue(selected.value) ===
+                      normalizeValue(option.value)
                   );
                   const optionIndex = flatOptionList.findIndex(
-                    (item) => normalizeValue(item.value) === normalizeValue(option.value),
+                    (item) =>
+                      normalizeValue(item.value) ===
+                      normalizeValue(option.value)
                   );
                   const isFocused = optionIndex === focusedIndex;
                   const optionClassName = cn(
                     styles.option,
                     isSelected && styles.optionSelected,
                     isFocused && styles.optionFocused,
-                    option.disabled && styles.optionDisabled,
+                    option.disabled && styles.optionDisabled
                   );
 
                   return (
@@ -672,21 +741,29 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
                       }}
                       onMouseEnter={() => setFocusedIndex(optionIndex)}
                     >
-                      {renderOption ? renderOption(option, isSelected) : option.label}
+                      {renderOption
+                        ? renderOption(option, isSelected)
+                        : option.label}
                     </li>
                   );
                 })}
               </React.Fragment>
             ))}
 
-            {flatOptionList.length > 0 && creatable && inputValue.trim() && (
+            {flatOptionList.length > 0 &&
+              creatable &&
+              inputValue.trim() &&
               (() => {
-                const creatableOption = flatOptionList.find((opt) => opt.__isCreatable__);
+                const creatableOption = flatOptionList.find(
+                  (opt) => opt.__isCreatable__
+                );
                 if (!creatableOption) return null;
-                const optionIndex = flatOptionList.findIndex((item) => item.__isCreatable__);
+                const optionIndex = flatOptionList.findIndex(
+                  (item) => item.__isCreatable__
+                );
                 const optionClassName = cn(
                   styles.option,
-                  optionIndex === focusedIndex && styles.optionFocused,
+                  optionIndex === focusedIndex && styles.optionFocused
                 );
                 return (
                   <li
@@ -701,8 +778,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
                     Create “{inputValue.trim()}”
                   </li>
                 );
-              })()
-            )}
+              })()}
           </ul>
         )}
       </div>
@@ -712,11 +788,11 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
 
 function mergeRefs<T>(
   forwardedRef: React.ForwardedRef<T>,
-  localRef: React.MutableRefObject<T | null>,
+  localRef: React.MutableRefObject<T | null>
 ) {
   return (value: T | null) => {
     localRef.current = value;
-    if (typeof forwardedRef === 'function') {
+    if (typeof forwardedRef === "function") {
       forwardedRef(value);
     } else if (forwardedRef) {
       (forwardedRef as React.MutableRefObject<T | null>).current = value;
@@ -724,10 +800,12 @@ function mergeRefs<T>(
   };
 }
 
-export const GlassMultiSelect = forwardRef(GlassMultiSelectInternal) as <T extends string | number = string | number>(
+export const GlassMultiSelect = forwardRef(GlassMultiSelectInternal) as <
+  T extends string | number = string | number,
+>(
   props: MultiSelectProps<T> & { ref?: React.ForwardedRef<HTMLDivElement> }
 ) => React.ReactElement;
 
-(GlassMultiSelect as any).displayName = 'GlassMultiSelect';
+(GlassMultiSelect as any).displayName = "GlassMultiSelect";
 
 export default GlassMultiSelect;

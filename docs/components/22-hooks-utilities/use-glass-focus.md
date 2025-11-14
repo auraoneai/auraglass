@@ -2,7 +2,7 @@
 Advanced focus management with glass effects and accessibility features.
 
 ```tsx
-import { useGlassFocus } from '@aura/aura-glass';
+import { useGlassFocus } from 'aura-glass';
 
 function FocusableComponent() {
   const { ref, focusState, focusRingStyles, focus, blur } = useGlassFocus({

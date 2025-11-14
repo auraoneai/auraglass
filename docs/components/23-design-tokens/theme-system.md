@@ -9,7 +9,7 @@ import {
   themeUtils,
   createGlassTheme,
   mergeThemes 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Create custom theme
 const customTheme = createGlassTheme({

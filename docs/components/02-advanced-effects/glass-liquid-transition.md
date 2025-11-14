@@ -2,7 +2,7 @@
 Fluid morphing transitions between glass states.
 
 ```tsx
-import { GlassLiquidTransition, GlassLiquidContainer, liquidPresets } from '@aura/aura-glass';
+import { GlassLiquidTransition, GlassLiquidContainer, liquidPresets } from 'aura-glass';
 
 <GlassLiquidTransition
   variant="morph"              // 'morph' | 'flow' | 'ripple' | 'dissolve' | 'splash'

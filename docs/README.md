@@ -25,6 +25,20 @@ export function PersonaPlayground({ children }: { children: React.ReactNode }) {
 }
 ```
 
+## 🌟 What's New in v2.1.5
+
+### React 18/19 + 3D Effects Compatibility
+- 🧱 **Isolated 3D entrypoint** – All React Three Fiber (R3F) powered components now live under the `aura-glass/three` entrypoint. Standard UI components continue to be imported from `aura-glass` and no longer pull `@react-three/fiber` into the root bundle.
+- 🧬 **React-aware lazy wrappers** – 3D components are split into `.r3f.tsx` implementations and thin wrappers that:
+  - Detect React 19 at runtime before loading any R3F code.
+  - Lazily `import()` the R3F module only on supported clients.
+  - Render styled fallback containers (same layout & classes) on React 18, so SSR remains stable and non-3D apps keep their layouts.
+- 🎛️ **Safer presets & AR helpers** – Presets (`shatterPresets`, `seasonalPresets`, `auroraPresets`, `auroraThemes`, `seasonalThemes`) and AR helper factories (`ARGlassMaterialFactory`, `ARGlassGeometryFactory`, `ARGlassAnimations`, `ARGlassInteractions`, `ARGlassUtils`) have been moved into non-R3F helper modules and are re-exported via `aura-glass/three`.
+- 🧪 **Next.js integration matrix** – `scripts/ci/run-next-integration.js` now spins up two temporary Next apps from the published tarball:
+  - React 18 + Next 14.2.x (root `aura-glass` only, no 3D imports).
+  - React 19 + Next 15.1.x (`aura-glass/three` with `GlassShatterEffects`).
+  Playwright smoke tests guard against invalid hook calls, registry failures, and reconciler crashes, and log outputs to `reports/next-integration*.log`.
+
 ## 🌟 Accessibility Excellence (NEW! v2.1.0)
 
 ### World-Class Accessibility Achievement
@@ -117,6 +131,29 @@ export default {
   theme,
 } satisfies Config;
 ```
+
+### Import Matrix
+
+| Entry point | Format | Use case | Notes |
+|-------------|--------|----------|-------|
+| `aura-glass` | JS (ESM/CJS) | Primary component API | Auto-resolves to `import`/`require` based on bundler. |
+| `aura-glass/styles` | CSS | Preferred global styles import | Works in bundlers that honor `package.json.exports`. |
+| `aura-glass/dist/styles/index.css` | CSS | Legacy fallback | Use only when your tooling can’t consume `exports`. |
+| `aura-glass/tokens` | JS + types | Runtime access to personas/tokens | Includes helpers like `getPersona`, `glassUtils`. |
+| `aura-glass/tokens/json` | JSON | Build-time/design pipeline integration | Raw manifest for Figma/LSP ingestion. |
+| `aura-glass/tokens/tailwind` | JS | Tailwind preset | Plug into `tailwind.config` to map utilities to Aura tokens. |
+| `aura-glass/tokens/manifest` | JS | Lightweight metadata | Contains persona metadata without heavy payload. |
+| `aura-glass/registry` | JS + types | Legacy registry bundle | Maintained for backwards compatibility only. |
+| `aura-glass/client` / `server` / `ssr` | JS + types | Targeted runtime helpers | Consume environment-specific utilities explicitly. |
+| `aura-glass/three` | JS + types | 3D glass effects & AR helpers | React 19–only R3F entrypoint; import 3D components and helpers here. |
+
+### Token Asset Formats
+
+- **JavaScript bundle (`aura-glass/tokens`)** – Rich manifest plus helpers for live apps.
+- **Raw JSON (`aura-glass/tokens/json`)** – Snapshot for static tools and design pipelines.
+- **CSS bundle (`aura-glass/styles`)** – `[data-persona]` custom properties + utilities; run `npm run glass:generate-persona-css` after editing personas.
+- **Manifest shim (`aura-glass/tokens/manifest`)** – Minimal metadata where only IDs/names are required.
+- **Tailwind preset (`aura-glass/tokens/tailwind`)** – Maps Tailwind’s theme tokens directly to AuraGlass.
 
 ### Advanced Physics & Animation (NEW!)
 ```tsx
@@ -653,6 +690,27 @@ All animations automatically respect user preferences:
 >
   Clickable
 </button>
+```
+
+### React 18 → React 19 3D usage
+```tsx
+// React 18 (no 3D): import from the root only
+import { GlassButton } from 'aura-glass';
+
+// React 19 (enable 3D effects):
+// 1) Upgrade React/Next to React 19-compatible versions
+// 2) Install three/@react-three/fiber/@react-three/drei as peers
+// 3) Import 3D components from the dedicated three entrypoint
+import { GlassButton } from 'aura-glass';
+import { GlassShatterEffects } from 'aura-glass/three';
+
+export function Hero3D() {
+  return (
+    <GlassShatterEffects>
+      <GlassButton variant="primary">AuraGlass 3D OK</GlassButton>
+    </GlassShatterEffects>
+  );
+}
 ```
 
 ## 🆕 Recently Added (v2.1.0+)

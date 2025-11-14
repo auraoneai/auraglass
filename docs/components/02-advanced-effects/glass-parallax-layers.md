@@ -2,7 +2,7 @@
 Multi-depth interactive parallax glass layers with mouse tracking and scroll effects.
 
 ```tsx
-import { GlassParallaxLayers, parallaxPresets } from '@aura/aura-glass';
+import { GlassParallaxLayers, parallaxPresets } from 'aura-glass';
 
 <GlassParallaxLayers
   layers={[

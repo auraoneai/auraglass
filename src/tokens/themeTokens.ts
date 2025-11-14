@@ -1,7 +1,8 @@
-import React from 'react';
+// token-lint-ignore-file: theme tokens intentionally defined with raw values
+import React from "react";
 // Theme tokens for the AuraGlass design system
 
-import AURA_GLASS, { glassTokenUtils } from './glass';
+import AURA_GLASS, { glassTokenUtils } from "./glass";
 import {
   COLORS,
   TYPOGRAPHY,
@@ -11,7 +12,7 @@ import {
   Z_INDEX,
   BREAKPOINTS,
   ANIMATION,
-} from './designConstants';
+} from "./designConstants";
 
 export interface ThemeTokens {
   // Color tokens
@@ -194,7 +195,7 @@ export const lightTheme: ThemeTokens = {
       textSecondary: AURA_GLASS.surfaces.neutral.level1.text.secondary,
       shadow: AURA_GLASS.surfaces.neutral.level1.outerShadow
         ? `${AURA_GLASS.surfaces.neutral.level1.outerShadow.x}px ${AURA_GLASS.surfaces.neutral.level1.outerShadow.y}px ${AURA_GLASS.surfaces.neutral.level1.outerShadow.blur}px ${AURA_GLASS.surfaces.neutral.level1.outerShadow.spread}px ${AURA_GLASS.surfaces.neutral.level1.outerShadow.color}`
-        : 'none',
+        : "none",
     },
     semantic: COLORS.semantic,
     neutral: COLORS.neutral,
@@ -377,7 +378,7 @@ export const lightTheme: ThemeTokens = {
           shadow: BOX_SHADOW.sm,
           hover: {
             shadow: BOX_SHADOW.md,
-            transform: 'translateY(-2px)',
+            transform: "translateY(-2px)",
           },
         },
         elevated: {
@@ -386,13 +387,13 @@ export const lightTheme: ThemeTokens = {
           shadow: BOX_SHADOW.lg,
           hover: {
             shadow: BOX_SHADOW.xl,
-            transform: 'translateY(-4px)',
+            transform: "translateY(-4px)",
           },
         },
         outlined: {
           background: COLORS.neutral.white,
           border: COLORS.neutral.gray[300],
-          shadow: 'none',
+          shadow: "none",
           hover: {
             border: COLORS.neutral.gray[400],
             shadow: BOX_SHADOW.sm,
@@ -415,7 +416,7 @@ export const darkTheme: ThemeTokens = {
       textSecondary: AURA_GLASS.surfaces.neutral.level2.text.secondary,
       shadow: AURA_GLASS.surfaces.neutral.level2.outerShadow
         ? `${AURA_GLASS.surfaces.neutral.level2.outerShadow.x}px ${AURA_GLASS.surfaces.neutral.level2.outerShadow.y}px ${AURA_GLASS.surfaces.neutral.level2.outerShadow.blur}px ${AURA_GLASS.surfaces.neutral.level2.outerShadow.spread}px ${AURA_GLASS.surfaces.neutral.level2.outerShadow.color}`
-        : 'none',
+        : "none",
     },
     components: {
       ...lightTheme.colors.components,
@@ -435,7 +436,7 @@ export const darkTheme: ThemeTokens = {
       card: {
         background: COLORS.neutral.gray[900],
         border: COLORS.neutral.gray[800],
-        shadow: BOX_SHADOW.sm.replace('rgba(0, 0, 0', 'rgba(255, 255, 255'),
+        shadow: BOX_SHADOW.sm.replace("rgba(0, 0, 0", "rgba(255, 255, 255"),
       },
     },
   },
@@ -472,7 +473,7 @@ export const glassTheme: ThemeTokens = {
       textSecondary: AURA_GLASS.surfaces.neutral.level3.text.secondary,
       shadow: AURA_GLASS.surfaces.neutral.level3.outerShadow
         ? `${AURA_GLASS.surfaces.neutral.level3.outerShadow.x}px ${AURA_GLASS.surfaces.neutral.level3.outerShadow.y}px ${AURA_GLASS.surfaces.neutral.level3.outerShadow.blur}px ${AURA_GLASS.surfaces.neutral.level3.outerShadow.spread}px ${AURA_GLASS.surfaces.neutral.level3.outerShadow.color}`
-        : 'none',
+        : "none",
     },
   },
 };
@@ -481,11 +482,11 @@ export const glassTheme: ThemeTokens = {
 export const themeUtils = {
   // Get theme value by path
   get: (theme: ThemeTokens, path: string) => {
-    const keys = path.split('.');
+    const keys = path.split(".");
     let value: any = theme;
 
     for (const key of keys) {
-      if (value && typeof value === 'object' && key in value) {
+      if (value && typeof value === "object" && key in value) {
         value = value[key];
       } else {
         return undefined;
@@ -496,7 +497,10 @@ export const themeUtils = {
   },
 
   // Merge themes
-  merge: (baseTheme: ThemeTokens, overrides: Partial<ThemeTokens>): ThemeTokens => {
+  merge: (
+    baseTheme: ThemeTokens,
+    overrides: Partial<ThemeTokens>
+  ): ThemeTokens => {
     return {
       ...baseTheme,
       ...overrides,

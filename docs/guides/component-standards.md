@@ -376,7 +376,7 @@ All interactive elements must have visible focus indicators:
 #### Focus Trapping
 For modals and dropdowns:
 ```tsx
-import { useFocusTrap } from '@aura/aura-glass';
+import { useFocusTrap } from 'aura-glass';
 
 function MyModal({ isOpen }) {
   const focusTrapRef = useFocusTrap(isOpen);
@@ -477,7 +477,7 @@ For large lists:
 ### Component Testing
 ```tsx
 import { render, screen, fireEvent } from '@testing-library/react';
-import { GlassButton } from '@aura/aura-glass';
+import { GlassButton } from 'aura-glass';
 
 describe('GlassButton', () => {
   it('should be accessible', async () => {

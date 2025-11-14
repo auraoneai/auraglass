@@ -18,7 +18,7 @@ GlassShatterEffects creates stunning visual effects where glass surfaces appear 
 ## 📚 Basic Usage
 
 ```tsx
-import { GlassShatterEffects } from '@aura/aura-glass';
+import { GlassShatterEffects } from 'aura-glass';
 
 function ShatterCard() {
   return (

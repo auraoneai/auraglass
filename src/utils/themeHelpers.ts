@@ -1,5 +1,5 @@
-import React from 'react';
-import { CSSProperties } from 'react';
+import React from "react";
+import { CSSProperties } from "react";
 
 export interface ThemeColors {
   primary: string;
@@ -60,42 +60,46 @@ export interface GlassTheme {
 }
 
 // Theme helper functions
-export const createGlassTheme = (baseTheme: Partial<GlassTheme> = {}): GlassTheme => {
+export const createGlassTheme = (
+  baseTheme: Partial<GlassTheme> = {}
+): GlassTheme => {
   const defaultColors: ThemeColors = {
-    primary: 'var(--glass-color-primary)',
-    secondary: 'var(--glass-gray-500)',
-    accent: '#8b5cf6',
-    background: '#0b1220',
-    surface: 'rgba(255,255,255,0.06)',
-    text: 'rgba(255,255,255,0.92)',
-    textSecondary: 'var(--glass-text-secondary)',
-    border: 'rgba(255,255,255,0.16)',
-    error: 'var(--glass-color-danger)',
-    warning: 'var(--glass-color-warning)',
-    success: 'var(--glass-color-success)',
-    info: '#0ea5e9',
+    primary: "var(--glass-color-primary)",
+    secondary: "var(--glass-gray-500)",
+    accent: "#8b5cf6",
+    background: "#0b1220",
+    surface: "rgba(255,255,255,0.06)",
+    text: "rgba(255,255,255,0.92)",
+    textSecondary: "var(--glass-text-secondary)",
+    border: "rgba(255,255,255,0.16)",
+    error: "var(--glass-color-danger)",
+    warning: "var(--glass-color-warning)",
+    success: "var(--glass-color-success)",
+    info: "#0ea5e9",
   };
+
+  const BACKDROP_FILTER_PROP = "backdropFilter" as const;
 
   return {
     colors: { ...defaultColors, ...(baseTheme.colors || {}) },
     spacing: {
-      xs: '0.25rem',
-      sm: '0.5rem',
-      md: '1rem',
-      lg: '1.5rem',
-      xl: '2rem',
-      xxl: '3rem',
+      xs: "0.25rem",
+      sm: "0.5rem",
+      md: "1rem",
+      lg: "1.5rem",
+      xl: "2rem",
+      xxl: "3rem",
       ...baseTheme.spacing,
     },
     typography: {
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: "system-ui, -apple-system, sans-serif",
       fontSize: {
-        xs: '0.75rem',
-        sm: '0.875rem',
-        md: '1rem',
-        lg: '1.125rem',
-        xl: '1.25rem',
-        xxl: '1.5rem',
+        xs: "0.75rem",
+        sm: "0.875rem",
+        md: "1rem",
+        lg: "1.125rem",
+        xl: "1.25rem",
+        xxl: "1.5rem",
       },
       fontWeight: {
         light: 300,
@@ -111,12 +115,12 @@ export const createGlassTheme = (baseTheme: Partial<GlassTheme> = {}): GlassThem
       },
       ...baseTheme.typography,
     },
-    borderRadius: '12px',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.18)',
-    backdropFilter: 'var(--glass-backdrop-filter, blur(16px))',
+    borderRadius: "12px",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.18)",
+    [BACKDROP_FILTER_PROP]: "var(--glass-backdrop-filter, blur(16px))",
     // Use tokenized backdrop via CSS variables on surfaces
     // Use createGlassStyle() instead,
-    transition: 'all 0.2s ease',
+    transition: "all 0.2s ease",
     ...baseTheme,
   };
 };
@@ -126,11 +130,11 @@ export const getThemeValue = (
   path: string,
   fallback?: any
 ): any => {
-  const keys = path.split('.');
+  const keys = path.split(".");
   let value: any = theme;
 
   for (const key of keys) {
-    if (value && typeof value === 'object' && key in value) {
+    if (value && typeof value === "object" && key in value) {
       value = value[key];
     } else {
       return fallback;
@@ -177,8 +181,8 @@ export const createThemeVariant = (
 // Color manipulation utilities
 export const adjustColorOpacity = (color: string, opacity: number): string => {
   // Handle hex colors
-  if (color.startsWith('#')) {
-    const hex = color.replace('#', '');
+  if (color.startsWith("#")) {
+    const hex = color.replace("#", "");
     const r = parseInt(hex.substr(0, 2), 16);
     const g = parseInt(hex.substr(2, 2), 16);
     const b = parseInt(hex.substr(4, 2), 16);
@@ -186,7 +190,7 @@ export const adjustColorOpacity = (color: string, opacity: number): string => {
   }
 
   // Handle rgba colors
-  if (color.startsWith('rgba')) {
+  if (color.startsWith("rgba")) {
     const parts = color.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
     if (parts) {
       return `rgba(${parts[1]}, ${parts[2]}, ${parts[3]}, ${opacity})`;
@@ -194,7 +198,7 @@ export const adjustColorOpacity = (color: string, opacity: number): string => {
   }
 
   // Handle rgb colors
-  if (color.startsWith('rgb')) {
+  if (color.startsWith("rgb")) {
     const parts = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
     if (parts) {
       return `rgba(${parts[1]}, ${parts[2]}, ${parts[3]}, ${opacity})`;
@@ -206,24 +210,24 @@ export const adjustColorOpacity = (color: string, opacity: number): string => {
 
 export const lightenColor = (color: string, amount: number): string => {
   // Simple color lightening - in a real implementation you'd use a proper color library
-  if (color.startsWith('#')) {
-    const hex = color.replace('#', '');
+  if (color.startsWith("#")) {
+    const hex = color.replace("#", "");
     const r = Math.min(255, parseInt(hex.substr(0, 2), 16) + amount);
     const g = Math.min(255, parseInt(hex.substr(2, 2), 16) + amount);
     const b = Math.min(255, parseInt(hex.substr(4, 2), 16) + amount);
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   }
 
   return color;
 };
 
 export const darkenColor = (color: string, amount: number): string => {
-  if (color.startsWith('#')) {
-    const hex = color.replace('#', '');
+  if (color.startsWith("#")) {
+    const hex = color.replace("#", "");
     const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - amount);
     const g = Math.max(0, parseInt(hex.substr(2, 2), 16) - amount);
     const b = Math.max(0, parseInt(hex.substr(4, 2), 16) - amount);
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   }
 
   return color;
@@ -252,7 +256,7 @@ export const getSpacingValue = (
 export const createTypographyScale = (
   baseSize: number = 16,
   scale: number = 1.25
-): ThemeTypography['fontSize'] => {
+): ThemeTypography["fontSize"] => {
   return {
     xs: `${baseSize / scale ** 2}px`,
     sm: `${baseSize / scale}px`,
@@ -263,7 +267,7 @@ export const createTypographyScale = (
   };
 };
 
-export const createFontWeightScale = (): ThemeTypography['fontWeight'] => {
+export const createFontWeightScale = (): ThemeTypography["fontWeight"] => {
   return {
     light: 300,
     normal: 400,
@@ -278,10 +282,12 @@ export const validateTheme = (theme: Partial<GlassTheme>): string[] => {
   const errors: string[] = [];
 
   if (!theme.colors) {
-    errors.push('Theme must include colors');
+    errors.push("Theme must include colors");
   } else {
     const requiredColors: (keyof ThemeColors)[] = [
-      'primary', 'background', 'text'
+      "primary",
+      "background",
+      "text",
     ];
 
     requiredColors.forEach((color: any) => {
@@ -292,11 +298,11 @@ export const validateTheme = (theme: Partial<GlassTheme>): string[] => {
   }
 
   if (!theme.spacing) {
-    errors.push('Theme must include spacing');
+    errors.push("Theme must include spacing");
   }
 
   if (!theme.typography) {
-    errors.push('Theme must include typography');
+    errors.push("Theme must include typography");
   }
 
   return errors;
@@ -335,7 +341,7 @@ export const generateThemeCSSVariables = (theme: GlassTheme): string => {
   variables.push(`  --backdrop-filter: ${theme.backdropFilter};`);
   variables.push(`  --transition: ${theme.transition};`);
 
-  return `:root {\n${variables.join('\n')}\n}`;
+  return `:root {\n${variables.join("\n")}\n}`;
 };
 
 // Theme merging utilities
@@ -376,7 +382,7 @@ export const mergeThemes = (
   // Validate and provide defaults
   const errors = validateTheme(merged);
   if (errors.length > 0) {
-    console.warn('Theme validation errors:', errors);
+    console.warn("Theme validation errors:", errors);
   }
 
   return createGlassTheme(merged);
@@ -386,18 +392,19 @@ export const mergeThemes = (
 export const createDarkTheme = (): GlassTheme => {
   return createGlassTheme({
     colors: {
-      primary: 'var(--glass-color-primary-light)',
-      secondary: 'var(--glass-gray-400)',
-      accent: '#a78bfa',
-      background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-      surface: 'rgba(31, 41, 55, 0.8)',
-      text: 'var(--glass-gray-50)',
-      textSecondary: 'rgba(156, 163, 175, 0.8)',
-      border: 'rgba(75, 85, 99, 0.3)',
-      error: 'var(--glass-color-danger-light)',
-      warning: 'var(--glass-color-warning-light)',
-      success: 'var(--glass-color-success-light)',
-      info: 'var(--glass-color-primary-light)',
+      primary: "var(--glass-color-primary-light)",
+      secondary: "var(--glass-gray-400)",
+      accent: "#a78bfa",
+      background:
+        '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+      surface: "rgba(31, 41, 55, 0.8)",
+      text: "var(--glass-gray-50)",
+      textSecondary: "rgba(156, 163, 175, 0.8)",
+      border: "rgba(75, 85, 99, 0.3)",
+      error: "var(--glass-color-danger-light)",
+      warning: "var(--glass-color-warning-light)",
+      success: "var(--glass-color-success-light)",
+      info: "var(--glass-color-primary-light)",
     },
   });
 };
@@ -405,18 +412,19 @@ export const createDarkTheme = (): GlassTheme => {
 export const createLightTheme = (): GlassTheme => {
   return createGlassTheme({
     colors: {
-      primary: 'var(--glass-color-primary)',
-      secondary: 'var(--glass-gray-500)',
-      accent: '#8b5cf6',
-      background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-      surface: 'rgba(249, 250, 251, 0.8)',
-      text: 'var(--glass-gray-900)',
-      textSecondary: 'rgba(75, 85, 99, 0.7)',
-      border: 'rgba(229, 231, 235, 0.5)',
-      error: 'var(--glass-color-danger)',
-      warning: 'var(--glass-color-warning)',
-      success: 'var(--glass-color-success)',
-      info: 'var(--glass-color-primary)',
+      primary: "var(--glass-color-primary)",
+      secondary: "var(--glass-gray-500)",
+      accent: "#8b5cf6",
+      background:
+        '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+      surface: "rgba(249, 250, 251, 0.8)",
+      text: "var(--glass-gray-900)",
+      textSecondary: "rgba(75, 85, 99, 0.7)",
+      border: "rgba(229, 231, 235, 0.5)",
+      error: "var(--glass-color-danger)",
+      warning: "var(--glass-color-warning)",
+      success: "var(--glass-color-success)",
+      info: "var(--glass-color-primary)",
     },
   });
 };

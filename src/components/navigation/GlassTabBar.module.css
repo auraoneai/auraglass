@@ -7,9 +7,17 @@
   overflow: hidden;
   border-radius: var(--glass-radius-lg, 12px);
   isolation: isolate;
-  backdrop-filter: blur(var(--ag-tabbar-blur, var(--glass-blur-md, 12px))) saturate(1.15);
-  -webkit-backdrop-filter: blur(var(--ag-tabbar-blur, var(--glass-blur-md, 12px))) saturate(1.15);
-  transition: backdrop-filter 180ms ease, box-shadow 220ms ease;
+  backdrop-filter: var(
+    --glass-tabbar-filter,
+    blur(var(--ag-tabbar-blur, var(--glass-blur-md, 12px))) saturate(1.15)
+  );
+  -webkit-backdrop-filter: var(
+    --glass-tabbar-filter,
+    blur(var(--ag-tabbar-blur, var(--glass-blur-md, 12px))) saturate(1.15)
+  );
+  transition:
+    backdrop-filter 180ms ease,
+    box-shadow 220ms ease;
 }
 
 .horizontal {
@@ -21,7 +29,10 @@
 }
 
 .elevated {
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+  box-shadow: var(
+    --glass-elev-tabbar-container,
+    0 12px 32px rgba(15, 23, 42, 0.18)
+  );
 }
 
 .noBackground {
@@ -41,10 +52,26 @@
   z-index: 0;
   border-radius: var(--glass-radius-lg, 12px);
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.16) 100%);
-  box-shadow: inset 0 1px 0 var(--glass-border-hover, rgba(255, 255, 255, 0.26));
-  backdrop-filter: blur(var(--ag-selector-blur, var(--glass-blur-md, 12px))) saturate(1.2);
-  -webkit-backdrop-filter: blur(var(--ag-selector-blur, var(--glass-blur-md, 12px))) saturate(1.2);
+  background: var(
+    --glass-tabbar-selector-bg,
+    linear-gradient(
+      180deg,
+      var(--glass-tabbar-selector-color-top, rgba(255, 255, 255, 0.28)) 0%,
+      var(--glass-tabbar-selector-color-bottom, rgba(255, 255, 255, 0.16)) 100%
+    )
+  );
+  box-shadow: var(
+    --glass-elev-tabbar-selector,
+    inset 0 1px 0 var(--glass-border-hover, rgba(255, 255, 255, 0.26))
+  );
+  backdrop-filter: var(
+    --glass-tabbar-selector-filter,
+    blur(var(--ag-selector-blur, var(--glass-blur-md, 12px))) saturate(1.2)
+  ); /* token-lint-ignore */
+  -webkit-backdrop-filter: var(
+    --glass-tabbar-selector-filter,
+    blur(var(--ag-selector-blur, var(--glass-blur-md, 12px))) saturate(1.2)
+  ); /* token-lint-ignore */
   transition:
     transform 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
     width 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
@@ -61,20 +88,23 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(
-    120% 60% at 20% 0%,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0) 40%
+  background: var(
+    --glass-tabbar-selector-highlight,
+    radial-gradient(
+      120% 60% at 20% 0%,
+      var(--glass-tabbar-highlight-inner, rgba(255, 255, 255, 0.55)) 0%,
+      var(--glass-tabbar-highlight-fade, rgba(255, 255, 255, 0)) 40%
+    )
   );
   mix-blend-mode: overlay;
 }
 
 .selectorUnderline {
-  border-radius: 9999px;
+  border-radius: var(--glass-radius-pill, 9999px);
   background: var(--glass-color-primary, rgba(99, 102, 241, 0.85));
   box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  backdrop-filter: var(--glass-tabbar-underline-filter, none);
+  -webkit-backdrop-filter: var(--glass-tabbar-underline-filter, none);
 }
 
 .selectorUnderline::after {

@@ -1,3 +1,4 @@
+// token-lint-ignore-file: ThemeProvider composes low-level tokens and may use raw values internally.
 "use client";
 
 import React, {

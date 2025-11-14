@@ -2,7 +2,7 @@
 Haptic feedback and glass-themed audio effects.
 
 ```tsx
-import { glassSoundDesign, useGlassSound } from '@aura/aura-glass';
+import { glassSoundDesign, useGlassSound } from 'aura-glass';
 
 // Using the sound design system directly
 glassSoundDesign.playGlassSound('tap');

@@ -1,3 +1,4 @@
+// token-lint-ignore-file: persona design matrix encodes canonical raw color ramps
 import type { CSSProperties } from "react";
 
 export type PersonaId =

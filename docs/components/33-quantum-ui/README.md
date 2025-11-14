@@ -26,7 +26,7 @@ The Quantum UI system introduces a paradigm shift in interface design by impleme
 Quantum-inspired probabilistic interfaces that exist in superposition states.
 
 ```tsx
-import { GlassQuantumField } from '@aura/aura-glass';
+import { GlassQuantumField } from 'aura-glass';
 
 <GlassQuantumField
   states={['idle', 'loading', 'success', 'error']}

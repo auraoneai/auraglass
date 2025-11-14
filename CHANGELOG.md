@@ -5,6 +5,31 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.5] - 2025-11-14
+
+### 🛠 Improvements
+- Isolated all React Three Fiber-powered 3D components into the `aura-glass/three` entrypoint, so importing the root `aura-glass` package in React 18 apps no longer pulls in R3F or React 19 internals.
+- Introduced lazy, React-version-aware wrappers around `.r3f` implementations: React 19 clients dynamically import the R3F modules, while React 18 receives styled fallback containers that preserve layout without executing 3D code.
+- Moved presets and AR helper factories (`shatterPresets`, `seasonalPresets`, `auroraPresets`, `auroraThemes`, `seasonalThemes`, `ARGlassMaterialFactory`, `ARGlassGeometryFactory`, `ARGlassAnimations`, `ARGlassInteractions`, `ARGlassUtils`) into non-R3F helper modules and re-exported them via `aura-glass/three`.
+- Extended `scripts/ci/run-next-integration.js` to run a dual Next.js matrix from the published tarball: React 18 + Next 14.2 (root entry only) and React 19 + Next 15.1 (using `aura-glass/three`), with Playwright smoke tests guarding against hook/registry/reconciler regressions.
+
+### 🔀 Migration (React 18 → React 19 3D usage)
+- **React 18 apps (no 3D)**: Continue importing from `aura-glass` only and do not add `aura-glass/three` to your bundles; the 3D code path remains completely unused and SSR-safe.
+- **React 19 apps (enable 3D)**: Upgrade React/Next, ensure `three`, `@react-three/fiber`, and `@react-three/drei` are installed as peers, then import 3D components from `aura-glass/three`:
+
+  ```tsx
+  import { GlassButton } from 'aura-glass';
+  import { GlassShatterEffects } from 'aura-glass/three';
+
+  export function Hero3D() {
+    return (
+      <GlassShatterEffects>
+        <GlassButton variant="primary">AuraGlass 3D OK</GlassButton>
+      </GlassShatterEffects>
+    );
+  }
+  ```
+
 ## [2.1.4] - 2025-11-14
 
 ### ✨ Added

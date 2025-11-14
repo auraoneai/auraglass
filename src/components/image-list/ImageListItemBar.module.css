@@ -7,8 +7,13 @@
   gap: var(--aura-space-3);
   padding: var(--aura-space-3) var(--aura-space-4);
   color: var(--aura-color-global-text-primary);
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 85%, transparent);
-  transition: opacity var(--aura-motion-duration-normal) var(--aura-motion-easing-standard);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 85%,
+    transparent
+  );
+  transition: opacity var(--aura-motion-duration-normal)
+    var(--aura-motion-easing-standard);
   pointer-events: auto;
 }
 
@@ -29,7 +34,11 @@
 }
 
 .glass {
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 90%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 90%,
+    transparent
+  );
   border: 1px solid var(--aura-color-glass-border);
   backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
@@ -55,7 +64,7 @@
 }
 
 .subtitle {
-  margin-top: 2px;
+  margin-top: var(--glass-space-image-item-bar-subtitle, 2px);
   font-size: 0.75rem;
   line-height: 1.2;
   opacity: 0.75;

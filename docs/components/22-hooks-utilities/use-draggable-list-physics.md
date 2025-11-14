@@ -2,7 +2,7 @@
 Physics-based drag and drop with realistic animations.
 
 ```tsx
-import { useDraggableListPhysics } from '@aura/aura-glass';
+import { useDraggableListPhysics } from 'aura-glass';
 
 function DraggableList({ items, onReorder }) {
   const {

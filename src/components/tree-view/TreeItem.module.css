@@ -18,9 +18,12 @@
   user-select: none;
   color: var(--aura-color-global-text-secondary);
   background: transparent;
-  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+  transition:
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
     color var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+    box-shadow var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
   outline: none;
 }
 
@@ -37,17 +40,29 @@
 }
 
 .content:not(.disabled):hover {
-  background: var(--tree-view-hover-bg, color-mix(in srgb, var(--aura-color-glass-surface) 35%, transparent));
+  background: var(
+    --tree-view-hover-bg,
+    color-mix(in srgb, var(--aura-color-glass-surface) 35%, transparent)
+  );
   color: var(--aura-color-global-text-primary);
 }
 
 .glass {
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 40%, transparent);
-  border: 1px solid color-mix(in srgb, var(--aura-color-glass-border) 80%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 40%,
+    transparent
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--aura-color-glass-border) 80%, transparent);
 }
 
 .glass:not(.disabled):hover {
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 60%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 60%,
+    transparent
+  );
 }
 
 .selected {
@@ -57,12 +72,17 @@
 }
 
 .focused {
-  outline: 1px dashed var(--tree-view-color, var(--aura-color-global-border-strong));
+  outline: 1px dashed
+    var(--tree-view-color, var(--aura-color-global-border-strong));
 }
 
 .content:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.45), 0 0 0 6px rgba(99, 102, 241, 0.28);
+  box-shadow: var(
+    --glass-elev-treeitem-focus,
+    0 0 0 2px var(--glass-treeitem-focus-inner, rgba(148, 163, 184, 0.45)),
+    0 0 0 6px var(--glass-treeitem-focus-outer, rgba(99, 102, 241, 0.28))
+  );
 }
 
 .disabled {

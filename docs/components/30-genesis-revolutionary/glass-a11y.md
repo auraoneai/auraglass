@@ -27,7 +27,7 @@
 ### Basic Implementation
 
 ```tsx
-import { GlassA11y } from '@aura/aura-glass';
+import { GlassA11y } from 'aura-glass';
 
 function App() {
   const handleConfigChange = (config) => {
@@ -129,7 +129,7 @@ interface AccessibilityConfig {
 ### With Theme System
 
 ```tsx
-import { GlassA11y } from '@aura/aura-glass';
+import { GlassA11y } from 'aura-glass';
 import { useTheme } from './theme-context';
 
 function App() {
@@ -155,7 +155,7 @@ function App() {
 ### With Global State Management
 
 ```tsx
-import { GlassA11y } from '@aura/aura-glass';
+import { GlassA11y } from 'aura-glass';
 import { useDispatch } from 'react-redux';
 
 function App() {
@@ -174,7 +174,7 @@ function App() {
 ### With Custom Styling
 
 ```tsx
-import { GlassA11y } from '@aura/aura-glass';
+import { GlassA11y } from 'aura-glass';
 
 function CustomStyledApp() {
   return (
@@ -313,7 +313,7 @@ npm run report:accessibility
 import { AccessibilityProvider } from 'third-party-lib';
 
 // After
-import { GlassA11y } from '@aura/aura-glass';
+import { GlassA11y } from 'aura-glass';
 ```
 
 ## Contributing
@@ -340,7 +340,7 @@ When contributing to GlassA11y:
 
 ```tsx
 import React, { useState } from 'react';
-import { GlassA11y } from '@aura/aura-glass';
+import { GlassA11y } from 'aura-glass';
 
 function CompleteApp() {
   const [accessibilityConfig, setAccessibilityConfig] = useState({});

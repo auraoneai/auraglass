@@ -10,14 +10,14 @@ AuraGlass v2.1.0+ includes comprehensive SSR support for Next.js, Remix, Gatsby,
 
 ```tsx
 // In your _app.tsx (Next.js) or root layout
-import 'aura-glass/dist/styles/index.css';
+import 'aura-glass/styles';
 ```
 
 **Alternative**: Import in your global CSS:
 
 ```css
 /* In your global.css or styles.css */
-@import 'aura-glass/dist/styles/index.css';
+@import 'aura-glass/styles';
 ```
 
 ### 2. Styled Components Setup (Optional)
@@ -141,7 +141,7 @@ const width = getBrowserValue(() => window.innerWidth, 1024);
 **Problem**: Console warnings like `Prop className did not match. Server: "sc-blIAwI" Client: "sc-jxOwhs"`
 
 **Solution**:
-1. Import styles: `import 'aura-glass/dist/styles/index.css';`
+1. Import styles: `import 'aura-glass/styles';`
 2. Wrap app with `<AuraGlassSSRProvider>`
 3. Set up styled-components in `_document.tsx` (see above)
 
@@ -152,7 +152,7 @@ const width = getBrowserValue(() => window.innerWidth, 1024);
 **Solution**: Make sure you've imported the CSS:
 
 ```tsx
-import 'aura-glass/dist/styles/index.css';
+import 'aura-glass/styles';
 ```
 
 ### Browser API Errors
@@ -178,7 +178,7 @@ const { width } = getViewportSize(); // ✅ SSR-safe
 
 ```tsx
 // app/layout.tsx
-import 'aura-glass/dist/styles/index.css';
+import 'aura-glass/styles';
 import { AuraGlassSSRProvider } from 'aura-glass';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -196,7 +196,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ```tsx
 // app/root.tsx
-import styles from 'aura-glass/dist/styles/index.css';
+import styles from 'aura-glass/styles';
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }];
@@ -221,7 +221,7 @@ export default function App() {
 
 ```tsx
 // gatsby-browser.js and gatsby-ssr.js
-import 'aura-glass/dist/styles/index.css';
+import 'aura-glass/styles';
 ```
 
 ## Performance Considerations
@@ -235,7 +235,7 @@ import 'aura-glass/dist/styles/index.css';
 
 If upgrading from 2.0.12:
 
-1. Add CSS import: `import 'aura-glass/dist/styles/index.css';`
+1. Add CSS import: `import 'aura-glass/styles';`
 2. (Optional) Add `<AuraGlassSSRProvider>` wrapper
 3. Replace manual browser checks with SSR utilities
 4. Update `_document.tsx` if using styled-components

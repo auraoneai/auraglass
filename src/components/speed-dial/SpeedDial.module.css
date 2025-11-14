@@ -4,7 +4,9 @@
   align-items: center;
   justify-content: center;
   z-index: var(--aura-z-overlay, 1050);
-  transition: transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+  transition:
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
     opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
 }
 
@@ -25,12 +27,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: var(--glass-radius-pill, 9999px);
   box-shadow: var(--aura-shadow-elevation-md);
   cursor: pointer;
-  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition:
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
   color: var(--aura-color-global-text-on-primary);
 }
 
@@ -44,8 +50,13 @@
 }
 
 .fabGlass {
-  background: color-mix(in srgb, var(--aura-color-glass-surface) 85%, transparent);
-  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-surface) 85%,
+    transparent
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
   backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
 }
@@ -75,7 +86,11 @@
 }
 
 .fabSolidDefault {
-  background: color-mix(in srgb, var(--aura-color-surface-base) 88%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-surface-base) 88%,
+    transparent
+  );
 }
 
 .fabDisabled {
@@ -130,10 +145,15 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: color-mix(in srgb, var(--aura-color-overlay-surface-strong) 50%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-overlay-surface-strong) 50%,
+    transparent
+  );
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition: opacity var(--aura-motion-duration-fast)
+    var(--aura-motion-easing-standard);
   z-index: calc(var(--aura-z-overlay, 1050) - 1);
 }
 

@@ -5,11 +5,19 @@
   font-family: var(--aura-font-family-sans);
   font-size: var(--aura-font-size-xs);
   border-radius: var(--aura-radius-lg);
-  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.32);
+  box-shadow: var(
+    --glass-elev-chart-tooltip-shell,
+    0 20px 48px rgba(15, 23, 42, 0.32)
+  );
   backdrop-filter: blur(var(--aura-glass-neutral-level3-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level3-backdrop-blur));
-  background: color-mix(in srgb, var(--aura-color-glass-overlay) 92%, rgba(6, 12, 24, 0.82));
-  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-overlay) 92%,
+    var(--glass-chart-tooltip-shell, rgba(6, 12, 24, 0.82))
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent);
   color: var(--aura-color-global-text-inverse);
   padding: var(--aura-space-3) var(--aura-space-4);
   min-width: 120px;
@@ -17,17 +25,26 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition:
+    opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
 }
 
 .tooltipArrow {
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid color-mix(in srgb, var(--aura-color-glass-overlay) 92%, rgba(6, 12, 24, 0.82));
+  border-inline-start: var(--glass-space-chart-tooltip-arrow, 6px) solid
+    transparent;
+  border-inline-end: var(--glass-space-chart-tooltip-arrow, 6px) solid
+    transparent;
+  border-block-start: var(--glass-space-chart-tooltip-arrow, 6px) solid
+    color-mix(
+      in srgb,
+      var(--aura-color-glass-overlay) 92%,
+      var(--glass-chart-tooltip-shell, rgba(6, 12, 24, 0.82))
+    );
   bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
@@ -38,7 +55,8 @@
   font-weight: var(--aura-font-weight-semibold);
   margin-bottom: var(--aura-space-2);
   padding-bottom: var(--aura-space-2);
-  border-bottom: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 65%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 65%, transparent);
 }
 
 .tooltipBody {
@@ -56,7 +74,11 @@
 
 .tooltipLabel {
   font-size: var(--aura-font-size-xs);
-  color: color-mix(in srgb, var(--aura-color-global-text-secondary) 82%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-secondary) 82%,
+    transparent
+  );
   font-weight: var(--aura-font-weight-medium);
 }
 
@@ -68,14 +90,23 @@
 
 .tooltipSeparator {
   height: 1px;
-  background: color-mix(in srgb, var(--aura-color-global-border-soft) 65%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-global-border-soft) 65%,
+    transparent
+  );
 }
 
 .tooltipFooter {
   margin-top: var(--aura-space-3);
   padding-top: var(--aura-space-2);
-  border-top: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 65%, transparent);
+  border-top: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 65%, transparent);
   font-size: var(--aura-font-size-xs);
-  color: color-mix(in srgb, var(--aura-color-global-text-secondary) 85%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-secondary) 85%,
+    transparent
+  );
   text-align: center;
 }

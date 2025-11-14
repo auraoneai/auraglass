@@ -11,10 +11,17 @@
   gap: var(--aura-space-1);
   padding: var(--aura-space-1);
   border-radius: var(--aura-radius-xl);
-  background: color-mix(in srgb, var(--aura-color-glass-overlay) 45%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-overlay) 45%,
+    transparent
+  );
   backdrop-filter: blur(var(--aura-glass-neutral-level1-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level1-backdrop-blur));
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  box-shadow: var(
+    --glass-elev-chart-type-selector,
+    0 10px 24px rgba(15, 23, 42, 0.18)
+  );
 }
 
 .typeButton {
@@ -22,42 +29,71 @@
   border: none;
   border-radius: var(--aura-radius-lg);
   background: transparent;
-  color: color-mix(in srgb, var(--aura-color-global-text-secondary) 80%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-secondary) 80%,
+    transparent
+  );
   font-size: var(--aura-font-size-xs);
   font-weight: var(--aura-font-weight-medium);
   cursor: pointer;
-  transition: background var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
+  transition:
+    background var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
     color var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+    box-shadow var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
 }
 
 .typeButton:not(:disabled):hover {
-  background: color-mix(in srgb, var(--aura-color-semantic-primary) 12%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-semantic-primary) 12%,
+    transparent
+  );
   color: var(--aura-color-global-text-primary);
 }
 
 .typeButtonActive {
-  background: color-mix(in srgb, var(--aura-color-semantic-primary) 18%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-semantic-primary) 18%,
+    transparent
+  );
   color: var(--aura-color-global-text-primary);
-  box-shadow: 0 12px 30px rgba(76, 29, 149, 0.25);
+  box-shadow: var(
+    --glass-elev-chart-type-active,
+    0 12px 30px rgba(76, 29, 149, 0.25)
+  );
 }
 
 .toolbarButton {
   padding: var(--aura-space-2) var(--aura-space-3);
   border-radius: var(--aura-radius-lg);
-  border: 1px solid color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent);
-  background: color-mix(in srgb, var(--aura-color-glass-overlay) 40%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-overlay) 40%,
+    transparent
+  );
   color: var(--aura-color-global-text-primary);
   font-size: var(--aura-font-size-xs);
   font-weight: var(--aura-font-weight-medium);
   cursor: pointer;
-  transition: transform var(--aura-motion-duration-fast) var(--aura-motion-easing-standard),
-    box-shadow var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition:
+    transform var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard),
+    box-shadow var(--aura-motion-duration-fast)
+      var(--aura-motion-easing-standard);
 }
 
 .toolbarButton:not(:disabled):hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
+  box-shadow: var(
+    --glass-elev-chart-toolbar-hover,
+    0 12px 28px rgba(15, 23, 42, 0.22)
+  );
 }
 
 .toolbarButton:disabled {
@@ -81,9 +117,16 @@
 .legendGlass {
   backdrop-filter: blur(var(--aura-glass-neutral-level1-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level1-backdrop-blur));
-  background: color-mix(in srgb, var(--aura-color-glass-overlay) 55%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-overlay) 55%,
+    transparent
+  );
   border-radius: var(--aura-radius-xl);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.22);
+  box-shadow: var(
+    --glass-elev-chart-legend,
+    0 12px 32px rgba(15, 23, 42, 0.22)
+  );
 }
 
 .legendItem {
@@ -91,7 +134,8 @@
   align-items: center;
   gap: var(--aura-space-2);
   cursor: pointer;
-  transition: opacity var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  transition: opacity var(--aura-motion-duration-fast)
+    var(--aura-motion-easing-standard);
 }
 
 .legendInactive {
@@ -106,11 +150,18 @@
   width: 12px;
   height: 12px;
   border-radius: var(--aura-radius-sm);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+  box-shadow: var(
+    --glass-elev-chart-legend-color,
+    0 6px 16px rgba(15, 23, 42, 0.18)
+  );
 }
 
 .legendLabel {
   font-size: var(--aura-font-size-xs);
   font-weight: var(--aura-font-weight-medium);
-  color: color-mix(in srgb, var(--aura-color-global-text-secondary) 82%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-secondary) 82%,
+    transparent
+  );
 }

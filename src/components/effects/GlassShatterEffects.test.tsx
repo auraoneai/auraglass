@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassShatterEffects Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassShatterEffects } from '@/components/effects/GlassShatterEffects';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassShatterEffects } from "@/components/effects/GlassShatterEffects";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassShatterEffects', () => {
+describe("GlassShatterEffects", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassShatterEffects />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +32,16 @@ describe('GlassShatterEffects', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassShatterEffects />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassShatterEffects
         className="custom-class"
@@ -55,17 +49,33 @@ describe('GlassShatterEffects', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassshattereffects"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassshattereffects"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Fallback Behavior: Renders non-3D container when three effects are disabled
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassShatterEffects />);
-    expect(container.firstChild).toMatchSnapshot();
+  it("renders fallback container when three effects are disabled", () => {
+    const { container } = render(
+      <GlassShatterEffects
+        className="custom-class"
+        data-testid="glassshattereffects"
+      >
+        <div>Content</div>
+      </GlassShatterEffects>
+    );
+
+    const element =
+      (container.querySelector(
+        '[data-testid="glassshattereffects"]'
+      ) as HTMLElement | null) || (container.firstChild as HTMLElement | null);
+
+    expect(element).toBeInTheDocument();
+    expect(element).toHaveClass("glass-shatter-effects");
+    expect(element).toHaveClass("custom-class");
   });
 });

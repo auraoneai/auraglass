@@ -9,7 +9,7 @@ import {
   GlassGazeVisualization,
   useEyeTracking,
   eyeTrackingPresets
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Setup eye tracking with calibration
 <GlassEyeTrackingProvider autoInitialize={true}>

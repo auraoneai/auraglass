@@ -3,7 +3,7 @@
 Backward compatibility wrapper for GlassAccordion component.
 
 ```tsx
-import { GlassAccordionUI } from '@aura/aura-glass';
+import { GlassAccordionUI } from 'aura-glass';
 
 <GlassAccordionUI>
   <GlassAccordionUI.Item title="Section 1">

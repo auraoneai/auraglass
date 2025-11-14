@@ -2,7 +2,7 @@
 Multi-spring physics system for complex animations.
 
 ```tsx
-import { useGalileoSprings } from '@aura/aura-glass';
+import { useGalileoSprings } from 'aura-glass';
 
 function PhysicsPlayground() {
   const targets = [

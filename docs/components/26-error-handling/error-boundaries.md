@@ -6,7 +6,7 @@ import {
   GlassErrorBoundary, 
   GlassAsyncErrorBoundary,
   withGlassErrorBoundary 
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Wrap components with error boundaries
 <GlassErrorBoundary

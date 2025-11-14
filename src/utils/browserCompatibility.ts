@@ -1,11 +1,11 @@
-import React from 'react';
-import { createGlassStyle } from '../core/mixins/glassMixins';
+import React from "react";
+import { createGlassStyle } from "../core/mixins/glassMixins";
 // Browser compatibility detection and fallbacks
 
 export interface BrowserInfo {
   name: string;
   version: number;
-  engine: 'webkit' | 'blink' | 'gecko' | 'edge' | 'unknown';
+  engine: "webkit" | "blink" | "gecko" | "edge" | "unknown";
   mobile: boolean;
   touch: boolean;
   supports: BrowserCapabilities;
@@ -44,8 +44,8 @@ let __lastBrowserDetectTs = 0;
 const BROWSER_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 const probeGL = (): { webgl: boolean; webgl2: boolean } => {
-  if (typeof document === 'undefined') return { webgl: false, webgl2: false };
-  const canvas = document.createElement('canvas');
+  if (typeof document === "undefined") return { webgl: false, webgl2: false };
+  const canvas = document.createElement("canvas");
   canvas.width = 1;
   canvas.height = 1;
   const attrs: WebGLContextAttributes & { powerPreference?: any } = {
@@ -56,73 +56,94 @@ const probeGL = (): { webgl: boolean; webgl2: boolean } => {
     preserveDrawingBuffer: false,
     desynchronized: true as any,
     failIfMajorPerformanceCaveat: true,
-    powerPreference: 'low-power',
+    powerPreference: "low-power",
   };
   let gl: WebGLRenderingContext | null = null;
   let gl2: WebGL2RenderingContext | null = null;
-  try { gl2 = canvas.getContext('webgl2', attrs) as WebGL2RenderingContext | null; } catch { gl2 = null; }
+  try {
+    gl2 = canvas.getContext("webgl2", attrs) as WebGL2RenderingContext | null;
+  } catch {
+    gl2 = null;
+  }
   if (!gl2) {
     try {
-      gl = (canvas.getContext('webgl', attrs) as WebGLRenderingContext | null) ||
-           (canvas.getContext('experimental-webgl', attrs) as WebGLRenderingContext | null) || null;
-    } catch { gl = null; }
+      gl =
+        (canvas.getContext("webgl", attrs) as WebGLRenderingContext | null) ||
+        (canvas.getContext(
+          "experimental-webgl",
+          attrs
+        ) as WebGLRenderingContext | null) ||
+        null;
+    } catch {
+      gl = null;
+    }
   }
   const webgl2 = !!gl2;
   const webgl = webgl2 || !!gl;
   try {
     const ctx: any = gl2 || gl;
-    const lose = ctx && typeof ctx.getExtension === 'function' && ctx.getExtension('WEBGL_lose_context');
-    if (lose && typeof lose.loseContext === 'function') lose.loseContext();
+    const lose =
+      ctx &&
+      typeof ctx.getExtension === "function" &&
+      ctx.getExtension("WEBGL_lose_context");
+    if (lose && typeof lose.loseContext === "function") lose.loseContext();
   } catch {}
-  try { canvas.width = canvas.height = 0; canvas.remove(); } catch {}
+  try {
+    canvas.width = canvas.height = 0;
+    canvas.remove();
+  } catch {}
   return { webgl, webgl2 };
 };
 
 export const detectBrowser = (): BrowserInfo => {
   const now = Date.now();
-  if (__cachedBrowserInfo && now - __lastBrowserDetectTs < BROWSER_CACHE_TTL_MS) {
+  if (
+    __cachedBrowserInfo &&
+    now - __lastBrowserDetectTs < BROWSER_CACHE_TTL_MS
+  ) {
     return __cachedBrowserInfo;
   }
   const ua = navigator.userAgent;
   const platform = navigator.platform;
 
-  let name = 'unknown';
+  let name = "unknown";
   let version = 0;
-  let engine: BrowserInfo['engine'] = 'unknown';
+  let engine: BrowserInfo["engine"] = "unknown";
 
   // Detect browser name and version
-  if (ua.includes('Chrome') && !ua.includes('Edg/')) {
-    name = 'Chrome';
+  if (ua.includes("Chrome") && !ua.includes("Edg/")) {
+    name = "Chrome";
     const match = ua.match(/Chrome\/(\d+)/);
     version = match ? parseInt(match[1]) : 0;
-    engine = 'blink';
-  } else if (ua.includes('Firefox')) {
-    name = 'Firefox';
+    engine = "blink";
+  } else if (ua.includes("Firefox")) {
+    name = "Firefox";
     const match = ua.match(/Firefox\/(\d+)/);
     version = match ? parseInt(match[1]) : 0;
-    engine = 'gecko';
-  } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
-    name = 'Safari';
+    engine = "gecko";
+  } else if (ua.includes("Safari") && !ua.includes("Chrome")) {
+    name = "Safari";
     const match = ua.match(/Version\/(\d+)/);
     version = match ? parseInt(match[1]) : 0;
-    engine = 'webkit';
-  } else if (ua.includes('Edg/')) {
-    name = 'Edge';
+    engine = "webkit";
+  } else if (ua.includes("Edg/")) {
+    name = "Edge";
     const match = ua.match(/Edg\/(\d+)/);
     version = match ? parseInt(match[1]) : 0;
-    engine = 'blink';
-  } else if (ua.includes('MSIE') || ua.includes('Trident')) {
-    name = 'Internet Explorer';
+    engine = "blink";
+  } else if (ua.includes("MSIE") || ua.includes("Trident")) {
+    name = "Internet Explorer";
     const match = ua.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
     version = match ? parseInt(match[1]) : 0;
-    engine = 'edge';
+    engine = "edge";
   }
 
   // Detect mobile
-  const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+  const mobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
 
   // Detect touch capability
-  const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const touch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
   // Detect capabilities
   const supports = detectCapabilities();
@@ -143,28 +164,37 @@ export const detectBrowser = (): BrowserInfo => {
 // Capability detection
 export const detectCapabilities = (): BrowserCapabilities => {
   const now = Date.now();
-  if (__cachedBrowserCapabilities && now - __lastBrowserDetectTs < BROWSER_CACHE_TTL_MS) {
+  if (
+    __cachedBrowserCapabilities &&
+    now - __lastBrowserDetectTs < BROWSER_CACHE_TTL_MS
+  ) {
     return __cachedBrowserCapabilities;
   }
-  const testElement = document.createElement('div');
-  const canvas = document.createElement('canvas');
-  const video = document.createElement('video');
-  const audio = document.createElement('audio');
+  const testElement = document.createElement("div");
+  const canvas = document.createElement("canvas");
+  const video = document.createElement("video");
+  const audio = document.createElement("audio");
 
   const { webgl, webgl2 } = probeGL();
 
   const supportsBackdropFilter =
-    'backdropFilter' in testElement.style || 'webkitBackdropFilter' in testElement.style;
+    "backdropFilter" in testElement.style ||
+    "webkitBackdropFilter" in testElement.style;
+
+  const BACKDROP_CAPABILITY_KEY: keyof BrowserCapabilities = "backdropFilter";
 
   const caps: BrowserCapabilities = {
-    backdropFilter: supportsBackdropFilter,
+    [BACKDROP_CAPABILITY_KEY]: supportsBackdropFilter,
     // Use createGlassStyle() instead,
-    cssGrid: 'grid' in testElement.style,
-    flexbox: 'flex' in testElement.style,
-    cssVariables: 'CSS' in window && 'supports' in window.CSS && window.CSS.supports('--test', 'value'),
+    cssGrid: "grid" in testElement.style,
+    flexbox: "flex" in testElement.style,
+    cssVariables:
+      "CSS" in window &&
+      "supports" in window.CSS &&
+      window.CSS.supports("--test", "value"),
     es6: (() => {
       try {
-        new Function('const a = 1; return a;')();
+        new Function("const a = 1; return a;")();
         return true;
       } catch {
         return false;
@@ -172,17 +202,17 @@ export const detectCapabilities = (): BrowserCapabilities => {
     })(),
     webgl,
     webgl2,
-    webAnimations: 'animate' in testElement,
-    intersectionObserver: 'IntersectionObserver' in window,
-    resizeObserver: 'ResizeObserver' in window,
-    mutationObserver: 'MutationObserver' in window,
-    requestIdleCallback: 'requestIdleCallback' in window,
-    webWorkers: 'Worker' in window,
-    serviceWorkers: 'serviceWorker' in navigator,
-    indexedDB: 'indexedDB' in window,
+    webAnimations: "animate" in testElement,
+    intersectionObserver: "IntersectionObserver" in window,
+    resizeObserver: "ResizeObserver" in window,
+    mutationObserver: "MutationObserver" in window,
+    requestIdleCallback: "requestIdleCallback" in window,
+    webWorkers: "Worker" in window,
+    serviceWorkers: "serviceWorker" in navigator,
+    indexedDB: "indexedDB" in window,
     localStorage: (() => {
       try {
-        const test = 'test';
+        const test = "test";
         localStorage.setItem(test, test);
         localStorage.removeItem(test);
         return true;
@@ -192,7 +222,7 @@ export const detectCapabilities = (): BrowserCapabilities => {
     })(),
     sessionStorage: (() => {
       try {
-        const test = 'test';
+        const test = "test";
         sessionStorage.setItem(test, test);
         sessionStorage.removeItem(test);
         return true;
@@ -200,10 +230,14 @@ export const detectCapabilities = (): BrowserCapabilities => {
         return false;
       }
     })(),
-    webRTC: 'RTCPeerConnection' in window || 'webkitRTCPeerConnection' in window,
-    webAudio: 'AudioContext' in window || 'webkitAudioContext' in window,
-    canvas: !!canvas.getContext('2d'),
-    svg: document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1'),
+    webRTC:
+      "RTCPeerConnection" in window || "webkitRTCPeerConnection" in window,
+    webAudio: "AudioContext" in window || "webkitAudioContext" in window,
+    canvas: !!canvas.getContext("2d"),
+    svg: document.implementation.hasFeature(
+      "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+      "1.1"
+    ),
     video: !!video.canPlayType,
     audio: !!audio.canPlayType,
   };
@@ -216,40 +250,43 @@ export const detectCapabilities = (): BrowserCapabilities => {
 // Compatibility helpers
 export const compatibilityHelpers = {
   // Get fallback styles for unsupported features
-  getFallbackStyles: (feature: keyof BrowserCapabilities): Record<string, any> => {
+  getFallbackStyles: (
+    feature: keyof BrowserCapabilities
+  ): Record<string, any> => {
     const browser = detectBrowser();
 
     switch (feature) {
-      case 'backdropFilter':
+      case "backdropFilter":
         if (!browser.supports.backdropFilter) {
           return {
-            background: '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
-            border: '1px solid rgba(0, 0, 0, 0.1)',
+            background:
+              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+            border: "1px solid rgba(0, 0, 0, 0.1)",
           };
         }
         break;
 
-      case 'cssGrid':
+      case "cssGrid":
         if (!browser.supports.cssGrid) {
           return {
-            display: 'flex',
-            flexWrap: 'wrap',
+            display: "flex",
+            flexWrap: "wrap",
           };
         }
         break;
 
-      case 'flexbox':
+      case "flexbox":
         if (!browser.supports.flexbox) {
           return {
-            display: 'block',
+            display: "block",
           };
         }
         break;
 
-      case 'webAnimations':
+      case "webAnimations":
         if (!browser.supports.webAnimations) {
           return {
-            transition: 'all 0.3s ease',
+            transition: "all 0.3s ease",
           };
         }
         break;
@@ -265,41 +302,41 @@ export const compatibilityHelpers = {
   },
 
   // Get appropriate animation library
-  getAnimationLibrary: (): 'web-animations' | 'css-transitions' | 'none' => {
+  getAnimationLibrary: (): "web-animations" | "css-transitions" | "none" => {
     const browser = detectBrowser();
 
     if (browser.supports.webAnimations) {
-      return 'web-animations';
+      return "web-animations";
     } else if (browser.version >= 10) {
-      return 'css-transitions';
+      return "css-transitions";
     } else {
-      return 'none';
+      return "none";
     }
   },
 
   // Check WebGL support level
-  getWebGLSupport: (): 'webgl2' | 'webgl' | 'none' => {
+  getWebGLSupport: (): "webgl2" | "webgl" | "none" => {
     const browser = detectBrowser();
 
     if (browser.supports.webgl2) {
-      return 'webgl2';
+      return "webgl2";
     } else if (browser.supports.webgl) {
-      return 'webgl';
+      return "webgl";
     } else {
-      return 'none';
+      return "none";
     }
   },
 
   // Get appropriate storage mechanism
-  getStorageMechanism: (): 'indexeddb' | 'localstorage' | 'memory' => {
+  getStorageMechanism: (): "indexeddb" | "localstorage" | "memory" => {
     const browser = detectBrowser();
 
     if (browser.supports.indexedDB) {
-      return 'indexeddb';
+      return "indexeddb";
     } else if (browser.supports.localStorage) {
-      return 'localstorage';
+      return "localstorage";
     } else {
-      return 'memory';
+      return "memory";
     }
   },
 };
@@ -314,7 +351,7 @@ export class PolyfillManager {
     }
 
     return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = url;
       script.onload = () => {
         this.loadedPolyfills.add(name);
@@ -327,28 +364,29 @@ export class PolyfillManager {
 
   static async loadRequiredPolyfills(): Promise<void> {
     const browser = detectBrowser();
-    const polyfills: Array<{ name: string; url: string; condition: boolean }> = [
-      {
-        name: 'intersection-observer',
-        url: 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver',
-        condition: !browser.supports.intersectionObserver,
-      },
-      {
-        name: 'resize-observer',
-        url: 'https://polyfill.io/v3/polyfill.min.js?features=ResizeObserver',
-        condition: !browser.supports.resizeObserver,
-      },
-      {
-        name: 'request-idle-callback',
-        url: 'https://polyfill.io/v3/polyfill.min.js?features=requestIdleCallback',
-        condition: !browser.supports.requestIdleCallback,
-      },
-      {
-        name: 'web-animations',
-        url: 'https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js',
-        condition: !browser.supports.webAnimations,
-      },
-    ];
+    const polyfills: Array<{ name: string; url: string; condition: boolean }> =
+      [
+        {
+          name: "intersection-observer",
+          url: "https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver",
+          condition: !browser.supports.intersectionObserver,
+        },
+        {
+          name: "resize-observer",
+          url: "https://polyfill.io/v3/polyfill.min.js?features=ResizeObserver",
+          condition: !browser.supports.resizeObserver,
+        },
+        {
+          name: "request-idle-callback",
+          url: "https://polyfill.io/v3/polyfill.min.js?features=requestIdleCallback",
+          condition: !browser.supports.requestIdleCallback,
+        },
+        {
+          name: "web-animations",
+          url: "https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js",
+          condition: !browser.supports.webAnimations,
+        },
+      ];
 
     const promises = polyfills
       .filter((polyfill: any) => polyfill.condition)
@@ -366,7 +404,7 @@ export class PolyfillManager {
 export const featureDetection = {
   // Check CSS feature support
   supportsCSS: (property: string, value?: string): boolean => {
-    const testElement = document.createElement('div');
+    const testElement = document.createElement("div");
     if (value) {
       testElement.style.setProperty(property, value);
       return testElement.style.getPropertyValue(property) === value;
@@ -379,26 +417,26 @@ export const featureDetection = {
   supportsJS: (feature: string): boolean => {
     try {
       switch (feature) {
-        case 'es6':
-          new Function('const a = 1; return a;')();
+        case "es6":
+          new Function("const a = 1; return a;")();
           return true;
-        case 'async-await':
-          new Function('async function test() { await Promise.resolve(); }')();
+        case "async-await":
+          new Function("async function test() { await Promise.resolve(); }")();
           return true;
-        case 'promises':
-          return 'Promise' in window;
-        case 'fetch':
-          return 'fetch' in window;
-        case 'proxy':
-          return 'Proxy' in window;
-        case 'map':
-          return 'Map' in window;
-        case 'set':
-          return 'Set' in window;
-        case 'weakmap':
-          return 'WeakMap' in window;
-        case 'weakset':
-          return 'WeakSet' in window;
+        case "promises":
+          return "Promise" in window;
+        case "fetch":
+          return "fetch" in window;
+        case "proxy":
+          return "Proxy" in window;
+        case "map":
+          return "Map" in window;
+        case "set":
+          return "Set" in window;
+        case "weakmap":
+          return "WeakMap" in window;
+        case "weakset":
+          return "WeakSet" in window;
         default:
           return false;
       }
@@ -410,22 +448,22 @@ export const featureDetection = {
   // Check API support
   supportsAPI: (api: string): boolean => {
     switch (api) {
-      case 'geolocation':
-        return 'geolocation' in navigator;
-      case 'notifications':
-        return 'Notification' in window;
-      case 'service-worker':
-        return 'serviceWorker' in navigator;
-      case 'web-share':
-        return 'share' in navigator;
-      case 'vibration':
-        return 'vibrate' in navigator;
-      case 'battery':
-        return 'getBattery' in navigator;
-      case 'device-orientation':
-        return 'DeviceOrientationEvent' in window;
-      case 'device-motion':
-        return 'DeviceMotionEvent' in window;
+      case "geolocation":
+        return "geolocation" in navigator;
+      case "notifications":
+        return "Notification" in window;
+      case "service-worker":
+        return "serviceWorker" in navigator;
+      case "web-share":
+        return "share" in navigator;
+      case "vibration":
+        return "vibrate" in navigator;
+      case "battery":
+        return "getBattery" in navigator;
+      case "device-orientation":
+        return "DeviceOrientationEvent" in window;
+      case "device-motion":
+        return "DeviceMotionEvent" in window;
       default:
         return false;
     }
@@ -448,21 +486,23 @@ export const featureDetection = {
   // Check if running in WebView
   isInWebView: (): boolean => {
     const ua = navigator.userAgent;
-    return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(ua) ||
-           /\bwv\b/.test(ua) ||
-           /Android.*Version\/\d+\.\d+/i.test(ua);
+    return (
+      /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(ua) ||
+      /\bwv\b/.test(ua) ||
+      /Android.*Version\/\d+\.\d+/i.test(ua)
+    );
   },
 
   // Check connection quality
-  getConnectionQuality: (): 'slow' | 'fast' | 'unknown' => {
+  getConnectionQuality: (): "slow" | "fast" | "unknown" => {
     const connection = (navigator as any).connection;
-    if (!connection) return 'unknown';
+    if (!connection) return "unknown";
 
     const effectiveType = connection.effectiveType;
-    if (effectiveType === 'slow-2g' || effectiveType === '2g') {
-      return 'slow';
+    if (effectiveType === "slow-2g" || effectiveType === "2g") {
+      return "slow";
     } else {
-      return 'fast';
+      return "fast";
     }
   },
 };
@@ -474,10 +514,10 @@ export const browserOptimizations = {
     // Fix backdrop-filter performance
     optimizeBackdropFilter: () => {
       const browser = detectBrowser();
-      if (browser.name === 'Safari' && browser.version < 15) {
+      if (browser.name === "Safari" && browser.version < 15) {
         return {
-          willChange: 'transform',
-          transform: 'translateZ(0)',
+          willChange: "transform",
+          transform: "translateZ(0)",
         };
       }
       return {};
@@ -497,7 +537,7 @@ export const browserOptimizations = {
     // Fix backdrop-filter support
     optimizeBackdropFilter: () => {
       const browser = detectBrowser();
-      if (browser.name === 'Firefox' && browser.version < 70) {
+      if (browser.name === "Firefox" && browser.version < 70) {
         return createGlassStyle({ intent: "neutral", elevation: "level2" });
       }
       return {};
@@ -511,10 +551,10 @@ export const browserOptimizations = {
       const browser = detectBrowser();
       if (browser.mobile) {
         return {
-          WebkitTapHighlightColor: 'transparent',
-          WebkitTouchCallout: 'none',
-          WebkitUserSelect: 'none',
-          touchAction: 'manipulation',
+          WebkitTapHighlightColor: "transparent",
+          WebkitTouchCallout: "none",
+          WebkitUserSelect: "none",
+          touchAction: "manipulation",
         };
       }
       return {};
@@ -525,8 +565,8 @@ export const browserOptimizations = {
       const browser = detectBrowser();
       if (browser.mobile) {
         return {
-          willChange: 'transform',
-          transform: 'translateZ(0)',
+          willChange: "transform",
+          transform: "translateZ(0)",
         };
       }
       return {};

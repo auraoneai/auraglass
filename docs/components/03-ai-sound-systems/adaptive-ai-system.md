@@ -2,7 +2,7 @@
 Machine learning-driven UI optimization and personalization.
 
 ```tsx
-import { adaptiveAI, useAdaptiveAI } from '@aura/aura-glass';
+import { adaptiveAI, useAdaptiveAI } from 'aura-glass';
 
 // Using adaptive AI directly
 const insights = adaptiveAI.getInsights();

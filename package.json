@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,6 +51,11 @@
       "import": "./dist/ssr/index.mjs",
       "require": "./dist/ssr/index.js"
     },
+    "./three": {
+      "types": "./dist/three/index.d.ts",
+      "import": "./dist/three/index.mjs",
+      "require": "./dist/three/index.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -86,6 +91,10 @@
     "test:tokens:exports:cjs": "jest tests/tokens/export.test.ts",
     "test:tokens:exports:esm": "node tests/tokens/export.spec.mjs",
     "test:tokens:exports": "npm run build:tokens && npm run test:tokens:exports:cjs && npm run test:tokens:exports:esm",
+    "test:types": "npm run build && tsc --noEmit -p tests/types/tsconfig.json",
+    "test:exports:cjs": "jest tests/exports/package-exports.test.ts",
+    "test:exports:esm": "node tests/exports/package-exports.spec.mjs",
+    "test:exports": "npm run build && npm run test:exports:cjs && npm run test:exports:esm",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:a11y": "jest --testPathPattern=a11y",
@@ -110,7 +119,7 @@
     "glass:validate-persona-css": "node scripts/generate-persona-css-runner.js --check",
     "glass:validate": "node scripts/verify-glass-pipeline.js",
     "glass:visual-tests": "node scripts/glass-visual-test-generator.js",
-    "glass:full-check": "npm run typecheck && npm run lint:check && npm run lint:tokens && npm run lint:styles && npm run glass:validate-persona-css && npm run glass:validate && npm run test:glass-contrast && npm run test:tokens:exports",
+    "glass:full-check": "npm run typecheck && npm run lint:check && npm run lint:tokens && npm run lint:styles && npm run glass:validate-persona-css && npm run glass:validate && npm run test:glass-contrast && npm run test:tokens:exports && npm run test:exports && npm run test:types",
     "codemod:tw-to-glass": "node scripts/codemods/tw-to-glass.js",
     "audit:ux": "npm run codemod:tw-to-glass && npm run lint:check && npm run lint:tokens && npm run lint:styles && npm run test:visual:ci",
     "audit:components": "node scripts/audit/universal-glass-audit.js",
@@ -154,8 +163,8 @@
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.0",
-    "@react-three/drei": "^9.40.0",
-    "@react-three/fiber": "^8.15.0",
+    "@react-three/drei": "^9.4.0",
+    "@react-three/fiber": "^9.4.0",
     "@sentry/react": "^7.100.0",
     "framer-motion": ">=10.0.0",
     "lucide-react": "^0.400.0",
@@ -163,7 +172,7 @@
     "react-chartjs-2": "^5.0.0",
     "react-dom": ">=18.0.0",
     "react-hook-form": "^7.0.0",
-    "three": "^0.150.0 || ^0.160.0"
+    "three": "^0.170.0"
   },
   "peerDependenciesMeta": {
     "@radix-ui/react-dropdown-menu": {
@@ -209,8 +218,8 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
-    "@react-three/drei": "^9.114.3",
-    "@react-three/fiber": "^8.17.10",
+    "@react-three/drei": "^9.4.0",
+    "@react-three/fiber": "^9.4.0",
     "@rollup/plugin-babel": "^6.1.0",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
@@ -281,7 +290,6 @@
     "zod": "^3.22.0"
   },
   "overrides": {
-    "react-reconciler": "0.27.0",
     "scheduler": "^0.23.0"
   },
   "bundlesize": [

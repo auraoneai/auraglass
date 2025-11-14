@@ -8,7 +8,7 @@ import {
   GlassBiometricDashboard,
   useBiometricAdaptation,
   biometricAdaptationPresets
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Setup biometric monitoring
 <GlassBiometricAdaptationProvider settings={biometricAdaptationPresets.sensitive}>

@@ -19,7 +19,7 @@ AuroraPro creates mesmerizing aurora borealis (northern lights) effects with adv
 ## 📚 Basic Usage
 
 ```tsx
-import { AuroraPro } from '@aura/aura-glass';
+import { AuroraPro } from 'aura-glass';
 
 function AuroraBackground() {
   return (

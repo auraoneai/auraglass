@@ -3,7 +3,7 @@
 Advanced chart component with physics-based interactions, accessibility features, and comprehensive customization options.
 
 ```tsx
-import { GlassDataChartProps } from '@aura/aura-glass';
+import { GlassDataChartProps } from 'aura-glass';
 
 const chartData = {
   labels: ['January', 'February', 'March', 'April', 'May'],

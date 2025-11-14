@@ -3,7 +3,7 @@
 Backward compatibility wrapper for GlassCheckbox component.
 
 ```tsx
-import { GlassCheckboxUI } from '@aura/aura-glass';
+import { GlassCheckboxUI } from 'aura-glass';
 
 <GlassCheckboxUI
   checked={isChecked}

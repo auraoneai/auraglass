@@ -54,7 +54,7 @@ Wrapper Components
 The foundation button component with comprehensive features.
 
 ```tsx
-import { GlassButton } from '@aura/aura-glass';
+import { GlassButton } from 'aura-glass';
 
 <GlassButton
   variant="primary"
@@ -79,7 +79,7 @@ import { GlassButton } from '@aura/aura-glass';
 Advanced button with multiple physics engines and AI systems.
 
 ```tsx
-import { EnhancedGlassButton } from '@aura/aura-glass';
+import { EnhancedGlassButton } from 'aura-glass';
 
 <EnhancedGlassButton
   enhancedFeatures={{
@@ -118,7 +118,7 @@ import { EnhancedGlassButton } from '@aura/aura-glass';
 Button with magnetic cursor attraction effects.
 
 ```tsx
-import { MagneticButton } from '@aura/aura-glass';
+import { MagneticButton } from 'aura-glass';
 
 <MagneticButton
   magneticStrength={0.8}
@@ -136,7 +136,7 @@ import { MagneticButton } from '@aura/aura-glass';
 Button wrapper that adds ripple visual feedback.
 
 ```tsx
-import { RippleButton } from '@aura/aura-glass';
+import { RippleButton } from 'aura-glass';
 
 <RippleButton
   rippleColor="primary"

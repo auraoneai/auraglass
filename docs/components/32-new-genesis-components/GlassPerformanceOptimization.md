@@ -26,7 +26,7 @@ import {
   BatteryAwareGlass,
   ProgressiveGlassEnhancement,
   GlassPerformanceMonitor
-} from '@aura/aura-glass'
+} from 'aura-glass'
 
 // Wrap your app with the provider
 function App() {

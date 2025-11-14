@@ -18,7 +18,7 @@ SeasonalParticles creates beautiful, realistic particle effects that simulate na
 ## 📚 Basic Usage
 
 ```tsx
-import { SeasonalParticles } from '@aura/aura-glass';
+import { SeasonalParticles } from 'aura-glass';
 
 function SeasonalBackground() {
   return (

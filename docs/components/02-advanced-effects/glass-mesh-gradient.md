@@ -2,7 +2,7 @@
 Ambient animated mesh gradients with glass overlay effects.
 
 ```tsx
-import { GlassMeshGradient, GlassMeshBackground, meshGradientPresets } from '@aura/aura-glass';
+import { GlassMeshGradient, GlassMeshBackground, meshGradientPresets } from 'aura-glass';
 
 <GlassMeshGradient
   colors={['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b']}

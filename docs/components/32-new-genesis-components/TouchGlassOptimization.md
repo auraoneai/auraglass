@@ -23,7 +23,7 @@ import {
   AdaptiveGlassDensity,
   TouchRippleEffects,
   MobileGlassBottomSheet
-} from '@aura/aura-glass'
+} from 'aura-glass'
 
 // Basic touch-optimized glass
 function TouchComponent() {

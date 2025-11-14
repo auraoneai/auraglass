@@ -3,7 +3,7 @@
 Initialize AuraGlass with production configuration for optimal performance:
 
 ```tsx
-import { initializeAuraGlass, productionUtils } from '@aura/aura-glass';
+import { initializeAuraGlass, productionUtils } from 'aura-glass';
 
 // Initialize production system
 await initializeAuraGlass({

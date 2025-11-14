@@ -75,7 +75,7 @@ HoudiniGlassProvider
 ### Basic Implementation
 
 ```tsx
-import { HoudiniGlassProvider } from '@aura/aura-glass';
+import { HoudiniGlassProvider } from 'aura-glass';
 
 function App() {
   return (
@@ -91,7 +91,7 @@ function App() {
 ### Advanced Configuration
 
 ```tsx
-import { HoudiniGlassProvider, useHoudiniGlass } from '@aura/aura-glass';
+import { HoudiniGlassProvider, useHoudiniGlass } from 'aura-glass';
 
 function AdvancedApp() {
   return (
@@ -135,7 +135,7 @@ function HoudiniGlassContent() {
 ### Component-Specific Effects
 
 ```tsx
-import { useGlassEffect } from '@aura/aura-glass';
+import { useGlassEffect } from 'aura-glass';
 
 function GlassCard({ children }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -343,7 +343,7 @@ const fallbackStyles = `
 ### With Design Systems
 
 ```tsx
-import { HoudiniGlassProvider } from '@aura/aura-glass';
+import { HoudiniGlassProvider } from 'aura-glass';
 import { ThemeProvider } from './design-system';
 
 function DesignSystemApp() {
@@ -619,7 +619,7 @@ import {
   HoudiniGlassCard,
   useHoudiniGlass,
   glassPresets
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 function CompleteHoudiniApp() {
   const [selectedPreset, setSelectedPreset] = useState('standard');

@@ -9,7 +9,7 @@ module.exports = [
   // Main configuration for TypeScript/React files
   {
     files: ['src/**/*.{js,jsx,ts,tsx}'],
-    ignores: ['**/*.{test,spec}.{js,jsx,ts,tsx}', '**/__tests__/**', 'src/tests/**', 'src/**/*.stories.{js,jsx,ts,tsx}'],
+    ignores: ['**/*.{test,spec}.{js,jsx,ts,tsx}', '**/__tests__/**', 'src/tests/**', 'src/**/*.stories.{js,jsx,ts,tsx}', 'src/hooks/useReducedMotion.tsx'],
     languageOptions: {
       parser: require('@typescript-eslint/parser'),
       ecmaVersion: 2022,

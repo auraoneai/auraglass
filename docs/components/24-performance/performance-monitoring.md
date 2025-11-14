@@ -2,7 +2,7 @@
 Real-time performance monitoring with adaptive quality adjustment.
 
 ```tsx
-import { PerformanceMonitor, AdaptiveQuality } from '@aura/aura-glass';
+import { PerformanceMonitor, AdaptiveQuality } from 'aura-glass';
 
 // Get performance monitor instance
 const monitor = PerformanceMonitor.getInstance();

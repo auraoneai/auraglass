@@ -2,7 +2,7 @@
 Interactive magnetic cursor with glass effects.
 
 ```tsx
-import { GlassMagneticCursor, GlassMagneticWrapper, useMagneticCursor } from '@aura/aura-glass';
+import { GlassMagneticCursor, GlassMagneticWrapper, useMagneticCursor } from 'aura-glass';
 
 // Global magnetic cursor
 <GlassMagneticCursor

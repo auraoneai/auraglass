@@ -2,7 +2,7 @@
   position: relative;
   display: inline-block;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: var(--glass-radius-md, 8px);
 }
 
 .ripples {
@@ -15,7 +15,10 @@
 .ripple {
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(var(--ripple-color-rgb, 255, 255, 255), 0.3);
+  background-color: var(
+    --glass-ripple-button-bg,
+    rgba(var(--ripple-color-rgb, 255, 255, 255), 0.3)
+  );
   transform: scale(0);
   pointer-events: none;
   animation-name: auraRippleButton;

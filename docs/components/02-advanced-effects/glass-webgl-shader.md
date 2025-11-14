@@ -2,7 +2,7 @@
 WebGL-powered glass shaders with GPU acceleration.
 
 ```tsx
-import { GlassWebGLShader } from '@aura/aura-glass';
+import { GlassWebGLShader } from 'aura-glass';
 
 <GlassWebGLShader
   variant="refraction"         // 'refraction' | 'dispersion' | 'frosted' | 'crystal' | 'prism'

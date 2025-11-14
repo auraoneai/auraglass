@@ -477,7 +477,7 @@ All glass animations automatically respect `prefers-reduced-motion`:
 AuraGlass utilities are tree-shakeable:
 ```css
 /* Only used utilities are included in final bundle */
-@import '@aura/aura-glass/utilities'; /* Tree-shaken automatically */
+@import 'aura-glass/utilities'; /* Tree-shaken automatically */
 ```
 
 ## 🚀 Advanced Usage
@@ -492,7 +492,7 @@ element.className += ` glass-elev-${elevationLevel}`;
 
 ### CSS-in-JS Integration
 ```javascript
-import { createGlassStyle } from '@aura/aura-glass';
+import { createGlassStyle } from 'aura-glass';
 
 const dynamicGlass = createGlassStyle({
   elevation: 'level2',

@@ -57,7 +57,7 @@ import {
   GlassShatterEffects,
   SeasonalParticles,
   AuroraPro
-} from '@aura/aura-glass';
+} from 'aura-glass';
 
 // Basic AR experience
 <ARGlassEffects

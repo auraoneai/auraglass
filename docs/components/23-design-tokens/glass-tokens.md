@@ -2,7 +2,7 @@
 Comprehensive glassmorphism design tokens for consistent styling.
 
 ```tsx
-import { glassTokens, glassUtils } from '@aura/aura-glass';
+import { glassTokens, glassUtils } from 'aura-glass';
 
 // Use predefined glass variants
 const frostedStyle = glassUtils.getVariant('frosted');

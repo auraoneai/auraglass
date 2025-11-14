@@ -2,7 +2,7 @@
 Device detection and capability-based optimization.
 
 ```tsx
-import { detectDevice, deviceOptimizations } from '@aura/aura-glass';
+import { detectDevice, deviceOptimizations } from 'aura-glass';
 
 // Detect device capabilities
 const device = detectDevice();

@@ -61,7 +61,10 @@
 .ripple {
   position: absolute;
   border-radius: 50%;
-  background: rgba(var(--feedback-color-rgb, 255, 255, 255), 0.3);
+  background: var(
+    --glass-visual-feedback-ripple-bg,
+    rgba(var(--feedback-color-rgb, 255, 255, 255), 0.3)
+  );
   transform: scale(0);
   pointer-events: none;
   animation-name: auraRipple;
@@ -86,13 +89,25 @@
 
 @keyframes auraGlow {
   0% {
-    box-shadow: 0 0 0 0 rgba(var(--feedback-color-rgb, 99, 102, 241), 0.12);
+    box-shadow: var(
+      --glass-elev-feedback-glow-base,
+      0 0 0 0 rgba(var(--feedback-color-rgb, 99, 102, 241), 0.12)
+        /* token-lint-ignore */
+    );
   }
   50% {
-    box-shadow: 0 0 20px 8px rgba(var(--feedback-color-rgb, 99, 102, 241), 0.18);
+    box-shadow: var(
+      --glass-elev-feedback-glow-active,
+      0 0 20px 8px rgba(var(--feedback-color-rgb, 99, 102, 241), 0.18)
+        /* token-lint-ignore */
+    );
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(var(--feedback-color-rgb, 99, 102, 241), 0.12);
+    box-shadow: var(
+      --glass-elev-feedback-glow-base,
+      0 0 0 0 rgba(var(--feedback-color-rgb, 99, 102, 241), 0.12)
+        /* token-lint-ignore */
+    );
   }
 }
 

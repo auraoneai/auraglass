@@ -17,7 +17,7 @@ The `IntelligentColorSystem` is a revolutionary AI-powered color adaptation syst
 ## Usage
 
 ```tsx
-import { IntelligentColorProvider, useIntelligentColor, ColorAdaptationDemo } from '@aura/aura-glass'
+import { IntelligentColorProvider, useIntelligentColor, ColorAdaptationDemo } from 'aura-glass'
 
 // Wrap your app with the provider
 function App() {

@@ -2,7 +2,7 @@
 Glassmorphic particle system with interactive behaviors.
 
 ```tsx
-import { GlassParticles, GlassParticleEmitter, particlePresets } from '@aura/aura-glass';
+import { GlassParticles, GlassParticleEmitter, particlePresets } from 'aura-glass';
 
 <GlassParticles
   count={50}                    // Number of particles

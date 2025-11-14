@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassContextAware Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassContextAware } from '@/components/advanced/GlassContextAware';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassContextAware } from "@/components/advanced/GlassContextAware";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassContextAware', () => {
+describe("GlassContextAware", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassContextAware />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +32,16 @@ describe('GlassContextAware', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassContextAware />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassContextAware
         className="custom-class"
@@ -55,17 +49,20 @@ describe('GlassContextAware', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glasscontextaware"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscontextaware"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
-   * Snapshot Test: Matches snapshot
+   * Telemetry Overlay: Renders contextual metrics overlay
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassContextAware />);
-    expect(container.firstChild).toMatchSnapshot();
+  it("renders contextual metrics overlay", () => {
+    render(<GlassContextAware />);
+
+    const taskLabel = screen.getByText(/Task:/i);
+    expect(taskLabel).toBeInTheDocument();
   });
 });

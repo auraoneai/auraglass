@@ -2,7 +2,7 @@
 Advanced data sorting with multiple criteria and search capabilities.
 
 ```tsx
-import { useSortableData } from '@aura/aura-glass';
+import { useSortableData } from 'aura-glass';
 
 function SortableTable({ data }) {
   const {

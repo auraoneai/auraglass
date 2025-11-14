@@ -101,6 +101,8 @@ const getPlugins = (extractCss = true) => [
     typescript({
         tsconfig: './tsconfig.json',
         useTsconfigDeclarationDir: true,
+        cacheRoot: './.rpt2_cache',
+        clean: true,
         tsconfigOverride: {
             compilerOptions: {
                 declaration: true,
@@ -132,17 +134,23 @@ export default [
     // Main bundle
     {
         input: 'src/index.ts',
+        // NOTE: inlineDynamicImports=true ensures each entry builds as a single-file bundle
+        // even when we use dynamic imports for R3F/AR effects. This avoids multi-chunk
+        // library imports that can break consumers' bundlers (Next.js, Vite, Webpack)
+        // while still allowing internal code-splitting at the app level.
         output: [
             {
                 file: 'dist/index.js',
                 format: 'cjs',
                 sourcemap: true,
                 exports: 'named',
+                inlineDynamicImports: true,
             },
             {
                 file: 'dist/index.mjs',
                 format: 'esm',
                 sourcemap: true,
+                inlineDynamicImports: true,
             },
         ],
         external: isExternal,
@@ -157,11 +165,13 @@ export default [
                 format: 'cjs',
                 sourcemap: true,
                 exports: 'named',
+                inlineDynamicImports: true,
             },
             {
                 file: 'dist/registry/index.mjs',
                 format: 'esm',
                 sourcemap: true,
+                inlineDynamicImports: true,
             },
         ],
         external: (id) => id === 'next/navigation' || isExternal(id), // Also externalize next/navigation
@@ -176,11 +186,13 @@ export default [
                 format: 'cjs',
                 sourcemap: true,
                 exports: 'named',
+                inlineDynamicImports: true,
             },
             {
                 file: 'dist/ssr/index.mjs',
                 format: 'esm',
                 sourcemap: true,
+                inlineDynamicImports: true,
             },
         ],
         external: isExternal,
@@ -195,11 +207,34 @@ export default [
                 format: 'cjs',
                 sourcemap: true,
                 exports: 'named',
+                inlineDynamicImports: true,
             },
             {
                 file: 'dist/server/index.mjs',
                 format: 'esm',
                 sourcemap: true,
+                inlineDynamicImports: true,
+            },
+        ],
+        external: isExternal,
+        plugins: getPlugins(false),
+    },
+    // Three / R3F bundle (3D effects only)
+    {
+        input: 'src/three/index.ts',
+        output: [
+            {
+                file: 'dist/three/index.js',
+                format: 'cjs',
+                sourcemap: true,
+                exports: 'named',
+                inlineDynamicImports: true,
+            },
+            {
+                file: 'dist/three/index.mjs',
+                format: 'esm',
+                sourcemap: true,
+                inlineDynamicImports: true,
             },
         ],
         external: isExternal,
