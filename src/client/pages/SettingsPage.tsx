@@ -121,7 +121,7 @@ export const SettingsPage: React.FC = () => {
           title="Theme & Appearance"
           description="Control color mode, glass intensity, contrast and density."
         />
-        <div className='auraglass-settings-grid'>
+        <div className='auraglass-settings-glass-grid'>
           <SelectGroup
             label="Theme mode"
             value={settings.themeMode}
@@ -155,7 +155,7 @@ export const SettingsPage: React.FC = () => {
           title="Motion & Interaction"
           description="Tune motion to align with your comfort and system preferences."
         />
-        <div className='auraglass-settings-grid'>
+        <div className='auraglass-settings-glass-grid'>
           <SelectGroup
             label="Motion level"
             value={settings.reducedMotion}
@@ -171,7 +171,7 @@ export const SettingsPage: React.FC = () => {
           title="Accessibility"
           description="Improve legibility and focus visibility."
         />
-        <div className='auraglass-settings-grid'>
+        <div className='auraglass-settings-glass-grid'>
           <SelectGroup
             label="Text size"
             value={settings.fontScale}
@@ -193,7 +193,7 @@ export const SettingsPage: React.FC = () => {
           title="Language & locale"
           description="Used for localization-sensitive components."
         />
-        <div className='auraglass-settings-grid'>
+        <div className='auraglass-settings-glass-grid'>
           <SelectGroup
             label="Locale"
             value={settings.locale}
@@ -209,7 +209,7 @@ export const SettingsPage: React.FC = () => {
           title="Experiments"
           description="Toggle experimental Auraglass capabilities."
         />
-        <div className='auraglass-settings-grid'>
+        <div className='auraglass-settings-glass-grid'>
           <ToggleRow
             label="Quantum glass effects"
             description="Enable experimental high-fidelity glass rendering."

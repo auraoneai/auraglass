@@ -480,7 +480,7 @@ export function GlassWebGLShader({
     >
       <canvas
         ref={canvasRef}
-        className='absolute inset-0 glass-w-full glass-h-full'
+        className='glass-absolute glass-inset-0 glass-w-full glass-h-full'
         width={800}
         height={600}
       />

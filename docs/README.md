@@ -25,6 +25,40 @@ export function PersonaPlayground({ children }: { children: React.ReactNode }) {
 }
 ```
 
+## 🌟 What's New in v2.16.2
+
+### Package Exports Enhancement
+- ✅ **Complete Export Coverage** - Added missing subpath exports for all documented import paths
+- 📦 **New Exports Added**:
+  - `aura-glass/core/mixins/glassMixins` - Core glass styling API (`createGlassStyle`)
+  - `aura-glass/utils/env` - SSR environment helpers (`isBrowser`, `safeBrowserExec`)
+  - `aura-glass/hooks/useGlassProbes` - Glass style probes hook
+  - `aura-glass/services/ai/openai-service` - OpenAI service integration
+  - `aura-glass/services/ai/vision-service` - Vision service integration
+  - `aura-glass/services/websocket/collaboration-service` - WebSocket collaboration service
+- 🎯 **Token CSS Exports** - Added exports for `aura-glass/tokens/css` and `aura-glass/tokens/keyframes`
+- ✅ **Documentation-Driven** - All exports now match documented import patterns in the codebase
+
+### Usage Examples
+```tsx
+// Core glass mixins
+import { createGlassStyle } from 'aura-glass/core/mixins/glassMixins';
+
+// SSR helpers
+import { isBrowser, safeBrowserExec } from 'aura-glass/utils/env';
+
+// AI services
+import { OpenAIService } from 'aura-glass/services/ai/openai-service';
+import { VisionService } from 'aura-glass/services/ai/vision-service';
+
+// Collaboration
+import { CollaborationService } from 'aura-glass/services/websocket/collaboration-service';
+
+// Token CSS
+import 'aura-glass/tokens/css';
+import 'aura-glass/tokens/keyframes';
+```
+
 ## 🌟 What's New in v2.1.5
 
 ### React 18/19 + 3D Effects Compatibility

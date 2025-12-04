@@ -68,7 +68,7 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
           className={cn(
             "glass-label",
             "font-medium leading-none transition-colors duration-200",
-            "peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+            "peer-glass-disabled-cursor-not-allowed peer-disabled:opacity-70",
 
             // Size
             sizeConfig[size],
@@ -89,13 +89,13 @@ export const GlassLabel = forwardRef<HTMLLabelElement, GlassLabelProps>(
           )}
           {...props}
         >
-          {icon && <span className='shrink-0'>{icon}</span>}
+          {icon && <span className='glass-shrink-0'>{icon}</span>}
 
           <span>
             {children}
             {required && (
               <span
-                className='text-destructive glass-ml-1'
+                className='glass-text-danger glass-ml-1'
                 aria-label="required"
               >
                 *

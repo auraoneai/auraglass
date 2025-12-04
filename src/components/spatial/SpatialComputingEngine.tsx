@@ -179,7 +179,7 @@ const detectSpatialContext = (): SpatialContext => {
 
 export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
   children,
-  className = "",
+  className="",
   position = {},
   bounds,
   enableGestures = true,

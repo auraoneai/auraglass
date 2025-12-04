@@ -39,12 +39,12 @@ export function GlassCoachmarks({
       {...props}
     >
       <div
-        className='absolute inset-0 glass-surface-dark/60'
+        className='glass-absolute glass-inset-0 glass-surface-dark/60'
         onClick={onClose}
       />
-      <div className='absolute inset-x-0 bottom-10 glass-mx-auto glass-w-full max-w-xl'>
-        <div className='glass-radius-2xl glass-surface-subtle/10 glass-border glass-border-white/20 glass-p-4 glass-mx-4 text-primary'>
-          <div className='mb-3'>{step.content}</div>
+      <div className='glass-absolute glass-inset-x-0 glass-bottom-10 glass-mx-auto glass-w-full glass-max-w-xl'>
+        <div className='glass-radius-2xl glass-surface-subtle/10 glass-border glass-border-white/20 glass-p-4 glass-mx-4 glass-text-primary'>
+          <div className='glass-mb-3'>{step.content}</div>
           <div className="glass-flex glass-justify-between">
             <button
               className="glass-px-3 glass-py-1 glass-radius-md glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
@@ -61,7 +61,7 @@ export function GlassCoachmarks({
                 Close
               </button>
               <button
-                className='glass-px-3 glass-py-1 glass-radius-md glass-surface-blue text-primary glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-px-3 glass-py-1 glass-radius-md glass-surface-blue glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
                 onClick={onNext}
               >
                 Next

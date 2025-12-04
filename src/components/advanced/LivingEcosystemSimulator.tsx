@@ -137,30 +137,30 @@ export function LivingEcosystemSimulator({
     >
       <header className="glass-flex glass-flex-wrap glass-items-end glass-justify-between glass-gap-4">
         <div>
-          <h2 className='glass-text-xl font-semibold text-primary'>{title}</h2>
-          <p className='glass-text-sm text-primary/70'>
+          <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>{title}</h2>
+          <p className='glass-text-sm glass-text-primary-opacity-70'>
             Real-time biosphere telemetry across layered habitats.
           </p>
         </div>
-        <dl className='glass-flex glass-gap-6 glass-text-sm text-primary/80'>
+        <dl className='glass-flex glass-gap-6 glass-text-sm glass-text-primary-glass-opacity-80'>
           <div>
-            <dt className='uppercase tracking-wide glass-text-xs text-primary/50'>
+            <dt className='glass-uppercase glass-tracking-wide glass-text-xs glass-text-primary-glass-opacity-50'>
               Avg. Health
             </dt>
-            <dd className='glass-text-lg font-semibold text-primary'>
+            <dd className='glass-text-lg glass-font-semibold glass-text-primary'>
               {aggregate.averageHealth}%
             </dd>
           </div>
           <div>
-            <dt className='uppercase tracking-wide glass-text-xs text-primary/50'>
+            <dt className='glass-uppercase glass-tracking-wide glass-text-xs glass-text-primary-glass-opacity-50'>
               Bio-Diversity
             </dt>
-            <dd className='glass-text-lg font-semibold text-primary'>
+            <dd className='glass-text-lg glass-font-semibold glass-text-primary'>
               {(aggregate.averageBiodiversity * 100).toFixed(0)}%
             </dd>
           </div>
           <div>
-            <dt className='uppercase tracking-wide glass-text-xs text-primary/50'>
+            <dt className='glass-uppercase glass-tracking-wide glass-text-xs glass-text-primary-glass-opacity-50'>
               Critical Zones
             </dt>
             <dd
@@ -175,7 +175,7 @@ export function LivingEcosystemSimulator({
         </dl>
       </header>
 
-      <div className='glass-grid glass-gap-4 md:grid-cols-2'>
+      <div className='glass-grid glass-gap-4 md:glass-grid-cols-2'>
         {normalizedLayers.map((layer) => {
           const isCritical = layer.health <= highlightThreshold;
           return (
@@ -194,21 +194,21 @@ export function LivingEcosystemSimulator({
             >
               <div className="glass-flex glass-items-start glass-justify-between glass-gap-4">
                 <div>
-                  <h3 className='glass-text-lg font-medium text-primary'>
+                  <h3 className='glass-text-lg glass-font-medium glass-text-primary'>
                     {layer.name}
                   </h3>
-                  <p className='glass-text-xs text-primary/60 max-w-xs'>
+                  <p className='glass-text-xs glass-text-primary-glass-opacity-60 glass-max-w-xs'>
                     {layer.description}
                   </p>
                 </div>
-                <span className='glass-text-sm font-semibold text-primary/90'>
+                <span className='glass-text-sm glass-font-semibold glass-text-primary-glass-opacity-90'>
                   {statusLabel[layer.status ?? "stable"]}
                 </span>
               </div>
 
-              <div className='mt-4 space-y-3'>
+              <div className='glass-mt-4 glass-space-y-3'>
                 <div>
-                  <div className='glass-flex glass-items-center glass-justify-between glass-text-xs text-primary/60'>
+                  <div className='glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-60'>
                     <span>Habitat Health</span>
                     <span
                       className={cn(
@@ -219,7 +219,7 @@ export function LivingEcosystemSimulator({
                       {layer.health}%
                     </span>
                   </div>
-                  <div className='mt-2 h-2 glass-w-full overflow-hidden glass-radius-full glass-surface-subtle/10'>
+                  <div className='glass-mt-2 glass-h-2 glass-w-full glass-overflow-hidden glass-radius-full glass-surface-subtle/10'>
                     <div
                       className={cn(
                         "h-full rounded-full transition-all",
@@ -231,16 +231,16 @@ export function LivingEcosystemSimulator({
                 </div>
 
                 {layer.biodiversity !== undefined && (
-                  <div className='glass-flex glass-items-center glass-justify-between glass-text-xs text-primary/60'>
+                  <div className='glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-60'>
                     <span>Biodiversity Index</span>
-                    <span className='font-semibold text-primary/80'>
+                    <span className='glass-font-semibold glass-text-primary-glass-opacity-80'>
                       {(layer.biodiversity * 100).toFixed(0)}%
                     </span>
                   </div>
                 )}
 
                 {typeof layer.trend === "number" && (
-                  <div className='glass-text-xs text-primary/60'>
+                  <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
                     Trend:{" "}
                     <span
                       className={

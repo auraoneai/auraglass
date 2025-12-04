@@ -307,7 +307,7 @@ export function GlassReactions({
       {children}
 
       {/* Reactions overlay */}
-      <div className='absolute inset-0 pointer-events-none overflow-hidden'>
+      <div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-overflow-hidden'>
         <AnimatePresence>
           {allReactions.map((reaction: any) => (
             <ReactionComponent
@@ -338,7 +338,7 @@ export function GlassReactions({
 
       {/* Keyboard shortcuts hint */}
       {enableShortcuts && (
-        <div className='absolute bottom-2 right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50'>
+        <div className='glass-absolute glass-bottom-2 glass-right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50'>
           Press 1-{reactionTypes.length} for quick reactions
         </div>
       )}
@@ -411,7 +411,7 @@ function ReactionComponent({
       className={cn(
         "absolute select-none",
         glassEffect &&
-          "OptimizedGlass intensity={0.2} glassBlur={6} glass-blur-sm"
+          "glass-optimized-glass glass-blur-sm"
       )}
       style={{
         x: enablePhysics ? x : position.x,
@@ -441,14 +441,14 @@ function ReactionComponent({
       }}
       transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
     >
-      <span className='block transform -translate-x-1/2 -translate-y-1/2'>
+      <span className='glass-block glass-transform glass--translate-x-1-2 glass--translate-y-1-2'>
         {emoji}
       </span>
 
       {/* Glass shimmer effect */}
       {glassEffect && (
         <motion.div
-          className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-white glass-gradient-primary opacity-30'
+          className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white glass-gradient-primary glass-opacity-30'
           animate={
             prefersReducedMotion
               ? {}

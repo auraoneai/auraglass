@@ -88,7 +88,7 @@ export const GlassGoldenRatioGrid = forwardRef<
       onLayoutChange,
       glassConfig = {},
       soundEnabled = true,
-      className = "",
+      className="",
       style = {},
       ...props
     },
@@ -353,13 +353,13 @@ export const GlassGoldenRatioGrid = forwardRef<
       >
         <div
           ref={containerRef}
-          className='absolute inset-0'
+          className='glass-absolute glass-inset-0'
           style={{ width: dimensions.width, height: dimensions.height }}
         >
           {/* Golden spiral overlay */}
           {showRatioLines && (
             <svg
-              className='absolute inset-0 pointer-events-none'
+              className='glass-absolute glass-inset-0 glass-pointer-events-none'
               width={dimensions.width}
               height={dimensions.height}
             >
@@ -376,7 +376,7 @@ export const GlassGoldenRatioGrid = forwardRef<
           {/* Grid lines */}
           {showGrid && (
             <svg
-              className='absolute inset-0 pointer-events-none'
+              className='glass-absolute glass-inset-0 glass-pointer-events-none'
               width={dimensions.width}
               height={dimensions.height}
             >
@@ -445,7 +445,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                                         {section.item!.content}
                                       </div>
                                     ) : (
-                                      <div className='glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30'
+                                      <div className='glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30'
                                            role="gridcell"
                                       >
                                         <div className="glass-text-xs">Empty</div>
@@ -453,14 +453,14 @@ export const GlassGoldenRatioGrid = forwardRef<
                                     )}
                   {/* Section info overlay */}
                   {(showGrid || isHovered) && (
-                    <div className='absolute glass-top-1 left-1 glass-surface-dark/50 text-primary glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard'>
+                    <div className='glass-absolute glass-top-1 glass-left-1 glass-surface-dark/50 glass-text-primary glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-backdrop-blur-sm glass-contrast-guard'>
                       {section.ratio.toFixed(2)}
                     </div>
                   )}
 
                   {/* Golden ratio indicator */}
                   {Math.abs(section.ratio - goldenRatio) < 0.1 && (
-                    <div className='absolute glass-top-1 right-1 w-2 h-2 glass-surface-yellow glass-radius-full opacity-70' />
+                    <div className='glass-absolute glass-top-1 glass-right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full glass-opacity-70' />
                   )}
                 </motion.div>
               );
@@ -469,31 +469,31 @@ export const GlassGoldenRatioGrid = forwardRef<
         </div>
 
         {/* Statistics panel */}
-        <div className='absolute bottom-4 left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70'>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
+        <div className='glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70'>
+          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             Sections: {sections.length}
           </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
+          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             Items: {items.length}
           </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
+          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             Golden Ratio: {goldenRatio}
           </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
+          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             Levels: {subdivisionLevels}
           </div>
         </div>
 
         {/* Legend */}
-        <div className='absolute top-4 right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70'>
-          <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
-            <div className='w-2 h-2 glass-surface-yellow glass-radius-full' />
+        <div className='glass-absolute glass-top-4 glass-right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70'>
+          <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+            <div className='glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full' />
             Golden Ratio
           </div>
           {showRatioLines && (
-            <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard">
+            <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
               <div
-                className='w-4 h-0-5 glass-surface-yellow opacity-50'
+                className='glass-w-4 glass-h-0-5 glass-surface-yellow glass-opacity-50'
                 style={{
                   background:
                     "repeating-linear-gradient(to right, var(--glass-color-warning-light) 0, var(--glass-color-warning-light) 3px, transparent 3px, transparent 6px)",

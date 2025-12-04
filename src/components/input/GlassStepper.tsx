@@ -395,7 +395,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
             colors.button,
             colors.buttonBg,
             !canPerformAction && "opacity-50 cursor-not-allowed",
-            canPerformAction && "cursor-pointer hover:scale-105 active:scale-95"
+            canPerformAction && "cursor-pointer glass-hover-scale-105 active:scale-95"
           )}
           onMouseDown={canPerformAction ? onMouseDown : undefined}
           onMouseUp={stopLongPress}
@@ -425,7 +425,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "increment",
       incrementContent || (
         <svg
-          className='w-4 h-4'
+          className='glass-w-4 glass-h-4'
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -446,7 +446,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
       "decrement",
       decrementContent || (
         <svg
-          className='w-4 h-4'
+          className='glass-w-4 glass-h-4'
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

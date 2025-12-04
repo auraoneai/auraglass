@@ -311,7 +311,7 @@ export function AuroraPro({
   showWaves = true,
   showCurtain = false,
   animationMode = "flow",
-  className = "",
+  className="",
   showControls = false,
   autoAnimate = true,
   onAnimationChange,

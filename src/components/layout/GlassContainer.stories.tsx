@@ -105,7 +105,7 @@ const meta: Meta<typeof GlassContainer> = {
         onPrediction={(prediction) => console.log('Prediction:', prediction)}
         onInsight={(insight) => console.log('Insight:', insight)}
       >
-        <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8">
+        <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-p-8">
           <Story />
         </div>
       </GlassPredictiveEngineProvider>
@@ -119,13 +119,13 @@ type Story = StoryObj<typeof GlassContainer>;
 export const Default: Story = {
   args: {
     children: (
-      <div className="p-8 text-primary">
-        <h2 className="text-2xl font-bold mb-4">Default Container</h2>
-        <p className="text-primary/80 mb-4">
+      <div className="glass-p-8 glass-text-primary">
+        <h2 className="glass-text-2xl glass-font-bold glass-mb-4">Default Container</h2>
+        <p className="glass-text-primary/80 glass-mb-4">
           A standard glass container with basic functionality.
         </p>
-        <div className="w-full h-32 glass-surface-subtle/10 glass-radius-lg flex items-center justify-center">
-          <span className="text-primary/60">Container Content</span>
+        <div className="glass-w-full glass-h-32 glass-surface-subtle/10 glass-radius-lg glass-flex glass-items-center glass-justify-center">
+          <span className="glass-text-primary/60">Container Content</span>
         </div>
       </div>
     ),
@@ -138,13 +138,13 @@ export const WithGlass: Story = {
     elevation: 'float',
     radius: 'lg',
     children: (
-      <div className="p-8 text-primary">
-        <h2 className="text-2xl font-bold mb-4">Glass Container</h2>
-        <p className="text-primary/80 mb-4">
+      <div className="glass-p-8 glass-text-primary">
+        <h2 className="glass-text-2xl glass-font-bold glass-mb-4">Glass Container</h2>
+        <p className="glass-text-primary/80 glass-mb-4">
           A glass container with glassmorphism background and elevated appearance.
         </p>
-        <div className="w-full h-32 glass-surface-subtle/5 glass-radius-lg flex items-center justify-center border border-white/10">
-          <span className="text-primary/60">Glassmorphic Content</span>
+        <div className="glass-w-full glass-h-32 glass-surface-subtle/5 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-border glass-border-white/10">
+          <span className="glass-text-primary/60">Glassmorphic Content</span>
         </div>
       </div>
     ),
@@ -162,17 +162,17 @@ export const PredictiveContainer: Story = {
     usageContext: 'main',
     achievementId: 'predictive_container_demo',
     children: (
-      <div className="p-8 text-primary">
-        <h2 className="text-2xl font-bold mb-4">🧠 Predictive Container</h2>
-        <p className="text-primary/80 mb-4">
+      <div className="glass-p-8 glass-text-primary">
+        <h2 className="glass-text-2xl glass-font-bold glass-mb-4">🧠 Predictive Container</h2>
+        <p className="glass-text-primary/80 glass-mb-4">
           This container learns from your interactions and predicts your needs.
           Click and interact to see predictions in the browser console.
         </p>
-        <div className="grid grid-cols-2 gap-4">
-          <button className="p-4 glass-surface-blue/20 glass-radius-lg border border-blue/30 hover:glass-surface-blue/30 transition-colors">
+        <div className="glass-grid glass-glass-grid-cols-2 glass-gap-4">
+          <button className="glass-p-4 glass-surface-blue/20 glass-radius-lg glass-border glass-border-blue/30 hover:glass-surface-blue/30 transition-colors">
             Frequently Used Action
           </button>
-          <button className="p-4 glass-surface-green/20 glass-radius-lg border border-green/30 hover:glass-surface-green/30 transition-colors">
+          <button className="glass-p-4 glass-surface-green/20 glass-radius-lg glass-border glass-border-green/30 hover:glass-surface-green/30 transition-colors">
             Secondary Action
           </button>
         </div>
@@ -191,22 +191,22 @@ export const BiometricAdaptive: Story = {
     trackAchievements: true,
     usageContext: 'form',
     children: (
-      <div className="p-8 text-primary">
-        <h2 className="text-2xl font-bold mb-4">🔄 Adaptive Container</h2>
-        <p className="text-primary/80 mb-4">
+      <div className="glass-p-8 glass-text-primary">
+        <h2 className="glass-text-2xl glass-font-bold glass-mb-4">🔄 Adaptive Container</h2>
+        <p className="glass-text-primary/80 glass-mb-4">
           This container adapts its size and padding based on device capabilities and user stress levels.
           It will automatically optimize for mobile devices and adjust for accessibility needs.
         </p>
-        <div className="gap-4">
-          <div className="p-4 glass-surface-subtle/5 glass-radius-lg">
-            <label className="block text-sm font-medium mb-2">Adaptive Form Field</label>
+        <div className="glass-gap-4">
+          <div className="glass-p-4 glass-surface-subtle/5 glass-radius-lg">
+            <label className="glass-block glass-text-sm glass-font-medium glass-mb-2">Adaptive Form Field</label>
             <input 
               type="text" 
-              className="w-full p-3 glass-surface-subtle/10 glass-radius-md border border-white/20 text-primary placeholder:text-primary/50 glass-touch-target glass-contrast-guard"
+              className="glass-w-full glass-p-3 glass-surface-subtle/10 glass-radius-md glass-border glass-border-white/20 glass-text-primary placeholder:glass-text-primary/50 glass-touch-target glass-contrast-guard"
               placeholder="Touch targets adjust based on stress level"
             />
           </div>
-          <div className="text-sm text-primary/60">
+          <div className="glass-text-sm glass-text-primary/60">
             💡 Container size and padding adapt automatically based on biometric data
           </div>
         </div>
@@ -226,19 +226,19 @@ export const EyeTrackingResponsive: Story = {
     audioFeedback: true,
     usageContext: 'card',
     children: (
-      <div className="p-8 text-primary">
-        <h2 className="text-2xl font-bold mb-4">👁️ Eye Tracking Container</h2>
-        <p className="text-primary/80 mb-4">
+      <div className="glass-p-8 glass-text-primary">
+        <h2 className="glass-text-2xl glass-font-bold glass-mb-4">👁️ Eye Tracking Container</h2>
+        <p className="glass-text-primary/80 glass-mb-4">
           This container responds to your gaze with visual and audio feedback.
           Look at this container to see the glow effect and hear spatial audio.
         </p>
-        <div className="w-full h-40 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg flex items-center justify-center border border-purple-400/30">
-          <div className="text-center">
-            <div className="text-2xl mb-2">👁️</div>
-            <span className="text-primary/60">Gaze-responsive content</span>
+        <div className="glass-w-full h-40 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-flex glass-items-center glass-justify-center glass-border glass-border-purple-400/30">
+          <div className="glass-text-center">
+            <div className="glass-text-2xl glass-mb-2">👁️</div>
+            <span className="glass-text-primary/60">Gaze-responsive content</span>
           </div>
         </div>
-        <div className="text-sm text-primary/60 glass-mt-4">
+        <div className="glass-text-sm glass-text-primary/60 glass-mt-4">
           💡 Container glows and plays audio when you look at it
         </div>
       </div>
@@ -249,7 +249,7 @@ export const EyeTrackingResponsive: Story = {
 export const ConsciousPresets: Story = {
   name: 'Consciousness Presets',
   render: () => (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl">
+    <div className="glass-grid glass-glass-grid-cols-1 lg:glass-glass-grid-cols-2 glass-gap-8 max-w-6xl">
       {/* Minimal Preset */}
       <GlassContainer
         glass={true}
@@ -258,12 +258,12 @@ export const ConsciousPresets: Story = {
         {...ConsciousnessPresets.minimal}
         usageContext="card"
       >
-        <div className="p-6 text-primary">
-          <h3 className="text-lg font-bold mb-2">📊 Minimal Preset</h3>
-          <p className="text-primary/80 text-sm mb-4">
+        <div className="glass-p-6 glass-text-primary">
+          <h3 className="glass-text-lg glass-font-bold glass-mb-2">📊 Minimal Preset</h3>
+          <p className="glass-text-primary/80 glass-text-sm glass-mb-4">
             Basic predictive features and achievement tracking for performance-sensitive contexts.
           </p>
-          <div className="text-xs text-primary/60">
+          <div className="glass-text-xs glass-text-primary/60">
             Features: Predictive UI, Achievement Tracking
           </div>
         </div>
@@ -277,12 +277,12 @@ export const ConsciousPresets: Story = {
         {...ConsciousnessPresets.balanced}
         usageContext="main"
       >
-        <div className="p-6 text-primary">
-          <h3 className="text-lg font-bold mb-2">⚖️ Balanced Preset</h3>
-          <p className="text-primary/80 text-sm mb-4">
+        <div className="glass-p-6 glass-text-primary">
+          <h3 className="glass-text-lg glass-font-bold glass-mb-2">⚖️ Balanced Preset</h3>
+          <p className="glass-text-primary/80 glass-text-sm glass-mb-4">
             Balanced consciousness features for general use with good performance.
           </p>
-          <div className="text-xs text-primary/60">
+          <div className="glass-text-xs glass-text-primary/60">
             Features: Predictive UI, Biometric Adaptation, Achievement Tracking
           </div>
         </div>
@@ -296,12 +296,12 @@ export const ConsciousPresets: Story = {
         {...ConsciousnessPresets.immersive}
         usageContext="modal"
       >
-        <div className="p-6 text-primary">
-          <h3 className="text-lg font-bold mb-2">🌟 Immersive Preset</h3>
-          <p className="text-primary/80 text-sm mb-4">
+        <div className="glass-p-6 glass-text-primary">
+          <h3 className="glass-text-lg glass-font-bold glass-mb-2">🌟 Immersive Preset</h3>
+          <p className="glass-text-primary/80 glass-text-sm glass-mb-4">
             Full consciousness features for immersive, interactive experiences.
           </p>
-          <div className="text-xs text-primary/60">
+          <div className="glass-text-xs glass-text-primary/60">
             Features: All consciousness features enabled
           </div>
         </div>
@@ -315,12 +315,12 @@ export const ConsciousPresets: Story = {
         {...ConsciousnessPresets.accessible}
         usageContext="form"
       >
-        <div className="p-6 text-primary">
-          <h3 className="text-lg font-bold mb-2">♿ Accessible Preset</h3>
-          <p className="text-primary/80 text-sm mb-4">
+        <div className="glass-p-6 glass-text-primary">
+          <h3 className="glass-text-lg glass-font-bold glass-mb-2">♿ Accessible Preset</h3>
+          <p className="glass-text-primary/80 glass-text-sm glass-mb-4">
             Accessibility-focused consciousness features with spatial audio and biometric adaptation.
           </p>
-          <div className="text-xs text-primary/60">
+          <div className="glass-text-xs glass-text-primary/60">
             Features: Biometric Adaptation, Spatial Audio, Achievement Tracking
           </div>
         </div>
@@ -339,45 +339,45 @@ export const ConsciousContainer: Story = {
       usageContext="main"
       className="max-w-4xl"
     >
-      <div className="p-12 text-primary">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">🧠✨ Conscious Glass Container</h2>
-          <p className="text-primary/80 text-lg mb-6">
+      <div className="glass-p-12 glass-text-primary">
+        <div className="glass-text-center mb-8">
+          <h2 className="glass-text-3xl glass-font-bold glass-mb-4">🧠✨ Conscious Glass Container</h2>
+          <p className="glass-text-primary/80 glass-text-lg mb-6">
             Experience the full power of consciousness interface integration
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 glass-surface-subtle/5 glass-radius-lg border border-white/10">
-            <h4 className="font-bold mb-2">🔮 Predictive Features</h4>
-            <ul className="text-sm text-primary/80 gap-1">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 mb-8">
+          <div className="glass-p-6 glass-surface-subtle/5 glass-radius-lg glass-border glass-border-white/10">
+            <h4 className="glass-font-bold glass-mb-2">🔮 Predictive Features</h4>
+            <ul className="glass-text-sm glass-text-primary/80 glass-gap-1">
               <li>• Learns interaction patterns</li>
               <li>• Preloads content intelligently</li>
               <li>• Predicts user needs</li>
             </ul>
           </div>
           
-          <div className="p-6 glass-surface-subtle/5 glass-radius-lg border border-white/10">
-            <h4 className="font-bold mb-2">👁️ Eye Tracking</h4>
-            <ul className="text-sm text-primary/80 gap-1">
+          <div className="glass-p-6 glass-surface-subtle/5 glass-radius-lg glass-border glass-border-white/10">
+            <h4 className="glass-font-bold glass-mb-2">👁️ Eye Tracking</h4>
+            <ul className="glass-text-sm glass-text-primary/80 glass-gap-1">
               <li>• Gaze-responsive interface</li>
               <li>• Attention-based interactions</li>
               <li>• Visual feedback on focus</li>
             </ul>
           </div>
           
-          <div className="p-6 glass-surface-subtle/5 glass-radius-lg border border-white/10">
-            <h4 className="font-bold mb-2">🔄 Biometric Adaptation</h4>
-            <ul className="text-sm text-primary/80 gap-1">
+          <div className="glass-p-6 glass-surface-subtle/5 glass-radius-lg glass-border glass-border-white/10">
+            <h4 className="glass-font-bold glass-mb-2">🔄 Biometric Adaptation</h4>
+            <ul className="glass-text-sm glass-text-primary/80 glass-gap-1">
               <li>• Device capability detection</li>
               <li>• Stress-level adaptation</li>
               <li>• Accessibility optimization</li>
             </ul>
           </div>
           
-          <div className="p-6 glass-surface-subtle/5 glass-radius-lg border border-white/10">
-            <h4 className="font-bold mb-2">🎵 Spatial Audio</h4>
-            <ul className="text-sm text-primary/80 gap-1">
+          <div className="glass-p-6 glass-surface-subtle/5 glass-radius-lg glass-border glass-border-white/10">
+            <h4 className="glass-font-bold glass-mb-2">🎵 Spatial Audio</h4>
+            <ul className="glass-text-sm glass-text-primary/80 glass-gap-1">
               <li>• Positional sound feedback</li>
               <li>• Audio interaction cues</li>
               <li>• Accessibility enhancement</li>
@@ -385,11 +385,11 @@ export const ConsciousContainer: Story = {
           </div>
         </div>
         
-        <div className="text-center">
-          <button className="px-8 py-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg font-semibold hover:glass-gradient-primary hover:glass-gradient-primary transition-all transform hover:scale-105">
+        <div className="glass-text-center">
+          <button className="glass-px-8 glass-py-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-font-semibold hover:glass-gradient-primary hover:glass-gradient-primary transition-all transform hover:scale-105">
             Experience Consciousness Features
           </button>
-          <p className="text-xs text-primary/60 glass-mt-4">
+          <p className="glass-text-xs glass-text-primary/60 glass-mt-4">
             Interact with this container to experience all consciousness features working together
           </p>
         </div>
@@ -411,9 +411,9 @@ export const SizeVariants: Story = {
           radius="md"
           padding="md"
         >
-          <div className="text-primary text-center py-4">
-            <h4 className="font-bold text-lg">Size: {size.toUpperCase()}</h4>
-            <p className="text-primary/70 text-sm">Container with {size} sizing</p>
+          <div className="glass-text-primary glass-text-center glass-py-4">
+            <h4 className="glass-font-bold glass-text-lg">Size: {size.toUpperCase()}</h4>
+            <p className="glass-text-primary/70 glass-text-sm">Container with {size} sizing</p>
           </div>
         </GlassContainer>
       ))}

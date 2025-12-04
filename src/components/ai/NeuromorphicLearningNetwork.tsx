@@ -124,16 +124,16 @@ export function NeuromorphicLearningNetwork({
       )}
     >
       <header>
-        <h2 className='glass-text-xl font-semibold text-primary'>
+        <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
           Neuromorphic Learning Network
         </h2>
-        <p className='glass-text-sm text-primary/70'>
+        <p className='glass-text-sm glass-text-primary-opacity-70'>
           Monitor coherence between quantum-inspired spikes and adaptive
           plasticity feedback.
         </p>
       </header>
 
-      <div className='glass-grid glass-gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+      <div className='glass-grid glass-gap-4 sm:glass-grid-cols-2 lg:glass-grid-cols-4'>
         {(
           [
             ["Energy Usage", snapshot.energyUsage],
@@ -144,15 +144,15 @@ export function NeuromorphicLearningNetwork({
         ).map(([label, value]) => (
           <div
             key={label}
-            className='glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 text-primary'
+            className='glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-text-primary'
           >
-            <div className='glass-flex glass-items-center glass-justify-between glass-text-xs uppercase tracking-wide text-primary/60'>
+            <div className='glass-flex glass-items-center glass-justify-between glass-text-xs glass-uppercase glass-tracking-wide glass-text-primary-glass-opacity-60'>
               <span>{label}</span>
               <span>{(value * 100).toFixed(0)}%</span>
             </div>
-            <div className='mt-3 h-2 glass-w-full overflow-hidden glass-radius-full glass-surface-subtle/10'>
+            <div className='glass-mt-3 glass-h-2 glass-w-full glass-overflow-hidden glass-radius-full glass-surface-subtle/10'>
               <div
-                className='glass-h-full glass-radius-full bg-gradient-to-r from-sky-400/70 to-cyan-500/80'
+                className='glass-h-full glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary'
                 style={{ width: `${value * 100}%` }}
               />
             </div>
@@ -160,35 +160,35 @@ export function NeuromorphicLearningNetwork({
         ))}
       </div>
 
-      <section className='space-y-3'>
-        <h3 className='glass-text-sm font-semibold uppercase tracking-wide text-primary/60'>
+      <section className='glass-space-y-3'>
+        <h3 className='glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-primary-glass-opacity-60'>
           Signal channels
         </h3>
-        <div className='glass-grid glass-gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+        <div className='glass-grid glass-gap-3 sm:glass-grid-cols-2 lg:glass-grid-cols-3'>
           {normalizedSignals.map((signal) => (
             <div
               key={signal.channel}
-              className='glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 text-primary/80'
+              className='glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-text-primary-glass-opacity-80'
             >
-              <div className='glass-flex glass-items-center glass-justify-between glass-text-sm text-primary'>
-                <span className='font-semibold'>{signal.channel}</span>
-                <span className='glass-text-xs text-primary/60'>
+              <div className='glass-flex glass-items-center glass-justify-between glass-text-sm glass-text-primary'>
+                <span className='glass-font-semibold'>{signal.channel}</span>
+                <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
                   Weights {signal.weights.length}
                 </span>
               </div>
-              <div className='mt-3 space-y-2 glass-text-xs'>
-                <div className='glass-flex glass-items-center glass-justify-between text-primary/60'>
+              <div className='glass-mt-3 glass-space-y-2 glass-text-xs'>
+                <div className='glass-flex glass-items-center glass-justify-between glass-text-primary-glass-opacity-60'>
                   <span>Avg Weight</span>
-                  <span className='font-semibold text-primary/80'>
+                  <span className='glass-font-semibold glass-text-primary-glass-opacity-80'>
                     {(
                       signal.weights.reduce((sum, weight) => sum + weight, 0) /
                       signal.weights.length
                     ).toFixed(2)}
                   </span>
                 </div>
-                <div className='glass-flex glass-items-center glass-justify-between text-primary/60'>
+                <div className='glass-flex glass-items-center glass-justify-between glass-text-primary-glass-opacity-60'>
                   <span>Phase Alignment</span>
-                  <span className='font-semibold text-primary/80'>
+                  <span className='glass-font-semibold glass-text-primary-glass-opacity-80'>
                     {((signal.phase ?? 0.5) * 100).toFixed(0)}%
                   </span>
                 </div>

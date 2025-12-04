@@ -70,17 +70,17 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-8">
+    <div className="glass-flex glass-flex-col glass-gap-8">
       <div>
-        <h4 className="text-sm font-medium mb-2">Default</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Default</h4>
         <GlassLoadingSkeleton {...args} />
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">With Avatar</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">With Avatar</h4>
         <GlassLoadingSkeleton {...args} avatar={true} />
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Card Layout</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Card Layout</h4>
         <GlassLoadingSkeleton {...args} variant="card" />
       </div>
     </div>

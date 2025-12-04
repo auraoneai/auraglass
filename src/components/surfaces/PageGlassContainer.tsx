@@ -93,7 +93,7 @@ export const PageGlassContainer = React.memo(
         : {};
 
       return (
-        <Motion preset={shouldAnimate ? "fadeIn" : "none"} className='relative'>
+        <Motion preset={shouldAnimate ? "fadeIn" : "none"} className='glass-relative'>
           <OptimizedGlass
             ref={ref}
             intent="neutral"

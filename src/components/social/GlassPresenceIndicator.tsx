@@ -81,7 +81,7 @@ export const GlassPresenceIndicator = forwardRef<
       theme = "auto",
       onUserClick,
       onStatusChange,
-      className = "",
+      className="",
       ...props
     },
     ref
@@ -219,7 +219,7 @@ export const GlassPresenceIndicator = forwardRef<
         onClick={() => onUserClick?.(user.id)}
       >
         {showAvatars && (
-          <div className='relative'>
+          <div className='glass-relative'>
             <div
               className={`
               ${size === "small" ? "w-6 h-6" : size === "large" ? "w-12 h-12" : "w-8 h-8"}
@@ -232,7 +232,7 @@ export const GlassPresenceIndicator = forwardRef<
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className='glass-w-full glass-h-full glass-radius-full object-cover'
+                  className='glass-w-full glass-h-full glass-radius-full glass-object-cover'
                 />
               ) : (
                 user.name.charAt(0).toUpperCase()
@@ -258,9 +258,9 @@ export const GlassPresenceIndicator = forwardRef<
           </div>
         )}
 
-        <div className="glass-flex-1 glass-min-w-0">
+        <div className="glass-flex-1 glass-min-glass-w-0">
           {showNames && (
-            <div className='glass-flex glass-items-center space-x-1'>
+            <div className='glass-flex glass-items-center glass-space-x-1'>
               <p
                 className={`font-medium text-white/90 truncate ${getSizeClasses()}`}
               >
@@ -299,7 +299,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showTypingIndicator && user.isTyping && (
           <motion.div
-            className='glass-flex space-x-1'
+            className='glass-flex glass-space-x-1'
             animate={prefersReducedMotion ? {} : { opacity: [0.4, 1, 0.4] }}
             transition={respectMotionPreference({
               duration: 1.5,
@@ -310,7 +310,7 @@ export const GlassPresenceIndicator = forwardRef<
             {[0, 1, 2].map((i: any) => (
               <motion.div
                 key={i}
-                className='w-1.5 h-1.5 glass-surface-blue glass-radius-full'
+                className='glass-w-1.5 glass-h-1.5 glass-surface-blue glass-radius-full'
                 animate={prefersReducedMotion ? {} : { y: [-2, 0, -2] }}
                 transition={respectMotionPreference({
                   duration: 0.6,
@@ -325,7 +325,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showStatus && !showAvatars && (
           <div
-            className='w-3 h-3 glass-radius-full'
+            className='glass-w-3 glass-h-3 glass-radius-full'
             style={{ backgroundColor: statusColors[user.status] }}
           />
         )}
@@ -373,12 +373,12 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showTypingIndicator && typingUsers.length > 0 && (
           <motion.div
-            className='mt-3 pt-3 glass-border-t glass-border-white/10'
+            className='glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10'
             initial={{ opacity: 0, y: 10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
           >
-            <p className='glass-text-xs text-primary/60'>
+            <p className='glass-text-xs glass-text-primary-glass-opacity-60'>
               {typingUsers.length === 1
                 ? `${presenceData.find((u) => u.id === typingUsers[0])?.name} is typing...`
                 : typingUsers.length === 2
@@ -389,7 +389,7 @@ export const GlassPresenceIndicator = forwardRef<
         )}
 
         <motion.div
-          className='mt-3 pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs text-primary/50'
+          className='glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs glass-text-primary-glass-opacity-50'
           initial={{ opacity: 0 }}
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
           transition={respectMotionPreference({ delay: 0.5 })}

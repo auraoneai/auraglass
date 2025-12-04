@@ -41,11 +41,11 @@ const userColumns = [
     sortable: true,
     width: '200px',
     render: (value: any) => (
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full flex items-center justify-center text-primary text-sm font-medium">
+      <div className="glass-flex glass-items-center glass-gap-3">
+        <div className="glass-w-8 glass-h-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-text-sm glass-font-medium">
           {String(value).charAt(0)}
         </div>
-        <span className="font-medium">{String(value)}</span>
+        <span className="glass-font-medium">{String(value)}</span>
       </div>
     ),
   },
@@ -54,7 +54,7 @@ const userColumns = [
     label: 'Email',
     sortable: true,
     render: (value: any) => (
-      <span className="text-primary hover:text-primary">{String(value)}</span>
+      <span className="glass-text-primary hover:glass-text-primary">{String(value)}</span>
     ),
   },
   {
@@ -81,7 +81,7 @@ const userColumns = [
     label: 'Status',
     sortable: true,
     render: (value: any) => (
-      <div className="flex items-center gap-2">
+      <div className="glass-flex glass-items-center glass-gap-2">
         <div className={`w-2 h-2 rounded-full ${value === 'Active' ? 'bg-green-500' : 'bg-gray-400'}`} />
         <span className={value === 'Active' ? 'text-green-700' : 'text-gray-500'}>
           {String(value)}
@@ -94,11 +94,11 @@ const userColumns = [
     label: 'Projects',
     sortable: true,
     render: (value: any) => (
-      <div className="flex items-center gap-2">
-        <span className="font-mono text-sm">{String(value)}</span>
-        <div className="w-16 h-1 glass-surface-subtle glass-radius-full overflow-hidden">
+      <div className="glass-flex glass-items-center glass-gap-2">
+        <span className="font-mono glass-text-sm">{String(value)}</span>
+        <div className="glass-w-16 glass-h-1 glass-surface-subtle glass-radius-full overflow-hidden">
           <div 
-            className="h-full glass-surface-blue transition-all duration-300"
+            className="glass-h-full glass-surface-blue transition-all duration-300"
             style={{ width: `${Math.min(100, (Number(value) / 25) * 100)}%` }}
           />
         </div>
@@ -122,10 +122,10 @@ export const Default: Story = {
     pageSize: 8,
   },
   render: (args) => (
-    <div className="p-8 glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
-      <div className="max-w-7xl mx-auto">
+    <div className="glass-p-8 glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
+      <div className="max-w-7xl glass-mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold glass-text-secondary mb-2">User Management</h1>
+          <h1 className="glass-text-2xl glass-font-bold glass-text-secondary glass-mb-2">User Management</h1>
           <p className="glass-text-secondary">Manage your team members and their roles</p>
         </div>
         <GlassDataTable {...args} />
@@ -142,10 +142,10 @@ export const LoadingState: Story = {
     loadingRows: 6,
   },
   render: (args) => (
-    <div className="p-8 glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
-      <div className="max-w-7xl mx-auto">
+    <div className="glass-p-8 glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
+      <div className="max-w-7xl glass-mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold glass-text-secondary mb-2">Loading Data</h1>
+          <h1 className="glass-text-2xl glass-font-bold glass-text-secondary glass-mb-2">Loading Data</h1>
           <p className="glass-text-secondary">Loading skeleton animation while data loads</p>
         </div>
         <GlassDataTable {...args} />
@@ -161,10 +161,10 @@ export const EmptyState: Story = {
     emptyMessage: 'No users found. Try adjusting your search criteria.',
   },
   render: (args) => (
-    <div className="p-8 glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
-      <div className="max-w-7xl mx-auto">
+    <div className="glass-p-8 glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
+      <div className="max-w-7xl glass-mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold glass-text-secondary mb-2">Empty State</h1>
+          <h1 className="glass-text-2xl glass-font-bold glass-text-secondary glass-mb-2">Empty State</h1>
           <p className="glass-text-secondary">How the table looks when there's no data</p>
         </div>
         <GlassDataTable {...args} />
@@ -204,10 +204,10 @@ export const SimpleTable: Story = {
     paginated: false,
   },
   render: (args) => (
-    <div className="p-8 glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
-      <div className="max-w-4xl mx-auto">
+    <div className="glass-p-8 glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
+      <div className="max-w-4xl glass-mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold glass-text-secondary mb-2">Simple Task List</h1>
+          <h1 className="glass-text-2xl glass-font-bold glass-text-secondary glass-mb-2">Simple Task List</h1>
           <p className="glass-text-secondary">Basic table without search or pagination</p>
         </div>
         <GlassDataTable {...args} />
@@ -230,10 +230,10 @@ export const AllFeatures: Story = {
     pageSize: 5,
   },
   render: (args) => (
-    <div className="p-8 glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
-      <div className="max-w-7xl mx-auto">
+    <div className="glass-p-8 glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary">
+      <div className="max-w-7xl glass-mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold glass-text-secondary mb-2">Complete Data Table</h1>
+          <h1 className="glass-text-2xl glass-font-bold glass-text-secondary glass-mb-2">Complete Data Table</h1>
           <p className="glass-text-secondary">All features enabled: search, sort, pagination with larger dataset</p>
         </div>
         <GlassDataTable {...args} />

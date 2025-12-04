@@ -249,7 +249,7 @@ export function useSkipLinks() {
     anchor.id = link.id;
     anchor.href = link.href;
     anchor.textContent = link.label;
-    anchor.className = "skip-link";
+    anchor.className="skip-link";
 
     anchor.addEventListener("click", (e) => {
       e.preventDefault();

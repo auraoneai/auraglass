@@ -169,22 +169,22 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
     sm: {
       cardClass: "glass-p-4",
       titleClass: "glass-text-lg font-semibold",
-      contentClass: "min-h-[200px]",
+      contentClass: "glass-min-h-200px",
     },
     md: {
       cardClass: "glass-p-6",
       titleClass: "glass-text-xl font-semibold",
-      contentClass: "min-h-[300px]",
+      contentClass: "glass-min-h-300px",
     },
     lg: {
       cardClass: "p-8",
       titleClass: "glass-text-2xl font-semibold",
-      contentClass: "min-h-[400px]",
+      contentClass: "glass-min-h-400px",
     },
     xl: {
       cardClass: "glass-p-10",
       titleClass: "text-3xl font-semibold",
-      contentClass: "min-h-[500px]",
+      contentClass: "min-glass-h-500px",
     },
   };
 
@@ -194,17 +194,17 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
   const getChartTypeIcon = () => {
     switch (chartType) {
       case "line":
-        return <LineChart className='w-5 h-5' />;
+        return <LineChart className='glass-w-5 glass-h-5' />;
       case "bar":
-        return <BarChart3 className='w-5 h-5' />;
+        return <BarChart3 className='glass-w-5 glass-h-5' />;
       case "area":
-        return <TrendingUp className='w-5 h-5' />;
+        return <TrendingUp className='glass-w-5 glass-h-5' />;
       case "pie":
-        return <PieChart className='w-5 h-5' />;
+        return <PieChart className='glass-w-5 glass-h-5' />;
       case "donut":
-        return <PieChart className='w-5 h-5' />;
+        return <PieChart className='glass-w-5 glass-h-5' />;
       default:
-        return <BarChart3 className='w-5 h-5' />;
+        return <BarChart3 className='glass-w-5 glass-h-5' />;
     }
   };
 
@@ -253,10 +253,10 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
       >
         {/* Header */}
         {showHeader && (
-          <CardHeader className='pb-4'>
+          <CardHeader className='glass-pb-4'>
             <div className="glass-flex glass-items-start glass-justify-between">
-              <div className="glass-flex-1 glass-min-w-0">
-                <div className='glass-flex glass-items-center glass-gap-3 mb-2'>
+              <div className="glass-flex-1 glass-min-glass-w-0">
+                <div className='glass-flex glass-items-center glass-gap-3 glass-mb-2'>
                   <CardTitle
                     className={cn(
                       config.titleClass,
@@ -264,7 +264,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                     )}
                   >
                     {showChartType && chartType && (
-                      <span className='text-primary/60'>
+                      <span className='glass-text-primary-glass-opacity-60'>
                         {getChartTypeIcon()}
                       </span>
                     )}
@@ -280,14 +280,14 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                 </div>
 
                 {subtitle && (
-                  <p className='glass-text-sm text-primary/60 mb-2'>
+                  <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mb-2'>
                     {subtitle}
                   </p>
                 )}
 
                 {/* Last updated */}
                 {lastUpdated && (
-                  <p className='glass-text-xs text-primary/50'>
+                  <p className='glass-text-xs glass-text-primary-glass-opacity-50'>
                     Last updated: {formatLastUpdated(lastUpdated)}
                   </p>
                 )}
@@ -322,7 +322,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       className="glass-p-2"
                       aria-label="Download chart data"
                     >
-                      <Download className='w-4 h-4' />
+                      <Download className='glass-w-4 glass-h-4' />
                     </GlassButton>
                   )}
 
@@ -335,9 +335,9 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
                     >
                       {isFullscreen ? (
-                        <Minimize2 className='w-4 h-4' />
+                        <Minimize2 className='glass-w-4 glass-h-4' />
                       ) : (
-                        <Maximize2 className='w-4 h-4' />
+                        <Maximize2 className='glass-w-4 glass-h-4' />
                       )}
                     </GlassButton>
                   )}
@@ -345,7 +345,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
 
                 {/* Actions Menu */}
                 {showActions && actions.length > 0 && (
-                  <div className='relative'>
+                  <div className='glass-relative'>
                     <GlassButton
                       variant="ghost"
                       size="sm"
@@ -353,15 +353,15 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                       className="glass-p-2"
                       aria-label="Chart actions menu"
                     >
-                      <MoreVertical className='w-4 h-4' />
+                      <MoreVertical className='glass-w-4 glass-h-4' />
                     </GlassButton>
 
                     {showActionMenu && (
                       <Motion
                         preset="fadeIn"
-                        className='absolute right-0 top-full glass-mt-2 z-10'
+                        className='glass-absolute glass-right-0 glass-top-full glass-mt-2 glass-z-10'
                       >
-                        <div className="glass-surface-dark/80 glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-shadow-xl glass-min-w-48 glass-contrast-guard">
+                        <div className="glass-surface-dark/80 glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-shadow-xl glass-min-glass-w-48 glass-contrast-guard">
                           {actions.map((action, index) => (
                             <button
                               key={index}
@@ -373,12 +373,12 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                               className={cn(
                                 "w-full text-left glass-px-4 glass-py-2 glass-text-sm glass-text-primary/80 hover:bg-white/10",
                                 "first:rounded-t-lg last:rounded-b-lg",
-                                "disabled:opacity-50 disabled:cursor-not-allowed",
+                                "disabled:opacity-50 glass-disabled-cursor-not-allowed",
                                 "flex items-center glass-gap-2"
                               )}
                             >
                               {action.icon && (
-                                <span className='w-4 h-4'>{action.icon}</span>
+                                <span className='glass-w-4 glass-h-4'>{action.icon}</span>
                               )}
                               {action.label}
                             </button>
@@ -391,9 +391,9 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                                 onRefresh?.();
                                 setShowActionMenu(false);
                               }}
-                              className='glass-w-full text-left glass-px-4 glass-py-2 glass-text-sm text-primary/80 hover:glass-surface-subtle/10 glass-flex glass-items-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard'
+                              className='glass-w-full glass-text-left glass-px-4 glass-py-2 glass-text-sm glass-text-primary-glass-opacity-80 hover:glass-surface-subtle/10 glass-flex glass-items-center glass-gap-2 glass-focus glass-touch-target glass-contrast-guard'
                             >
-                              <RefreshCw className='w-4 h-4' />
+                              <RefreshCw className='glass-w-4 glass-h-4' />
                               Refresh Data
                             </button>
                             <button
@@ -401,9 +401,9 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                                 onDownload?.();
                                 setShowActionMenu(false);
                               }}
-                              className='glass-w-full text-left glass-px-4 glass-py-2 glass-text-sm text-primary/80 hover:glass-surface-subtle/10 glass-flex glass-items-center glass-gap-2 glass-radius-b-lg glass-focus glass-touch-target glass-contrast-guard'
+                              className='glass-w-full glass-text-left glass-px-4 glass-py-2 glass-text-sm glass-text-primary-glass-opacity-80 hover:glass-surface-subtle/10 glass-flex glass-items-center glass-gap-2 glass-radius-b-lg glass-focus glass-touch-target glass-contrast-guard'
                             >
-                              <Download className='w-4 h-4' />
+                              <Download className='glass-w-4 glass-h-4' />
                               Export Data
                             </button>
                           </div>
@@ -418,7 +418,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
         )}
 
         {/* Content */}
-        <CardContent className='pt-0'>
+        <CardContent className='glass-pt-0'>
           {error ? (
             <div
               className={cn(
@@ -426,10 +426,10 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                 config.contentClass
               )}
             >
-              <div className='text-primary mb-2'>
-                <Settings className='w-8 h-8' />
+              <div className='glass-text-primary glass-mb-2'>
+                <Settings className='glass-w-8 glass-h-8' />
               </div>
-              <p className='text-primary/80 text-center mb-4'>{error}</p>
+              <p className='glass-text-primary-glass-opacity-80 glass-text-center glass-mb-4'>{error}</p>
               <GlassButton variant="outline" onClick={handleRefresh}>
                 Try Again
               </GlassButton>
@@ -441,16 +441,16 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                 config.contentClass
               )}
             >
-              <div className='text-primary/40 mb-2'>
-                <BarChart3 className='w-8 h-8' />
+              <div className='glass-text-primary-glass-opacity-40 glass-mb-2'>
+                <BarChart3 className='glass-w-8 glass-h-8' />
               </div>
-              <p className='text-primary/60 text-center'>{emptyMessage}</p>
+              <p className='glass-text-primary-glass-opacity-60 glass-text-center'>{emptyMessage}</p>
             </div>
           ) : (
             <div className={config.contentClass}>
               {loading ? (
                 <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
-                  <div className='animate-spin glass-radius-full h-8 w-8 glass-border-2 glass-border-white/20 glass-border-t-white/60'></div>
+                  <div className='glass-animate-spin glass-radius-full glass-h-8 glass-w-8 glass-border-2 glass-border-white/20 glass-border-t-white/60'></div>
                 </div>
               ) : (
                 children
@@ -461,7 +461,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
 
         {/* Footer */}
         {footerContent && (
-          <div className='glass-mt-4 pt-4 glass-border-t glass-border-white/10'>
+          <div className='glass-mt-4 glass-pt-4 glass-border-t glass-border-white/10'>
             {footerContent}
           </div>
         )}

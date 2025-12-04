@@ -92,19 +92,19 @@ export const Variants: Story = {
   render: (args) => (
     <div className="space-y-8">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Default Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Default Variant</h3>
         <EnhancedGlassTabs {...args} />
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">Elevated Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Elevated Variant</h3>
         <EnhancedGlassTabs {...args} variant="elevated" />
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">Outlined Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Outlined Variant</h3>
         <EnhancedGlassTabs {...args} variant="outlined" />
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">Text Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Text Variant</h3>
         <EnhancedGlassTabs {...args} variant="text" />
       </div>
     </div>

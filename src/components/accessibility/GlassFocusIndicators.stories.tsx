@@ -30,13 +30,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const DemoForm = () => (
-  <GlassCard className="p-6 space-y-4">
-    <h3 className="text-lg font-semibold">Focus Indicator Demo</h3>
-    <p className="text-sm glass-text-secondary">
+  <GlassCard className="glass-p-6 glass-space-y-4">
+    <h3 className="glass-text-lg glass-font-semibold">Focus Indicator Demo</h3>
+    <p className="glass-text-sm glass-text-secondary">
       Use Tab to navigate between elements and see the focus indicators in action.
     </p>
     
-    <div className="space-y-3">
+    <div className="glass-space-y-3">
       <GlassInput 
         placeholder="First input field"
         label="Name"
@@ -48,23 +48,23 @@ const DemoForm = () => (
         type="email"
       />
       
-      <div className="flex gap-3">
+      <div className="glass-flex glass-gap-3">
         <GlassButton>Primary Button</GlassButton>
         <GlassButton variant="secondary">Secondary Button</GlassButton>
         <GlassButton variant="ghost">Ghost Button</GlassButton>
       </div>
       
-      <div className="flex items-center space-x-2">
+      <div className="glass-flex glass-items-center space-x-2">
         <input type="checkbox" id="checkbox1" className="focus:ring-2 glass-touch-target glass-contrast-guard" />
         <label htmlFor="checkbox1">Checkbox option</label>
       </div>
       
-      <div className="flex items-center space-x-2">
+      <div className="glass-flex glass-items-center space-x-2">
         <input type="radio" id="radio1" name="demo" className="focus:ring-2 glass-touch-target glass-contrast-guard" />
         <label htmlFor="radio1">Radio option 1</label>
       </div>
       
-      <div className="flex items-center space-x-2">
+      <div className="glass-flex glass-items-center space-x-2">
         <input type="radio" id="radio2" name="demo" className="focus:ring-2 glass-touch-target glass-contrast-guard" />
         <label htmlFor="radio2">Radio option 2</label>
       </div>

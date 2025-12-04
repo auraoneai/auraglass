@@ -39,7 +39,7 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
       // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
       children,
-      className = "",
+      className="",
       style = {},
       glowColor = "#00d4ff",
       glowIntensity = 0.8,

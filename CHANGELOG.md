@@ -5,6 +5,26 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.16.2] - 2025-11-15
+
+### ✨ Added
+- Added missing subpath exports for all documented import paths in package.json
+- New exports: `aura-glass/core/mixins/glassMixins` for core glass styling API
+- New exports: `aura-glass/utils/env` for SSR environment helpers
+- New exports: `aura-glass/hooks/useGlassProbes` for glass style probes
+- New exports: `aura-glass/services/ai/openai-service` and `aura-glass/services/ai/vision-service` for AI service integrations
+- New exports: `aura-glass/services/websocket/collaboration-service` for WebSocket collaboration
+- New exports: `aura-glass/tokens/css` and `aura-glass/tokens/keyframes` for token CSS files
+
+### 🛠 Improvements
+- Complete export coverage - all documented import paths now have corresponding package.json exports
+- Updated test files to verify new ESM exports work correctly
+- Documentation-driven approach ensures exports match actual usage patterns
+
+### 📝 Documentation
+- Updated README.md with v2.16.2 release notes and usage examples
+- All exports verified against documentation and codebase import patterns
+
 ## [2.1.5] - 2025-11-14
 
 ### 🛠 Improvements

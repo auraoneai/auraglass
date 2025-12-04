@@ -242,7 +242,7 @@ export interface GlassShatterEffectsProps {
 export function GlassShatterEffectsR3F(props: GlassShatterEffectsProps) {
   const {
     children,
-    className = "",
+    className="",
     trigger = "click",
     duration = 2,
     intensity = 1,

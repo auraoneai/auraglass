@@ -39,7 +39,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       icon,
       badge,
       onClick,
-      className = "",
+      className="",
       style = {},
       href,
       target,

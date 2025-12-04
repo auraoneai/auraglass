@@ -48,14 +48,14 @@ export function GlassKeyValueEditor({
             onChange={(e) => update(i, { key: e.target.value })}
             placeholder="Key"
             aria-label={`Key for pair ${i + 1}`}
-            className='glass-flex-1 bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm outline-none glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-flex-1 glass-bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm glass-outline-none glass-focus glass-touch-target glass-contrast-guard'
           />
           <input
             value={p.value}
             onChange={(e) => update(i, { value: e.target.value })}
             placeholder="Value"
             aria-label={`Value for pair ${i + 1}`}
-            className='glass-flex-1 bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm outline-none glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-flex-1 glass-bg-transparent glass-border glass-border-white/20 glass-radius-lg glass-px-2 glass-py-1 glass-text-sm glass-outline-none glass-focus glass-touch-target glass-contrast-guard'
           />
           <GlassButton
             size="sm"

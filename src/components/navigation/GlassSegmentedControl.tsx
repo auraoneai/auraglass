@@ -96,7 +96,7 @@ export const GlassSegmentedControl = forwardRef<
               aria-pressed={it.id === value}
             >
               {it.icon && (
-                <span className="glass-mr-2 glass-inline-flex">{it.icon}</span>
+                <span className="glass-mr-2 glass-inline-glass-flex">{it.icon}</span>
               )}
               {!condensed && it.label}
             </GlassButton>

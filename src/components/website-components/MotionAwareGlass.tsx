@@ -144,7 +144,7 @@ export const MotionAwareGlass = forwardRef<
         "glass-card-motion-aware": interactive && !prefersReducedMotion,
         "cursor-pointer": (interactive || asButton) && !disabled,
         "cursor-not-allowed opacity-50": disabled,
-        "focus:outline-none focus:ring-3 focus:ring-blue-500/50":
+        "focus:outline-none focus:ring-3 glass-focus-ring-blue-500/50":
           asButton || interactive,
         "transition-none": prefersReducedMotion,
       },
@@ -208,7 +208,7 @@ export const MotionAwareGlass = forwardRef<
 
         {/* Screen reader information for motion preference */}
         {prefersReducedMotion && (
-          <span className='sr-only'>Motion reduced for accessibility</span>
+          <span className='glass-sr-only'>Motion reduced for accessibility</span>
         )}
       </motion.div>
     );

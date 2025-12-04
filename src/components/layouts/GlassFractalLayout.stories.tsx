@@ -135,33 +135,33 @@ const networkTopology: FractalNode[] = [
 const orgChart: FractalNode[] = [
   {
     id: 'ceo',
-    content: <div className="text-xs font-bold">CEO</div>,
+    content: <div className="glass-text-xs glass-font-bold">CEO</div>,
     children: [
       {
         id: 'cto',
-        content: <div className="text-xs">CTO</div>,
+        content: <div className="glass-text-xs">CTO</div>,
         children: [
-          { id: 'dev1', content: <div className="text-xs">Dev</div> },
-          { id: 'dev2', content: <div className="text-xs">Dev</div> },
-          { id: 'dev3', content: <div className="text-xs">Dev</div> }
+          { id: 'dev1', content: <div className="glass-text-xs">Dev</div> },
+          { id: 'dev2', content: <div className="glass-text-xs">Dev</div> },
+          { id: 'dev3', content: <div className="glass-text-xs">Dev</div> }
         ]
       },
       {
         id: 'cfo',
-        content: <div className="text-xs">CFO</div>,
+        content: <div className="glass-text-xs">CFO</div>,
         children: [
-          { id: 'acc1', content: <div className="text-xs">Acc</div> },
-          { id: 'acc2', content: <div className="text-xs">Acc</div> }
+          { id: 'acc1', content: <div className="glass-text-xs">Acc</div> },
+          { id: 'acc2', content: <div className="glass-text-xs">Acc</div> }
         ]
       },
       {
         id: 'cmo',
-        content: <div className="text-xs">CMO</div>,
+        content: <div className="glass-text-xs">CMO</div>,
         children: [
-          { id: 'mark1', content: <div className="text-xs">Mkt</div> },
-          { id: 'mark2', content: <div className="text-xs">Mkt</div> },
-          { id: 'mark3', content: <div className="text-xs">Mkt</div> },
-          { id: 'mark4', content: <div className="text-xs">Mkt</div> }
+          { id: 'mark1', content: <div className="glass-text-xs">Mkt</div> },
+          { id: 'mark2', content: <div className="glass-text-xs">Mkt</div> },
+          { id: 'mark3', content: <div className="glass-text-xs">Mkt</div> },
+          { id: 'mark4', content: <div className="glass-text-xs">Mkt</div> }
         ]
       }
     ]
@@ -172,13 +172,13 @@ const orgChart: FractalNode[] = [
 const mathNodes: FractalNode[] = [
   {
     id: 'center',
-    content: <div className="w-4 h-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />,
+    content: <div className="glass-w-4 glass-h-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />,
     children: Array.from({ length: 8 }, (_, i) => ({
       id: `ring1-${i}`,
-      content: <div className="w-3 h-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />,
+      content: <div className="glass-w-3 glass-h-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />,
       children: Array.from({ length: 3 }, (_, j) => ({
         id: `ring2-${i}-${j}`,
-        content: <div className="w-2 h-2 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />
+        content: <div className="glass-w-2 glass-h-2 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full" />
       }))
     }))
   }

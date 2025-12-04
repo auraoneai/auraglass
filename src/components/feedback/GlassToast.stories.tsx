@@ -69,83 +69,83 @@ const ToastDemo: React.FC<{ position?: any }> = ({ position = 'top-right' }) => 
   };
 
   return (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold glass-text-secondary mb-4">Toast Notification System</h1>
-          <p className="text-xl glass-text-secondary mb-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-p-8">
+      <div className="max-w-4xl glass-mx-auto">
+        <div className="glass-text-center mb-12">
+          <h1 className="glass-text-4xl glass-font-bold glass-text-secondary glass-mb-4">Toast Notification System</h1>
+          <p className="glass-text-xl glass-text-secondary mb-8">
             Click the buttons below to see different types of toast notifications
           </p>
-          <p className="text-sm glass-text-secondary">
+          <p className="glass-text-sm glass-text-secondary">
             Position: {position} • Max 5 toasts • Auto-dismiss after 5 seconds
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 lg:glass-glass-grid-cols-4 glass-gap-4 mb-8">
           <button
             onClick={handleSuccess}
-            className="glass-surface-green hover:glass-surface-green text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-green hover:glass-surface-green glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ✅ Success Toast
           </button>
 
           <button
             onClick={handleError}
-            className="glass-surface-red hover:glass-surface-red text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-red hover:glass-surface-red glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ❌ Error Toast
           </button>
 
           <button
             onClick={handleWarning}
-            className="glass-surface-yellow hover:glass-surface-yellow text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-yellow hover:glass-surface-yellow glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ⚠️ Warning Toast
           </button>
 
           <button
             onClick={handleInfo}
-            className="glass-surface-blue hover:glass-surface-blue text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-blue hover:glass-surface-blue glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             ℹ️ Info Toast
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-4 mb-8">
           <button
             onClick={handleWithAction}
-            className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-primary hover:glass-surface-primary glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             🔗 Toast with Action
           </button>
 
           <button
             onClick={handlePersistent}
-            className="glass-surface-primary hover:glass-surface-subtle text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-primary hover:glass-surface-subtle glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             📌 Persistent Toast
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-4">
           <button
             onClick={handleNonDismissible}
-            className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-surface-primary hover:glass-surface-primary glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             🚫 Non-Dismissible Toast
           </button>
 
           <button
             onClick={handleMultiple}
-            className="bg-indigo-500 hover:bg-indigo-600 text-primary font-semibold py-3 px-6 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="bg-indigo-500 hover:bg-indigo-600 glass-text-primary glass-font-semibold glass-py-3 glass-px-6 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             📚 Multiple Toasts
           </button>
         </div>
 
-        <div className="mt-12 glass-surface-subtle glass-radius-xl p-6 shadow-lg">
-          <h3 className="text-lg font-semibold glass-text-secondary mb-4">Features:</h3>
-          <ul className="glass-text-secondary space-y-2">
+        <div className="mt-12 glass-surface-subtle glass-radius-xl glass-p-6 glass-shadow-lg">
+          <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">Features:</h3>
+          <ul className="glass-text-secondary glass-space-y-2">
             <li>✅ <strong>Multiple Types:</strong> Success, Error, Warning, Info</li>
             <li>✅ <strong>Auto-dismiss:</strong> Configurable duration with progress bar</li>
             <li>✅ <strong>Actions:</strong> Add interactive buttons to toasts</li>
@@ -257,63 +257,63 @@ export const RealWorldExample: Story = {
       };
 
       return (
-        <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary p-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold glass-text-secondary mb-4">Real-World Toast Examples</h1>
-              <p className="text-xl glass-text-secondary">
+        <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-p-8">
+          <div className="max-w-4xl glass-mx-auto">
+            <div className="glass-text-center mb-12">
+              <h1 className="glass-text-4xl glass-font-bold glass-text-secondary glass-mb-4">Real-World Toast Examples</h1>
+              <p className="glass-text-xl glass-text-secondary">
                 Common scenarios where toast notifications provide great user feedback
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="glass-surface-subtle p-6 glass-radius-xl shadow-lg">
-                <h3 className="text-lg font-semibold glass-text-secondary mb-4">Document Management</h3>
+            <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6">
+              <div className="glass-surface-subtle glass-p-6 glass-radius-xl glass-shadow-lg">
+                <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">Document Management</h3>
                 <button
                   onClick={handleSave}
-                  className="w-full glass-surface-green hover:glass-surface-green text-primary font-medium py-2 px-4 glass-radius-lg transition-colors mb-3 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                  className="glass-w-full glass-surface-green hover:glass-surface-green glass-text-primary glass-font-medium glass-py-2 glass-px-4 glass-radius-lg transition-colors glass-mb-3 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Save Document
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="w-full glass-surface-red hover:glass-surface-red text-primary font-medium py-2 px-4 glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                  className="glass-w-full glass-surface-red hover:glass-surface-red glass-text-primary glass-font-medium glass-py-2 glass-px-4 glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Delete Document
                 </button>
               </div>
 
-              <div className="glass-surface-subtle p-6 glass-radius-xl shadow-lg">
-                <h3 className="text-lg font-semibold glass-text-secondary mb-4">File Operations</h3>
+              <div className="glass-surface-subtle glass-p-6 glass-radius-xl glass-shadow-lg">
+                <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">File Operations</h3>
                 <button
                   onClick={handleUpload}
-                  className="w-full glass-surface-blue hover:glass-surface-blue text-primary font-medium py-2 px-4 glass-radius-lg transition-colors mb-3 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                  className="glass-w-full glass-surface-blue hover:glass-surface-blue glass-text-primary glass-font-medium glass-py-2 glass-px-4 glass-radius-lg transition-colors glass-mb-3 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Upload File
                 </button>
                 <button
                   onClick={handleMaintenance}
-                  className="w-full glass-surface-yellow hover:glass-surface-yellow text-primary font-medium py-2 px-4 glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                  className="glass-w-full glass-surface-yellow hover:glass-surface-yellow glass-text-primary glass-font-medium glass-py-2 glass-px-4 glass-radius-lg transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   System Announcement
                 </button>
               </div>
             </div>
 
-            <div className="mt-12 glass-surface-subtle glass-radius-xl p-6 shadow-lg">
-              <h3 className="text-lg font-semibold glass-text-secondary mb-4">Best Practices:</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mt-12 glass-surface-subtle glass-radius-xl glass-p-6 glass-shadow-lg">
+              <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">Best Practices:</h3>
+              <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6">
                 <div>
-                  <h4 className="font-medium glass-text-secondary mb-2">Success Toasts</h4>
-                  <ul className="text-sm glass-text-secondary space-y-1">
+                  <h4 className="glass-font-medium glass-text-secondary glass-mb-2">Success Toasts</h4>
+                  <ul className="glass-text-sm glass-text-secondary space-y-1">
                     <li>• Use for completed actions</li>
                     <li>• Include relevant action buttons</li>
                     <li>• Keep messages concise and positive</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-medium glass-text-secondary mb-2">Error Toasts</h4>
-                  <ul className="text-sm glass-text-secondary space-y-1">
+                  <h4 className="glass-font-medium glass-text-secondary glass-mb-2">Error Toasts</h4>
+                  <ul className="glass-text-sm glass-text-secondary space-y-1">
                     <li>• Explain what went wrong</li>
                     <li>• Suggest next steps or solutions</li>
                     <li>• Provide retry or help actions</li>

@@ -211,7 +211,7 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
         {ripples.map((ripple) => (
           <motion.div
             key={ripple.id}
-            className='absolute pointer-events-none'
+            className='glass-absolute glass-pointer-events-none'
             style={{
               left: ripple.x - 20,
               top: ripple.y - 20,
@@ -238,7 +238,7 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
         <AnimatePresence>
           {isPressed && (
             <motion.div
-              className='absolute inset-0 pointer-events-none'
+              className='glass-absolute glass-inset-0 glass-pointer-events-none'
               style={{
                 background:
                   '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
@@ -284,7 +284,7 @@ export function MobileGlassNavigation({
   onSwipeRight,
   onSwipeUp,
   onSwipeDown,
-  className = "",
+  className="",
 }: MobileGlassNavigationProps) {
   const prefersReducedMotion = useReducedMotion();
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
@@ -381,7 +381,7 @@ export function AdaptiveGlassDensity({
   screenSize,
   devicePixelRatio,
   autoAdapt = true,
-  className = "",
+  className="",
 }: AdaptiveGlassDensityProps) {
   const prefersReducedMotion = useReducedMotion();
   const [currentDensity, setCurrentDensity] = useState<
@@ -452,7 +452,7 @@ export function TouchRippleEffects({
   color = "var(--glass-bg-hover)",
   maxRipples = 3,
   rippleDuration = 600,
-  className = "",
+  className="",
 }: TouchRippleEffectsProps) {
   const prefersReducedMotion = useReducedMotion();
   const [ripples, setRipples] = useState<
@@ -497,7 +497,7 @@ export function TouchRippleEffects({
         {ripples.map((ripple) => (
           <motion.div
             key={ripple.id}
-            className='absolute pointer-events-none glass-radius-full'
+            className='glass-absolute glass-pointer-events-none glass-radius-full'
             style={{
               left: ripple.x - 20,
               top: ripple.y - 20,
@@ -536,7 +536,7 @@ export function MobileGlassBottomSheet({
   children,
   height = "50vh",
   snapPoints = ["25vh", "50vh", "75vh"],
-  className = "",
+  className="",
 }: MobileGlassBottomSheetProps) {
   const prefersReducedMotion = useReducedMotion();
   const [currentHeight, setCurrentHeight] = useState(height);
@@ -605,7 +605,7 @@ export function MobileGlassBottomSheet({
             </div>
 
             {/* Content */}
-            <div className='glass-px-6 pb-6 overflow-y-auto max-h-full'>
+            <div className='glass-px-6 glass-pb-6 glass-overflow-y-auto glass-max-h-full'>
               {children}
             </div>
           </motion.div>

@@ -180,9 +180,9 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
       preset="fadeIn"
       className="glass-flex glass-items-center glass-justify-center glass-py-8"
     >
-      <div className="glass-flex glass-items-center glass-gap-3 glass-px-4 glass-py-2 glass-surface-subtle/10 glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
-        <Loader2 className='w-5 h-5 animate-spin text-primary' />
-        <span className='text-primary/80 glass-text-sm'>Loading more...</span>
+      <div className="glass-flex glass-items-center glass-gap-3 glass-px-4 glass-py-2 glass-surface-subtle/10 glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
+        <Loader2 className='glass-w-5 glass-h-5 glass-animate-spin glass-text-primary' />
+        <span className='glass-text-primary-glass-opacity-80 glass-text-sm'>Loading more...</span>
       </div>
     </Motion>
   );
@@ -193,17 +193,17 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
       preset="fadeIn"
       className="glass-flex glass-flex-col glass-items-center glass-justify-center glass-py-8 glass-px-4"
     >
-      <div className='glass-flex glass-items-center glass-gap-2 text-primary mb-3'>
-        <AlertCircle className='w-5 h-5' />
-        <span className='glass-text-sm font-medium'>
+      <div className='glass-flex glass-items-center glass-gap-2 glass-text-primary glass-mb-3'>
+        <AlertCircle className='glass-w-5 glass-h-5' />
+        <span className='glass-text-sm glass-font-medium'>
           Error loading more items
         </span>
       </div>
       <button
         onClick={handleRetry}
-        className='glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-surface-dark/30 hover:glass-surface-dark/40 glass-radius-lg transition-colors glass-border glass-border-white/20 hover:border-white/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+        className='glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-surface-dark/30 hover:glass-surface-dark/40 glass-radius-lg glass-transition-colors glass-border glass-border-white/20 hover:glass-border-white/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
       >
-        <RefreshCw className='w-4 h-4' />
+        <RefreshCw className='glass-w-4 glass-h-4' />
         <span className="glass-text-sm">Try again</span>
       </button>
     </Motion>
@@ -211,8 +211,8 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
 
   // Default end message
   const defaultEndMessage = (
-    <Motion preset="fadeIn" className='text-center glass-py-8'>
-      <div className='text-primary/60 glass-text-sm'>
+    <Motion preset="fadeIn" className='glass-text-center glass-py-8'>
+      <div className='glass-text-primary-glass-opacity-60 glass-text-sm'>
         You've reached the end
       </div>
     </Motion>
@@ -233,7 +233,7 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
       <div className={cn(reverse && "flex flex-col-reverse")}>{children}</div>
 
       {/* Sentinel for intersection observer */}
-      {!reverse && <div ref={sentinelRef} className='h-4' />}
+      {!reverse && <div ref={sentinelRef} className='glass-h-4' />}
 
       {/* Loading State */}
       {isLoading && !reverse && (
@@ -258,7 +258,7 @@ export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
       {reverse && (
         <div className="glass-flex glass-flex-col-reverse">
           {/* Sentinel for reverse direction */}
-          <div ref={sentinelRef} className='h-4' />
+          <div ref={sentinelRef} className='glass-h-4' />
 
           {/* Loading State */}
           {isLoading && (

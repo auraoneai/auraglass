@@ -215,7 +215,7 @@ export const GlassResponsiveNav = forwardRef<
             onActiveChange={onBottomNavActiveChange}
             elevation={elevation as 0 | 1 | 2 | 3 | 4 | "float" | "modal"}
             variant="default"
-            className='z-40'
+            className='glass-z-40'
           />
         )}
 

@@ -85,7 +85,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
       onUserClick,
       onPostClick,
       onLoadMore,
-      className = "",
+      className="",
       ...props
     },
     ref
@@ -239,9 +239,9 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
           onClick={() => onPostClick?.(post.id)}
         >
           {/* Author header */}
-          <div className='glass-flex glass-items-start space-x-3 mb-3'>
+          <div className='glass-flex glass-items-start glass-space-x-3 glass-mb-3'>
             <motion.div
-              className='relative cursor-pointer'
+              className='glass-relative glass-cursor-pointer'
               onClick={(e) => {
                 e.stopPropagation();
                 onUserClick?.(post.author.id);
@@ -261,21 +261,21 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                   <img
                     src={post.author.avatar}
                     alt={post.author.name}
-                    className='glass-w-full glass-h-full glass-radius-full object-cover'
+                    className='glass-w-full glass-h-full glass-radius-full glass-object-cover'
                   />
                 ) : (
                   post.author.name.charAt(0).toUpperCase()
                 )}
               </div>
               {post.author.verified && (
-                <div className='absolute -bottom-1 -right-1 w-4 h-4 glass-surface-blue glass-radius-full glass-flex glass-items-center glass-justify-center'>
-                  <span className='text-primary glass-text-xs'>✓</span>
+                <div className='glass-absolute glass--glass-bottom-1 glass--right-1 glass-w-4 glass-h-4 glass-surface-blue glass-radius-full glass-flex glass-items-center glass-justify-center'>
+                  <span className='glass-text-primary glass-text-xs'>✓</span>
                 </div>
               )}
             </motion.div>
 
-            <div className="glass-flex-1 glass-min-w-0">
-              <div className='glass-flex glass-items-center space-x-2'>
+            <div className="glass-flex-1 glass-min-glass-w-0">
+              <div className='glass-flex glass-items-center glass-space-x-2'>
                 <h3
                   className={`
                   font-semibold text-white/90 truncate
@@ -293,7 +293,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                   @{post.author.username}
                 </span>
                 <div
-                  className='w-2 h-2 glass-radius-full'
+                  className='glass-w-2 glass-h-2 glass-radius-full'
                   style={{
                     backgroundColor: engagementLevels[engagement].color,
                   }}
@@ -314,7 +314,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
           </div>
 
           {/* Content */}
-          <div className='mb-3'>
+          <div className='glass-mb-3'>
             <p
               className={`
               text-white/90 leading-relaxed
@@ -330,7 +330,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                     e.stopPropagation();
                     handlePostExpand(post.id);
                   }}
-                  className='ml-2 text-primary hover:glass-text-secondary glass-text-sm font-medium glass-focus glass-touch-target glass-contrast-guard'
+                  className='glass-ml-2 glass-text-primary hover:glass-text-secondary glass-text-sm glass-font-medium glass-focus glass-touch-target glass-contrast-guard'
                 >
                   {isExpanded ? "Show less" : "Show more"}
                 </button>
@@ -339,7 +339,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
 
             {/* Tags */}
             {showTags && post.tags && post.tags.length > 0 && (
-              <div className='glass-flex glass-flex-wrap glass-gap-2 mt-2'>
+              <div className='glass-flex glass-flex-wrap glass-gap-2 glass-mt-2'>
                 {post.tags.map((tag: any) => (
                   <span
                     key={tag}
@@ -357,7 +357,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
 
           {/* Media */}
           {showMedia && post.media && post.media.length > 0 && (
-            <div className='mb-3 glass-radius-lg overflow-hidden'>
+            <div className='glass-mb-3 glass-radius-lg glass-overflow-hidden'>
               <div
                 className={`
                 grid gap-2
@@ -367,33 +367,33 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                 {post.media.slice(0, 4).map((media, mediaIndex) => (
                   <div
                     key={mediaIndex}
-                    className='relative aspect-square glass-surface-subtle/5 glass-radius-lg overflow-hidden'
+                    className='glass-relative glass-aspect-square glass-surface-subtle/5 glass-radius-lg glass-overflow-hidden'
                   >
                     {media.type === "image" ? (
                       <img
                         src={media.url}
                         alt={media.alt || "Post media"}
-                        className='glass-w-full glass-h-full object-cover hover:scale-105 transition-transform duration-300'
+                        className='glass-w-full glass-h-full glass-object-cover glass-hover-scale-105 glass-transition-transform glass-duration-300'
                       />
                     ) : media.type === "video" ? (
                       <video
                         src={media.url}
                         poster={media.thumbnail}
-                        className='glass-w-full glass-h-full object-cover'
+                        className='glass-w-full glass-h-full glass-object-cover'
                         controls
                       />
                     ) : (
                       <img
                         src={media.url}
                         alt={media.alt || "GIF"}
-                        className='glass-w-full glass-h-full object-cover'
+                        className='glass-w-full glass-h-full glass-object-cover'
                       />
                     )}
                     {post.media &&
                       post.media.length > 4 &&
                       mediaIndex === 3 && (
-                        <div className='absolute inset-0 glass-surface-dark/60 glass-flex glass-items-center glass-justify-center'>
-                          <span className='text-primary font-semibold'>
+                        <div className='glass-absolute glass-inset-0 glass-surface-dark/60 glass-flex glass-items-center glass-justify-center'>
+                          <span className='glass-text-primary glass-font-semibold'>
                             +{post.media.length - 3} more
                           </span>
                         </div>
@@ -406,8 +406,8 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
 
           {/* Interactions */}
           {showInteractions && (
-            <div className='glass-flex glass-items-center glass-justify-between pt-3 glass-border-t glass-border-white/10'>
-              <div className='glass-flex glass-items-center space-x-6'>
+            <div className='glass-flex glass-items-center glass-justify-between glass-pt-3 glass-border-t glass-border-white/10'>
+              <div className='glass-flex glass-items-center glass-space-x-6'>
                 <motion.button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -429,7 +429,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                     e.stopPropagation();
                     onComment?.(post.id);
                   }}
-                  className='glass-flex glass-items-center space-x-2 glass-text-sm text-primary/60 hover:text-primary transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard'
+                  className='glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-transition-colors glass-duration-200 glass-focus glass-touch-target glass-contrast-guard'
                 >
                   <span>💬</span>
                   <span>{post.comments}</span>
@@ -452,7 +452,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                 </motion.button>
               </div>
 
-              <div className='glass-flex glass-items-center space-x-2 glass-text-sm text-primary/50'>
+              <div className='glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-primary-glass-opacity-50'>
                 <span>{engagementLevels[engagement].icon}</span>
                 <span>{post.likes + post.comments + post.shares}</span>
               </div>
@@ -470,20 +470,20 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
         style={{ maxHeight }}
         {...props}
       >
-        <div className='glass-p-4 space-y-4'>
+        <div className='glass-p-4 glass-space-y-4'>
           {/* Feed controls */}
           <div className="glass-flex glass-items-center glass-justify-between">
-            <h2 className='glass-text-lg font-semibold text-primary/90'>
+            <h2 className='glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90'>
               Social Feed ({processedPosts.length})
             </h2>
-            <div className='glass-flex glass-items-center space-x-2 glass-text-sm'>
+            <div className='glass-flex glass-items-center glass-space-x-2 glass-text-sm'>
               {realTimeUpdates && (
-                <div className='glass-flex glass-items-center space-x-1 text-primary'>
-                  <div className='w-2 h-2 glass-surface-green glass-radius-full animate-pulse' />
+                <div className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
+                  <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse' />
                   <span>Live</span>
                 </div>
               )}
-              <label htmlFor={sortSelectId} className='sr-only'>
+              <label htmlFor={sortSelectId} className='glass-sr-only'>
                 Sort posts by
               </label>
               <select
@@ -492,7 +492,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                 onChange={(e) => {
                   /* Would update sortBy in real implementation */
                 }}
-                className='glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-px-2 glass-py-1 text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-px-2 glass-py-1 glass-text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
                 aria-label="Sort posts by"
               >
                 <option value="timestamp">Latest</option>
@@ -535,12 +535,12 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
 
           {/* Empty state */}
           {processedPosts.length === 0 && (
-            <div className='text-center glass-py-12'>
-              <div className='text-6xl mb-4'>📱</div>
-              <h3 className='glass-text-lg font-semibold text-primary/70 mb-2'>
+            <div className='glass-text-center glass-py-12'>
+              <div className='glass-text-6xl glass-mb-4'>📱</div>
+              <h3 className='glass-text-lg glass-font-semibold glass-text-primary-opacity-70 glass-mb-2'>
                 No posts to show
               </h3>
-              <p className='text-primary/50'>
+              <p className='glass-text-primary-glass-opacity-50'>
                 {filterBy === "liked"
                   ? "You haven't liked any posts yet"
                   : "Your feed is empty. Try following some users!"}

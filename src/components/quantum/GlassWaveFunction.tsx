@@ -133,7 +133,7 @@ export const GlassWaveFunction = forwardRef<
       showLabels = true,
       realTimeMode = true,
       onWaveInteraction,
-      className = "",
+      className="",
       ...props
     },
     ref

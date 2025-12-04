@@ -174,7 +174,7 @@ export const GlassTextarea = forwardRef<
           >
             {label}
             {props?.required && (
-              <span className='text-primary glass-ml-1' aria-label="required">
+              <span className='glass-text-primary glass-ml-1' aria-label="required">
                 *
               </span>
             )}
@@ -182,7 +182,7 @@ export const GlassTextarea = forwardRef<
         )}
 
         {/* Textarea Container */}
-        <div className='relative'>
+        <div className='glass-relative'>
           <textarea
             ref={combinedRef}
             id={textareaId}
@@ -243,8 +243,8 @@ export const GlassTextarea = forwardRef<
 
           {/* Error Icon */}
           {hasError && (
-            <div className='absolute top-3 right-3 text-primary'>
-              <AlertCircle className='h-5 w-5' />
+            <div className='glass-absolute glass-top-3 glass-right-3 glass-text-primary'>
+              <AlertCircle className='glass-h-5 glass-w-5' />
             </div>
           )}
         </div>
@@ -281,9 +281,9 @@ export const GlassTextarea = forwardRef<
         {errorText && (
           <p
             id={`${textareaId}-error`}
-            className='glass-mt-2 glass-text-xs text-primary glass-flex glass-items-center glass-gap-1'
+            className='glass-mt-2 glass-text-xs glass-text-primary glass-flex glass-items-center glass-gap-1'
           >
-            <AlertCircle className='h-3 w-3' />
+            <AlertCircle className='glass-h-3 glass-w-3' />
             {errorText}
           </p>
         )}

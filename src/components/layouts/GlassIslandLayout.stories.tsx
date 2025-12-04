@@ -12,9 +12,9 @@ const mockIslands: Island[] = [
     height: 200,
     category: 'analytics',
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Dashboard</h3>
-        <div className="grid grid-cols-2 gap-2 text-sm text-primary/70">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Dashboard</h3>
+        <div className="glass-grid glass-glass-grid-cols-2 glass-gap-2 glass-text-sm glass-text-primary/70">
           <div>Users: 1,234</div>
           <div>Revenue: $5,678</div>
           <div>Sessions: 2,345</div>
@@ -32,9 +32,9 @@ const mockIslands: Island[] = [
     category: 'communication',
     draggable: true,
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Team Chat</h3>
-        <div className="space-y-2 text-sm text-primary/70">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Team Chat</h3>
+        <div className="glass-space-y-2 glass-text-sm glass-text-primary/70">
           <div>Alice: Hey team! 👋</div>
           <div>Bob: Ready for the demo</div>
           <div>Charlie: Looking good!</div>
@@ -51,9 +51,9 @@ const mockIslands: Island[] = [
     category: 'productivity',
     pinned: true,
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Calendar</h3>
-        <div className="space-y-1 text-sm text-primary/70">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Calendar</h3>
+        <div className="space-y-1 glass-text-sm glass-text-primary/70">
           <div>9:00 AM - Team standup</div>
           <div>2:00 PM - Client presentation</div>
           <div>4:00 PM - Code review</div>
@@ -69,14 +69,14 @@ const mockIslands: Island[] = [
     height: 150,
     category: 'analytics',
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Metrics</h3>
-        <div className="space-y-2">
-          <div className="w-full glass-surface-subtle/20 glass-radius-full h-2">
-            <div className="glass-surface-green h-2 glass-radius-full" style={{width: '75%'}}></div>
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Metrics</h3>
+        <div className="glass-space-y-2">
+          <div className="glass-w-full glass-surface-subtle/20 glass-radius-full glass-h-2">
+            <div className="glass-surface-green glass-h-2 glass-radius-full" style={{width: '75%'}}></div>
           </div>
-          <div className="w-full glass-surface-subtle/20 glass-radius-full h-2">
-            <div className="glass-surface-blue h-2 glass-radius-full" style={{width: '60%'}}></div>
+          <div className="glass-w-full glass-surface-subtle/20 glass-radius-full glass-h-2">
+            <div className="glass-surface-blue glass-h-2 glass-radius-full" style={{width: '60%'}}></div>
           </div>
         </div>
       </div>
@@ -90,9 +90,9 @@ const mockIslands: Island[] = [
     height: 140,
     category: 'productivity',
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Tasks</h3>
-        <div className="space-y-1 text-sm text-primary/70">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Tasks</h3>
+        <div className="space-y-1 glass-text-sm glass-text-primary/70">
           <div>✅ Update documentation</div>
           <div>🔄 Review pull requests</div>
           <div>⏳ Deploy to staging</div>
@@ -109,9 +109,9 @@ const mockIslands: Island[] = [
     category: 'notes',
     resizable: true,
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Notes</h3>
-        <div className="text-sm text-primary/70 space-y-1">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Notes</h3>
+        <div className="glass-text-sm glass-text-primary/70 space-y-1">
           <div>• Feature ideas</div>
           <div>• Bug reports</div>
           <div>• Meeting notes</div>
@@ -164,9 +164,9 @@ const largeIslands = [
     height: 160,
     category: 'analytics',
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Reports</h3>
-        <div className="text-sm text-primary/70">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Reports</h3>
+        <div className="glass-text-sm glass-text-primary/70">
           Monthly performance analysis and insights
         </div>
       </div>
@@ -180,9 +180,9 @@ const largeIslands = [
     height: 120,
     category: 'system',
     content: (
-      <div className="h-full">
-        <h3 className="text-lg font-semibold text-primary/90 mb-2">Settings</h3>
-        <div className="text-sm text-primary/70">
+      <div className="glass-h-full">
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary/90 glass-mb-2">Settings</h3>
+        <div className="glass-text-sm glass-text-primary/70">
           System configuration
         </div>
       </div>
@@ -584,7 +584,7 @@ export const LargeScale: Story = {
         width: 300,
         height: 180,
         category: 'system',
-        content: <div className="p-4"><h3 className="text-primary/90">System Monitoring</h3></div>
+        content: <div className="glass-p-4"><h3 className="glass-text-primary/90">System Monitoring</h3></div>
       },
       {
         id: 'logs',
@@ -593,7 +593,7 @@ export const LargeScale: Story = {
         width: 250,
         height: 160,
         category: 'system',
-        content: <div className="p-4"><h3 className="text-primary/90">Log Viewer</h3></div>
+        content: <div className="glass-p-4"><h3 className="glass-text-primary/90">Log Viewer</h3></div>
       }
     ],
     connections: [
@@ -628,9 +628,9 @@ export const PerformanceTest: Story = {
       height: 120,
       category: i % 2 === 0 ? 'system' : 'data',
       content: (
-        <div className="p-4">
-          <h4 className="text-primary/90">Island {i + 1}</h4>
-          <p className="text-primary/60 text-sm">Test content</p>
+        <div className="glass-p-4">
+          <h4 className="glass-text-primary/90">Island {i + 1}</h4>
+          <p className="glass-text-primary/60 glass-text-sm">Test content</p>
         </div>
       )
     })),

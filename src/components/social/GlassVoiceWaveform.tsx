@@ -87,7 +87,7 @@ export const GlassVoiceWaveform = forwardRef<
       compactMode = false,
       onParticipantClick,
       onMuteToggle,
-      className = "",
+      className="",
       ...props
     },
     ref
@@ -271,8 +271,8 @@ export const GlassVoiceWaveform = forwardRef<
       const activityLevel = history.length / 10; // Normalize to 0-1 range
 
       return (
-        <div className='glass-flex glass-items-center space-x-1'>
-          <div className='glass-flex space-x-0.5'>
+        <div className='glass-flex glass-items-center glass-space-x-1'>
+          <div className='glass-flex glass-space-x-0.5'>
             {[0, 1, 2, 3, 4].map((level: any) => (
               <div
                 key={level}
@@ -285,7 +285,7 @@ export const GlassVoiceWaveform = forwardRef<
               />
             ))}
           </div>
-          <span className='glass-text-xs text-primary/60'>
+          <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
             {history.length > 0 ? `${history.length}` : "0"}
           </span>
         </div>
@@ -299,11 +299,11 @@ export const GlassVoiceWaveform = forwardRef<
       participant: VoiceParticipant;
       data: number[];
     }) => (
-      <div className='glass-flex glass-items-end space-x-1 h-12'>
+      <div className='glass-flex glass-items-end glass-space-x-1 glass-h-12'>
         {data.map((amplitude, index) => (
           <motion.div
             key={index}
-            className='bg-transparent glass-radius-full'
+            className='glass-bg-transparent glass-radius-full'
             style={{
               width: compactMode ? "2px" : "3px",
               color: getParticipantColor(
@@ -339,7 +339,7 @@ export const GlassVoiceWaveform = forwardRef<
       <svg
         width={compactMode ? 120 : 200}
         height={48}
-        className='overflow-visible'
+        className='glass-overflow-visible'
       >
         <path
           d={`M 0 24 ${data
@@ -374,7 +374,7 @@ export const GlassVoiceWaveform = forwardRef<
         <svg
           width={(radius + 5) * 2}
           height={(radius + 5) * 2}
-          className='overflow-visible'
+          className='glass-overflow-visible'
         >
           {data.map((amplitude, index) => {
             const angle = (index / data.length) * Math.PI * 2 - Math.PI / 2;
@@ -413,11 +413,11 @@ export const GlassVoiceWaveform = forwardRef<
       participant: VoiceParticipant;
       data: number[];
     }) => (
-      <div className='glass-flex glass-items-end glass-justify-center space-x-px h-12 w-32'>
+      <div className='glass-flex glass-items-end glass-justify-center glass-space-x-px glass-h-12 glass-w-32'>
         {data.map((amplitude, index) => (
           <motion.div
             key={index}
-            className='bg-transparent'
+            className='glass-bg-transparent'
             style={{
               width: `${100 / data.length}%`,
               color: getParticipantColor(
@@ -475,7 +475,7 @@ export const GlassVoiceWaveform = forwardRef<
         whileTap={{ scale: 0.98 }}
       >
         {showAvatars && (
-          <div className='relative'>
+          <div className='glass-relative'>
             <div
               className={`
               ${compactMode ? "w-8 h-8" : "w-12 h-12"}
@@ -488,7 +488,7 @@ export const GlassVoiceWaveform = forwardRef<
                 <img
                   src={participant.avatar}
                   alt={participant.name}
-                  className='glass-w-full glass-h-full glass-radius-full object-cover'
+                  className='glass-w-full glass-h-full glass-radius-full glass-object-cover'
                 />
               ) : (
                 participant.name.charAt(0).toUpperCase()
@@ -508,7 +508,7 @@ export const GlassVoiceWaveform = forwardRef<
             {/* Speaking indicator */}
             {participant.isSpeaking && (
               <motion.div
-                className='absolute glass-top-1 -right-1 w-4 h-4 glass-surface-green glass-radius-full'
+                className='glass-absolute glass-top-1 glass--right-1 glass-w-4 glass-h-4 glass-surface-green glass-radius-full'
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
                 transition={
                   shouldAnimate
@@ -523,9 +523,9 @@ export const GlassVoiceWaveform = forwardRef<
           </div>
         )}
 
-        <div className="glass-flex-1 glass-min-w-0">
+        <div className="glass-flex-1 glass-min-glass-w-0">
           {showNames && (
-            <div className='glass-flex glass-items-center space-x-2'>
+            <div className='glass-flex glass-items-center glass-space-x-2'>
               <p
                 className={`
                 font-medium text-white/90 truncate
@@ -537,7 +537,7 @@ export const GlassVoiceWaveform = forwardRef<
               </p>
 
               {showMuteStatus && participant.isMuted && (
-                <span className='text-primary glass-text-xs'>🔇</span>
+                <span className='glass-text-primary glass-text-xs'>🔇</span>
               )}
             </div>
           )}
@@ -547,7 +547,7 @@ export const GlassVoiceWaveform = forwardRef<
           )}
         </div>
 
-        <div className='glass-flex glass-items-center space-x-2'>
+        <div className='glass-flex glass-items-center glass-space-x-2'>
           {renderWaveform(participant)}
 
           {showMuteStatus && !compactMode && (
@@ -587,19 +587,19 @@ export const GlassVoiceWaveform = forwardRef<
         {...props}
       >
         <div className="glass-flex glass-items-center glass-justify-between">
-          <h3 className='glass-text-lg font-semibold text-primary/90'>
+          <h3 className='glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90'>
             Voice Chat ({connectedParticipants})
           </h3>
-          <div className='glass-flex glass-items-center space-x-4 glass-text-sm text-primary/60'>
+          <div className='glass-flex glass-items-center glass-space-x-4 glass-text-sm glass-text-primary-glass-opacity-60'>
             {activeSpeakers > 0 && (
-              <span className='glass-flex glass-items-center space-x-1'>
-                <div className='w-2 h-2 glass-surface-green glass-radius-full animate-pulse' />
+              <span className='glass-flex glass-items-center glass-space-x-1'>
+                <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse' />
                 <span>{activeSpeakers} speaking</span>
               </span>
             )}
             {realTimeMode && (
-              <span className='glass-flex glass-items-center space-x-1'>
-                <div className='w-2 h-2 glass-surface-blue glass-radius-full animate-pulse' />
+              <span className='glass-flex glass-items-center glass-space-x-1'>
+                <div className='glass-w-2 glass-h-2 glass-surface-blue glass-radius-full glass-animate-pulse' />
                 <span>Live</span>
               </span>
             )}
@@ -632,7 +632,7 @@ export const GlassVoiceWaveform = forwardRef<
         </div>
 
         {!compactMode && (
-          <div className='pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs text-primary/50'>
+          <div className='glass-pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs glass-text-primary-glass-opacity-50'>
             <span>Waveform: {waveformStyle}</span>
             <span>Sensitivity: {sensitivity}</span>
           </div>

@@ -1126,7 +1126,7 @@ export function GlassSelfHealingWrapper({
         monitoringEnabled &&
         health && (
           <motion.div
-            className='absolute glass-top-1 right-1 w-3 h-3 glass-radius-full glass-border-2 glass-border-white/20'
+            className='glass-absolute glass-top-1 glass-right-1 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white/20'
             style={{ backgroundColor: statusColor }}
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
@@ -1181,7 +1181,7 @@ export function GlassSelfHealingDashboard({
         className={cn(
           "w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3",
           "flex items-center justify-center glass-text-primary",
-          "transition-all duration-300 hover:scale-105"
+          "transition-all duration-300 glass-hover-scale-105"
         )}
         onClick={() => setShowDashboard(!showDashboard)}
         whileHover={{ scale: 1.05 }}
@@ -1190,7 +1190,7 @@ export function GlassSelfHealingDashboard({
         🏥
         {criticalCount + warningCount + healingCount > 0 && (
           <motion.div
-            className='absolute glass-top-1 -right-1 w-3 h-3 glass-surface-red glass-radius-full glass-text-xs text-primary glass-flex glass-items-center glass-justify-center'
+            className='glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-red glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center'
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
           >
@@ -1211,12 +1211,12 @@ export function GlassSelfHealingDashboard({
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
           >
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-text-sm font-medium text-primary'>
+              <h3 className='glass-text-sm glass-font-medium glass-text-primary'>
                 Self-Healing Dashboard
               </h3>
               <button
                 onClick={() => setShowDashboard(false)}
-                className='glass-text-xs glass-text-secondary hover:text-primary glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-text-xs glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
               >
                 ✕
               </button>
@@ -1230,12 +1230,12 @@ export function GlassSelfHealingDashboard({
                 animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
               >
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm text-primary font-medium'>
+                  <span className='glass-text-sm glass-text-primary glass-font-medium'>
                     {health.componentType}
                   </span>
                   <div className="glass-flex glass-items-center glass-gap-2">
                     <div
-                      className='w-3 h-3 glass-radius-full'
+                      className='glass-w-3 glass-h-3 glass-radius-full'
                       style={{
                         backgroundColor: (
                           {
@@ -1263,7 +1263,7 @@ export function GlassSelfHealingDashboard({
             ))}
 
             {allHealth.length === 0 && (
-              <div className='text-center glass-text-sm glass-text-secondary glass-py-4'>
+              <div className='glass-text-center glass-text-sm glass-text-secondary glass-py-4'>
                 All components healthy! 🎉
               </div>
             )}

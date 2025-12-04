@@ -125,9 +125,9 @@ export const Vertical: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="gap-4">
+    <div className="glass-gap-4">
       <div>
-        <h4 className="text-sm font-medium mb-2">Default</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Default</h4>
         <ToggleButtonGroup {...args} variant="default">
           <ToggleButton value="1">One</ToggleButton>
           <ToggleButton value="2">Two</ToggleButton>
@@ -135,7 +135,7 @@ export const Variants: Story = {
         </ToggleButtonGroup>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Primary</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Primary</h4>
         <ToggleButtonGroup {...args} variant="primary">
           <ToggleButton value="1">One</ToggleButton>
           <ToggleButton value="2">Two</ToggleButton>
@@ -143,7 +143,7 @@ export const Variants: Story = {
         </ToggleButtonGroup>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Secondary</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Secondary</h4>
         <ToggleButtonGroup {...args} variant="secondary">
           <ToggleButton value="1">One</ToggleButton>
           <ToggleButton value="2">Two</ToggleButton>
@@ -151,7 +151,7 @@ export const Variants: Story = {
         </ToggleButtonGroup>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Outlined</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Outlined</h4>
         <ToggleButtonGroup {...args} variant="outlined">
           <ToggleButton value="1">One</ToggleButton>
           <ToggleButton value="2">Two</ToggleButton>
@@ -164,9 +164,9 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: (args: any) => (
-    <div className="gap-4">
+    <div className="glass-gap-4">
       <div>
-        <h4 className="text-sm font-medium mb-2">Small</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Small</h4>
         <ToggleButtonGroup {...args} size="sm">
           <ToggleButton value="s">Small</ToggleButton>
           <ToggleButton value="m">Medium</ToggleButton>
@@ -174,7 +174,7 @@ export const Sizes: Story = {
         </ToggleButtonGroup>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Medium</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Medium</h4>
         <ToggleButtonGroup {...args} size="md">
           <ToggleButton value="s">Small</ToggleButton>
           <ToggleButton value="m">Medium</ToggleButton>
@@ -182,7 +182,7 @@ export const Sizes: Story = {
         </ToggleButtonGroup>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Large</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Large</h4>
         <ToggleButtonGroup {...args} size="lg">
           <ToggleButton value="s">Small</ToggleButton>
           <ToggleButton value="m">Medium</ToggleButton>

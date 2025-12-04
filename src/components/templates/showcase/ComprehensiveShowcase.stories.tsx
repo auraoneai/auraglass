@@ -60,7 +60,7 @@ const ShowcaseDemo: React.FC = () => {
       label: 'Performance Score',
       sortable: true,
       render: (value: any) => (
-        <div className="flex items-center gap-2">
+        <div className="glass-flex glass-items-center glass-gap-2">
           <span className="font-mono">{value}/100</span>
           <div className={`px-1 py-0.5 rounded text-xs ${
             value >= 90 ? 'bg-green-100 text-green-800' : 
@@ -92,43 +92,43 @@ const ShowcaseDemo: React.FC = () => {
   };
 
   return (
-    <div className="glass-min-h-screen transition-colors duration-300 glass-gradient-primary glass-gradient-primary via-blue-50 glass-gradient-primary">
-      <div className="relative z-10 p-8">
-        <div className="max-w-7xl mx-auto">
+    <div className="glass-min-glass-h-screen transition-colors duration-300 glass-gradient-primary glass-gradient-primary via-blue-50 glass-gradient-primary">
+      <div className="glass-relative glass-z-10 glass-p-8">
+        <div className="max-w-7xl glass-mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <div className="glass-inline-flex items-center gap-3 mb-6 px-6 py-3 glass-radius-full glass-surface-subtle bg-opacity-60 glass-backdrop-blur border border-white border-opacity-20">
-              <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse" />
-              <span className="text-sm font-medium tracking-wide glass-text-secondary">
+          <div className="glass-text-center mb-12">
+            <div className="glass-glass-inline-glass-flex glass-items-center glass-gap-3 mb-6 glass-px-6 glass-py-3 glass-radius-full glass-surface-subtle bg-opacity-60 glass-backdrop-blur glass-border glass-border-white glass-border-opacity-20">
+              <div className="glass-w-3 glass-h-3 glass-surface-green glass-radius-full animate-pulse" />
+              <span className="glass-text-sm glass-font-medium tracking-wide glass-text-secondary">
                 COMPREHENSIVE GLASS SYSTEM
               </span>
             </div>
-            <h1 className="text-5xl font-bold mb-4 glass-text-secondary">
+            <h1 className="glass-text-5xl glass-font-bold glass-mb-4 glass-text-secondary">
               Complete UI/UX System
             </h1>
-            <p className="text-xl max-w-4xl mx-auto leading-relaxed glass-text-secondary">
+            <p className="glass-text-xl max-w-4xl glass-mx-auto leading-relaxed glass-text-secondary">
               Practical components, performance optimization, accessibility features, 
               and developer tools - everything users and developers actually need.
             </p>
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <div className="glass-grid glass-glass-grid-cols-2 md:glass-glass-grid-cols-4 glass-gap-4 mb-12">
             <button
               onClick={showPerformanceDemo}
-              className="glass-surface-blue hover:glass-surface-blue text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-surface-blue hover:glass-surface-blue glass-text-primary glass-font-semibold glass-py-3 glass-px-4 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               📊 Performance Check
             </button>
             <button
               onClick={showAccessibilityDemo}
-              className="glass-surface-green hover:glass-surface-green text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-surface-green hover:glass-surface-green glass-text-primary glass-font-semibold glass-py-3 glass-px-4 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               ♿ Accessibility Test
             </button>
             <button
               onClick={() => success('Feature Demo', 'Toast notification system working perfectly!')}
-              className="glass-surface-primary hover:glass-surface-primary text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+              className="glass-surface-primary hover:glass-surface-primary glass-text-primary glass-font-semibold glass-py-3 glass-px-4 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl"
             >
               🔔 Show Toast
             </button>
@@ -136,17 +136,17 @@ const ShowcaseDemo: React.FC = () => {
               onClick={() => error('Demo Error', 'This is a demo error message with action button.', {
                 action: { label: 'Retry', onClick: () => info('Retrying...', 'Operation retried successfully.') }
               })}
-              className="glass-surface-red hover:glass-surface-red text-primary font-semibold py-3 px-4 glass-radius-lg transition-colors shadow-lg hover:shadow-xl"
+              className="glass-surface-red hover:glass-surface-red glass-text-primary glass-font-semibold glass-py-3 glass-px-4 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl"
             >
               ⚠️ Demo Error
             </button>
           </div>
 
           {/* Components Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="glass-grid glass-glass-grid-cols-1 lg:glass-glass-grid-cols-2 glass-gap-8 mb-12">
             {/* Data Table */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-semibold glass-text-secondary">📊 Smart Data Table</h2>
+            <div className="glass-space-y-4">
+              <h2 className="glass-text-2xl glass-font-semibold glass-text-secondary">📊 Smart Data Table</h2>
               <p className="glass-text-secondary">Full-featured table with sorting, filtering, pagination, and loading states.</p>
               <GlassDataTable
                 data={tableData}
@@ -158,8 +158,8 @@ const ShowcaseDemo: React.FC = () => {
             </div>
 
             {/* File Upload */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-semibold glass-text-secondary">📁 File Upload System</h2>
+            <div className="glass-space-y-4">
+              <h2 className="glass-text-2xl glass-font-semibold glass-text-secondary">📁 File Upload System</h2>
               <p className="glass-text-secondary">Advanced upload with drag & drop, progress tracking, and validation.</p>
               <GlassFileUpload
                 accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
@@ -173,48 +173,48 @@ const ShowcaseDemo: React.FC = () => {
           </div>
 
           {/* Features Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <Glass className="p-6 text-center">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-lg font-semibold glass-text-secondary mb-2">Performance First</h3>
-              <p className="glass-text-secondary text-sm mb-4">
+          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 mb-12">
+            <Glass className="glass-p-6 glass-text-center">
+              <div className="glass-text-4xl glass-mb-4">⚡</div>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-2">Performance First</h3>
+              <p className="glass-text-secondary glass-text-sm glass-mb-4">
                 Real-time performance monitoring, adaptive quality, and optimization recommendations.
               </p>
-              <div className="text-xs glass-text-secondary">
+              <div className="glass-text-xs glass-text-secondary">
                 Current Score: {performance.getPerformanceScore()}/100 ({performance.getGrade()})
               </div>
             </Glass>
 
-            <Glass className="p-6 text-center">
-              <div className="text-4xl mb-4">♿</div>
-              <h3 className="text-lg font-semibold glass-text-secondary mb-2">Accessibility Built-in</h3>
-              <p className="glass-text-secondary text-sm mb-4">
+            <Glass className="glass-p-6 glass-text-center">
+              <div className="glass-text-4xl glass-mb-4">♿</div>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-2">Accessibility Built-in</h3>
+              <p className="glass-text-secondary glass-text-sm glass-mb-4">
                 WCAG compliance, screen reader support, keyboard navigation, and user preferences.
               </p>
-              <div className="text-xs glass-text-secondary">
+              <div className="glass-text-xs glass-text-secondary">
                 Font: {accessibility.settings.fontSize} • Contrast: {accessibility.settings.contrast}
               </div>
             </Glass>
 
-            <Glass className="p-6 text-center">
-              <div className="text-4xl mb-4">🛠️</div>
-              <h3 className="text-lg font-semibold glass-text-secondary mb-2">Developer Tools</h3>
-              <p className="glass-text-secondary text-sm mb-4">
+            <Glass className="glass-p-6 glass-text-center">
+              <div className="glass-text-4xl glass-mb-4">🛠️</div>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-2">Developer Tools</h3>
+              <p className="glass-text-secondary glass-text-sm glass-mb-4">
                 Built-in DevTools with performance monitoring, accessibility testing, and element inspector.
               </p>
-              <div className="text-xs glass-text-secondary">
+              <div className="glass-text-xs glass-text-secondary">
                 Check bottom-right corner for DevTools
               </div>
             </Glass>
           </div>
 
           {/* Technical Details */}
-          <Glass className="p-8">
-            <h2 className="text-2xl font-semibold glass-text-secondary mb-6">🚀 What's Included</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Glass className="glass-p-8">
+            <h2 className="glass-text-2xl glass-font-semibold glass-text-secondary mb-6">🚀 What's Included</h2>
+            <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-8">
               <div>
-                <h3 className="text-lg font-semibold glass-text-secondary mb-4">Real-World Components</h3>
-                <ul className="space-y-2 text-sm glass-text-secondary">
+                <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">Real-World Components</h3>
+                <ul className="glass-space-y-2 glass-text-sm glass-text-secondary">
                   <li>✅ <strong>GlassDataTable:</strong> Full-featured data tables with sorting, filtering, pagination</li>
                   <li>✅ <strong>GlassToast:</strong> Complete notification system with multiple types and positions</li>
                   <li>✅ <strong>GlassFileUpload:</strong> Advanced file upload with drag & drop and progress tracking</li>
@@ -222,8 +222,8 @@ const ShowcaseDemo: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="text-lg font-semibold glass-text-secondary mb-4">Advanced Features</h3>
-                <ul className="space-y-2 text-sm glass-text-secondary">
+                <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">Advanced Features</h3>
+                <ul className="glass-space-y-2 glass-text-sm glass-text-secondary">
                   <li>✅ <strong>Performance Monitoring:</strong> Real-time FPS, memory usage, Web Vitals tracking</li>
                   <li>✅ <strong>Accessibility System:</strong> Screen reader support, keyboard navigation, user preferences</li>
                   <li>✅ <strong>Developer Tools:</strong> Built-in DevTools with inspector, console, and performance tabs</li>
@@ -232,11 +232,11 @@ const ShowcaseDemo: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-8 p-6 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
-              <h3 className="text-lg font-semibold glass-text-secondary mb-2">💡 Key Benefits</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div className="mt-8 glass-p-6 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
+              <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-2">💡 Key Benefits</h3>
+              <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-4 glass-text-sm">
                 <div>
-                  <strong className="text-primary">For Users:</strong>
+                  <strong className="glass-text-primary">For Users:</strong>
                   <ul className="mt-2 space-y-1 glass-text-secondary">
                     <li>• Faster, more responsive interfaces</li>
                     <li>• Better accessibility support</li>
@@ -244,7 +244,7 @@ const ShowcaseDemo: React.FC = () => {
                   </ul>
                 </div>
                 <div>
-                  <strong className="text-primary">For Developers:</strong>
+                  <strong className="glass-text-primary">For Developers:</strong>
                   <ul className="mt-2 space-y-1 glass-text-secondary">
                     <li>• Built-in performance monitoring</li>
                     <li>• Comprehensive developer tools</li>
@@ -252,7 +252,7 @@ const ShowcaseDemo: React.FC = () => {
                   </ul>
                 </div>
                 <div>
-                  <strong className="text-primary">For Business:</strong>
+                  <strong className="glass-text-primary">For Business:</strong>
                   <ul className="mt-2 space-y-1 glass-text-secondary">
                     <li>• Reduced development time</li>
                     <li>• Better user satisfaction</li>

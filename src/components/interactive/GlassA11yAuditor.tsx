@@ -77,7 +77,7 @@ export const GlassA11yAuditor = forwardRef<
       showPanel = true,
       autoAudit = false,
       rules = defaultRules,
-      className = "",
+      className="",
       onAuditComplete,
       onIssueClick,
       respectMotionPreference = true,
@@ -354,24 +354,24 @@ export const GlassA11yAuditor = forwardRef<
           data-testid={dataTestId}
           {...props}
         >
-          <div id={`${componentId}-description`} className='sr-only'>
+          <div id={`${componentId}-description`} className='glass-sr-only'>
             Accessibility audit tool for analyzing and improving web
             accessibility
           </div>
           {/* Audit Controls */}
           <OptimizedGlass
-            className='glass-p-4 mb-4'
+            className='glass-p-4 glass-mb-4'
             intensity="medium"
             elevation="level1"
           >
-            <div className='glass-flex glass-items-center glass-justify-between mb-4'>
-              <h3 className='glass-text-lg font-semibold text-primary'>
+            <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
+              <h3 className='glass-text-lg glass-font-semibold glass-text-primary'>
                 Accessibility Audit
               </h3>
               <button
                 onClick={runAudit}
                 disabled={isAuditing}
-                className='glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
                 aria-label={
                   isAuditing
                     ? "Auditing accessibility issues"
@@ -384,32 +384,32 @@ export const GlassA11yAuditor = forwardRef<
 
             {/* Score Display */}
             {auditResult && (
-              <div className='glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4'>
-                <div className='text-center'>
+              <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4'>
+                <div className='glass-text-center'>
                   <div
                     className={`glass-text-2xl font-bold ${getScoreColor(auditResult.score)}`}
                   >
                     {auditResult.score}
                   </div>
-                  <div className='glass-text-sm text-primary/70'>Score</div>
+                  <div className='glass-text-sm glass-text-primary-opacity-70'>Score</div>
                 </div>
-                <div className='text-center'>
-                  <div className='glass-text-2xl font-bold text-primary'>
+                <div className='glass-text-center'>
+                  <div className='glass-text-2xl glass-font-bold glass-text-primary'>
                     {auditResult.summary.errors}
                   </div>
-                  <div className='glass-text-sm text-primary/70'>Errors</div>
+                  <div className='glass-text-sm glass-text-primary-opacity-70'>Errors</div>
                 </div>
-                <div className='text-center'>
-                  <div className='glass-text-2xl font-bold text-primary'>
+                <div className='glass-text-center'>
+                  <div className='glass-text-2xl glass-font-bold glass-text-primary'>
                     {auditResult.summary.warnings}
                   </div>
-                  <div className='glass-text-sm text-primary/70'>Warnings</div>
+                  <div className='glass-text-sm glass-text-primary-opacity-70'>Warnings</div>
                 </div>
-                <div className='text-center'>
-                  <div className='glass-text-2xl font-bold text-primary'>
+                <div className='glass-text-center'>
+                  <div className='glass-text-2xl glass-font-bold glass-text-primary'>
                     {auditResult.summary.info}
                   </div>
-                  <div className='glass-text-sm text-primary/70'>Info</div>
+                  <div className='glass-text-sm glass-text-primary-opacity-70'>Info</div>
                 </div>
               </div>
             )}
@@ -422,8 +422,8 @@ export const GlassA11yAuditor = forwardRef<
               blur="medium"
               elevation={"level1"}
             >
-              <div className='glass-flex glass-items-center glass-justify-between mb-4'>
-                <h4 className='text-md font-semibold text-primary'>Issues</h4>
+              <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
+                <h4 className='glass-text-md glass-font-semibold glass-text-primary'>Issues</h4>
                 <div className="glass-flex glass-gap-2">
                   {(["all", "error", "warning", "info"] as const).map(
                     (type: any) => (
@@ -443,7 +443,7 @@ export const GlassA11yAuditor = forwardRef<
                 </div>
               </div>
 
-              <div className='glass-gap-2 max-h-96 overflow-y-auto'>
+              <div className='glass-gap-2 glass-max-h-96 glass-overflow-y-auto'>
                 {filteredIssues.map((issue: any) => (
                   <button
                     key={issue.id}
@@ -454,19 +454,19 @@ export const GlassA11yAuditor = forwardRef<
                   >
                     <div className="glass-flex glass-items-start glass-justify-between">
                       <div className="glass-flex-1">
-                        <div className='glass-flex glass-items-center glass-gap-2 mb-1'>
-                          <span className='glass-text-sm font-medium'>
+                        <div className='glass-flex glass-items-center glass-gap-2 glass-mb-1'>
+                          <span className='glass-text-sm glass-font-medium'>
                             {issue.rule}
                           </span>
-                          <span className='glass-text-xs opacity-70'>
+                          <span className='glass-text-xs glass-opacity-70'>
                             WCAG {issue.wcag}
                           </span>
                         </div>
-                        <p className='glass-text-sm opacity-90'>
+                        <p className='glass-text-sm glass-opacity-90'>
                           {issue.message}
                         </p>
                         {issue.element && (
-                          <code className='glass-text-xs opacity-70 glass-surface-dark/20 glass-px-1 glass-py-0.5 glass-radius-md glass-mt-1 inline-block'>
+                          <code className='glass-text-xs glass-opacity-70 glass-surface-dark/20 glass-px-1 glass-py-0.5 glass-radius-md glass-mt-1 glass-inline-glass-block'>
                             {issue.element}
                           </code>
                         )}
@@ -476,7 +476,7 @@ export const GlassA11yAuditor = forwardRef<
                 ))}
 
                 {filteredIssues.length === 0 && (
-                  <div className='text-center glass-py-8 text-primary/50'>
+                  <div className='glass-text-center glass-py-8 glass-text-primary-glass-opacity-50'>
                     {auditResult
                       ? "No issues found!"
                       : "Run audit to check accessibility"}
@@ -488,26 +488,26 @@ export const GlassA11yAuditor = forwardRef<
             {/* Issue Details */}
             {selectedIssue && (
               <OptimizedGlass
-                className='w-80 glass-p-4'
+                className='glass-w-80 glass-p-4'
                 blur="medium"
                 elevation={"level1"}
               >
-                <h4 className='text-md font-semibold text-primary mb-4'>
+                <h4 className='glass-text-md glass-font-semibold glass-text-primary glass-mb-4'>
                   Issue Details
                 </h4>
 
                 <div className="glass-gap-4">
                   <div>
-                    <label className='block glass-text-sm text-primary/70 mb-1'>
+                    <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
                       Rule
                     </label>
-                    <div className='glass-text-sm font-medium text-primary'>
+                    <div className='glass-text-sm glass-font-medium glass-text-primary'>
                       {selectedIssue.rule}
                     </div>
                   </div>
 
                   <div>
-                    <label className='block glass-text-sm text-primary/70 mb-1'>
+                    <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
                       Type
                     </label>
                     <span
@@ -518,26 +518,26 @@ export const GlassA11yAuditor = forwardRef<
                   </div>
 
                   <div>
-                    <label className='block glass-text-sm text-primary/70 mb-1'>
+                    <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
                       WCAG Guideline
                     </label>
-                    <div className='glass-text-sm text-primary'>
+                    <div className='glass-text-sm glass-text-primary'>
                       {selectedIssue.wcag}
                     </div>
                   </div>
 
                   <div>
-                    <label className='block glass-text-sm text-primary/70 mb-1'>
+                    <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
                       Message
                     </label>
-                    <p className='glass-text-sm text-primary'>
+                    <p className='glass-text-sm glass-text-primary'>
                       {selectedIssue.message}
                     </p>
                   </div>
 
                   {selectedIssue.suggestion && (
                     <div>
-                      <label className='block glass-text-sm text-primary/70 mb-1'>
+                      <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
                         Suggestion
                       </label>
                       <p className="glass-text-sm glass-text-secondary">
@@ -548,10 +548,10 @@ export const GlassA11yAuditor = forwardRef<
 
                   {selectedIssue.code && (
                     <div>
-                      <label className='block glass-text-sm text-primary/70 mb-1'>
+                      <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
                         Element Code
                       </label>
-                      <pre className='glass-text-xs glass-surface-dark/20 glass-p-2 glass-radius-md overflow-x-auto'>
+                      <pre className='glass-text-xs glass-surface-dark/20 glass-p-2 glass-radius-md glass-overflow-x-auto'>
                         <code>{selectedIssue.code}</code>
                       </pre>
                     </div>

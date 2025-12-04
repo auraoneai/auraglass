@@ -257,15 +257,15 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
         >
           <div className="glass-gap-4">
             <div className="glass-flex glass-items-center glass-justify-between">
-              <div className='h-4 glass-surface-subtle/20 glass-radius-md w-24'></div>
-              <div className='w-8 h-8 glass-surface-subtle/20 glass-radius-md'></div>
+              <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24'></div>
+              <div className='glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md'></div>
             </div>
             <div className="glass-gap-2">
-              <div className='h-8 glass-surface-subtle/20 glass-radius-md w-32'></div>
-              <div className='h-4 glass-surface-subtle/20 glass-radius-md w-20'></div>
+              <div className='glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32'></div>
+              <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
             </div>
             {showProgress && (
-              <div className='h-2 glass-surface-subtle/10 glass-radius-md'></div>
+              <div className='glass-h-2 glass-surface-subtle/10 glass-radius-md'></div>
             )}
           </div>
         </GlassCard>
@@ -298,7 +298,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
           )}
           {...props}
         >
-          <CardHeader className='pb-2'>
+          <CardHeader className='glass-pb-2'>
             <div
               className={cn(
                 "flex items-start justify-between",
@@ -326,7 +326,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                       )}
                     >
                       {/* Icon glow effect */}
-                      <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                      <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-300' />
                       <span
                         className={cn(
                           config.iconSize,
@@ -340,7 +340,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                   {title}
                 </CardTitle>
                 {description && (
-                  <p className='glass-text-sm text-primary/60 glass-mt-1'>
+                  <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1'>
                     {description}
                   </p>
                 )}
@@ -382,7 +382,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
             </div>
           </CardHeader>
 
-          <CardContent className='pt-0'>
+          <CardContent className='glass-pt-0'>
             <div
               className={cn(
                 "flex items-baseline glass-gap-2 glass-mb-4 relative",
@@ -390,16 +390,16 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
               )}
             >
               {/* Value with sophisticated hover effects */}
-              <div className='relative'>
+              <div className='glass-relative'>
                 {/* Background glow on hover */}
-                <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-purple-400/30 glass-gradient-primary glass-blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-150' />
+                <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-500 glass--z-10 glass-scale-150' />
 
                 <span
                   className={cn(
                     config.valueClass,
                     variantConfig.valueColor,
                     "relative z-10 font-bold tracking-tight",
-                    "group-hover:scale-105 group-hover:glass-text-primary",
+                    "group-glass-hover-scale-105 group-hover:glass-text-primary",
                     "transition-all duration-300 ease-out",
                     "drop-shadow-sm group-hover:drop-shadow-lg"
                   )}
@@ -422,7 +422,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
 
             {/* Progress bar */}
             {showProgress && (
-              <div className='mb-4'>
+              <div className='glass-mb-4'>
                 <div
                   className={cn(
                     "w-full glass-radius-full overflow-hidden",
@@ -438,10 +438,10 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                 </div>
                 {progressLabel && (
                   <div className="glass-flex glass-justify-between glass-items-center glass-mt-2">
-                    <span className='glass-text-xs text-primary/60'>
+                    <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
                       {progressLabel}
                     </span>
-                    <span className='glass-text-xs text-primary/60'>
+                    <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
                       {Math.round(progress)}%
                     </span>
                   </div>
@@ -451,12 +451,12 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
 
             {/* Comparison */}
             {comparison && (
-              <div className='mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
+              <div className='glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm text-primary/70'>
+                  <span className='glass-text-sm glass-text-primary-opacity-70'>
                     {comparison.label}
                   </span>
-                  <span className='glass-text-sm font-medium text-primary'>
+                  <span className='glass-text-sm glass-font-medium glass-text-primary'>
                     {comparison.value}
                   </span>
                 </div>

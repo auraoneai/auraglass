@@ -301,7 +301,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
     }, [open]);
 
     return (
-      <div className='relative inline-block'>
+      <div className='glass-relative glass-inline-glass-block'>
         <div
           ref={triggerRef}
           className={triggerClassName}
@@ -315,7 +315,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
           <Motion
             preset="fadeIn"
             duration={shouldAnimate ? 200 : 0}
-            className='fixed z-[9999]'
+            className='glass-fixed glass-z-9999'
             style={{
               left: position.x,
               top: position.y,
@@ -347,16 +347,16 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
                 performanceMode="medium"
                 liftOnHover
                 hoverSheen
-                className="glass-glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/20 glass-shadow-2xl glass-radial-reveal glass-contrast-guard"
+                className="glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/20 glass-shadow-2xl glass-radial-reveal glass-contrast-guard"
               >
                 <div className="glass-p-4">
                   {/* Header with title and description */}
                   {(title || description) && (
-                    <div className='mb-2'>
+                    <div className='glass-mb-2'>
                       {title && (
                         <h3
                           id={titleId}
-                          className='font-medium text-primary glass-text-sm mb-1'
+                          className='glass-font-medium glass-text-primary glass-text-sm glass-mb-1'
                         >
                           {title}
                         </h3>

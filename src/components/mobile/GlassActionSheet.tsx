@@ -211,11 +211,11 @@ export const GlassActionSheet = forwardRef<
             className={cn("overflow-hidden glass-radius-2xl")}
           >
             {(title || message) && (
-              <div className='glass-p-4 text-center glass-border-b glass-border-subtle'>
+              <div className='glass-p-4 glass-text-center glass-border-b glass-border-subtle'>
                 {title && (
                   <h3
                     id="action-sheet-title"
-                    className='glass-text-lg font-semibold glass-text-primary mb-1'
+                    className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
                   >
                     {title}
                   </h3>
@@ -231,7 +231,7 @@ export const GlassActionSheet = forwardRef<
               </div>
             )}
 
-            <div className='max-h-96 overflow-y-auto'>
+            <div className='glass-max-h-96 glass-overflow-y-auto'>
               {actions.map((action, index) => (
                 <button
                   key={index}
@@ -243,7 +243,7 @@ export const GlassActionSheet = forwardRef<
                     "transition-all duration-200",
                     "border-b glass-border-subtle last:border-b-0",
                     "hover:bg-white/5 active:bg-white/10",
-                    "disabled:opacity-50 disabled:cursor-not-allowed",
+                    "disabled:opacity-50 glass-disabled-cursor-not-allowed",
                     action.variant === "destructive" && "text-red-500",
                     action.variant === "primary" &&
                       "text-blue-500 font-semibold",
@@ -265,7 +265,7 @@ export const GlassActionSheet = forwardRef<
           {showCancel && (
             <OptimizedGlass
               elevation={elevation}
-              className='mt-2 overflow-hidden glass-radius-2xl'
+              className='glass-mt-2 glass-overflow-hidden glass-radius-2xl'
             >
               <button
                 onClick={onClose}

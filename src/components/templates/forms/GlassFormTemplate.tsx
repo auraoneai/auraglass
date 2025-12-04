@@ -249,7 +249,7 @@ export const GlassFormTemplate = forwardRef<
       return (
         <VStack data-glass-component space="md">
           <HStack space="sm" align="center" justify="between">
-            <span className='glass-text-sm font-medium text-primary'>
+            <span className='glass-text-sm glass-font-medium glass-text-primary'>
               Step {currentStep + 1} of {totalSteps}
             </span>
             <span className="glass-text-sm glass-text-secondary">
@@ -287,7 +287,7 @@ export const GlassFormTemplate = forwardRef<
                 >
                   {index < currentStep ? "✓" : index + 1}
                 </div>
-                <span className='glass-text-xs text-center max-w-16 truncate'>
+                <span className='glass-text-xs glass-text-center glass-max-w-16 glass-truncate'>
                   {step.title}
                 </span>
               </div>
@@ -347,7 +347,7 @@ export const GlassFormTemplate = forwardRef<
         {/* Current step header */}
         {isMultiStep && currentStepData && (
           <VStack space="sm">
-            <h2 className='glass-text-xl font-semibold text-primary'>
+            <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
               {currentStepData.title}
             </h2>
             {currentStepData.description && (
@@ -385,7 +385,7 @@ export const GlassFormTemplate = forwardRef<
       switch (layout) {
         case "centered":
           return (
-            <div className='max-w-2xl glass-mx-auto'>
+            <div className='glass-max-w-2xl glass-mx-auto'>
               <GlassCard variant="default" className="glass-p-8">
                 {renderFormContent()}
               </GlassCard>
@@ -395,12 +395,12 @@ export const GlassFormTemplate = forwardRef<
         case "sidebar":
           return (
             <div className="glass-grid glass-grid-cols-12 glass-gap-8">
-              <div className='col-span-8'>
+              <div className='glass-col-span-8'>
                 <GlassCard variant="default" className="glass-p-6">
                   {renderFormContent()}
                 </GlassCard>
               </div>
-              <div className='col-span-4'>{sidebar}</div>
+              <div className='glass-col-span-4'>{sidebar}</div>
             </div>
           );
 

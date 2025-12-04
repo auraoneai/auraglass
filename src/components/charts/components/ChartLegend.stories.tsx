@@ -57,7 +57,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-8">
+    <div className="glass-flex glass-flex-col glass-gap-8">
       <ChartLegend {...args} position="top" style="default" />
       <ChartLegend {...args} position="bottom" style="compact" />
       <ChartLegend {...args} position="left" style="minimal" />

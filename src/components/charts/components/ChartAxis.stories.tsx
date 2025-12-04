@@ -56,7 +56,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-8">
+    <div className="glass-flex glass-flex-col glass-gap-8">
       <div style={{ position: 'relative', width: '400px', height: '100px' }}>
         <ChartAxis {...args} orientation="horizontal" label="Horizontal Axis" />
       </div>

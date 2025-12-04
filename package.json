@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "2.16",
+  "version": "2.16.2",
   "description": "A comprehensive glassmorphism design system for React applications with 142+ production-ready components",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,7 +30,37 @@
       "import": "./dist/tokens/manifest.mjs",
       "default": "./dist/tokens/manifest.mjs"
     },
+    "./tokens/css": "./dist/tokens/tokens.css",
+    "./tokens/keyframes": "./dist/tokens/tokens.keyframes.css",
     "./styles": "./dist/styles/index.css",
+    "./core/mixins/glassMixins": {
+      "types": "./dist/core/mixins/glassMixins.d.ts",
+      "import": "./dist/esm/core/mixins/glassMixins.js",
+      "default": "./dist/esm/core/mixins/glassMixins.js"
+    },
+    "./utils/env": {
+      "types": "./dist/utils/env.d.ts",
+      "import": "./dist/esm/utils/env.js",
+      "default": "./dist/esm/utils/env.js"
+    },
+    "./hooks/useGlassProbes": {
+      "types": "./dist/hooks/useGlassProbes.d.ts"
+    },
+    "./services/ai/openai-service": {
+      "types": "./dist/services/ai/openai-service.d.ts",
+      "import": "./dist/esm/services/ai/openai-service.js",
+      "default": "./dist/esm/services/ai/openai-service.js"
+    },
+    "./services/ai/vision-service": {
+      "types": "./dist/services/ai/vision-service.d.ts",
+      "import": "./dist/esm/services/ai/vision-service.js",
+      "default": "./dist/esm/services/ai/vision-service.js"
+    },
+    "./services/websocket/collaboration-service": {
+      "types": "./dist/services/websocket/collaboration-service.d.ts",
+      "import": "./dist/esm/services/websocket/collaboration-service.js",
+      "default": "./dist/esm/services/websocket/collaboration-service.js"
+    },
     "./registry": {
       "types": "./dist/registry/index.d.ts",
       "import": "./dist/registry/index.mjs",

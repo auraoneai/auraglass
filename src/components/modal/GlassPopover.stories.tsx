@@ -54,16 +54,16 @@ type Story = StoryObj<typeof GlassPopover>;
 export const Default: Story = {
   args: {
     content: (
-      <div className="p-4">
-        <h3 className="font-semibold mb-2">Popover Content</h3>
-        <p className="text-sm">This is the content inside the popover.</p>
-        <button className="glass-mt-2 px-3 py-1 glass-surface-blue text-primary glass-radius-md text-sm">
+      <div className="glass-p-4">
+        <h3 className="glass-font-semibold glass-mb-2">Popover Content</h3>
+        <p className="glass-text-sm">This is the content inside the popover.</p>
+        <button className="glass-mt-2 glass-px-3 glass-py-1 glass-surface-blue glass-text-primary glass-radius-md glass-text-sm">
           Action
         </button>
       </div>
     ),
     children: (
-      <button className="px-4 py-2 glass-surface-blue text-primary glass-radius-md">
+      <button className="glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius-md">
         Click me
       </button>
     ),
@@ -75,23 +75,23 @@ export const WithTitle: Story = {
     title: 'Settings',
     description: 'Configure your preferences',
     content: (
-      <div className="p-4 gap-3">
-        <div className="flex items-center justify-between">
-          <span className="text-sm">Notifications</span>
+      <div className="glass-p-4 glass-gap-3">
+        <div className="glass-flex glass-items-center glass-justify-between">
+          <span className="glass-text-sm">Notifications</span>
           <input type="checkbox" defaultChecked />
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-sm">Dark Mode</span>
+        <div className="glass-flex glass-items-center glass-justify-between">
+          <span className="glass-text-sm">Dark Mode</span>
           <input type="checkbox" />
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-sm">Auto-save</span>
+        <div className="glass-flex glass-items-center glass-justify-between">
+          <span className="glass-text-sm">Auto-save</span>
           <input type="checkbox" defaultChecked />
         </div>
       </div>
     ),
     children: (
-      <button className="px-4 py-2 glass-surface-primary text-primary glass-radius-md">
+      <button className="glass-px-4 glass-py-2 glass-surface-primary glass-text-primary glass-radius-md">
         Settings
       </button>
     ),

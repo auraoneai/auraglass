@@ -297,7 +297,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                   e.stopPropagation();
                   toggleExpand(node.id);
                 }}
-                className='glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5'
+                className='glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5'
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -317,7 +317,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                 </svg>
               </button>
             )}
-            {!hasChildren && <div className='w-4' />}
+            {!hasChildren && <div className='glass-w-4' />}
 
             {shouldShowCheckbox && (
               <input
@@ -334,7 +334,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               <span className="glass-flex-shrink-0">{node.icon}</span>
             )}
 
-            <span className='glass-flex-1 glass-text-sm glass-text-primary truncate'>
+            <span className='glass-flex-1 glass-text-sm glass-text-primary glass-truncate'>
               {node.label}
             </span>
           </div>
@@ -363,7 +363,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
             "transition-all duration-200",
             "hover:bg-white/10",
             "focus:outline-none glass-focus glass-touch-target glass-contrast-guard",
-            "disabled:opacity-50 disabled:cursor-not-allowed",
+            "disabled:opacity-50 glass-disabled-cursor-not-allowed",
             isOpen && "ring-2 ring-blue-500/50"
           )}
         >
@@ -421,9 +421,9 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               </div>
             )}
 
-            <div className='overflow-y-auto glass-p-2' style={{ maxHeight }}>
+            <div className='glass-overflow-y-auto glass-p-2' style={{ maxHeight }}>
               {filteredData.length === 0 ? (
-                <div className='glass-p-4 text-center glass-text-sm glass-text-secondary'>
+                <div className='glass-p-4 glass-text-center glass-text-sm glass-text-secondary'>
                   No results found
                 </div>
               ) : (

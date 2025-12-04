@@ -661,7 +661,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-voice-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-voice-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
             <button
@@ -682,7 +682,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
             <button
               onClick={clearTranscript}
-              className='glass-px-3 glass-py-2 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-px-3 glass-py-2 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
             >
               Clear
             </button>
@@ -752,9 +752,9 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
           <div className="glass-flex glass-items-center glass-gap-2">
             <span className="glass-text-sm">Audio Level:</span>
-            <div className='w-20 h-2 glass-surface-overlay glass-radius-full overflow-hidden'>
+            <div className='glass-w-20 glass-h-2 glass-surface-overlay glass-radius-full glass-overflow-hidden'>
               <div
-                className='glass-h-full glass-surface-green/60 transition-all duration-100'
+                className='glass-h-full glass-surface-green/60 glass-transition-all glass-duration-100'
                 style={{ width: `${audioLevel * 100}%` }}
               />
             </div>
@@ -796,7 +796,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
                   isListening ? "bg-green-500 animate-pulse" : "bg-red-500"
                 )}
               />
-              <span className='glass-text-sm font-medium'>
+              <span className='glass-text-sm glass-font-medium'>
                 {isListening ? "Listening..." : "Ready"}
               </span>
               {frequency > 0 && (
@@ -828,11 +828,11 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           {/* Transcript */}
           {showTranscript && (transcript || interimTranscript) && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm font-medium mb-2'>Transcript:</div>
+              <div className='glass-text-sm glass-font-medium glass-mb-2'>Transcript:</div>
               <div className="glass-text-sm">
                 <span>{transcript}</span>
                 {interimTranscript && (
-                  <span className='glass-text-secondary italic'>
+                  <span className='glass-text-secondary glass-italic'>
                     {" "}
                     {interimTranscript}
                   </span>
@@ -844,16 +844,16 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           {/* Recent commands */}
           {recognizedCommands.length > 0 && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm font-medium mb-2'>
+              <div className='glass-text-sm glass-font-medium glass-mb-2'>
                 Recent Commands:
               </div>
-              <div className='space-y-1'>
+              <div className='glass-space-y-1'>
                 {recognizedCommands.slice(-5).map((command: any) => (
                   <div
                     key={command.id}
                     className="glass-text-xs glass-p-2 glass-surface-primary/10 glass-radius-sm"
                   >
-                    <span className='font-medium'>{command.phrase}</span>
+                    <span className='glass-font-medium'>{command.phrase}</span>
                     <span className="glass-text-secondary glass-ml-2">
                       ({Math.round(command.confidence * 100)}% confidence)
                     </span>

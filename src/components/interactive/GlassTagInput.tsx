@@ -40,12 +40,12 @@ export function GlassTagInput({
       {value.map((t) => (
         <span
           key={t}
-          className="glass-inline-flex glass-items-center glass-gap-1 glass-px-2 glass-py-1 glass-text-sm glass-radius-lg glass-surface-subtle/10 glass-border glass-border-white/20"
+          className="glass-inline-glass-flex glass-items-center glass-gap-1 glass-px-2 glass-py-1 glass-text-sm glass-radius-lg glass-surface-subtle/10 glass-border glass-border-white/20"
         >
           {t}
           <button
             onClick={(e) => remove(t)}
-            className='text-primary/60 hover:text-primary glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
           >
             ×
           </button>
@@ -63,10 +63,10 @@ export function GlassTagInput({
           }
         }}
         placeholder={placeholder}
-        className='glass-flex-1 min-w-[120px] bg-transparent outline-none glass-text-sm placeholder:text-primary/50 glass-focus glass-touch-target glass-contrast-guard'
+        className='glass-flex-1 glass-min-w-120px glass-bg-transparent glass-outline-none glass-text-sm glass-placeholder-text-primary-opacity-50 glass-focus glass-touch-target glass-contrast-guard'
       />
       {!!suggestions.length && input && (
-        <div className='glass-w-full -mb-1'>
+        <div className='glass-w-full glass--mb-1'>
           <div className="glass-mt-1 glass-radius-lg glass-border glass-border-white/15 glass-surface-dark/20 glass-p-1">
             {suggestions
               .filter((s: any) => s.toLowerCase().includes(input.toLowerCase()))

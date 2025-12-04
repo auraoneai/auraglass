@@ -130,7 +130,7 @@ export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(
       parallaxStrength = 0.5,
       enableHover = true,
       hoverLift = 10,
-      className = "",
+      className="",
       ...props
     },
     ref
@@ -200,7 +200,7 @@ interface DepthSceneProps {
 export const GlassDepthScene: React.FC<DepthSceneProps> = ({
   children,
   perspective = 1000,
-  className = "",
+  className="",
 }) => {
   return (
     <div
@@ -231,7 +231,7 @@ export const LayeredGlassStack: React.FC<LayeredGlassStackProps> = ({
   layers,
   enableParallax = true,
   enableHover = true,
-  className = "",
+  className="",
 }) => {
   const sortedLayers = useMemo(
     () =>
@@ -252,7 +252,7 @@ export const LayeredGlassStack: React.FC<LayeredGlassStackProps> = ({
           customConfig={layerData.config}
           enableParallax={enableParallax}
           enableHover={enableHover}
-          className='absolute inset-0'
+          className='glass-absolute glass-inset-0'
         >
           {layerData.content}
         </GlassDepthLayer>

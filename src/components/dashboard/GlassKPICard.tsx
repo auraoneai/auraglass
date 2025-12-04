@@ -255,12 +255,12 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
       >
         <div className="glass-gap-4">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-24'></div>
-            <div className='w-8 h-8 glass-surface-subtle/20 glass-radius-md'></div>
+            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24'></div>
+            <div className='glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md'></div>
           </div>
           <div className="glass-gap-2">
-            <div className='h-8 glass-surface-subtle/20 glass-radius-md w-32'></div>
-            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-20'></div>
+            <div className='glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32'></div>
+            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
           </div>
         </div>
       </GlassCard>
@@ -292,7 +292,7 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
         )}
         {...props}
       >
-        <CardHeader className='pb-2'>
+        <CardHeader className='glass-pb-2'>
           <div className="glass-flex glass-items-center glass-justify-between">
             <CardTitle
               className={cn(
@@ -312,7 +312,7 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
                     variantConfig.iconColor
                   )}
                 >
-                  <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                  <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-300' />
                   <span
                     className={cn(
                       config.iconSize,
@@ -327,8 +327,8 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
             </CardTitle>
             {trendInfo && trendInfo.trendIcon && (
               <div className='glass-flex glass-items-center glass-gap-1 trend-indicator'>
-                <div className='glass-p-1 glass-radius-md glass-surface-subtle/10 group-hover:glass-surface-subtle/20 transition-colors duration-300'>
-                  <span data-icon className='transition-all duration-300'>
+                <div className='glass-p-1 glass-radius-md glass-surface-subtle/10 glass-group-hover:glass-surface-subtle/20 glass-transition-colors glass-duration-300'>
+                  <span data-icon className='glass-transition-all glass-duration-300'>
                     {trendInfo.trendIcon}
                   </span>
                 </div>
@@ -338,7 +338,7 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
                       config.trendTextSize,
                       trendInfo.trendColor,
                       "font-medium transition-all duration-300",
-                      "group-hover:scale-105 group-hover:brightness-110"
+                      "group-glass-hover-scale-105 group-hover:brightness-110"
                     )}
                   >
                     {trendInfo.trendText}
@@ -348,17 +348,17 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
             )}
           </div>
           {description && (
-            <p className='glass-text-sm text-primary/60 glass-mt-1'>
+            <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1'>
               {description}
             </p>
           )}
         </CardHeader>
 
-        <CardContent className='pt-0'>
-          <div className='glass-flex items-baseline glass-gap-2 relative'>
+        <CardContent className='glass-pt-0'>
+          <div className='glass-flex glass-items-baseline glass-gap-2 glass-relative'>
             {/* Value with premium glow effect */}
-            <div className='relative premium-glow'>
-              <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-purple-400/30 glass-gradient-primary glass-blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-150' />
+            <div className='glass-relative premium-glow'>
+              <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-500 glass--z-10 glass-scale-150' />
               <span
                 data-value
                 className={cn(
@@ -387,7 +387,7 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
 
           {previousValue && (
             <div className="glass-mt-2">
-              <span className='glass-text-sm text-primary/50'>
+              <span className='glass-text-sm glass-text-primary-glass-opacity-50'>
                 Previous:{" "}
                 {formatValue
                   ? formatValue(previousValue)

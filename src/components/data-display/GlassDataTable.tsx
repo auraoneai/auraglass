@@ -553,7 +553,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       >
         {/* Table header with search and actions */}
         {(searchable || actions || filterable) && (
-          <div className='glass-flex glass-items-center glass-justify-between glass-gap-4 mb-4'>
+          <div className='glass-flex glass-items-center glass-justify-between glass-gap-4 glass-mb-4'>
             <div className="glass-flex glass-items-center glass-gap-4">
               {searchable && (
                 <GlassInput
@@ -562,7 +562,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                   onChange={(e) => setSearchQuery(e.target.value)}
                   leftIcon={
                     <svg
-                      className='w-4 h-4'
+                      className='glass-w-4 glass-h-4'
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -576,7 +576,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                     </svg>
                   }
                   clearable
-                  className='w-64'
+                  className='glass-w-64'
                 />
               )}
             </div>
@@ -603,7 +603,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
             variant === "bordered" && "border border-border/20"
           )}
         >
-          <div className='overflow-x-auto'>
+          <div className='glass-overflow-x-auto'>
             <table className="glass-w-full">
               {/* Table header */}
               <thead
@@ -619,7 +619,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                         type="checkbox"
                         checked={isAllSelected}
                         onChange={(e) => handleSelectAll(e.target.checked)}
-                        className='glass-radius-md glass-border-glass-border focus:ring-primary'
+                        className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
                       />
                     </th>
                   )}
@@ -698,7 +698,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       )}
                     >
                       <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-py-8">
-                        <div className='w-4 h-4 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
+                        <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
                         <span className="glass-text-secondary">Loading...</span>
                       </div>
                     </td>
@@ -715,7 +715,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       {emptyState ? (
                         <div className="glass-flex glass-flex-col glass-items-center glass-gap-2">
                           {emptyState.icon}
-                          <div className='font-medium'>
+                          <div className='glass-font-medium'>
                             {emptyState.message || emptyMessage}
                           </div>
                           {emptyState.description && (
@@ -745,7 +745,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                               variant === "striped" && index % 2 === 1,
                             "bg-primary/10 shadow-md shadow-primary/20 ring-1 ring-primary/20":
                               isSelected,
-                            "hover:bg-muted/10 cursor-pointer hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-0.5 hover:ring-1 hover:ring-white/10":
+                            "hover:bg-muted/10 cursor-pointer hover:shadow-lg hover:shadow-primary/10 glass-hover--translate-y-0-5 hover:ring-1 hover:ring-white/10":
                               onRowClick,
                             // Consciousness feature styles
                             "ring-1 ring-blue-400/20 bg-blue-400/5":
@@ -773,7 +773,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                               onChange={(e) =>
                                 handleRowSelection(rowId, e.target.checked)
                               }
-                              className='glass-radius-md glass-border-glass-border focus:ring-primary'
+                              className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
                               onClick={(e) => e.stopPropagation()}
                             />
                           </td>

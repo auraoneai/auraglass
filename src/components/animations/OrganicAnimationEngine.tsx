@@ -285,7 +285,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
 
 export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   children,
-  className = "",
+  className="",
   sequences = [],
   emotionalContext = "calm",
   enablePhysics = true,

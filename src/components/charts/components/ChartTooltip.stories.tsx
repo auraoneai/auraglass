@@ -59,7 +59,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-8">
+    <div className="glass-flex glass-flex-col glass-gap-8">
       <ChartTooltip {...args} tooltipStyle="frosted" />
       <ChartTooltip {...args} tooltipStyle="minimal" />
       <ChartTooltip {...args} tooltipStyle="detailed" />

@@ -88,7 +88,7 @@ export const GlassCollaborativeCursor = forwardRef<
       showActions = true,
       onCursorMove,
       onUserAction,
-      className = "",
+      className="",
       ...props
     },
     ref

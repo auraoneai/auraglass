@@ -157,7 +157,7 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
               <li key={index} className="glass-flex glass-items-center">
                 {index > 0 && (
                   <span
-                    className='glass-mx-2 text-primary/40'
+                    className='glass-mx-2 glass-text-primary-glass-opacity-40'
                     aria-hidden="true"
                   >
                     {separator}
@@ -200,7 +200,7 @@ export const GlassBreadcrumbItem = forwardRef<
         ref={ref}
         className={cn(
           "glass-text-primary/80 transition-all duration-200",
-          !isCurrentPage && !shouldReduceMotion && "hover:-translate-y-0.5",
+          !isCurrentPage && !shouldReduceMotion && "glass-hover--translate-y-0-5",
           isCurrentPage && "glass-text-primary font-medium",
           className
         )}
@@ -262,7 +262,7 @@ export const GlassBreadcrumbLink = forwardRef<
       "glass-text-primary/70 hover:glass-text-primary transition-all duration-200",
       "focus:outline-none glass-pulse-ring",
       "glass-radius-sm glass-px-1 glass-py-0.5 -glass-mx-1 -glass-my-0.5",
-      !isCurrentPage && !shouldReduceMotion && "hover:-translate-y-0.5",
+      !isCurrentPage && !shouldReduceMotion && "glass-hover--translate-y-0-5",
       isCurrentPage && "glass-text-primary font-medium cursor-default",
       className
     );

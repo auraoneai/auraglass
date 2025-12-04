@@ -59,17 +59,17 @@ export const Default: Story = {
     showControls: true
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary flex items-center justify-center p-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-flex glass-items-center glass-justify-center glass-p-8">
       <GlassShatterEffects {...args}>
-        <div className="p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 max-w-md glass-contrast-guard">
-          <h2 className="text-2xl font-bold text-primary mb-4">Glass Shatter Effect</h2>
-          <p className="text-primary/80 mb-6">
+        <div className="glass-p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 max-w-md glass-contrast-guard">
+          <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4">Glass Shatter Effect</h2>
+          <p className="glass-text-primary/80 mb-6">
             Click anywhere on this card to trigger the glass shatter effect.
             Watch as the glass breaks apart with realistic physics!
           </p>
-          <div className="text-center">
-            <div className="text-4xl mb-2">💎</div>
-            <p className="text-sm text-primary/60">Click to shatter</p>
+          <div className="glass-text-center">
+            <div className="glass-text-4xl glass-mb-2">💎</div>
+            <p className="glass-text-sm glass-text-primary/60">Click to shatter</p>
           </div>
         </div>
       </GlassShatterEffects>
@@ -88,17 +88,17 @@ export const Dramatic: Story = {
     showControls: true
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-orange-900 glass-gradient-primary flex items-center justify-center p-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-orange-900 glass-gradient-primary glass-flex glass-items-center glass-justify-center glass-p-8">
       <GlassShatterEffects {...args}>
-        <div className="p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 max-w-md glass-contrast-guard">
-          <h2 className="text-2xl font-bold text-primary mb-4">Dramatic Shatter</h2>
-          <p className="text-primary/80 mb-6">
+        <div className="glass-p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 max-w-md glass-contrast-guard">
+          <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4">Dramatic Shatter</h2>
+          <p className="glass-text-primary/80 mb-6">
             Experience a more intense shatter effect with more shards and slower animation.
             Perfect for dramatic reveals!
           </p>
-          <div className="text-center">
-            <div className="text-4xl mb-2">🔥</div>
-            <p className="text-sm text-primary/60">Click for dramatic effect</p>
+          <div className="glass-text-center">
+            <div className="glass-text-4xl glass-mb-2">🔥</div>
+            <p className="glass-text-sm glass-text-primary/60">Click for dramatic effect</p>
           </div>
         </div>
       </GlassShatterEffects>
@@ -117,17 +117,17 @@ export const HoverTrigger: Story = {
     showControls: true
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-teal-900 glass-gradient-primary flex items-center justify-center p-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-teal-900 glass-gradient-primary glass-flex glass-items-center glass-justify-center glass-p-8">
       <GlassShatterEffects {...args}>
-        <div className="p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 max-w-md glass-contrast-guard">
-          <h2 className="text-2xl font-bold text-primary mb-4">Hover Shatter</h2>
-          <p className="text-primary/80 mb-6">
+        <div className="glass-p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 max-w-md glass-contrast-guard">
+          <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4">Hover Shatter</h2>
+          <p className="glass-text-primary/80 mb-6">
             Move your mouse over this card to trigger the shatter effect.
             It will automatically reform after a short delay.
           </p>
-          <div className="text-center">
-            <div className="text-4xl mb-2">🎯</div>
-            <p className="text-sm text-primary/60">Hover to shatter</p>
+          <div className="glass-text-center">
+            <div className="glass-text-4xl glass-mb-2">🎯</div>
+            <p className="glass-text-sm glass-text-primary/60">Hover to shatter</p>
           </div>
         </div>
       </GlassShatterEffects>
@@ -146,17 +146,17 @@ export const AutoShatter: Story = {
     showControls: true
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-pink-900 glass-gradient-primary flex items-center justify-center p-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-pink-900 glass-gradient-primary glass-flex glass-items-center glass-justify-center glass-p-8">
       <GlassShatterEffects {...args}>
-        <div className="p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 max-w-md glass-contrast-guard">
-          <h2 className="text-2xl font-bold text-primary mb-4">Auto Shatter</h2>
-          <p className="text-primary/80 mb-6">
+        <div className="glass-p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 max-w-md glass-contrast-guard">
+          <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4">Auto Shatter</h2>
+          <p className="glass-text-primary/80 mb-6">
             This card will automatically shatter every few seconds,
             demonstrating the continuous animation capability.
           </p>
-          <div className="text-center">
-            <div className="text-4xl mb-2">⚡</div>
-            <p className="text-sm text-primary/60">Watch the auto-shatter</p>
+          <div className="glass-text-center">
+            <div className="glass-text-4xl glass-mb-2">⚡</div>
+            <p className="glass-text-sm glass-text-primary/60">Watch the auto-shatter</p>
           </div>
         </div>
       </GlassShatterEffects>
@@ -175,17 +175,17 @@ export const Minimal: Story = {
     showControls: false
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-surface-subtle flex items-center justify-center p-8">
+    <div className="glass-min-glass-h-screen glass-surface-subtle glass-flex glass-items-center glass-justify-center glass-p-8">
       <GlassShatterEffects {...args}>
-        <div className="p-8 glass-surface-subtle glass-radius-xl border border-subtle shadow-lg max-w-md">
-          <h2 className="text-xl font-bold glass-text-secondary mb-4">Minimal Shatter</h2>
+        <div className="glass-p-8 glass-surface-subtle glass-radius-xl glass-border glass-border-subtle glass-shadow-lg max-w-md">
+          <h2 className="glass-text-xl glass-font-bold glass-text-secondary glass-mb-4">Minimal Shatter</h2>
           <p className="glass-text-secondary mb-6">
             A subtle shatter effect with fewer shards and faster animation.
             Perfect for clean, minimal designs.
           </p>
-          <div className="text-center">
-            <div className="text-3xl mb-2">💎</div>
-            <p className="text-sm glass-text-secondary">Click for subtle effect</p>
+          <div className="glass-text-center">
+            <div className="glass-text-3xl glass-mb-2">💎</div>
+            <p className="glass-text-sm glass-text-secondary">Click for subtle effect</p>
           </div>
         </div>
       </GlassShatterEffects>
@@ -203,17 +203,17 @@ export const NoReform: Story = {
     showControls: true
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-slate-900 glass-gradient-primary flex items-center justify-center p-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-slate-900 glass-gradient-primary glass-flex glass-items-center glass-justify-center glass-p-8">
       <GlassShatterEffects {...args}>
-        <div className="p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 max-w-md glass-contrast-guard">
-          <h2 className="text-2xl font-bold text-primary mb-4">Permanent Shatter</h2>
-          <p className="text-primary/80 mb-6">
+        <div className="glass-p-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 max-w-md glass-contrast-guard">
+          <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4">Permanent Shatter</h2>
+          <p className="glass-text-primary/80 mb-6">
             This card will shatter but won't automatically reform.
             Use the controls to manually reform it.
           </p>
-          <div className="text-center">
-            <div className="text-4xl mb-2">💥</div>
-            <p className="text-sm text-primary/60">Click to shatter permanently</p>
+          <div className="glass-text-center">
+            <div className="glass-text-4xl glass-mb-2">💥</div>
+            <p className="glass-text-sm glass-text-primary/60">Click to shatter permanently</p>
           </div>
         </div>
       </GlassShatterEffects>
@@ -232,68 +232,68 @@ export const InteractiveGallery: Story = {
     showControls: false
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-primary text-center mb-12">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-p-8">
+      <div className="max-w-6xl glass-mx-auto">
+        <h1 className="glass-text-4xl glass-font-bold glass-text-primary glass-text-center mb-12">
           Interactive Shatter Gallery
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 lg:glass-glass-grid-cols-3 glass-gap-8">
           <GlassShatterEffects {...args}>
-            <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
-              <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Creative</h3>
-              <p className="text-primary/80 text-sm">
+            <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 glass-contrast-guard">
+              <div className="glass-text-4xl glass-mb-4">🎨</div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">Creative</h3>
+              <p className="glass-text-primary/80 glass-text-sm">
                 Unleash your creativity with glass shatter effects
               </p>
             </div>
           </GlassShatterEffects>
 
           <GlassShatterEffects {...args}>
-            <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Dynamic</h3>
-              <p className="text-primary/80 text-sm">
+            <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 glass-contrast-guard">
+              <div className="glass-text-4xl glass-mb-4">🚀</div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">Dynamic</h3>
+              <p className="glass-text-primary/80 glass-text-sm">
                 Experience dynamic visual effects and animations
               </p>
             </div>
           </GlassShatterEffects>
 
           <GlassShatterEffects {...args}>
-            <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
-              <div className="text-4xl mb-4">💎</div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Elegant</h3>
-              <p className="text-primary/80 text-sm">
+            <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 glass-contrast-guard">
+              <div className="glass-text-4xl glass-mb-4">💎</div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">Elegant</h3>
+              <p className="glass-text-primary/80 glass-text-sm">
                 Beautiful glass effects with elegant animations
               </p>
             </div>
           </GlassShatterEffects>
 
           <GlassShatterEffects {...args}>
-            <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Powerful</h3>
-              <p className="text-primary/80 text-sm">
+            <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 glass-contrast-guard">
+              <div className="glass-text-4xl glass-mb-4">⚡</div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">Powerful</h3>
+              <p className="glass-text-primary/80 glass-text-sm">
                 Powerful visual effects that capture attention
               </p>
             </div>
           </GlassShatterEffects>
 
           <GlassShatterEffects {...args}>
-            <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
-              <div className="text-4xl mb-4">🎭</div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Interactive</h3>
-              <p className="text-primary/80 text-sm">
+            <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 glass-contrast-guard">
+              <div className="glass-text-4xl glass-mb-4">🎭</div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">Interactive</h3>
+              <p className="glass-text-primary/80 glass-text-sm">
                 Interactive experiences with user engagement
               </p>
             </div>
           </GlassShatterEffects>
 
           <GlassShatterEffects {...args}>
-            <div className="p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl border border-white/20 glass-contrast-guard">
-              <div className="text-4xl mb-4">✨</div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Magical</h3>
-              <p className="text-primary/80 text-sm">
+            <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-white/20 glass-contrast-guard">
+              <div className="glass-text-4xl glass-mb-4">✨</div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">Magical</h3>
+              <p className="glass-text-primary/80 glass-text-sm">
                 Magical effects that create memorable experiences
               </p>
             </div>

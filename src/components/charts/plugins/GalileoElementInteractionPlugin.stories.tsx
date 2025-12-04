@@ -138,33 +138,33 @@ export const Default: Story = {
           className={`chart-element relative overflow-hidden ${className}`}
           style={{ transition: 'transform 180ms ease, box-shadow 180ms ease' }}
         >
-          <div className="absolute inset-0 pointer-events-none" style={style} />
-          <div className="relative text-center">
-            <div className="w-8 h-8 glass-radius-full mx-auto mb-2" style={{ backgroundColor: dotColor }} />
-            <p className="text-sm font-medium">{label}</p>
+          <div className="glass-absolute glass-inset-0 glass-pointer-events-none" style={style} />
+          <div className="glass-relative glass-text-center">
+            <div className="glass-w-8 glass-h-8 glass-radius-full glass-mx-auto glass-mb-2" style={{ backgroundColor: dotColor }} />
+            <p className="glass-text-sm glass-font-medium">{label}</p>
           </div>
         </div>
       );
     };
 
     return (
-      <div className="p-8 space-y-6">
-        <div className="text-center">
-          <h3 className="text-xl font-semibold mb-2">Galileo Element Interaction Plugin</h3>
-          <p className="text-sm opacity-80 mb-4">
+      <div className="glass-p-8 space-y-6">
+        <div className="glass-text-center">
+          <h3 className="glass-text-xl glass-font-semibold glass-mb-2">Galileo Element Interaction Plugin</h3>
+          <p className="glass-text-sm opacity-80 glass-mb-4">
             Hover over and click the elements below to see the interactive effects.
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-4 justify-center">
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard" label="Data Point 1" dotColor="var(--glass-color-primary)" />
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard" label="Data Point 2" dotColor="var(--glass-color-success)" />
-          <LensCard className="p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard" label="Data Point 3" dotColor="#6366F1" />
+        <div className="glass-flex glass-flex-wrap glass-gap-4 glass-justify-center">
+          <LensCard className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard" label="Data Point 1" dotColor="var(--glass-color-primary)" />
+          <LensCard className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard" label="Data Point 2" dotColor="var(--glass-color-success)" />
+          <LensCard className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard" label="Data Point 3" dotColor="#6366F1" />
         </div>
 
-        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md border border-white/10 glass-radius-lg p-4 glass-contrast-guard">
-          <h4 className="text-sm font-semibold mb-2">Plugin Status:</h4>
-          <p className="text-xs opacity-75">
+        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
+          <h4 className="glass-text-sm glass-font-semibold glass-mb-2">Plugin Status:</h4>
+          <p className="glass-text-xs opacity-75">
             Plugin created successfully with effects: Magnetic, Ripple, Glow
           </p>
         </div>
@@ -201,26 +201,26 @@ export const DisabledEffects: Story = {
     const plugin = createGalileoPlugin(config);
 
     return (
-      <div className="p-8 space-y-6">
-        <div className="text-center">
-          <h3 className="text-xl font-semibold mb-2">Disabled Effects</h3>
-          <p className="text-sm opacity-80 mb-4">
+      <div className="glass-p-8 space-y-6">
+        <div className="glass-text-center">
+          <h3 className="glass-text-xl glass-font-semibold glass-mb-2">Disabled Effects</h3>
+          <p className="glass-text-sm opacity-80 glass-mb-4">
             All interactive effects are disabled. Elements won't respond to hover or click.
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-4 justify-center">
-          <div className="chart-element p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer glass-contrast-guard">
-            <div className="text-center">
-              <div className="w-8 h-8 glass-surface-red glass-radius-full mx-auto mb-2 glass-contrast-guard"></div>
-              <p className="text-sm font-medium">No Effects</p>
+        <div className="glass-flex glass-flex-wrap glass-gap-4 glass-justify-center">
+          <div className="chart-element glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard">
+            <div className="glass-text-center">
+              <div className="glass-w-8 glass-h-8 glass-surface-red glass-radius-full glass-mx-auto glass-mb-2 glass-contrast-guard"></div>
+              <p className="glass-text-sm glass-font-medium">No Effects</p>
             </div>
           </div>
         </div>
 
-        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md border border-white/10 glass-radius-lg p-4 glass-contrast-guard">
-          <h4 className="text-sm font-semibold mb-2">Plugin Status:</h4>
-          <p className="text-xs opacity-75">
+        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
+          <h4 className="glass-text-sm glass-font-semibold glass-mb-2">Plugin Status:</h4>
+          <p className="glass-text-xs opacity-75">
             Plugin created with all effects disabled
           </p>
         </div>

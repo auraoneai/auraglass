@@ -411,7 +411,7 @@ export function SkipLinks() {
   ];
 
   return (
-    <div className="skip-links">
+    <div className='skip-links'>
       {skipLinks.map((link) => (
         <a
           key={link.href}
@@ -516,7 +516,7 @@ export function KeyboardShortcutsHelper() {
     <AnimatePresence>
       {showHelp && (
         <motion.div
-          className="fixed bottom-4 right-4 z-50 max-w-sm"
+          className='glass-fixed glass-bottom-4 glass-right-4 glass-z-50 glass-max-w-sm'
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -526,7 +526,7 @@ export function KeyboardShortcutsHelper() {
               "glass-foundation-complete glass-surface-overlay glass-border-subtle glass-radius-xl glass-p-4 glass-shadow-2xl"
             )}
           >
-            <div className="glass-flex glass-items-center glass-justify-between mb-3">
+            <div className='glass-flex glass-items-center glass-justify-between glass-mb-3'>
               <h3 className={cn("glass-font-semibold glass-text-primary")}>
                 Keyboard Shortcuts
               </h3>
@@ -540,7 +540,7 @@ export function KeyboardShortcutsHelper() {
               </button>
             </div>
 
-            <div className="space-y-2">
+            <div className='glass-space-y-2'>
               {shortcuts.map((shortcut) => (
                 <div
                   key={shortcut.key}

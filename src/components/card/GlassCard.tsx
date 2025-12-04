@@ -169,7 +169,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           {
             "opacity-50 pointer-events-none": disabled,
             "cursor-pointer": clickable && !disabled,
-            "hover:scale-105 active:scale-95": hoverable && !disabled,
+            "glass-hover-scale-105 active:scale-95": hoverable && !disabled,
             "animate-pulse": loading,
           },
           className
@@ -188,7 +188,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         {...props}
       >
         {loading && (
-          <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/10 glass-gradient-primary animate-shimmer' />
+          <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass-animate-glass-shimmer' />
         )}
         {children}
       </LiquidGlassMaterial>
@@ -229,28 +229,28 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         {hoverable && (
           <>
             {/* Subtle glow overlay on hover */}
-            <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none glass-radius-lg' />
+            <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-300 glass-pointer-events-none glass-radius-lg' />
 
             {/* Shimmer effect on hover */}
-            <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-white/10 glass-gradient-primary -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none glass-radius-lg' />
+            <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass--translate-x-full glass-group-hover:translate-x-full glass-transition-transform glass-duration-1000 glass-pointer-events-none glass-radius-lg' />
 
             {/* Border glow enhancement */}
-            <div className='absolute inset-0 glass-radius-lg glass-border glass-border-white/0 group-hover:border-white/20 transition-colors duration-300 pointer-events-none' />
+            <div className='glass-absolute glass-inset-0 glass-radius-lg glass-border glass-border-white/0 glass-group-hover:glass-border-white/20 glass-transition-colors glass-duration-300 glass-pointer-events-none' />
           </>
         )}
 
         {/* Feature variant enhancement */}
         {variant === "feature" && (
-          <div className='absolute inset-0 glass-gradient-primary glass-gradient-primary via-secondary/4 glass-gradient-primary glass-radius-lg' />
+          <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-4 glass-gradient-primary glass-radius-lg' />
         )}
 
         {/* Content with enhanced loading state */}
-        <div className='relative z-10'>
+        <div className='glass-relative glass-z-10'>
           {loading ? (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <div className='h-4 glass-surface-subtle/20 animate-pulse glass-radius-sm shimmer glass-contrast-guard' />
-              <div className='h-4 glass-surface-subtle/15 animate-pulse glass-radius-sm w-3-4 shimmer glass-contrast-guard' />
-              <div className='h-4 glass-surface-subtle/10 animate-pulse glass-radius-sm w-1-2 shimmer glass-contrast-guard' />
+              <div className='glass-h-4 glass-surface-subtle/20 glass-animate-pulse glass-radius-sm glass-shimmer glass-contrast-guard' />
+              <div className='glass-h-4 glass-surface-subtle/15 glass-animate-pulse glass-radius-sm glass-w-3-4 glass-shimmer glass-contrast-guard' />
+              <div className='glass-h-4 glass-surface-subtle/10 glass-animate-pulse glass-radius-sm glass-w-1-2 glass-shimmer glass-contrast-guard' />
             </div>
           ) : (
             children

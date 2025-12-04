@@ -193,11 +193,11 @@ export const GlassTypingIndicator = forwardRef<
             {displayText || (
               <>
                 {getUserText()} typing
-                <span className='glass-inline-flex ml-1 glass-gap-0.5'>
+                <span className='glass-inline-glass-flex glass-ml-1 glass-gap-0.5'>
                   {Array.from({ length: 3 }, (_, i) => (
                     <span
                       key={i}
-                      className='animate-pulse'
+                      className='glass-animate-pulse'
                       style={{ animationDelay: `${i * 200}ms` }}
                     >
                       .

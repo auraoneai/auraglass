@@ -164,25 +164,25 @@ export const GlassToast: React.FC<GlassToastProps> = ({
     switch (type) {
       case "success":
         return {
-          icon: <CheckCircle className='w-5 h-5 text-primary' />,
+          icon: <CheckCircle className='glass-w-5 glass-h-5 glass-text-primary' />,
           borderColor: "border-green-400/30",
           bgColor: "bg-green-500/10",
         };
       case "error":
         return {
-          icon: <AlertCircle className='w-5 h-5 text-primary' />,
+          icon: <AlertCircle className='glass-w-5 glass-h-5 glass-text-primary' />,
           borderColor: "border-red-400/30",
           bgColor: "bg-red-500/10",
         };
       case "warning":
         return {
-          icon: <AlertTriangle className='w-5 h-5 text-primary' />,
+          icon: <AlertTriangle className='glass-w-5 glass-h-5 glass-text-primary' />,
           borderColor: "border-yellow-400/30",
           bgColor: "bg-yellow-500/10",
         };
       default:
         return {
-          icon: <Info className='w-5 h-5 text-primary' />,
+          icon: <Info className='glass-w-5 glass-h-5 glass-text-primary' />,
           borderColor: "border-blue-400/30",
           bgColor: "bg-blue-500/10",
         };
@@ -224,7 +224,7 @@ export const GlassToast: React.FC<GlassToastProps> = ({
       >
         {/* Progress bar */}
         {duration > 0 && (
-          <div className='absolute top-0 left-0 right-0 h-1 glass-surface-subtle/20 glass-radius-t-lg overflow-hidden'>
+          <div className='glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-h-1 glass-surface-subtle/20 glass-radius-t-lg glass-overflow-hidden'>
             <div
               className={cn(
                 "h-full transition-all duration-100 ease-linear",
@@ -240,22 +240,22 @@ export const GlassToast: React.FC<GlassToastProps> = ({
           <div className="glass-flex-shrink-0 glass-mt-0-5">{icon}</div>
 
           {/* Content */}
-          <div className="glass-flex-1 glass-min-w-0">
+          <div className="glass-flex-1 glass-min-glass-w-0">
             {title && (
-              <h4 className='text-primary font-medium glass-text-sm leading-tight mb-1'>
+              <h4 className='glass-text-primary glass-font-medium glass-text-sm glass-leading-tight glass-mb-1'>
                 {title}
               </h4>
             )}
 
             {description && (
-              <p className='text-primary/80 glass-text-sm leading-relaxed'>
+              <p className='glass-text-primary-glass-opacity-80 glass-text-sm glass-leading-relaxed'>
                 {description}
               </p>
             )}
 
             {/* Action */}
             {action && (
-              <GlassToastAction onClick={action.onClick} className='mt-3'>
+              <GlassToastAction onClick={action.onClick} className='glass-mt-3'>
                 {action.label}
               </GlassToastAction>
             )}
@@ -264,10 +264,10 @@ export const GlassToast: React.FC<GlassToastProps> = ({
           {/* Close button */}
           <GlassButton
             onClick={handleDismiss}
-            className='glass-flex-shrink-0 glass-p-1 glass-radius-md hover:glass-surface-subtle/10 transition-colors duration-200'
+            className='glass-flex-shrink-0 glass-p-1 glass-radius-md hover:glass-surface-subtle/10 glass-transition-colors glass-duration-200'
             aria-label="Close toast"
           >
-            <X className='w-4 h-4 text-primary/60 hover:text-primary' />
+            <X className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60 hover:glass-text-primary' />
           </GlassButton>
         </div>
       </OptimizedGlass>
@@ -382,7 +382,7 @@ export const GlassToastViewport: React.FC<
   return (
     <div
       className={cn(
-        "fixed z-[9999] flex flex-col glass-gap-3 pointer-events-none",
+        "fixed glass-z-9999 flex flex-col glass-gap-3 pointer-events-none",
         positionClasses[position],
         className
       )}
@@ -391,7 +391,7 @@ export const GlassToastViewport: React.FC<
         <div
           key={toast.id}
           data-toast-id={toast.id}
-          className='pointer-events-auto'
+          className='glass-pointer-events-auto'
         >
           <GlassToast {...toast} onDismiss={removeToast} />
         </div>
@@ -417,7 +417,7 @@ export const GlassToastAction: React.FC<
         "glass-text-xs font-medium glass-text-primary/90",
         "bg-black/30 hover:bg-black/40 border border-white/30 hover:border-white/40",
         "glass-radius-md transition-all duration-200",
-        "focus:outline-none focus:ring-2 focus:ring-white/30",
+        "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30",
         className
       )}
     >

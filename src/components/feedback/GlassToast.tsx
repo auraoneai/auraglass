@@ -203,15 +203,15 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
           {getToastIcon()}
         </div>
 
-        <div className="glass-flex-1 glass-min-w-0">
+        <div className="glass-flex-1 glass-min-glass-w-0">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <h4 className='font-semibold glass-text-sm truncate pr-2'>
+            <h4 className='glass-font-semibold glass-text-sm glass-truncate glass-pr-2'>
               {toast.title}
             </h4>
             {toast.dismissible && (
               <button
                 onClick={handleRemove}
-                className='glass-flex-shrink-0 w-5 h-5 glass-flex glass-items-center glass-justify-center glass-radius-full hover:glass-surface-dark/10 transition-colors glass-text-xs opacity-70 hover:opacity-100 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-flex-shrink-0 glass-w-5 glass-h-5 glass-flex glass-items-center glass-justify-center glass-radius-full hover:glass-surface-dark/10 glass-transition-colors glass-text-xs glass-opacity-70 glass-hover-opacity-100 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               >
                 ✕
               </button>
@@ -219,7 +219,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
           </div>
 
           {toast.message && (
-            <p className='glass-text-sm opacity-90 mt-1 leading-relaxed'>
+            <p className='glass-text-sm glass-opacity-90 glass-mt-1 glass-leading-relaxed'>
               {toast.message}
             </p>
           )}
@@ -230,7 +230,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
                 toast.action!.onClick();
                 handleRemove();
               }}
-              className='mt-2 glass-text-sm font-medium underline hover:no-underline transition-all'
+              className='glass-mt-2 glass-text-sm glass-font-medium glass-underline glass-hover-no-underline glass-transition-all'
             >
               {toast.action.label}
             </button>
@@ -240,7 +240,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
       {/* Progress bar */}
       {toast.duration && toast.duration > 0 && !prefersReducedMotion && (
-        <div className='mt-3 glass-w-full h-1 glass-surface-dark/10 glass-radius-full overflow-hidden'>
+        <div className='glass-mt-3 glass-w-full glass-h-1 glass-surface-dark/10 glass-radius-full glass-overflow-hidden'>
           <div
             className={cn(
               "h-full glass-radius-full transition-all ease-linear",

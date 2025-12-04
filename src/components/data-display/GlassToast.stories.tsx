@@ -54,7 +54,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-4">
+    <div className="glass-flex glass-flex-col glass-gap-4">
       <GlassToast {...args} type="success" title="Success!" description="Operation completed successfully." />
       <GlassToast {...args} type="error" title="Error!" description="Something went wrong." />
       <GlassToast {...args} type="warning" title="Warning!" description="Please check your input." />

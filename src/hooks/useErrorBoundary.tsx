@@ -170,17 +170,17 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
 
             // Default fallback UI
             return (
-              <div className="glass-p-4 glass-border glass-border-red-500/20 glass-surface-danger/10 glass-radius-lg">
-                <h3 className='text-red-400 font-semibold mb-2'>
+              <div className="glass-p-4 glass-border glass-border-red/20 glass-surface-danger/10 glass-radius-lg">
+                <h3 className='glass-text-primary glass-font-semibold glass-mb-2'>
                   Something went wrong
                 </h3>
-                <p className='text-red-300 glass-text-sm mb-3'>
+                <p className='glass-text-secondary glass-text-sm glass-mb-3'>
                   {errorState.error.message}
                 </p>
                 {errorState.retryCount < maxRetries && (
                   <button
                     onClick={retry}
-                    className='glass-px-3 glass-py-1 glass-surface-danger/20 text-red-300 glass-radius hover:bg-red-500/30 transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                    className='glass-px-3 glass-py-1 glass-surface-danger/20 glass-text-secondary glass-radius hover:glass-surface-red/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
                   >
                     Try Again ({maxRetries - errorState.retryCount} attempts
                     left)

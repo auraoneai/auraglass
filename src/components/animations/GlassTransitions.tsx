@@ -687,10 +687,10 @@ const demoCards = [
     id: "insight",
     content: (
       <div>
-        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
+        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
           Insight
         </p>
-        <h3 className='glass-text-xl glass-text-primary font-semibold'>
+        <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
           Fluid page transitions
         </h3>
         <p className="glass-text-sm glass-text-secondary">
@@ -703,10 +703,10 @@ const demoCards = [
     id: "motion",
     content: (
       <div>
-        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
+        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
           Motion
         </p>
-        <h3 className='glass-text-xl glass-text-primary font-semibold'>
+        <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
           Directional swipes
         </h3>
         <p className="glass-text-sm glass-text-secondary">
@@ -719,10 +719,10 @@ const demoCards = [
     id: "layers",
     content: (
       <div>
-        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
+        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
           Layers
         </p>
-        <h3 className='glass-text-xl glass-text-primary font-semibold'>
+        <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
           Frosted overlays
         </h3>
         <p className="glass-text-sm glass-text-secondary">
@@ -769,10 +769,10 @@ const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
               key={panels[panelIndex].id}
               className="glass-surface-primary glass-radius-3xl glass-p-8 glass-border glass-border-white/10"
             >
-              <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2'>
+              <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2'>
                 {panels[panelIndex].title}
               </p>
-              <h2 className='glass-text-2xl glass-text-primary font-semibold'>
+              <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
                 {panels[panelIndex].description}
               </h2>
               <button

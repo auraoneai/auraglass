@@ -283,7 +283,7 @@ export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
   variant = "base",
   textureOverride,
   environmentalAware = true,
-  className = "",
+  className="",
   as: Component = "div",
   ...props
 }) => {
@@ -343,7 +343,7 @@ export const GlassOpacityEngine: React.FC<{
   dynamicOpacity = true,
   opacityRange = [0.05, 0.3],
   trigger = "hover",
-  className = "",
+  className="",
 }) => {
   const { createGlassStyle, updateConfig } = useGlassEngine();
   const [opacity, setOpacity] = useState(opacityRange[0]);
@@ -414,7 +414,7 @@ export const GlassColorTinting: React.FC<{
   contentAware = true,
   tintColor,
   intensity = 0.3,
-  className = "",
+  className="",
 }) => {
   const { createGlassStyle } = useGlassEngine();
   const [adaptiveTint, setAdaptiveTint] = useState(
@@ -471,7 +471,7 @@ export const GlassTextureVariations: React.FC<{
   contentType?: "text" | "image" | "video" | "code" | "data";
   autoAdapt?: boolean;
   className?: string;
-}> = ({ children, contentType = "text", autoAdapt = true, className = "" }) => {
+}> = ({ children, contentType = "text", autoAdapt = true, className="" }) => {
   const { createGlassStyle, updateConfig } = useGlassEngine();
   const [currentTexture, setCurrentTexture] = useState<string>("smooth");
 
@@ -510,7 +510,7 @@ export const EnvironmentalGlass: React.FC<{
   weatherAPI?: boolean;
   timeSync?: boolean;
   className?: string;
-}> = ({ children, weatherAPI = false, timeSync = true, className = "" }) => {
+}> = ({ children, weatherAPI = false, timeSync = true, className="" }) => {
   const prefersReducedMotion = useReducedMotion();
   const { adaptToEnvironment, createGlassStyle } = useGlassEngine();
   const [conditions, setConditions] = useState<EnvironmentalConditions>({
@@ -574,15 +574,15 @@ export const GlassEngineDemo: React.FC = () => {
   const { config, updateConfig, createGlassStyle } = useGlassEngine();
 
   return (
-    <div className='space-y-6 glass-p-6'>
-      <div className='glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4'>
+    <div className='glass-space-y-6 glass-p-6'>
+      <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4'>
         {/* Different texture types */}
         {(["smooth", "frosted", "rippled", "crystalline"] as const).map(
           (texture) => (
             <AdaptiveGlass
               key={texture}
               textureOverride={texture}
-              className='glass-p-4 text-center'
+              className='glass-p-4 glass-text-center'
             >
               <h3
                 className={cn(
@@ -599,7 +599,7 @@ export const GlassEngineDemo: React.FC = () => {
         )}
       </div>
 
-      <div className='glass-grid glass-grid-cols-1 md:grid-cols-3 glass-gap-4'>
+      <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-4'>
         {/* Opacity Engine */}
         <GlassOpacityEngine trigger="hover" className="glass-p-4">
           <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>
@@ -637,7 +637,7 @@ export const GlassEngineDemo: React.FC = () => {
           Glass Engine Controls
         </h3>
 
-        <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4'>
+        <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4'>
           <div>
             <label
               className={cn(
@@ -687,11 +687,11 @@ export const GlassEngineDemo: React.FC = () => {
           </div>
         </div>
 
-        <div className='glass-flex glass-items-center glass-justify-between mt-4'>
+        <div className='glass-flex glass-items-center glass-justify-between glass-mt-4'>
           <span className={cn("glass-text-secondary")}>
             Environmental Reactions
           </span>
-          <label className='glass-flex glass-items-center space-x-2'>
+          <label className='glass-flex glass-items-center glass-space-x-2'>
             <input
               type="checkbox"
               checked={config.environment.weatherReactive}

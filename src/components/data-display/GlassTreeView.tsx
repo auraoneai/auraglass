@@ -311,7 +311,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   const defaultExpandIcon = (
     <svg
-      className='glass-w-full glass-h-full transition-transform duration-200'
+      className='glass-w-full glass-h-full glass-transition-transform glass-duration-200'
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -327,7 +327,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   const defaultCollapseIcon = (
     <svg
-      className='glass-w-full glass-h-full transition-transform duration-200 rotate-90'
+      className='glass-w-full glass-h-full glass-transition-transform glass-duration-200 glass--rotate-90'
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -350,7 +350,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
             preset={
               shouldAnimate && respectMotionPreference ? "slideDown" : "none"
             }
-            className='relative'
+            className='glass-relative'
           >
             {node.children?.map((child) => (
               <GlassTreeNodeComponent
@@ -402,7 +402,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
       >
         {/* Connecting lines */}
         {showLines && level > 0 && (
-          <div className='absolute left-0 top-0 glass-h-full glass-flex glass-items-center'>
+          <div className='glass-absolute glass-left-0 glass-top-0 glass-h-full glass-flex glass-items-center'>
             <div
               className="glass-border-l glass-border-glass-border/20 glass-h-full"
               style={{
@@ -410,7 +410,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
               }}
             />
             <div
-              className='glass-border-t glass-border-glass-border/20 w-2'
+              className='glass-border-t glass-border-glass-border/20 glass-w-2'
               style={{
                 left: `${(level - 1) * indentation + indentation / 2}px`,
               }}
@@ -428,7 +428,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           {hasChildren ? (
             <button
               onClick={handleToggle}
-              className='glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-p-1 glass-radius-md hover:glass-surface-overlay glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               aria-label={isExpanded ? "Collapse" : "Expand"}
             >
               {isExpanded
@@ -463,7 +463,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
         )}
 
         {/* Label */}
-        <span className='glass-flex-1 truncate'>{node.label}</span>
+        <span className='glass-flex-1 glass-truncate'>{node.label}</span>
 
         {/* Drag indicator */}
         {isDragOver && (
@@ -484,7 +484,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
             preset={
               shouldAnimate && respectMotionPreference ? "slideDown" : "none"
             }
-            className='relative'
+            className='glass-relative'
           >
             {node.children?.map((child) => (
               <GlassTreeNodeComponent

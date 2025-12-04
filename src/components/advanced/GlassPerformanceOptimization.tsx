@@ -543,10 +543,10 @@ function PerformanceSummaryCard() {
   return (
     <div className="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10">
       <div>
-        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
+        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
           Performance profile
         </p>
-        <h2 className='glass-text-2xl glass-text-primary font-semibold'>
+        <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
           Adaptive glass effects
         </h2>
       </div>
@@ -556,10 +556,10 @@ function PerformanceSummaryCard() {
             key={metric.label}
             className="glass-surface-subtle glass-radius-xl glass-p-4"
           >
-            <p className='glass-text-xs glass-text-tertiary mb-1'>
+            <p className='glass-text-xs glass-text-tertiary glass-mb-1'>
               {metric.label}
             </p>
-            <p className='glass-text-lg glass-text-primary font-semibold'>
+            <p className='glass-text-lg glass-text-primary glass-font-semibold'>
               {metric.value}
             </p>
           </div>
@@ -580,9 +580,9 @@ interface GlassPerformanceOptimizationProps
 }
 
 const DemoPerformanceGrid = () => (
-  <div className='glass-grid md:grid-cols-2 glass-gap-4'>
+  <div className='glass-grid md:glass-grid-cols-2 glass-gap-4'>
     <EfficientGlassRendering className="glass-p-4 glass-radius-xl">
-      <h3 className='glass-text-lg glass-text-primary font-semibold'>
+      <h3 className='glass-text-lg glass-text-primary glass-font-semibold'>
         Efficient rendering
       </h3>
       <p className="glass-text-sm glass-text-secondary">
@@ -590,7 +590,7 @@ const DemoPerformanceGrid = () => (
       </p>
     </EfficientGlassRendering>
     <BatteryAwareGlass className="glass-p-4 glass-radius-xl">
-      <h3 className='glass-text-lg glass-text-primary font-semibold'>
+      <h3 className='glass-text-lg glass-text-primary glass-font-semibold'>
         Battery-aware styling
       </h3>
       <p className="glass-text-sm glass-text-secondary">
@@ -598,7 +598,7 @@ const DemoPerformanceGrid = () => (
       </p>
     </BatteryAwareGlass>
     <LazyGlassLoading className="glass-p-4 glass-radius-xl">
-      <h3 className='glass-text-lg glass-text-primary font-semibold'>
+      <h3 className='glass-text-lg glass-text-primary glass-font-semibold'>
         Lazy loading
       </h3>
       <p className="glass-text-sm glass-text-secondary">
@@ -606,7 +606,7 @@ const DemoPerformanceGrid = () => (
       </p>
     </LazyGlassLoading>
     <ReducedMotionGlass className="glass-p-4 glass-radius-xl">
-      <h3 className='glass-text-lg glass-text-primary font-semibold'>
+      <h3 className='glass-text-lg glass-text-primary glass-font-semibold'>
         Motion aware
       </h3>
       <p className="glass-text-sm glass-text-secondary">

@@ -251,7 +251,7 @@ export const GlassContextMenuContent: React.FC<
   }, [position]);
 
   return (
-    <Motion preset="scaleIn" className='fixed z-[9999]'>
+    <Motion preset="scaleIn" className='glass-fixed glass-z-9999'>
       <OptimizedGlass
         intent="neutral"
         elevation="level4"
@@ -283,7 +283,7 @@ export const GlassContextMenuContent: React.FC<
             <React.Fragment key={item?.id}>
               {item?.separator && index > 0 && (
                 <div
-                  className='h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+                  className='glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
                   role="separator"
                 />
               )}
@@ -304,7 +304,7 @@ export const GlassContextMenuContent: React.FC<
                 isSubmenu={false}
               />
               {item?.children && submenuOpen === item?.id && (
-                <div className='absolute left-full top-0 glass-ml-1'>
+                <div className='glass-absolute glass-left-full glass-top-0 glass-ml-1'>
                   <GlassContextMenuContent
                     items={item?.children}
                     position={{ x: 0, y: 0 }}
@@ -337,7 +337,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
   if (item?.separator) {
     return (
       <div
-        className='h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+        className='glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
         role="separator"
       />
     );
@@ -408,7 +408,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
       className={cn(
         "relative flex items-center glass-px-3 glass-py-2 cursor-pointer transition-all duration-200",
         "glass-text-primary/90 hover:glass-text-primary glass-radius-lg",
-        "hover:bg-white/10 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/10",
+        "hover:bg-white/10 glass-hover--translate-y-0-5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/10",
         "glass-press",
         {
           "bg-white/20 glass-text-primary": isSelected,
@@ -422,23 +422,23 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
       onKeyDown={handleKeyDown}
     >
       {item?.icon && (
-        <div className='glass-flex glass-items-center glass-justify-center w-4 h-4 mr-3'>
+        <div className='glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4 glass-mr-3'>
           {item?.icon}
         </div>
       )}
 
-      <span className='glass-flex-1 glass-text-sm font-medium truncate'>
+      <span className='glass-flex-1 glass-text-sm glass-font-medium glass-truncate'>
         {item?.label}
       </span>
 
       {item?.shortcut && (
-        <span className='ml-6 glass-text-xs text-primary/50 font-mono'>
+        <span className='glass-ml-6 glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono'>
           {item?.shortcut}
         </span>
       )}
 
       {item?.children && (
-        <div className='ml-3 text-primary/50' aria-hidden="true">
+        <div className='glass-ml-3 glass-text-primary-glass-opacity-50' aria-hidden="true">
           ▶
         </div>
       )}

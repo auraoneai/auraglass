@@ -71,7 +71,7 @@ export const GlassSuperpositionalMenu = forwardRef<
       onStateCollapse,
       onMeasurement,
       onEntanglement,
-      className = "",
+      className="",
       ...props
     },
     ref

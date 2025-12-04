@@ -234,9 +234,9 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
       >
         {variant === ("underline" as typeof variant) &&
           orientation === "horizontal" && (
-            <div className='absolute bottom-0 left-0 right-0 h-0-5'>
+            <div className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-h-0-5'>
               <div
-                className='absolute glass-h-full glass-surface-primary transition-all duration-200'
+                className='glass-absolute glass-h-full glass-surface-primary glass-transition-all glass-duration-200'
                 style={{ left: ink.left, width: ink.width }}
               />
             </div>
@@ -261,7 +261,7 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
         {...(commonA11y as any)}
         {...props}
       >
-        <div className='relative glass-w-full' />
+        <div className='glass-relative glass-w-full' />
         {children}
       </div>
     );
@@ -404,7 +404,7 @@ export const GlassTabsTrigger = forwardRef<
     };
 
     return (
-      <Motion preset="scaleIn" className='relative'>
+      <Motion preset="scaleIn" className='glass-relative'>
         <GlassButton
           ref={(node: any) => {
             if (typeof ref === "function") ref(node);
@@ -426,9 +426,9 @@ export const GlassTabsTrigger = forwardRef<
           onKeyDown={handleKeyDown}
           {...buttonProps}
         >
-          {icon && <span className='shrink-0'>{icon}</span>}
+          {icon && <span className='glass-shrink-0'>{icon}</span>}
 
-          {children && <span className='truncate'>{children}</span>}
+          {children && <span className='glass-truncate'>{children}</span>}
 
           {badge && (
             <span
@@ -447,7 +447,7 @@ export const GlassTabsTrigger = forwardRef<
           {variant === ("underline" as typeof variant) && isSelected && (
             <Motion
               preset="slideUp"
-              className='absolute bottom-0 left-0 right-0 h-0-5 glass-surface-primary'
+              className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-h-0-5 glass-surface-primary'
             />
           )}
         </GlassButton>

@@ -205,7 +205,7 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       >
         <Box>
           {title && (
-            <Typography variant="h6" className='mb-2 font-semibold'>
+            <Typography variant="h6" className='glass-mb-2 glass-font-semibold'>
               {title}
             </Typography>
           )}

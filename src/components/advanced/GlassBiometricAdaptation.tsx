@@ -836,7 +836,7 @@ export const GlassStressResponsive = forwardRef<
     >
       <OptimizedGlass>
         {/* Screen reader description */}
-        <span id={descriptionId} className='sr-only'>
+        <span id={descriptionId} className='glass-sr-only'>
           Biometric adaptation interface responding to stress level{" "}
           {Math.round(currentStressLevel * 100)}%.
           {adaptationType !== "all"
@@ -911,7 +911,7 @@ export const GlassBiometricDashboard = forwardRef<
       {...restProps}
     >
       <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
-        <h3 className='glass-text-sm font-medium glass-text-secondary dark:glass-text-secondary'>
+        <h3 className='glass-text-sm glass-font-medium glass-text-secondary dark:glass-text-secondary'>
           Biometrics
         </h3>
         <button
@@ -968,7 +968,7 @@ export const GlassBiometricDashboard = forwardRef<
         {showDetails && (
           <motion.div
             id={`${dashboardId}-details`}
-            className='glass-mt-4 pt-4 glass-border-t glass-border-white/10 glass-gap-3'
+            className='glass-mt-4 glass-pt-4 glass-border-t glass-border-white/10 glass-gap-3'
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -1016,7 +1016,7 @@ export const GlassBiometricDashboard = forwardRef<
             {/* Current adaptations */}
             {engine && (
               <div>
-                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary mb-2'>
+                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary glass-mb-2'>
                   Active Adaptations
                 </div>
                 <div className="glass-gap-1">
@@ -1027,10 +1027,10 @@ export const GlassBiometricDashboard = forwardRef<
                         key={type}
                         className="glass-flex glass-items-center glass-justify-between glass-text-xs"
                       >
-                        <span className='glass-text-secondary dark:glass-text-secondary capitalize'>
+                        <span className='glass-text-secondary dark:glass-text-secondary glass-capitalize'>
                           {type}
                         </span>
-                        <span className='glass-text-secondary dark:glass-text-secondary capitalize'>
+                        <span className='glass-text-secondary dark:glass-text-secondary glass-capitalize'>
                           {adaptation.type}
                         </span>
                       </div>
@@ -1043,7 +1043,7 @@ export const GlassBiometricDashboard = forwardRef<
             {/* Readings info */}
             {latestReading && (
               <div>
-                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary mb-1'>
+                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary glass-mb-1'>
                   Last Reading
                 </div>
                 <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
@@ -1112,10 +1112,10 @@ function BiometricSummaryCard() {
       data-testid="glass-biometric-summary"
     >
       <div>
-        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
+        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
           Biometric adaptation
         </p>
-        <h2 className='glass-text-2xl glass-text-primary font-semibold'>
+        <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
           {isInitialized ? "Monitoring" : "Initializing"}
         </h2>
         <p className="glass-text-sm glass-text-secondary">
@@ -1124,16 +1124,16 @@ function BiometricSummaryCard() {
       </div>
       <div className="glass-grid glass-grid-cols-2 glass-gap-3">
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary mb-1'>Heart rate</p>
-          <p className='glass-text-lg glass-text-primary font-semibold'>
+          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Heart rate</p>
+          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
             {latestReading?.heartRate
               ? `${latestReading.heartRate.toFixed(0)} bpm`
               : "—"}
           </p>
         </div>
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary mb-1'>Respiratory</p>
-          <p className='glass-text-lg glass-text-primary font-semibold'>
+          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Respiratory</p>
+          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
             {latestReading?.respiratoryRate
               ? `${latestReading.respiratoryRate.toFixed(0)} rpm`
               : "—"}

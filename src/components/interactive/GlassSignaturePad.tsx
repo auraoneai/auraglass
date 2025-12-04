@@ -379,7 +379,7 @@ export const GlassSignaturePad = forwardRef<
           className="glass-p-4 glass-gap-4"
         >
           {/* Canvas container */}
-          <div className='relative'>
+          <div className='glass-relative'>
             <canvas
               ref={canvasRef}
               width={width}
@@ -400,7 +400,7 @@ export const GlassSignaturePad = forwardRef<
             />
 
             {/* Instructions */}
-            <div id={`${signaturePadId}-instructions`} className='sr-only'>
+            <div id={`${signaturePadId}-instructions`} className='glass-sr-only'>
               Use your mouse or finger to draw your signature. Press clear to
               start over.
             </div>
@@ -416,9 +416,9 @@ export const GlassSignaturePad = forwardRef<
                     disabled={disabled || isEmpty}
                     className={cn(
                       "glass-px-4 glass-py-2 glass-radius-md glass-text-sm font-medium transition-all duration-200",
-                      "hover:scale-105 active:scale-95",
+                      "glass-hover-scale-105 active:scale-95",
                       "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100",
+                      "disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:scale-100",
                       "glass-focus glass-touch-target glass-contrast-guard"
                     )}
                   >
@@ -443,9 +443,9 @@ export const GlassSignaturePad = forwardRef<
                     disabled={disabled || isEmpty}
                     className={cn(
                       "glass-px-4 glass-py-2 glass-radius-md glass-text-sm font-medium transition-all duration-200",
-                      "hover:scale-105 active:scale-95",
+                      "glass-hover-scale-105 active:scale-95",
                       "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100",
+                      "disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:scale-100",
                       "glass-focus glass-touch-target glass-contrast-guard"
                     )}
                   >
@@ -471,7 +471,7 @@ export const GlassSignaturePad = forwardRef<
 
             {isDrawing && (
               <div className="glass-flex glass-items-center glass-gap-2">
-                <div className='w-2 h-2 glass-surface-primary glass-radius-full animate-pulse' />
+                <div className='glass-w-2 glass-h-2 glass-surface-primary glass-radius-full glass-animate-pulse' />
                 <span>Drawing...</span>
               </div>
             )}

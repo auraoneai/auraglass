@@ -2,6 +2,7 @@
 
 import React from "react";
 
+import { PersonaPicker } from "@/components/theme/PersonaPicker";
 import styles from "./PageShell.module.css";
 
 export interface PageShellProps {
@@ -9,6 +10,16 @@ export interface PageShellProps {
   mode?: "dark" | "light";
   className?: string;
   "data-testid"?: string;
+  /**
+   * Whether to show the PersonaPicker component
+   * @default false
+   */
+  showPersonaPicker?: boolean;
+  /**
+   * PersonaPicker orientation
+   * @default "horizontal"
+   */
+  personaPickerOrientation?: "horizontal" | "vertical" | "auto";
 }
 
 export const PageShell: React.FC<PageShellProps> = ({
@@ -16,13 +27,20 @@ export const PageShell: React.FC<PageShellProps> = ({
   mode = "dark",
   className,
   "data-testid": dataTestId,
+  showPersonaPicker = false,
+  personaPickerOrientation = "horizontal",
 }) => (
   <main
     data-testid={dataTestId}
     className={[styles.page, className].filter(Boolean).join(" ")}
     data-mode={mode}
   >
-    <div className={styles.contentGrid}>{children}</div>
+    <div className={styles.contentGrid}>
+      {showPersonaPicker && (
+        <PersonaPicker orientation={personaPickerOrientation} />
+      )}
+      {children}
+    </div>
   </main>
 );
 

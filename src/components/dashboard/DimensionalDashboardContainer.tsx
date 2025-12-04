@@ -41,7 +41,7 @@ export const DimensionalDashboardContainer = forwardRef<
   (
     {
       children,
-      className = "",
+      className="",
       style = {},
       perspective = 1200,
       depth = 100,

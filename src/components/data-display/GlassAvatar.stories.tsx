@@ -61,7 +61,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex items-center gap-4">
+    <div className="glass-flex glass-items-center glass-gap-4">
       <GlassAvatar {...args} size="sm" status="online" />
       <GlassAvatar {...args} size="md" status="away" />
       <GlassAvatar {...args} size="lg" status="busy" />

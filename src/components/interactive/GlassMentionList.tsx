@@ -30,9 +30,9 @@ export function GlassMentionList({
         className
       )}
     >
-      <ul className='max-h-60 overflow-auto'>
+      <ul className='glass-max-h-60 glass-overflow-auto'>
         {items.length === 0 ? (
-          <li className='glass-text-sm glass-text-secondary glass-py-3 text-center'>
+          <li className='glass-text-sm glass-text-secondary glass-py-3 glass-text-center'>
             No mentions available.
           </li>
         ) : (
@@ -40,11 +40,11 @@ export function GlassMentionList({
             <li key={it.id}>
               <button
                 onClick={() => onSelect(it.id)}
-                className='glass-w-full text-left glass-px-3 glass-py-2 glass-radius-md hover:glass-surface-subtle/10 glass-focus glass-touch-target'
+                className='glass-w-full glass-text-left glass-px-3 glass-py-2 glass-radius-md hover:glass-surface-subtle/10 glass-focus glass-touch-target'
               >
-                <div className='glass-text-sm text-primary'>{it.label}</div>
+                <div className='glass-text-sm glass-text-primary'>{it.label}</div>
                 {it.meta && (
-                  <div className='glass-text-xs text-primary/60'>{it.meta}</div>
+                  <div className='glass-text-xs glass-text-primary-glass-opacity-60'>{it.meta}</div>
                 )}
               </button>
             </li>

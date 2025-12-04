@@ -19,17 +19,17 @@ const generateMockItems = (count: number): MasonryItem[] => {
       priority: Math.floor(Math.random() * 5),
       content: (
         <div className={`h-full w-full bg-gradient-to-br ${color} rounded-lg flex items-center justify-center text-white relative overflow-hidden`}>
-          <div className="absolute inset-0 glass-surface-dark/20" />
-          <div className="relative z-10 text-center p-4">
-            <h4 className="font-semibold mb-2">{category.charAt(0).toUpperCase() + category.slice(1)} {i + 1}</h4>
-            <p className="text-sm opacity-90">
+          <div className="glass-absolute glass-inset-0 glass-surface-dark/20" />
+          <div className="glass-relative glass-z-10 glass-text-center glass-p-4">
+            <h4 className="glass-font-semibold glass-mb-2">{category.charAt(0).toUpperCase() + category.slice(1)} {i + 1}</h4>
+            <p className="glass-text-sm glass-opacity-90">
               {category === 'photos' && 'Beautiful landscape photography'}
               {category === 'quotes' && '"Every moment is a fresh beginning."'}
               {category === 'articles' && 'Interesting article about technology and innovation in modern world.'}
               {category === 'videos' && 'Watch this amazing video content'}
               {category === 'recipes' && 'Delicious recipe for home cooking'}
             </p>
-            <div className="mt-2 text-xs opacity-75">
+            <div className="mt-2 glass-text-xs opacity-75">
               Priority: {Math.floor(Math.random() * 5)} • {Math.floor(height)}px
             </div>
           </div>

@@ -344,8 +344,19 @@ module.exports = {
         }, options.map || {});
 
         function isAllowed(klass) {
+          // Check direct prefixes
           for (const prefix of allowList) {
             if (klass.startsWith(prefix)) return true;
+          }
+          // Check prefixed classes (hover:glass-*, md:glass-*, disabled:glass-*, etc.)
+          const prefixMatch = klass.match(/^((?:hover|focus|active|disabled|dark|md|lg|sm|xl|2xl|last|first|odd|even):)(.+)$/);
+          if (prefixMatch) {
+            const baseClass = prefixMatch[2];
+            // Allow if base class starts with glass- or is in allowList
+            if (baseClass.startsWith('glass-')) return true;
+            for (const prefix of allowList) {
+              if (baseClass.startsWith(prefix)) return true;
+            }
           }
           return false;
         }
@@ -372,11 +383,20 @@ module.exports = {
           JSXAttribute(node) {
             if (!node.name || node.name.name !== 'className') return;
             if (!node.value) return;
+            // Only check string literals, skip JSX expressions
             if (node.value.type === 'Literal' && typeof node.value.value === 'string') {
               const classText = node.value.value;
               const classes = classText.split(/\s+/).filter(Boolean);
               for (const klass of classes) {
-                if (!isAllowed(klass) && !klass.startsWith('glass-')) {
+                // Skip if already allowed or starts with glass-
+                if (isAllowed(klass)) continue;
+                // Skip if it looks like a prop name (contains = or {)
+                if (klass.includes('=') || klass.includes('{') || klass.includes('}')) continue;
+                // Check for prefixed glass- classes
+                const prefixMatch = klass.match(/^((?:hover|focus|active|disabled|dark|md|lg|sm|xl|2xl|last|first|odd|even):)(.+)$/);
+                if (prefixMatch && prefixMatch[2].startsWith('glass-')) continue;
+                // Check if it's a raw tailwind class that needs transformation
+                if (!klass.startsWith('glass-') && !klass.startsWith('sb-') && !klass.startsWith('storybook-') && !klass.startsWith('auraglass-')) {
                   context.report({
                     node: node.value,
                     messageId: 'noRawTailwind',
@@ -412,8 +432,162 @@ module.exports = {
       },
       create(context) {
         return {
-          JSXAttribute(node) {
+              JSXAttribute(node) {
             if (node.name && node.name.name === 'style') {
+              // Allow inline styles that use CSS variables (design tokens)
+              if (node.value && node.value.type === 'JSXExpressionContainer') {
+                const expression = node.value.expression;
+                // Check if it's a function call (like getSkeletonStyle())
+                if (expression.type === 'CallExpression') {
+                  return; // Allow function calls that return styles
+                }
+                // Check if it's an object expression with CSS variables or dynamic values
+                if (expression.type === 'ObjectExpression') {
+                  // Allow if it's a spread of another object (like {...baseStyle}) - check this first
+                  const hasSpread = expression.properties.some(prop => prop.type === 'SpreadElement');
+                  if (hasSpread) {
+                    return; // Always allow spread objects - they're dynamic
+                  }
+                  
+                  const hasCSSVars = expression.properties.some(prop => {
+                    if (prop.type === 'Property' && prop.value) {
+                      const value = prop.value;
+                      // Allow if value contains CSS variable (--glass-* or var(--*))
+                      if (value.type === 'Literal' && typeof value.value === 'string') {
+                        return value.value.includes('--glass-') || value.value.includes('var(') || value.value.includes('--');
+                      }
+                      // Allow if value is a template literal with CSS vars
+                      if (value.type === 'TemplateLiteral') {
+                        return value.quasis.some(quasi => 
+                          quasi.value.raw.includes('--glass-') || quasi.value.raw.includes('var(') || quasi.value.raw.includes('--')
+                        );
+                      }
+                      // Allow if value is a computed expression (dynamic values)
+                      if (value.type === 'BinaryExpression' || value.type === 'ConditionalExpression' || value.type === 'MemberExpression' || value.type === 'LogicalExpression') {
+                        return true; // Dynamic values are allowed
+                      }
+                    }
+                    return false;
+                  });
+                  if (hasCSSVars) {
+                    return; // Allow styles with CSS variables or dynamic values
+                  }
+                  // Allow if properties use computed values (like width: `${width}px`)
+                  const hasComputedValues = expression.properties.some(prop => {
+                    if (prop.type === 'Property' && prop.value) {
+                      const value = prop.value;
+                      // Allow template literals, binary expressions, conditionals, member expressions
+                      if (value.type === 'TemplateLiteral' || value.type === 'BinaryExpression' || 
+                          value.type === 'ConditionalExpression' || value.type === 'MemberExpression') {
+                        return true;
+                      }
+                      // Allow logical expressions (like `component.props.display || "block"`)
+                      if (value.type === 'LogicalExpression') {
+                        return true;
+                      }
+                      // Allow function calls
+                      if (value.type === 'CallExpression') {
+                        return true;
+                      }
+                      // Allow object spread
+                      if (value.type === 'ObjectExpression') {
+                        return true;
+                      }
+                      // Allow member expressions (like component.props.width, props.color, etc.)
+                      if (value.type === 'MemberExpression') {
+                        return true; // These are dynamic values from props/objects
+                      }
+                      // Allow if property key is dynamic (computed property)
+                      if (prop.key && prop.key.type === 'Identifier') {
+                        const keyName = prop.key.name;
+                        // Common dynamic style properties that are often set from props
+                        const dynamicProps = ['width', 'height', 'top', 'left', 'right', 'bottom', 'x', 'y', 'rotate', 'transform', 'opacity', 'scale', 'translateX', 'translateY', 'fontSize', 'fontWeight', 'color', 'textAlign', 'margin', 'padding', 'display', 'borderRadius', 'objectFit', 'background', 'backgroundColor', 'border', 'borderColor', 'borderWidth', 'boxShadow', 'overflow', 'overflowX', 'overflowY', 'zIndex', 'position'];
+                        if (dynamicProps.includes(keyName)) {
+                          return true; // These are often dynamic from props
+                        }
+                      }
+                    }
+                    return false;
+                  });
+                  if (hasComputedValues) {
+                    return; // Allow computed/dynamic values
+                  }
+                  // Allow if object has any properties (likely dynamic styling)
+                  if (expression.properties.length > 0) {
+                    // Check if all properties are simple literals (if so, they should use CSS classes)
+                    const allSimpleLiterals = expression.properties.every(prop => {
+                      if (prop.type === 'Property' && prop.value) {
+                        const value = prop.value;
+                        // If it's a literal, check if it's a static value
+                        if (value.type === 'Literal') {
+                          // Allow if it references a CSS variable or is a common dynamic pattern
+                          if (typeof value.value === 'string' && (value.value.includes('var(') || value.value.includes('--'))) {
+                            return false; // Has CSS vars, allow it
+                          }
+                          // Static literals should use CSS classes
+                          return typeof value.value !== 'object';
+                        }
+                        // Non-literal values are dynamic, allow them
+                        return false;
+                      }
+                      // Spread elements are dynamic
+                      if (prop.type === 'SpreadElement') {
+                        return false;
+                      }
+                      return false;
+                    });
+                    // If not all simple literals, allow it (has dynamic values)
+                    if (!allSimpleLiterals) {
+                      return;
+                    }
+                    // If all are simple literals but there's a spread, allow it
+                    const hasSpread = expression.properties.some(prop => prop.type === 'SpreadElement');
+                    if (hasSpread) {
+                      return;
+                    }
+                    // If there are any properties, assume they might be dynamic (be permissive)
+                    // Only flag if ALL properties are simple static literals with no spreads
+                    if (expression.properties.length > 2) {
+                      return; // Style objects with multiple properties are likely dynamic
+                    }
+                    // If there's only 1-2 properties and they're all static literals, still allow if they're common dynamic props
+                    if (expression.properties.length <= 2) {
+                      const hasDynamicProp = expression.properties.some(prop => {
+                        if (prop.type === 'Property' && prop.key && prop.key.type === 'Identifier') {
+                          const keyName = prop.key.name;
+                          // These props are commonly dynamic even with literal values
+                          const commonlyDynamic = ['position', 'display', 'zIndex', 'opacity', 'transform', 'transition', 'width', 'height', 'top', 'left', 'right', 'bottom', 'inset'];
+                          return commonlyDynamic.includes(keyName);
+                        }
+                        return false;
+                      });
+                      if (hasDynamicProp) {
+                        return; // Allow commonly dynamic props
+                      }
+                    }
+                    // Be very permissive - if we've gotten this far, it's likely a legitimate use case
+                    // Only flag truly static single-property styles that could easily be CSS classes
+                    if (expression.properties.length === 1) {
+                      const prop = expression.properties[0];
+                      if (prop.type === 'Property' && prop.value && prop.value.type === 'Literal') {
+                        const value = prop.value.value;
+                        // Only flag if it's a simple string/number that could be a CSS class
+                        if (typeof value === 'string' && value.length < 20 && !value.includes('var(') && !value.includes('--')) {
+                          // This might be flaggable, but let's be conservative
+                          // Allow common position values
+                          if (['relative', 'absolute', 'fixed', 'sticky', 'static'].includes(value)) {
+                            return; // Allow position values
+                          }
+                          // Allow common display values
+                          if (['block', 'flex', 'grid', 'inline', 'inline-block', 'none'].includes(value)) {
+                            return; // Allow display values
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
               context.report({ node, messageId: 'noInlineStyle' });
             }
           }

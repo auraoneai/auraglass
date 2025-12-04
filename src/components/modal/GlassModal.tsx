@@ -703,7 +703,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         {backdrop || (
           <Motion
             preset="fadeIn"
-            className='absolute inset-0 glass-surface-dark/50'
+            className='glass-absolute glass-inset-0 glass-surface-dark/50'
             onClick={handleBackdropClick}
           />
         )}
@@ -775,11 +775,11 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 {(title || description || showCloseButton) && (
                   <div className="glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20">
                     <div className="glass-flex glass-items-start glass-justify-between">
-                      <div className="glass-flex-1 glass-min-w-0">
+                      <div className="glass-flex-1 glass-min-glass-w-0">
                         {title && (
                           <h2
                             id={titleId}
-                            className='glass-text-lg font-semibold text-primary'
+                            className='glass-text-lg glass-font-semibold glass-text-primary'
                           >
                             {title}
                           </h2>
@@ -787,7 +787,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {description && (
                           <p
                             id={descriptionId}
-                            className='glass-text-sm text-muted-foreground glass-mt-1'
+                            className='glass-text-sm glass-text-secondary-foreground glass-mt-1'
                           >
                             {description}
                           </p>
@@ -860,11 +860,11 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 {(title || description || showCloseButton) && (
                   <div className="glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20">
                     <div className="glass-flex glass-items-start glass-justify-between">
-                      <div className="glass-flex-1 glass-min-w-0">
+                      <div className="glass-flex-1 glass-min-glass-w-0">
                         {title && (
                           <h2
                             id={titleId}
-                            className='glass-text-lg font-semibold text-primary'
+                            className='glass-text-lg glass-font-semibold glass-text-primary'
                           >
                             {title}
                           </h2>
@@ -885,7 +885,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                             <IconButton
                               icon={
                                 <svg
-                                  className='w-4 h-4'
+                                  className='glass-w-4 glass-h-4'
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -1001,7 +1001,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                   {predictive && modalInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='text-primary'>Modal Insights</span>
+                        <span className='glass-text-primary'>Modal Insights</span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

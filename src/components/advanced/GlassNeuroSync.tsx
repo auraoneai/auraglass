@@ -956,9 +956,9 @@ export function GlassNeuroMetricsDashboard({
     >
       <motion.button
         className={cn(
-          "w-14 h-14 glass-radius-full glass-surface-primary glass-elev-4",
+          "w-14 glass-h-14 glass-radius-full glass-surface-primary glass-elev-4",
           "flex items-center justify-center glass-text-primary",
-          "transition-all duration-300 hover:scale-105",
+          "transition-all duration-300 glass-hover-scale-105",
           isConnected ? "animate-pulse" : ""
         )}
         onClick={() => setShowDashboard(!showDashboard)}
@@ -979,7 +979,7 @@ export function GlassNeuroMetricsDashboard({
         {showDashboard && (
           <motion.div
             className={cn(
-              "absolute bottom-16 left-0 w-96 max-h-[80vh] overflow-y-auto",
+              "absolute bottom-16 left-0 w-96 glass-max-h-80vh overflow-y-auto",
               "glass-surface-primary glass-elev-5 glass-radius-lg glass-p-6 glass-gap-4"
             )}
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -987,12 +987,12 @@ export function GlassNeuroMetricsDashboard({
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
           >
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-text-lg font-semibold text-primary'>
+              <h3 className='glass-text-lg glass-font-semibold glass-text-primary'>
                 NeuroSync Dashboard
               </h3>
               <button
                 onClick={() => setShowDashboard(false)}
-                className='glass-text-sm glass-text-secondary hover:text-primary glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-text-sm glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
               >
                 ✕
               </button>
@@ -1000,12 +1000,12 @@ export function GlassNeuroMetricsDashboard({
 
             {/* Device Status */}
             <div className="glass-gap-2">
-              <h4 className='glass-text-sm font-medium glass-text-secondary uppercase tracking-wide'>
+              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
                 Device Status
               </h4>
               <div className="glass-p-3 glass-surface-secondary glass-radius-md">
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm text-primary'>
+                  <span className='glass-text-sm glass-text-primary'>
                     {deviceInfo?.name || "No Device"}
                   </span>
                   <div className="glass-flex glass-items-center glass-gap-2">
@@ -1032,7 +1032,7 @@ export function GlassNeuroMetricsDashboard({
 
             {/* Neural Metrics */}
             <div className="glass-gap-2">
-              <h4 className='glass-text-sm font-medium glass-text-secondary uppercase tracking-wide'>
+              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
                 Neural Metrics
               </h4>
               <div className="glass-grid glass-grid-cols-2 glass-gap-2">
@@ -1041,13 +1041,13 @@ export function GlassNeuroMetricsDashboard({
                     key={metric.name}
                     className="glass-p-3 glass-surface-secondary glass-radius-md"
                   >
-                    <div className='glass-text-xs font-medium text-primary'>
+                    <div className='glass-text-xs glass-font-medium glass-text-primary'>
                       {metric.name}
                     </div>
                     <div className="glass-mt-2 glass-flex glass-items-center glass-gap-2">
-                      <div className='glass-flex-1 glass-surface-subtle glass-radius-full h-2'>
+                      <div className='glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2'>
                         <motion.div
-                          className='h-2 glass-radius-full'
+                          className='glass-h-2 glass-radius-full'
                           ref={(el) => {
                             if (el) el.style.backgroundColor = metric.color;
                           }}
@@ -1060,7 +1060,7 @@ export function GlassNeuroMetricsDashboard({
                           }
                         />
                       </div>
-                      <span className='glass-text-xs glass-text-secondary w-8 text-right'>
+                      <span className='glass-text-xs glass-text-secondary glass-w-8 glass-text-right'>
                         {(metric.value * 100).toFixed(0)}%
                       </span>
                     </div>
@@ -1072,11 +1072,11 @@ export function GlassNeuroMetricsDashboard({
             {/* Current Adaptation */}
             {adaptation && (
               <div className="glass-gap-2">
-                <h4 className='glass-text-sm font-medium glass-text-secondary uppercase tracking-wide'>
+                <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
                   Active Adaptation
                 </h4>
                 <div className="glass-p-3 glass-surface-secondary glass-radius-md">
-                  <div className='glass-text-sm text-primary font-medium mb-2'>
+                  <div className='glass-text-sm glass-text-primary glass-font-medium glass-mb-2'>
                     {adaptation.id
                       .replace("-", " ")
                       .replace(/\b\w/g, (l) => l.toUpperCase())}
@@ -1098,7 +1098,7 @@ export function GlassNeuroMetricsDashboard({
             )}
 
             {!isConnected && (
-              <div className='text-center glass-text-sm glass-text-secondary glass-py-4'>
+              <div className='glass-text-center glass-text-sm glass-text-secondary glass-py-4'>
                 Connect an EEG device to start neural monitoring
               </div>
             )}
@@ -1127,11 +1127,11 @@ export function GlassNeuroFeedback({
 
   return (
     <div className={cn("glass-flex glass-items-center glass-gap-3", className)}>
-      <div className='glass-text-sm text-primary capitalize font-medium'>
+      <div className='glass-text-sm glass-text-primary glass-capitalize glass-font-medium'>
         {type}
       </div>
-      <div className='glass-flex-1 relative'>
-        <div className='glass-w-full h-4 glass-surface-subtle glass-radius-full glass-overflow-hidden'>
+      <div className='glass-flex-1 glass-relative'>
+        <div className='glass-w-full glass-h-4 glass-surface-subtle glass-radius-full glass-overflow-hidden'>
           <motion.div
             className="glass-h-full glass-radius-full"
             ref={(el) => {
@@ -1149,14 +1149,14 @@ export function GlassNeuroFeedback({
           />
           {/* Target indicator */}
           <div
-            className='absolute top-0 w-1 glass-h-full glass-surface-subtle opacity-60'
+            className='glass-absolute glass-top-0 glass-w-1 glass-h-full glass-surface-subtle glass-opacity-60'
             ref={(el) => {
               if (el) el.style.left = `${target * 100}%`;
             }}
           />
         </div>
       </div>
-      <div className='glass-text-sm glass-text-secondary w-12 text-right'>
+      <div className='glass-text-sm glass-text-secondary glass-w-12 glass-text-right'>
         {(currentValue * 100).toFixed(0)}%
       </div>
     </div>

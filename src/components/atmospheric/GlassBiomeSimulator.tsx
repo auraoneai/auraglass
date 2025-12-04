@@ -1078,7 +1078,7 @@ export const GlassBiomeSimulator = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
             <label className="glass-text-sm" htmlFor="biome-select">Biome:</label>
@@ -1147,7 +1147,7 @@ export const GlassBiomeSimulator = forwardRef<
                 }));
                 onTimeChange?.(newTime);
               }}
-              className='w-20'
+              className='glass-w-20'
               aria-label="Adjust time of day"
             />
           </div>
@@ -1197,7 +1197,7 @@ export const GlassBiomeSimulator = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className='glass-relative'>
             <canvas
               ref={canvasRef}
               width={width}

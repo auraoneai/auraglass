@@ -22,17 +22,17 @@ export function GlassDiffViewer({
         <div className="glass-grid glass-grid-cols-2 glass-gap-3">
           <OptimizedGlass
             elevation={"level1"}
-            className='glass-radius-lg glass-p-3 glass-border glass-border-white/15 overflow-auto'
+            className='glass-radius-lg glass-p-3 glass-border glass-border-white/15 glass-overflow-auto'
           >
-            <pre className='glass-text-xs text-primary/80 whitespace-pre-wrap break-all'>
+            <pre className='glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all'>
               {left}
             </pre>
           </OptimizedGlass>
           <OptimizedGlass
             elevation={"level1"}
-            className='glass-radius-lg glass-p-3 glass-border glass-border-white/15 overflow-auto'
+            className='glass-radius-lg glass-p-3 glass-border glass-border-white/15 glass-overflow-auto'
           >
-            <pre className='glass-text-xs text-primary/80 whitespace-pre-wrap break-all'>
+            <pre className='glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all'>
               {right}
             </pre>
           </OptimizedGlass>
@@ -40,9 +40,9 @@ export function GlassDiffViewer({
       ) : (
         <OptimizedGlass
           elevation={"level1"}
-          className='glass-radius-lg glass-p-3 glass-border glass-border-white/15 overflow-auto'
+          className='glass-radius-lg glass-p-3 glass-border glass-border-white/15 glass-overflow-auto'
         >
-          <pre className='glass-text-xs text-primary/80 whitespace-pre-wrap break-all'>
+          <pre className='glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all'>
             {right}
           </pre>
         </OptimizedGlass>

@@ -637,7 +637,7 @@ export const GlassSpatialAudio: React.FC<GlassSpatialAudioProps> = ({
         {...rest}
       >
         {children ?? (
-          <span className='sr-only'>Glass spatial audio provider active</span>
+          <span className='glass-sr-only'>Glass spatial audio provider active</span>
         )}
       </div>
     </GlassSpatialAudioProvider>
@@ -781,12 +781,12 @@ export function GlassSpatialVisualizer({
         className
       )}
     >
-      <div className='glass-text-xs text-primary mb-2'>Spatial Audio</div>
+      <div className='glass-text-xs glass-text-primary glass-mb-2'>Spatial Audio</div>
 
       {/* 3D space visualization */}
-      <div className='relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg overflow-hidden'>
+      <div className='glass-relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-overflow-hidden'>
         {/* Grid */}
-        <div className='absolute inset-0'>
+        <div className='glass-absolute glass-inset-0'>
           {Array.from({ length: 8 }, (_, i) => (
             <div
               key={`h-${i}`}
@@ -808,8 +808,8 @@ export function GlassSpatialVisualizer({
         </div>
 
         {/* Center point (listener) */}
-        <div className="glass-absolute glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-top-1-2 glass-left-1-2 glass-translate-x-1/2-neg glass-translate-y-1/2-neg">
-          <div className='absolute w-4 h-4 glass-border glass-border-green glass-radius-full glass-top-1 -left-1 animate-pulse' />
+        <div className='glass-absolute glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-top-1-2 glass-left-1-2 glass-translate-x-1/2-neg glass-translate-y-1/2-neg'>
+          <div className='glass-absolute glass-w-4 glass-h-4 glass-border glass-border-green glass-radius-full glass-top-1 glass--left-1 glass-animate-pulse' />
         </div>
 
         {/* Audio sources */}
@@ -822,7 +822,7 @@ export function GlassSpatialVisualizer({
             return (
               <motion.div
                 key={source.id}
-                className='absolute w-3 h-3 glass-radius-full transform -translate-x-1/2 -translate-y-1/2'
+                className='glass-absolute glass-w-3 glass-h-3 glass-radius-full glass-transform glass--translate-x-1-2 glass--translate-y-1-2'
                 style={{
                   left: `${screenX}%`,
                   top: `${screenY}%`,
@@ -855,7 +855,7 @@ export function GlassSpatialVisualizer({
                 {/* Sound waves */}
                 {source.isPlaying && (
                   <motion.div
-                    className='absolute inset-0 glass-radius-full glass-border opacity-30'
+                    className='glass-absolute glass-inset-0 glass-radius-full glass-border glass-opacity-30'
                     style={{
                       borderColor:
                         source.category === "ambient"
@@ -888,26 +888,26 @@ export function GlassSpatialVisualizer({
         </AnimatePresence>
 
         {/* Legend */}
-        <div className='absolute bottom-2 left-2 glass-text-xs glass-text-secondary'>
-          <div className='glass-flex glass-items-center glass-gap-1 mb-1'>
-            <div className='w-2 h-2 glass-surface-green glass-radius-full' />
+        <div className='glass-absolute glass-bottom-2 glass-left-2 glass-text-xs glass-text-secondary'>
+          <div className='glass-flex glass-items-center glass-gap-1 glass-mb-1'>
+            <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full' />
             <span>Listener</span>
           </div>
           <div className="glass-grid glass-grid-cols-2 glass-gap-1">
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className='w-2 h-2 glass-surface-blue glass-radius-full' />
+              <div className='glass-w-2 glass-h-2 glass-surface-blue glass-radius-full' />
               <span>Ambient</span>
             </div>
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className='w-2 h-2 bg-emerald-500 glass-radius-full' />
+              <div className='glass-w-2 glass-h-2 glass-surface-emerald glass-radius-full' />
               <span>UI</span>
             </div>
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className='w-2 h-2 bg-amber-500 glass-radius-full' />
+              <div className='glass-w-2 glass-h-2 glass-surface-amber glass-radius-full' />
               <span>Feedback</span>
             </div>
             <div className="glass-flex glass-items-center glass-gap-1">
-              <div className='w-2 h-2 bg-pink-500 glass-radius-full' />
+              <div className='glass-w-2 glass-h-2 glass-surface-pink glass-radius-full' />
               <span>Alert</span>
             </div>
           </div>

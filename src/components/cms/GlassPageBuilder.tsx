@@ -70,7 +70,7 @@ const Toolbar: React.FC = () => {
       {/* Left Side - Main Actions */}
       <div className="glass-flex glass-items-center glass-gap-4">
         <div className="glass-flex glass-items-center glass-gap-2">
-          <h1 className='glass-text-xl font-bold glass-text-secondary'>
+          <h1 className='glass-text-xl glass-font-bold glass-text-secondary'>
             Page Builder
           </h1>
           <span className="glass-text-xs glass-text-secondary glass-surface-subtle glass-px-2 glass-py-1 glass-radius">
@@ -78,34 +78,34 @@ const Toolbar: React.FC = () => {
           </span>
         </div>
 
-        <div className='w-px h-6 glass-surface-subtle' />
+        <div className='glass-w-px glass-h-6 glass-surface-subtle' />
 
         {/* File Actions */}
         <div className="glass-flex glass-items-center glass-gap-2">
           <button
             onClick={clearPage}
-            className='glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
           >
             <span>🗑️</span>
             New
           </button>
           <button
             onClick={handleSave}
-            className='glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
           >
             <span>💾</span>
             Save
           </button>
           <button
             onClick={handleLoad}
-            className='glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
           >
             <span>📁</span>
             Load
           </button>
         </div>
 
-        <div className='w-px h-6 glass-surface-subtle' />
+        <div className='glass-w-px glass-h-6 glass-surface-subtle' />
 
         {/* Undo/Redo */}
         <div className="glass-flex glass-items-center glass-gap-1">
@@ -192,7 +192,7 @@ const Toolbar: React.FC = () => {
           </button>
         </div>
 
-        <div className='w-px h-6 glass-surface-subtle' />
+        <div className='glass-w-px glass-h-6 glass-surface-subtle' />
 
         {/* Preview & Publish */}
         <div className="glass-flex glass-items-center glass-gap-2">
@@ -214,7 +214,7 @@ const Toolbar: React.FC = () => {
               console.log("Publishing:", data);
               alert("Page published! (Demo - check console for data)");
             }}
-            className='glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm font-medium glass-surface-blue text-primary hover:glass-surface-blue glass-radius-md transition-colors'
+            className='glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm glass-font-medium glass-surface-blue glass-text-primary hover:glass-surface-blue glass-radius-md glass-transition-colors'
           >
             <span>🚀</span>
             Publish
@@ -304,12 +304,12 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
       <Toolbar />
 
       {/* Main Content */}
-      <div className='glass-flex-1 glass-flex overflow-hidden'>
+      <div className='glass-flex-1 glass-flex glass-overflow-hidden'>
         {/* Left Panels */}
         <div className="glass-flex">
           {/* Left Panel Tabs */}
           {!leftPanelCollapsed && (
-            <div className='w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col'>
+            <div className='glass-w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col'>
               <button
                 onClick={() => setActiveLeftPanel("components")}
                 className={cn(
@@ -374,7 +374,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
       </div>
 
       {/* Status Bar */}
-      <div className='h-6 glass-surface-primary text-gray-300 glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4'>
+      <div className='glass-h-6 glass-surface-primary glass-text-secondary glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4'>
         <div className="glass-flex glass-items-center glass-gap-4">
           <span>🟢 Ready</span>
           <span>Auto-save: ON</span>

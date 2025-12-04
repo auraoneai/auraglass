@@ -43,10 +43,10 @@ export function GlassMetricChip({
         className
       )}
     >
-      {icon && <span className='opacity-80'>{icon}</span>}
-      <span className='glass-text-xs text-primary/70'>{label}</span>
+      {icon && <span className='glass-opacity-80'>{icon}</span>}
+      <span className='glass-text-xs glass-text-primary-opacity-70'>{label}</span>
       <span className={cn("font-semibold", intentColor)}>{value}</span>
-      {delta && <span className='glass-text-xs text-primary/60'>{delta}</span>}
+      {delta && <span className='glass-text-xs glass-text-primary-glass-opacity-60'>{delta}</span>}
     </OptimizedGlass>
   );
 }

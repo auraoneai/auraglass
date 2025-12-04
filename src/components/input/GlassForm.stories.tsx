@@ -106,7 +106,7 @@ const SampleForm = () => {
               <GlassFormLabel>Message</GlassFormLabel>
               <GlassFormControl>
                 <textarea
-                  className="w-full px-3 py-2 glass-surface-subtle/10 border border-white/20 glass-radius-lg glass-glass-backdrop-blur-md text-primary placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 glass-contrast-guard glass-touch-target glass-contrast-guard"
+                  className="glass-w-full glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-glass-backdrop-blur-md glass-text-primary placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 glass-contrast-guard glass-touch-target glass-contrast-guard"
                   rows={3}
                   placeholder="Enter your message"
                   {...field}
@@ -117,7 +117,7 @@ const SampleForm = () => {
           )}
         />
 
-        <GlassButton type="submit" className="w-full">
+        <GlassButton type="submit" className="glass-w-full">
           Submit
         </GlassButton>
       </form>
@@ -188,7 +188,7 @@ export const WithGlassStyling: Story = {
             )}
           />
 
-          <GlassButton type="submit" className="w-full">
+          <GlassButton type="submit" className="glass-w-full">
             Submit with Glass Styling
           </GlassButton>
         </form>

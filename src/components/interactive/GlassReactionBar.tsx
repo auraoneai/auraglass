@@ -38,7 +38,7 @@ export function GlassReactionBar({
               onClick={() => onReact?.(r.key)}
             >
               <span className="glass-mr-1">{r.label}</span>
-              <span className='text-primary/70'>{r.count}</span>
+              <span className='glass-text-primary-opacity-70'>{r.count}</span>
             </GlassButton>
           ))
         )}

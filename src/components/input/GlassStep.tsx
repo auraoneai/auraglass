@@ -32,7 +32,7 @@ interface GlassStepProps {
 const getStepStateClasses = (active: boolean, completed: boolean, disabled: boolean, clickable: boolean) => {
   const baseClasses = [
     'flex items-center relative flex-1 glass-p-2 transition-all duration-300 ease-in-out',
-    clickable && !disabled ? 'cursor-pointer hover:bg-glass-light-primary/5 hover:scale-[1.01]' : 'cursor-default'
+    clickable && !disabled ? 'cursor-pointer hover:bg-glass-light-primary/5 glass-hover-scale-1-01' : 'cursor-default'
   ];
   
   if (disabled) {

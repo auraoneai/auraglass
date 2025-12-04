@@ -677,18 +677,18 @@ export const GlassFluidSimulation = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-fluid-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-fluid-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
             <button
               onClick={() => setIsRunning(!isRunning)}
-              className='glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary'
+              className='glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-text-primary'
             >
               {isRunning ? "Pause" : "Play"}
             </button>
             <button
               onClick={initializeParticles}
-              className='glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-px-3 glass-py-1 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
             >
               Reset
             </button>
@@ -722,7 +722,7 @@ export const GlassFluidSimulation = forwardRef<
                   radius: 50,
                 })
               }
-              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-red/20 hover:glass-surface-red/30 text-primary glass-text-sm'
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-red/20 hover:glass-surface-red/30 glass-text-primary glass-text-sm'
             >
               Add Push
             </button>
@@ -736,7 +736,7 @@ export const GlassFluidSimulation = forwardRef<
                   radius: 50,
                 })
               }
-              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-blue/20 hover:glass-surface-blue/30 text-primary glass-text-sm'
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-blue/20 hover:glass-surface-blue/30 glass-text-primary glass-text-sm'
             >
               Add Pull
             </button>
@@ -750,7 +750,7 @@ export const GlassFluidSimulation = forwardRef<
                   radius: 100,
                 })
               }
-              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-text-sm'
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-text-primary glass-text-sm'
             >
               Add Vortex
             </button>
@@ -801,7 +801,7 @@ export const GlassFluidSimulation = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className='glass-relative'>
             <canvas
               ref={canvasRef}
               width={width}

@@ -182,7 +182,7 @@ export const GlassGANGenerator = forwardRef<
       onModelSelect,
       onGenerate,
       onTrainingProgress,
-      className = "",
+      className="",
       ...props
     },
     ref
@@ -580,12 +580,12 @@ export const GlassGANGenerator = forwardRef<
     }, [latentVectors, visualizeLatentSpace]);
 
     const ModelSelector = () => (
-      <div className='space-y-4'>
-        <h4 className='glass-text-sm font-medium text-primary/80'>
+      <div className='glass-space-y-4'>
+        <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
           GAN Models
         </h4>
 
-        <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-3'>
+        <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3'>
           {availableModels.map((ganModel) => (
             <motion.div
               key={ganModel.id}
@@ -603,27 +603,27 @@ export const GlassGANGenerator = forwardRef<
             >
               <div className="glass-flex glass-items-start glass-justify-between">
                 <div className="glass-flex-1">
-                  <div className='glass-flex glass-items-center space-x-2 mb-1'>
-                    <h5 className='glass-text-sm font-medium text-primary/90'>
+                  <div className='glass-flex glass-items-center glass-space-x-2 glass-mb-1'>
+                    <h5 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90'>
                       {ganModel.name}
                     </h5>
                     {ganModel.trained ? (
-                      <span className='glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium'>
+                      <span className='glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium'>
                         Trained
                       </span>
                     ) : (
-                      <span className='glass-px-2 glass-py-0.5 glass-surface-primary/20 glass-text-secondary glass-radius glass-text-xs font-medium'>
+                      <span className='glass-px-2 glass-py-0.5 glass-surface-primary/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium'>
                         Untrained
                       </span>
                     )}
                   </div>
 
-                  <p className='glass-text-xs text-primary/60 mb-2'>
+                  <p className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2'>
                     {ganModel.description}
                   </p>
 
                   <div className="glass-flex glass-items-center glass-justify-between">
-                    <div className='glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50'>
+                    <div className='glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50'>
                       <span>{ganModel.resolution}px</span>
                       <span>Z:{ganModel.latentDim}</span>
                     </div>
@@ -650,7 +650,7 @@ export const GlassGANGenerator = forwardRef<
                 </div>
 
                 {currentModel === ganModel.id && (
-                  <div className='text-primary ml-2'>✓</div>
+                  <div className='glass-text-primary glass-ml-2'>✓</div>
                 )}
               </div>
             </motion.div>
@@ -660,14 +660,14 @@ export const GlassGANGenerator = forwardRef<
     );
 
     const GenerationControls = () => (
-      <div className='space-y-4'>
-        <h4 className='glass-text-sm font-medium text-primary/80'>
+      <div className='glass-space-y-4'>
+        <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
           Generation Parameters
         </h4>
 
-        <div className='glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4'>
+        <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4'>
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-1'>
+            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1'>
               Seed: {params.seed}
             </label>
             <input
@@ -682,12 +682,12 @@ export const GlassGANGenerator = forwardRef<
                 }))
               }
               aria-label={`Seed: ${params.seed}`}
-              className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              className='glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer'
             />
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-1'>
+            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1'>
               Truncation: {params.truncation.toFixed(2)}
             </label>
             <input
@@ -703,12 +703,12 @@ export const GlassGANGenerator = forwardRef<
                 }))
               }
               aria-label={`Truncation: ${params.truncation.toFixed(2)}`}
-              className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              className='glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer'
             />
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-1'>
+            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1'>
               Style Strength: {params.styleStrength.toFixed(2)}
             </label>
             <input
@@ -724,12 +724,12 @@ export const GlassGANGenerator = forwardRef<
                 }))
               }
               aria-label={`Style Strength: ${params.styleStrength.toFixed(2)}`}
-              className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              className='glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer'
             />
           </div>
 
           <div>
-            <label className='block glass-text-xs text-primary/70 mb-1'>
+            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1'>
               Batch Size: {params.batchSize}
             </label>
             <input
@@ -744,7 +744,7 @@ export const GlassGANGenerator = forwardRef<
                 }))
               }
               aria-label={`Batch Size: ${params.batchSize}`}
-              className='glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer'
+              className='glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer'
             />
           </div>
         </div>
@@ -761,30 +761,30 @@ export const GlassGANGenerator = forwardRef<
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between">
           <div>
-            <h3 className='glass-text-xl font-semibold text-primary/90'>
+            <h3 className='glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90'>
               GAN Generator
             </h3>
-            <p className='glass-text-sm text-primary/60'>
+            <p className='glass-text-sm glass-text-primary-glass-opacity-60'>
               Generative Adversarial Networks for image synthesis
             </p>
           </div>
 
-          <div className='glass-flex glass-items-center space-x-2'>
+          <div className='glass-flex glass-items-center glass-space-x-2'>
             {enableRealTime && model.trained && (
-              <div className='glass-flex glass-items-center space-x-1 text-primary'>
-                <div className='w-2 h-2 glass-surface-green glass-radius-full animate-pulse' />
+              <div className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
+                <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse' />
                 <span className="glass-text-xs">Auto-gen</span>
               </div>
             )}
             {isGenerating && (
-              <div className='glass-flex glass-items-center space-x-1 text-primary'>
-                <div className='w-4 h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full animate-spin' />
+              <div className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
+                <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin' />
                 <span className="glass-text-xs">Generating...</span>
               </div>
             )}
             {isTraining && (
-              <div className='glass-flex glass-items-center space-x-1 text-primary'>
-                <div className='w-4 h-4 glass-border-2 glass-border-orange-400 glass-border-t-transparent glass-radius-full animate-spin' />
+              <div className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
+                <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-orange-400 glass-border-t-transparent glass-radius-full glass-animate-spin' />
                 <span className="glass-text-xs">Training...</span>
               </div>
             )}
@@ -793,17 +793,17 @@ export const GlassGANGenerator = forwardRef<
 
         {/* Generated images grid */}
         {generatedImages.length > 0 && (
-          <div className='space-y-4'>
-            <h4 className='glass-text-sm font-medium text-primary/80'>
+          <div className='glass-space-y-4'>
+            <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
               Generated Images
             </h4>
-            <div className='glass-grid glass-grid-cols-2 md:grid-cols-4 lg:grid-cols-6 glass-gap-3'>
+            <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 lg:glass-grid-cols-6 glass-gap-3'>
               {generatedImages
                 .slice(0, maxGenerations)
                 .map((imageUrl, index) => (
                   <motion.div
                     key={index}
-                    className='relative aspect-square glass-radius-lg overflow-hidden glass-surface-subtle/10 group cursor-pointer'
+                    className='glass-relative glass-aspect-square glass-radius-lg glass-overflow-hidden glass-surface-subtle/10 glass-group glass-cursor-pointer'
                     whileHover={shouldAnimate ? { scale: 1.05 } : {}}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={
@@ -816,12 +816,12 @@ export const GlassGANGenerator = forwardRef<
                     <img
                       src={imageUrl}
                       alt={`Generated ${index + 1}`}
-                      className='glass-w-full glass-h-full object-cover'
+                      className='glass-w-full glass-h-full glass-object-cover'
                     />
-                    <div className='absolute inset-0 glass-surface-dark/50 opacity-0 group-hover:opacity-100 transition-opacity glass-flex glass-items-center glass-justify-center'>
-                      <button className='glass-p-2 glass-surface-subtle/20 glass-radius-lg text-primary hover:glass-surface-subtle/30 transition-colors'>
+                    <div className='glass-absolute glass-inset-0 glass-surface-dark/50 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-flex glass-items-center glass-justify-center'>
+                      <button className='glass-p-2 glass-surface-subtle/20 glass-radius-lg glass-text-primary hover:glass-surface-subtle/30 glass-transition-colors'>
                         <svg
-                          className='w-4 h-4'
+                          className='glass-w-4 glass-h-4'
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -849,17 +849,17 @@ export const GlassGANGenerator = forwardRef<
             ${createGlassStyle({ blur: "sm", opacity: 0.8 }).background}
           `}
           >
-            <div className='glass-flex glass-items-center glass-justify-between mb-2'>
-              <span className='glass-text-sm text-primary/80'>
+            <div className='glass-flex glass-items-center glass-justify-between glass-mb-2'>
+              <span className='glass-text-sm glass-text-primary-glass-opacity-80'>
                 Generating batch...
               </span>
-              <span className='glass-text-sm font-medium text-primary'>
+              <span className='glass-text-sm glass-font-medium glass-text-primary'>
                 {Math.round(generationProgress)}%
               </span>
             </div>
-            <div className='glass-w-full glass-surface-subtle/20 glass-radius-full h-2'>
+            <div className='glass-w-full glass-surface-subtle/20 glass-radius-full glass-h-2'>
               <motion.div
-                className='glass-surface-blue h-2 glass-radius-full'
+                className='glass-surface-blue glass-h-2 glass-radius-full'
                 animate={{ width: `${generationProgress}%` }}
                 transition={
                   prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
@@ -869,7 +869,7 @@ export const GlassGANGenerator = forwardRef<
           </div>
         )}
 
-        <div className='glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6'>
+        <div className='glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6'>
           {/* Model selector */}
           {showModelSelector && <ModelSelector />}
 
@@ -879,35 +879,35 @@ export const GlassGANGenerator = forwardRef<
 
         {/* Latent space visualization */}
         {showLatentSpace && latentVectors.length > 0 && (
-          <div className='space-y-4'>
-            <h4 className='glass-text-sm font-medium text-primary/80'>
+          <div className='glass-space-y-4'>
+            <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
               Latent Space (2D Projection)
             </h4>
             <canvas
               ref={latentSpaceCanvasRef}
               width={400}
               height={300}
-              className='glass-w-full max-w-md glass-border glass-border-white/20 glass-radius-lg glass-surface-dark/20'
+              className='glass-w-full glass-max-w-md glass-border glass-border-white/20 glass-radius-lg glass-surface-dark/20'
             />
           </div>
         )}
 
         {/* Interpolation */}
         {enableInterpolation && interpolationImages.length > 0 && (
-          <div className='space-y-4'>
-            <h4 className='glass-text-sm font-medium text-primary/80'>
+          <div className='glass-space-y-4'>
+            <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
               Latent Interpolation
             </h4>
-            <div className='glass-flex space-x-2 overflow-x-auto pb-2'>
+            <div className='glass-flex glass-space-x-2 glass-overflow-x-auto glass-pb-2'>
               {interpolationImages.map((imageUrl, index) => (
                 <div
                   key={index}
-                  className='glass-flex-shrink-0 w-16 h-16 glass-radius glass-border glass-border-white/20 overflow-hidden'
+                  className='glass-flex-shrink-0 glass-w-16 glass-h-16 glass-radius glass-border glass-border-white/20 glass-overflow-hidden'
                 >
                   <img
                     src={imageUrl}
                     alt={`Interpolation ${index}`}
-                    className='glass-w-full glass-h-full object-cover'
+                    className='glass-w-full glass-h-full glass-object-cover'
                   />
                 </div>
               ))}
@@ -923,15 +923,15 @@ export const GlassGANGenerator = forwardRef<
             ${createGlassStyle({ blur: "sm", opacity: 0.8 }).background}
           `}
           >
-            <div className='glass-flex glass-items-center glass-justify-between mb-2'>
-              <span className='glass-text-sm text-primary/80'>
+            <div className='glass-flex glass-items-center glass-justify-between glass-mb-2'>
+              <span className='glass-text-sm glass-text-primary-glass-opacity-80'>
                 Training Model...
               </span>
-              <span className='glass-text-sm font-medium text-primary'>
+              <span className='glass-text-sm glass-font-medium glass-text-primary'>
                 Epoch {trainingProgress.epoch}
               </span>
             </div>
-            <div className='glass-grid glass-grid-cols-2 glass-gap-4 glass-text-xs text-primary/60'>
+            <div className='glass-grid glass-grid-cols-2 glass-gap-4 glass-text-xs glass-text-primary-glass-opacity-60'>
               <div>
                 Generator Loss: {trainingProgress.generatorLoss.toFixed(3)}
               </div>
@@ -944,10 +944,10 @@ export const GlassGANGenerator = forwardRef<
         )}
 
         {/* Action buttons */}
-        <div className='glass-flex glass-items-center glass-justify-between pt-4 glass-border-t glass-border-white/10'>
-          <div className='glass-flex glass-items-center space-x-4'>
+        <div className='glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10'>
+          <div className='glass-flex glass-items-center glass-space-x-4'>
             <motion.button
-              className='glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg glass-text-sm font-medium transition-colors disabled:opacity-50'
+              className='glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50'
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={generateImages}
@@ -958,7 +958,7 @@ export const GlassGANGenerator = forwardRef<
 
             {enableInterpolation && latentVectors.length >= 2 && (
               <motion.button
-                className='glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:border-white/50 text-primary/80 glass-radius-lg glass-text-sm transition-colors'
+                className='glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors'
                 whileHover={shouldAnimate ? { scale: 1.02 } : {}}
                 whileTap={shouldAnimate ? { scale: 0.98 } : {}}
                 onClick={generateInterpolation}
@@ -969,7 +969,7 @@ export const GlassGANGenerator = forwardRef<
 
             {showTrainingControls && !model.trained && (
               <motion.button
-                className='glass-px-4 glass-py-2 glass-surface-primary hover:glass-surface-primary text-primary glass-radius-lg glass-text-sm font-medium transition-colors disabled:opacity-50'
+                className='glass-px-4 glass-py-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50'
                 whileHover={shouldAnimate ? { scale: 1.02 } : {}}
                 whileTap={shouldAnimate ? { scale: 0.98 } : {}}
                 onClick={trainModel}
@@ -980,7 +980,7 @@ export const GlassGANGenerator = forwardRef<
             )}
           </div>
 
-          <div className='glass-flex glass-items-center space-x-2 glass-text-xs text-primary/60'>
+          <div className='glass-flex glass-items-center glass-space-x-2 glass-text-xs glass-text-primary-glass-opacity-60'>
             <span>Generated: {generatedImages.length}</span>
             <span>•</span>
             <span>Model: {model.name}</span>

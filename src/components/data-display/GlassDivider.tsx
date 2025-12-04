@@ -285,7 +285,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {...props}
         >
           {startDecorator && (
-            <div className='glass-flex-shrink-0 mr-3'>{startDecorator}</div>
+            <div className='glass-flex-shrink-0 glass-mr-3'>{startDecorator}</div>
           )}
 
           {labelPosition === "left" && renderLabel()}
@@ -299,7 +299,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {!label && renderDividerLine("full")}
 
           {endDecorator && (
-            <div className='glass-flex-shrink-0 ml-3'>{endDecorator}</div>
+            <div className='glass-flex-shrink-0 glass-ml-3'>{endDecorator}</div>
           )}
         </Motion>
       );
@@ -321,7 +321,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {...props}
         >
           {startDecorator && (
-            <div className='glass-flex-shrink-0 mb-3'>{startDecorator}</div>
+            <div className='glass-flex-shrink-0 glass-mb-3'>{startDecorator}</div>
           )}
 
           {labelPosition === "top" && renderLabel()}
@@ -335,7 +335,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {!label && renderDividerLine("full")}
 
           {endDecorator && (
-            <div className='glass-flex-shrink-0 mt-3'>{endDecorator}</div>
+            <div className='glass-flex-shrink-0 glass-mt-3'>{endDecorator}</div>
           )}
         </Motion>
       );

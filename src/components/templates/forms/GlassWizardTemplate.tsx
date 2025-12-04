@@ -277,7 +277,7 @@ export const GlassWizardTemplate = forwardRef<
     const renderHeader = () => (
       <VStack space="md">
         <VStack space="sm">
-          <h1 className='glass-text-2xl font-bold text-primary'>{title}</h1>
+          <h1 className='glass-text-2xl glass-font-bold glass-text-primary'>{title}</h1>
           {description && <p className="glass-text-secondary">{description}</p>}
         </VStack>
 
@@ -299,7 +299,7 @@ export const GlassWizardTemplate = forwardRef<
         {/* Step header */}
         <VStack space="sm">
           <HStack space="sm" align="center">
-            <h2 className='glass-text-xl font-semibold text-primary'>
+            <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
               {currentStepData.title}
             </h2>
             {currentStepData.optional && (
@@ -402,7 +402,7 @@ export const GlassWizardTemplate = forwardRef<
       switch (layout) {
         case "compact":
           return (
-            <div data-glass-component className='max-w-2xl glass-mx-auto'>
+            <div data-glass-component className='glass-max-w-2xl glass-mx-auto'>
               <GlassCard variant="default" className="glass-p-6">
                 {content}
               </GlassCard>
@@ -412,10 +412,10 @@ export const GlassWizardTemplate = forwardRef<
         case "sidebar":
           return (
             <div className="glass-grid glass-grid-cols-12 glass-gap-8">
-              <div className='col-span-4'>
-                <Glass className='glass-p-6 sticky top-8'>
+              <div className='glass-col-span-4'>
+                <Glass className='glass-p-6 glass-sticky glass-top-8'>
                   <VStack space="md">
-                    <h3 className='font-semibold text-primary'>Steps</h3>
+                    <h3 className='glass-font-semibold glass-text-primary'>Steps</h3>
                     <VStack space="sm">
                       {steps.map((step, index) => (
                         <GlassButton
@@ -434,9 +434,9 @@ export const GlassWizardTemplate = forwardRef<
                             !completedSteps.has(index - 1)
                           }
                         >
-                          <div className='font-medium'>{step.title}</div>
+                          <div className='glass-font-medium'>{step.title}</div>
                           {step.description && (
-                            <div className='glass-text-sm opacity-75 glass-mt-1'>
+                            <div className='glass-text-sm glass-opacity-75 glass-mt-1'>
                               {step.description}
                             </div>
                           )}
@@ -446,7 +446,7 @@ export const GlassWizardTemplate = forwardRef<
                   </VStack>
                 </Glass>
               </div>
-              <div className='col-span-8'>
+              <div className='glass-col-span-8'>
                 <GlassCard variant="default" className="glass-p-6">
                   {content}
                 </GlassCard>

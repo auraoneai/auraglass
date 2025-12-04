@@ -46,7 +46,7 @@ export const GlassSpotlight = forwardRef<HTMLDivElement, GlassSpotlightProps>(
         onClick={onClose}
         {...rest}
       >
-        {holeStyle ? <div style={holeStyle} /> : <span className='sr-only'>Glass spotlight inactive</span>}
+        {holeStyle ? <div style={holeStyle} /> : <span className='glass-sr-only'>Glass spotlight inactive</span>}
         {children}
       </div>
     );

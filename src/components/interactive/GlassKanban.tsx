@@ -407,24 +407,24 @@ export function GlassKanban({
       >
         {/* Board Metrics */}
         {showMetrics && boardMetrics && (
-          <div className='col-span-full mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg glass-border glass-border-white/10'>
+          <div className='glass-col-span-full glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg glass-border glass-border-white/10'>
             <div className="glass-flex glass-items-center glass-justify-between glass-text-sm">
               <div className="glass-flex glass-items-center glass-gap-4">
-                <span className='text-primary/80'>
+                <span className='glass-text-primary-glass-opacity-80'>
                   Total Cards: {boardMetrics.totalCards}
                 </span>
-                <span className='text-primary/80'>
+                <span className='glass-text-primary-glass-opacity-80'>
                   Productivity: {Math.round(boardMetrics.productivity * 100)}%
                 </span>
-                <span className='text-primary/80'>
+                <span className='glass-text-primary-glass-opacity-80'>
                   Completion Rate:{" "}
                   {Math.round(boardMetrics.completionRate * 100)}%
                 </span>
               </div>
               {boardMetrics.bottlenecks.length > 0 && (
                 <div className="glass-flex glass-items-center glass-gap-2">
-                  <Target className='w-4 h-4 text-primary' />
-                  <span className='text-primary glass-text-xs'>
+                  <Target className='glass-w-4 glass-h-4 glass-text-primary' />
+                  <span className='glass-text-primary glass-text-xs'>
                     Bottlenecks: {boardMetrics.bottlenecks.join(", ")}
                   </span>
                 </div>
@@ -435,10 +435,10 @@ export function GlassKanban({
 
         {/* Workflow Suggestions */}
         {predictive && workflowSuggestions.length > 0 && (
-          <div className='col-span-full mb-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20'>
-            <div className='glass-flex glass-items-center glass-gap-2 mb-2'>
-              <Brain className='w-4 h-4 text-primary' />
-              <span className='text-primary glass-text-sm font-medium'>
+          <div className='glass-col-span-full glass-mb-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20'>
+            <div className='glass-flex glass-items-center glass-gap-2 glass-mb-2'>
+              <Brain className='glass-w-4 glass-h-4 glass-text-primary' />
+              <span className='glass-text-primary glass-text-sm glass-font-medium'>
                 Workflow Suggestions
               </span>
             </div>
@@ -446,12 +446,12 @@ export function GlassKanban({
               {workflowSuggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  className='glass-text-xs text-primary/70 glass-flex glass-items-center glass-justify-between'
+                  className='glass-text-xs glass-text-primary-opacity-70 glass-flex glass-items-center glass-justify-between'
                 >
                   <span>
                     Move "{suggestion.cardId}" to "{suggestion.suggestedColumn}"
                   </span>
-                  <span className='text-primary/80'>{suggestion.reason}</span>
+                  <span className='glass-text-primary-glass-opacity-80'>{suggestion.reason}</span>
                 </div>
               ))}
             </div>
@@ -468,7 +468,7 @@ export function GlassKanban({
             <div
               key={column.id}
               className={cn(
-                "glass-gap-3 min-h-[200px] glass-p-3 glass-radius-xl",
+                "glass-gap-3 glass-min-h-200px glass-p-3 glass-radius-xl",
                 "bg-white/5 border border-white/10",
                 isFocused && "consciousness-column-focused",
                 isOverLimit && "consciousness-column-overlimit",
@@ -485,14 +485,14 @@ export function GlassKanban({
               {/* Column Header */}
               <div className="glass-flex glass-items-center glass-justify-between">
                 <div
-                  className='glass-text-sm text-primary font-medium glass-flex glass-items-center glass-gap-2'
+                  className='glass-text-sm glass-text-primary glass-font-medium glass-flex glass-items-center glass-gap-2'
                   style={{ color: column.color || "white" }}
                 >
                   {column.title}
-                  <span className='glass-text-xs text-primary/60'>
+                  <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
                     ({column.cards.length})
                   </span>
-                  {isFocused && <Eye className='w-3 h-3 text-primary' />}
+                  {isFocused && <Eye className='glass-w-3 glass-h-3 glass-text-primary' />}
                 </div>
 
                 <div className="glass-flex glass-items-center glass-gap-2">
@@ -518,7 +518,7 @@ export function GlassKanban({
                     spatialAudio={spatialAudio}
                     trackAchievements={trackAchievements}
                   >
-                    <Plus className='w-3 h-3' />
+                    <Plus className='glass-w-3 glass-h-3' />
                   </GlassButton>
 
                   <GlassButton
@@ -530,7 +530,7 @@ export function GlassKanban({
                     spatialAudio={spatialAudio}
                     trackAchievements={trackAchievements}
                   >
-                    <MoreHorizontal className='w-3 h-3' />
+                    <MoreHorizontal className='glass-w-3 glass-h-3' />
                   </GlassButton>
                 </div>
               </div>
@@ -576,22 +576,22 @@ export function GlassKanban({
                       data-has-suggestion={hasSuggestion}
                       onClick={() => handleCardClick(card.id, column.id)}
                     >
-                      <div className='glass-flex glass-items-start glass-justify-between mb-2'>
-                        <div className='glass-text-sm text-primary font-medium glass-flex-1'>
+                      <div className='glass-flex glass-items-start glass-justify-between glass-mb-2'>
+                        <div className='glass-text-sm glass-text-primary glass-font-medium glass-flex-1'>
                           {card.title}
                           {isCardFocused && (
-                            <Eye className='inline-block w-3 h-3 text-primary glass-ml-2' />
+                            <Eye className='glass-inline-glass-block glass-w-3 glass-h-3 glass-text-primary glass-ml-2' />
                           )}
                         </div>
                         {hasSuggestion && (
-                          <div className='glass-text-xs text-primary glass-surface-yellow/20 glass-px-2 glass-py-1 glass-radius-md'>
+                          <div className='glass-text-xs glass-text-primary glass-surface-yellow/20 glass-px-2 glass-py-1 glass-radius-md'>
                             Suggested
                           </div>
                         )}
                       </div>
 
                       {card.description && (
-                        <div className='glass-text-xs text-primary/70 mb-2'>
+                        <div className='glass-text-xs glass-text-primary-opacity-70 glass-mb-2'>
                           {card.description}
                         </div>
                       )}
@@ -619,7 +619,7 @@ export function GlassKanban({
                               {card.tags.slice(0, 2).map((tag, index) => (
                                 <span
                                   key={index}
-                                  className='glass-text-xs text-primary glass-surface-primary/20 glass-px-1 glass-radius-md'
+                                  className='glass-text-xs glass-text-primary glass-surface-primary/20 glass-px-1 glass-radius-md'
                                 >
                                   {tag}
                                 </span>
@@ -629,20 +629,20 @@ export function GlassKanban({
                         </div>
 
                         {cardInteractionCount > 0 && (
-                          <span className='glass-text-xs text-primary/50'>
+                          <span className='glass-text-xs glass-text-primary-glass-opacity-50'>
                             {cardInteractionCount} interactions
                           </span>
                         )}
                       </div>
 
                       {card.assignee && (
-                        <div className='glass-text-xs text-primary/60 glass-mt-2'>
+                        <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-2'>
                           Assigned: {card.assignee}
                         </div>
                       )}
 
                       {card.dueDate && (
-                        <div className='glass-text-xs text-primary/60 glass-mt-1'>
+                        <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1'>
                           Due: {card.dueDate.toLocaleDateString()}
                         </div>
                       )}

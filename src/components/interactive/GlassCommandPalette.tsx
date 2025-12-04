@@ -450,7 +450,7 @@ export const GlassCommandPalette = forwardRef<
     return (
       <div
         data-glass-component
-        className='fixed inset-0 z-50 glass-flex glass-items-start glass-justify-center pt-[10vh]'
+        className='glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-pt-10vh'
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             onOpenChange?.(false);
@@ -469,7 +469,7 @@ export const GlassCommandPalette = forwardRef<
         <Motion
           preset="scaleIn"
           duration={200}
-          className='relative glass-w-full max-w-2xl glass-mx-4'
+          className='glass-relative glass-w-full glass-max-w-2xl glass-mx-4'
         >
           <OptimizedGlass
             ref={ref}
@@ -482,7 +482,7 @@ export const GlassCommandPalette = forwardRef<
             animation="float"
             performanceMode="high"
             className={cn(
-              "w-full max-h-[80vh] overflow-hidden glass-radius-xl",
+              "w-full glass-max-h-80vh overflow-hidden glass-radius-xl",
               className
             )}
             onKeyDown={handleKeyDown}
@@ -501,7 +501,7 @@ export const GlassCommandPalette = forwardRef<
                 size="lg"
                 leftIcon={
                   <svg
-                    className='w-5 h-5'
+                    className='glass-w-5 glass-h-5'
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -518,11 +518,11 @@ export const GlassCommandPalette = forwardRef<
                   search && (
                     <GlassButton
                       type="button"
-                      className='glass-p-1 glass-radius-md hover:glass-surface-subtle transition-colors'
+                      className='glass-p-1 glass-radius-md hover:glass-surface-subtle glass-transition-colors'
                       onClick={(e) => setSearch("")}
                     >
                       <svg
-                        className='w-4 h-4'
+                        className='glass-w-4 glass-h-4'
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -537,28 +537,28 @@ export const GlassCommandPalette = forwardRef<
                     </GlassButton>
                   )
                 }
-                className='glass-border-0 bg-transparent focus:ring-0'
+                className='glass-border-0 glass-bg-transparent glass-focus-ring-0'
               />
             </div>
 
             {/* Results */}
             <div
               ref={listRef}
-              className='max-h-96 overflow-y-auto overscroll-contain'
+              className='glass-max-h-96 glass-overflow-y-auto glass-overscroll-contain'
               role={filteredItems && filteredItems.length > 0 ? "listbox" : "status"}
               aria-label={filteredItems && filteredItems.length > 0 ? "Command results" : "No commands found"}
             >
               {loading ? (
                 <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
                   <div className="glass-flex glass-items-center glass-gap-3">
-                    <div className='w-5 h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
+                    <div className='glass-w-5 glass-h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
                     <span className="glass-text-secondary">
                       {loadingMessage}
                     </span>
                   </div>
                 </div>
               ) : (filteredItems?.length || 0) === 0 ? (
-                <div className='glass-py-8 text-center glass-text-secondary'>
+                <div className='glass-py-8 glass-text-center glass-text-secondary'>
                   {emptyMessage}
                 </div>
               ) : (
@@ -567,7 +567,7 @@ export const GlassCommandPalette = forwardRef<
                     <div key={category}>
                       {showCategories &&
                         Object.keys(groupedItems).length > 1 && (
-                          <div className='glass-px-4 glass-py-2 glass-text-xs font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5'>
+                          <div className='glass-px-4 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5'>
                             {search ? "Results" : category}
                           </div>
                         )}
@@ -613,12 +613,12 @@ export const GlassCommandPalette = forwardRef<
                             )}
 
                             {/* Content */}
-                            <div className="glass-flex-1 glass-min-w-0">
-                              <div className='font-medium text-primary'>
+                            <div className="glass-flex-1 glass-min-glass-w-0">
+                              <div className='glass-font-medium glass-text-primary'>
                                 {item?.label}
                               </div>
                               {item?.description && (
-                                <div className='glass-text-sm glass-text-secondary truncate'>
+                                <div className='glass-text-sm glass-text-secondary glass-truncate'>
                                   {item?.description}
                                 </div>
                               )}

@@ -3,7 +3,6 @@
 import React from "react";
 
 import { HeroSection } from "../components/HeroSection/HeroSection";
-import { PersonaPicker } from "@/components/theme/PersonaPicker";
 import PageShell, {
   CardGrid,
   InfoCard,
@@ -40,8 +39,7 @@ const componentMedia = (
 );
 
 export const ComponentsPage: React.FC = () => (
-  <PageShell data-testid="components-page">
-    <PersonaPicker orientation="horizontal" />
+  <PageShell data-testid="components-page" showPersonaPicker={true}>
     <HeroSection
       data-testid="components-hero"
       eyebrow="Component Library"

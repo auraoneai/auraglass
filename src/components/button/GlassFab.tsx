@@ -201,7 +201,7 @@ const getSizeClasses = (size: string, variant: string) => {
     default: // medium
       return {
         width: isExtended ? "w-auto min-w-28" : "w-14",
-        height: "h-14",
+        height: "glass-h-14",
         padding: isExtended ? "px-4 py-2.5" : "p-0",
         fontSize: "glass-text-2xl",
       };
@@ -575,7 +575,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
       // Pulse classes
       pulseClasses,
       // Hover and interaction states
-      !disabled && "hover:scale-105 active:scale-95",
+      !disabled && "glass-hover-scale-105 active:scale-95",
       // Disabled state
       disabled && "opacity-50 cursor-not-allowed pointer-events-none",
       // Visibility animation
@@ -601,7 +601,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
         duration={0.3}
         animateOnMount={isVisible}
         animateOnHover={!disabled}
-        className='inline-block'
+        className='glass-inline-glass-block'
       >
         {variant === "glass" ? (
           <OptimizedGlass
@@ -635,11 +635,11 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             {...a11yProps}
             {...rest}
           >
-            <span className='relative z-10 glass-focus glass-touch-target glass-contrast-guard'>
+            <span className='glass-relative glass-z-10 glass-focus glass-touch-target glass-contrast-guard'>
               {children}
             </span>
             {description && (
-              <span id={descriptionId} className='sr-only'>
+              <span id={descriptionId} className='glass-sr-only'>
                 {description}
               </span>
             )}
@@ -671,7 +671,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             {description && (
               <span
                 id={descriptionId}
-                className='sr-only glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-sr-only glass-focus glass-touch-target glass-contrast-guard'
               >
                 {description}
               </span>

@@ -301,7 +301,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 "flex-1 bg-transparent border-0 outline-none glass-pulse-ring",
                 "placeholder:glass-text-secondary",
                 "text-foreground",
-                "disabled:cursor-not-allowed",
+                "glass-disabled-cursor-not-allowed",
                 {
                   "pr-8": clearable || rightIcon || loading,
                 }
@@ -352,7 +352,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                   iconSize?.[size]
                 )}
               >
-                <div className='animate-spin'>⟳</div>
+                <div className='glass-animate-spin'>⟳</div>
               </GlassButton>
             )}
 
@@ -438,7 +438,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 "flex-1 bg-transparent border-0 outline-none glass-pulse-ring",
                 "placeholder:glass-text-secondary",
                 "text-foreground",
-                "disabled:cursor-not-allowed",
+                "glass-disabled-cursor-not-allowed",
                 {
                   "pr-8": clearable || rightIcon || loading,
                 }

@@ -398,7 +398,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
   const config = sizeConfigs[size];
 
   return (
-    <div data-glass-component className='relative'>
+    <div data-glass-component className='glass-relative'>
       {/* Color Trigger */}
       <div
         ref={triggerRef}
@@ -449,15 +449,15 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
           >
             <GlassCard
               variant="outline"
-              className='glass-border-0 bg-transparent'
+              className='glass-border-0 glass-bg-transparent'
             >
-              <CardHeader className='pb-4'>
+              <CardHeader className='glass-pb-4'>
                 <div className="glass-flex glass-items-center glass-justify-between">
                   <CardTitle
                     id="color-picker-title"
-                    className='glass-text-lg font-semibold text-primary glass-flex glass-items-center glass-gap-2'
+                    className='glass-text-lg glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2'
                   >
-                    <Palette className='w-5 h-5' aria-hidden="true" />
+                    <Palette className='glass-w-5 glass-h-5' aria-hidden="true" />
                     Color Picker
                   </CardTitle>
                   <GlassButton
@@ -471,12 +471,12 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                 </div>
               </CardHeader>
 
-              <CardContent className='space-y-6'>
+              <CardContent className='glass-space-y-6'>
                 {/* Current Color Display */}
                 <div className="glass-flex glass-items-center glass-gap-4">
                   <div
                     ref={swatchRef}
-                    className='w-16 h-16 glass-radius-lg glass-border-2 glass-border-white/20'
+                    className='glass-w-16 glass-h-16 glass-radius-lg glass-border-2 glass-border-white/20'
                   />
                   <div className="glass-flex-1">
                     {showInput && (
@@ -487,7 +487,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                         className="glass-text-sm"
                       />
                     )}
-                    <div className='glass-text-xs text-primary/60 glass-mt-1'>
+                    <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1'>
                       {formatColorValue(currentColor)}
                     </div>
                   </div>
@@ -499,7 +499,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                     <label
                       htmlFor="hue-slider"
                       id="hue-label"
-                      className='glass-text-sm text-primary/80 mb-2 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                     >
                       Hue
                     </label>
@@ -519,7 +519,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                       onChange={(e) =>
                         handleHslChange("h", Number(e.target.value))
                       }
-                      className='glass-w-full h-2 glass-surface-subtle glass-radius-lg appearance-none cursor-pointer slider'
+                      className='glass-w-full glass-h-2 glass-surface-subtle glass-radius-lg glass-appearance-none glass-cursor-pointer glass-slider'
                     />
                   </div>
 
@@ -527,7 +527,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                     <label
                       htmlFor="saturation-slider"
                       id="saturation-label"
-                      className='glass-text-sm text-primary/80 mb-2 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                     >
                       Saturation
                     </label>
@@ -547,7 +547,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                       onChange={(e) =>
                         handleHslChange("s", Number(e.target.value))
                       }
-                      className='glass-w-full h-2 glass-surface-subtle glass-radius-lg appearance-none cursor-pointer'
+                      className='glass-w-full glass-h-2 glass-surface-subtle glass-radius-lg glass-appearance-none glass-cursor-pointer'
                     />
                   </div>
 
@@ -555,7 +555,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                     <label
                       htmlFor="lightness-slider"
                       id="lightness-label"
-                      className='glass-text-sm text-primary/80 mb-2 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                     >
                       Lightness
                     </label>
@@ -575,7 +575,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                       onChange={(e) =>
                         handleHslChange("l", Number(e.target.value))
                       }
-                      className='glass-w-full h-2 glass-surface-subtle glass-radius-lg appearance-none cursor-pointer'
+                      className='glass-w-full glass-h-2 glass-surface-subtle glass-radius-lg glass-appearance-none glass-cursor-pointer'
                     />
                   </div>
 
@@ -584,7 +584,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                       <label
                         htmlFor="alpha-slider"
                         id="alpha-label"
-                        className='glass-text-sm text-primary/80 mb-2 block'
+                        className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                       >
                         Alpha
                       </label>
@@ -604,7 +604,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                         onChange={(e) =>
                           handleAlphaChange(Number(e.target.value))
                         }
-                        className='glass-w-full h-2 glass-surface-subtle glass-radius-lg appearance-none cursor-pointer'
+                        className='glass-w-full glass-h-2 glass-surface-subtle glass-radius-lg glass-appearance-none glass-cursor-pointer'
                       />
                     </div>
                   )}
@@ -615,7 +615,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                   <div>
                     <label
                       htmlFor="red-input"
-                      className='glass-text-sm text-primary/80 mb-2 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                     >
                       R
                     </label>
@@ -638,7 +638,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                   <div>
                     <label
                       htmlFor="green-input"
-                      className='glass-text-sm text-primary/80 mb-2 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                     >
                       G
                     </label>
@@ -661,7 +661,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                   <div>
                     <label
                       htmlFor="blue-input"
-                      className='glass-text-sm text-primary/80 mb-2 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-2 glass-block'
                     >
                       B
                     </label>
@@ -688,7 +688,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                   <div>
                     <label
                       id="palette-label"
-                      className='glass-text-sm text-primary/80 mb-3 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-3 glass-block'
                     >
                       Palette
                     </label>
@@ -716,7 +716,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                         >
                           {currentColor === color && (
                             <Check
-                              className='w-4 h-4 text-primary glass-mx-auto'
+                              className='glass-w-4 glass-h-4 glass-text-primary glass-mx-auto'
                               aria-hidden="true"
                             />
                           )}
@@ -731,7 +731,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                   <div>
                     <label
                       id="material-palette-label"
-                      className='glass-text-sm text-primary/80 mb-3 block'
+                      className='glass-text-sm glass-text-primary-glass-opacity-80 glass-mb-3 glass-block'
                     >
                       Material Colors
                     </label>
@@ -743,7 +743,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                       {materialPalette.slice(0, 10).map((color, i) => (
                         <button
                           key={`${color}-${i}`}
-                          className='w-8 h-8 glass-radius-lg glass-border-2 glass-border-white/20 hover:border-white/40 transition-all duration-200 glass-focus'
+                          className='glass-w-8 glass-h-8 glass-radius-lg glass-border-2 glass-border-white/20 hover:glass-border-white/40 glass-transition-all glass-duration-200 glass-focus'
                           ref={(el) => {
                             if (el) el.style.backgroundColor = color;
                           }}
@@ -757,13 +757,13 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                 )}
 
                 {/* Actions */}
-                <div className='glass-flex glass-justify-between glass-gap-3 pt-4 glass-border-t glass-border-white/10'>
+                <div className='glass-flex glass-justify-between glass-gap-3 glass-pt-4 glass-border-t glass-border-white/10'>
                   <GlassButton
                     variant="ghost"
                     size="sm"
                     onClick={(e) => handleColorChange(defaultValue)}
                   >
-                    <RotateCcw className='w-4 h-4 glass-mr-2' />
+                    <RotateCcw className='glass-w-4 glass-h-4 glass-mr-2' />
                     Reset
                   </GlassButton>
                   <div className="glass-flex glass-gap-2">
@@ -824,7 +824,7 @@ export const GlassColorPalette: React.FC<GlassColorPaletteProps> = ({
             sizeConfigs[size],
             selectedColor === color
               ? "border-white scale-110 ring-2 ring-white/50"
-              : "border-white/20 hover:border-white/40 hover:scale-105"
+              : "border-white/20 hover:border-white/40 glass-hover-scale-105"
           )}
           ref={(el) => {
             if (el) el.style.backgroundColor = color;

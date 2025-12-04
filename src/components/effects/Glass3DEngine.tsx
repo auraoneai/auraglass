@@ -106,7 +106,7 @@ const DEFAULT_LAYERS: Glass3DLayer[] = [
 
 export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
   children,
-  className = "",
+  className="",
   layers = [],
   enableParallax = true,
   enableDepthOfField = true,
@@ -324,7 +324,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
         <svg
           width="100%"
           height="100%"
-          style={{ position: "absolute", inset: 0 }}
+          className="glass-absolute glass-inset-0"
         >
           <defs>
             <filter

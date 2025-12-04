@@ -28,7 +28,7 @@ import { useKeyboardNavigation } from "../../utils/a11yHooks";
 
 // Helper components
 const Badge = ({ children }: { children: React.ReactNode }) => (
-  <span className='glass-inline-flex glass-items-center glass-justify-center min-w-[18px] h-[18px] glass-px-1.5 glass-text-xs font-semibold text-primary glass-surface-blue glass-radius-full'>
+  <span className='glass-inline-glass-flex glass-items-center glass-justify-center glass-min-w-18px glass-h-18px glass-px-1.5 glass-text-xs glass-font-semibold glass-text-primary glass-surface-blue glass-radius-full'>
     {children}
   </span>
 );
@@ -422,7 +422,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
                 className={cn(
                   "list-none m-0 glass-p-2 glass-mt-1 glass-radius-md bg-white/5 overflow-hidden transition-all duration-300",
                   {
-                    "opacity-100 max-h-[500px] visible":
+                    "opacity-100 max-glass-h-500px visible":
                       isExpanded && !collapsed,
                     "opacity-0 max-h-0 invisible": !isExpanded || collapsed,
                   }
@@ -549,7 +549,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
             {/* Active indicator */}
             {!prefersReducedMotion && (
               <div
-                className='absolute glass-surface-blue glass-radius-sm z-0 pointer-events-none transition-all duration-300 ease-out'
+                className='glass-absolute glass-surface-blue glass-radius-sm glass-z-0 glass-pointer-events-none glass-transition-all glass-duration-300 glass-ease-out'
                 style={{
                   left: `${indicatorStyle.left}px`,
                   top: `${indicatorStyle.top}px`,

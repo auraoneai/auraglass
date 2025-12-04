@@ -812,13 +812,13 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
               {/* Header */}
               {(header || title || description || showCloseButton) && (
                 <div className="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0">
-                  <div className="glass-flex-1 glass-min-w-0">
+                  <div className="glass-flex-1 glass-min-glass-w-0">
                     {header || (
                       <>
                         {title && (
                           <h2
                             id="drawer-title"
-                            className='glass-text-lg font-semibold text-primary mb-1'
+                            className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
                           >
                             {title}
                           </h2>
@@ -826,7 +826,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {description && (
                           <p
                             id="drawer-description"
-                            className='glass-text-sm text-muted-foreground'
+                            className='glass-text-sm glass-text-secondary-foreground'
                           >
                             {description}
                           </p>
@@ -895,13 +895,13 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
               {/* Header */}
               {(header || title || description || showCloseButton) && (
                 <div className="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0">
-                  <div className="glass-flex-1 glass-min-w-0">
+                  <div className="glass-flex-1 glass-min-glass-w-0">
                     {header || (
                       <>
                         {title && (
                           <h2
                             id="drawer-title"
-                            className='glass-text-lg font-semibold text-primary mb-1'
+                            className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
                           >
                             {title}
                           </h2>
@@ -932,7 +932,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                       aria-label="Close drawer"
                       data-consciousness-close="true"
                     >
-                      <X className='w-4 h-4' />
+                      <X className='glass-w-4 glass-h-4' />
                     </GlassButton>
                   )}
                 </div>
@@ -993,7 +993,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                   {predictive && drawerInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='text-primary'>Drawer Insights</span>
+                        <span className='glass-text-primary'>Drawer Insights</span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

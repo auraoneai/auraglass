@@ -201,7 +201,7 @@ export function useAnnounce() {
     const div = document.createElement("div");
     div.setAttribute("aria-live", "polite");
     div.setAttribute("aria-atomic", "true");
-    div.className = "sr-only";
+    div.className="glass-sr-only";
     document.body.appendChild(div);
     announcerRef.current = div;
 
@@ -264,7 +264,7 @@ export function DescribedBy({
       {React.cloneElement(children as any, {
         "aria-describedby": descriptionId,
       })}
-      <span id={descriptionId} className='sr-only'>
+      <span id={descriptionId} className='glass-sr-only'>
         {description}
       </span>
     </>
@@ -288,7 +288,7 @@ export function LabelledBy({
 
   return (
     <>
-      <span id={labelId} className='sr-only'>
+      <span id={labelId} className='glass-sr-only'>
         {label}
       </span>
       {React.cloneElement(children as any, {

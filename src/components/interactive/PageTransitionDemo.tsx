@@ -19,9 +19,9 @@ export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({
 
   return (
     <div 
-      className={cn("relative", className)}
+      className={cn("glass-relative", className)}
       data-testid={dataTestId}
-      style={{ position: "relative", width: 520, height: 320 }}
+      style={{ width: 520, height: 320 }}
     >
       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
         <button

@@ -105,7 +105,7 @@ export const GlassMasonryGrid = forwardRef<
       onItemsReorder,
       onLoadMore,
       onFilterChange,
-      className = "",
+      className="",
       ...props
     },
     ref
@@ -376,7 +376,7 @@ export const GlassMasonryGrid = forwardRef<
 
       // Create sentinel element
       const sentinel = document.createElement("div");
-      sentinel.className = "masonry-sentinel";
+      sentinel.className="masonry-sentinel";
       sentinel.style.height = "1px";
       containerRef.current.appendChild(sentinel);
       intersectionObserver.current.observe(sentinel);
@@ -433,29 +433,29 @@ export const GlassMasonryGrid = forwardRef<
     );
 
     const FilterControls = () => (
-      <div className='glass-flex glass-flex-wrap glass-items-center glass-gap-4 mb-6'>
+      <div className='glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-mb-6'>
         {enableSearch && (
-          <div className="glass-flex-1 glass-min-w-48">
+          <div className="glass-flex-1 glass-min-glass-w-48">
             <input
               type="text"
               placeholder="Search items..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 placeholder-white/50 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-placeholder-white-opacity-50 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
             />
           </div>
         )}
 
         {showFilters && categories.length > 0 && (
-          <div className='glass-flex glass-items-center space-x-2'>
-            <span className='glass-text-sm text-primary/70'>Filter:</span>
+          <div className='glass-flex glass-items-center glass-space-x-2'>
+            <span className='glass-text-sm glass-text-primary-opacity-70'>Filter:</span>
             <select
               value={activeFilter}
               onChange={(e) => {
                 setActiveFilter(e.target.value);
                 onFilterChange?.(e.target.value);
               }}
-              className='glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius text-primary/90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary-glass-opacity-90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
               aria-label="Filter items by category"
             >
               <option value="">All</option>
@@ -468,8 +468,8 @@ export const GlassMasonryGrid = forwardRef<
           </div>
         )}
 
-        <div className='glass-flex glass-items-center space-x-2'>
-          <span className='glass-text-sm text-primary/70'>Sort:</span>
+        <div className='glass-flex glass-items-center glass-space-x-2'>
+          <span className='glass-text-sm glass-text-primary-opacity-70'>Sort:</span>
           <select
             value={currentSort.by}
             onChange={(e) =>
@@ -478,7 +478,7 @@ export const GlassMasonryGrid = forwardRef<
                 by: e.target.value as any,
               }))
             }
-            className='glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius text-primary/90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary-glass-opacity-90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
             aria-label="Sort items"
           >
             <option value="id">ID</option>
@@ -494,7 +494,7 @@ export const GlassMasonryGrid = forwardRef<
                 order: prev.order === "asc" ? "desc" : "asc",
               }))
             }
-            className='glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius text-primary/90 glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius glass-text-primary-glass-opacity-90 glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
           >
             {currentSort.order === "asc" ? "↑" : "↓"}
           </button>
@@ -517,28 +517,28 @@ export const GlassMasonryGrid = forwardRef<
           ${createGlassStyle({ blur: "sm", opacity: 0.6 }).background}
         `}
         >
-          <div className='glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4 glass-text-sm'>
+          <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4 glass-text-sm'>
             <div>
-              <span className='text-primary/60'>Total Items:</span>
-              <div className='text-primary/90 font-medium'>{items.length}</div>
+              <span className='glass-text-primary-glass-opacity-60'>Total Items:</span>
+              <div className='glass-text-primary-glass-opacity-90 glass-font-medium'>{items.length}</div>
             </div>
             <div>
-              <span className='text-primary/60'>Visible:</span>
-              <div className='text-primary/90 font-medium'>
+              <span className='glass-text-primary-glass-opacity-60'>Visible:</span>
+              <div className='glass-text-primary-glass-opacity-90 glass-font-medium'>
                 {processedItems.length}
               </div>
             </div>
             <div>
-              <span className='text-primary/60'>Columns:</span>
-              <div className='text-primary/90 font-medium'>
+              <span className='glass-text-primary-glass-opacity-60'>Columns:</span>
+              <div className='glass-text-primary-glass-opacity-90 glass-font-medium'>
                 {containerDimensions.width
                   ? calculateColumns(containerDimensions.width)
                   : "-"}
               </div>
             </div>
             <div>
-              <span className='text-primary/60'>Avg Height:</span>
-              <div className='text-primary/90 font-medium'>
+              <span className='glass-text-primary-glass-opacity-60'>Avg Height:</span>
+              <div className='glass-text-primary-glass-opacity-90 glass-font-medium'>
                 {avgHeight.toFixed(0)}px
               </div>
             </div>
@@ -555,19 +555,19 @@ export const GlassMasonryGrid = forwardRef<
         {...props}
       >
         {/* Header */}
-        <div className='glass-flex glass-items-center glass-justify-between mb-6'>
+        <div className='glass-flex glass-items-center glass-justify-between glass-mb-6'>
           <div>
-            <h3 className='glass-text-xl font-semibold text-primary/90'>
+            <h3 className='glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90'>
               Masonry Grid
             </h3>
-            <p className='glass-text-sm text-primary/60'>
+            <p className='glass-text-sm glass-text-primary-glass-opacity-60'>
               Pinterest-style dynamic layout system
             </p>
           </div>
 
           {enableVirtualization && (
-            <div className='glass-flex glass-items-center space-x-1 text-primary'>
-              <div className='w-2 h-2 glass-surface-blue glass-radius-full' />
+            <div className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
+              <div className='glass-w-2 glass-h-2 glass-surface-blue glass-radius-full' />
               <span className="glass-text-xs">Virtualized</span>
             </div>
           )}
@@ -582,14 +582,14 @@ export const GlassMasonryGrid = forwardRef<
         {/* Masonry Container */}
         <div
           ref={containerRef}
-          className='relative overflow-auto'
+          className='glass-relative glass-overflow-auto'
           style={{
             height: enableVirtualization ? "600px" : "auto",
             maxHeight: enableVirtualization ? "600px" : "none",
           }}
         >
           <div
-            className='relative'
+            className='glass-relative'
             style={{
               width: "100%",
               height: containerDimensions.height || "auto",
@@ -605,7 +605,7 @@ export const GlassMasonryGrid = forwardRef<
                 className={`
                   absolute cursor-pointer transition-all duration-200
                   ${draggedItem === item.id ? "opacity-50 scale-95" : "opacity-100 scale-100"}
-                  ${enableDragReorder ? "hover:scale-105" : ""}
+                  ${enableDragReorder ? "glass-hover-scale-105" : ""}
                 `}
                 style={{
                   left: item.x,
@@ -642,7 +642,7 @@ export const GlassMasonryGrid = forwardRef<
               >
                 <OptimizedGlass
                   variant="frosted"
-                  className='glass-w-full glass-h-full hover:glass-surface-subtle/10 transition-all duration-200'
+                  className='glass-w-full glass-h-full hover:glass-surface-subtle/10 glass-transition-all glass-duration-200'
                   style={{ padding: masonryConfig.itemPadding }}
                 >
                   {item.content}
@@ -656,7 +656,7 @@ export const GlassMasonryGrid = forwardRef<
                 {Array.from({ length: loadingItems }, (_, i) => (
                   <div
                     key={`loading-${i}`}
-                    className='absolute glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg animate-pulse'
+                    className='glass-absolute glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-animate-pulse'
                     style={{
                       left:
                         (i % calculateColumns(containerDimensions.width)) *
@@ -674,11 +674,11 @@ export const GlassMasonryGrid = forwardRef<
             {/* Infinite scroll loading indicator */}
             {loadingMore && enableInfiniteScroll && (
               <div
-                className='absolute glass-w-full glass-flex glass-items-center glass-justify-center glass-py-8'
+                className='glass-absolute glass-w-full glass-flex glass-items-center glass-justify-center glass-py-8'
                 style={{ top: containerDimensions.height + masonryConfig.gap }}
               >
-                <div className='glass-flex glass-items-center space-x-2 text-primary'>
-                  <div className='w-4 h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full animate-spin' />
+                <div className='glass-flex glass-items-center glass-space-x-2 glass-text-primary'>
+                  <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin' />
                   <span className="glass-text-sm">Loading more items...</span>
                 </div>
               </div>
@@ -687,8 +687,8 @@ export const GlassMasonryGrid = forwardRef<
         </div>
 
         {/* Footer info */}
-        <div className='glass-flex glass-items-center glass-justify-between mt-6 pt-4 glass-border-t glass-border-white/10 glass-text-xs text-primary/60'>
-          <div className='glass-flex glass-items-center space-x-4'>
+        <div className='glass-flex glass-items-center glass-justify-between glass-mt-6 glass-pt-4 glass-border-t glass-border-white/10 glass-text-xs glass-text-primary-glass-opacity-60'>
+          <div className='glass-flex glass-items-center glass-space-x-4'>
             {enableDragReorder && <span>Drag items to reorder</span>}
             {enableInfiniteScroll && <span>Scroll to load more</span>}
             {enableVirtualization && <span>Virtualized for performance</span>}

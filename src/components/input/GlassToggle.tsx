@@ -221,7 +221,7 @@ export const GlassToggle = React.forwardRef<
             baseClasses,
             pressed
               ? "bg-black/40 border-white/40 glass-text-primary shadow-lg scale-105"
-              : "bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:border-white/30 hover:scale-105"
+              : "bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:border-white/30 glass-hover-scale-105"
           );
       }
     };
@@ -250,7 +250,7 @@ export const GlassToggle = React.forwardRef<
       <Motion
         data-glass-component
         {...getAnimationProps()}
-        className='inline-block'
+        className='glass-inline-glass-block'
       >
         <OptimizedGlass
           intent="neutral"
@@ -265,8 +265,8 @@ export const GlassToggle = React.forwardRef<
           data-testid={dataTestId || "glasstoggle"}
           className={cn(
             "relative flex items-center justify-center glass-gap-2 font-medium",
-            "focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent",
-            "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none",
+            "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent",
+            "disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none",
             sizeClasses[size],
             shapeClasses[shape],
             getVariantClasses(),
@@ -299,7 +299,7 @@ export const GlassToggle = React.forwardRef<
 
           {/* Active indicator for ghost variant */}
           {variant === "ghost" && pressed && (
-            <div className='absolute inset-0 glass-surface-subtle/10 glass-radius-lg animate-pulse' />
+            <div className='glass-absolute glass-inset-0 glass-surface-subtle/10 glass-radius-lg glass-animate-pulse' />
           )}
         </OptimizedGlass>
       </Motion>

@@ -387,7 +387,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         return (
           <svg
             data-glass-component
-            className='w-5 h-5'
+            className='glass-w-5 glass-h-5'
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -405,7 +405,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       if (type.includes("pdf")) {
         return (
           <svg
-            className='w-5 h-5'
+            className='glass-w-5 glass-h-5'
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -422,7 +422,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
       return (
         <svg
-          className='w-5 h-5'
+          className='glass-w-5 glass-h-5'
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -469,18 +469,18 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                   <img
                     src={file.preview}
                     alt={file.name}
-                    className='w-10 h-10 object-cover glass-radius-md'
+                    className='glass-w-10 glass-h-10 glass-object-cover glass-radius-md'
                   />
                 ) : (
-                  <div className='w-10 h-10 glass-radius-md glass-surface-subtle glass-flex glass-items-center glass-justify-center'>
+                  <div className='glass-w-10 glass-h-10 glass-radius-md glass-surface-subtle glass-flex glass-items-center glass-justify-center'>
                     {getFileIcon(file.type)}
                   </div>
                 )}
               </div>
 
               {/* File info */}
-              <div className="glass-flex-1 glass-min-w-0">
-                <p className='glass-text-sm font-medium text-primary truncate'>
+              <div className="glass-flex-1 glass-min-glass-w-0">
+                <p className='glass-text-sm glass-font-medium glass-text-primary glass-truncate'>
                   {file.name}
                 </p>
                 <div className="glass-flex glass-items-center glass-gap-2 glass-mt-1">
@@ -514,7 +514,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
                 {/* Error message */}
                 {file.error && (
-                  <p className='glass-text-xs text-destructive glass-mt-1'>
+                  <p className='glass-text-xs glass-text-danger glass-mt-1'>
                     {file.error}
                   </p>
                 )}
@@ -565,7 +565,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           accept={accept}
           multiple={multiple}
           onChange={handleInputChange}
-          className='hidden'
+          className='glass-hidden'
           disabled={disabled}
         />
 
@@ -602,7 +602,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           aria-label="File upload area"
         >
           {children || (
-            <div className='glass-flex glass-flex-col glass-items-center glass-justify-center text-center'>
+            <div className='glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center'>
               <svg
                 className={cn(
                   "mx-auto mb-3 glass-text-secondary",
@@ -624,7 +624,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                 />
               </svg>
 
-              <p className='text-primary font-medium mb-1'>{instruction}</p>
+              <p className='glass-text-primary glass-font-medium glass-mb-1'>{instruction}</p>
 
               {helperText && (
                 <p className="glass-text-sm glass-text-secondary">
@@ -643,7 +643,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
         {/* Error message */}
         {error && (
-          <p className='glass-text-sm text-destructive glass-mt-2'>{error}</p>
+          <p className='glass-text-sm glass-text-danger glass-mt-2'>{error}</p>
         )}
 
         {/* File list */}

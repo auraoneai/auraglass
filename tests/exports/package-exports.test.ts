@@ -76,6 +76,8 @@ const exportsMap: Record<
       expect(pkg.exports).toBeDefined();
     },
   },
+  // Note: New exports (core/mixins/glassMixins, utils/env, services/*, hooks/useGlassProbes)
+  // are ESM-only and will be tested in package-exports.spec.mjs
 };
 
 describe("package.json exports (CommonJS)", () => {

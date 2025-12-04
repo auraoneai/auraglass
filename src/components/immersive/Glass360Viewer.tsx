@@ -640,7 +640,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           depth={2}
           tint="neutral"
           border="subtle"
-          className='absolute bottom-4 left-1/2 transform -translate-x-1/2 glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard'
+          className='glass-absolute glass-bottom-4 glass--left-1-2 glass-transform glass--translate-x-1-2 glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard'
         >
           {controls.autoRotate && (
             <button
@@ -675,7 +675,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           {controls.fullscreen && (
             <button
               onClick={toggleFullscreen}
-              className='glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-p-2 glass-radius-md hover:glass-surface-overlay glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
               title="Fullscreen"
             >
               {isFullscreen ? "🗗" : "🗖"}
@@ -693,7 +693,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
                     mediaElement.pause();
                   }
                 }}
-                className='glass-p-2 glass-radius-md hover:glass-surface-overlay transition-all'
+                className='glass-p-2 glass-radius-md hover:glass-surface-overlay glass-transition-all'
                 title={mediaElement.paused ? "Play" : "Pause"}
               >
                 {mediaElement.paused ? "▶" : "⏸"}
@@ -728,11 +728,11 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           preset={
             effectiveShouldAnimate && respectMotionPreference ? "fadeIn" : "none"
           }
-          className='relative glass-w-full glass-h-full'
+          className='glass-relative glass-w-full glass-h-full'
         >
           <div
             ref={containerRef}
-            className='relative glass-w-full glass-h-full cursor-move'
+            className='glass-relative glass-w-full glass-h-full glass-cursor-move'
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -741,10 +741,10 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           >
             {/* Loading State */}
             {isLoading && (
-              <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center'>
+              <div className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center'>
                 {loadingComponent || (
                   <div className="glass-flex glass-flex-col glass-items-center glass-gap-4">
-                    <div className='w-12 h-12 glass-border-4 glass-border-primary glass-border-t-transparent glass-radius-full animate-spin' />
+                    <div className='glass-w-12 glass-h-12 glass-border-4 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
                     <div className="glass-text-sm glass-text-secondary">
                       Loading 360° media...
                     </div>
@@ -755,9 +755,9 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
 
             {/* Error State */}
             {hasError && (
-              <div className='absolute inset-0 glass-flex glass-items-center glass-justify-center'>
+              <div className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center'>
                 {errorComponent || (
-                  <div className='glass-flex glass-flex-col glass-items-center glass-gap-4 text-center'>
+                  <div className='glass-flex glass-flex-col glass-items-center glass-gap-4 glass-text-center'>
                     <div className="glass-text-4xl">❌</div>
                     <div className="glass-text-sm glass-text-secondary">
                       Failed to load 360° media
@@ -779,7 +779,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
 
             {/* Overlay */}
             {overlay && (
-              <div className='absolute inset-0 pointer-events-none'>
+              <div className='glass-absolute glass-inset-0 glass-pointer-events-none'>
                 {overlay}
               </div>
             )}
@@ -795,9 +795,9 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
                 depth={1}
                 tint="neutral"
                 border="subtle"
-                className='absolute top-4 left-4 glass-p-3 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard'
+                className='glass-absolute glass-top-4 glass-left-4 glass-p-3 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard'
               >
-                <div className='glass-text-xs font-mono glass-gap-1'>
+                <div className='glass-text-xs glass-font-mono glass-gap-1'>
                   <div>Yaw: {(currentView.yaw ?? 0).toFixed(1)}°</div>
                   <div>Pitch: {(currentView.pitch ?? 0).toFixed(1)}°</div>
                   <div>FOV: {(currentView.fov ?? 75).toFixed(1)}°</div>
@@ -814,7 +814,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
             {/* Controls Toggle */}
             <button
               onClick={() => setShowControls(!showControls)}
-              className='absolute top-4 right-4 glass-p-2 glass-radius-full glass-surface-overlay hover:glass-surface-overlay transition-all'
+              className='glass-absolute glass-top-4 glass-right-4 glass-p-2 glass-radius-full glass-surface-overlay hover:glass-surface-overlay glass-transition-all'
               title="Toggle Controls"
             >
               {showControls ? "🎛" : "⚙"}

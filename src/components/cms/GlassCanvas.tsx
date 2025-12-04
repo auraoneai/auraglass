@@ -82,7 +82,6 @@ const ComponentRenderer: React.FC<{
 
   const renderComponent = () => {
     const baseStyle: React.CSSProperties = {
-      position: "relative",
       ...component.props,
     };
 
@@ -219,7 +218,7 @@ const ComponentRenderer: React.FC<{
                   if (e.key === "Escape") setIsEditing(null);
                 }}
                 autoFocus
-                className='bg-transparent glass-border-none outline-none glass-w-full'
+                className='glass-bg-transparent glass-border-none glass-outline-none glass-w-full'
               />
             ) : (
               component.props.content
@@ -252,7 +251,7 @@ const ComponentRenderer: React.FC<{
                   if (e.key === "Escape") setIsEditing(null);
                 }}
                 autoFocus
-                className='bg-transparent glass-border-none outline-none glass-w-full'
+                className='glass-bg-transparent glass-border-none glass-outline-none glass-w-full'
               />
             ) : (
               component.props.content
@@ -361,7 +360,7 @@ const ComponentRenderer: React.FC<{
         return (
           <div
             style={baseStyle}
-            className='glass-p-4 glass-border glass-border-subtle glass-surface-subtle text-primary glass-contrast-guard'
+            className='glass-p-4 glass-border glass-border-subtle glass-surface-subtle glass-text-primary glass-contrast-guard'
           >
             Unknown component type: {component.type}
           </div>
@@ -385,8 +384,8 @@ const ComponentRenderer: React.FC<{
 
       {/* Selection Overlay */}
       {isSelected && (
-        <div className='absolute inset-0 pointer-events-none glass-border-2 glass-radius glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard'>
-          <div className='absolute glass-top-2 left-0 glass-surface-overlay text-primary glass-px-2 glass-py-1 glass-text-xs glass-radius-t font-medium glass-contrast-guard'>
+        <div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-border-2 glass-radius glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard'>
+          <div className='glass-absolute glass-top-2 glass-left-0 glass-surface-overlay glass-text-primary glass-px-2 glass-py-1 glass-text-xs glass-radius-t glass-font-medium glass-contrast-guard'>
             {component.type}
           </div>
         </div>
@@ -394,8 +393,8 @@ const ComponentRenderer: React.FC<{
 
       {/* Hover Overlay */}
       {!isSelected && (
-        <div className='absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity glass-border-2 glass-border-blue glass-radius glass-surface-subtle bg-opacity-5 glass-contrast-guard'>
-          <div className='absolute -top-6 left-0 glass-surface-subtle text-primary glass-px-2 glass-py-1 glass-text-xs glass-radius-t font-medium glass-contrast-guard'>
+        <div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-border-2 glass-border-blue glass-radius glass-surface-subtle glass-bg-opacity-5 glass-contrast-guard'>
+          <div className='glass-absolute glass--top-6 glass-left-0 glass-surface-subtle glass-text-primary glass-px-2 glass-py-1 glass-text-xs glass-radius-t glass-font-medium glass-contrast-guard'>
             {component.type}
           </div>
         </div>
@@ -457,14 +456,14 @@ export const GlassCanvas: React.FC<
         {/* Canvas Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className='glass-text-sm font-medium glass-text-secondary'>
+            <span className='glass-text-sm glass-font-medium glass-text-secondary'>
               Canvas
             </span>
-            <span className='glass-text-xs glass-text-secondary capitalize'>
+            <span className='glass-text-xs glass-text-secondary glass-capitalize'>
               ({pageState.activeBreakpoint})
             </span>
             {pageState.previewMode && (
-              <span className='glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle text-primary glass-radius glass-contrast-guard'>
+              <span className='glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle glass-text-primary glass-radius glass-contrast-guard'>
                 Preview Mode
               </span>
             )}
@@ -477,7 +476,7 @@ export const GlassCanvas: React.FC<
 
         {/* Canvas Content */}
         <div
-          className='glass-flex-1 overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard'
+          className='glass-flex-1 glass-overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard'
           style={{
             backgroundImage: pageState.showGrid
               ? "radial-gradient(circle, var(--glass-gray-200) 1px, transparent 1px)"
@@ -486,7 +485,7 @@ export const GlassCanvas: React.FC<
           }}
         >
           <div
-            className='glass-mx-auto glass-surface-subtle glass-min-h-full glass-shadow-sm transition-all duration-300 glass-contrast-guard'
+            className='glass-mx-auto glass-surface-subtle glass-min-glass-h-full glass-shadow-sm glass-transition-all glass-duration-300 glass-contrast-guard'
             style={breakpointStyles[pageState.activeBreakpoint]}
           >
             <div
@@ -502,16 +501,16 @@ export const GlassCanvas: React.FC<
               {pageState.components.length === 0 ? (
                 // Empty State
                 <div className="glass-flex glass-items-center glass-justify-center glass-min-glass-h-96 glass-p-12 glass-focus glass-touch-target glass-contrast-guard">
-                  <div className='text-center'>
-                    <div className='text-6xl mb-4'>🎨</div>
-                    <h3 className='glass-text-lg font-medium glass-text-secondary mb-2'>
+                  <div className='glass-text-center'>
+                    <div className='glass-text-6xl glass-mb-4'>🎨</div>
+                    <h3 className='glass-text-lg glass-font-medium glass-text-secondary glass-mb-2'>
                       Start Building Your Page
                     </h3>
-                    <p className='glass-text-secondary mb-6 max-w-sm'>
+                    <p className='glass-text-secondary glass-mb-6 glass-max-w-sm'>
                       Drag components from the palette on the left to start
                       building your page.
                     </p>
-                    <div className='space-y-2 glass-text-sm glass-text-secondary'>
+                    <div className='glass-space-y-2 glass-text-sm glass-text-secondary'>
                       <p>💡 Try dragging a Container or Row component first</p>
                       <p>🖱️ Double-click text elements to edit them inline</p>
                       <p>⌨️ Use Ctrl+Z to undo changes</p>
@@ -520,11 +519,11 @@ export const GlassCanvas: React.FC<
                 </div>
               ) : (
                 // Render Components
-                <div className='glass-p-4 space-y-4'>
+                <div className='glass-p-4 glass-space-y-4'>
                   {pageState.components
                     .filter((component: any) => !component.parent) // Only root components
                     .map((component: any) => (
-                      <div key={component.id} className='relative'>
+                      <div key={component.id} className='glass-relative'>
                         <DropZone
                           position="before"
                           isActive={
@@ -562,8 +561,8 @@ export const GlassCanvas: React.FC<
 
               {/* Global Drop Zone Overlay */}
               {dragDropState.isDragging && (
-                <div className='absolute inset-0 pointer-events-none'>
-                  <div className='glass-h-full glass-w-full glass-border-4 glass-border-dashed glass-border-blue opacity-50 glass-radius-lg' />
+                <div className='glass-absolute glass-inset-0 glass-pointer-events-none'>
+                  <div className='glass-h-full glass-w-full glass-border-4 glass-border-dashed glass-border-blue glass-opacity-50 glass-radius-lg' />
                 </div>
               )}
             </div>

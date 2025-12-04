@@ -1091,9 +1091,9 @@ export const GlassTabBar = forwardRef<
 
       {/* Magnetic trail effect */}
       {animationStyle === "spring" && !finalDisableAnimation && (
-        <div className='absolute inset-0 pointer-events-none glass-radius-lg opacity-30'>
+        <div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-lg glass-opacity-30'>
           <div
-            className='absolute glass-radius-full glass-surface-blue/20 transition-all duration-500 ease-out'
+            className='glass-absolute glass-radius-full glass-surface-blue/20 glass-transition-all glass-duration-500 glass-ease-out'
             style={{
               left: `${tabMagneticData.closestTabIndex !== null ? tabMagneticData.closestTabIndex * 60 : 0}px`,
               width: "60px",

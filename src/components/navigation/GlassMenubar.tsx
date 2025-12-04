@@ -230,7 +230,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
               isOpen={true}
               onClose={() => setOpenMenus(new Set())}
               className={cn(
-                "absolute z-[9999]",
+                "absolute glass-z-9999",
                 orientation === "horizontal"
                   ? "top-full left-0 glass-mt-1"
                   : "top-0 left-full glass-ml-1"
@@ -366,7 +366,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
   if (item?.separator) {
     return (
       <div
-        className='h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+        className='glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
         role="separator"
       />
     );
@@ -416,13 +416,13 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
       className={cn(
         "relative flex items-center justify-between w-full",
         "glass-text-primary/80 hover:glass-text-primary transition-colors duration-200",
-        "hover:bg-white/10 glass-radius-md hover:-translate-y-0.5",
+        "hover:bg-white/10 glass-radius-md glass-hover--translate-y-0-5",
         "after:absolute after:left-0 after:bottom-0 after:h-0.5 after:bg-primary after:transition-all after:duration-200",
         isHovered || hasSubmenuOpen
           ? "after:opacity-100 after:w-full"
           : "after:opacity-0 after:w-0",
-        "focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent",
-        "disabled:opacity-50 disabled:cursor-not-allowed",
+        "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent",
+        "disabled:opacity-50 glass-disabled-cursor-not-allowed",
         sizeClasses?.[size],
         {
           "bg-white/20 glass-text-primary": isHovered || hasSubmenuOpen,
@@ -449,7 +449,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
       <div className="glass-flex glass-items-center glass-gap-3">
         {/* Icon */}
         {item?.icon && (
-          <div className='glass-flex glass-items-center glass-justify-center w-4 h-4'>
+          <div className='glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4'>
             {item?.icon}
           </div>
         )}
@@ -464,7 +464,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           >
             {item?.checked && (
               <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center">
-                <div className='w-2 h-2 glass-surface-dark glass-radius-sm' />
+                <div className='glass-w-2 glass-h-2 glass-surface-dark glass-radius-sm' />
               </div>
             )}
           </div>
@@ -479,27 +479,27 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           >
             {item?.checked && (
               <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center">
-                <div className='w-2 h-2 glass-surface-subtle glass-radius-full' />
+                <div className='glass-w-2 glass-h-2 glass-surface-subtle glass-radius-full' />
               </div>
             )}
           </div>
         )}
 
         {/* Label */}
-        <span className='glass-flex-1 text-left truncate'>{item?.label}</span>
+        <span className='glass-flex-1 glass-text-left glass-truncate'>{item?.label}</span>
       </div>
 
       <div className="glass-flex glass-items-center glass-gap-2">
         {/* Shortcut */}
         {item?.shortcut && (
-          <span className='text-primary/50 glass-text-xs font-mono'>
+          <span className='glass-text-primary-glass-opacity-50 glass-text-xs glass-font-mono'>
             {item?.shortcut}
           </span>
         )}
 
         {/* Submenu indicator */}
         {item?.children && item?.children.length > 0 && (
-          <ChevronRight className='w-4 h-4 text-primary/50' />
+          <ChevronRight className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50' />
         )}
       </div>
     </GlassButton>

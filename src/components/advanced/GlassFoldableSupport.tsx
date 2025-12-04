@@ -258,7 +258,7 @@ export function GlassFoldableSupport({
   const generateLayout = () => {
     if (!adaptiveLayout || !foldableInfo.isFoldable) {
       return (
-        <div className='relative glass-w-full glass-h-full'>{children}</div>
+        <div className='glass-relative glass-w-full glass-h-full'>{children}</div>
       );
     }
 
@@ -269,11 +269,11 @@ export function GlassFoldableSupport({
       const totalWidth = segments.reduce((acc, segment) => acc + segment.width, 0) || 1;
       const totalHeight = segments.reduce((acc, segment) => acc + segment.height, 0) || 1;
       return (
-        <div className='relative glass-w-full glass-h-full glass-flex'>
+        <div className='glass-relative glass-w-full glass-h-full glass-flex'>
           {segments.map((segment, index) => (
             <motion.div
               key={`segment-${index}`}
-              className='relative'
+              className='glass-relative'
               style={{
                 width: `${(segment.width / totalWidth) * 100}%`,
                 height: `${(segment.height / totalHeight) * 100}%`,
@@ -284,7 +284,7 @@ export function GlassFoldableSupport({
                 prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
               }
             >
-              <div className='OptimizedGlass intensity={0.2} glassBlur={6} glass-w-full glass-h-full'>
+              <div className='glass-optimized-glass intensity={0.2} glassBlur={6} glass-w-full glass-h-full'>
                 {React.Children.toArray(children)[index] || children}
               </div>
             </motion.div>
@@ -295,7 +295,7 @@ export function GlassFoldableSupport({
 
     // Adaptive single layout with hinge awareness
     return (
-      <div className='relative glass-w-full glass-h-full'>
+      <div className='glass-relative glass-w-full glass-h-full'>
         {bridgeHinge && hinge && (
           <HingeBridge hinge={hinge} continuousGlass={continuousGlass} />
         )}
@@ -356,7 +356,7 @@ export function GlassFoldableSupport({
 
       {/* Fold state indicator */}
       {foldableInfo.isFoldable && (
-        <div className='absolute glass-top-2 right-2 glass-surface-primary glass-p-1 glass-radius-sm glass-text-xs opacity-50'>
+        <div className='glass-absolute glass-top-2 glass-right-2 glass-surface-primary glass-p-1 glass-radius-sm glass-text-xs glass-opacity-50'>
           <div className="glass-flex glass-items-center glass-gap-1">
             <div
               className={cn(

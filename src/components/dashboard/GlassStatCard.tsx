@@ -284,12 +284,12 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
       >
         <div className="glass-gap-4">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-24'></div>
-            <div className='w-8 h-8 glass-surface-subtle/20 glass-radius-md'></div>
+            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24'></div>
+            <div className='glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md'></div>
           </div>
           <div className="glass-gap-2">
-            <div className='h-8 glass-surface-subtle/20 glass-radius-md w-32'></div>
-            <div className='h-4 glass-surface-subtle/20 glass-radius-md w-20'></div>
+            <div className='glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32'></div>
+            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
           </div>
           {showSparkline && (
             <div
@@ -324,7 +324,7 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
         )}
         {...props}
       >
-        <CardHeader className='pb-2'>
+        <CardHeader className='glass-pb-2'>
           <div
             className={cn(
               "flex items-start justify-between",
@@ -348,7 +348,7 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
                 {title}
               </CardTitle>
               {description && (
-                <p className='glass-text-sm text-primary/60 glass-mt-1'>
+                <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1'>
                   {description}
                 </p>
               )}
@@ -390,7 +390,7 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className='pt-0'>
+        <CardContent className='glass-pt-0'>
           <div
             className={cn(
               "flex items-baseline glass-gap-2 glass-mb-4",
@@ -401,7 +401,7 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
               {value}
             </span>
             {unit && (
-              <span className='glass-text-lg text-primary/70 font-medium'>
+              <span className='glass-text-lg glass-text-primary-opacity-70 glass-font-medium'>
                 {unit}
               </span>
             )}
@@ -409,11 +409,11 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
 
           {/* Sparkline */}
           {showSparkline && (sparklineData?.length || 0) > 0 && (
-            <div className='mb-4'>
+            <div className='glass-mb-4'>
               <svg
                 width="100%"
                 height={config.sparklineHeight.replace("h-", "")}
-                className='overflow-visible'
+                className='glass-overflow-visible'
               >
                 <path
                   d={generateSparklinePath(sparklineData)}
@@ -428,8 +428,8 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
 
           {/* Progress bar */}
           {progress !== undefined && (
-            <div className='mb-4'>
-              <div className='glass-w-full glass-surface-subtle/10 glass-radius-full h-2 overflow-hidden'>
+            <div className='glass-mb-4'>
+              <div className='glass-w-full glass-surface-subtle/10 glass-radius-full glass-h-2 glass-overflow-hidden'>
                 <Motion
                   preset="slideRight"
                   className="glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full"
@@ -437,8 +437,8 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
                 />
               </div>
               <div className="glass-flex glass-justify-between glass-items-center glass-mt-1">
-                <span className='glass-text-xs text-primary/60'>Progress</span>
-                <span className='glass-text-xs text-primary/60'>
+                <span className='glass-text-xs glass-text-primary-glass-opacity-60'>Progress</span>
+                <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
                   {Math.round(progress)}%
                 </span>
               </div>
@@ -447,12 +447,12 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
 
           {/* Previous value comparison */}
           {previousValue && (
-            <div className='mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
+            <div className='glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
               <div className="glass-flex glass-items-center glass-justify-between">
-                <span className='glass-text-sm text-primary/70'>
+                <span className='glass-text-sm glass-text-primary-opacity-70'>
                   Previous period
                 </span>
-                <span className='glass-text-sm font-medium text-primary'>
+                <span className='glass-text-sm glass-font-medium glass-text-primary'>
                   {previousValue}
                   {unit}
                 </span>
@@ -468,11 +468,11 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
                   key={index}
                   className="glass-flex glass-items-center glass-justify-between"
                 >
-                  <span className='glass-text-sm text-primary/70'>
+                  <span className='glass-text-sm glass-text-primary-opacity-70'>
                     {stat.label}
                   </span>
                   <div className="glass-flex glass-items-center glass-gap-2">
-                    <span className='glass-text-sm font-medium text-primary'>
+                    <span className='glass-text-sm glass-font-medium glass-text-primary'>
                       {stat.value}
                     </span>
                     {stat.change !== undefined && (

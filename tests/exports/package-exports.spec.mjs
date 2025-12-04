@@ -6,6 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const resolve = (file) => path.join(__dirname, "..", "..", "dist", file);
+const resolveEsm = (file) => path.join(__dirname, "..", "..", "dist", "esm", file);
 
 const exportsMap = [
   {
@@ -86,10 +87,63 @@ const exportsMap = [
       );
     },
   },
+  {
+    name: "./core/mixins/glassMixins",
+    import: "esm/core/mixins/glassMixins.js",
+    verify: (mod) => {
+      assert.ok(
+        mod.createGlassStyle || mod.default?.createGlassStyle,
+        "createGlassStyle should exist in glassMixins",
+      );
+    },
+  },
+  {
+    name: "./utils/env",
+    import: "esm/utils/env.js",
+    verify: (mod) => {
+      assert.ok(
+        mod.isBrowser !== undefined || mod.default?.isBrowser !== undefined,
+        "isBrowser should exist in utils/env",
+      );
+    },
+  },
+  {
+    name: "./services/ai/openai-service",
+    import: "esm/services/ai/openai-service.js",
+    verify: (mod) => {
+      assert.ok(
+        mod.OpenAIService || mod.default?.OpenAIService,
+        "OpenAIService should exist",
+      );
+    },
+  },
+  {
+    name: "./services/ai/vision-service",
+    import: "esm/services/ai/vision-service.js",
+    verify: (mod) => {
+      assert.ok(
+        mod.VisionService || mod.default?.VisionService,
+        "VisionService should exist",
+      );
+    },
+  },
+  {
+    name: "./services/websocket/collaboration-service",
+    import: "esm/services/websocket/collaboration-service.js",
+    verify: (mod) => {
+      assert.ok(
+        mod.CollaborationService || mod.default?.CollaborationService,
+        "CollaborationService should exist",
+      );
+    },
+  },
 ];
 
 for (const entry of exportsMap) {
-  const mod = await import(resolve(entry.import));
+  const importPath = entry.import.startsWith("esm/")
+    ? resolveEsm(entry.import.replace("esm/", ""))
+    : resolve(entry.import);
+  const mod = await import(importPath);
   const value = mod.default ?? mod;
   entry.verify(value);
 }

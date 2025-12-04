@@ -66,7 +66,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   zoomable = true,
   direction = "horizontal",
   nodeSpacing = 120,
-  className = "",
+  className="",
   onNodeClick,
   onNodeDoubleClick,
   onNodeChange,
@@ -298,7 +298,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
             x={midX}
             y={midY - 5}
             textAnchor="middle"
-            className='glass-text-xs fill-white/70'
+            className='glass-text-xs glass-fill-white/70'
           >
             {connection.label}
           </text>
@@ -359,7 +359,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 if (e.key === "Escape") handleEditCancel();
               }}
               onBlur={handleEditSubmit}
-              className='glass-w-full glass-h-full glass-px-2 glass-py-1 bg-transparent glass-border glass-border-white/30 glass-radius-md text-primary glass-text-sm focus:outline-none focus:border-white/60 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-w-full glass-h-full glass-px-2 glass-py-1 glass-bg-transparent glass-border glass-border-white/30 glass-radius-md glass-text-primary glass-text-sm glass-focus-outline-none focus:glass-border-white/60 glass-focus glass-touch-target glass-contrast-guard'
             />
           </foreignObject>
         );
@@ -423,7 +423,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
               x={node.position.x + nodeSize / 2}
               y={node.position.y + nodeHeight / 2 + 4}
               textAnchor="middle"
-              className='glass-text-sm fill-white font-medium pointer-events-none select-none'
+              className='glass-text-sm glass-fill-white glass-font-medium glass-pointer-events-none glass-select-none'
             >
               {node.icon && (
                 <tspan x={node.position.x + nodeSize / 2 - 15}>
@@ -456,9 +456,9 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       elevation="level1"
     >
       {/* Toolbar */}
-      <div className='absolute top-4 left-4 z-10 glass-flex glass-gap-2'>
+      <div className='glass-absolute glass-top-4 glass-left-4 glass-z-10 glass-flex glass-gap-2'>
         <OptimizedGlass
-          className='glass-px-3 glass-py-1 glass-radius-md glass-text-sm cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard'
+          className='glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard'
           intensity="subtle"
           onClick={(e: React.MouseEvent) => setZoom(1)}
         >
@@ -474,7 +474,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
       {/* Mini-map */}
       {showMinimap && (
-        <div className='absolute bottom-4 right-4 z-10 w-32 h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20'>
+        <div className='glass-absolute glass-bottom-4 glass-right-4 glass-z-10 glass-w-32 glass-h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20'>
           <svg className="glass-w-full glass-h-full" viewBox="0 0 320 240">
             {positionedNodes.map((node: any) => (
               <circle
@@ -492,7 +492,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       {/* Main SVG Canvas */}
       <div
         ref={containerRef}
-        className='glass-w-full glass-h-full overflow-hidden'
+        className='glass-w-full glass-h-full glass-overflow-hidden'
         onWheel={handleWheel}
         onMouseDown={handlePanStart}
         style={{ cursor: isPanning ? "grabbing" : "grab" }}

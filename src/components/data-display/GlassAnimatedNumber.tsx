@@ -72,7 +72,7 @@ export const GlassAnimatedNumber = forwardRef<
       suffix = "",
       formatter,
       animateOnChange = true,
-      className = "",
+      className="",
       size = "md",
       variant = "count",
       "aria-label": ariaLabel,
@@ -231,7 +231,7 @@ export const GlassAnimatedCounter: React.FC<{
   from = 0,
   duration = 1500,
   size = "lg",
-  className = "",
+  className="",
 }) => {
   return (
     <div
@@ -276,7 +276,7 @@ export const GlassAnimatedStat: React.FC<{
   label,
   showPercentage = false,
   duration = 1000,
-  className = "",
+  className="",
 }) => {
   const percentage = total ? (value / total) * 100 : value;
 

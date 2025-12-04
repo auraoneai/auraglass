@@ -89,10 +89,10 @@ const StepIndicator = forwardRef<HTMLDivElement, StepIndicatorProps>(
         return (
           <div
             data-glass-component
-            className='w-8 h-8 glass-radius-full bg-success glass-flex glass-items-center glass-justify-center'
+            className='glass-w-8 glass-h-8 glass-radius-full glass-surface-success glass-flex glass-items-center glass-justify-center'
           >
             <svg
-              className='w-4 h-4 text-success-foreground'
+              className='glass-w-4 glass-h-4 glass-text-success-foreground'
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -184,7 +184,7 @@ const StepIndicator = forwardRef<HTMLDivElement, StepIndicatorProps>(
               </p>
             )}
             {step.optional && (
-              <span className='glass-text-xs glass-text-secondary glass-surface-subtle glass-px-1.5 glass-py-0.5 glass-radius-md w-fit'>
+              <span className='glass-text-xs glass-text-secondary glass-surface-subtle glass-px-1.5 glass-py-0.5 glass-radius-md glass-w-fit'>
                 Optional
               </span>
             )}
@@ -260,7 +260,7 @@ export const GlassFormWizardSteps = forwardRef<
       return (
         <VStack space="sm">
           <HStack space="sm" align="center" justify="between">
-            <span className='glass-text-sm font-medium text-primary'>
+            <span className='glass-text-sm glass-font-medium glass-text-primary'>
               Step {currentStep + 1} of {totalSteps}
             </span>
             <span className="glass-text-sm glass-text-secondary">
@@ -285,7 +285,7 @@ export const GlassFormWizardSteps = forwardRef<
             {steps.map((step, index) => (
               <div
                 key={step.id}
-                className='animate-slide-in-left'
+                className='glass-animate-slide-in-left'
                 style={{
                   animationDelay: `${Math.min(index, 5) * 100}ms`,
                   animationFillMode: "both",
@@ -318,7 +318,7 @@ export const GlassFormWizardSteps = forwardRef<
           {steps.map((step, index) => (
             <React.Fragment key={step.id}>
               <div
-                className='animate-slide-in-up'
+                className='glass-animate-slide-in-up'
                 style={{
                   animationDelay: `${Math.min(index, 5) * 100}ms`,
                   animationFillMode: "both",

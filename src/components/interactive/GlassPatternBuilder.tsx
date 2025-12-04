@@ -744,11 +744,11 @@ export const GlassPatternBuilder = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-pattern-tools glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-pattern-tools glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           {/* Tools */}
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className='glass-text-sm font-medium'>Tool:</span>
+            <span className='glass-text-sm glass-font-medium'>Tool:</span>
             {(["circle", "square", "triangle", "line"] as const).map(
               (tool: any) => (
                 <button
@@ -769,7 +769,7 @@ export const GlassPatternBuilder = forwardRef<
 
           {/* Colors */}
           <div className="glass-flex glass-items-center glass-gap-2">
-            <span className='glass-text-sm font-medium'>Color:</span>
+            <span className='glass-text-sm glass-font-medium'>Color:</span>
             <div className="glass-flex glass-gap-1">
               {colorPalette.map((color, i) => (
                 <button
@@ -804,7 +804,7 @@ export const GlassPatternBuilder = forwardRef<
             </button>
             <button
               onClick={exportPattern}
-              className='glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-px-3 glass-py-1 text-primary'
+              className='glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-px-3 glass-py-1 glass-text-primary'
             >
               Export
             </button>
@@ -820,10 +820,10 @@ export const GlassPatternBuilder = forwardRef<
               step="0.1"
               value={currentZoom}
               onChange={(e) => setCurrentZoom(parseFloat(e.target.value))}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
               aria-label="Zoom level"
             />
-            <span className='glass-text-sm min-w-[3ch]'>
+            <span className='glass-text-sm glass-min-w-3ch'>
               {Math.round(currentZoom * 100)}%
             </span>
           </div>
@@ -842,19 +842,19 @@ export const GlassPatternBuilder = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-layer-panel glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-layer-panel glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
-          <div className='glass-flex glass-items-center glass-justify-between mb-3'>
-            <span className='glass-text-sm font-medium'>Layers</span>
+          <div className='glass-flex glass-items-center glass-justify-between glass-mb-3'>
+            <span className='glass-text-sm glass-font-medium'>Layers</span>
             <button
               onClick={addLayer}
-              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-text-xs glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-text-primary glass-text-xs glass-focus glass-touch-target glass-contrast-guard'
             >
               Add
             </button>
           </div>
 
-          <div className='space-y-2'>
+          <div className='glass-space-y-2'>
             {currentLayers.map((layer, index) => (
               <div
                 key={layer.id}
@@ -867,7 +867,7 @@ export const GlassPatternBuilder = forwardRef<
                 onClick={() => setActiveLayer(index)}
               >
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm font-medium'>
+                  <span className='glass-text-sm glass-font-medium'>
                     {layer.name}
                   </span>
                   <div className="glass-flex glass-items-center glass-gap-1">
@@ -891,7 +891,7 @@ export const GlassPatternBuilder = forwardRef<
                         e.stopPropagation();
                         deleteLayer(index);
                       }}
-                      className='glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm text-primary glass-focus glass-touch-target glass-contrast-guard'
+                      className='glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
                       aria-label={`Delete layer ${layer.name}`}
                     >
                       🗑
@@ -917,17 +917,17 @@ export const GlassPatternBuilder = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-templates glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-templates glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
-          <div className='glass-text-sm font-medium mb-3'>Templates</div>
-          <div className='space-y-2'>
+          <div className='glass-text-sm glass-font-medium glass-mb-3'>Templates</div>
+          <div className='glass-space-y-2'>
             {allTemplates.map((template: any) => (
               <button
                 key={template.id}
                 onClick={() => applyTemplate(template)}
-                className='glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard'
+                className='glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay glass-text-left glass-focus glass-touch-target glass-contrast-guard'
               >
-                <div className='glass-text-sm font-medium'>{template.name}</div>
+                <div className='glass-text-sm glass-font-medium'>{template.name}</div>
                 <div className="glass-text-xs glass-text-secondary">
                   {template.category}
                 </div>
@@ -961,7 +961,7 @@ export const GlassPatternBuilder = forwardRef<
 
           <div className="glass-flex glass-gap-4">
             {showLayerPanel && (
-              <div className='w-64 space-y-4'>
+              <div className='glass-w-64 glass-space-y-4'>
                 {renderLayerPanel()}
                 {renderTemplates()}
               </div>
@@ -972,7 +972,7 @@ export const GlassPatternBuilder = forwardRef<
                 ref={canvasRef}
                 width={width}
                 height={height}
-                className='glass-border glass-border-glass-border/20 glass-radius-md glass-surface-subtle cursor-crosshair'
+                className='glass-border glass-border-glass-border/20 glass-radius-md glass-surface-subtle glass-cursor-crosshair'
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}

@@ -708,7 +708,7 @@ export const GlassVortexPortal = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-portal-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-portal-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
             <button
@@ -734,7 +734,7 @@ export const GlassVortexPortal = forwardRef<
                 initializeDistortions();
                 play("success");
               }}
-              className='glass-px-3 glass-py-1 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-px-3 glass-py-1 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
             >
               Reset
             </button>
@@ -785,10 +785,10 @@ export const GlassVortexPortal = forwardRef<
               step="0.1"
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
               aria-label="Adjust vortex intensity"
             />
-            <span className='glass-text-sm min-w-[3ch]'>
+            <span className='glass-text-sm glass-min-w-3ch'>
               {(currentIntensity * 100).toFixed(0)}%
             </span>
           </div>
@@ -847,7 +847,7 @@ export const GlassVortexPortal = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className='glass-relative'>
             <canvas
               ref={canvasRef}
               width={width}

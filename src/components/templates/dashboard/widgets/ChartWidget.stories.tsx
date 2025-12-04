@@ -54,7 +54,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       <ChartWidget {...args} type="bar" />
       <ChartWidget {...args} type="line" />
       <ChartWidget {...args} type="pie" />

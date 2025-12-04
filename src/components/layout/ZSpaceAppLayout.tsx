@@ -48,7 +48,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
       // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
       children,
-      className = "",
+      className="",
       style = {},
       header,
       sidebar,

@@ -177,42 +177,42 @@ export const AIAssistanceDemo: Story = {
     
     return (
       <div className="space-y-8">
-        <div className="text-center py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
-          <h1 className="text-3xl font-bold glass-text-secondary mb-4">🤖 AI-Powered Form Builder</h1>
-          <p className="text-lg glass-text-secondary max-w-3xl mx-auto leading-relaxed">
+        <div className="glass-text-center glass-py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
+          <h1 className="glass-text-3xl glass-font-bold glass-text-secondary glass-mb-4">🤖 AI-Powered Form Builder</h1>
+          <p className="glass-text-lg glass-text-secondary max-w-3xl glass-mx-auto leading-relaxed">
             Experience the future of form creation with our intelligent form builder. 
             Watch as AI analyzes your form purpose, suggests optimal field types, 
             provides accessibility improvements, and optimizes for better conversion rates.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="w-12 h-12 glass-surface-blue text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
+          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-4 glass-gap-6 mt-8 max-w-4xl glass-mx-auto">
+            <div className="glass-text-center">
+              <div className="glass-w-12 glass-h-12 glass-surface-blue glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
                 🧠
               </div>
-              <h3 className="font-semibold">Smart Field Detection</h3>
-              <p className="text-sm glass-text-secondary mt-1">AI automatically suggests field types based on labels and context</p>
+              <h3 className="glass-font-semibold">Smart Field Detection</h3>
+              <p className="glass-text-sm glass-text-secondary mt-1">AI automatically suggests field types based on labels and context</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 glass-surface-green text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
+            <div className="glass-text-center">
+              <div className="glass-w-12 glass-h-12 glass-surface-green glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
                 ✅
               </div>
-              <h3 className="font-semibold">Validation Suggestions</h3>
-              <p className="text-sm glass-text-secondary mt-1">Intelligent validation rules and format requirements</p>
+              <h3 className="glass-font-semibold">Validation Suggestions</h3>
+              <p className="glass-text-sm glass-text-secondary mt-1">Intelligent validation rules and format requirements</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 glass-surface-primary text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
+            <div className="glass-text-center">
+              <div className="glass-w-12 glass-h-12 glass-surface-primary glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
                 ♿
               </div>
-              <h3 className="font-semibold">Accessibility First</h3>
-              <p className="text-sm glass-text-secondary mt-1">Built-in accessibility compliance and WCAG guidelines</p>
+              <h3 className="glass-font-semibold">Accessibility First</h3>
+              <p className="glass-text-sm glass-text-secondary mt-1">Built-in accessibility compliance and WCAG guidelines</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 glass-surface-primary text-primary glass-radius-full flex items-center justify-center mx-auto mb-3">
+            <div className="glass-text-center">
+              <div className="glass-w-12 glass-h-12 glass-surface-primary glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
                 📊
               </div>
-              <h3 className="font-semibold">Performance Optimized</h3>
-              <p className="text-sm glass-text-secondary mt-1">Real-time performance monitoring and optimization</p>
+              <h3 className="glass-font-semibold">Performance Optimized</h3>
+              <p className="glass-text-sm glass-text-secondary mt-1">Real-time performance monitoring and optimization</p>
             </div>
           </div>
         </div>
@@ -224,8 +224,8 @@ export const AIAssistanceDemo: Story = {
         />
 
         {schema && (
-          <div className="glass-surface-subtle text-primary p-6 glass-radius-lg font-mono text-sm overflow-auto">
-            <h3 className="text-primary font-bold mb-4">Generated Form Schema:</h3>
+          <div className="glass-surface-subtle glass-text-primary glass-p-6 glass-radius-lg font-mono glass-text-sm glass-overflow-auto">
+            <h3 className="glass-text-primary glass-font-bold glass-mb-4">Generated Form Schema:</h3>
             <pre>{JSON.stringify(schema, null, 2)}</pre>
           </div>
         )}
@@ -245,12 +245,12 @@ export const AdvancedFeatures: Story = {
   render: () => {
     return (
       <div className="space-y-8">
-        <div className="glass-gradient-primary glass-gradient-primary glass-gradient-primary text-primary p-8 glass-radius-xl">
-          <h2 className="text-2xl font-bold mb-4">🚀 Advanced AI Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-text-primary glass-p-8 glass-radius-xl">
+          <h2 className="glass-text-2xl glass-font-bold glass-mb-4">🚀 Advanced AI Features</h2>
+          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 lg:glass-glass-grid-cols-3 glass-gap-6">
             <div>
-              <h3 className="font-semibold mb-2">🎯 Purpose Detection</h3>
-              <ul className="text-sm space-y-1 opacity-90">
+              <h3 className="glass-font-semibold glass-mb-2">🎯 Purpose Detection</h3>
+              <ul className="glass-text-sm space-y-1 glass-opacity-90">
                 <li>• Contact/Support Forms</li>
                 <li>• Registration/Login Forms</li>
                 <li>• Payment/Billing Forms</li>
@@ -259,8 +259,8 @@ export const AdvancedFeatures: Story = {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-2">🧠 Field Intelligence</h3>
-              <ul className="text-sm space-y-1 opacity-90">
+              <h3 className="glass-font-semibold glass-mb-2">🧠 Field Intelligence</h3>
+              <ul className="glass-text-sm space-y-1 glass-opacity-90">
                 <li>• Auto field type detection</li>
                 <li>• Smart validation rules</li>
                 <li>• Accessibility suggestions</li>
@@ -269,8 +269,8 @@ export const AdvancedFeatures: Story = {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-2">📊 Optimization Engine</h3>
-              <ul className="text-sm space-y-1 opacity-90">
+              <h3 className="glass-font-semibold glass-mb-2">📊 Optimization Engine</h3>
+              <ul className="glass-text-sm space-y-1 glass-opacity-90">
                 <li>• Form flow optimization</li>
                 <li>• Conversion rate analysis</li>
                 <li>• Performance scoring</li>
@@ -286,9 +286,9 @@ export const AdvancedFeatures: Story = {
           enableRealTimeOptimization={true}
         />
 
-        <div className="glass-surface-subtle border-l-4 border-yellow p-6 glass-radius-r-lg">
-          <h3 className="font-semibold text-primary mb-2">💡 Pro Tips for AI Form Building</h3>
-          <ul className="text-sm text-primary space-y-2">
+        <div className="glass-surface-subtle glass-border-l-4 glass-border-yellow glass-p-6 glass-radius-r-lg">
+          <h3 className="glass-font-semibold glass-text-primary glass-mb-2">💡 Pro Tips for AI Form Building</h3>
+          <ul className="glass-text-sm glass-text-primary glass-space-y-2">
             <li><strong>Descriptive Labels:</strong> Use clear, descriptive field labels like "Business Email Address" instead of just "Email"</li>
             <li><strong>Context Matters:</strong> Fill in the form title and description - the AI uses this context for better suggestions</li>
             <li><strong>Field Names:</strong> Try fields with names like "password", "phone", "birth date", "website" to see AI suggestions</li>

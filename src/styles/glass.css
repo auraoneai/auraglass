@@ -1291,7 +1291,8 @@
 .glass-block { display: block; }
 
 /* Screen reader only */
-.glass-sr-only {
+.glass-sr-only,
+.sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1396,7 +1397,8 @@
 .glass-font-semibold { font-weight: var(--glass-font-semibold); }
 
 /* Screen reader only */
-.glass-sr-only {
+.glass-sr-only,
+.sr-only {
   position: absolute;
   width: 1px;
   height: 1px;

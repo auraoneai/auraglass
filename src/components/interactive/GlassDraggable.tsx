@@ -169,8 +169,8 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
 
   // Default drag handle
   const defaultHandle = handle || (
-    <div className='glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing'>
-      <GripVertical className='w-4 h-4' />
+    <div className='glass-flex glass-items-center glass-justify-center glass-w-6 glass-h-6 glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-cursor-grab glass-active-cursor-grabbing'>
+      <GripVertical className='glass-w-4 glass-h-4' />
     </div>
   );
 
@@ -179,7 +179,7 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
       data-glass-component
       preset="fadeIn"
       className={cn(
-        "relative cursor-grab active:cursor-grabbing select-none",
+        "relative cursor-grab glass-active-cursor-grabbing select-none",
         isDragging && "z-50",
         disabled && "cursor-not-allowed opacity-50",
         className
@@ -197,7 +197,7 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
       {...props}
     >
       {/* Drag Handle */}
-      <div className='absolute glass-top-2 right-2 z-10'>{defaultHandle}</div>
+      <div className='glass-absolute glass-top-2 glass-right-2 glass-z-10'>{defaultHandle}</div>
 
       {/* Content */}
       <div
@@ -212,14 +212,14 @@ export const GlassDraggable: React.FC<GlassDraggableProps> = ({
       {/* Drag Preview (ghost image) */}
       {isDragging && (
         <div
-          className='fixed pointer-events-none z-40 opacity-50'
+          className='glass-fixed glass-pointer-events-none glass-z-40 glass-opacity-50'
           style={{
             left: elementStartPos.current.x,
             top: elementStartPos.current.y,
             transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)`,
           }}
         >
-          <div className='scale-95'>{children}</div>
+          <div className='glass-scale-95'>{children}</div>
         </div>
       )}
     </Motion>
@@ -365,7 +365,7 @@ export const GlassDroppable: React.FC<GlassDroppableProps> = ({
               : "border-red-500 bg-red-500/10"
           )}
         >
-          <div className='text-center'>
+          <div className='glass-text-center'>
             <Move
               className={cn(
                 "w-8 h-8 mx-auto glass-mb-2",
@@ -491,9 +491,9 @@ export const GlassSortable: React.FC<GlassSortableProps> = ({
           )}
         >
           {/* Drag Handle */}
-          <div className='absolute glass-top-2 right-2 z-10'>
-            <div className='glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing glass-surface-dark/20 glass-radius-md'>
-              <Move className='w-4 h-4' />
+          <div className='glass-absolute glass-top-2 glass-right-2 glass-z-10'>
+            <div className='glass-flex glass-items-center glass-justify-center glass-w-6 glass-h-6 glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-cursor-grab glass-active-cursor-grabbing glass-surface-dark/20 glass-radius-md'>
+              <Move className='glass-w-4 glass-h-4' />
             </div>
           </div>
 

@@ -44,7 +44,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
           {
             "glass-text-primary bg-gradient-to-r from-blue-500/80 to-purple-500/80 border border-white/20 glass-backdrop-blur-md-medium shadow-glass":
               variant === "primary",
-            "hover:shadow-glass-strong sm:hover:-translate-y-0.5":
+            "hover:shadow-glass-strong sm:glass-hover--translate-y-0-5":
               variant === "primary",
 
             "glass-foundation-complete glass-text-primary border border-white/14 glass-backdrop-blur-md-subtle":
@@ -74,7 +74,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
         {(variant === "primary" || variant === "secondary") && (
           <div
             aria-hidden
-            className='pointer-events-none absolute inset-0'
+            className='glass-pointer-events-none glass-absolute glass-inset-0'
             style={{
               borderRadius: "inherit",
               padding: "1px",
@@ -92,7 +92,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
         {variant === "primary" && (
           <div
             aria-hidden
-            className='pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200'
+            className='glass-pointer-events-none glass-absolute glass-inset-0 glass-opacity-0 glass-hover-opacity-100 glass-transition-opacity glass-duration-200'
             style={{
               borderRadius: "inherit",
               ...createGlassStyle({ variant: "default", elev: 3 }),
@@ -100,7 +100,7 @@ const GlassLinkButton = forwardRef<HTMLAnchorElement, GlassLinkButtonProps>(
           />
         )}
 
-        <span className='relative z-10 glass-flex glass-items-center glass-gap-2 text-primary group-hover:text-indigo-50'>
+        <span className='glass-relative glass-z-10 glass-flex glass-items-center glass-gap-2 glass-text-primary glass-group-hover:text-indigo-50'>
           {children}
         </span>
       </a>

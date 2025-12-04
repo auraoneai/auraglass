@@ -49,40 +49,40 @@ export const Default: Story = {
     onConfigChange: fn()
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold glass-text-secondary dark:text-primary mb-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-p-8">
+      <div className="max-w-4xl glass-mx-auto">
+        <h1 className="glass-text-3xl glass-font-bold glass-text-secondary dark:glass-text-primary mb-8">
           Accessibility Control Panel Demo
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
-            <h3 className="text-xl font-semibold glass-text-secondary dark:text-primary mb-4">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 mb-8">
+          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+            <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Interactive Content
             </h3>
-            <p className="glass-text-secondary dark:text-gray-300 mb-4">
+            <p className="glass-text-secondary dark:text-gray-300 glass-mb-4">
               This content demonstrates how accessibility settings can adapt the user interface in real-time.
               Try using the accessibility panel to see the changes.
             </p>
-            <button className="px-4 py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg transition-colors">
+            <button className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg transition-colors">
               Interactive Button
             </button>
           </div>
 
-          <div className="p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
-            <h3 className="text-xl font-semibold glass-text-secondary dark:text-primary mb-4">
+          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+            <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Form Elements
             </h3>
-            <div className="space-y-4">
+            <div className="glass-space-y-4">
               <input
                 type="text"
                 placeholder="Enter text here"
-                className="w-full p-3 border border-subtle dark:border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:text-primary glass-touch-target glass-contrast-guard"
+                className="glass-w-full glass-p-3 glass-border glass-border-subtle dark:glass-border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:glass-text-primary glass-touch-target glass-contrast-guard"
               />
               <textarea
                 placeholder="Enter longer text here"
                 rows={3}
-                className="w-full p-3 border border-subtle dark:border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:text-primary glass-touch-target glass-contrast-guard"
+                className="glass-w-full glass-p-3 glass-border glass-border-subtle dark:glass-border-gray-600 glass-radius-lg glass-surface-subtle dark:glass-surface-subtle glass-text-secondary dark:glass-text-primary glass-touch-target glass-contrast-guard"
               />
             </div>
           </div>
@@ -102,35 +102,35 @@ export const TestingMode: Story = {
     onConfigChange: fn()
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold glass-text-secondary dark:text-primary mb-8">
+    <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-p-8">
+      <div className="max-w-4xl glass-mx-auto">
+        <h1 className="glass-text-3xl glass-font-bold glass-text-secondary dark:glass-text-primary mb-8">
           Accessibility Testing Demo
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
-            <h4 className="font-semibold glass-text-secondary dark:text-primary mb-2">WCAG AA Compliance</h4>
-            <div className="w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full h-2 mb-2">
-              <div className="glass-surface-green h-2 glass-radius-full" style={{ width: '95%' }}></div>
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 mb-8">
+          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+            <h4 className="glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-2">WCAG AA Compliance</h4>
+            <div className="glass-w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full glass-h-2 glass-mb-2">
+              <div className="glass-surface-green glass-h-2 glass-radius-full" style={{ width: '95%' }}></div>
             </div>
-            <p className="text-sm glass-text-secondary dark:text-gray-300">95% compliant</p>
+            <p className="glass-text-sm glass-text-secondary dark:text-gray-300">95% compliant</p>
           </div>
 
-          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
-            <h4 className="font-semibold glass-text-secondary dark:text-primary mb-2">Keyboard Navigation</h4>
-            <div className="w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full h-2 mb-2">
-              <div className="glass-surface-blue h-2 glass-radius-full" style={{ width: '100%' }}></div>
+          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+            <h4 className="glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-2">Keyboard Navigation</h4>
+            <div className="glass-w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full glass-h-2 glass-mb-2">
+              <div className="glass-surface-blue glass-h-2 glass-radius-full" style={{ width: '100%' }}></div>
             </div>
-            <p className="text-sm glass-text-secondary dark:text-gray-300">Fully accessible</p>
+            <p className="glass-text-sm glass-text-secondary dark:text-gray-300">Fully accessible</p>
           </div>
 
-          <div className="p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl border border-subtle/50 dark:border-gray-700/50 glass-contrast-guard">
-            <h4 className="font-semibold glass-text-secondary dark:text-primary mb-2">Screen Reader Support</h4>
-            <div className="w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full h-2 mb-2">
-              <div className="glass-surface-primary h-2 glass-radius-full" style={{ width: '90%' }}></div>
+          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+            <h4 className="glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-2">Screen Reader Support</h4>
+            <div className="glass-w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full glass-h-2 glass-mb-2">
+              <div className="glass-surface-primary glass-h-2 glass-radius-full" style={{ width: '90%' }}></div>
             </div>
-            <p className="text-sm glass-text-secondary dark:text-gray-300">90% supported</p>
+            <p className="glass-text-sm glass-text-secondary dark:text-gray-300">90% supported</p>
           </div>
         </div>
 
@@ -149,21 +149,21 @@ export const HighContrast: Story = {
     onConfigChange: fn()
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-surface-dark p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-primary mb-8">
+    <div className="glass-min-glass-h-screen glass-surface-dark glass-p-8">
+      <div className="max-w-4xl glass-mx-auto">
+        <h1 className="glass-text-3xl glass-font-bold glass-text-primary mb-8">
           High Contrast Mode Demo
         </h1>
 
-        <div className="p-6 glass-surface-subtle border-2 border-black glass-radius-xl">
-          <h3 className="text-xl font-semibold glass-text-inverse mb-4">
+        <div className="glass-p-6 glass-surface-subtle glass-border-2 glass-border-black glass-radius-xl">
+          <h3 className="glass-text-xl glass-font-semibold glass-text-inverse glass-mb-4">
             High Contrast Content
           </h3>
-          <p className="glass-text-inverse mb-4">
+          <p className="glass-text-inverse glass-mb-4">
             This content uses high contrast colors for better visibility.
             The accessibility panel can automatically switch to high contrast mode.
           </p>
-          <button className="px-4 py-2 glass-surface-dark text-primary border-2 border-black glass-radius hover:glass-surface-primary transition-colors">
+          <button className="glass-px-4 glass-py-2 glass-surface-dark glass-text-primary glass-border-2 glass-border-black glass-radius hover:glass-surface-primary transition-colors">
             High Contrast Button
           </button>
         </div>
@@ -184,30 +184,30 @@ export const Minimal: Story = {
     onConfigChange: fn()
   },
   render: (args) => (
-    <div className="glass-min-h-screen glass-surface-subtle p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold glass-text-secondary mb-8">
+    <div className="glass-min-glass-h-screen glass-surface-subtle glass-p-8">
+      <div className="max-w-4xl glass-mx-auto">
+        <h1 className="glass-text-3xl glass-font-bold glass-text-secondary mb-8">
           Minimal Accessibility Demo
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 glass-surface-subtle glass-radius-xl border border-subtle">
-            <h3 className="text-lg font-semibold glass-text-secondary mb-4">
+        <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 mb-8">
+          <div className="glass-p-6 glass-surface-subtle glass-radius-xl glass-border glass-border-subtle">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">
               Clean Interface
             </h3>
-            <p className="glass-text-secondary mb-4">
+            <p className="glass-text-secondary glass-mb-4">
               Simple, clean design that works well with accessibility features.
             </p>
           </div>
 
-          <div className="p-6 glass-surface-subtle glass-radius-xl border border-subtle">
-            <h3 className="text-lg font-semibold glass-text-secondary mb-4">
+          <div className="glass-p-6 glass-surface-subtle glass-radius-xl glass-border glass-border-subtle">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">
               Focus States
             </h3>
-            <p className="glass-text-secondary mb-4">
+            <p className="glass-text-secondary glass-mb-4">
               Clear focus indicators for keyboard navigation.
             </p>
-            <button className="px-4 py-2 glass-surface-blue text-primary glass-radius hover:glass-surface-blue focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors">
+            <button className="glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors">
               Focusable Button
             </button>
           </div>

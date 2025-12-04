@@ -115,10 +115,10 @@ export const GlassBottomSheet = forwardRef<
           <Motion
             preset="fadeIn"
             duration={shouldAnimate ? 200 : 0}
-            className='fixed inset-0 z-[1100]'
+            className='glass-fixed glass-inset-0 glass-z-1100'
             onClick={(e) => onOpenChange(false)}
           >
-            <div className='absolute inset-0 glass-surface-dark/50' />
+            <div className='glass-absolute glass-inset-0 glass-surface-dark/50' />
           </Motion>
         )}
         <Motion
@@ -146,17 +146,17 @@ export const GlassBottomSheet = forwardRef<
           >
             {/* Handle indicator */}
             <div
-              className='glass-mx-auto w-10 h-1.5 glass-radius-full glass-surface-subtle/30 mb-3'
+              className='glass-mx-auto glass-w-10 glass-h-1.5 glass-radius-full glass-surface-subtle/30 glass-mb-3'
               aria-hidden="true"
             />
 
             {/* Header with title and description */}
             {(title || description) && (
-              <div className='mb-4'>
+              <div className='glass-mb-4'>
                 {title && (
                   <h2
                     id={titleId}
-                    className='glass-text-lg font-semibold text-primary'
+                    className='glass-text-lg glass-font-semibold glass-text-primary'
                   >
                     {title}
                   </h2>

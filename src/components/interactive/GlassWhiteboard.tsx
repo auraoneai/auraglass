@@ -114,7 +114,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
       backgroundPattern = "grid",
       showToolbar = true,
       showMinimap = false,
-      className = "",
+      className="",
       onDrawingChange,
       onToolChange,
       onColorChange,

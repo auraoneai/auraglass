@@ -227,7 +227,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
         )}
 
         {/* Content */}
-        <span className='glass-flex-1 glass-min-w-0 truncate font-medium'>
+        <span className='glass-flex-1 glass-min-glass-w-0 glass-truncate glass-font-medium'>
           {children}
         </span>
 
@@ -252,7 +252,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
         )}
 
         {/* Glass overlay effect */}
-        <div className='absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary pointer-events-none' />
+        <div className='glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary glass-pointer-events-none' />
       </>
     );
 
@@ -287,7 +287,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
             selected ? colors.selected : colors.base,
             isInteractive && !disabled && "cursor-pointer",
             isInteractive && !disabled && colors.hover,
-            isInteractive && !disabled && "hover:scale-105 active:scale-95",
+            isInteractive && !disabled && "glass-hover-scale-105 active:scale-95",
             disabled && "opacity-50 cursor-not-allowed",
             className
           )}

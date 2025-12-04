@@ -73,7 +73,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       {(['primary', 'secondary', 'ghost', 'outline', 'link', 'destructive', 'success', 'warning'] as GlassButtonVariantType[]).map((variant) => (
         <GlassButton key={variant} {...args} variant={variant}>
           {variant}
@@ -88,7 +88,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="flex flex-wrap items-center gap-4">
+    <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4">
       {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
         <GlassButton key={size} {...args} size={size}>
           Size {size.toUpperCase()}
@@ -103,7 +103,7 @@ export const Sizes: Story = {
 
 export const GlassVariants: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       {(['frosted', 'dynamic', 'clear', 'tinted', 'luminous'] as const).map((glassVariant) => (
         <GlassButton key={glassVariant} {...args} glassVariant={glassVariant}>
           {glassVariant}
@@ -118,22 +118,22 @@ export const GlassVariants: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       <GlassButton {...args}>
-        <svg className="w-4 h-4 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="glass-w-4 glass-h-4 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
         Add Item
       </GlassButton>
       <GlassButton {...args} variant="secondary">
-        <svg className="w-4 h-4 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="glass-w-4 glass-h-4 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg>
         View Details
       </GlassButton>
       <GlassButton {...args} variant="destructive">
-        <svg className="w-4 h-4 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="glass-w-4 glass-h-4 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
         </svg>
         Delete
@@ -147,7 +147,7 @@ export const WithIcons: Story = {
 
 export const LoadingStates: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       <GlassButton {...args} loading>
         Loading...
       </GlassButton>
@@ -166,7 +166,7 @@ export const LoadingStates: Story = {
 
 export const DisabledStates: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       <GlassButton {...args} disabled>
         Disabled
       </GlassButton>
@@ -185,7 +185,7 @@ export const DisabledStates: Story = {
 
 export const SpecularParallax: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-6 glass-inset-lg">
+    <div className="glass-flex glass-flex-wrap glass-gap-6 glass-inset-lg">
       {(['primary', 'secondary', 'success', 'warning', 'destructive'] as GlassButtonVariantType[]).map((variant) => {
         const Demo: React.FC = () => {
           const ref = useRef<HTMLButtonElement>(null);
@@ -212,19 +212,19 @@ export const SpecularParallax: Story = {
 
 export const IconOnly: Story = {
   render: (args) => (
-    <div className="flex flex-wrap gap-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       <GlassButton {...args} iconOnly>
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="glass-w-4 glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       </GlassButton>
       <GlassButton {...args} iconOnly variant="secondary">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="glass-w-4 glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       </GlassButton>
       <GlassButton {...args} iconOnly variant="destructive" size="sm">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="glass-w-4 glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </GlassButton>
@@ -243,8 +243,8 @@ export const Showcase: Story = {
     intensity: 'ultra',
     elevation: 'level4',
     children: (
-      <div className="flex items-center">
-        <svg className="w-5 h-5 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="glass-flex glass-items-center">
+        <svg className="glass-w-5 glass-h-5 glass-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
         Premium Action
@@ -269,9 +269,9 @@ export const CallToAction: Story = {
 export const WithPredictiveFeatures: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Predictive Button</h3>
-        <p className="text-xs text-primary-secondary mb-4">Anticipates user actions and preloads responses</p>
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Predictive Button</h3>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Anticipates user actions and preloads responses</p>
         <GlassButton 
           {...args}
         >
@@ -289,10 +289,10 @@ export const WithPredictiveFeatures: Story = {
 export const WithEyeTracking: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Eye Tracking Enabled</h3>
-        <p className="text-xs text-primary-secondary mb-4">Responds to user gaze with visual feedback</p>
-        <div className="flex flex-wrap gap-4">
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Eye Tracking Enabled</h3>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Responds to user gaze with visual feedback</p>
+        <div className="glass-flex glass-flex-wrap glass-gap-4">
           <GlassButton 
             {...args}
           >
@@ -316,10 +316,10 @@ export const WithEyeTracking: Story = {
 export const BiometricAdaptive: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Biometric Adaptive</h3>
-        <p className="text-xs text-primary-secondary mb-4">Adjusts interaction patterns based on stress levels</p>
-        <div className="flex flex-wrap gap-4">
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Biometric Adaptive</h3>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Adjusts interaction patterns based on stress levels</p>
+        <div className="glass-flex glass-flex-wrap glass-gap-4">
           <GlassButton 
             {...args}
           >
@@ -343,10 +343,10 @@ export const BiometricAdaptive: Story = {
 export const WithSpatialAudio: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Spatial Audio Feedback</h3>
-        <p className="text-xs text-primary-secondary mb-4">Provides positional audio cues for interactions</p>
-        <div className="grid grid-cols-3 gap-4">
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Spatial Audio Feedback</h3>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Provides positional audio cues for interactions</p>
+        <div className="glass-grid glass-glass-grid-cols-3 glass-gap-4">
           <GlassButton 
             {...args}
             size="sm"
@@ -377,10 +377,10 @@ export const WithSpatialAudio: Story = {
 export const AchievementTracking: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Achievement System</h3>
-        <p className="text-xs text-primary-secondary mb-4">Tracks user interactions for gamification</p>
-        <div className="flex flex-wrap gap-4">
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Achievement System</h3>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Tracks user interactions for gamification</p>
+        <div className="glass-flex glass-flex-wrap glass-gap-4">
           <GlassButton 
             {...args}
           >
@@ -410,29 +410,29 @@ export const AchievementTracking: Story = {
 export const ConsciousnessShowcase: Story = {
   render: (args) => (
     <div className="space-y-8">
-      <div className="text-center gap-2">
-        <h2 className="text-xl font-semibold text-primary">Consciousness-Enhanced Button</h2>
-        <p className="text-sm text-primary-secondary">All consciousness features enabled</p>
+      <div className="glass-text-center glass-gap-2">
+        <h2 className="glass-text-xl glass-font-semibold glass-text-primary">Consciousness-Enhanced Button</h2>
+        <p className="glass-text-sm glass-text-primary-secondary">All consciousness features enabled</p>
       </div>
       
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-6 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
         <GlassButton 
           {...args}
           size="lg"
           glassVariant="luminous"
           intensity="ultra"
         >
-          <div className="flex items-center">
-            <div className="w-2 h-2 glass-surface-success glass-radius-full animate-pulse glass-mr-2 glass-contrast-guard"></div>
+          <div className="glass-flex glass-items-center">
+            <div className="glass-w-2 glass-h-2 glass-surface-success glass-radius-full animate-pulse glass-mr-2 glass-contrast-guard"></div>
             Consciousness Enabled
           </div>
         </GlassButton>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div className="glass-surface-overlay glass-radius-lg p-3 glass-contrast-guard">
-          <h4 className="font-medium text-primary mb-2">Active Features</h4>
-          <ul className="text-primary-secondary gap-1">
+      <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-4 glass-text-sm">
+        <div className="glass-surface-overlay glass-radius-lg glass-p-3 glass-contrast-guard">
+          <h4 className="glass-font-medium glass-text-primary glass-mb-2">Active Features</h4>
+          <ul className="glass-text-primary-secondary glass-gap-1">
             <li>• Predictive action preloading</li>
             <li>• Eye tracking & gaze response</li>
             <li>• Biometric stress adaptation</li>
@@ -440,9 +440,9 @@ export const ConsciousnessShowcase: Story = {
             <li>• Achievement tracking</li>
           </ul>
         </div>
-        <div className="glass-surface-overlay glass-radius-lg p-3 glass-contrast-guard">
-          <h4 className="font-medium text-primary mb-2">User Experience</h4>
-          <ul className="text-primary-secondary gap-1">
+        <div className="glass-surface-overlay glass-radius-lg glass-p-3 glass-contrast-guard">
+          <h4 className="glass-font-medium glass-text-primary glass-mb-2">User Experience</h4>
+          <ul className="glass-text-primary-secondary glass-gap-1">
             <li>• Anticipatory interactions</li>
             <li>• Attention-aware feedback</li>
             <li>• Stress-responsive UI</li>
@@ -463,25 +463,25 @@ export const ConsciousnessShowcase: Story = {
 
 export const ConsciousnessComparison: Story = {
   render: (args) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-4">Standard Button</h3>
+    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6">
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-4">Standard Button</h3>
         <GlassButton {...args}>
           Traditional Interaction
         </GlassButton>
-        <p className="text-xs text-primary-secondary glass-mt-2">Basic click interactions</p>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mt-2">Basic click interactions</p>
       </div>
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-4">Consciousness Enhanced</h3>
+      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-4">Consciousness Enhanced</h3>
         <GlassButton 
           {...args}
         >
-          <div className="flex items-center">
-            <div className="w-2 h-2 glass-surface-primary glass-radius-full animate-pulse glass-mr-2 glass-contrast-guard"></div>
+          <div className="glass-flex glass-items-center">
+            <div className="glass-w-2 glass-h-2 glass-surface-primary glass-radius-full animate-pulse glass-mr-2 glass-contrast-guard"></div>
             Enhanced Interaction
           </div>
         </GlassButton>
-        <p className="text-xs text-primary-secondary glass-mt-2">Intelligent, adaptive, immersive</p>
+        <p className="glass-text-xs glass-text-primary-secondary glass-mt-2">Intelligent, adaptive, immersive</p>
       </div>
     </div>
   ),

@@ -83,7 +83,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
     text = "Loading...",
     size = "md",
     variant = "pulse",
-    className = "",
+    className="",
     children,
     "aria-label": ariaLabel,
     "data-testid": dataTestId,
@@ -236,7 +236,7 @@ interface GlassSkeletonTextProps {
 export const GlassSkeletonText: React.FC<GlassSkeletonTextProps> = ({
   lines = 1,
   width = "100%",
-  className = "",
+  className="",
 }) => {
   const { shouldAnimate } = useAccessibleAnimation();
   const widths = Array.isArray(width) ? width : [width];
@@ -270,7 +270,7 @@ export const GlassSkeletonText: React.FC<GlassSkeletonTextProps> = ({
 // Compound component for skeleton card
 export const GlassSkeletonCard: React.FC<{
   className?: string;
-}> = ({ className = "" }) => {
+}> = ({ className="" }) => {
   return (
     <OptimizedGlass
       className={cn("glass-p-6 glass-gap-4", className)}

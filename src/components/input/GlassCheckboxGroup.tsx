@@ -207,7 +207,7 @@ export const GlassCheckboxItem = forwardRef<
             ? "bg-blue-500/20 border-blue-400/40"
             : "bg-background/50 border-border/20",
         check: "bg-blue-500",
-        focus: "focus:ring-blue-500/50",
+        focus: "glass-focus-ring-blue-500/50",
       },
     };
 
@@ -320,7 +320,7 @@ export const GlassCheckboxItem = forwardRef<
               >
                 {indeterminate ? (
                   // Indeterminate indicator (horizontal line)
-                  <div className='w-2 h-0-5 bg-transparent glass-radius-full' />
+                  <div className='glass-w-2 glass-h-0-5 glass-bg-transparent glass-radius-full' />
                 ) : (
                   // Check mark
                   <svg
@@ -341,12 +341,12 @@ export const GlassCheckboxItem = forwardRef<
             )}
 
             {/* Inner glow effect */}
-            <div className='absolute inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary' />
+            <div className='glass-absolute glass-inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary' />
           </OptimizedGlass>
         </Motion>
 
         {/* Content */}
-        <div className="glass-flex-1 glass-min-w-0">{children}</div>
+        <div className="glass-flex-1 glass-min-glass-w-0">{children}</div>
 
         {/* Hidden input for form submission */}
         <input
@@ -356,7 +356,7 @@ export const GlassCheckboxItem = forwardRef<
           checked={isSelected}
           onChange={() => {}} // Handled by onClick
           disabled={isDisabled}
-          className='sr-only'
+          className='glass-sr-only'
           tabIndex={-1}
         />
       </OptimizedGlass>
@@ -566,7 +566,7 @@ export const GlassCheckboxGroup = forwardRef<
                         {option.icon}
                       </div>
                     )}
-                    <div className="glass-flex-1 glass-min-w-0">
+                    <div className="glass-flex-1 glass-min-glass-w-0">
                       <div
                         className={cn(
                           "font-medium text-foreground",

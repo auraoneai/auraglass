@@ -75,7 +75,7 @@ const GlassSelectTrigger = React.forwardRef<
           "glass-radius-lg glass-backdrop-blur-md transition-all duration-200",
           "text-foreground placeholder:glass-text-secondary",
           "focus:outline-none focus:ring-offset-2 focus:ring-offset-background",
-          "disabled:cursor-not-allowed disabled:opacity-50",
+          "glass-disabled-cursor-not-allowed disabled:opacity-50",
           "[&>span]:line-clamp-1",
 
           // Size
@@ -94,7 +94,7 @@ const GlassSelectTrigger = React.forwardRef<
       >
         {children}
         <SelectPrimitive.Icon asChild>
-          <ChevronDown className='h-4 w-4 opacity-50 transition-transform group-data-[state=open]:rotate-180' />
+          <ChevronDown className='glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180' />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
     );
@@ -205,9 +205,9 @@ const GlassSelectItem = React.forwardRef<
       )}
       {...props}
     >
-      <span className='absolute left-2 glass-flex h-3.5 w-3.5 glass-items-center glass-justify-center'>
+      <span className='glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center'>
         <SelectPrimitive.ItemIndicator>
-          <Check className='h-4 w-4' />
+          <Check className='glass-h-4 glass-w-4' />
         </SelectPrimitive.ItemIndicator>
       </span>
 
@@ -263,7 +263,7 @@ const GlassSelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUp className='h-4 w-4' />
+    <ChevronUp className='glass-h-4 glass-w-4' />
   </SelectPrimitive.ScrollUpButton>
 ));
 GlassSelectScrollUpButton.displayName =
@@ -282,7 +282,7 @@ const GlassSelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronDown className='h-4 w-4' />
+    <ChevronDown className='glass-h-4 glass-w-4' />
   </SelectPrimitive.ScrollDownButton>
 ));
 GlassSelectScrollDownButton.displayName =

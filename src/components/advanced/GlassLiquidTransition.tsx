@@ -290,7 +290,7 @@ export const GlassLiquidTransition = forwardRef<
       >
         {/* Liquid glass overlay */}
         <motion.div
-          className='absolute inset-0 pointer-events-none'
+          className='glass-absolute glass-inset-0 glass-pointer-events-none'
           style={{
             background: `radial-gradient(
             circle at ${50 + mousePos.x * 50}% ${50 + mousePos.y * 50}%,
@@ -305,7 +305,7 @@ export const GlassLiquidTransition = forwardRef<
         />
 
         {/* Content */}
-        <div className='relative z-10'>{children}</div>
+        <div className='glass-relative glass-z-10'>{children}</div>
 
         {/* Additional liquid effects */}
         {variant === "ripple" && isActive && (
@@ -365,7 +365,7 @@ function LiquidRipples({
       {ripples.map((ripple: any) => (
         <motion.div
           key={ripple.id}
-          className='absolute pointer-events-none'
+          className='glass-absolute glass-pointer-events-none'
           initial={{ scale: 0, opacity: 1 }}
           animate={
             prefersReducedMotion ? {} : { scale: 3 * intensity, opacity: 0 }
@@ -386,7 +386,7 @@ function LiquidRipples({
           <OptimizedGlass
             intensity="medium"
             blur="strong"
-            className='w-32 h-32 glass-radius-full glass-border-2 glass-border-white/30'
+            className='glass-w-32 glass-h-32 glass-radius-full glass-border-2 glass-border-white/30'
           />
         </motion.div>
       ))}
@@ -420,7 +420,7 @@ function LiquidSplash({
         return (
           <motion.div
             key={i}
-            className='absolute pointer-events-none'
+            className='glass-absolute glass-pointer-events-none'
             initial={{
               x: `${50 + x * 50}%`,
               y: `${50 + y * 50}%`,
@@ -447,7 +447,7 @@ function LiquidSplash({
               translateY: "-50%",
             }}
           >
-            <div className='w-4 h-4 glass-radius-full glass-surface-primary' />
+            <div className='glass-w-4 glass-h-4 glass-radius-full glass-surface-primary' />
           </motion.div>
         );
       })}

@@ -53,7 +53,7 @@ export function GlassStepper({
               aria-label={`Go to ${s.label}${isActive ? " (current step)" : ""}`}
               className={cn(
                 "glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200",
-                "ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple",
+                "ring-1 ring-white/10 bg-glass-fill glass-hover--translate-y-0-5 glass-press glass-ripple",
                 "glass-focus glass-touch-target glass-contrast-guard",
                 isActive ? "glass-text-primary" : "glass-text-primary/80"
               )}
@@ -69,7 +69,7 @@ export function GlassStepper({
               </span>
             </button>
             {i < steps.length - 1 && (
-              <div className='w-8 h-px glass-surface-subtle/15' />
+              <div className='glass-w-8 glass-h-px glass-surface-subtle/15' />
             )}
           </div>
         );

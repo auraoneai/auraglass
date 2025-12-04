@@ -94,14 +94,14 @@ export function FeatureCard({
       className={cn("group", className)}
     >
       {image && (
-        <div className='relative -m-6 mb-4 overflow-hidden glass-radius-t-lg'>
+        <div className='glass-relative glass--m-6 glass-mb-4 glass-overflow-hidden glass-radius-t-lg'>
           <img
             src={image}
             alt={title}
-            className='glass-w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105'
+            className='glass-w-full glass-h-48 glass-object-cover glass-transition-transform glass-duration-300 glass-group-glass-hover-scale-105'
           />
           {badge && (
-            <div className='absolute top-3 right-3 glass-px-2 glass-py-1 glass-surface-primary text-primary-foreground glass-text-xs font-medium glass-radius-full'>
+            <div className='glass-absolute glass-top-3 glass-right-3 glass-px-2 glass-py-1 glass-surface-primary glass-text-primary-foreground glass-text-xs glass-font-medium glass-radius-full'>
               {badge}
             </div>
           )}
@@ -111,14 +111,14 @@ export function FeatureCard({
       <CardHeader>
         <div className="glass-flex glass-items-start glass-gap-3">
           {icon && (
-            <div className='glass-flex-shrink-0 w-8 h-8 glass-flex glass-items-center glass-justify-center text-primary'>
+            <div className='glass-flex-shrink-0 glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center glass-text-primary'>
               {icon}
             </div>
           )}
-          <div className="glass-flex-1 glass-min-w-0">
+          <div className="glass-flex-1 glass-min-glass-w-0">
             <CardTitle
               size="lg"
-              className='group-hover:text-primary transition-colors'
+              className='glass-group-hover:glass-text-primary glass-transition-colors'
             >
               {title}
             </CardTitle>
@@ -178,11 +178,11 @@ export function StatCard({
       <CardContent>
         <div className="glass-flex glass-items-start glass-justify-between">
           <div className="glass-flex-1">
-            <p className='glass-text-sm font-medium glass-text-secondary'>
+            <p className='glass-text-sm glass-font-medium glass-text-secondary'>
               {title}
             </p>
-            <div className='glass-flex items-baseline glass-gap-2 glass-mt-1'>
-              <p className='glass-text-2xl font-bold'>{value}</p>
+            <div className='glass-flex glass-items-baseline glass-gap-2 glass-mt-1'>
+              <p className='glass-text-2xl glass-font-bold'>{value}</p>
               {change && (
                 <span
                   className={cn(
@@ -202,7 +202,7 @@ export function StatCard({
             )}
           </div>
           {icon && (
-            <div className='glass-flex-shrink-0 w-8 h-8 glass-flex glass-items-center glass-justify-center glass-text-secondary'>
+            <div className='glass-flex-shrink-0 glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center glass-text-secondary'>
               {icon}
             </div>
           )}
@@ -237,16 +237,16 @@ export function ProfileCard({
   return (
     <GlassCard variant="elevated" className={className}>
       <CardContent>
-        <div className='glass-flex glass-flex-col glass-items-center text-center'>
+        <div className='glass-flex glass-flex-col glass-items-center glass-text-center'>
           {avatar ? (
             <img
               src={avatar}
               alt={name}
-              className='w-16 h-16 glass-radius-full object-cover mb-4'
+              className='glass-w-16 glass-h-16 glass-radius-full glass-object-cover glass-mb-4'
             />
           ) : (
-            <div className='w-16 h-16 glass-radius-full glass-surface-subtle glass-flex glass-items-center glass-justify-center mb-4'>
-              <span className='glass-text-lg font-semibold'>
+            <div className='glass-w-16 glass-h-16 glass-radius-full glass-surface-subtle glass-flex glass-items-center glass-justify-center glass-mb-4'>
+              <span className='glass-text-lg glass-font-semibold'>
                 {name.charAt(0)}
               </span>
             </div>
@@ -257,14 +257,14 @@ export function ProfileCard({
             <CardDescription className="glass-mt-1">{role}</CardDescription>
           )}
           {bio && (
-            <p className='glass-text-sm glass-text-secondary mt-3'>{bio}</p>
+            <p className='glass-text-sm glass-text-secondary glass-mt-3'>{bio}</p>
           )}
 
           {stats && (
-            <div className='glass-flex glass-justify-center glass-gap-6 glass-mt-4 pt-4 glass-border-t glass-border-glass-border/20'>
+            <div className='glass-flex glass-justify-center glass-gap-6 glass-mt-4 glass-pt-4 glass-border-t glass-border-glass-border/20'>
               {stats.map((stat, index) => (
-                <div key={index} className='text-center'>
-                  <p className='glass-text-lg font-semibold'>{stat.value}</p>
+                <div key={index} className='glass-text-center'>
+                  <p className='glass-text-lg glass-font-semibold'>{stat.value}</p>
                   <p className="glass-text-xs glass-text-secondary">
                     {stat.label}
                   </p>
@@ -341,16 +341,16 @@ export function NotificationCard({
             <img
               src={avatar}
               alt=""
-              className='w-8 h-8 glass-radius-full object-cover'
+              className='glass-w-8 glass-h-8 glass-radius-full glass-object-cover'
             />
           ) : (
             <span className="glass-text-lg">{typeIcons?.[type]}</span>
           )}
 
-          <div className="glass-flex-1 glass-min-w-0">
+          <div className="glass-flex-1 glass-min-glass-w-0">
             <div className="glass-flex glass-items-start glass-justify-between">
               <div className="glass-flex-1">
-                <p className='font-medium glass-text-sm'>{title}</p>
+                <p className='glass-font-medium glass-text-sm'>{title}</p>
                 <p className="glass-text-sm glass-text-secondary glass-mt-1">
                   {message}
                 </p>
@@ -364,14 +364,14 @@ export function NotificationCard({
               {onDismiss && (
                 <GlassButton
                   onClick={onDismiss}
-                  className='glass-flex-shrink-0 glass-text-secondary hover:text-primary'
+                  className='glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary'
                 >
                   ×
                 </GlassButton>
               )}
             </div>
 
-            {actions && <div className='mt-3'>{actions}</div>}
+            {actions && <div className='glass-mt-3'>{actions}</div>}
           </div>
         </div>
       </CardContent>
@@ -415,8 +415,8 @@ export function PricingCard({
       )}
     >
       {popular && (
-        <div className='absolute -top-3 left-1/2 -translate-x-1/2'>
-          <span className='glass-surface-primary text-primary-foreground glass-px-3 glass-py-1 glass-text-xs font-medium glass-radius-full'>
+        <div className='glass-absolute glass--top-3 glass--left-1-2 glass--translate-x-1-2'>
+          <span className='glass-surface-primary glass-text-primary-foreground glass-px-3 glass-py-1 glass-text-xs glass-font-medium glass-radius-full'>
             Most Popular
           </span>
         </div>
@@ -425,8 +425,8 @@ export function PricingCard({
       <CardHeader bordered>
         <CardTitle size="lg">{name}</CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
-        <div className='glass-flex items-baseline glass-gap-1 mt-3'>
-          <span className='glass-text-3xl font-bold'>{price}</span>
+        <div className='glass-flex glass-items-baseline glass-gap-1 glass-mt-3'>
+          <span className='glass-text-3xl glass-font-bold'>{price}</span>
           {period && (
             <span className="glass-text-sm glass-text-secondary">
               /{period}
@@ -442,7 +442,7 @@ export function PricingCard({
               key={index}
               className="glass-flex glass-items-center glass-gap-2 glass-text-sm"
             >
-              <span className='text-primary'>✓</span>
+              <span className='glass-text-primary'>✓</span>
               {feature}
             </li>
           ))}
@@ -483,15 +483,15 @@ export function ActivityCard({ title, items, className }: ActivityCardProps) {
       </CardHeader>
 
       <CardContent padding="none">
-        <div className='divide-y divide-border/20'>
+        <div className='glass-divide-y glass-divide-border-opacity-20'>
           {items.map((item) => (
             <div
               key={item?.id}
-              className='glass-p-4 hover:glass-surface-subtle transition-colors'
+              className='glass-p-4 hover:glass-surface-subtle glass-transition-colors'
             >
               <div className="glass-flex glass-justify-between glass-items-start">
-                <div className="glass-flex-1 glass-min-w-0">
-                  <p className='glass-text-sm font-medium'>{item?.action}</p>
+                <div className="glass-flex-1 glass-min-glass-w-0">
+                  <p className='glass-text-sm glass-font-medium'>{item?.action}</p>
                   {item?.user && (
                     <p className="glass-text-xs glass-text-secondary">
                       by {item?.user}

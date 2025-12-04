@@ -319,7 +319,7 @@ export const GlobalCookieConsent = forwardRef<
                 }
                 disabled={category.required}
               />
-              <Typography variant="span" className='font-semibold'>
+              <Typography variant="span" className='glass-font-semibold'>
                 {category.name} {category.required && <em>(Required)</em>}
               </Typography>
             </div>
@@ -360,7 +360,7 @@ export const GlobalCookieConsent = forwardRef<
           {...rest}
         >
           <Box>
-            <Typography variant="h6" className='mb-2 font-semibold'>
+            <Typography variant="h6" className='glass-mb-2 glass-font-semibold'>
               {title}
             </Typography>
 

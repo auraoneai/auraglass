@@ -104,15 +104,15 @@ export const Variants: Story = {
   render: (args) => (
     <div className="space-y-8">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Default Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Default Variant</h3>
         <GlassNavigationMenu {...args} />
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">Sidebar Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Sidebar Variant</h3>
         <GlassNavigationMenu {...args} variant="sidebar" />
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">Header Variant</h3>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Header Variant</h3>
         <GlassNavigationMenu {...args} variant="header" orientation="horizontal" />
       </div>
     </div>

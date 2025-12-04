@@ -111,12 +111,12 @@ export function MultiUserGlassEditor({
     >
       <header className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-4">
         <div>
-          <h2 className='glass-text-xl font-semibold text-primary'>{header}</h2>
-          <p className='glass-text-sm text-primary/70'>
+          <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>{header}</h2>
+          <p className='glass-text-sm glass-text-primary-opacity-70'>
             Synced presence across team members with glass awareness.
           </p>
         </div>
-        <span className='glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs text-primary/70'>
+        <span className='glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs glass-text-primary-opacity-70'>
           Updated {formattedTimestamp}
         </span>
       </header>
@@ -125,11 +125,11 @@ export function MultiUserGlassEditor({
         {participants.map((user) => (
           <span
             key={user.id}
-            className='glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs text-primary'
+            className='glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs glass-text-primary'
             style={{ boxShadow: `0 0 25px -12px ${user.color}` }}
           >
             <span
-              className='glass-flex h-2.5 w-2.5 glass-radius-full'
+              className='glass-flex glass-h-2-5 glass-w-2-5 glass-radius-full'
               style={{ backgroundColor: user.presence ? undefined : "#94a3b8" }}
             >
               {user.presence && (
@@ -141,10 +141,10 @@ export function MultiUserGlassEditor({
                 />
               )}
             </span>
-            <span className='font-medium' style={{ color: user.color }}>
+            <span className='glass-font-medium' style={{ color: user.color }}>
               {user.name}
             </span>
-            <span className='text-primary/50'>{user.presence ?? "active"}</span>
+            <span className='glass-text-primary-glass-opacity-50'>{user.presence ?? "active"}</span>
           </span>
         ))}
       </div>
@@ -155,7 +155,7 @@ export function MultiUserGlassEditor({
         value={displayValue}
         onChange={handleChange}
         className={cn(
-          "min-h-[200px] w-full resize-y rounded-3xl border border-white/10 bg-white/5 p-5 text-sm text-primary shadow-inner backdrop-blur transition",
+          "glass-min-h-200px w-full resize-y rounded-3xl border border-white/10 bg-white/5 p-5 text-sm text-primary shadow-inner backdrop-blur transition",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400",
           readOnly ? "opacity-70 cursor-not-allowed" : "hover:border-white/30",
           textareaClassName

@@ -37,23 +37,23 @@ export function AuraOneVsScaleAIComparison({
       aria-label="AuraOne vs Scale AI wipe slider comparison"
       role="region"
     >
-      <div className='text-center glass-auto-gap glass-auto-gap-sm'>
-        <h3 className='glass-text-2xl font-bold text-primary'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-sm'>
+        <h3 className='glass-text-2xl glass-font-bold glass-text-primary'>
           AuraOne vs Scale AI
         </h3>
-        <p className='text-primary/70'>
+        <p className='glass-text-primary-opacity-70'>
           See the dramatic performance improvements
         </p>
       </div>
 
       <GlassWipeSlider
         beforeContent={
-          <div className='relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-flex glass-flex-col glass-items-center glass-justify-center text-center glass-p-8'>
-            <div className='glass-foundation-complete bg-glass-gradient-subtle glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-6 glass-container-md glass-contrast-guard'>
-              <div className='glass-text-secondary glass-text-4xl font-bold mb-2'>
+          <div className='glass-relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center glass-p-8'>
+            <div className='glass-foundation-complete glass-bg-gradient-subtle glass-backdrop-blur-md-medium glass-radius-xl glass-p-6 glass-container-md glass-contrast-guard'>
+              <div className='glass-text-secondary glass-text-4xl glass-font-bold glass-mb-2'>
                 Scale AI
               </div>
-              <div className='text-primary/80 glass-text-sm glass-auto-gap glass-auto-gap-sm'>
+              <div className='glass-text-primary-glass-opacity-80 glass-text-sm glass-auto-gap glass-auto-gap-sm'>
                 <div>• Complex setup process</div>
                 <div>• 2-4 week training cycles</div>
                 <div>• High infrastructure costs</div>
@@ -63,18 +63,18 @@ export function AuraOneVsScaleAIComparison({
                 Traditional ML Platform
               </div>
             </div>
-            <div className='absolute glass-bottom-4 glass-left-4 glass-text-secondary/60 glass-text-xs'>
+            <div className='glass-absolute glass-bottom-4 glass-left-4 glass-text-secondary/60 glass-text-xs'>
               Legacy Approach
             </div>
           </div>
         }
         afterContent={
-          <div className='relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-flex glass-flex-col glass-items-center glass-justify-center text-center glass-p-8'>
-            <div className='glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-6 glass-container-md glass-border glass-border-cyan-400/20 glass-contrast-guard'>
-              <div className='glass-text-secondary glass-text-4xl font-bold mb-2'>
+          <div className='glass-relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center glass-p-8'>
+            <div className='glass-foundation-complete glass-bg-gradient-strong glass-backdrop-blur-md-medium glass-radius-xl glass-p-6 glass-container-md glass-border glass-border-cyan-400/20 glass-contrast-guard'>
+              <div className='glass-text-secondary glass-text-4xl glass-font-bold glass-mb-2'>
                 AuraOne
               </div>
-              <div className='text-primary/90 glass-text-sm glass-auto-gap glass-auto-gap-sm'>
+              <div className='glass-text-primary-glass-opacity-90 glass-text-sm glass-auto-gap glass-auto-gap-sm'>
                 <div>• One-click deployment</div>
                 <div>• Sub-week training cycles</div>
                 <div>• 80% cost reduction</div>
@@ -84,7 +84,7 @@ export function AuraOneVsScaleAIComparison({
                 Next-Gen AI Platform
               </div>
             </div>
-            <div className='absolute glass-bottom-4 glass-right-4 glass-text-secondary/60 glass-text-xs'>
+            <div className='glass-absolute glass-bottom-4 glass-right-4 glass-text-secondary/60 glass-text-xs'>
               Future-Ready
             </div>
           </div>
@@ -100,11 +100,11 @@ export function AuraOneVsScaleAIComparison({
             console.log("Snapped to:", preset);
           }
         }}
-        className='h-[500px] glass-shadow-2xl'
+        className='glass-h-500px glass-shadow-2xl'
         aria-label="Comparison slider"
       />
 
-      <div className='text-center text-primary/60 glass-text-sm'>
+      <div className='glass-text-center glass-text-primary-glass-opacity-60 glass-text-sm'>
         Current position: {Math.round(position)}% • Use keyboard navigation or
         drag the handle
       </div>
@@ -148,11 +148,11 @@ export function VerticalFeatureComparison({
       aria-label="Vertical feature comparison slider"
       role="region"
     >
-      <div className='text-center glass-auto-gap glass-auto-gap-sm'>
-        <h3 className='glass-text-2xl font-bold text-primary'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-sm'>
+        <h3 className='glass-text-2xl glass-font-bold glass-text-primary'>
           Feature Evolution
         </h3>
-        <p className='text-primary/70'>
+        <p className='glass-text-primary-opacity-70'>
           Swipe vertically to compare capabilities
         </p>
       </div>
@@ -239,45 +239,45 @@ export function PerformanceMetricsComparison({
       aria-label="Performance metrics dashboard comparison"
       role="region"
     >
-      <div className='text-center glass-auto-gap glass-auto-gap-sm'>
-        <h3 className='glass-text-2xl font-bold text-primary'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-sm'>
+        <h3 className='glass-text-2xl glass-font-bold glass-text-primary'>
           Performance Impact
         </h3>
-        <p className='text-primary/70'>
+        <p className='glass-text-primary-opacity-70'>
           Real metrics from enterprise customers
         </p>
       </div>
 
       <GlassWipeSlider
         beforeContent={
-          <div className='relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary via-red-900/50 glass-gradient-primary glass-p-8'>
+          <div className='glass-relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-via-red-glass-opacity-50 glass-gradient-primary glass-p-8'>
             <div className="glass-h-full glass-flex glass-items-center glass-justify-center">
-              <div className='glass-foundation-complete bg-glass-gradient-subtle glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-8 glass-container-md text-center glass-contrast-guard'>
-                <h4 className='glass-text-xl font-bold glass-text-secondary glass-mb-6'>
+              <div className='glass-foundation-complete glass-bg-gradient-subtle glass-backdrop-blur-md-medium glass-radius-xl glass-p-8 glass-container-md glass-text-center glass-contrast-guard'>
+                <h4 className='glass-text-xl glass-font-bold glass-text-secondary glass-mb-6'>
                   Legacy Platform
                 </h4>
                 <div className="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm">
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Training Time</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Training Time</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       12h
                     </div>
                   </div>
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Accuracy</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Accuracy</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       89%
                     </div>
                   </div>
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Resources</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Resources</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       85%
                     </div>
                   </div>
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Cost</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Cost</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       $2.4K
                     </div>
                   </div>
@@ -290,39 +290,39 @@ export function PerformanceMetricsComparison({
           </div>
         }
         afterContent={
-          <div className='relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary via-green-900/50 glass-gradient-primary glass-p-8'>
+          <div className='glass-relative glass-w-full glass-h-full glass-gradient-primary glass-gradient-primary glass-via-green-glass-opacity-50 glass-gradient-primary glass-p-8'>
             <div className="glass-h-full glass-flex glass-items-center glass-justify-center">
-              <div className='glass-foundation-complete bg-glass-gradient-strong glass-glass-backdrop-blur-md-medium glass-radius-xl glass-p-8 max-w-md text-center glass-border glass-border-green/20 glass-contrast-guard'>
-                <h4 className='glass-text-xl font-bold glass-text-secondary mb-6'>
+              <div className='glass-foundation-complete glass-bg-gradient-strong glass-backdrop-blur-md-medium glass-radius-xl glass-p-8 glass-max-w-md glass-text-center glass-border glass-border-green/20 glass-contrast-guard'>
+                <h4 className='glass-text-xl glass-font-bold glass-text-secondary glass-mb-6'>
                   AuraOne Platform
                 </h4>
                 <div className="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm">
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Training Time</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Training Time</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       3h
                     </div>
                   </div>
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Accuracy</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Accuracy</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       97%
                     </div>
                   </div>
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Resources</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Resources</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       23%
                     </div>
                   </div>
                   <div className="glass-auto-gap glass-auto-gap-xs">
-                    <div className='text-primary/60'>Cost</div>
-                    <div className='glass-text-2xl font-bold glass-text-secondary'>
+                    <div className='glass-text-primary-glass-opacity-60'>Cost</div>
+                    <div className='glass-text-2xl glass-font-bold glass-text-secondary'>
                       $480
                     </div>
                   </div>
                 </div>
-                <div className='mt-6 text-green-200/60 glass-text-xs'>
+                <div className='glass-mt-6 glass-text-green-opacity-60 glass-text-xs'>
                   Optimized efficiency, superior results
                 </div>
               </div>
@@ -355,11 +355,11 @@ export function ImageBeforeAfterComparison({
 }) {
   return (
     <div className={cn("w-full glass-auto-gap glass-auto-gap-2xl", className)}>
-      <div className='text-center glass-auto-gap glass-auto-gap-sm'>
-        <h3 className='glass-text-2xl font-bold text-primary'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-sm'>
+        <h3 className='glass-text-2xl glass-font-bold glass-text-primary'>
           Visual Results
         </h3>
-        <p className='text-primary/70'>Model training results comparison</p>
+        <p className='glass-text-primary-opacity-70'>Model training results comparison</p>
       </div>
 
       <GlassWipeSlider
@@ -367,7 +367,7 @@ export function ImageBeforeAfterComparison({
           <ComparisonImage
             src="data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23666'%3EImage Content%3C/text%3E%3C/svg%3E"
             alt="Before optimization - noisy results"
-            className='opacity-90'
+            className='glass-opacity-90'
           />
         }
         afterContent={
@@ -391,7 +391,7 @@ export function ImageBeforeAfterComparison({
         trackStyle="minimal"
         gradientOverlay={true}
         height="400px"
-        className='glass-radius-xl glass-shadow-2xl overflow-hidden'
+        className='glass-radius-xl glass-shadow-2xl glass-overflow-hidden'
       />
     </div>
   );
@@ -405,11 +405,11 @@ export function PresetPositionDemo({ className }: { className?: string }) {
 
   return (
     <div className={cn("w-full glass-auto-gap glass-auto-gap-2xl", className)}>
-      <div className='text-center glass-auto-gap glass-auto-gap-sm'>
-        <h3 className='glass-text-2xl font-bold text-primary'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-sm'>
+        <h3 className='glass-text-2xl glass-font-bold glass-text-primary'>
           Preset Positions Demo
         </h3>
-        <p className='text-primary/70'>
+        <p className='glass-text-primary-opacity-70'>
           Click buttons to jump to preset positions
         </p>
       </div>
@@ -427,7 +427,7 @@ export function PresetPositionDemo({ className }: { className?: string }) {
             className={cn(
               "glass-px-4 glass-py-2 glass-radius-lg glass-foundation-complete bg-glass-gradient-subtle glass-backdrop-blur-md-medium border border-white/20",
               "glass-text-primary/80 glass-text-sm font-medium transition-all duration-200 glass-focus glass-touch-target glass-contrast-guard",
-              "hover:bg-white/10 hover:border-white/30 hover:scale-105",
+              "hover:bg-white/10 hover:border-white/30 glass-hover-scale-105",
               currentPosition === value &&
                 "bg-blue-500/20 border-blue-400/50 text-blue-300"
             )}
@@ -440,29 +440,29 @@ export function PresetPositionDemo({ className }: { className?: string }) {
       <GlassWipeSlider
         beforeContent={
           <ComparisonContent background="gradient">
-            <div className='text-center glass-auto-gap glass-auto-gap-lg'>
-              <div className='glass-text-4xl font-bold text-primary'>
+            <div className='glass-text-center glass-auto-gap glass-auto-gap-lg'>
+              <div className='glass-text-4xl glass-font-bold glass-text-primary'>
                 Before
               </div>
-              <div className='text-primary/70'>
+              <div className='glass-text-primary-opacity-70'>
                 Traditional approach with limitations
               </div>
-              <div className='glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm max-w-xs'>
+              <div className='glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm glass-max-w-xs'>
                 <div className="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>Slow</div>
+                  <div className='glass-text-secondary glass-font-semibold'>Slow</div>
                 </div>
                 <div className="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>
+                  <div className='glass-text-secondary glass-font-semibold'>
                     Expensive
                   </div>
                 </div>
                 <div className="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>
+                  <div className='glass-text-secondary glass-font-semibold'>
                     Complex
                   </div>
                 </div>
                 <div className="glass-foundation-complete glass-surface-red/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>
+                  <div className='glass-text-secondary glass-font-semibold'>
                     Limited
                   </div>
                 </div>
@@ -472,25 +472,25 @@ export function PresetPositionDemo({ className }: { className?: string }) {
         }
         afterContent={
           <ComparisonContent background="gradient">
-            <div className='text-center glass-auto-gap glass-auto-gap-lg'>
-              <div className='glass-text-4xl font-bold text-primary'>After</div>
-              <div className='text-primary/70'>AuraOne platform advantages</div>
-              <div className='glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm max-w-xs'>
+            <div className='glass-text-center glass-auto-gap glass-auto-gap-lg'>
+              <div className='glass-text-4xl glass-font-bold glass-text-primary'>After</div>
+              <div className='glass-text-primary-opacity-70'>AuraOne platform advantages</div>
+              <div className='glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm glass-max-w-xs'>
                 <div className="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>Fast</div>
+                  <div className='glass-text-secondary glass-font-semibold'>Fast</div>
                 </div>
                 <div className="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>
+                  <div className='glass-text-secondary glass-font-semibold'>
                     Affordable
                   </div>
                 </div>
                 <div className="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>
+                  <div className='glass-text-secondary glass-font-semibold'>
                     Simple
                   </div>
                 </div>
                 <div className="glass-foundation-complete glass-surface-green/10 glass-radius-lg glass-p-3">
-                  <div className='glass-text-secondary font-semibold'>
+                  <div className='glass-text-secondary glass-font-semibold'>
                     Scalable
                   </div>
                 </div>
@@ -518,10 +518,10 @@ export function PresetPositionDemo({ className }: { className?: string }) {
         className="glass-shadow-2xl"
       />
 
-      <div className='text-center glass-auto-gap glass-auto-gap-sm'>
-        <div className='text-primary/80'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-sm'>
+        <div className='glass-text-primary-glass-opacity-80'>
           Current Position:{" "}
-          <span className='font-mono font-semibold glass-text-secondary'>
+          <span className='glass-font-mono glass-font-semibold glass-text-secondary'>
             {Math.round(currentPosition)}%
           </span>
         </div>
@@ -530,7 +530,7 @@ export function PresetPositionDemo({ className }: { className?: string }) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className='chip chip-blue glass-text-sm'
+            className='glass-chip glass-chip-blue glass-text-sm'
           >
             Jumped to {activePreset}%
           </motion.div>
@@ -546,11 +546,11 @@ export function GlassWipeSliderShowcase({ className }: { className?: string }) {
     <div
       className={cn("w-full glass-auto-gap glass-auto-gap-4xl py-8", className)}
     >
-      <div className='text-center glass-auto-gap glass-auto-gap-lg glass-mb-12'>
-        <h2 className='glass-text-3xl font-bold text-primary'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-lg glass-mb-12'>
+        <h2 className='glass-text-3xl glass-font-bold glass-text-primary'>
           GlassWipe Slider Showcase
         </h2>
-        <p className='text-primary/70 max-w-2xl glass-mx-auto'>
+        <p className='glass-text-primary-opacity-70 glass-max-w-2xl glass-mx-auto'>
           Production-ready comparison sliders with smooth animations,
           accessibility, and competitive analysis features for AuraOne.
         </p>
@@ -562,12 +562,12 @@ export function GlassWipeSliderShowcase({ className }: { className?: string }) {
       <ImageBeforeAfterComparison />
       <PresetPositionDemo />
 
-      <div className='text-center glass-auto-gap glass-auto-gap-lg pt-8'>
-        <div className='text-primary/60 glass-text-sm'>
+      <div className='glass-text-center glass-auto-gap glass-auto-gap-lg glass-pt-8'>
+        <div className='glass-text-primary-glass-opacity-60 glass-text-sm'>
           All sliders support keyboard navigation, touch gestures, momentum
           scrolling, and preset snapping.
         </div>
-        <div className='text-primary/50 glass-text-xs'>
+        <div className='glass-text-primary-glass-opacity-50 glass-text-xs'>
           Fully accessible with ARIA support and motion-aware animations.
         </div>
       </div>

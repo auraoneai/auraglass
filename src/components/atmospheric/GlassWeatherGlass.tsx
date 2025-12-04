@@ -792,7 +792,7 @@ export const GlassWeatherGlass = forwardRef<
           depth={1}
           tint="neutral"
           border="subtle"
-          className="glass-weather-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+          className="glass-weather-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
             <label htmlFor="weather-type" className="glass-text-sm">
@@ -842,7 +842,7 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
               }}
               aria-label="Weather intensity"
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
           </div>
 
@@ -864,9 +864,9 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
               }}
               aria-label="Temperature in Celsius"
-              className='w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
             />
-            <span className='glass-text-sm min-w-[3ch]'>
+            <span className='glass-text-sm glass-min-w-3ch'>
               {currentWeather.temperature}°C
             </span>
           </div>
@@ -921,7 +921,7 @@ export const GlassWeatherGlass = forwardRef<
         >
           {renderControls()}
 
-          <div className='relative'>
+          <div className='glass-relative'>
             <canvas
               ref={canvasRef}
               width={width}

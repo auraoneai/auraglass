@@ -91,17 +91,17 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
+    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 max-w-2xl">
       <div>
-        <h4 className="text-sm font-medium mb-2">Outlined</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Outlined</h4>
         <GlassMultiSelect {...args} variant="outlined" />
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Filled</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Filled</h4>
         <GlassMultiSelect {...args} variant="filled" />
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Standard</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Standard</h4>
         <GlassMultiSelect {...args} variant="standard" />
       </div>
     </div>
@@ -110,17 +110,17 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="gap-4 max-w-md">
+    <div className="glass-gap-4 max-w-md">
       <div>
-        <h4 className="text-sm font-medium mb-2">Small</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Small</h4>
         <GlassMultiSelect {...args} size="small" />
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Medium</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Medium</h4>
         <GlassMultiSelect {...args} size="medium" />
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-2">Large</h4>
+        <h4 className="glass-text-sm glass-font-medium glass-mb-2">Large</h4>
         <GlassMultiSelect {...args} size="large" />
       </div>
     </div>

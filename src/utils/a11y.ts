@@ -162,7 +162,7 @@ export class LiveRegion {
     this.element.setAttribute('role', 'status');
     this.element.setAttribute('aria-live', priority);
     this.element.setAttribute('aria-atomic', 'true');
-    this.element.className = 'sr-only'; // Visually hidden
+    this.element.className='glass-sr-only'; // Visually hidden
     this.element.style.cssText = `
       position: absolute;
       left: -10000px;
@@ -298,7 +298,7 @@ export function createSkipLink(targetId: string, text = 'Skip to main content'):
   const link = document.createElement('a');
   link.href = `#${targetId}`;
   link.textContent = text;
-  link.className = 'glass-skip-link';
+  link.className='glass-skip-link';
   link.style.cssText = `
     position: absolute;
     left: -10000px;
@@ -800,7 +800,7 @@ export const announceToScreenReader = (message: string, priority: 'polite' | 'as
   const announcement = document.createElement('div');
   announcement.setAttribute('aria-live', priority);
   announcement.setAttribute('aria-atomic', 'true');
-  announcement.className = 'sr-only';
+  announcement.className='glass-sr-only';
   announcement.style.cssText = `
     position: absolute;
     left: -10000px;

@@ -500,7 +500,7 @@ export function GlassEyeTrackingCalibration({
             className={cn(
               "glass-px-6 glass-py-3 glass-surface-primary glass-elev-2 glass-radius-lg",
               "glass-text-primary font-medium transition-all duration-300",
-              "hover:glass-elev-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              "hover:glass-elev-3 focus:outline-none focus:ring-2 glass-focus-ring-blue-500"
             )}
             onClick={handleStartCalibration}
             whileHover={{ scale: 1.02 }}
@@ -789,10 +789,10 @@ function EyeTrackingSummaryCard() {
       data-testid="glass-eye-tracking-summary"
     >
       <div>
-        <p className='glass-text-xs glass-text-tertiary uppercase tracking-wide'>
+        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
           Eye tracking
         </p>
-        <h2 className='glass-text-2xl glass-text-primary font-semibold'>
+        <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
           {isInitialized ? "Active" : "Initializing"}
         </h2>
         <p className="glass-text-sm glass-text-secondary">
@@ -803,14 +803,14 @@ function EyeTrackingSummaryCard() {
       </div>
       <div className="glass-grid glass-grid-cols-2 glass-gap-3">
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary mb-1'>Interactions</p>
-          <p className='glass-text-lg glass-text-primary font-semibold'>
+          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Interactions</p>
+          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
             {activeInteractions.length}
           </p>
         </div>
         <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary mb-1'>Status</p>
-          <p className='glass-text-lg glass-text-primary font-semibold'>
+          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Status</p>
+          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
             {isCalibrating ? "Calibrating" : "Tracking"}
           </p>
         </div>

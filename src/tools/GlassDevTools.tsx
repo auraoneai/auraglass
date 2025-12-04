@@ -114,10 +114,10 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
   };
 
   const renderPerformanceTab = () => (
-    <div className='space-y-4 glass-text-sm'>
+    <div className='glass-space-y-4 glass-text-sm'>
       <div className="glass-grid glass-grid-cols-2 glass-gap-4">
-        <div className='space-y-2'>
-          <div className='font-semibold text-blue-600'>Performance Score</div>
+        <div className='glass-space-y-2'>
+          <div className='glass-font-semibold glass-text-primary'>Performance Score</div>
           <div
             className={cn(
               "text-2xl font-bold",
@@ -131,8 +131,8 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
             {performance.getPerformanceScore()}/100 ({performance.getGrade()})
           </div>
         </div>
-        <div className='space-y-2'>
-          <div className='font-semibold'>Status</div>
+        <div className='glass-space-y-2'>
+          <div className='glass-font-semibold'>Status</div>
           <div
             className={cn(
               "px-2 py-1 rounded text-xs font-medium",
@@ -146,25 +146,25 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
         </div>
       </div>
 
-      <div className='space-y-3'>
-        <div className='font-semibold'>Runtime Metrics</div>
+      <div className='glass-space-y-3'>
+        <div className='glass-font-semibold'>Runtime Metrics</div>
         <div className="glass-grid glass-grid-cols-2 glass-gap-2 glass-text-xs">
           <div>
-            FPS: <span className='font-mono'>{performance.metrics.fps}</span>
+            FPS: <span className='glass-font-mono'>{performance.metrics.fps}</span>
           </div>
           <div>
             Memory:{" "}
-            <span className='font-mono'>
+            <span className='glass-font-mono'>
               {performance.metrics.memoryUsage}MB
             </span>
           </div>
           <div>
             DOM Elements:{" "}
-            <span className='font-mono'>{performance.metrics.domElements}</span>
+            <span className='glass-font-mono'>{performance.metrics.domElements}</span>
           </div>
           <div>
             Network:{" "}
-            <span className='font-mono'>
+            <span className='glass-font-mono'>
               {performance.metrics.networkLatency}ms
             </span>
           </div>
@@ -172,13 +172,13 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
       </div>
 
       {performance.alerts.length > 0 && (
-        <div className='space-y-2'>
-          <div className='font-semibold text-red-600'>Alerts</div>
-          <div className='space-y-1'>
+        <div className='glass-space-y-2'>
+          <div className='glass-font-semibold glass-text-primary'>Alerts</div>
+          <div className='glass-space-y-1'>
             {performance.alerts.slice(-5).map((alert, index) => (
               <div
                 key={index}
-                className='glass-text-xs bg-red-50 text-red-700 glass-px-2 glass-py-1 glass-radius'
+                className='glass-text-xs glass-surface-subtle glass-text-primary glass-px-2 glass-py-1 glass-radius'
               >
                 {alert}
               </div>
@@ -186,20 +186,20 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
           </div>
           <button
             onClick={performance.clearAlerts}
-            className='glass-text-xs text-red-600 hover:text-red-800 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-text-primary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
           >
             Clear Alerts
           </button>
         </div>
       )}
 
-      <div className='space-y-2'>
-        <div className='font-semibold'>Recommendations</div>
-        <div className='space-y-1'>
+      <div className='glass-space-y-2'>
+        <div className='glass-font-semibold'>Recommendations</div>
+        <div className='glass-space-y-1'>
           {performance.getRecommendations().map((rec, index) => (
             <div
               key={index}
-              className='glass-text-xs bg-blue-50 text-blue-700 glass-px-2 glass-py-1 glass-radius'
+              className='glass-text-xs glass-surface-subtle glass-text-primary glass-px-2 glass-py-1 glass-radius'
             >
               💡 {rec}
             </div>
@@ -210,78 +210,78 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
   );
 
   const renderAccessibilityTab = () => (
-    <div className='space-y-4 glass-text-sm'>
-      <div className='space-y-3'>
-        <div className='font-semibold'>Current Settings</div>
+    <div className='glass-space-y-4 glass-text-sm'>
+      <div className='glass-space-y-3'>
+        <div className='glass-font-semibold'>Current Settings</div>
         <div className="glass-grid glass-grid-cols-2 glass-gap-2 glass-text-xs">
           <div>
             Font Size:{" "}
-            <span className='font-mono'>{accessibility.settings.fontSize}</span>
+            <span className='glass-font-mono'>{accessibility.settings.fontSize}</span>
           </div>
           <div>
             Contrast:{" "}
-            <span className='font-mono'>{accessibility.settings.contrast}</span>
+            <span className='glass-font-mono'>{accessibility.settings.contrast}</span>
           </div>
           <div>
             Reduce Motion:{" "}
-            <span className='font-mono'>
+            <span className='glass-font-mono'>
               {accessibility.settings.reduceMotion ? "Yes" : "No"}
             </span>
           </div>
           <div>
             Focus Mode:{" "}
-            <span className='font-mono'>
+            <span className='glass-font-mono'>
               {accessibility.settings.focusIndicators}
             </span>
           </div>
         </div>
       </div>
 
-      <div className='space-y-2'>
-        <div className='font-semibold'>Quick Actions</div>
-        <div className='space-y-1'>
+      <div className='glass-space-y-2'>
+        <div className='glass-font-semibold'>Quick Actions</div>
+        <div className='glass-space-y-1'>
           <button
             onClick={() => accessibility.updateSettings({ contrast: "high" })}
-            className='glass-text-xs glass-surface-primary glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-blue-600 mr-2 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-primary glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-blue glass-mr-2 glass-focus glass-touch-target glass-contrast-guard'
           >
             High Contrast
           </button>
           <button
             onClick={() => accessibility.updateSettings({ fontSize: "large" })}
-            className='glass-text-xs glass-surface-success glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-green-600 mr-2 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-success glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-green glass-mr-2 glass-focus glass-touch-target glass-contrast-guard'
           >
             Large Text
           </button>
           <button
             onClick={() => accessibility.updateSettings({ reduceMotion: true })}
-            className='glass-text-xs bg-purple-500 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-purple-600 mr-2 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-primary glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-primary glass-mr-2 glass-focus glass-touch-target glass-contrast-guard'
           >
             Reduce Motion
           </button>
           <button
             onClick={accessibility.resetSettings}
-            className='glass-text-xs glass-surface-subtle0 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-gray-600 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-subtle0 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-primary glass-focus glass-touch-target glass-contrast-guard'
           >
             Reset
           </button>
         </div>
       </div>
 
-      <div className='space-y-2'>
-        <div className='font-semibold'>Accessibility Classes</div>
-        <div className='glass-text-xs font-mono glass-surface-muted glass-p-2 glass-radius'>
+      <div className='glass-space-y-2'>
+        <div className='glass-font-semibold'>Accessibility Classes</div>
+        <div className='glass-text-xs glass-font-mono glass-surface-muted glass-p-2 glass-radius'>
           {accessibility.getAccessibilityClasses() || "No special classes"}
         </div>
       </div>
 
-      <div className='space-y-2'>
-        <div className='font-semibold'>Test Announcements</div>
-        <div className='space-y-1'>
+      <div className='glass-space-y-2'>
+        <div className='glass-font-semibold'>Test Announcements</div>
+        <div className='glass-space-y-1'>
           <button
             onClick={() =>
               accessibility.announce("Test announcement", "polite")
             }
-            className='glass-text-xs glass-surface-primary glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-blue-600 mr-2 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-primary glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-blue glass-mr-2 glass-focus glass-touch-target glass-contrast-guard'
           >
             Polite
           </button>
@@ -289,7 +289,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
             onClick={() =>
               accessibility.announce("Urgent announcement", "assertive")
             }
-            className='glass-text-xs glass-surface-danger glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-red-600 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-danger glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-red glass-focus glass-touch-target glass-contrast-guard'
           >
             Assertive
           </button>
@@ -299,16 +299,16 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
   );
 
   const renderInspectorTab = () => (
-    <div className='space-y-4 glass-text-sm'>
-      <div className='text-blue-600 font-semibold'>
+    <div className='glass-space-y-4 glass-text-sm'>
+      <div className='glass-text-primary glass-font-semibold'>
         Click on any element to inspect it
       </div>
 
       {selectedElement && (
-        <div className='space-y-3'>
-          <div className='space-y-2'>
-            <div className='font-semibold'>Selected Element</div>
-            <div className='glass-text-xs font-mono glass-surface-muted glass-p-2 glass-radius'>
+        <div className='glass-space-y-3'>
+          <div className='glass-space-y-2'>
+            <div className='glass-font-semibold'>Selected Element</div>
+            <div className='glass-text-xs glass-font-mono glass-surface-muted glass-p-2 glass-radius'>
               {selectedElement.tagName.toLowerCase()}
               {selectedElement.id && `#${selectedElement.id}`}
               {selectedElement.className &&
@@ -316,9 +316,9 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
             </div>
           </div>
 
-          <div className='space-y-2'>
-            <div className='font-semibold'>Computed Styles</div>
-            <div className='glass-text-xs space-y-1'>
+          <div className='glass-space-y-2'>
+            <div className='glass-font-semibold'>Computed Styles</div>
+            <div className='glass-text-xs glass-space-y-1'>
               {(() => {
                 const styles = getComputedStyle(selectedElement);
                 return [
@@ -331,16 +331,16 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
                 ].map(([prop, value]) => (
                   <div key={prop} className="glass-flex glass-justify-between">
                     <span className="glass-text-secondary">{prop}:</span>
-                    <span className='font-mono'>{value}</span>
+                    <span className='glass-font-mono'>{value}</span>
                   </div>
                 ));
               })()}
             </div>
           </div>
 
-          <div className='space-y-2'>
-            <div className='font-semibold'>Accessibility</div>
-            <div className='glass-text-xs space-y-1'>
+          <div className='glass-space-y-2'>
+            <div className='glass-font-semibold'>Accessibility</div>
+            <div className='glass-text-xs glass-space-y-1'>
               <div>Role: {selectedElement.getAttribute("role") || "none"}</div>
               <div>
                 Aria Label:{" "}
@@ -358,7 +358,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
 
           <button
             onClick={() => setSelectedElement(null)}
-            className='glass-text-xs glass-surface-subtle0 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-gray-600 glass-focus glass-touch-target glass-contrast-guard'
+            className='glass-text-xs glass-surface-subtle0 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-primary glass-focus glass-touch-target glass-contrast-guard'
           >
             Clear Selection
           </button>
@@ -368,18 +368,18 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
   );
 
   const renderConsoleTab = () => (
-    <div className='space-y-4 glass-text-sm'>
+    <div className='glass-space-y-4 glass-text-sm'>
       <div className="glass-flex glass-justify-between glass-items-center">
-        <div className='font-semibold'>Console ({consoleLogs.length})</div>
+        <div className='glass-font-semibold'>Console ({consoleLogs.length})</div>
         <button
           onClick={() => setConsoleLogs([])}
-          className='glass-text-xs glass-surface-subtle0 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:bg-gray-600 glass-focus glass-touch-target glass-contrast-guard'
+          className='glass-text-xs glass-surface-subtle0 glass-text-primary glass-px-2 glass-py-1 glass-radius hover:glass-surface-primary glass-focus glass-touch-target glass-contrast-guard'
         >
           Clear
         </button>
       </div>
 
-      <div className='space-y-1 max-h-60 overflow-y-auto'>
+      <div className='glass-space-y-1 glass-max-h-60 glass-overflow-y-auto'>
         {consoleLogs.slice(-20).map((log, index) => (
           <div
             key={index}
@@ -390,7 +390,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
               log.type === "log" && "bg-gray-50 text-gray-800"
             )}
           >
-            <div className='glass-flex glass-justify-between glass-text-xs opacity-60 mb-1'>
+            <div className='glass-flex glass-justify-between glass-text-xs glass-opacity-60 glass-mb-1'>
               <span>{log.type}</span>
               <span>{new Date(log.timestamp).toLocaleTimeString()}</span>
             </div>
@@ -398,7 +398,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
           </div>
         ))}
         {consoleLogs.length === 0 && (
-          <div className='glass-text-secondary glass-text-xs text-center glass-py-4'>
+          <div className='glass-text-secondary glass-text-xs glass-text-center glass-py-4'>
             No console messages
           </div>
         )}
@@ -411,7 +411,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
       {/* Accessibility announcer */}
       <div
         id="accessibility-announcer"
-        className='sr-only'
+        className='glass-sr-only'
         aria-live="polite"
         aria-atomic="true"
       />
@@ -444,10 +444,10 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
         >
           {/* Header */}
           <div className="glass-flex glass-items-center glass-justify-between glass-p-3 glass-surface-subtle glass-border-b">
-            <h3 className='font-semibold text-gray-900'>Glass DevTools</h3>
+            <h3 className='glass-font-semibold glass-text-secondary'>Glass DevTools</h3>
             <button
               onClick={() => setIsOpen(false)}
-              className='glass-text-secondary hover:text-gray-700 glass-focus glass-touch-target glass-contrast-guard'
+              className='glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard'
             >
               ✕
             </button>
@@ -483,7 +483,7 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
           </div>
 
           {/* Content */}
-          <div className='glass-p-4 max-h-80 overflow-y-auto'>
+          <div className='glass-p-4 glass-max-h-80 glass-overflow-y-auto'>
             {activeTab === "performance" && renderPerformanceTab()}
             {activeTab === "accessibility" && renderAccessibilityTab()}
             {activeTab === "inspector" && renderInspectorTab()}

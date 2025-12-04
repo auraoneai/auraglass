@@ -306,7 +306,7 @@ export function useLiveRegion() {
       const region = document.createElement('div');
       region.setAttribute('aria-live', 'polite');
       region.setAttribute('aria-atomic', 'true');
-      region.className = 'sr-only';
+      region.className='glass-sr-only';
       region.style.cssText = `
         position: absolute;
         left: -10000px;

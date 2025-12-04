@@ -53,54 +53,54 @@ export default meta;
 export const ConsciousnessOverview: Story = {
   render: () => (
     <div className="space-y-6">
-      <div className="text-center gap-2">
-        <h2 className="text-xl font-semibold text-primary">Navigation Consciousness Features</h2>
-        <p className="text-sm glass-text-secondary">Experience intelligent navigation systems</p>
+      <div className="glass-text-center glass-gap-2">
+        <h2 className="glass-text-xl glass-font-semibold glass-text-primary">Navigation Consciousness Features</h2>
+        <p className="glass-text-sm glass-text-secondary">Experience intelligent navigation systems</p>
       </div>
       
-      <div className="grid glass-grid-cols-1 lg:glass-grid-cols-2 gap-6">
-        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
-            <h3 className="font-medium text-primary">Predictive Navigation</h3>
+      <div className="glass-grid glass-glass-glass-grid-cols-1 lg:glass-glass-glass-grid-cols-2 glass-gap-6">
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <div className="glass-w-3 glass-h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
+            <h3 className="glass-font-medium glass-text-primary">Predictive Navigation</h3>
           </div>
-          <ul className="text-sm glass-text-secondary gap-1 ml-5">
+          <ul className="glass-text-sm glass-text-secondary glass-gap-1 ml-5">
             <li>• Route preloading</li>
             <li>• Pattern recognition</li>
             <li>• Usage analytics</li>
           </ul>
         </div>
         
-        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-green glass-radius-full animate-pulse"></div>
-            <h3 className="font-medium text-primary">Eye Tracking</h3>
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <div className="glass-w-3 glass-h-3 glass-surface-green glass-radius-full animate-pulse"></div>
+            <h3 className="glass-font-medium glass-text-primary">Eye Tracking</h3>
           </div>
-          <ul className="text-sm glass-text-secondary gap-1 ml-5">
+          <ul className="glass-text-sm glass-text-secondary glass-gap-1 ml-5">
             <li>• Gaze-based highlighting</li>
             <li>• Focus previews</li>
             <li>• Attention analytics</li>
           </ul>
         </div>
         
-        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
-            <h3 className="font-medium text-primary">Adaptive Layout</h3>
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <div className="glass-w-3 glass-h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
+            <h3 className="glass-font-medium glass-text-primary">Adaptive Layout</h3>
           </div>
-          <ul className="text-sm glass-text-secondary gap-1 ml-5">
+          <ul className="glass-text-sm glass-text-secondary glass-gap-1 ml-5">
             <li>• Biometric responsiveness</li>
             <li>• Complexity adjustment</li>
             <li>• Personalized layouts</li>
           </ul>
         </div>
         
-        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 gap-3 glass-contrast-guard">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
-            <h3 className="font-medium text-primary">Spatial Audio</h3>
+        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+          <div className="glass-flex glass-items-center glass-gap-2">
+            <div className="glass-w-3 glass-h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
+            <h3 className="glass-font-medium glass-text-primary">Spatial Audio</h3>
           </div>
-          <ul className="text-sm glass-text-secondary gap-1 ml-5">
+          <ul className="glass-text-sm glass-text-secondary glass-gap-1 ml-5">
             <li>• Directional navigation cues</li>
             <li>• Audio landmarks</li>
             <li>• Immersive wayfinding</li>
@@ -212,9 +212,9 @@ export const VerticalNavigation: Story = {
 export const WithPredictiveNavigation: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Predictive Navigation</h3>
-        <p className="text-xs glass-text-secondary mb-4">Anticipates user navigation patterns and preloads routes</p>
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Predictive Navigation</h3>
+        <p className="glass-text-xs glass-text-secondary glass-mb-4">Anticipates user navigation patterns and preloads routes</p>
         <GlassNavigation
           {...args}
         />
@@ -234,9 +234,9 @@ export const WithPredictiveNavigation: Story = {
 export const WithEyeTracking: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Eye Tracking Navigation</h3>
-        <p className="text-xs glass-text-secondary mb-4">Highlights navigation items based on user gaze</p>
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Eye Tracking Navigation</h3>
+        <p className="glass-text-xs glass-text-secondary glass-mb-4">Highlights navigation items based on user gaze</p>
         <GlassNavigation
           {...args}
         />
@@ -256,9 +256,9 @@ export const WithEyeTracking: Story = {
 export const AdaptiveLayout: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Adaptive Navigation</h3>
-        <p className="text-xs glass-text-secondary mb-4">Adjusts layout complexity based on user stress and preferences</p>
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Adaptive Navigation</h3>
+        <p className="glass-text-xs glass-text-secondary glass-mb-4">Adjusts layout complexity based on user stress and preferences</p>
         <GlassNavigation
           {...args}
         />
@@ -286,9 +286,9 @@ export const AdaptiveLayout: Story = {
 export const WithSpatialAudio: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Spatial Audio Navigation</h3>
-        <p className="text-xs glass-text-secondary mb-4">Provides directional audio cues for navigation items</p>
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Spatial Audio Navigation</h3>
+        <p className="glass-text-xs glass-text-secondary glass-mb-4">Provides directional audio cues for navigation items</p>
         <GlassNavigation
           {...args}
           position="top"
@@ -308,9 +308,9 @@ export const WithSpatialAudio: Story = {
 export const AchievementDrivenNavigation: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-4 glass-contrast-guard">
-        <h3 className="text-sm font-medium text-primary mb-2">Achievement-Driven Navigation</h3>
-        <p className="text-xs glass-text-secondary mb-4">Tracks navigation patterns and unlocks new features</p>
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Achievement-Driven Navigation</h3>
+        <p className="glass-text-xs glass-text-secondary glass-mb-4">Tracks navigation patterns and unlocks new features</p>
         <GlassNavigation
           {...args}
         />
@@ -330,30 +330,30 @@ export const AchievementDrivenNavigation: Story = {
 export const ConsciousnessShowcase: Story = {
   render: (args) => (
     <div className="space-y-8">
-      <div className="text-center gap-2">
-        <h2 className="text-xl font-semibold text-primary">Consciousness-Enhanced Navigation</h2>
-        <p className="text-sm glass-text-secondary">Full consciousness interface integration</p>
+      <div className="glass-text-center glass-gap-2">
+        <h2 className="glass-text-xl glass-font-semibold glass-text-primary">Consciousness-Enhanced Navigation</h2>
+        <p className="glass-text-sm glass-text-secondary">Full consciousness interface integration</p>
       </div>
       
-      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg p-6 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
         <GlassNavigation
           {...args}
         />
       </div>
       
-      <div className="grid glass-grid-cols-1 md:glass-grid-cols-2 gap-4 text-sm">
-        <div className="glass-surface-overlay glass-radius-lg p-3">
-          <h4 className="font-medium text-primary mb-2">Intelligence Features</h4>
-          <ul className="glass-text-secondary gap-1">
+      <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-2 glass-gap-4 glass-text-sm">
+        <div className="glass-surface-overlay glass-radius-lg glass-p-3">
+          <h4 className="glass-font-medium glass-text-primary glass-mb-2">Intelligence Features</h4>
+          <ul className="glass-text-secondary glass-gap-1">
             <li>• Predictive route preloading</li>
             <li>• Pattern recognition</li>
             <li>• Gaze-based highlighting</li>
             <li>• Focus previews</li>
           </ul>
         </div>
-        <div className="glass-surface-overlay glass-radius-lg p-3">
-          <h4 className="font-medium text-primary mb-2">Adaptive Features</h4>
-          <ul className="glass-text-secondary gap-1">
+        <div className="glass-surface-overlay glass-radius-lg glass-p-3">
+          <h4 className="glass-font-medium glass-text-primary glass-mb-2">Adaptive Features</h4>
+          <ul className="glass-text-secondary glass-gap-1">
             <li>• Biometric responsiveness</li>
             <li>• Complexity adjustment</li>
             <li>• Spatial audio navigation</li>

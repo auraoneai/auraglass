@@ -12,14 +12,14 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({
   color,
   name,
 }) => (
-  <div className='relative'>
+  <div className='glass-relative'>
     {/* Cursor pointer */}
     <svg
       width="24"
       height="24"
       viewBox="0 0 24 24"
       fill="none"
-      className='drop-shadow-sm'
+      className='glass-drop-glass-shadow-sm'
     >
       <path
         d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
@@ -31,7 +31,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({
 
     {/* User name label */}
     <div
-      className='absolute left-6 glass-top-1 glass-px-2 glass-py-1 glass-radius text-primary glass-text-xs font-medium whitespace-nowrap pointer-events-none select-none'
+      className='glass-absolute glass-left-6 glass-top-1 glass-px-2 glass-py-1 glass-radius glass-text-primary glass-text-xs glass-font-medium glass-whitespace-nowrap glass-pointer-events-none glass-select-none'
       style={{ backgroundColor: color }}
     >
       {name}
@@ -79,7 +79,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
         return (
           <div
             key={user.id}
-            className='absolute transition-all duration-100 ease-out'
+            className='glass-absolute glass-transition-all glass-duration-100 glass-ease-out'
             style={{
               left: user.cursor.x,
               top: user.cursor.y,
