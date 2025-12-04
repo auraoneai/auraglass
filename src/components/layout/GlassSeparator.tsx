@@ -88,7 +88,9 @@ export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
     // Handle separator with content
     if (content && orientation === 'horizontal') {
       return (
-        <div
+        <ContrastGuard
+          as="div"
+          level="AA"
           ref={ref}
           id={separatorId}
           className={cn(
@@ -114,14 +116,17 @@ export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
           />
           
           {/* Content */}
-          <div className={cn(
-            'glass-separator-content',
-            'flex items-center justify-center shrink-0',
-            'glass-text-secondary glass-text-sm font-medium',
-            config.contentPadding
-          )}>
+          <TextWithContrast
+            as="div"
+            className={cn(
+              'glass-separator-content',
+              'flex items-center justify-center shrink-0',
+              'glass-text-secondary glass-text-sm font-medium',
+              config.contentPadding
+            )}
+          >
             {content}
-          </div>
+          </TextWithContrast>
           
           {/* Right separator */}
           <div
@@ -131,49 +136,51 @@ export const GlassSeparator = forwardRef<HTMLDivElement, GlassSeparatorProps>(
               variantStyles[variant]
             )}
           />
-        </div>
+        </ContrastGuard>
       );
     }
 
     // Standard separator
     return (
-      <div
-        ref={ref}
-        id={separatorId}
-        className={cn(
-          'glass-separator',
-          
-          // Orientation and size
-          orientation === 'horizontal' 
-            ? cn('w-full', config.thickness)
-            : cn('h-full', config.thickness),
-          
-          // Length override
-          length && (
+      <ContrastGuard as="div" level="AA">
+        <div
+          ref={ref}
+          id={separatorId}
+          className={cn(
+            'glass-separator',
+            
+            // Orientation and size
             orientation === 'horizontal' 
-              ? `w-[${typeof length === 'number' ? `${length}px` : length}]`
-              : `h-[${typeof length === 'number' ? `${length}px` : length}]`
-          ),
-          
-          // Variant styles
-          variantStyles[variant],
-          
-          // Special handling for dashed/dotted
-          (variant === 'dashed' || variant === 'dotted') && [
-            orientation === 'horizontal' ? 'border-t' : 'border-l',
-            config.thickness.replace('h-', 'border-t-').replace('w-', 'border-l-')
-          ],
-          
-          // Motion preferences
-          shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none',
-          
-          className
-        )}
-        role={decorative ? 'presentation' : 'separator'}
-        aria-orientation={decorative ? undefined : orientation}
-        aria-label={decorative ? undefined : (ariaLabel || `${orientation} separator`)}
-        {...props}
-      />
+              ? cn('w-full', config.thickness)
+              : cn('h-full', config.thickness),
+            
+            // Length override
+            length && (
+              orientation === 'horizontal' 
+                ? `w-[${typeof length === 'number' ? `${length}px` : length}]`
+                : `h-[${typeof length === 'number' ? `${length}px` : length}]`
+            ),
+            
+            // Variant styles
+            variantStyles[variant],
+            
+            // Special handling for dashed/dotted
+            (variant === 'dashed' || variant === 'dotted') && [
+              orientation === 'horizontal' ? 'border-t' : 'border-l',
+              config.thickness.replace('h-', 'border-t-').replace('w-', 'border-l-')
+            ],
+            
+            // Motion preferences
+            shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none',
+            
+            className
+          )}
+          role={decorative ? 'presentation' : 'separator'}
+          aria-orientation={decorative ? undefined : orientation}
+          aria-label={decorative ? undefined : (ariaLabel || `${orientation} separator`)}
+          {...props}
+        />
+      </ContrastGuard>
     );
   }
 );

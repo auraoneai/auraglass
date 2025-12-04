@@ -34,8 +34,6 @@ export interface ChartTooltipProps {
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
-  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
-
   tooltipData,
   datasets = [],
   color = "var(--glass-color-primary)",
@@ -75,22 +73,27 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   };
 
   return (
-    <div data-glass-component style={style} className={className} data-testid={dataTestId || "charttooltip"}>
-      <div
-        style={{
-          fontWeight: "var(--typography-heading-weight)",
-          marginBottom: "4px",
-        }}
+    <ContrastGuard
+      as="div"
+      level="AA"
+      data-glass-component
+      style={style}
+      className={className}
+      data-testid={dataTestId || "charttooltip"}
+    >
+      <TextWithContrast
+        as="div"
+        className="glass-font-semibold"
+        style={{ marginBottom: "4px" }}
       >
-        {" "}
-        {/* semi-bold */}
         {tooltipData.value.dataset || "Dataset"}
-      </div>
-      <div>
+      </TextWithContrast>
+
+      <TextWithContrast as="div">
         <span style={{ color: tooltipData.value.color || color }}>●</span>{" "}
         {tooltipData.value.label || "Value"}: {tooltipData.value.value || "N/A"}
-      </div>
-    </div>
+      </TextWithContrast>
+    </ContrastGuard>
   );
 };
 

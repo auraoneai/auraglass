@@ -36,7 +36,7 @@ export function BrandColorIntegration({
   brandColors,
   fallbackColors = {
     primary: "var(--glass-color-primary)",
-    secondary: "#1e40af",
+  secondary: "var(--brand-fallback-secondary, #1e40af)",
   },
   animationDuration = 600,
   className = "",
@@ -61,17 +61,17 @@ export function BrandColorIntegration({
     const mockColors: Record<string, EntityBrandColors> = {
       apple: {
         entityId: "apple",
-        primaryColor: "#007AFF",
-        secondaryColor: "#5856D6",
+        primaryColor: "var(--brand-apple-primary, #007AFF)",
+        secondaryColor: "var(--brand-apple-secondary, #5856D6)",
         logoUrl: "/logos/apple.png",
         colorHistory: [
           {
-            color: "#007AFF",
+            color: "var(--brand-apple-primary, #007AFF)",
             timestamp: Date.now() - 86400000,
             confidence: 0.95,
           },
           {
-            color: "#1D1D1F",
+            color: "var(--brand-apple-dark, #1D1D1F)",
             timestamp: Date.now() - 172800000,
             confidence: 0.87,
           },
@@ -79,17 +79,17 @@ export function BrandColorIntegration({
       },
       google: {
         entityId: "google",
-        primaryColor: "#4285F4",
-        secondaryColor: "#34A853",
+        primaryColor: "var(--brand-google-primary, #4285F4)",
+        secondaryColor: "var(--brand-google-secondary, #34A853)",
         logoUrl: "/logos/google.png",
         colorHistory: [
           {
-            color: "#4285F4",
+            color: "var(--brand-google-primary, #4285F4)",
             timestamp: Date.now() - 86400000,
             confidence: 0.98,
           },
           {
-            color: "#EA4335",
+            color: "var(--brand-google-warm, #EA4335)",
             timestamp: Date.now() - 172800000,
             confidence: 0.92,
           },
@@ -97,17 +97,17 @@ export function BrandColorIntegration({
       },
       microsoft: {
         entityId: "microsoft",
-        primaryColor: "#0078D4",
-        secondaryColor: "#106EBE",
+        primaryColor: "var(--brand-microsoft-primary, #0078D4)",
+        secondaryColor: "var(--brand-microsoft-secondary, #106EBE)",
         logoUrl: "/logos/microsoft.png",
         colorHistory: [
           {
-            color: "#0078D4",
+            color: "var(--brand-microsoft-primary, #0078D4)",
             timestamp: Date.now() - 86400000,
             confidence: 0.93,
           },
           {
-            color: "#00BCF2",
+            color: "var(--brand-microsoft-accent, #00BCF2)",
             timestamp: Date.now() - 172800000,
             confidence: 0.89,
           },
@@ -367,9 +367,10 @@ export function BrandGlassButton({
     secondary: {
       background:
         '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-      border: "1px solid var(--brand-border-secondary, rgba(30, 64, 175, 0.3))",
+      border:
+        "1px solid var(--brand-border-secondary, rgba(var(--glass-color-brand-secondary-rgb, 30, 64, 175) / 0.3))",
       boxShadow: "var(--glass-elev-2)",
-      color: "var(--brand-secondary, #1e40af)",
+      color: "var(--brand-secondary, var(--brand-fallback-secondary, #1e40af))",
     },
   };
 
@@ -394,7 +395,7 @@ export function BrandGlassButton({
               boxShadow:
                 variant === "primary"
                   ? "var(--brand-shadow-primary, 0 8px 24px var(--glass-color-primary, 0.2))"
-                  : "var(--brand-shadow-secondary, 0 8px 24px rgba(30, 64, 175, 0.2))",
+                  : "var(--brand-shadow-secondary, 0 8px 24px rgba(var(--glass-color-brand-secondary-rgb, 30, 64, 175) / 0.2))",
             }
           : {}
       }
@@ -448,14 +449,14 @@ export function useBrandColors(entityId?: string) {
         const mockColors: Record<string, EntityBrandColors> = {
           apple: {
             entityId: "apple",
-            primaryColor: "#007AFF",
-            secondaryColor: "#5856D6",
+            primaryColor: "var(--brand-apple-primary, #007AFF)",
+            secondaryColor: "var(--brand-apple-secondary, #5856D6)",
             colorHistory: [],
           },
           google: {
             entityId: "google",
-            primaryColor: "#4285F4",
-            secondaryColor: "#34A853",
+            primaryColor: "var(--brand-google-primary, #4285F4)",
+            secondaryColor: "var(--brand-google-secondary, #34A853)",
             colorHistory: [],
           },
         };

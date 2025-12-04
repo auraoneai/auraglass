@@ -58,29 +58,29 @@ interface IntelligentColorContextType {
 
 const defaultPalette: ColorPalette = {
   primary: "var(--glass-color-primary)",
-  secondary: "#8b5cf6",
-  accent: "#06b6d4",
-  background: "#0f172a",
-  surface: "#1e293b",
-  text: "#f8fafc",
-  textSecondary: "#cbd5e1",
+  secondary: "var(--glass-color-accent, #8b5cf6)",
+  accent: "var(--glass-color-accent-2, #06b6d4)",
+  background: "var(--glass-surface-deep, #0f172a)",
+  surface: "var(--glass-surface-elevated, #1e293b)",
+  text: "var(--glass-text-on-dark, #f8fafc)",
+  textSecondary: "var(--glass-text-on-dark-secondary, #cbd5e1)",
   border: "var(--glass-bg-default)",
   glassBase: "var(--glass-bg-default)",
-  glassTint: "rgba(255, 255, 255, 0.05)",
+  glassTint: "var(--glass-glow-tint, rgba(255, 255, 255, 0.05))",
 };
 
 // Dark theme palette with high contrast text colors
 const darkThemePalette: ColorPalette = {
   primary: "var(--glass-color-primary)",
-  secondary: "#8b5cf6",
-  accent: "#06b6d4",
-  background: "#020617",
-  surface: "#1e293b",
+  secondary: "var(--glass-color-accent, #8b5cf6)",
+  accent: "var(--glass-color-accent-2, #06b6d4)",
+  background: "var(--glass-surface-deeper, #020617)",
+  surface: "var(--glass-surface-elevated, #1e293b)",
   text: "var(--glass-text-primary)",
-  textSecondary: "rgba(255, 255, 255, 0.80)",
+  textSecondary: "var(--glass-text-secondary, rgba(255, 255, 255, 0.80))",
   border: "var(--glass-bg-disabled)",
   glassBase: "var(--glass-bg-disabled)",
-  glassTint: "rgba(255, 255, 255, 0.08)",
+  glassTint: "var(--glass-glow-tint-strong, rgba(255, 255, 255, 0.08))",
 };
 
 const IntelligentColorContext =

@@ -4,6 +4,7 @@ import React from 'react';
 import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
 import { forwardRef } from 'react';
 import { GlassStack, type GlassStackProps } from './GlassStack';
+import { ContrastGuard } from '@/components/accessibility/ContrastGuard';
 
 export interface HStackProps extends Omit<GlassStackProps, 'direction'> {
   /**
@@ -42,8 +43,6 @@ export interface HStackProps extends Omit<GlassStackProps, 'direction'> {
  */
 export const HStack = forwardRef<HTMLDivElement, HStackProps>(
   ({ spacing, space, respectMotionPreference = true, 'aria-label': ariaLabel, role, ...props }, ref) => {
-  // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
-
     const { prefersReducedMotion } = useMotionPreferenceContext();
     const shouldRespectMotion = respectMotionPreference && !prefersReducedMotion;
     const ariaLabelledBy = (props as React.HTMLAttributes<HTMLDivElement>)[
@@ -52,15 +51,17 @@ export const HStack = forwardRef<HTMLDivElement, HStackProps>(
     const resolvedRole = role ?? (ariaLabel || ariaLabelledBy ? 'group' : undefined);
 
     return (
-      <GlassStack
-        ref={ref}
-        direction="horizontal"
-        space={spacing || space}
-        respectMotionPreference={shouldRespectMotion}
-        aria-label={ariaLabel}
-        role={resolvedRole}
-        {...props}
-      />
+      <ContrastGuard as="div" level="AA">
+        <GlassStack
+          ref={ref}
+          direction="horizontal"
+          space={spacing || space}
+          respectMotionPreference={shouldRespectMotion}
+          aria-label={ariaLabel}
+          role={resolvedRole}
+          {...props}
+        />
+      </ContrastGuard>
     );
   }
 );

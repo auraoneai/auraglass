@@ -11,8 +11,8 @@ import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
-// import { useMotionPreference } from '../../contexts/MotionPreferenceContext';
-// import { useSoundDesign } from '../../utils/soundDesign';
+import { useMotionPreference } from "../../hooks/useMotionPreference";
+import { useGlassSound } from "../../utils/soundDesign";
 
 export interface Glass360ViewerMediaSource {
   type: "image" | "video";
@@ -136,8 +136,9 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
     },
     ref
   ) => {
-    const shouldAnimate = true; // TODO: Replace with actual motion preference hook
-    const playSound = (soundKey: string) => {}; // TODO: Replace with actual sound design hook
+    const { shouldAnimate } = useMotionPreference();
+    const effectiveShouldAnimate = respectMotionPreference ? shouldAnimate : true;
+    const { play: playSound } = useGlassSound();
     const viewerId = useA11yId("glass-360-viewer");
 
     const [isLoading, setIsLoading] = useState(true);
@@ -423,7 +424,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
             ctx.stroke();
 
             // Pulse animation
-            if (shouldAnimate) {
+            if (effectiveShouldAnimate) {
               const pulseScale = 1 + Math.sin(Date.now() * 0.01 + index) * 0.2;
               ctx.beginPath();
               ctx.arc(x, y, 8 * pulseScale, 0, 2 * Math.PI);
@@ -437,7 +438,7 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
           }
         });
       },
-      [hotspots, currentView, shouldAnimate]
+      [hotspots, currentView, effectiveShouldAnimate]
     );
 
     // Convert 3D spherical coordinates to 2D screen coordinates
@@ -724,7 +725,9 @@ export const Glass360Viewer = forwardRef<HTMLDivElement, Glass360ViewerProps>(
         {...props}
       >
         <Motion
-          preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
+          preset={
+            effectiveShouldAnimate && respectMotionPreference ? "fadeIn" : "none"
+          }
           className='relative glass-w-full glass-h-full'
         >
           <div

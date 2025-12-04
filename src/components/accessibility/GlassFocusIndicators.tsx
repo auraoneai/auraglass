@@ -46,43 +46,49 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
     };
   }, [element]);
 
-  const getVariantStyles = () => {
-    switch (variant) {
-      case "interactive":
-        return {
-          ring: "ring-4 ring-blue-400/60 ring-offset-2 ring-offset-slate-900",
-          glow: "shadow-[0_0_20px_rgba(96,165,250,0.6)]", // token-lint-ignore
-          background: "bg-blue-400/10",
-        };
-      case "navigation":
-        return {
-          ring: "ring-3 ring-purple-400/60 ring-offset-2 ring-offset-slate-900",
-          glow: "shadow-[0_0_15px_rgba(167,139,250,0.6)]", // token-lint-ignore
-          background: "bg-purple-400/10",
-        };
-      case "form":
-        return {
-          ring: "ring-3 ring-green-400/60 ring-offset-2 ring-offset-slate-900",
-          glow: "shadow-[0_0_15px_rgba(34,197,94,0.6)]", // token-lint-ignore
-          background: "bg-green-400/10",
-        };
-      default:
-        return {
-          ring: "ring-3 ring-blue-400/60 ring-offset-2 ring-offset-slate-900",
-          glow: "shadow-[0_0_15px_rgba(96,165,250,0.5)]", // token-lint-ignore
-          background: "bg-blue-400/8",
-        };
-    }
-  };
+  const styles = (() => {
+    const base = {
+      ring: "ring-offset-2 ring-offset-slate-900",
+      background: "bg-blue-400/8",
+      shadowVar: "var(--glass-focus-shadow-primary, 0 0 15px rgba(96,165,250,0.5))",
+    };
 
-  const styles = getVariantStyles();
+    if (variant === "interactive") {
+      return {
+        ring: `${base.ring} ring-4 ring-blue-400/60`,
+        background: "bg-blue-400/10",
+        shadowVar:
+          "var(--glass-focus-shadow-interactive, 0 0 20px rgba(96,165,250,0.6))",
+      };
+    }
+    if (variant === "navigation") {
+      return {
+        ring: `${base.ring} ring-3 ring-purple-400/60`,
+        background: "bg-purple-400/10",
+        shadowVar:
+          "var(--glass-focus-shadow-navigation, 0 0 15px rgba(167,139,250,0.6))",
+      };
+    }
+    if (variant === "form") {
+      return {
+        ring: `${base.ring} ring-3 ring-green-400/60`,
+        background: "bg-green-400/10",
+        shadowVar:
+          "var(--glass-focus-shadow-form, 0 0 15px rgba(34,197,94,0.6))",
+      };
+    }
+    return {
+      ring: `${base.ring} ring-3 ring-blue-400/60`,
+      background: base.background,
+      shadowVar: base.shadowVar,
+    };
+  })();
 
   return (
     <motion.div
       className={cn(
         "glass-position-fixed glass-pointer-events-none glass-z-50 glass-radius-lg",
         styles.ring,
-        styles.glow,
         styles.background
       )}
       style={{
@@ -90,6 +96,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         top: position.y - 4,
         width: position.width + 8,
         height: position.height + 8,
+        boxShadow: styles.shadowVar,
       }}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={

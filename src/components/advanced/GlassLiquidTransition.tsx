@@ -229,11 +229,13 @@ export const GlassLiquidTransition = forwardRef<
         case "dissolve":
           return {
             initial: {
-              filter: "blur(0px)",
+              filter: "blur(var(--glass-blur-none, 0px))",
               opacity: 1,
             },
             animate: {
-              filter: isActive ? "blur(var(--glass-blur-md))" : "blur(0px)",
+              filter: isActive
+                ? "blur(var(--glass-blur-md, 8px))"
+                : "blur(var(--glass-blur-none, 0px))",
               opacity: isActive ? 0.7 : 1,
               scale: isActive ? 1.05 : 1,
             },

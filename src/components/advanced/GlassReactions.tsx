@@ -79,7 +79,13 @@ const defaultReactionTypes: ReactionType[] = [
     sound: "tap",
     shortcut: "3",
   },
-  { emoji: "😮", name: "Wow", color: "#8b5cf6", sound: "morph", shortcut: "4" },
+  {
+    emoji: "😮",
+    name: "Wow",
+    color: "var(--glass-color-accent, #8b5cf6)",
+    sound: "morph",
+    shortcut: "4",
+  },
   {
     emoji: "😢",
     name: "Sad",
@@ -104,7 +110,7 @@ const defaultReactionTypes: ReactionType[] = [
   {
     emoji: "🤔",
     name: "Think",
-    color: "#f97316",
+    color: "var(--glass-color-warning-strong, #f97316)",
     sound: "hover",
     shortcut: "8",
   },

@@ -391,6 +391,89 @@ const mockImageProcessor = {
   },
 };
 
+const IMAGE_SERVICE_URL =
+  process.env.NEXT_PUBLIC_IMAGE_SERVICE_URL || process.env.IMAGE_SERVICE_URL;
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function callImageService<T>(
+  endpoint: string,
+  payload: Record<string, any>,
+  attempt: number = 0
+): Promise<T> {
+  if (!IMAGE_SERVICE_URL) {
+    throw new Error("IMAGE_SERVICE_URL is not configured");
+  }
+
+  const normalized = IMAGE_SERVICE_URL.replace(/\/$/, "");
+  const response = await fetch(`${normalized}${endpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    if (attempt < 2) {
+      await wait(500 * (attempt + 1));
+      return callImageService<T>(endpoint, payload, attempt + 1);
+    }
+    throw new Error(
+      `Image service request failed (${response.status}): ${response.statusText}`
+    );
+  }
+
+  return (await response.json()) as T;
+}
+
+const imageProcessor = {
+  async analyzeImage(imageUrl: string): Promise<Partial<ImageMetadata>> {
+    if (!IMAGE_SERVICE_URL) return mockImageProcessor.analyzeImage(imageUrl);
+    try {
+      const result = await callImageService<{ metadata?: Partial<ImageMetadata> }>(
+        "/analyze",
+        { imageUrl }
+      );
+      return result.metadata || {};
+    } catch (error) {
+      console.warn("[ImageProcessing] analyzeImage failed, using fallback", error);
+      return mockImageProcessor.analyzeImage(imageUrl);
+    }
+  },
+
+  async detectFaces(imageUrl: string): Promise<FaceDetection[]> {
+    if (!IMAGE_SERVICE_URL) return mockImageProcessor.detectFaces(imageUrl);
+    try {
+      const result = await callImageService<{ faces?: FaceDetection[] }>(
+        "/detect-faces",
+        { imageUrl }
+      );
+      return result.faces || [];
+    } catch (error) {
+      console.warn("[ImageProcessing] detectFaces failed, using fallback", error);
+      return mockImageProcessor.detectFaces(imageUrl);
+    }
+  },
+
+  async optimizeImage(
+    imageUrl: string,
+    options: OptimizationOptions
+  ): Promise<string> {
+    if (!IMAGE_SERVICE_URL) return mockImageProcessor.optimizeImage(imageUrl, options);
+    try {
+      const result = await callImageService<{ optimizedUrl?: string; url?: string }>(
+        "/optimize",
+        { imageUrl, options }
+      );
+      return result.optimizedUrl || result.url || imageUrl;
+    } catch (error) {
+      console.warn("[ImageProcessing] optimizeImage failed, using fallback", error);
+      return mockImageProcessor.optimizeImage(imageUrl, options);
+    }
+  },
+};
+
 export const ImageProcessingProvider: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -429,7 +512,7 @@ export const ImageProcessingProvider: React.FC<{
           ctx?.drawImage(img, 0, 0);
 
           const url = URL.createObjectURL(file);
-          const metadata = await mockImageProcessor.analyzeImage(url);
+          const metadata = await imageProcessor.analyzeImage(url);
 
           const imageFile: ImageFile = {
             id: generateId(),
@@ -582,7 +665,7 @@ export const ImageProcessingProvider: React.FC<{
           );
         }
 
-        const optimizedUrl = await mockImageProcessor.optimizeImage(
+        const optimizedUrl = await imageProcessor.optimizeImage(
           image.url,
           optimizationOptions
         );
@@ -665,7 +748,7 @@ export const ImageProcessingProvider: React.FC<{
       const image = getImage(imageId);
       if (!image) throw new Error("Image not found");
 
-      const faces = await mockImageProcessor.detectFaces(image.url);
+      const faces = await imageProcessor.detectFaces(image.url);
 
       updateImage(imageId, { faces });
 
