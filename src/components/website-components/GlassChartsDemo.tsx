@@ -90,12 +90,12 @@ export interface GlassChartsDemoProps {
 }
 
 export function GlassChartsDemo({ className, children }: GlassChartsDemoProps) {
-  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
-
   return (
-    <div className={className}>
-      <h3>Glass Charts Demo</h3>
+    <ContrastGuard as="div" level="AA" className={className}>
+      <TextWithContrast as="h3" className="glass-text-lg glass-font-semibold">
+        Glass Charts Demo
+      </TextWithContrast>
       {children}
-    </div>
+    </ContrastGuard>
   );
 }

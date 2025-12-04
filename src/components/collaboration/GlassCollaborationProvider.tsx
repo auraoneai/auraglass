@@ -152,103 +152,6 @@ const generateUserColor = (): string => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-// Simulate WebSocket connection for demo
-class MockWebSocket {
-  private listeners: { [event: string]: Function[] } = {};
-
-  addEventListener(event: string, callback: Function) {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
-    }
-    this.listeners[event].push(callback);
-  }
-
-  removeEventListener(event: string, callback: Function) {
-    if (this.listeners[event]) {
-      this.listeners[event] = this.listeners[event].filter(
-        (cb: any) => cb !== callback
-      );
-    }
-  }
-
-  send(data: string) {
-    // Simulate message echo for demo
-    setTimeout(
-      () => {
-        this.emit("message", { data });
-      },
-      50 + Math.random() * 100
-    );
-  }
-
-  private emit(event: string, data: any) {
-    if (this.listeners[event]) {
-      this.listeners[event].forEach((callback: any) => callback(data));
-    }
-  }
-
-  // Simulate other users
-  simulateOtherUsers(roomId: string) {
-    const otherUsers = [
-      {
-        id: "user-2",
-        name: "Sarah Chen",
-        email: "sarah@company.com",
-        color: "var(--glass-color-danger)",
-      },
-      {
-        id: "user-3",
-        name: "Mike Johnson",
-        email: "mike@company.com",
-        color: "var(--glass-color-success)",
-      },
-      {
-        id: "user-4",
-        name: "Alex Rodriguez",
-        email: "alex@company.com",
-        color: "#8B5CF6",
-      },
-    ];
-
-    // Simulate users joining
-    setTimeout(() => {
-      this.emit("message", {
-        data: JSON.stringify({
-          type: "user_joined",
-          user: otherUsers[0],
-        }),
-      });
-    }, 2000);
-
-    setTimeout(() => {
-      this.emit("message", {
-        data: JSON.stringify({
-          type: "user_joined",
-          user: otherUsers[1],
-        }),
-      });
-    }, 4000);
-
-    // Simulate cursor movements
-    setInterval(() => {
-      otherUsers.forEach((user: any) => {
-        if (Math.random() > 0.7) {
-          this.emit("message", {
-            data: JSON.stringify({
-              type: "cursor_update",
-              userId: user.id,
-              cursor: {
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-              },
-            }),
-          });
-        }
-      });
-    }, 1000);
-  }
-}
-
 export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   children,
   roomId,
@@ -272,104 +175,171 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   const [showComments, setShowComments] = useState(true);
   const [showActivity, setShowActivity] = useState(true);
 
-  const wsRef = useRef<MockWebSocket | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+  const heartbeatRef = useRef<NodeJS.Timeout>();
   const cursorTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Initialize connection
   useEffect(() => {
     if (!enableRealTime) return;
 
-    setConnectionStatus("connecting");
+    const wsBase =
+      process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL ||
+      process.env.WEBSOCKET_SERVER_URL ||
+      "";
 
-    // Simulate connection delay
-    setTimeout(() => {
-      wsRef.current = new MockWebSocket();
+    if (!wsBase) {
+      console.warn(
+        "[Collaboration] WEBSOCKET_SERVER_URL is not configured; realtime disabled."
+      );
+      return;
+    }
 
-      wsRef.current.addEventListener("message", handleWebSocketMessage);
+    let cancelled = false;
+    let reconnectAttempts = 0;
 
-      setIsConnected(true);
-      setConnectionStatus("connected");
+    const normalizedBase = wsBase.replace(/\/$/, "");
+    const connect = () => {
+      if (cancelled) return;
+      const roomParam = `roomId=${encodeURIComponent(roomId)}`;
+      const url =
+        normalizedBase.includes("?") || normalizedBase.includes("&")
+          ? `${normalizedBase}&${roomParam}`
+          : `${normalizedBase}?${roomParam}`;
 
-      // Start simulating other users for demo
-      wsRef.current.simulateOtherUsers(roomId);
+      setConnectionStatus(reconnectAttempts === 0 ? "connecting" : "reconnecting");
 
-      // Add activity
-      addActivity({
-        userId: "system",
-        type: "join",
-        description: "Connected to collaboration room",
-      });
-    }, 1000);
+      const ws = new WebSocket(url);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        if (cancelled) return;
+        reconnectAttempts = 0;
+        setIsConnected(true);
+        setConnectionStatus("connected");
+        addActivity({
+          userId: "system",
+          type: "join",
+          description: "Connected to collaboration room",
+        });
+
+        heartbeatRef.current = setInterval(() => {
+          if (wsRef.current?.readyState === WebSocket.OPEN) {
+            wsRef.current.send(
+              JSON.stringify({ type: "ping", ts: Date.now(), roomId })
+            );
+          }
+        }, 15000);
+      };
+
+      ws.onmessage = handleWebSocketMessage;
+
+      ws.onclose = () => {
+        if (cancelled) return;
+        setIsConnected(false);
+        setConnectionStatus("reconnecting");
+        if (heartbeatRef.current) {
+          clearInterval(heartbeatRef.current);
+        }
+        const backoff = Math.min(30000, 1000 * 2 ** reconnectAttempts);
+        reconnectAttempts += 1;
+        reconnectTimeoutRef.current = setTimeout(connect, backoff);
+      };
+
+      ws.onerror = () => {
+        ws.close();
+      };
+    };
+
+    connect();
 
     return () => {
+      cancelled = true;
+      if (heartbeatRef.current) {
+        clearInterval(heartbeatRef.current);
+      }
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
       if (wsRef.current) {
-        setIsConnected(false);
-        setConnectionStatus("disconnected");
+        wsRef.current.close();
+        wsRef.current = null;
       }
+      setIsConnected(false);
+      setConnectionStatus("disconnected");
     };
-  }, [roomId, enableRealTime]);
+  }, [roomId, enableRealTime, handleWebSocketMessage, addActivity]);
 
-  const handleWebSocketMessage = (event: any) => {
-    try {
-      const data = JSON.parse(event.data);
+  const handleWebSocketMessage = useCallback(
+    (event: MessageEvent) => {
+      try {
+        const data = JSON.parse(event.data as string);
 
-      switch (data.type) {
-        case "user_joined":
-          setUsers((prev: any) => {
-            const existing = prev.find((u: any) => u.id === data.user.id);
-            if (existing) return prev;
-            return [...prev, { ...data.user, lastActive: Date.now() }];
-          });
-          addActivity({
-            userId: data.user.id,
-            type: "join",
-            description: `${data.user.name} joined the session`,
-          });
-          break;
+        switch (data.type) {
+          case "user_joined":
+            setUsers((prev: any) => {
+              const existing = prev.find((u: any) => u.id === data.user.id);
+              if (existing) return prev;
+              return [...prev, { ...data.user, lastActive: Date.now() }];
+            });
+            addActivity({
+              userId: data.user.id,
+              type: "join",
+              description: `${data.user.name} joined the session`,
+            });
+            break;
 
-        case "user_left":
-          setUsers((prev: any) =>
-            prev.filter((u: any) => u.id !== data.userId)
-          );
-          addActivity({
-            userId: data.userId,
-            type: "leave",
-            description: `User left the session`,
-          });
-          break;
+          case "user_left":
+            setUsers((prev: any) =>
+              prev.filter((u: any) => u.id !== data.userId)
+            );
+            addActivity({
+              userId: data.userId,
+              type: "leave",
+              description: `User left the session`,
+            });
+            break;
 
-        case "cursor_update":
-          setUsers((prev: any) =>
-            prev.map((user: any) =>
-              user.id === data.userId
-                ? { ...user, cursor: data.cursor, lastActive: Date.now() }
-                : user
-            )
-          );
-          break;
+          case "cursor_update":
+            setUsers((prev: any) =>
+              prev.map((user: any) =>
+                user.id === data.userId
+                  ? { ...user, cursor: data.cursor, lastActive: Date.now() }
+                  : user
+              )
+            );
+            break;
 
-        case "comment_added":
-          setComments((prev: any) => [...prev, data.comment]);
-          addActivity({
-            userId: data.comment.userId,
-            type: "comment",
-            description: "Added a comment",
-          });
-          break;
+          case "comment_added":
+            setComments((prev: any) => [...prev, data.comment]);
+            addActivity({
+              userId: data.comment.userId,
+              type: "comment",
+              description: "Added a comment",
+            });
+            break;
 
-        case "edit_applied":
-          setEdits((prev: any) => [...prev.slice(-99), data.edit]); // Keep last 100 edits
-          addActivity({
-            userId: data.edit.userId,
-            type: "edit",
-            description: `Made an edit`,
-          });
-          break;
+          case "edit_applied":
+            setEdits((prev: any) => [...prev.slice(-99), data.edit]); // Keep last 100 edits
+            addActivity({
+              userId: data.edit.userId,
+              type: "edit",
+              description: `Made an edit`,
+            });
+            break;
+        }
+      } catch (error) {
+        console.warn("Failed to parse collaboration message:", error);
       }
-    } catch (error) {
-      console.warn("Failed to parse collaboration message:", error);
-    }
-  };
+    },
+    [addActivity]
+  );
+
+  const sendMessage = useCallback((payload: any) => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+    wsRef.current.send(JSON.stringify(payload));
+  }, []);
 
   const addActivity = useCallback(
     (activity: Omit<CollaborationActivity, "id" | "timestamp">) => {
@@ -386,7 +356,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
 
   const updateCursor = useCallback(
     (position: { x: number; y: number; elementId?: string }) => {
-      if (!currentUser || !wsRef.current) return;
+      if (!currentUser) return;
 
       setCurrentUser((prev: any) =>
         prev ? { ...prev, cursor: position, lastActive: Date.now() } : null
@@ -395,40 +365,36 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       // Debounce cursor updates
       clearTimeout(cursorTimeoutRef.current);
       cursorTimeoutRef.current = setTimeout(() => {
-        wsRef.current?.send(
-          JSON.stringify({
-            type: "cursor_update",
-            userId: currentUser.id,
-            cursor: position,
-          })
-        );
+        sendMessage({
+          type: "cursor_update",
+          userId: currentUser.id,
+          cursor: position,
+        });
       }, 50);
     },
-    [currentUser]
+    [currentUser, sendMessage]
   );
 
   const updateSelection = useCallback(
     (selection: { elementId: string; start: number; end: number }) => {
-      if (!currentUser || !wsRef.current) return;
+      if (!currentUser) return;
 
       setCurrentUser((prev: any) =>
         prev ? { ...prev, selection, lastActive: Date.now() } : null
       );
 
-      wsRef.current.send(
-        JSON.stringify({
-          type: "selection_update",
-          userId: currentUser.id,
-          selection,
-        })
-      );
+      sendMessage({
+        type: "selection_update",
+        userId: currentUser.id,
+        selection,
+      });
     },
-    [currentUser]
+    [currentUser, sendMessage]
   );
 
   const addComment = useCallback(
     (comment: Omit<CollaborationComment, "id" | "timestamp">) => {
-      if (!currentUser || !wsRef.current) return;
+      if (!currentUser) return;
 
       const newComment: CollaborationComment = {
         ...comment,
@@ -438,14 +404,12 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
 
       setComments((prev: any) => [...prev, newComment]);
 
-      wsRef.current.send(
-        JSON.stringify({
-          type: "comment_added",
-          comment: newComment,
-        })
-      );
+      sendMessage({
+        type: "comment_added",
+        comment: newComment,
+      });
     },
-    [currentUser]
+    [currentUser, sendMessage]
   );
 
   const resolveComment = useCallback((commentId: string) => {
@@ -455,15 +419,11 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       )
     );
 
-    if (wsRef.current) {
-      wsRef.current.send(
-        JSON.stringify({
-          type: "comment_resolved",
-          commentId,
-        })
-      );
-    }
-  }, []);
+    sendMessage({
+      type: "comment_resolved",
+      commentId,
+    });
+  }, [sendMessage]);
 
   const replyToComment = useCallback(
     (
@@ -492,7 +452,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
 
   const applyEdit = useCallback(
     (edit: Omit<CollaborationEdit, "id" | "timestamp">) => {
-      if (!currentUser || !wsRef.current) return;
+      if (!currentUser) return;
 
       const newEdit: CollaborationEdit = {
         ...edit,
@@ -502,14 +462,12 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
 
       setEdits((prev: any) => [...prev.slice(-99), newEdit]);
 
-      wsRef.current.send(
-        JSON.stringify({
-          type: "edit_applied",
-          edit: newEdit,
-        })
-      );
+      sendMessage({
+        type: "edit_applied",
+        edit: newEdit,
+      });
     },
-    [currentUser]
+    [currentUser, sendMessage]
   );
 
   const toggleCursors = useCallback(

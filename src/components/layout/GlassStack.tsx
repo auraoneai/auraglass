@@ -110,8 +110,6 @@ export interface GlassStackItemProps
 export const GlassStack = forwardRef<HTMLDivElement, GlassStackProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
-
       direction = "vertical",
       responsive,
       space = "md",

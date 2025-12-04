@@ -19,8 +19,6 @@ export interface ChartLegendProps {
 }
 
 export const ChartLegend: React.FC<ChartLegendProps> = ({
-  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
-
   datasets = [],
   position = "top",
   style = "default",
@@ -56,14 +54,20 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
 
   if (children) {
     return (
-      <div style={containerStyle} className={className}>
+      <ContrastGuard as="div" level="AA" style={containerStyle} className={className}>
         {children}
-      </div>
+      </ContrastGuard>
     );
   }
 
   return (
-    <div data-glass-component style={containerStyle} className={className}>
+    <ContrastGuard
+      as="div"
+      level="AA"
+      data-glass-component
+      style={containerStyle}
+      className={className}
+    >
       {datasets.map((dataset, index) => (
         <div
           key={dataset.id || index}
@@ -89,7 +93,8 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
                 '1px solid ${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}',
             }}
           />
-          <span
+          <TextWithContrast
+            as="span"
             style={{
               fontSize: style === "compact" ? "11px" : "12px",
               color: glassEffect
@@ -100,10 +105,10 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
             }}
           >
             {dataset.label || `Dataset ${index + 1}`}
-          </span>
+          </TextWithContrast>
         </div>
       ))}
-    </div>
+    </ContrastGuard>
   );
 };
 

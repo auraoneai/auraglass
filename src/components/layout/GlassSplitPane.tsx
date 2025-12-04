@@ -168,7 +168,9 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           {ariaLabel}
         </span>
         {/* Left/Top Pane */}
-        <div
+        <ContrastGuard
+          as="div"
+          level="AA"
           className='glass-min-w-0 glass-min-h-0 overflow-auto'
           role="region"
           aria-labelledby={leftPaneLabelId}
@@ -177,7 +179,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
             {direction === "horizontal" ? "Left pane" : "Top pane"}
           </span>
           {left}
-        </div>
+        </ContrastGuard>
 
         {/* Separator */}
         <div
@@ -207,7 +209,9 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
         />
 
         {/* Right/Bottom Pane */}
-        <div
+        <ContrastGuard
+          as="div"
+          level="AA"
           className='glass-min-w-0 glass-min-h-0 overflow-auto'
           role="region"
           aria-labelledby={rightPaneLabelId}
@@ -216,7 +220,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
             {direction === "horizontal" ? "Right pane" : "Bottom pane"}
           </span>
           {right}
-        </div>
+        </ContrastGuard>
       </div>
     );
   }

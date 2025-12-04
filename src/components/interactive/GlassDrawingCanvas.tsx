@@ -118,6 +118,11 @@ export const GlassDrawingCanvas = forwardRef<
       null
     );
     const [isDrawing, setIsDrawing] = useState(false);
+    const [backgroundImageElement, setBackgroundImageElement] =
+      useState<HTMLImageElement | null>(null);
+    const [, setBackgroundImageStatus] = useState<
+      "idle" | "loading" | "loaded" | "error"
+    >("idle");
     const [history, setHistory] = useState<DrawingStroke[][]>([data]);
     const [historyIndex, setHistoryIndex] = useState(0);
     const [currentTool, setCurrentTool] = useState<DrawingTool>(tool);
@@ -182,14 +187,13 @@ export const GlassDrawingCanvas = forwardRef<
           context.clearRect(0, 0, width, height);
         }
 
-        // TODO: Add background image support
-        if (backgroundImage) {
-          // Load and draw background image
+        if (backgroundImageElement) {
+          context.drawImage(backgroundImageElement, 0, 0, width, height);
         }
 
         context.restore();
       },
-      [backgroundColor, backgroundImage, width, height]
+      [backgroundColor, backgroundImageElement, width, height]
     );
 
     // Draw stroke
@@ -267,6 +271,39 @@ export const GlassDrawingCanvas = forwardRef<
     useEffect(() => {
       redrawCanvas();
     }, [redrawCanvas]);
+
+    // Load and render background images when provided
+    useEffect(() => {
+      let cancelled = false;
+
+      if (!backgroundImage) {
+        setBackgroundImageElement(null);
+        setBackgroundImageStatus("idle");
+        return;
+      }
+
+      setBackgroundImageStatus("loading");
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        if (cancelled) return;
+        setBackgroundImageElement(img);
+        setBackgroundImageStatus("loaded");
+        redrawCanvas();
+      };
+      img.onerror = () => {
+        if (cancelled) return;
+        setBackgroundImageElement(null);
+        setBackgroundImageStatus("error");
+      };
+      img.src = backgroundImage;
+
+      return () => {
+        cancelled = true;
+        img.onload = null;
+        img.onerror = null;
+      };
+    }, [backgroundImage, redrawCanvas]);
 
     // Get pointer position
     const getPointerPos = useCallback(

@@ -124,7 +124,7 @@ const defaultAchievements: Achievement[] = [
     unlockedAt: new Date("2024-01-15"),
     rarity: 95,
     points: 10,
-    glowColor: "#FFD700",
+    glowColor: "var(--glass-glow-gold, #FFD700)",
   },
   {
     id: "speed-reader",
@@ -138,7 +138,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 60,
     points: 50,
-    glowColor: "#E6E6FA",
+    glowColor: "var(--glass-glow-lavender, #E6E6FA)",
   },
   {
     id: "bookworm",
@@ -152,7 +152,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 15,
     points: 200,
-    glowColor: "#FFFF99",
+    glowColor: "var(--glass-glow-soft-gold, #FFFF99)",
   },
   {
     id: "streak-master",
@@ -166,7 +166,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 20,
     points: 150,
-    glowColor: "#FF6347",
+    glowColor: "var(--glass-glow-warm, #FF6347)",
   },
   {
     id: "early-bird",
@@ -180,7 +180,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 40,
     points: 30,
-    glowColor: "#87CEEB",
+    glowColor: "var(--glass-glow-sky, #87CEEB)",
   },
   {
     id: "social-butterfly",
@@ -194,7 +194,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 35,
     points: 75,
-    glowColor: "#FFB6C1",
+    glowColor: "var(--glass-glow-rose, #FFB6C1)",
   },
   {
     id: "curator",
@@ -208,7 +208,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 45,
     points: 60,
-    glowColor: "#98FB98",
+    glowColor: "var(--glass-glow-mint, #98FB98)",
   },
   {
     id: "explorer",
@@ -222,7 +222,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 25,
     points: 120,
-    glowColor: "#DDA0DD",
+    glowColor: "var(--glass-glow-plum, #DDA0DD)",
   },
   {
     id: "trendsetter",
@@ -236,7 +236,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 5,
     points: 300,
-    glowColor: "#F0F8FF",
+    glowColor: "var(--glass-glow-ice, #F0F8FF)",
   },
   {
     id: "perfectionist",
@@ -250,7 +250,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 2,
     points: 500,
-    glowColor: "#00FFFF",
+    glowColor: "var(--glass-glow-cyan, #00FFFF)",
   },
   {
     id: "night-owl",
@@ -264,7 +264,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 30,
     points: 40,
-    glowColor: "#191970",
+    glowColor: "var(--glass-glow-midnight, #191970)",
   },
   {
     id: "glass-master",
@@ -528,7 +528,7 @@ export function GlassTrophyCase({
             className='absolute inset-0 glass-radius-xl'
             style={{
               background: `radial-gradient(circle at center, ${tierColor.glow}20 0%, transparent 70%)`,
-              filter: "blur(var(--glass-blur-md))",
+              filter: "blur(var(--glass-blur-md, 8px))",
             }}
             animate={
               prefersReducedMotion
