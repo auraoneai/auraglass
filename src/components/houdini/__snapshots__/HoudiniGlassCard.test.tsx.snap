@@ -10,21 +10,21 @@ exports[`HoudiniGlassCard matches snapshot 1`] = `
     tabindex="0"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div>
         Test content
       </div>
     </div>
     <div
-      class="absolute inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-pointer-events-none"
       style="opacity: 0;"
     />
     <div
-      class="absolute bottom-2 right-2"
+      class="glass-absolute glass-bottom-2 glass-right-2"
     >
       <div
-        class="w-2 h-2 glass-radius-full bg-amber-400"
+        class="glass-w-2 glass-h-2 glass-radius-full glass-surface-amber"
         title="Houdini not supported - using fallback styles"
       />
     </div>

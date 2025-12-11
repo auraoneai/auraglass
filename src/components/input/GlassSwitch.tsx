@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef } from "react";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
@@ -8,6 +8,9 @@ import {
   createFormFieldA11y,
   useA11yId,
 } from "../../utils/a11y";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassSwitchProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
@@ -104,10 +107,14 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
 
     // Create accessibility attributes
     // If no label or aria-label provided, use default for accessibility
-    const defaultAriaLabel = !label && !ariaLabel && !ariaLabelledBy ? "Toggle switch" : undefined;
+    const defaultAriaLabel =
+      !label && !ariaLabel && !ariaLabelledBy ? "Toggle switch" : undefined;
     const a11yProps = createFormFieldA11y({
       id: finalId,
-      label: !ariaLabelledBy && !labelId ? ariaLabel || label || defaultAriaLabel : undefined,
+      label:
+        !ariaLabelledBy && !labelId
+          ? ariaLabel || label || defaultAriaLabel
+          : undefined,
       description: description,
       error: error,
       required: required,

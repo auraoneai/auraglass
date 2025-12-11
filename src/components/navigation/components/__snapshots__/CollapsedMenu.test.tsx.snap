@@ -2,7 +2,7 @@
 
 exports[`CollapsedMenu matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level3 glass-tier-high absolute top-full right-0 min-w-[200px] z-[1000] glass-p-2"
+  class="optimized-glass-surface glass-neutral-level3 glass-tier-high absolute top-full right-0 min-w-[200px] glass-z-1000 glass-p-2"
   data-performance-mode="medium"
   id="collapsed-menu-:r8:"
   role="navigation"

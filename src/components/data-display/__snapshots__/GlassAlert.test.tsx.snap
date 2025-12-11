@@ -15,7 +15,7 @@ exports[`GlassAlert matches snapshot 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-info h-4 w-4"
+      class="lucide lucide-info glass-h-4 glass-w-4"
       fill="none"
       height="24"
       stroke="currentColor"

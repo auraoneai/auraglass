@@ -1,8 +1,11 @@
-'use client';
-import React, { forwardRef } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
-import { OptimizedGlass } from '../../primitives';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+"use client";
+import React, { forwardRef } from "react";
+import { cn } from "../../lib/utilsComprehensive";
+import { OptimizedGlass } from "../../primitives";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
 
 // Box props interface
 export interface BoxProps {
@@ -20,56 +23,62 @@ export interface BoxProps {
    * Display property
    */
   display?:
-    | 'block'
-    | 'flex'
-    | 'inline'
-    | 'inline-block'
-    | 'inline-flex'
-    | 'grid'
-    | 'inline-grid'
-    | 'none';
+    | "block"
+    | "flex"
+    | "inline"
+    | "inline-block"
+    | "inline-flex"
+    | "grid"
+    | "inline-grid"
+    | "none";
 
   /**
    * Flex direction
    */
-  flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
+  flexDirection?: "row" | "row-reverse" | "column" | "column-reverse";
 
   /**
    * Flex wrap
    */
-  flexWrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+  flexWrap?: "nowrap" | "wrap" | "wrap-reverse";
 
   /**
    * Justify content
    */
   justifyContent?:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around'
-    | 'space-evenly';
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
 
   /**
    * Align items
    */
-  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+  alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
 
   /**
    * Align content
    */
   alignContent?:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around'
-    | 'stretch';
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "stretch";
 
   /**
    * Align self
    */
-  alignSelf?: 'auto' | 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+  alignSelf?:
+    | "auto"
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "baseline"
+    | "stretch";
 
   /**
    * Padding
@@ -141,7 +150,7 @@ export interface BoxProps {
   /**
    * The elevation of the glass effect
    */
-  elevation?: 0 | 1 | 2 | 3 | 4 | 5 | 'level1' | 'level2' | 'level3' | 'level4';
+  elevation?: 0 | 1 | 2 | 3 | 4 | 5 | "level1" | "level2" | "level3" | "level4";
 
   /**
    * Additional CSS class name
@@ -161,15 +170,18 @@ export interface BoxProps {
 
 // Function to format spacing values
 const formatSpacing = (value: number | string | undefined): string => {
-  if (value === undefined) return '';
-  if (typeof value === 'string') return value;
+  if (value === undefined) return "";
+  if (typeof value === "string") return value;
   return `${value * 8}px`;
 };
 
 // Helper function to convert spacing to Tailwind class
-const spacingToTailwind = (value: number | string | undefined, prefix: string): string => {
-  if (value === undefined) return '';
-  if (typeof value === 'string') return `${prefix}-[${value}]`;
+const spacingToTailwind = (
+  value: number | string | undefined,
+  prefix: string
+): string => {
+  if (value === undefined) return "";
+  if (typeof value === "string") return `${prefix}-[${value}]`;
   // Map 8px units to Tailwind spacing scale
   const spacing = Math.round(value);
   if (spacing === 0) return `${prefix}-0`;
@@ -190,7 +202,7 @@ const spacingToTailwind = (value: number | string | undefined, prefix: string): 
 export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
   const {
     children,
-    component: Component = 'div',
+    component: Component = "div",
     display,
     flexDirection,
     flexWrap,
@@ -221,7 +233,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
     borderRadius,
     bgcolor,
     glass = false,
-    elevation = 'level1',
+    elevation = "level1",
     className,
     style,
     onClick,
@@ -230,66 +242,66 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
 
   // Build dynamic classes
   const displayClasses = {
-    block: 'block',
-    flex: 'flex',
-    inline: 'inline',
-    'inline-block': 'inline-block',
-    'inline-flex': 'inline-flex',
-    grid: 'grid',
-    'inline-grid': 'inline-grid',
-    none: 'hidden'
+    block: "block",
+    flex: "flex",
+    inline: "inline",
+    "inline-block": "inline-block",
+    "inline-flex": "inline-flex",
+    grid: "grid",
+    "inline-grid": "inline-grid",
+    none: "hidden",
   };
 
   const flexDirectionClasses = {
-    row: 'flex-row',
-    'row-reverse': 'flex-row-reverse',
-    column: 'flex-col',
-    'column-reverse': 'flex-col-reverse'
+    row: "flex-row",
+    "row-reverse": "flex-row-reverse",
+    column: "flex-col",
+    "column-reverse": "flex-col-reverse",
   };
 
   const flexWrapClasses = {
-    nowrap: 'flex-nowrap',
-    wrap: 'flex-wrap',
-    'wrap-reverse': 'flex-wrap-reverse'
+    nowrap: "flex-nowrap",
+    wrap: "flex-wrap",
+    "wrap-reverse": "flex-wrap-reverse",
   };
 
   const justifyContentClasses = {
-    'flex-start': 'justify-start',
-    'flex-end': 'justify-end',
-    center: 'justify-center',
-    'space-between': 'justify-between',
-    'space-around': 'justify-around',
-    'space-evenly': 'justify-evenly'
+    "flex-start": "justify-start",
+    "flex-end": "justify-end",
+    center: "justify-center",
+    "space-between": "justify-between",
+    "space-around": "justify-around",
+    "space-evenly": "justify-evenly",
   };
 
   const alignItemsClasses = {
-    'flex-start': 'items-start',
-    'flex-end': 'items-end',
-    center: 'items-center',
-    baseline: 'items-baseline',
-    stretch: 'items-stretch'
+    "flex-start": "items-start",
+    "flex-end": "items-end",
+    center: "items-center",
+    baseline: "items-baseline",
+    stretch: "items-stretch",
   };
 
   const alignContentClasses = {
-    'flex-start': 'content-start',
-    'flex-end': 'content-end',
-    center: 'content-center',
-    'space-between': 'content-between',
-    'space-around': 'content-around',
-    stretch: 'content-stretch'
+    "flex-start": "content-start",
+    "flex-end": "content-end",
+    center: "content-center",
+    "space-between": "content-between",
+    "space-around": "content-around",
+    stretch: "content-stretch",
   };
 
   const alignSelfClasses = {
-    auto: 'self-auto',
-    'flex-start': 'self-start',
-    'flex-end': 'self-end',
-    center: 'self-center',
-    baseline: 'self-baseline',
-    stretch: 'self-stretch'
+    auto: "self-auto",
+    "flex-start": "self-start",
+    "flex-end": "self-end",
+    center: "self-center",
+    baseline: "self-baseline",
+    stretch: "self-stretch",
   };
 
   const combinedClassName = cn(
-    'box-border',
+    "box-border",
     display && displayClasses[display],
     flexDirection && flexDirectionClasses[flexDirection],
     flexWrap && flexWrapClasses[flexWrap],
@@ -298,51 +310,67 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
     alignContent && alignContentClasses[alignContent],
     alignSelf && alignSelfClasses[alignSelf],
     // Padding
-    p !== undefined && spacingToTailwind(p, 'p'),
-    pt !== undefined && spacingToTailwind(pt, 'pt'),
-    pr !== undefined && spacingToTailwind(pr, 'pr'),
-    pb !== undefined && spacingToTailwind(pb, 'pb'),
-    pl !== undefined && spacingToTailwind(pl, 'pl'),
-    px !== undefined && spacingToTailwind(px, 'px'),
-    py !== undefined && spacingToTailwind(py, 'py'),
+    p !== undefined && spacingToTailwind(p, "p"),
+    pt !== undefined && spacingToTailwind(pt, "pt"),
+    pr !== undefined && spacingToTailwind(pr, "pr"),
+    pb !== undefined && spacingToTailwind(pb, "pb"),
+    pl !== undefined && spacingToTailwind(pl, "pl"),
+    px !== undefined && spacingToTailwind(px, "px"),
+    py !== undefined && spacingToTailwind(py, "py"),
     // Margin
-    m !== undefined && spacingToTailwind(m, 'm'),
-    mt !== undefined && spacingToTailwind(mt, 'mt'),
-    mr !== undefined && spacingToTailwind(mr, 'mr'),
-    mb !== undefined && spacingToTailwind(mb, 'mb'),
-    ml !== undefined && spacingToTailwind(ml, 'ml'),
-    mx !== undefined && spacingToTailwind(mx, 'mx'),
-    my !== undefined && spacingToTailwind(my, 'my'),
+    m !== undefined && spacingToTailwind(m, "m"),
+    mt !== undefined && spacingToTailwind(mt, "mt"),
+    mr !== undefined && spacingToTailwind(mr, "mr"),
+    mb !== undefined && spacingToTailwind(mb, "mb"),
+    ml !== undefined && spacingToTailwind(ml, "ml"),
+    mx !== undefined && spacingToTailwind(mx, "mx"),
+    my !== undefined && spacingToTailwind(my, "my"),
     className
   );
 
   const combinedStyle = {
-    ...(width !== undefined && { width: typeof width === 'number' ? `${width}px` : width }),
-    ...(height !== undefined && { height: typeof height === 'number' ? `${height}px` : height }),
-    ...(minWidth !== undefined && { minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth }),
-    ...(minHeight !== undefined && { minHeight: typeof minHeight === 'number' ? `${minHeight}px` : minHeight }),
-    ...(maxWidth !== undefined && { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth }),
-    ...(maxHeight !== undefined && { maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight }),
-    ...(borderRadius !== undefined && { borderRadius: typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius }),
+    ...(width !== undefined && {
+      width: typeof width === "number" ? `${width}px` : width,
+    }),
+    ...(height !== undefined && {
+      height: typeof height === "number" ? `${height}px` : height,
+    }),
+    ...(minWidth !== undefined && {
+      minWidth: typeof minWidth === "number" ? `${minWidth}px` : minWidth,
+    }),
+    ...(minHeight !== undefined && {
+      minHeight: typeof minHeight === "number" ? `${minHeight}px` : minHeight,
+    }),
+    ...(maxWidth !== undefined && {
+      maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
+    }),
+    ...(maxHeight !== undefined && {
+      maxHeight: typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight,
+    }),
+    ...(borderRadius !== undefined && {
+      borderRadius:
+        typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius,
+    }),
     ...(bgcolor && { backgroundColor: bgcolor }),
-    ...style
+    ...style,
   };
 
   if (glass) {
     // Map elevation to OptimizedGlass elevation
     const getElevationLevel = (elev: any) => {
-      if (typeof elev === 'string' && elev.startsWith('level')) {
-        return elev as 'level1' | 'level2' | 'level3' | 'level4';
+      if (typeof elev === "string" && elev.startsWith("level")) {
+        return elev as "level1" | "level2" | "level3" | "level4";
       }
-      const numElev = typeof elev === 'number' ? elev : 1;
-      if (numElev <= 1) return 'level1';
-      if (numElev <= 2) return 'level2';
-      if (numElev <= 3) return 'level3';
-      return 'level4';
+      const numElev = typeof elev === "number" ? elev : 1;
+      if (numElev <= 1) return "level1";
+      if (numElev <= 2) return "level2";
+      if (numElev <= 3) return "level3";
+      return "level4";
     };
 
     return (
-      <OptimizedGlass data-glass-component
+      <OptimizedGlass
+        data-glass-component
         ref={ref}
         intent="neutral"
         elevation={getElevationLevel(elevation)}
@@ -353,7 +381,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
         animation="none"
         performanceMode="medium"
         className={combinedClassName}
-        style={combinedStyle}
+        style={{ ...combinedStyle }}
         onClick={onClick}
         {...rest}
       >
@@ -367,19 +395,19 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
     {
       ref,
       className: cn(
-        combinedClassName,
+        combinedClassName
         // Motion preferences - temporarily disabled
         // shouldRespectMotion && 'motion-safe:transition-all motion-reduce:transition-none'
       ),
-      style: combinedStyle,
+      style: { ...combinedStyle },
       onClick,
-      ...(rest as any)
+      ...(rest as any),
     } as any,
     children
   );
 });
 
-Box.displayName = 'Box';
+Box.displayName = "Box";
 
 /**
  * GlassBox Component
@@ -391,7 +419,7 @@ export const GlassBox = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
 
   const {
     glass = true,
-    elevation = 'level2',
+    elevation = "level2",
     borderRadius = 8,
     className,
     ...rest
@@ -403,10 +431,10 @@ export const GlassBox = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
       glass={glass}
       elevation={elevation}
       borderRadius={borderRadius}
-      className={cn('glass-box', className)}
+      className={cn("glass-box", className)}
       {...rest}
     />
   );
 });
 
-GlassBox.displayName = 'GlassBox';
+GlassBox.displayName = "GlassBox";

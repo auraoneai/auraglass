@@ -9,23 +9,23 @@ exports[`GlassDataTable matches snapshot 1`] = `
     class="glass-p-4 glass-border-b glass-border-glass-border"
   >
     <div
-      class="relative"
+      class="glass-relative"
     >
       <input
-        class="glass-w-full glass-px-4 glass-py-2 glass-pl-10 bg-background glass-border glass-border-glass-border glass-radius-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-w-full glass-px-4 glass-py-2 glass-pl-10 glass-bg-background glass-border glass-border-glass-border glass-radius-lg glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary/20 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
         placeholder="Search..."
         type="text"
         value=""
       />
       <div
-        class="absolute left-3 glass-top-1/2 -translate-y-1/2 glass-text-secondary"
+        class="glass-absolute glass-left-3 glass-top-1/2 glass--translate-y-1-2 glass-text-secondary"
       >
         🔍
       </div>
     </div>
   </div>
   <div
-    class="overflow-x-auto"
+    class="glass-overflow-x-auto"
   >
     <table
       class="glass-w-full"
@@ -107,7 +107,7 @@ exports[`GlassDataTable matches snapshot 1`] = `
       </thead>
       <tbody>
         <tr
-          class="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+          class="hover:glass-surface-subtle glass-transition-colors glass-border-b glass-border-glass-border last:glass-border-b-0"
         >
           <td
             class="glass-px-4 glass-py-3 glass-text-sm"
@@ -126,7 +126,7 @@ exports[`GlassDataTable matches snapshot 1`] = `
           </td>
         </tr>
         <tr
-          class="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+          class="hover:glass-surface-subtle glass-transition-colors glass-border-b glass-border-glass-border last:glass-border-b-0"
         >
           <td
             class="glass-px-4 glass-py-3 glass-text-sm"
@@ -145,7 +145,7 @@ exports[`GlassDataTable matches snapshot 1`] = `
           </td>
         </tr>
         <tr
-          class="hover:glass-surface-subtle transition-colors glass-border-b glass-border-glass-border last:border-b-0"
+          class="hover:glass-surface-subtle glass-transition-colors glass-border-b glass-border-glass-border last:glass-border-b-0"
         >
           <td
             class="glass-px-4 glass-py-3 glass-text-sm"

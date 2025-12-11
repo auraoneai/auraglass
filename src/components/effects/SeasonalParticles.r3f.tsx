@@ -16,6 +16,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import * as THREE from "three";
 import { SeededRandom } from "../../utils/random";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 // Seasonal particle systems
 const SeasonalParticleFactory = {
@@ -265,7 +266,7 @@ export function SeasonalParticlesR3F({
   particleCount = 30,
   windStrength = 1,
   animationSpeed = 1,
-  className="",
+  className = "",
   showControls = false,
   autoSeason = true,
   seasonDuration = 10000, // 10 seconds per season
@@ -399,11 +400,13 @@ export function SeasonalParticlesR3F({
       >
         <div className={cn("glass-flex glass-items-center glass-gap-2")}>
           {getSeasonIcon(currentSeason)}
-          <span
-            className={cn("glass-text-sm glass-font-medium glass-capitalize")}
-          >
-            {currentSeason}
-          </span>
+          <ContrastGuard>
+            <span
+              className={cn("glass-text-sm glass-font-medium glass-capitalize")}
+            >
+              {currentSeason}
+            </span>
+          </ContrastGuard>
         </div>
       </motion.div>
 
@@ -412,7 +415,7 @@ export function SeasonalParticlesR3F({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          className='glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-flex-col glass-gap-2'
+          className="glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-flex-col glass-gap-2"
         >
           {/* Season selector */}
           <div className="glass-flex glass-gap-2 glass-p-2 glass-surface-dark/20 glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard">
@@ -436,19 +439,21 @@ export function SeasonalParticlesR3F({
           <div className="glass-flex glass-gap-2 glass-p-2 glass-surface-dark/20 glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard">
             <button
               onClick={togglePlay}
-              className='glass-p-2 glass-radius-lg glass-text-primary hover:glass-surface-subtle/10 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-p-2 glass-radius-lg glass-text-primary hover:glass-surface-subtle/10 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               title={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
-                <Pause className='glass-w-4 glass-h-4' />
+                <Pause className="glass-w-4 glass-h-4" />
               ) : (
-                <Play className='glass-w-4 glass-h-4' />
+                <Play className="glass-w-4 glass-h-4" />
               )}
             </button>
 
-            <div className='glass-flex glass-items-center glass-gap-2 glass-text-primary-glass-opacity-60 glass-text-sm'>
-              <Wind className='glass-w-3 glass-h-3' />
-              <span>{windStrength.toFixed(1)}</span>
+            <div className="glass-flex glass-items-center glass-gap-2 glass-text-primary-glass-opacity-60 glass-text-sm">
+              <Wind className="glass-w-3 glass-h-3" />
+              <ContrastGuard>
+                <span>{windStrength.toFixed(1)}</span>
+              </ContrastGuard>
             </div>
           </div>
         </motion.div>
@@ -459,9 +464,9 @@ export function SeasonalParticlesR3F({
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-          className='glass-absolute glass-top-4 glass-right-4 glass-px-3 glass-py-2 glass-surface-dark/20 glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard'
+          className="glass-absolute glass-top-4 glass-right-4 glass-px-3 glass-py-2 glass-surface-dark/20 glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard"
         >
-          <div className='glass-flex glass-items-center glass-gap-2 glass-text-primary-glass-opacity-60 glass-text-sm'>
+          <div className="glass-flex glass-items-center glass-gap-2 glass-text-primary-glass-opacity-60 glass-text-sm">
             <motion.div
               animate={
                 prefersReducedMotion
@@ -480,9 +485,11 @@ export function SeasonalParticlesR3F({
                     }
               }
             >
-              <Wind className='glass-w-3 glass-h-3' />
+              <Wind className="glass-w-3 glass-h-3" />
             </motion.div>
-            <span>Wind: {windStrength.toFixed(1)}</span>
+            <ContrastGuard>
+              <span>Wind: {windStrength.toFixed(1)}</span>
+            </ContrastGuard>
           </div>
         </motion.div>
       )}

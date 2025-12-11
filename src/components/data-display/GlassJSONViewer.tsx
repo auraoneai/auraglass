@@ -1,7 +1,13 @@
-'use client';
+"use client";
 import React from "react";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassJSONViewerProps {
   value: any;
@@ -18,9 +24,11 @@ export function GlassJSONViewer({ value, className }: GlassJSONViewerProps) {
         className
       )}
     >
-      <pre className='glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all'>
-        {JSON.stringify(value, null, 2)}
-      </pre>
+      <ContrastGuard>
+        <pre className="glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all">
+          {JSON.stringify(value, null, 2)}
+        </pre>
+      </ContrastGuard>
     </OptimizedGlass>
   );
 }

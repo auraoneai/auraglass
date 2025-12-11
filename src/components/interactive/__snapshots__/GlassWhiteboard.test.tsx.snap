@@ -64,40 +64,34 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white glass-scale-110"
       />
       <button
-        aria-label="Select color #ff0000"
+        aria-label="Select color var(--glass-color-danger)"
         aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
-        style="background-color: rgb(255, 0, 0);"
       />
       <button
-        aria-label="Select color #00ff00"
+        aria-label="Select color var(--glass-color-success)"
         aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
-        style="background-color: rgb(0, 255, 0);"
       />
       <button
-        aria-label="Select color #0000ff"
+        aria-label="Select color var(--glass-color-primary)"
         aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
-        style="background-color: rgb(0, 0, 255);"
       />
       <button
-        aria-label="Select color #ffff00"
+        aria-label="Select color var(--glass-color-warning)"
         aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
-        style="background-color: rgb(255, 255, 0);"
       />
       <button
-        aria-label="Select color #ff00ff"
+        aria-label="Select color var(--glass-color-accent)"
         aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
-        style="background-color: rgb(255, 0, 255);"
       />
       <button
-        aria-label="Select color #00ffff"
+        aria-label="Select color var(--glass-color-info)"
         aria-pressed="false"
         class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
-        style="background-color: rgb(0, 255, 255);"
       />
     </div>
     <div

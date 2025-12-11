@@ -22,25 +22,49 @@ exports[`ModularGlassDataChart matches snapshot 1`] = `
         class="typeButton typeButtonActive"
         type="button"
       >
-        Line
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
+        >
+          Line
+        </span>
       </button>
       <button
         class="typeButton"
         type="button"
       >
-        Bar
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
+        >
+          Bar
+        </span>
       </button>
       <button
         class="typeButton"
         type="button"
       >
-        Area
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
+        >
+          Area
+        </span>
       </button>
       <button
         class="typeButton"
         type="button"
       >
-        Pie
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
+        >
+          Pie
+        </span>
       </button>
     </div>
     <button
@@ -52,7 +76,13 @@ exports[`ModularGlassDataChart matches snapshot 1`] = `
       >
         📥
       </span>
-      Export
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+      >
+        Export
+      </span>
     </button>
   </div>
   <div

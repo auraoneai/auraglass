@@ -23,7 +23,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2"
           >
             <h1
-              class="glass-text-xl font-bold glass-text-secondary"
+              class="glass-text-xl glass-font-bold glass-text-secondary"
             >
               Page Builder
             </h1>
@@ -34,13 +34,13 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             </span>
           </div>
           <div
-            class="w-px h-6 glass-surface-subtle"
+            class="glass-w-px glass-h-6 glass-surface-subtle"
           />
           <div
             class="glass-flex glass-items-center glass-gap-2"
           >
             <button
-              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               <span>
                 🗑️
@@ -48,7 +48,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
               New
             </button>
             <button
-              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               <span>
                 💾
@@ -56,7 +56,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
               Save
             </button>
             <button
-              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-text-sm glass-text-secondary hover:glass-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               <span>
                 📁
@@ -65,7 +65,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             </button>
           </div>
           <div
-            class="w-px h-6 glass-surface-subtle"
+            class="glass-w-px glass-h-6 glass-surface-subtle"
           />
           <div
             class="glass-flex glass-items-center glass-gap-1"
@@ -141,7 +141,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             </button>
           </div>
           <div
-            class="w-px h-6 glass-surface-subtle"
+            class="glass-w-px glass-h-6 glass-surface-subtle"
           />
           <div
             class="glass-flex glass-items-center glass-gap-2"
@@ -155,7 +155,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
               Preview
             </button>
             <button
-              class="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm font-medium glass-surface-blue text-primary hover:glass-surface-blue glass-radius-md transition-colors"
+              class="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm glass-font-medium glass-surface-blue glass-text-primary hover:glass-surface-blue glass-radius-md glass-transition-colors"
             >
               <span>
                 🚀
@@ -166,13 +166,13 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="glass-flex-1 glass-flex overflow-hidden"
+        class="glass-flex-1 glass-flex glass-overflow-hidden"
       >
         <div
           class="glass-flex"
         >
           <div
-            class="w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col"
+            class="glass-w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col"
           >
             <button
               class="flex flex-col items-center gap-1 p-3 text-xs transition-colors bg-blue-50 text-blue-600"
@@ -213,12 +213,12 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                   class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
                 >
                   <h2
-                    class="glass-text-lg font-semibold glass-text-secondary"
+                    class="glass-text-lg glass-font-semibold glass-text-secondary"
                   >
                     Components
                   </h2>
                   <button
-                    class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                    class="glass-p-2 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                     title="Collapse Palette"
                   >
                     ◀
@@ -228,30 +228,30 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                   class="glass-p-4 glass-border-b glass-border-subtle"
                 >
                   <div
-                    class="relative"
+                    class="glass-relative"
                   >
                     <input
-                      class="glass-w-full glass-px-3 glass-py-2 pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="glass-w-full glass-px-3 glass-py-2 glass-pl-10 glass-text-sm glass-border glass-border-subtle glass-radius-lg glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500"
                       placeholder="Search components..."
                       type="text"
                       value=""
                     />
                     <div
-                      class="absolute left-3 glass-top-1/2 transform -translate-y-1/2 glass-text-secondary"
+                      class="glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-text-secondary"
                     >
                       🔍
                     </div>
                   </div>
                 </div>
                 <div
-                  class="glass-flex-1 overflow-y-auto glass-p-4"
+                  class="glass-flex-1 glass-overflow-y-auto glass-p-4"
                 >
                   <div>
                     <div
-                      class="mb-4"
+                      class="glass-mb-4"
                     >
                       <button
-                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                       >
                         <div
                           class="glass-flex glass-items-center glass-gap-2"
@@ -262,7 +262,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             🏗️
                           </span>
                           <span
-                            class="glass-text-sm font-medium glass-text-secondary"
+                            class="glass-text-sm glass-font-medium glass-text-secondary"
                           >
                             Layout
                           </span>
@@ -281,10 +281,10 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                         </div>
                       </button>
                       <div
-                        class="mt-2 space-y-2 pl-4"
+                        class="glass-mt-2 glass-space-y-2 glass-pl-4"
                       >
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Container"
@@ -295,15 +295,15 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             📦
                           </div>
                           <div
-                            class="glass-flex-1 min-glass-w-0"
+                            class="glass-flex-1 glass-min-w-0"
                           >
                             <div
-                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                              class="glass-text-sm glass-font-medium glass-text-secondary glass-truncate"
                             >
                               Container
                             </div>
                             <div
-                              class="glass-text-xs glass-text-secondary capitalize"
+                              class="glass-text-xs glass-text-secondary glass-capitalize"
                             >
                               layout
                             </div>
@@ -315,7 +315,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </div>
                         </div>
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Row"
@@ -326,15 +326,15 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             ↔️
                           </div>
                           <div
-                            class="glass-flex-1 min-glass-w-0"
+                            class="glass-flex-1 glass-min-w-0"
                           >
                             <div
-                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                              class="glass-text-sm glass-font-medium glass-text-secondary glass-truncate"
                             >
                               Row
                             </div>
                             <div
-                              class="glass-text-xs glass-text-secondary capitalize"
+                              class="glass-text-xs glass-text-secondary glass-capitalize"
                             >
                               layout
                             </div>
@@ -346,7 +346,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </div>
                         </div>
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Column"
@@ -357,15 +357,15 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             ↕️
                           </div>
                           <div
-                            class="glass-flex-1 min-glass-w-0"
+                            class="glass-flex-1 glass-min-w-0"
                           >
                             <div
-                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                              class="glass-text-sm glass-font-medium glass-text-secondary glass-truncate"
                             >
                               Column
                             </div>
                             <div
-                              class="glass-text-xs glass-text-secondary capitalize"
+                              class="glass-text-xs glass-text-secondary glass-capitalize"
                             >
                               layout
                             </div>
@@ -379,10 +379,10 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      class="mb-4"
+                      class="glass-mb-4"
                     >
                       <button
-                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                       >
                         <div
                           class="glass-flex glass-items-center glass-gap-2"
@@ -393,7 +393,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             📝
                           </span>
                           <span
-                            class="glass-text-sm font-medium glass-text-secondary"
+                            class="glass-text-sm glass-font-medium glass-text-secondary"
                           >
                             Content
                           </span>
@@ -412,10 +412,10 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                         </div>
                       </button>
                       <div
-                        class="mt-2 space-y-2 pl-4"
+                        class="glass-mt-2 glass-space-y-2 glass-pl-4"
                       >
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Text"
@@ -426,15 +426,15 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             📝
                           </div>
                           <div
-                            class="glass-flex-1 min-glass-w-0"
+                            class="glass-flex-1 glass-min-w-0"
                           >
                             <div
-                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                              class="glass-text-sm glass-font-medium glass-text-secondary glass-truncate"
                             >
                               Text
                             </div>
                             <div
-                              class="glass-text-xs glass-text-secondary capitalize"
+                              class="glass-text-xs glass-text-secondary glass-capitalize"
                             >
                               content
                             </div>
@@ -446,7 +446,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </div>
                         </div>
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors active:cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Heading"
@@ -457,15 +457,15 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             🏷️
                           </div>
                           <div
-                            class="glass-flex-1 min-glass-w-0"
+                            class="glass-flex-1 glass-min-w-0"
                           >
                             <div
-                              class="glass-text-sm font-medium glass-text-secondary truncate"
+                              class="glass-text-sm glass-font-medium glass-text-secondary glass-truncate"
                             >
                               Heading
                             </div>
                             <div
-                              class="glass-text-xs glass-text-secondary capitalize"
+                              class="glass-text-xs glass-text-secondary glass-capitalize"
                             >
                               content
                             </div>
@@ -479,10 +479,10 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      class="mb-4"
+                      class="glass-mb-4"
                     >
                       <button
-                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                       >
                         <div
                           class="glass-flex glass-items-center glass-gap-2"
@@ -493,7 +493,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             🎬
                           </span>
                           <span
-                            class="glass-text-sm font-medium glass-text-secondary"
+                            class="glass-text-sm glass-font-medium glass-text-secondary"
                           >
                             Media
                           </span>
@@ -513,10 +513,10 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                       </button>
                     </div>
                     <div
-                      class="mb-4"
+                      class="glass-mb-4"
                     >
                       <button
-                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                       >
                         <div
                           class="glass-flex glass-items-center glass-gap-2"
@@ -527,7 +527,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             🎯
                           </span>
                           <span
-                            class="glass-text-sm font-medium glass-text-secondary"
+                            class="glass-text-sm glass-font-medium glass-text-secondary"
                           >
                             Interactive
                           </span>
@@ -547,10 +547,10 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                       </button>
                     </div>
                     <div
-                      class="mb-4"
+                      class="glass-mb-4"
                     >
                       <button
-                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                        class="glass-flex glass-items-center glass-justify-between glass-w-full glass-p-2 glass-radius-lg hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                       >
                         <div
                           class="glass-flex glass-items-center glass-gap-2"
@@ -561,7 +561,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                             ⚡
                           </span>
                           <span
-                            class="glass-text-sm font-medium glass-text-secondary"
+                            class="glass-text-sm glass-font-medium glass-text-secondary"
                           >
                             Advanced
                           </span>
@@ -586,7 +586,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                   class="glass-p-4 glass-border-t glass-border-subtle glass-surface-subtle"
                 >
                   <div
-                    class="glass-text-xs glass-text-secondary text-center"
+                    class="glass-text-xs glass-text-secondary glass-text-center"
                   >
                     💡 Drag components onto the canvas to add them
                   </div>
@@ -611,12 +611,12 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-gap-2"
               >
                 <span
-                  class="glass-text-sm font-medium glass-text-secondary"
+                  class="glass-text-sm glass-font-medium glass-text-secondary"
                 >
                   Canvas
                 </span>
                 <span
-                  class="glass-text-xs glass-text-secondary capitalize"
+                  class="glass-text-xs glass-text-secondary glass-capitalize"
                 >
                   (
                   desktop
@@ -631,39 +631,39 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="glass-flex-1 overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
+              class="glass-flex-1 glass-overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
               style="background-image: none; background-size: auto;"
             >
               <div
-                class="glass-mx-auto glass-surface-subtle glass-min-h-full glass-shadow-sm transition-all duration-300 glass-contrast-guard"
+                class="glass-mx-auto glass-surface-subtle glass-min-glass-h-full glass-shadow-sm glass-transition-all glass-duration-[300ms] glass-contrast-guard"
                 style="max-width: none; width: 100%;"
               >
                 <div
-                  class="min-h-full relative transition-all duration-200 glass-focus glass-touch-target"
+                  class="min-h-full relative transition-all duration-[150ms] glass-focus glass-touch-target"
                 >
                   <div
                     class="glass-flex glass-items-center glass-justify-center glass-min-glass-h-96 glass-p-12 glass-focus glass-touch-target glass-contrast-guard"
                   >
                     <div
-                      class="text-center"
+                      class="glass-text-center"
                     >
                       <div
-                        class="text-6xl mb-4"
+                        class="glass-text-6xl glass-mb-4"
                       >
                         🎨
                       </div>
                       <h3
-                        class="glass-text-lg font-medium glass-text-secondary mb-2"
+                        class="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2"
                       >
                         Start Building Your Page
                       </h3>
                       <p
-                        class="glass-text-secondary mb-6 max-w-sm"
+                        class="glass-text-secondary glass-mb-6 glass-max-w-sm"
                       >
                         Drag components from the palette on the left to start building your page.
                       </p>
                       <div
-                        class="space-y-2 glass-text-sm glass-text-secondary"
+                        class="glass-space-y-2 glass-text-sm glass-text-secondary"
                       >
                         <p>
                           💡 Try dragging a Container or Row component first
@@ -696,12 +696,12 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
               >
                 <h2
-                  class="glass-text-lg font-semibold glass-text-secondary"
+                  class="glass-text-lg glass-font-semibold glass-text-secondary"
                 >
                   Properties
                 </h2>
                 <button
-                  class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                  class="glass-p-2 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
                   title="Collapse Panel"
                 >
                   ▶
@@ -711,15 +711,15 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                 class="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-p-6"
               >
                 <div
-                  class="text-center"
+                  class="glass-text-center"
                 >
                   <div
-                    class="glass-text-4xl mb-4"
+                    class="glass-text-4xl glass-mb-4"
                   >
                     🎯
                   </div>
                   <h3
-                    class="glass-text-lg font-medium glass-text-secondary mb-2"
+                    class="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2"
                   >
                     No Component Selected
                   </h3>
@@ -735,7 +735,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="h-6 glass-surface-primary text-gray-300 glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4"
+        class="glass-h-6 glass-surface-primary glass-text-secondary glass-text-xs glass-flex glass-items-center glass-justify-between glass-px-4"
       >
         <div
           class="glass-flex glass-items-center glass-gap-4"

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Liquid Glass Transitions
@@ -21,6 +21,8 @@ import {
 } from "framer-motion";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface LiquidTransitionProps {
   children: React.ReactNode;
@@ -204,8 +206,8 @@ export const GlassLiquidTransition = forwardRef<
                 : "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
             },
             transition: {
-              duration: duration / 1000,
-              ease: "easeInOut",
+              duration: prefersReducedMotion ? 0 : duration / 1000,
+              ease: ANIMATION.EASING.easeInOut,
             },
             style: {
               scale: flowScale,
@@ -240,8 +242,8 @@ export const GlassLiquidTransition = forwardRef<
               scale: isActive ? 1.05 : 1,
             },
             transition: {
-              duration: duration / 1000,
-              ease: "easeInOut",
+              duration: prefersReducedMotion ? 0 : duration / 1000,
+              ease: ANIMATION.EASING.easeInOut,
             },
           };
 
@@ -258,9 +260,9 @@ export const GlassLiquidTransition = forwardRef<
               rotate: isActive ? [0, 180, 360] : 0,
             },
             transition: {
-              duration: duration / 1000,
+              duration: prefersReducedMotion ? 0 : duration / 1000,
               times: [0, 0.5, 1],
-              ease: "easeOut",
+              ease: ANIMATION.EASING.easeOut,
             },
           };
 
@@ -290,7 +292,7 @@ export const GlassLiquidTransition = forwardRef<
       >
         {/* Liquid glass overlay */}
         <motion.div
-          className='glass-absolute glass-inset-0 glass-pointer-events-none'
+          className="glass-absolute glass-inset-0 glass-pointer-events-none"
           style={{
             background: `radial-gradient(
             circle at ${50 + mousePos.x * 50}% ${50 + mousePos.y * 50}%,
@@ -305,7 +307,9 @@ export const GlassLiquidTransition = forwardRef<
         />
 
         {/* Content */}
-        <div className='glass-relative glass-z-10'>{children}</div>
+        <div className="glass-relative glass-z-10">
+          <ContrastGuard>{children}</ContrastGuard>
+        </div>
 
         {/* Additional liquid effects */}
         {variant === "ripple" && isActive && (
@@ -365,7 +369,7 @@ function LiquidRipples({
       {ripples.map((ripple: any) => (
         <motion.div
           key={ripple.id}
-          className='glass-absolute glass-pointer-events-none'
+          className="glass-absolute glass-pointer-events-none"
           initial={{ scale: 0, opacity: 1 }}
           animate={
             prefersReducedMotion ? {} : { scale: 3 * intensity, opacity: 0 }
@@ -374,7 +378,7 @@ function LiquidRipples({
           transition={
             prefersReducedMotion
               ? { duration: 0 }
-              : { duration: duration / 1000, ease: "easeOut" }
+              : { duration: duration / 1000, ease: ANIMATION.EASING.easeOut }
           }
           style={{
             left: `${50 + ripple.x * 50}%`,
@@ -386,7 +390,7 @@ function LiquidRipples({
           <OptimizedGlass
             intensity="medium"
             blur="strong"
-            className='glass-w-32 glass-h-32 glass-radius-full glass-border-2 glass-border-white/30'
+            className="glass-w-32 glass-h-32 glass-radius-full glass-border-2 glass-border-white/30"
           />
         </motion.div>
       ))}
@@ -420,7 +424,7 @@ function LiquidSplash({
         return (
           <motion.div
             key={i}
-            className='glass-absolute glass-pointer-events-none'
+            className="glass-absolute glass-pointer-events-none"
             initial={{
               x: `${50 + x * 50}%`,
               y: `${50 + y * 50}%`,
@@ -439,7 +443,7 @@ function LiquidSplash({
                 ? { duration: 0 }
                 : {
                     duration: duration / 1000,
-                    ease: "easeOut",
+                    ease: ANIMATION.EASING.easeOut,
                   }
             }
             style={{
@@ -447,7 +451,7 @@ function LiquidSplash({
               translateY: "-50%",
             }}
           >
-            <div className='glass-w-4 glass-h-4 glass-radius-full glass-surface-primary' />
+            <div className="glass-w-4 glass-h-4 glass-radius-full glass-surface-primary" />
           </motion.div>
         );
       })}
@@ -534,14 +538,14 @@ export const GlassLiquidContainer = React.forwardRef<
         id={containerId}
         role={role}
         aria-label={ariaLabel}
-        style={
-          shouldAnimate
+        style={{
+          ...(shouldAnimate
             ? {
                 borderRadius: `${12 + morphAmount * 38}px`,
                 transform: `scale(${1 + morphAmount * 0.05})`,
               }
-            : {}
-        }
+            : {}),
+        }}
         transition={
           shouldAnimate ? { type: "spring", stiffness: 100, damping: 20 } : {}
         }
@@ -552,7 +556,7 @@ export const GlassLiquidContainer = React.forwardRef<
           blur="medium"
           className="glass-w-full glass-h-full"
         >
-          {children}
+          <ContrastGuard>{children}</ContrastGuard>
         </OptimizedGlass>
       </motion.div>
     );

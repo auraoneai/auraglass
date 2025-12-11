@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import { ArrowDownIcon, ArrowUpIcon, Minus } from "lucide-react";
 import React from "react";
@@ -8,6 +8,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassKPICardProps {
   /**
@@ -85,8 +87,6 @@ export interface GlassKPICardProps {
  * A glassmorphism KPI card for displaying key performance indicators
  */
 export const GlassKPICard: React.FC<GlassKPICardProps> = ({
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
   title = "KPI",
   value = "--",
   unit = "",
@@ -255,12 +255,12 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
       >
         <div className="glass-gap-4">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24'></div>
-            <div className='glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md'></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24"></div>
+            <div className="glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md"></div>
           </div>
           <div className="glass-gap-2">
-            <div className='glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32'></div>
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
+            <div className="glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32"></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
           </div>
         </div>
       </GlassCard>
@@ -286,13 +286,13 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
           onClick && [
             "cursor-pointer",
             "hover:shadow-2xl hover:shadow-purple-500/20",
-            "transition-all duration-500 ease-out",
+            `transition-all duration-[${ANIMATION.DURATION.slow}ms] ease-out`,
           ],
           className
         )}
         {...props}
       >
-        <CardHeader className='glass-pb-2'>
+        <CardHeader className="glass-pb-2">
           <div className="glass-flex glass-items-center glass-justify-between">
             <CardTitle
               className={cn(
@@ -308,27 +308,34 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
                     "group-hover:from-white/15 group-hover:to-white/8",
                     "group-hover:border-white/30 group-hover:shadow-lg",
                     "group-hover:scale-110 group-hover:rotate-2",
-                    "transition-all duration-300 ease-out",
+                    `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
                     variantConfig.iconColor
                   )}
                 >
-                  <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-300' />
+                  <div
+                    className={`glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-[${ANIMATION.DURATION.normal}ms]`}
+                  />
                   <span
                     className={cn(
                       config.iconSize,
-                      "relative z-10 transition-transform duration-300 group-hover:scale-110"
+                      `relative z-10 transition-transform duration-[${ANIMATION.DURATION.normal}ms] group-hover:scale-110`
                     )}
                   >
                     {icon}
                   </span>
                 </div>
               )}
-              {title}
+              <ContrastGuard>{title}</ContrastGuard>
             </CardTitle>
             {trendInfo && trendInfo.trendIcon && (
-              <div className='glass-flex glass-items-center glass-gap-1 trend-indicator'>
-                <div className='glass-p-1 glass-radius-md glass-surface-subtle/10 glass-group-hover:glass-surface-subtle/20 glass-transition-colors glass-duration-300'>
-                  <span data-icon className='glass-transition-all glass-duration-300'>
+              <div className="glass-flex glass-items-center glass-gap-1 trend-indicator">
+                <div
+                  className={`glass-p-1 glass-radius-md glass-surface-subtle/10 glass-group-hover:glass-surface-subtle/20 glass-transition-colors glass-duration-[${ANIMATION.DURATION.normal}ms]`}
+                >
+                  <span
+                    data-icon
+                    className={`glass-transition-all glass-duration-[${ANIMATION.DURATION.normal}ms]`}
+                  >
                     {trendInfo.trendIcon}
                   </span>
                 </div>
@@ -337,7 +344,7 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
                     className={cn(
                       config.trendTextSize,
                       trendInfo.trendColor,
-                      "font-medium transition-all duration-300",
+                      `font-medium transition-all duration-[${ANIMATION.DURATION.normal}ms]`,
                       "group-glass-hover-scale-105 group-hover:brightness-110"
                     )}
                   >
@@ -348,52 +355,58 @@ export const GlassKPICard: React.FC<GlassKPICardProps> = ({
             )}
           </div>
           {description && (
-            <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1'>
+            <p className="glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1">
               {description}
             </p>
           )}
         </CardHeader>
 
-        <CardContent className='glass-pt-0'>
-          <div className='glass-flex glass-items-baseline glass-gap-2 glass-relative'>
+        <CardContent className="glass-pt-0">
+          <div className="glass-flex glass-items-baseline glass-gap-2 glass-relative">
             {/* Value with premium glow effect */}
-            <div className='glass-relative premium-glow'>
-              <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-500 glass--z-10 glass-scale-150' />
+            <div className="glass-relative premium-glow">
+              <div
+                className={`glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-[${ANIMATION.DURATION.slow}ms] glass--z-10 glass-scale-150`}
+              />
               <span
                 data-value
                 className={cn(
                   config.valueClass,
                   variantConfig.valueColor,
                   "relative z-10 font-bold tracking-tight",
-                  "group-hover:glass-text-primary transition-all duration-300",
+                  `group-hover:glass-text-primary transition-all duration-[${ANIMATION.DURATION.normal}ms]`,
                   "drop-shadow-sm group-hover:drop-shadow-lg"
                 )}
               >
-                {displayValue}
+                <ContrastGuard>{displayValue}</ContrastGuard>
               </span>
             </div>
 
             {unit && (
-              <span
-                className={cn(
-                  "glass-text-lg glass-text-primary/70 font-medium",
-                  "group-hover:glass-text-primary/90 transition-colors duration-300"
-                )}
-              >
-                {unit}
-              </span>
+              <ContrastGuard>
+                <span
+                  className={cn(
+                    "glass-text-lg glass-text-primary/70 font-medium",
+                    `group-hover:glass-text-primary/90 transition-colors duration-[${ANIMATION.DURATION.normal}ms]`
+                  )}
+                >
+                  {unit}
+                </span>
+              </ContrastGuard>
             )}
           </div>
 
           {previousValue && (
             <div className="glass-mt-2">
-              <span className='glass-text-sm glass-text-primary-glass-opacity-50'>
-                Previous:{" "}
-                {formatValue
-                  ? formatValue(previousValue)
-                  : String(previousValue)}
-                {unit}
-              </span>
+              <ContrastGuard>
+                <span className="glass-text-sm glass-text-primary-glass-opacity-50">
+                  Previous:{" "}
+                  {formatValue
+                    ? formatValue(previousValue)
+                    : String(previousValue)}
+                  {unit}
+                </span>
+              </ContrastGuard>
             </div>
           )}
 

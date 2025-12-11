@@ -16,12 +16,12 @@ exports[`GlassPropertyPanel matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle"
       >
         <h2
-          class="glass-text-lg font-semibold glass-text-secondary"
+          class="glass-text-lg glass-font-semibold glass-text-secondary"
         >
           Properties
         </h2>
         <button
-          class="glass-p-2 glass-text-secondary hover:glass-text-secondary transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-p-2 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
           title="Collapse Panel"
         >
           ▶
@@ -31,15 +31,15 @@ exports[`GlassPropertyPanel matches snapshot 1`] = `
         class="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-p-6"
       >
         <div
-          class="text-center"
+          class="glass-text-center"
         >
           <div
-            class="glass-text-4xl mb-4"
+            class="glass-text-4xl glass-mb-4"
           >
             🎯
           </div>
           <h3
-            class="glass-text-lg font-medium glass-text-secondary mb-2"
+            class="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2"
           >
             No Component Selected
           </h3>

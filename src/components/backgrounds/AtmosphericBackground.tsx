@@ -1,25 +1,26 @@
-'use client';
+"use client";
 /**
  * AtmosphericBackground Component
  *
  * A dynamic background component with atmospheric effects.
  */
-import React, { forwardRef, useState, useEffect, useRef } from 'react';
-import { cn } from '@/lib/utils';
+import React, { forwardRef, useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
-import { OptimizedGlass } from '../../primitives';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { useA11yId } from '../../utils/a11y';
-import { AtmosphericBackgroundProps } from './types';
-import styles from './AtmosphericBackground.module.css';
+import { OptimizedGlass } from "../../primitives";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { useA11yId } from "../../utils/a11y";
+import { AtmosphericBackgroundProps } from "./types";
+import { ANIMATION } from "../../tokens/designConstants";
+import styles from "./AtmosphericBackground.module.css";
 
 // Default gradient colors
 const defaultGradientColors = [
-  'var(--glass-color-primary, 0.5)', // Blue
-  'rgba(99, 102, 241, 0.5)', // Indigo
-  'rgba(139, 92, 246, 0.5)', // Purple
-  'rgba(244, 114, 182, 0.5)', // Pink
+  "color-mix(in srgb, var(--glass-color-primary) 50%, transparent)", // Blue
+  "color-mix(in srgb, var(--glass-color-secondary) 50%, transparent)", // Indigo
+  "color-mix(in srgb, var(--glass-color-accent) 50%, transparent)", // Purple
+  "color-mix(in srgb, var(--glass-color-info) 50%, transparent)", // Pink
 ];
 
 /**
@@ -33,28 +34,30 @@ const AtmosphericBackgroundComponent = (
     children,
     className,
     style,
-    baseColor = 'rgba(10, 10, 20, 0.8)',
+    baseColor = "color-mix(in srgb, var(--glass-black) 80%, transparent)",
     gradientColors = defaultGradientColors,
     intensity = 0.7,
     animate = true,
-    animationDuration = 15,
+    animationDuration = ANIMATION.DURATION.slower / 1000,
     interactive = false,
     blur = false,
     blurAmount = 5,
-    intent = 'neutral',
-    elevation = 'level2',
-    tier = 'medium',
+    intent = "neutral",
+    elevation = "level2",
+    tier = "medium",
     respectMotionPreference = true,
     ...rest
   } = props;
 
   // Accessibility and motion preferences
-  const componentId = useA11yId('atmospheric-bg');
+  const componentId = useA11yId("atmospheric-bg");
   const prefersReducedMotion = useReducedMotion();
-  const { prefersReducedMotion: motionPrefersReduced } = useMotionPreferenceContext();
-  
+  const { prefersReducedMotion: motionPrefersReduced } =
+    useMotionPreferenceContext();
+
   // Determine if motion should be reduced based on all preferences
-  const shouldReduceMotion = respectMotionPreference && (prefersReducedMotion || motionPrefersReduced);
+  const shouldReduceMotion =
+    respectMotionPreference && (prefersReducedMotion || motionPrefersReduced);
 
   // State for mouse position
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
@@ -78,21 +81,22 @@ const AtmosphericBackgroundComponent = (
       setMousePosition({ x, y });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [interactive, shouldReduceMotion]);
 
   // Handle forwarded ref
   const setRefs = (element: HTMLDivElement) => {
     if (containerRef.current !== element) {
-      (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
+      (containerRef as React.MutableRefObject<HTMLDivElement | null>).current =
+        element;
     }
 
     // Handle the forwarded ref
-    if (typeof ref === 'function') {
+    if (typeof ref === "function") {
       ref(element);
     } else if (ref) {
       (ref as React.MutableRefObject<HTMLDivElement | null>).current = element;
@@ -101,7 +105,7 @@ const AtmosphericBackgroundComponent = (
 
   const gradientStyle: React.CSSProperties & Record<string, string | number> = {
     backgroundColor: baseColor,
-    backgroundImage: `linear-gradient(125deg, ${gradientColors.join(', ')})`,
+    backgroundImage: `linear-gradient(125deg, ${gradientColors.join(", ")})`,
     opacity: intensity,
   };
 
@@ -110,7 +114,7 @@ const AtmosphericBackgroundComponent = (
   }
 
   if (animate && !shouldReduceMotion && !interactive) {
-    gradientStyle['--atmosphere-gradient-duration'] = `${animationDuration}s`;
+    gradientStyle["--atmosphere-gradient-duration"] = `${animationDuration}s`;
   }
 
   const gradientClasses = cn(
@@ -137,20 +141,24 @@ const AtmosphericBackgroundComponent = (
       intent={intent as any}
       elevation={elevation as any}
       tier={tier as any}
-      className={cn('glass-atmospheric-background', styles.container, className)}
-      style={style}
+      className={cn(
+        "glass-atmospheric-background",
+        styles.container,
+        className
+      )}
+      style={{ ...(style || {}) }}
       id={componentId}
       role="img"
-      aria-label={`Atmospheric background with ${animate && !shouldReduceMotion ? 'animated' : 'static'} ${gradientColors.length} color gradient`}
+      aria-label={`Atmospheric background with ${animate && !shouldReduceMotion ? "animated" : "static"} ${gradientColors.length} color gradient`}
       aria-hidden="true"
       tabIndex={interactive ? 0 : -1}
       {...rest}
     >
-      <div className={gradientClasses} style={gradientStyle} />
+      <div className={gradientClasses} style={{ ...gradientStyle }} />
 
       <div className={effectClasses} />
 
-      <div className={styles.blurLayer} style={blurStyle} />
+      <div className={styles.blurLayer} style={{ ...blurStyle }} />
 
       <div className={styles.contentLayer}>{children}</div>
     </OptimizedGlass>
@@ -163,7 +171,7 @@ const AtmosphericBackgroundComponent = (
  * A dynamic background component with atmospheric effects.
  */
 const AtmosphericBackground = forwardRef(AtmosphericBackgroundComponent);
-AtmosphericBackground.displayName = 'AtmosphericBackground';
+AtmosphericBackground.displayName = "AtmosphericBackground";
 
 export default AtmosphericBackground;
 export { AtmosphericBackground };

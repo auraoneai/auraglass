@@ -15,7 +15,7 @@ exports[`GlassTreeView matches snapshot 1`] = `
       aria-expanded="false"
       aria-level="1"
       aria-selected="false"
-      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-200 glass-radius-md h-10 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
+      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-[150ms] glass-radius-md h-10 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
       draggable="false"
       id="tree-node-:rj:"
       role="treeitem"
@@ -27,10 +27,10 @@ exports[`GlassTreeView matches snapshot 1`] = `
       >
         <button
           aria-label="Expand"
-          class="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-p-1 glass-radius-md hover:glass-surface-overlay glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           <svg
-            class="glass-w-full glass-h-full transition-transform duration-200"
+            class="glass-w-full glass-h-full glass-transition-transform glass-duration-[150ms]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -45,9 +45,15 @@ exports[`GlassTreeView matches snapshot 1`] = `
         </button>
       </div>
       <span
-        class="glass-flex-1 truncate"
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        Overview
+        <span
+          class="glass-flex-1 glass-truncate"
+        >
+          Overview
+        </span>
       </span>
     </div>
   </div>
@@ -58,7 +64,7 @@ exports[`GlassTreeView matches snapshot 1`] = `
       aria-expanded="false"
       aria-level="1"
       aria-selected="false"
-      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-200 glass-radius-md h-10 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
+      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-[150ms] glass-radius-md h-10 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
       draggable="false"
       id="tree-node-:rk:"
       role="treeitem"
@@ -70,10 +76,10 @@ exports[`GlassTreeView matches snapshot 1`] = `
       >
         <button
           aria-label="Expand"
-          class="glass-p-1 glass-radius-md hover:glass-surface-overlay transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-p-1 glass-radius-md hover:glass-surface-overlay glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           <svg
-            class="glass-w-full glass-h-full transition-transform duration-200"
+            class="glass-w-full glass-h-full glass-transition-transform glass-duration-[150ms]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -88,9 +94,15 @@ exports[`GlassTreeView matches snapshot 1`] = `
         </button>
       </div>
       <span
-        class="glass-flex-1 truncate"
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        Settings
+        <span
+          class="glass-flex-1 glass-truncate"
+        >
+          Settings
+        </span>
       </span>
     </div>
   </div>

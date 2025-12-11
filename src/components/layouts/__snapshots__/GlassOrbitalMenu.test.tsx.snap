@@ -9,34 +9,34 @@ exports[`GlassOrbitalMenu matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 376px; height: 376px;"
 >
   <div
-    class="absolute inset-0 glass-flex glass-items-center glass-justify-center"
+    class="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
   >
     <button
       aria-controls=":r5:-items"
       aria-expanded="false"
       aria-label="Open menu"
-      class="relative z-20 glass-flex glass-items-center glass-justify-center glass-surface glass-radius-full glass-border glass-border-white/20 glass-glass-backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 transition-colors glass-contrast-guard"
+      class="glass-relative glass-z-20 glass-flex glass-items-center glass-justify-center glass-surface glass-radius-full glass-border glass-border-white/20 glass-backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 glass-transition-colors glass-contrast-guard"
       style="width: 56px; height: 56px;"
     >
       <div
-        class="w-6 h-6 glass-flex glass-flex-col glass-items-center glass-justify-center"
+        class="glass-w-6 glass-h-6 glass-flex glass-flex-col glass-items-center glass-justify-center"
       >
         <div
-          class="w-4 h-0-5 glass-surface-subtle/70 mb-1"
+          class="glass-w-4 glass-h-0-5 glass-surface-subtle/70 glass-mb-1"
         />
         <div
-          class="w-4 h-0-5 glass-surface-subtle/70"
+          class="glass-w-4 glass-h-0-5 glass-surface-subtle/70"
         />
       </div>
     </button>
     <div
-      class="absolute inset-0 glass-flex glass-items-center glass-justify-center pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-pointer-events-none"
       id=":r5:-items"
       role="group"
     />
   </div>
   <div
-    class="absolute bottom-2 right-2 glass-text-xs text-primary/60"
+    class="glass-absolute glass-bottom-2 glass-right-2 glass-text-xs glass-text-primary-glass-opacity-60"
   >
     0
      items

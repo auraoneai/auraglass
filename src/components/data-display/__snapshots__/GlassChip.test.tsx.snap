@@ -15,10 +15,10 @@ exports[`GlassChip matches snapshot 1`] = `
     tabindex="-1"
   >
     <span
-      class="glass-flex-1 glass-min-w-0 truncate font-medium"
+      class="glass-flex-1 glass-min-glass-w-0 glass-truncate glass-font-medium"
     />
     <div
-      class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary glass-pointer-events-none"
     />
   </div>
 </div>

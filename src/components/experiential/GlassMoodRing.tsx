@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef, useState, useEffect, useCallback } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
@@ -6,6 +6,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import { useGlassSound } from "../../utils/soundDesign";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface MoodState {
   name: string;
@@ -54,43 +57,43 @@ export interface GlassMoodRingProps
 const defaultMoodStates: MoodState[] = [
   {
     name: "Happy",
-    color: "#FFD700",
+    color: "var(--glass-color-warning)",
     intensity: 0.8,
     description: "Feeling joyful and content",
   },
   {
     name: "Calm",
-    color: "#87CEEB",
+    color: "var(--glass-color-info)",
     intensity: 0.6,
     description: "Peaceful and relaxed",
   },
   {
     name: "Energetic",
-    color: "#FF4500",
+    color: "var(--glass-color-danger)",
     intensity: 0.9,
     description: "Full of energy and excitement",
   },
   {
     name: "Focused",
-    color: "#9370DB",
+    color: "var(--glass-color-secondary)",
     intensity: 0.7,
     description: "Concentrated and determined",
   },
   {
     name: "Stressed",
-    color: "#DC143C",
+    color: "var(--glass-color-danger)",
     intensity: 0.8,
     description: "Feeling overwhelmed or tense",
   },
   {
     name: "Creative",
-    color: "#FF69B4",
+    color: "var(--glass-color-secondary)",
     intensity: 0.75,
     description: "In a creative and imaginative state",
   },
   {
     name: "Melancholic",
-    color: "#4169E1",
+    color: "var(--glass-color-primary)",
     intensity: 0.5,
     description: "Reflective and somewhat sad",
   },
@@ -122,7 +125,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
       size = "md",
       interactive = true,
       animated = true,
-      transitionDuration = 1000,
+      transitionDuration = ANIMATION.DURATION.slower,
       showLabels = true,
       showDescription = false,
       onMoodChange,
@@ -319,7 +322,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
           className="glass-flex glass-flex-col glass-items-center glass-gap-4"
         >
           {/* Main Mood Ring */}
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <Motion
               as="div"
               preset={
@@ -358,7 +361,8 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
               <div
                 className={cn(
                   "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                  "glass-radius-full flex items-center justify-center transition-all duration-1000",
+                  `glass-radius-full flex items-center justify-center transition-all`,
+                  `duration-[${ANIMATION.DURATION.slower}ms]`,
                   config.center,
                   !prefersReducedMotion && "animate-pulse"
                 )}
@@ -368,7 +372,9 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                 }}
               >
                 {currentMood.icon && (
-                  <div className='glass-text-primary-glass-opacity-90'>{currentMood.icon}</div>
+                  <div className="glass-text-primary-glass-opacity-90">
+                    {currentMood.icon}
+                  </div>
                 )}
               </div>
 
@@ -378,7 +384,8 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                   key={i}
                   className={cn(
                     "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                    "glass-radius-full border transition-all duration-1000",
+                    `glass-radius-full border transition-all`,
+                    `duration-[${ANIMATION.DURATION.slower}ms]`,
                     !prefersReducedMotion && "animate-pulse"
                   )}
                   style={{
@@ -404,7 +411,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
           </div>
 
           {/* Mood Information */}
-          <div className='glass-text-center glass-gap-2'>
+          <div className="glass-text-center glass-gap-2">
             {showLabels && (
               <Motion
                 preset={
@@ -449,7 +456,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                   : "none"
               }
               delay={200}
-              className='glass-flex glass-flex-wrap glass-gap-1 glass-justify-center glass-max-w-xs'
+              className="glass-flex glass-flex-wrap glass-gap-1 glass-justify-center glass-max-w-xs"
             >
               {moodStates.map((mood, index) => (
                 <button
@@ -481,7 +488,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                   ? "slideUp"
                   : "none"
               }
-              delay={300}
+              delay={ANIMATION.DURATION.normal}
               className="glass-flex glass-gap-2 glass-items-center glass-text-xs glass-text-secondary"
             >
               {autoTransition && (
@@ -500,14 +507,14 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
 
               {biometricIntegration && (
                 <div className="glass-flex glass-items-center glass-gap-1">
-                  <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse' />
+                  <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
                   <span>Bio</span>
                 </div>
               )}
 
               {ambientResponse && (
                 <div className="glass-flex glass-items-center glass-gap-1">
-                  <div className='glass-w-2 glass-h-2 glass-surface-blue glass-radius-full glass-animate-pulse' />
+                  <div className="glass-w-2 glass-h-2 glass-surface-blue glass-radius-full glass-animate-pulse" />
                   <span>Ambient</span>
                 </div>
               )}

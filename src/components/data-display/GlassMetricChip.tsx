@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
@@ -6,6 +6,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassMetricChipProps {
   label: string;
@@ -24,8 +26,6 @@ export function GlassMetricChip({
   icon,
   className,
 }: GlassMetricChipProps) {
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
   const intentColor =
     intent === "success"
       ? "text-emerald-300"
@@ -43,10 +43,22 @@ export function GlassMetricChip({
         className
       )}
     >
-      {icon && <span className='glass-opacity-80'>{icon}</span>}
-      <span className='glass-text-xs glass-text-primary-opacity-70'>{label}</span>
-      <span className={cn("font-semibold", intentColor)}>{value}</span>
-      {delta && <span className='glass-text-xs glass-text-primary-glass-opacity-60'>{delta}</span>}
+      {icon && <span className="glass-opacity-80">{icon}</span>}
+      <ContrastGuard>
+        <span className="glass-text-xs glass-text-primary-opacity-70">
+          {label}
+        </span>
+      </ContrastGuard>
+      <ContrastGuard>
+        <span className={cn("font-semibold", intentColor)}>{value}</span>
+      </ContrastGuard>
+      {delta && (
+        <ContrastGuard>
+          <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+            {delta}
+          </span>
+        </ContrastGuard>
+      )}
     </OptimizedGlass>
   );
 }

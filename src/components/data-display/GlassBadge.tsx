@@ -1,4 +1,4 @@
-'use client';
+"use client";
 // Avoid importing DS aggregator within DS; keep relative
 import { GlassButton } from "../button/GlassButton";
 
@@ -12,6 +12,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /**
@@ -81,8 +83,6 @@ export interface GlassBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       variant = "default",
       size = "sm",
       shape = "glass-radius-md",
@@ -200,7 +200,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
         id={badgeId}
         className={cn(
           "inline-flex items-center glass-gap-1 font-medium",
-          "transition-all duration-200",
+          `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
           sizeClasses[size],
           shapeClasses[shape],
           (variantClasses as any)[variant] ?? variantClasses.default,
@@ -218,7 +218,11 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
           </span>
         )}
 
-        {children && <span className='glass-whitespace-nowrap'>{children}</span>}
+        {children && (
+          <ContrastGuard>
+            <span className="glass-whitespace-nowrap">{children}</span>
+          </ContrastGuard>
+        )}
 
         {rightIcon && !removable && (
           <span className={cn("flex-shrink-0", iconSize[size])}>
@@ -239,7 +243,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
             aria-label="Remove badge"
           >
             <svg
-              className='glass-w-2-5 glass-h-2-5'
+              className="glass-w-2-5 glass-h-2-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -304,7 +308,7 @@ export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
 
     return (
       <GlassBadge ref={ref} variant={config.variant} dot={dotOnly} {...props}>
-        {!dotOnly && config.label}
+        {!dotOnly && <ContrastGuard>{config.label}</ContrastGuard>}
       </GlassBadge>
     );
   }
@@ -340,7 +344,7 @@ export const CountBadge = forwardRef<HTMLSpanElement, CountBadgeProps>(
 
     return (
       <GlassBadge ref={ref} variant="default" size="xs" shape="pill" {...props}>
-        {displayCount}
+        <ContrastGuard>{displayCount}</ContrastGuard>
       </GlassBadge>
     );
   }
@@ -410,13 +414,13 @@ export function BadgeGroup({
           onRemove={badge.onRemove}
           animate
         >
-          {badge.label}
+          <ContrastGuard>{badge.label}</ContrastGuard>
         </GlassBadge>
       ))}
 
       {hiddenCount > 0 && (
         <GlassBadge variant="outline" size="sm">
-          +{hiddenCount} more
+          <ContrastGuard>+{hiddenCount} more</ContrastGuard>
         </GlassBadge>
       )}
     </div>

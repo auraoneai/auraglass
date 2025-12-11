@@ -7,6 +7,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../../tokens/designConstants";
 
 export interface ChartAxisProps {
   orientation?: "horizontal" | "vertical";
@@ -61,9 +62,7 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
   });
   const axisLineStyle: React.CSSProperties = {
     position: "absolute",
-    background:
-      glassStyles.borderColor ||
-      '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}',
+    background: glassStyles.borderColor || "var(--glass-border-subtle)",
     ...(orientation === "horizontal"
       ? { height: "1px", left: 0, right: 0, bottom: "15px" }
       : { width: "1px", top: 0, bottom: "15px", right: "15px" }),
@@ -81,12 +80,12 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
     <div
       data-glass-component
       ref={axisRef}
-      style={containerStyle}
+      style={{ ...containerStyle }}
       className={className}
       data-testid={dataTestId}
     >
       {/* Axis line */}
-      <div style={axisLineStyle} />
+      <div style={{ ...axisLineStyle }} />
 
       {/* Tick marks and labels */}
       {showTicks &&
@@ -100,72 +99,76 @@ export const ChartAxis: React.FC<ChartAxisProps> = ({
                     left: `${tick.position}%`,
                     bottom: "10px",
                     transform: "translateX(-50%)",
-                    borderLeft: `1px solid ${glassStyles.borderColor || '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'}`,
+                    borderLeft: `1px solid ${glassStyles.borderColor || "var(--glass-border-subtle)"}`,
                     height: "10px",
                   }
                 : {
                     top: `${100 - tick.position}%`,
                     right: "10px",
                     transform: "translateY(50%)",
-                    borderTop: `1px solid ${glassStyles.borderColor || '${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'}`,
+                    borderTop: `1px solid ${glassStyles.borderColor || "var(--glass-border-subtle)"}`,
                     width: "10px",
                   }),
             }}
           >
             {showLabels && (
-              <span
-                style={{
-                  position: "absolute",
-                  fontSize: "0.625rem",
-                  color:
-                    '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-60))"}',
-                  whiteSpace: "nowrap",
-                  ...(orientation === "horizontal"
-                    ? {
-                        top: "12px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                      }
-                    : {
-                        right: "12px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                      }),
-                }}
-              >
-                {tick.value}
-              </span>
+              <ContrastGuard>
+                <TextWithContrast
+                  as="span"
+                  style={{
+                    position: "absolute",
+                    fontSize: "0.625rem",
+                    color: "var(--glass-text-secondary)",
+                    whiteSpace: "nowrap",
+                    ...(orientation === "horizontal"
+                      ? {
+                          top: "12px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                        }
+                      : {
+                          right: "12px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                        }),
+                  }}
+                >
+                  {tick.value}
+                </TextWithContrast>
+              </ContrastGuard>
             )}
           </div>
         ))}
 
       {/* Axis label */}
       {label && (
-        <div
-          style={{
-            position: "absolute",
-            fontSize: "var(--typography-caption-size)",
-            color:
-              '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}',
-            fontWeight: "var(--typography-subheading-weight)",
-            ...(orientation === "horizontal"
-              ? {
-                  bottom: "-25px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  textAlign: "center",
-                }
-              : {
-                  left: "-45px",
-                  top: "50%",
-                  transform: "translateY(-50%) rotate(-90deg)",
-                  transformOrigin: "center",
-                  whiteSpace: "nowrap",
-                }),
-          }}
-        >
-          {label}
-        </div>
+        <ContrastGuard>
+          <TextWithContrast
+            as="div"
+            style={{
+              position: "absolute",
+              fontSize: "var(--typography-caption-size)",
+              color: "var(--glass-text-secondary)",
+              fontWeight: "var(--typography-subheading-weight)",
+              ...(orientation === "horizontal"
+                ? {
+                    bottom: "-25px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    textAlign: "center",
+                  }
+                : {
+                    left: "-45px",
+                    top: "50%",
+                    transform: "translateY(-50%) rotate(-90deg)",
+                    transformOrigin: "center",
+                    whiteSpace: "nowrap",
+                  }),
+            }}
+          >
+            {label}
+          </TextWithContrast>
+        </ContrastGuard>
       )}
     </div>
   );

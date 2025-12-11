@@ -2,7 +2,7 @@
 
 exports[`PageGlassContainer matches snapshot 1`] = `
 <div
-  class="motion-primitive relative"
+  class="motion-primitive glass-relative"
 >
   <div
     class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative w-full h-auto rounded-none p-5 box-border z-0 overflow-hidden"

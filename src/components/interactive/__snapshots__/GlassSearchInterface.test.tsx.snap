@@ -6,7 +6,7 @@ exports[`GlassSearchInterface matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="relative"
+    class="glass-relative"
   >
     <div
       class="relative w-full"
@@ -22,7 +22,7 @@ exports[`GlassSearchInterface matches snapshot 1`] = `
           class="flex items-center justify-center mr-3 glass-text-secondary w-4 h-4"
         >
           <svg
-            class="w-4 h-4"
+            class="glass-w-4 glass-h-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ exports[`GlassSearchInterface matches snapshot 1`] = `
         </div>
         <input
           aria-label="Search..."
-          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed pr-8"
+          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed pr-8"
           id="glass-input-:r5:"
           placeholder="Search..."
           value=""

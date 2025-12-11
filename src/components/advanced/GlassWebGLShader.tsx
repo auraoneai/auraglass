@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AuraGlass WebGL Glass Shaders
  * Advanced GPU-accelerated glass effects
@@ -6,6 +6,9 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface ShaderProps {
   className?: string;
@@ -480,7 +483,7 @@ export function GlassWebGLShader({
     >
       <canvas
         ref={canvasRef}
-        className='glass-absolute glass-inset-0 glass-w-full glass-h-full'
+        className="glass-absolute glass-inset-0 glass-w-full glass-h-full"
         width={800}
         height={600}
       />

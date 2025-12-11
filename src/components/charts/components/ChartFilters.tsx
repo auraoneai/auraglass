@@ -33,7 +33,7 @@ export const ChartFilters: React.FC<ChartFiltersProps> = ({
     "var(--glass-color-danger)",
     "var(--glass-color-success)",
     "var(--glass-color-warning)",
-    "#8b5cf6",
+    "var(--glass-color-secondary)",
   ],
   qualityTier = "medium",
   className,

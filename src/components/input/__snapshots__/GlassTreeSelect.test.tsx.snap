@@ -5,7 +5,7 @@ exports[`GlassTreeSelect matches snapshot 1`] = `
   class="relative"
 >
   <button
-    class="w-full flex items-center justify-between gap-2 glass-p-3 glass-radius-md bg-white/5 border glass-border-subtle transition-all duration-200 hover:bg-white/10 focus:outline-none glass-focus glass-touch-target glass-contrast-guard disabled:opacity-50 disabled:cursor-not-allowed"
+    class="w-full flex items-center justify-between gap-2 glass-p-3 glass-radius-md bg-white/5 border glass-border-subtle transition-all duration-[150ms] hover:bg-white/10 focus:outline-none glass-focus glass-touch-target glass-contrast-guard disabled:opacity-50 glass-disabled-cursor-not-allowed"
     type="button"
   >
     <span
@@ -14,7 +14,7 @@ exports[`GlassTreeSelect matches snapshot 1`] = `
       Select...
     </span>
     <svg
-      class="w-4 h-4 glass-text-secondary flex-shrink-0 transition-transform duration-200"
+      class="w-4 h-4 glass-text-secondary flex-shrink-0 transition-transform duration-[150ms]"
       fill="none"
       viewBox="0 0 24 24"
     >

@@ -6,80 +6,86 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-3"
+        class="card-header glass-pb-3"
       >
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
-          <h2
-            class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-palette w-5 h-5"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
+            <h2
+              class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
             >
-              <path
-                d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"
-              />
-              <circle
-                cx="13.5"
-                cy="6.5"
-                fill="currentColor"
-                r=".5"
-              />
-              <circle
-                cx="17.5"
-                cy="10.5"
-                fill="currentColor"
-                r=".5"
-              />
-              <circle
-                cx="6.5"
-                cy="12.5"
-                fill="currentColor"
-                r=".5"
-              />
-              <circle
-                cx="8.5"
-                cy="7.5"
-                fill="currentColor"
-                r=".5"
-              />
-            </svg>
-            Gradient Picker
-          </h2>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-palette glass-w-5 glass-h-5"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"
+                />
+                <circle
+                  cx="13.5"
+                  cy="6.5"
+                  fill="currentColor"
+                  r=".5"
+                />
+                <circle
+                  cx="17.5"
+                  cy="10.5"
+                  fill="currentColor"
+                  r=".5"
+                />
+                <circle
+                  cx="6.5"
+                  cy="12.5"
+                  fill="currentColor"
+                  r=".5"
+                />
+                <circle
+                  cx="8.5"
+                  cy="7.5"
+                  fill="currentColor"
+                  r=".5"
+                />
+              </svg>
+              Gradient Picker
+            </h2>
+          </span>
           <div
             class="glass-flex glass-gap-2"
           >
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Generate random gradient"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
                 id="glass-button-:rl:"
                 title="Random Gradient"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-shuffle w-4 h-4"
+                  class="lucide lucide-shuffle glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -109,18 +115,18 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Copy gradient to clipboard"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
                 id="glass-button-:rm:"
                 title="Copy Gradient"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-copy w-4 h-4"
+                  class="lucide lucide-copy glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -149,35 +155,41 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="card-content pt-0 glass-auto-gap glass-auto-gap-2xl"
+        class="card-content glass-pt-0 glass-auto-gap glass-auto-gap-2xl"
       >
         <div
           class="glass-auto-gap glass-auto-gap-md"
         >
           <div
-            class="glass-w-full h-32 glass-radius-lg glass-border glass-border-white/20"
+            class="glass-w-full glass-h-32 glass-radius-lg glass-border glass-border-white/20"
           />
           <div
             class="glass-flex glass-items-center glass-justify-between"
           >
-            <code
-              class="glass-text-xs text-primary/60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md font-mono truncate glass-flex-1 glass-mr-2"
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
             >
-              linear-gradient(45deg, var(--glass-color-primary) 0%, #8b5cf6 100%)
-            </code>
+              <code
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md glass-font-mono glass-truncate glass-flex-1 glass-mr-2"
+              >
+                linear-gradient(45deg, var(--glass-color-primary) 0%, var(--glass-gray-500) 100%)
+              </code>
+            </span>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Reset gradient to default"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
                 id="glass-button-:rn:"
                 title="Reset"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-rotate-ccw w-4 h-4"
+                  class="lucide lucide-rotate-ccw glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -203,7 +215,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
           class="glass-auto-gap glass-auto-gap-md"
         >
           <h3
-            class="text-primary/80 glass-text-sm font-medium"
+            class="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium"
           >
             Type
           </h3>
@@ -211,10 +223,10 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             class="glass-flex glass-gap-2"
           >
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
             >
               <button
-                class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet capitalize glass-focus glass-touch-target"
+                class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-capitalize glass-focus glass-touch-target"
                 data-caustics="true"
                 data-magnet="true"
                 data-performance-mode="ultra"
@@ -222,29 +234,29 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
-                  class="relative z-10"
+                  class="glass-relative glass-z-10"
                 >
                   linear
                 </span>
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press capitalize glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-capitalize glass-focus glass-touch-target"
                 id="glass-button-:rp:"
               >
                 radial
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press capitalize glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-capitalize glass-focus glass-touch-target"
                 id="glass-button-:rq:"
               >
                 conic
@@ -255,16 +267,22 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         <div
           class="glass-auto-gap glass-auto-gap-md"
         >
-          <h3
-            class="text-primary/80 glass-text-sm font-medium"
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
           >
-            Angle: 
-            45
-            °
-          </h3>
+            <h3
+              class="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium"
+            >
+              Angle: 
+              45
+              °
+            </h3>
+          </span>
           <input
             aria-label="Gradient angle"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
             max="360"
             min="0"
             type="range"
@@ -277,23 +295,29 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
           <div
             class="glass-flex glass-items-center glass-justify-between"
           >
-            <h3
-              class="text-primary/80 glass-text-sm font-medium"
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
             >
-              Color Stops
-            </h3>
+              <h3
+                class="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium"
+              >
+                Color Stops
+              </h3>
+            </span>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Add color stop"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
                 id="glass-button-:rr:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-upload w-4 h-4"
+                  class="lucide lucide-upload glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -325,7 +349,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             >
               <input
                 aria-label="Color stop 1 color picker"
-                class="w-8 h-8 glass-radius-md glass-border glass-border-white/20 cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                class="glass-w-8 glass-h-8 glass-radius-md glass-border glass-border-white/20 glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
                 value="var(--glass-color-primary)"
               />
@@ -334,14 +358,14 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               >
                 <input
                   aria-label="Color stop 1 position"
-                  class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                  class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                   max="100"
                   min="0"
                   type="range"
                   value="0"
                 />
                 <div
-                  class="glass-text-xs text-primary/60 glass-mt-1"
+                  class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1"
                 >
                   Position: 
                   0
@@ -354,23 +378,23 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             >
               <input
                 aria-label="Color stop 2 color picker"
-                class="w-8 h-8 glass-radius-md glass-border glass-border-white/20 cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                class="glass-w-8 glass-h-8 glass-radius-md glass-border glass-border-white/20 glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
-                value="#8b5cf6"
+                value="var(--glass-gray-500)"
               />
               <div
                 class="glass-flex-1"
               >
                 <input
                   aria-label="Color stop 2 position"
-                  class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
+                  class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                   max="100"
                   min="0"
                   type="range"
                   value="100"
                 />
                 <div
-                  class="glass-text-xs text-primary/60 glass-mt-1"
+                  class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1"
                 >
                   Position: 
                   100
@@ -383,61 +407,103 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
         <div
           class="glass-auto-gap glass-auto-gap-md"
         >
-          <h3
-            class="text-primary/80 glass-text-sm font-medium"
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
           >
-            Presets
-          </h3>
+            <h3
+              class="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium"
+            >
+              Presets
+            </h3>
+          </span>
           <div
             class="glass-grid glass-grid-cols-2 glass-gap-3"
           >
             <div
-              class="cursor-pointer group glass-focus glass-touch-target"
+              aria-label="Select Sunset gradient preset"
+              class="glass-cursor-pointer glass-group glass-focus glass-touch-target"
+              role="button"
+              tabindex="0"
             >
               <div
-                class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20 group-hover:border-white/40 transition-all"
+                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
               />
-              <p
-                class="text-primary/80 glass-text-xs glass-mt-2 text-center group-hover:text-primary transition-colors"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Sunset
-              </p>
+                <p
+                  class="glass-text-primary-glass-opacity-80 glass-text-xs glass-mt-2 glass-text-center glass-group-hover:glass-text-primary glass-transition-colors"
+                >
+                  Sunset
+                </p>
+              </span>
             </div>
             <div
-              class="cursor-pointer group glass-focus glass-touch-target"
+              aria-label="Select Ocean gradient preset"
+              class="glass-cursor-pointer glass-group glass-focus glass-touch-target"
+              role="button"
+              tabindex="0"
             >
               <div
-                class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20 group-hover:border-white/40 transition-all"
+                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
               />
-              <p
-                class="text-primary/80 glass-text-xs glass-mt-2 text-center group-hover:text-primary transition-colors"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Ocean
-              </p>
+                <p
+                  class="glass-text-primary-glass-opacity-80 glass-text-xs glass-mt-2 glass-text-center glass-group-hover:glass-text-primary glass-transition-colors"
+                >
+                  Ocean
+                </p>
+              </span>
             </div>
             <div
-              class="cursor-pointer group glass-focus glass-touch-target"
+              aria-label="Select Forest gradient preset"
+              class="glass-cursor-pointer glass-group glass-focus glass-touch-target"
+              role="button"
+              tabindex="0"
             >
               <div
-                class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20 group-hover:border-white/40 transition-all"
+                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
               />
-              <p
-                class="text-primary/80 glass-text-xs glass-mt-2 text-center group-hover:text-primary transition-colors"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Forest
-              </p>
+                <p
+                  class="glass-text-primary-glass-opacity-80 glass-text-xs glass-mt-2 glass-text-center glass-group-hover:glass-text-primary glass-transition-colors"
+                >
+                  Forest
+                </p>
+              </span>
             </div>
             <div
-              class="cursor-pointer group glass-focus glass-touch-target"
+              aria-label="Select Fire gradient preset"
+              class="glass-cursor-pointer glass-group glass-focus glass-touch-target"
+              role="button"
+              tabindex="0"
             >
               <div
-                class="glass-w-full h-16 glass-radius-lg glass-border glass-border-white/20 group-hover:border-white/40 transition-all"
+                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
               />
-              <p
-                class="text-primary/80 glass-text-xs glass-mt-2 text-center group-hover:text-primary transition-colors"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Fire
-              </p>
+                <p
+                  class="glass-text-primary-glass-opacity-80 glass-text-xs glass-mt-2 glass-text-center glass-group-hover:glass-text-primary glass-transition-colors"
+                >
+                  Fire
+                </p>
+              </span>
             </div>
           </div>
         </div>

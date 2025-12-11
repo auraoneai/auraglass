@@ -98,7 +98,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
             y2="48"
           />
           <text
-            fill="rgba(var(--glass-color-white) / var(--glass-opacity-70))"
+            fill="color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"
             font-size="10"
             text-anchor="middle"
             x="78"
@@ -118,7 +118,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
             y2="90"
           />
           <text
-            fill="rgba(var(--glass-color-white) / var(--glass-opacity-70))"
+            fill="color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"
             font-size="10"
             text-anchor="middle"
             x="48"
@@ -138,7 +138,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
             y2="48.00000000000001"
           />
           <text
-            fill="rgba(var(--glass-color-white) / var(--glass-opacity-70))"
+            fill="color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"
             font-size="10"
             text-anchor="middle"
             x="18"
@@ -158,7 +158,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
             y2="6"
           />
           <text
-            fill="rgba(var(--glass-color-white) / var(--glass-opacity-70))"
+            fill="color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"
             font-size="10"
             text-anchor="middle"
             x="47.99999999999999"
@@ -169,7 +169,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
           </text>
         </g>
         <line
-          stroke="#FF6B6B"
+          stroke="var(--glass-color-error)"
           stroke-linecap="round"
           stroke-width="3"
           x1="48"
@@ -180,7 +180,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
         <circle
           cx="48"
           cy="48"
-          fill="#FF6B6B"
+          fill="var(--glass-color-error)"
           r="3"
         />
       </svg>
@@ -243,7 +243,7 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
       <path
         d="M 0 NaN L 3 NaN L 6 NaN L 9 NaN L 12 NaN L 15 NaN L 18 NaN L 21.000000000000004 NaN L 24 NaN L 27 NaN L 30 NaN L 33 NaN L 36 NaN L 39 NaN L 42.00000000000001 NaN L 45 NaN L 48 NaN L 51.00000000000001 NaN L 54 NaN L 57 NaN L 60 NaN L 63 NaN L 66 NaN L 69 NaN L 72 NaN L 75 NaN L 78 NaN L 81 NaN L 84.00000000000001 NaN L 87 NaN L 90 NaN L 93 NaN L 96 NaN L 99 NaN L 102.00000000000001 NaN L 105 NaN L 108 NaN L 111 NaN L 114 NaN L 117 NaN L 120 NaN L 122.99999999999999 NaN L 126 NaN L 129 NaN L 132 NaN L 135 NaN L 138 NaN L 141 NaN L 144 NaN L 147 NaN L 150 NaN L 153 NaN L 156 NaN L 159 NaN L 162 NaN L 165 NaN L 168.00000000000003 NaN L 170.99999999999997 NaN L 174 NaN L 177 NaN L 180 NaN L 183 NaN L 186 NaN L 189 NaN L 192 NaN L 195 NaN L 198 NaN L 201 NaN L 204.00000000000003 NaN L 206.99999999999997 NaN L 210 NaN L 213 NaN L 216 NaN L 219 NaN L 222 NaN L 225 NaN L 228 NaN L 231 NaN L 234 NaN L 237 NaN L 240 NaN L 243.00000000000003 NaN L 245.99999999999997 NaN L 249 NaN L 252 NaN L 255 NaN L 258 NaN L 261 NaN L 264 NaN L 267 NaN L 270 NaN L 273 NaN L 276 NaN L 279 NaN L 282 NaN L 285 NaN L 288 NaN L 291 NaN L 294 NaN L 297 NaN"
         fill="none"
-        stroke="#FF6B6B"
+        stroke="var(--glass-color-error)"
         stroke-width="2"
       />
     </svg>
@@ -288,7 +288,6 @@ exports[`GlassCoherenceIndicator matches snapshot 1`] = `
         </span>
         <div
           class="glass-font-medium"
-          style="color: rgb(127, 29, 29);"
         >
           Unstable
         </div>

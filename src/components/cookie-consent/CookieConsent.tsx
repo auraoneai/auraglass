@@ -1,11 +1,6 @@
-'use client';
+"use client";
 // Typography tokens available via typography.css (imported in index.css)
-import React, {
-  forwardRef,
-  useEffect,
-  useState,
-  useMemo,
-} from "react";
+import React, { forwardRef, useEffect, useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 import { useReducedMotion } from "../../hooks/useReducedMotion";
@@ -16,11 +11,11 @@ import { Typography } from "../data-display/Typography";
 
 import { GlobalCookieConsentProps as CookieConsentProps } from "./types";
 import styles from "./CookieConsent.module.css";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Physics/Animation Imports
-import {
-  useGalileoStateSpring,
-} from "../../hooks/useGalileoStateSpring";
+import { useGalileoStateSpring } from "../../hooks/useGalileoStateSpring";
 import { useAnimationContext } from "../../contexts/AnimationContext";
 import {
   SpringConfig,
@@ -59,8 +54,8 @@ const POSITION_CLASS_MAP: Record<
 };
 
 type CookieConsentStyleVars = React.CSSProperties & {
-  ['--cookie-blur-scale']?: string | number;
-  ['--cookie-box-shadow']?: string;
+  ["--cookie-blur-scale"]?: string | number;
+  ["--cookie-box-shadow"]?: string;
 };
 
 /**
@@ -169,12 +164,14 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       }
     );
 
-    const positionClass = POSITION_CLASS_MAP[position ?? "bottom-right"] ?? styles.positionBottomRight;
+    const positionClass =
+      POSITION_CLASS_MAP[position ?? "bottom-right"] ??
+      styles.positionBottomRight;
     const depth = Math.max(0.5, Math.min(2, glassIntensity));
     const shadowDepth = (28 * depth).toFixed(2);
     const containerStyleVars: CookieConsentStyleVars = {
       "--cookie-blur-scale": depth,
-      "--cookie-box-shadow": `0 12px ${shadowDepth}px rgba(15, 23, 42, 0.18)`,
+      "--cookie-box-shadow": `0 12px ${shadowDepth}px color-mix(in srgb, var(--glass-gray-900) 18%, transparent)`,
     };
 
     const isCentered = position === "top" || position === "bottom";
@@ -205,7 +202,7 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       >
         <Box>
           {title && (
-            <Typography variant="h6" className='glass-mb-2 glass-font-semibold'>
+            <Typography variant="h6" className="glass-mb-2 glass-font-semibold">
               {title}
             </Typography>
           )}

@@ -7,10 +7,10 @@ exports[`GlassMindMap matches snapshot 1`] = `
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="absolute top-4 left-4 z-10 glass-flex glass-gap-2"
+    class="glass-absolute glass-top-4 glass-left-4 glass-z-10 glass-flex glass-gap-2"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-3 glass-py-1 glass-radius-md glass-text-sm cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       Reset Zoom
@@ -25,7 +25,7 @@ exports[`GlassMindMap matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="absolute bottom-4 right-4 z-10 w-32 h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20"
+    class="glass-absolute glass-bottom-4 glass-right-4 glass-z-10 glass-w-32 glass-h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20"
   >
     <svg
       class="glass-w-full glass-h-full"
@@ -40,7 +40,7 @@ exports[`GlassMindMap matches snapshot 1`] = `
     </svg>
   </div>
   <div
-    class="glass-w-full glass-h-full overflow-hidden"
+    class="glass-w-full glass-h-full glass-overflow-hidden"
     style="cursor: grab;"
   >
     <svg
@@ -75,7 +75,7 @@ exports[`GlassMindMap matches snapshot 1`] = `
             stroke-width="1"
           />
           <text
-            class="glass-text-sm fill-white font-medium pointer-events-none select-none"
+            class="glass-text-sm glass-fill-white glass-font-medium glass-pointer-events-none glass-select-none"
             text-anchor="middle"
             x="40"
             y="-6"

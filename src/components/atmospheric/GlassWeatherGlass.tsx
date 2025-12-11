@@ -11,6 +11,9 @@ import { Motion } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface WeatherCondition {
   type:
@@ -116,7 +119,7 @@ export const GlassWeatherGlass = forwardRef<
         id: "default-weather",
       },
       autoUpdate = false,
-      updateInterval = 30000,
+      updateInterval = ANIMATION.DURATION.slower * 50,
       particleDensity = 1,
       showAtmosphericEffects = true,
       weatherResponsive = true,
@@ -153,8 +156,8 @@ export const GlassWeatherGlass = forwardRef<
       255, 255, 255,
     ]);
     const [backgroundGradient, setBackgroundGradient] = useState<string[]>([
-      "#87CEEB",
-      "#E0F6FF",
+      "var(--glass-color-info)",
+      "var(--glass-color-info)",
     ]);
 
     // Weather color mappings
@@ -162,14 +165,38 @@ export const GlassWeatherGlass = forwardRef<
       string,
       { sky: [string, string]; glass: [number, number, number] }
     > = {
-      clear: { sky: ["#87CEEB", "#E0F6FF"], glass: [255, 255, 255] },
-      sunny: { sky: ["#FFD700", "#FFF8DC"], glass: [255, 248, 220] },
-      cloudy: { sky: ["#A9A9A9", "#D3D3D3"], glass: [211, 211, 211] },
-      rainy: { sky: ["#4682B4", "#708090"], glass: [70, 130, 180] },
-      stormy: { sky: ["#2F4F4F", "#483D8B"], glass: [47, 79, 79] },
-      snowy: { sky: ["#F0F8FF", "#FFFAFA"], glass: [240, 248, 255] },
-      foggy: { sky: ["#C0C0C0", "#F5F5F5"], glass: [192, 192, 192] },
-      windy: { sky: ["#B0C4DE", "#E6E6FA"], glass: [176, 196, 222] },
+      clear: {
+        sky: ["var(--glass-color-info)", "var(--glass-color-info)"],
+        glass: [255, 255, 255],
+      },
+      sunny: {
+        sky: ["var(--glass-color-warning)", "var(--glass-color-warning)"],
+        glass: [255, 248, 220],
+      },
+      cloudy: {
+        sky: ["var(--glass-gray-500)", "var(--glass-gray-400)"],
+        glass: [211, 211, 211],
+      },
+      rainy: {
+        sky: ["var(--glass-color-info)", "var(--glass-gray-600)"],
+        glass: [70, 130, 180],
+      },
+      stormy: {
+        sky: ["var(--glass-gray-800)", "var(--glass-color-secondary)"],
+        glass: [47, 79, 79],
+      },
+      snowy: {
+        sky: ["var(--glass-white)", "var(--glass-white)"],
+        glass: [240, 248, 255],
+      },
+      foggy: {
+        sky: ["var(--glass-gray-400)", "var(--glass-gray-200)"],
+        glass: [192, 192, 192],
+      },
+      windy: {
+        sky: ["var(--glass-color-info)", "var(--glass-color-secondary)"],
+        glass: [176, 196, 222],
+      },
     };
 
     // Temperature to color mapping
@@ -842,7 +869,7 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
               }}
               aria-label="Weather intensity"
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
           </div>
 
@@ -864,9 +891,9 @@ export const GlassWeatherGlass = forwardRef<
                 setCurrentWeather(newWeather);
               }}
               aria-label="Temperature in Celsius"
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
             />
-            <span className='glass-text-sm glass-min-w-3ch'>
+            <span className="glass-text-sm glass-min-w-3ch">
               {currentWeather.temperature}°C
             </span>
           </div>
@@ -921,7 +948,7 @@ export const GlassWeatherGlass = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}

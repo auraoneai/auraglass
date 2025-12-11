@@ -16,6 +16,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import * as THREE from "three";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 // Aurora geometry and material factories
 const AuroraFactory = {
@@ -311,7 +312,7 @@ export function AuroraPro({
   showWaves = true,
   showCurtain = false,
   animationMode = "flow",
-  className="",
+  className = "",
   showControls = false,
   autoAnimate = true,
   onAnimationChange,
@@ -490,18 +491,22 @@ export function AuroraPro({
               />
             ))}
           </div>
-          <span
-            className={cn("glass-text-sm glass-font-medium glass-capitalize")}
-          >
-            {colorPalette}
-          </span>
+          <ContrastGuard>
+            <span
+              className={cn("glass-text-sm glass-font-medium glass-capitalize")}
+            >
+              {colorPalette}
+            </span>
+          </ContrastGuard>
           <div
             className={cn(
               "glass-flex glass-items-center glass-gap-1 glass-text-xs glass-text-secondary"
             )}
           >
             <Flame className={cn("glass-w-3 glass-h-3")} />
-            <span>{(intensity * 100).toFixed(0)}%</span>
+            <ContrastGuard>
+              <span>{(intensity * 100).toFixed(0)}%</span>
+            </ContrastGuard>
           </div>
         </div>
       </motion.div>
@@ -564,7 +569,9 @@ export function AuroraPro({
               )}
             >
               <Wind className={cn("glass-w-3 glass-h-3")} />
-              <span>{speed.toFixed(1)}x</span>
+              <ContrastGuard>
+                <span>{speed.toFixed(1)}x</span>
+              </ContrastGuard>
             </div>
           </div>
 
@@ -599,7 +606,9 @@ export function AuroraPro({
                       />
                     ))}
                   </div>
-                  <span className={cn("glass-capitalize")}>{palette}</span>
+                  <ContrastGuard>
+                    <span className={cn("glass-capitalize")}>{palette}</span>
+                  </ContrastGuard>
                 </button>
               ))}
           </div>
@@ -640,7 +649,9 @@ export function AuroraPro({
           >
             <Sparkles className={cn("glass-w-3 glass-h-3")} />
           </motion.div>
-          <span className={cn("glass-capitalize")}>{currentMode}</span>
+          <ContrastGuard>
+            <span className={cn("glass-capitalize")}>{currentMode}</span>
+          </ContrastGuard>
           {isPlaying && (
             <div
               className={cn(

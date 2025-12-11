@@ -299,11 +299,18 @@ export const GlassMenubarContent: React.FC<GlassMenubarContentProps> = ({
 
   if (!isOpen) return null;
 
+  const positionStyle = position
+    ? {
+        left: position.x,
+        top: position.y,
+      }
+    : undefined;
+
   return (
     <Motion
       preset="scaleIn"
       duration={150}
-      style={position ? { left: position.x, top: position.y } : undefined}
+      style={{ ...(positionStyle || {}) }}
     >
       <OptimizedGlass
         intent="neutral"
@@ -366,7 +373,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
   if (item?.separator) {
     return (
       <div
-        className='glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+        className="glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1"
         role="separator"
       />
     );
@@ -449,7 +456,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
       <div className="glass-flex glass-items-center glass-gap-3">
         {/* Icon */}
         {item?.icon && (
-          <div className='glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4'>
+          <div className="glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4">
             {item?.icon}
           </div>
         )}
@@ -464,7 +471,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           >
             {item?.checked && (
               <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center">
-                <div className='glass-w-2 glass-h-2 glass-surface-dark glass-radius-sm' />
+                <div className="glass-w-2 glass-h-2 glass-surface-dark glass-radius-sm" />
               </div>
             )}
           </div>
@@ -479,27 +486,29 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           >
             {item?.checked && (
               <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center">
-                <div className='glass-w-2 glass-h-2 glass-surface-subtle glass-radius-full' />
+                <div className="glass-w-2 glass-h-2 glass-surface-subtle glass-radius-full" />
               </div>
             )}
           </div>
         )}
 
         {/* Label */}
-        <span className='glass-flex-1 glass-text-left glass-truncate'>{item?.label}</span>
+        <span className="glass-flex-1 glass-text-left glass-truncate">
+          {item?.label}
+        </span>
       </div>
 
       <div className="glass-flex glass-items-center glass-gap-2">
         {/* Shortcut */}
         {item?.shortcut && (
-          <span className='glass-text-primary-glass-opacity-50 glass-text-xs glass-font-mono'>
+          <span className="glass-text-primary-glass-opacity-50 glass-text-xs glass-font-mono">
             {item?.shortcut}
           </span>
         )}
 
         {/* Submenu indicator */}
         {item?.children && item?.children.length > 0 && (
-          <ChevronRight className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50' />
+          <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50" />
         )}
       </div>
     </GlassButton>

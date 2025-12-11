@@ -1,6 +1,7 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { AnimatePresence, motion } from "framer-motion";
+import { ANIMATION } from "../../tokens/designConstants";
 import {
   BookOpen,
   Calendar,
@@ -124,7 +125,7 @@ const defaultAchievements: Achievement[] = [
     unlockedAt: new Date("2024-01-15"),
     rarity: 95,
     points: 10,
-    glowColor: "var(--glass-glow-gold, #FFD700)",
+    glowColor: "var(--glass-glow-gold, var(--glass-color-warning))",
   },
   {
     id: "speed-reader",
@@ -138,7 +139,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 60,
     points: 50,
-    glowColor: "var(--glass-glow-lavender, #E6E6FA)",
+    glowColor: "var(--glass-glow-lavender, var(--glass-color-secondary))",
   },
   {
     id: "bookworm",
@@ -152,7 +153,7 @@ const defaultAchievements: Achievement[] = [
     unlocked: false,
     rarity: 15,
     points: 200,
-    glowColor: "var(--glass-glow-soft-gold, #FFFF99)",
+    glowColor: "var(--glass-glow-soft-gold, var(--glass-color-warning-light))",
   },
   {
     id: "streak-master",
@@ -293,7 +294,7 @@ export function GlassTrophyCase({
   onAchievementUnlock,
   showProgress = true,
   enableSound = true,
-  className="",
+  className = "",
 }: GlassTrophyCaseProps) {
   const prefersReducedMotion = useReducedMotion();
   const [selectedCategory, setSelectedCategory] = useState<
@@ -512,7 +513,7 @@ export function GlassTrophyCase({
       >
         {/* Tier badge */}
         <div
-          className='glass-absolute glass--top-2 glass--right-2 glass-px-2 glass-py-1 glass-radius-full glass-text-xs glass-font-bold glass-border'
+          className="glass-absolute glass--top-2 glass--right-2 glass-px-2 glass-py-1 glass-radius-full glass-text-xs glass-font-bold glass-border"
           style={{
             backgroundColor: `${tierColor.primary}20`,
             borderColor: `${tierColor.primary}40`,
@@ -525,7 +526,7 @@ export function GlassTrophyCase({
         {/* Unlock glow effect */}
         {achievement.unlocked && (
           <motion.div
-            className='glass-absolute glass-inset-0 glass-radius-xl'
+            className="glass-absolute glass-inset-0 glass-radius-xl"
             style={{
               background: `radial-gradient(circle at center, ${tierColor.glow}20 0%, transparent 70%)`,
               filter: "blur(var(--glass-blur-md, 8px))",
@@ -548,13 +549,13 @@ export function GlassTrophyCase({
 
         {/* Lock overlay for locked achievements */}
         {!achievement.unlocked && (
-          <div className='glass-absolute glass-top-4 glass-right-4'>
-            <Lock className='glass-w-5 glass-h-5 glass-text-primary-glass-opacity-40' />
+          <div className="glass-absolute glass-top-4 glass-right-4">
+            <Lock className="glass-w-5 glass-h-5 glass-text-primary-glass-opacity-40" />
           </div>
         )}
 
         {/* Achievement icon */}
-        <div className='glass-flex glass-items-center glass-justify-center glass-mb-4'>
+        <div className="glass-flex glass-items-center glass-justify-center glass-mb-4">
           <div
             className={`p-4 rounded-full border-2 ${
               achievement.unlocked ? "border-white/40" : "border-white/20"
@@ -573,7 +574,7 @@ export function GlassTrophyCase({
         </div>
 
         {/* Achievement details */}
-        <div className='glass-text-center glass-mb-4'>
+        <div className="glass-text-center glass-mb-4">
           <div
             role="heading"
             aria-level={2}
@@ -594,14 +595,16 @@ export function GlassTrophyCase({
 
         {/* Progress bar */}
         {showProgress && !achievement.unlocked && (
-          <div className='glass-mb-4'>
-            <div className='glass-flex glass-justify-between glass-items-center glass-mb-2'>
-              <span className='glass-text-xs glass-text-primary-glass-opacity-60'>Progress</span>
-              <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
+          <div className="glass-mb-4">
+            <div className="glass-flex glass-justify-between glass-items-center glass-mb-2">
+              <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+                Progress
+              </span>
+              <span className="glass-text-xs glass-text-primary-glass-opacity-60">
                 {achievement.progress}/{achievement.maxProgress}
               </span>
             </div>
-            <div className='glass-h-2 glass-surface-subtle/10 glass-radius-full glass-overflow-hidden'>
+            <div className="glass-h-2 glass-surface-subtle/10 glass-radius-full glass-overflow-hidden">
               <motion.div
                 className="glass-h-full glass-radius-full"
                 style={{ backgroundColor: tierColor.primary }}
@@ -620,19 +623,23 @@ export function GlassTrophyCase({
         {/* Points and rarity */}
         <div className="glass-flex glass-items-center glass-justify-between glass-text-xs">
           <div className="glass-flex glass-items-center glass-gap-2">
-            <Trophy className='glass-w-4 glass-h-4 glass-text-primary' />
-            <span className='glass-text-primary-glass-opacity-60'>{achievement.points} pts</span>
+            <Trophy className="glass-w-4 glass-h-4 glass-text-primary" />
+            <span className="glass-text-primary-glass-opacity-60">
+              {achievement.points} pts
+            </span>
           </div>
           <div className="glass-flex glass-items-center glass-gap-1">
-            <Diamond className='glass-w-3 glass-h-3 glass-text-primary-glass-opacity-40' />
-            <span className='glass-text-primary-glass-opacity-40'>{achievement.rarity}% rare</span>
+            <Diamond className="glass-w-3 glass-h-3 glass-text-primary-glass-opacity-40" />
+            <span className="glass-text-primary-glass-opacity-40">
+              {achievement.rarity}% rare
+            </span>
           </div>
         </div>
 
         {/* Unlock date */}
         {achievement.unlocked && achievement.unlockedAt && (
-          <div className='glass-mt-2 glass-text-center'>
-            <span className='glass-text-xs glass-text-primary-glass-opacity-50'>
+          <div className="glass-mt-2 glass-text-center">
+            <span className="glass-text-xs glass-text-primary-glass-opacity-50">
               Unlocked {achievement.unlockedAt.toLocaleDateString()}
             </span>
           </div>
@@ -644,13 +651,13 @@ export function GlassTrophyCase({
   return (
     <div className={`w-full max-w-7xl mx-auto ${className}`}>
       {/* Header */}
-      <div className='glass-flex glass-flex-col lg:glass-flex-row lg:glass-items-center lg:glass-justify-between glass-gap-6 glass-mb-8'>
+      <div className="glass-flex glass-flex-col lg:glass-flex-row lg:glass-items-center lg:glass-justify-between glass-gap-6 glass-mb-8">
         <div>
-          <h1 className='glass-text-3xl glass-font-bold glass-text-primary glass-mb-2 glass-flex glass-items-center glass-gap-3'>
-            <Trophy className='glass-w-8 glass-h-8 glass-text-primary' />
+          <h1 className="glass-text-3xl glass-font-bold glass-text-primary glass-mb-2 glass-flex glass-items-center glass-gap-3">
+            <Trophy className="glass-w-8 glass-h-8 glass-text-primary" />
             Glass Trophy Case
           </h1>
-          <p className='glass-text-primary-glass-opacity-60'>
+          <p className="glass-text-primary-glass-opacity-60">
             Showcase your reading achievements and unlock special rewards
           </p>
         </div>
@@ -659,23 +666,29 @@ export function GlassTrophyCase({
           {/* Stats */}
           <div className="glass-backdrop-blur-lg glass-contrast-guard glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-xl glass-p-4 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-gap-4">
-              <div className='glass-text-center'>
-                <div className='glass-text-2xl glass-font-bold glass-text-primary'>
+              <div className="glass-text-center">
+                <div className="glass-text-2xl glass-font-bold glass-text-primary">
                   {stats.unlocked}
                 </div>
-                <div className='glass-text-xs glass-text-primary-glass-opacity-60'>Unlocked</div>
+                <div className="glass-text-xs glass-text-primary-glass-opacity-60">
+                  Unlocked
+                </div>
               </div>
-              <div className='glass-text-center'>
-                <div className='glass-text-2xl glass-font-bold glass-text-primary'>
+              <div className="glass-text-center">
+                <div className="glass-text-2xl glass-font-bold glass-text-primary">
                   {stats.total}
                 </div>
-                <div className='glass-text-xs glass-text-primary-glass-opacity-60'>Total</div>
+                <div className="glass-text-xs glass-text-primary-glass-opacity-60">
+                  Total
+                </div>
               </div>
-              <div className='glass-text-center'>
-                <div className='glass-text-2xl glass-font-bold glass-text-primary'>
+              <div className="glass-text-center">
+                <div className="glass-text-2xl glass-font-bold glass-text-primary">
                   {stats.totalPoints}
                 </div>
-                <div className='glass-text-xs glass-text-primary-glass-opacity-60'>Points</div>
+                <div className="glass-text-xs glass-text-primary-glass-opacity-60">
+                  Points
+                </div>
               </div>
             </div>
           </div>
@@ -683,10 +696,10 @@ export function GlassTrophyCase({
       </div>
 
       {/* Controls */}
-      <div className='glass-flex glass-flex-wrap glass-gap-4 glass-mb-6'>
+      <div className="glass-flex glass-flex-wrap glass-gap-4 glass-mb-6">
         {/* Search */}
-        <div className='glass-relative glass-flex-1 glass-min-w-64'>
-          <Search className='glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60' />
+        <div className="glass-relative glass-flex-1 glass-min-w-64">
+          <Search className="glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60" />
           <input
             type="text"
             value={searchQuery}
@@ -764,7 +777,7 @@ export function GlassTrophyCase({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Grid className='glass-w-4 glass-h-4' />
+            <Grid className="glass-w-4 glass-h-4" />
           </motion.button>
           <motion.button
             onClick={() => setViewMode("list")}
@@ -775,14 +788,16 @@ export function GlassTrophyCase({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <List className='glass-w-4 glass-h-4' />
+            <List className="glass-w-4 glass-h-4" />
           </motion.button>
         </div>
 
         {/* Show locked toggle */}
         <motion.button
           onClick={() => setShowLocked(!showLocked)}
-          aria-label={showLocked ? "Hide locked achievements" : "Show locked achievements"}
+          aria-label={
+            showLocked ? "Hide locked achievements" : "Show locked achievements"
+          }
           className={`px-4 py-3 border border-white/20 rounded-xl transition-all ${
             showLocked ? "bg-white/10 text-white" : "bg-white/5 text-white/60"
           }`}
@@ -790,9 +805,9 @@ export function GlassTrophyCase({
           whileTap={{ scale: 0.98 }}
         >
           {showLocked ? (
-            <Unlock className='glass-w-4 glass-h-4' />
+            <Unlock className="glass-w-4 glass-h-4" />
           ) : (
-            <Lock className='glass-w-4 glass-h-4' />
+            <Lock className="glass-w-4 glass-h-4" />
           )}
         </motion.button>
       </div>
@@ -818,7 +833,7 @@ export function GlassTrophyCase({
         {selectedAchievement && (
           <>
             <motion.div
-              className='glass-fixed glass-inset-0 glass-surface-dark/50 glass-backdrop-blur-sm glass-contrast-guard glass-z-50 glass-contrast-guard'
+              className="glass-fixed glass-inset-0 glass-surface-dark/50 glass-backdrop-blur-sm glass-contrast-guard glass-z-50 glass-contrast-guard"
               initial={{ opacity: 0 }}
               animate={prefersReducedMotion ? {} : { opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -826,14 +841,14 @@ export function GlassTrophyCase({
             />
 
             <motion.div
-              className='glass-fixed glass-inset-0 glass-flex glass-items-center glass-justify-center glass-z-50 glass-p-4'
+              className="glass-fixed glass-inset-0 glass-flex glass-items-center glass-justify-center glass-z-50 glass-p-4"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
             >
-              <div className='glass-max-w-lg glass-w-full glass-backdrop-blur-lg glass-contrast-guard glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-xl glass-p-8 glass-contrast-guard'>
-                <div className='glass-text-center'>
-                  <div className='glass-flex glass-items-center glass-justify-center glass-mb-4'>
+              <div className="glass-max-w-lg glass-w-full glass-backdrop-blur-lg glass-contrast-guard glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-xl glass-p-8 glass-contrast-guard">
+                <div className="glass-text-center">
+                  <div className="glass-flex glass-items-center glass-justify-center glass-mb-4">
                     <div
                       className="glass-p-6 glass-radius-full glass-border-2"
                       style={{
@@ -842,17 +857,17 @@ export function GlassTrophyCase({
                           tierColors[selectedAchievement.tier].primary,
                       }}
                     >
-                      <selectedAchievement.icon className='glass-w-12 glass-h-12 glass-touch-target glass-contrast-guard' />
+                      <selectedAchievement.icon className="glass-w-12 glass-h-12 glass-touch-target glass-contrast-guard" />
                     </div>
                   </div>
 
-                  <h2 className='glass-text-2xl glass-font-bold glass-text-primary glass-mb-2'>
+                  <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-2">
                     {selectedAchievement.title}
                   </h2>
 
-                  <div className='glass-flex glass-items-center glass-justify-center glass-gap-2 glass-mb-4'>
+                  <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-mb-4">
                     <div
-                      className='glass-px-3 glass-py-1 glass-radius-full glass-text-sm glass-font-bold glass-border'
+                      className="glass-px-3 glass-py-1 glass-radius-full glass-text-sm glass-font-bold glass-border"
                       style={{
                         backgroundColor: `${tierColors[selectedAchievement.tier].primary}20`,
                         borderColor: `${tierColors[selectedAchievement.tier].primary}40`,
@@ -861,29 +876,29 @@ export function GlassTrophyCase({
                     >
                       {selectedAchievement.tier.toUpperCase()}
                     </div>
-                    <div className='glass-px-3 glass-py-1 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-full glass-text-sm glass-text-primary-glass-opacity-80'>
+                    <div className="glass-px-3 glass-py-1 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-full glass-text-sm glass-text-primary-glass-opacity-80">
                       {selectedAchievement.rarity}% rare
                     </div>
                   </div>
 
-                  <p className='glass-text-primary-opacity-70 glass-mb-6'>
+                  <p className="glass-text-primary-opacity-70 glass-mb-6">
                     {selectedAchievement.description}
                   </p>
 
                   {!selectedAchievement.unlocked && (
-                    <div className='glass-mb-6'>
-                      <div className='glass-flex glass-justify-between glass-items-center glass-mb-2'>
-                        <span className='glass-text-sm glass-text-primary-glass-opacity-60'>
+                    <div className="glass-mb-6">
+                      <div className="glass-flex glass-justify-between glass-items-center glass-mb-2">
+                        <span className="glass-text-sm glass-text-primary-glass-opacity-60">
                           Progress
                         </span>
-                        <span className='glass-text-sm glass-text-primary-glass-opacity-60'>
+                        <span className="glass-text-sm glass-text-primary-glass-opacity-60">
                           {selectedAchievement.progress}/
                           {selectedAchievement.maxProgress}
                         </span>
                       </div>
-                      <div className='glass-h-3 glass-surface-subtle/10 glass-radius-full glass-overflow-hidden'>
+                      <div className="glass-h-3 glass-surface-subtle/10 glass-radius-full glass-overflow-hidden">
                         <div
-                          className='glass-h-full glass-radius-full glass-transition-all glass-duration-1000'
+                          className="glass-h-full glass-radius-full glass-transition-all glass-duration-1000"
                           style={{
                             backgroundColor:
                               tierColors[selectedAchievement.tier].primary,
@@ -894,31 +909,33 @@ export function GlassTrophyCase({
                     </div>
                   )}
 
-                  <div className='glass-flex glass-items-center glass-justify-center glass-gap-6 glass-mb-6'>
-                    <div className='glass-text-center'>
-                      <div className='glass-text-xl glass-font-bold glass-text-primary'>
+                  <div className="glass-flex glass-items-center glass-justify-center glass-gap-6 glass-mb-6">
+                    <div className="glass-text-center">
+                      <div className="glass-text-xl glass-font-bold glass-text-primary">
                         {selectedAchievement.points}
                       </div>
-                      <div className='glass-text-sm glass-text-primary-glass-opacity-60'>
+                      <div className="glass-text-sm glass-text-primary-glass-opacity-60">
                         Points
                       </div>
                     </div>
 
-                    <div className='glass-text-center'>
-                      <div className='glass-text-xl glass-font-bold glass-text-primary'>
+                    <div className="glass-text-center">
+                      <div className="glass-text-xl glass-font-bold glass-text-primary">
                         {selectedAchievement.category}
                       </div>
-                      <div className='glass-text-sm glass-text-primary-glass-opacity-60'>
+                      <div className="glass-text-sm glass-text-primary-glass-opacity-60">
                         Category
                       </div>
                     </div>
                   </div>
 
                   {selectedAchievement.reward && (
-                    <div className='glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-border glass-border-purple-500/30 glass-radius-xl glass-mb-6'>
-                      <div className='glass-flex glass-items-center glass-justify-center glass-gap-2 glass-mb-2'>
-                        <Gift className='glass-w-5 glass-h-5 glass-text-primary' />
-                        <span className='glass-text-primary glass-font-medium'>Reward</span>
+                    <div className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-border glass-border-purple-500/30 glass-radius-xl glass-mb-6">
+                      <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-mb-2">
+                        <Gift className="glass-w-5 glass-h-5 glass-text-primary" />
+                        <span className="glass-text-primary glass-font-medium">
+                          Reward
+                        </span>
                       </div>
                       <div className="glass-text-secondary glass-text-sm">
                         Unlocks: {selectedAchievement.reward.value}
@@ -928,7 +945,7 @@ export function GlassTrophyCase({
 
                   {selectedAchievement.unlocked &&
                     selectedAchievement.unlockedAt && (
-                      <div className='glass-text-primary glass-text-sm'>
+                      <div className="glass-text-primary glass-text-sm">
                         ✓ Unlocked on{" "}
                         {selectedAchievement.unlockedAt.toLocaleDateString()}
                       </div>
@@ -943,15 +960,19 @@ export function GlassTrophyCase({
       {/* Empty state */}
       {filteredAchievements.length === 0 && (
         <motion.div
-          className='glass-text-center glass-py-16'
+          className="glass-text-center glass-py-16"
           initial={{ opacity: 0 }}
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
         >
-          <Trophy className='glass-w-16 glass-h-16 glass-text-primary-glass-opacity-30 glass-mx-auto glass-mb-4' />
-          <div role="heading" aria-level={2} className='glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-60 glass-mb-2'>
+          <Trophy className="glass-w-16 glass-h-16 glass-text-primary-glass-opacity-30 glass-mx-auto glass-mb-4" />
+          <div
+            role="heading"
+            aria-level={2}
+            className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-60 glass-mb-2"
+          >
             No achievements found
           </div>
-          <p className='glass-text-primary-glass-opacity-40'>
+          <p className="glass-text-primary-glass-opacity-40">
             Try adjusting your filters or{" "}
             {!showLocked
               ? "show locked achievements"

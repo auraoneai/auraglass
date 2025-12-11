@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import { Slot } from "@radix-ui/react-slot";
 import React, {
@@ -28,6 +28,8 @@ import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
 import { useEyeTracking } from "../advanced/GlassEyeTracking";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface GlassButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "size">,
@@ -301,7 +303,7 @@ export const GlassButton = forwardRef(function GlassButton(
     adaptButton();
 
     // Listen for biometric changes
-    const interval = setInterval(adaptButton, 3000);
+    const interval = setInterval(adaptButton, ANIMATION.DURATION.slower * 4);
     return () => clearInterval(interval);
   }, [biometricResponsive, biometricAdapter, size]);
 
@@ -504,7 +506,7 @@ export const GlassButton = forwardRef(function GlassButton(
     // Base styles
     "inline-flex items-center justify-center",
     "font-medium",
-    "transition-all duration-300 ease-out",
+    `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
     // Unified focus ring utility
     "glass-focus",
     "disabled:pointer-events-none disabled:opacity-50",
@@ -669,9 +671,9 @@ export const GlassButton = forwardRef(function GlassButton(
       return (
         <>
           {loadingSpinner || (
-            <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-current glass-border-t-transparent glass-radius-full glass-animate-spin' />
+            <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-current glass-border-t-transparent glass-radius-full glass-animate-spin" />
           )}
-          {!iconOnly && <span className='glass-ml-2'>{loadingText}</span>}
+          {!iconOnly && <span className="glass-ml-2">{loadingText}</span>}
         </>
       );
     }
@@ -683,13 +685,13 @@ export const GlassButton = forwardRef(function GlassButton(
     return (
       <>
         {leftIcon && (
-          <span className='glass-mr-2' data-icon data-testid="left-icon">
+          <span className="glass-mr-2" data-icon data-testid="left-icon">
             {leftIcon}
           </span>
         )}
         {children}
         {rightIcon && (
-          <span className='glass-ml-2' data-icon data-testid="right-icon">
+          <span className="glass-ml-2" data-icon data-testid="right-icon">
             {rightIcon}
           </span>
         )}
@@ -704,7 +706,7 @@ export const GlassButton = forwardRef(function GlassButton(
         data-glass-component
         preset={getAnimationPreset()}
         animateOnHover={animation !== "none"}
-        className='glass-inline-glass-block'
+        className="glass-inline-glass-block"
       >
         <Comp
           className={cn(
@@ -726,7 +728,7 @@ export const GlassButton = forwardRef(function GlassButton(
           {description && (
             <span
               id={descriptionId}
-              className='glass-sr-only glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-sr-only glass-focus glass-touch-target glass-contrast-guard"
             >
               {description}
             </span>
@@ -740,7 +742,7 @@ export const GlassButton = forwardRef(function GlassButton(
     <Motion
       preset={getAnimationPreset()}
       animateOnHover={animation !== "none"}
-      className='glass-inline-glass-block'
+      className="glass-inline-glass-block"
     >
       {material === "liquid" ? (
         <LiquidGlassMaterial
@@ -768,13 +770,11 @@ export const GlassButton = forwardRef(function GlassButton(
             "liquid-glass-button-surface glass-ripple glass-magnet",
             className
           )}
-          style={
-            {
-              "--liquid-glass-button-pressure": isHovered ? "0.02" : "0.0",
-              "--liquid-glass-hover-refraction": "1.2",
-              "--liquid-glass-press-density": "0.95",
-            } as React.CSSProperties
-          }
+          style={{
+            "--liquid-glass-button-pressure": isHovered ? "0.02" : "0.0",
+            "--liquid-glass-hover-refraction": "1.2",
+            "--liquid-glass-press-density": "0.95",
+          }}
           data-liquid-glass-button="true"
           data-button-variant={variant}
           data-button-size={size}
@@ -821,11 +821,13 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
               {resolvedVariant === "gradient" && (
-                <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard' />
+                <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
               )}
-              <span className='glass-relative glass-z-10'>{renderContent()}</span>
+              <span className="glass-relative glass-z-10">
+                {renderContent()}
+              </span>
               {description && (
-                <span id={descriptionId} className='glass-sr-only'>
+                <span id={descriptionId} className="glass-sr-only">
                   {description}
                 </span>
               )}
@@ -883,11 +885,13 @@ export const GlassButton = forwardRef(function GlassButton(
           ) : (
             <>
               {resolvedVariant === "gradient" && (
-                <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard' />
+                <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
               )}
-              <span className='glass-relative glass-z-10'>{renderContent()}</span>
+              <span className="glass-relative glass-z-10">
+                {renderContent()}
+              </span>
               {description && (
-                <span id={descriptionId} className='glass-sr-only'>
+                <span id={descriptionId} className="glass-sr-only">
                   {description}
                 </span>
               )}

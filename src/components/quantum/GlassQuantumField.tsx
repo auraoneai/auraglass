@@ -12,6 +12,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import { useGlassSound } from "../../utils/soundDesign";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface QuantumParticle {
   x: number;
@@ -517,9 +520,12 @@ export const GlassQuantumField = forwardRef<
     useEffect(() => {
       const interval = setInterval(() => {
         setMeasurementEvents((prev: any) =>
-          prev.filter((event: any) => Date.now() - event.time < 2000)
+          prev.filter(
+            (event: any) =>
+              Date.now() - event.time < ANIMATION.DURATION.slower * 3
+          )
         );
-      }, 100);
+      }, ANIMATION.DURATION.fast);
 
       return () => clearInterval(interval);
     }, []);
@@ -541,7 +547,7 @@ export const GlassQuantumField = forwardRef<
         quantumField.nodes.forEach((node: any) => {
           if (node.probability > 0.1) {
             const alpha = node.probability * 0.3;
-            ctx.fillStyle = `rgba(100, 150, 255, ${alpha})`;
+            ctx.fillStyle = `color-mix(in srgb, var(--glass-color-info) ${alpha * 100}%, transparent)`;
             ctx.fillRect(node.x - 2, node.y - 2, 4, 4);
           }
         });
@@ -563,8 +569,11 @@ export const GlassQuantumField = forwardRef<
           const probability =
             particle.waveFunction.real ** 2 +
             particle.waveFunction.imaginary ** 2;
-          gradient.addColorStop(0, `rgba(200, 100, 255, ${probability * 0.3})`);
-          gradient.addColorStop(1, "rgba(200, 100, 255, 0)");
+          gradient.addColorStop(
+            0,
+            `color-mix(in srgb, var(--glass-color-accent) ${probability * 30}%, transparent)`
+          );
+          gradient.addColorStop(1, "transparent");
 
           ctx.fillStyle = gradient;
           ctx.beginPath();
@@ -665,7 +674,8 @@ export const GlassQuantumField = forwardRef<
           if (entangledParticles.length === 2) {
             const [p1, p2] = entangledParticles;
 
-            ctx.strokeStyle = "rgba(255, 255, 100, 0.6)";
+            ctx.strokeStyle =
+              "color-mix(in srgb, var(--glass-color-warning) 60%, transparent)";
             ctx.lineWidth = 2;
             if (ctx.setLineDash) ctx.setLineDash([5, 5]);
 
@@ -685,7 +695,7 @@ export const GlassQuantumField = forwardRef<
         const alpha = Math.max(0, 1 - age);
         const radius = 30 + age * 20;
 
-        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.strokeStyle = `color-mix(in srgb, var(--glass-white) ${alpha * 100}%, transparent)`;
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(event.x, event.y, radius, 0, Math.PI * 2);
@@ -855,7 +865,7 @@ export const GlassQuantumField = forwardRef<
               step="0.1"
               value={coherence}
               onChange={(e) => {}}
-              className='glass-w-20'
+              className="glass-w-20"
             />
           </div>
 
@@ -874,7 +884,7 @@ export const GlassQuantumField = forwardRef<
               step="0.1"
               value={entanglementStrength}
               onChange={(e) => {}}
-              className='glass-w-20'
+              className="glass-w-20"
             />
           </div>
 
@@ -893,7 +903,7 @@ export const GlassQuantumField = forwardRef<
               step="0.1"
               value={temperature}
               onChange={(e) => {}}
-              className='glass-w-20'
+              className="glass-w-20"
             />
           </div>
 
@@ -942,7 +952,7 @@ export const GlassQuantumField = forwardRef<
 
           <button
             onClick={() => initializeParticles()}
-            className='glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-text-primary'
+            className="glass-px-3 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-text-primary"
           >
             Reset
           </button>
@@ -971,7 +981,7 @@ export const GlassQuantumField = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}

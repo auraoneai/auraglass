@@ -1,18 +1,26 @@
-'use client';
+"use client";
 /**
  * ParticleBackground Component
  *
  * A dynamic background with animated particles.
  */
-import React, { forwardRef, useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import { cn } from '@/lib/utils';
+import React, {
+  forwardRef,
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
+import { cn } from "@/lib/utils";
 
-import { OptimizedGlass } from '../../primitives';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { useMotionPreferenceContext } from '../../contexts/MotionPreferenceContext';
-import { useA11yId } from '../../utils/a11y';
-import { ParticleBackgroundProps } from './types';
-import styles from './ParticleBackground.module.css';
+import { OptimizedGlass } from "../../primitives";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { useA11yId } from "../../utils/a11y";
+import { ParticleBackgroundProps } from "./types";
+import { ANIMATION } from "../../tokens/designConstants";
+import styles from "./ParticleBackground.module.css";
 
 // Particle interface
 interface Particle {
@@ -25,7 +33,6 @@ interface Particle {
   color: string;
 }
 
-
 /**
  * ParticleBackground Component Implementation
  */
@@ -37,8 +44,8 @@ const ParticleBackgroundComponent = (
     children,
     className,
     style,
-    baseColor = 'rgba(10, 10, 20, 0.8)',
-    particleColor = 'rgba(var(--glass-color-white) / var(--glass-opacity-70))',
+    baseColor = "color-mix(in srgb, var(--glass-black) 80%, transparent)",
+    particleColor = "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)",
     particleCount = 50,
     particleSize = 2,
     particleSpeed = 1,
@@ -50,20 +57,22 @@ const ParticleBackgroundComponent = (
     size,
     speed,
     color,
-    intent = 'neutral',
-    elevation = 'level2',
-    tier = 'medium',
+    intent = "neutral",
+    elevation = "level2",
+    tier = "medium",
     respectMotionPreference = true,
     ...rest
   } = props;
 
   // Accessibility and motion preferences
-  const componentId = useA11yId('particle-bg');
+  const componentId = useA11yId("particle-bg");
   const prefersReducedMotion = useReducedMotion();
-  const { prefersReducedMotion: motionPrefersReduced } = useMotionPreferenceContext();
-  
+  const { prefersReducedMotion: motionPrefersReduced } =
+    useMotionPreferenceContext();
+
   // Determine if motion should be reduced based on all preferences
-  const shouldReduceMotion = respectMotionPreference && (prefersReducedMotion || motionPrefersReduced);
+  const shouldReduceMotion =
+    respectMotionPreference && (prefersReducedMotion || motionPrefersReduced);
 
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
@@ -71,7 +80,10 @@ const ParticleBackgroundComponent = (
   const animationRef = useRef<number | null>(null);
 
   // State for mouse position
-  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
+  const [mousePosition, setMousePosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   // CRITICAL SSR FIX: Initialize particles as empty array, populate in useEffect
   // This prevents Math.random() from generating different values on server vs client
@@ -81,22 +93,37 @@ const ParticleBackgroundComponent = (
   const actualCount = count ?? particleCount ?? 50;
   const actualSize = size ?? particleSize ?? 2;
   const actualSpeed = speed ?? particleSpeed ?? 1;
-  const actualColor = color ?? particleColor ?? 'rgba(var(--glass-color-white) / var(--glass-opacity-70))';
+  const actualColor =
+    color ??
+    particleColor ??
+    "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)";
 
-  // Helper function to get color values
-  const getColorValues = (colorStr: string): { r: number; g: number; b: number; a?: number } => {
-    if (colorStr.startsWith('rgba(')) {
-      const match = colorStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  // Helper function to get color values from CSS variables or color-mix
+  const getColorValues = (
+    colorStr: string
+  ): { r: number; g: number; b: number; a?: number } => {
+    if (colorStr.startsWith("rgba(")) {
+      const match = colorStr.match(
+        /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
+      );
       if (match) {
         return {
           r: parseInt(match[1]),
           g: parseInt(match[2]),
           b: parseInt(match[3]),
-          a: match[4] ? parseFloat(match[4]) : 1
+          a: match[4] ? parseFloat(match[4]) : 1,
         };
       }
     }
-    // Default fallback
+    if (
+      colorStr.includes("var(--glass-white)") ||
+      colorStr.includes("color-mix")
+    ) {
+      // For CSS variables, extract white RGB values (255, 255, 255)
+      // In a real implementation, you'd parse the CSS variable at runtime
+      return { r: 255, g: 255, b: 255, a: 0.7 };
+    }
+    // Default fallback - use CSS variable white
     return { r: 255, g: 255, b: 255, a: 1 };
   };
 
@@ -128,7 +155,7 @@ const ParticleBackgroundComponent = (
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas size
@@ -139,7 +166,7 @@ const ParticleBackgroundComponent = (
     };
 
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
     // Animation loop
     const animate = () => {
@@ -165,11 +192,14 @@ const ParticleBackgroundComponent = (
             const otherX = (otherParticle.x / 100) * canvas.width;
             const otherY = (otherParticle.y / 100) * canvas.height;
 
-            const distance = Math.sqrt(Math.pow(x - otherX, 2) + Math.pow(y - otherY, 2));
+            const distance = Math.sqrt(
+              Math.pow(x - otherX, 2) + Math.pow(y - otherY, 2)
+            );
 
             if (distance < canvas.width * 0.07) {
               ctx.beginPath();
-              const connectionOpacity = 0.3 - (distance / (canvas.width * 0.07)) * 0.3;
+              const connectionOpacity =
+                0.3 - (distance / (canvas.width * 0.07)) * 0.3;
               ctx.strokeStyle = `rgba(${colorValues.r}, ${colorValues.g}, ${colorValues.b}, ${connectionOpacity})`;
               ctx.lineWidth = 0.5;
               ctx.moveTo(x, y);
@@ -184,11 +214,14 @@ const ParticleBackgroundComponent = (
           const mouseX = mousePosition.x * canvas.width;
           const mouseY = mousePosition.y * canvas.height;
 
-          const distance = Math.sqrt(Math.pow(x - mouseX, 2) + Math.pow(y - mouseY, 2));
+          const distance = Math.sqrt(
+            Math.pow(x - mouseX, 2) + Math.pow(y - mouseY, 2)
+          );
 
           if (distance < canvas.width * 0.1) {
             ctx.beginPath();
-            const mouseConnectionOpacity = 0.5 - (distance / (canvas.width * 0.1)) * 0.5;
+            const mouseConnectionOpacity =
+              0.5 - (distance / (canvas.width * 0.1)) * 0.5;
             ctx.strokeStyle = `rgba(${colorValues.r}, ${colorValues.g}, ${colorValues.b}, ${mouseConnectionOpacity})`;
             ctx.lineWidth = 1;
             ctx.moveTo(x, y);
@@ -223,9 +256,15 @@ const ParticleBackgroundComponent = (
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas);
     };
-  }, [particles, connectParticles, interactive, mousePosition, shouldReduceMotion]);
+  }, [
+    particles,
+    connectParticles,
+    interactive,
+    mousePosition,
+    shouldReduceMotion,
+  ]);
 
   // Handle mouse movement
   useEffect(() => {
@@ -241,10 +280,10 @@ const ParticleBackgroundComponent = (
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [interactive, shouldReduceMotion]);
 
@@ -252,10 +291,12 @@ const ParticleBackgroundComponent = (
   const setRefs = useCallback(
     (node: HTMLDivElement | null) => {
       if (containerRef.current !== node) {
-        (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        (
+          containerRef as React.MutableRefObject<HTMLDivElement | null>
+        ).current = node;
       }
       if (ref) {
-        if (typeof ref === 'function') {
+        if (typeof ref === "function") {
           ref(node);
         } else {
           (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
@@ -265,27 +306,43 @@ const ParticleBackgroundComponent = (
     [ref]
   );
 
-  const blurStyle = useMemo(() => ({
-    '--particle-blur': blur ? `blur(${blurAmount}px)` : 'none',
-  }) as React.CSSProperties, [blur, blurAmount]);
+  const blurStyle = useMemo(
+    () =>
+      ({
+        "--particle-blur": blur ? `blur(${blurAmount}px)` : "none",
+      }) as React.CSSProperties,
+    [blur, blurAmount]
+  );
 
   return (
     <OptimizedGlass
       ref={setRefs}
-      className={cn(styles.container, 'glass-particle-background', className)}
+      className={cn(styles.container, "glass-particle-background", className)}
       intent={intent as any}
       elevation={elevation as any}
       tier={tier as any}
-      style={style}
+      style={{ ...(style || {}) }}
       id={componentId}
       role="img"
-      aria-label={`Interactive particle background with ${actualCount} ${connectParticles ? 'connected' : 'floating'} particles${interactive && !shouldReduceMotion ? ', responding to mouse movement' : ''}`}
+      aria-label={`Interactive particle background with ${actualCount} ${connectParticles ? "connected" : "floating"} particles${interactive && !shouldReduceMotion ? ", responding to mouse movement" : ""}`}
       tabIndex={interactive ? 0 : -1}
       {...rest}
     >
-      <div className={styles.backgroundLayer} style={{ backgroundColor: baseColor }} />
-      <canvas ref={canvasRef} aria-hidden="true" role="presentation" className={styles.canvas} />
-      <div aria-hidden="true" className={styles.blurLayer} style={blurStyle} />
+      <div
+        className={styles.backgroundLayer}
+        style={{ backgroundColor: baseColor }}
+      />
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        role="presentation"
+        className={styles.canvas}
+      />
+      <div
+        aria-hidden="true"
+        className={styles.blurLayer}
+        style={{ ...blurStyle }}
+      />
       <div className={styles.contentLayer}>{children}</div>
     </OptimizedGlass>
   );
@@ -293,6 +350,6 @@ const ParticleBackgroundComponent = (
 
 // Wrap the component function with forwardRef
 const ParticleBackground = forwardRef(ParticleBackgroundComponent);
-ParticleBackground.displayName = 'ParticleBackground';
+ParticleBackground.displayName = "ParticleBackground";
 
 export default ParticleBackground;

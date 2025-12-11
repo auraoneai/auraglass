@@ -15,6 +15,8 @@ import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { createGlassStyle } from "../../utils/createGlassStyle";
 import { useGlassSound } from "../../utils/soundDesign";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface StyleModel {
   id: string;
@@ -116,7 +118,7 @@ export const GlassStyleTransfer = forwardRef<
       onStyleSelect,
       onTransferComplete,
       onProgressUpdate,
-      className="",
+      className = "",
       ...props
     },
     ref
@@ -154,12 +156,24 @@ export const GlassStyleTransfer = forwardRef<
 
         // Simulate processing with progress updates
         const steps = [
-          { label: "Loading models...", duration: 500 },
-          { label: "Analyzing content...", duration: 800 },
-          { label: "Extracting style features...", duration: 1000 },
-          { label: "Applying style transfer...", duration: 1500 },
-          { label: "Optimizing result...", duration: 700 },
-          { label: "Finalizing...", duration: 400 },
+          { label: "Loading models...", duration: ANIMATION.DURATION.slow },
+          {
+            label: "Analyzing content...",
+            duration: ANIMATION.DURATION.slower * 1.1,
+          },
+          {
+            label: "Extracting style features...",
+            duration: ANIMATION.DURATION.slower * 1.4,
+          },
+          {
+            label: "Applying style transfer...",
+            duration: ANIMATION.DURATION.slower * 2.1,
+          },
+          {
+            label: "Optimizing result...",
+            duration: ANIMATION.DURATION.slower,
+          },
+          { label: "Finalizing...", duration: ANIMATION.DURATION.slow * 1.4 },
         ];
 
         let totalProgress = 0;
@@ -190,9 +204,9 @@ export const GlassStyleTransfer = forwardRef<
             // Apply different effects based on style category
             switch (selectedStyleModel?.category) {
               case "artistic":
-                gradient.addColorStop(0, "#FF6B6B");
-                gradient.addColorStop(0.5, "#4ECDC4");
-                gradient.addColorStop(1, "#45B7D1");
+                gradient.addColorStop(0, "var(--glass-color-danger)");
+                gradient.addColorStop(0.5, "var(--glass-color-info)");
+                gradient.addColorStop(1, "var(--glass-color-primary)");
                 break;
               case "photographic":
                 gradient.addColorStop(0, "#2D3748");
@@ -299,11 +313,11 @@ export const GlassStyleTransfer = forwardRef<
     ]);
 
     const StyleLibrary = () => (
-      <div className='glass-space-y-4'>
-        <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+      <div className="glass-space-y-4">
+        <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
           Style Library
         </h4>
-        <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-3 glass-gap-3'>
+        <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-3 glass-gap-3">
           {styleModels.map((style) => (
             <motion.div
               key={style.id}
@@ -319,7 +333,7 @@ export const GlassStyleTransfer = forwardRef<
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => handleStyleSelect(style.id)}
             >
-              <div className='glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden'>
+              <div className="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden">
                 <div
                   className={`
                   w-full h-full bg-gradient-to-br 
@@ -338,14 +352,14 @@ export const GlassStyleTransfer = forwardRef<
                 />
               </div>
 
-              <div className='glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1'>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1">
                 {style.name}
               </div>
-              <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-60">
                 {style.description}
               </div>
 
-              <div className='glass-absolute glass-top-2 glass-right-2'>
+              <div className="glass-absolute glass-top-2 glass-right-2">
                 <div
                   className={`
                   px-1.5 py-0.5 rounded text-xs font-medium
@@ -372,14 +386,14 @@ export const GlassStyleTransfer = forwardRef<
     );
 
     const AdvancedControls = () => (
-      <div className='glass-space-y-4'>
-        <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+      <div className="glass-space-y-4">
+        <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
           Advanced Controls
         </h4>
 
-        <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4'>
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4">
           <div>
-            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2'>
+            <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2">
               Transfer Strength: {Math.round(transferParams.strength * 100)}%
             </label>
             <input
@@ -395,12 +409,12 @@ export const GlassStyleTransfer = forwardRef<
                 }))
               }
               aria-label={`Transfer Strength: ${Math.round(transferParams.strength * 100)}%`}
-              className='glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-slider'
+              className="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-slider"
             />
           </div>
 
           <div>
-            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2'>
+            <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2">
               Resolution
             </label>
             <select
@@ -412,7 +426,7 @@ export const GlassStyleTransfer = forwardRef<
                 }))
               }
               aria-label="Resolution"
-              className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm'
+              className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             >
               <option value="low">Low (512px)</option>
               <option value="medium">Medium (1024px)</option>
@@ -422,7 +436,7 @@ export const GlassStyleTransfer = forwardRef<
           </div>
 
           <div>
-            <label className='glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2'>
+            <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2">
               Blend Mode
             </label>
             <select
@@ -434,7 +448,7 @@ export const GlassStyleTransfer = forwardRef<
                 }))
               }
               aria-label="Blend Mode"
-              className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm'
+              className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             >
               <option value="normal">Normal</option>
               <option value="multiply">Multiply</option>
@@ -445,8 +459,8 @@ export const GlassStyleTransfer = forwardRef<
           </div>
         </div>
 
-        <div className='glass-flex glass-items-center glass-space-x-6'>
-          <label className='glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer'>
+        <div className="glass-flex glass-items-center glass-space-x-6">
+          <label className="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer">
             <input
               type="checkbox"
               checked={transferParams.preserveColors}
@@ -456,14 +470,14 @@ export const GlassStyleTransfer = forwardRef<
                   preserveColors: e.target.checked,
                 }))
               }
-              className='glass-w-4 glass-h-4 glass-radius glass-border-white/30'
+              className="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
             />
-            <span className='glass-text-sm glass-text-primary-glass-opacity-80'>
+            <span className="glass-text-sm glass-text-primary-glass-opacity-80">
               Preserve Colors
             </span>
           </label>
 
-          <label className='glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer'>
+          <label className="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer">
             <input
               type="checkbox"
               checked={transferParams.enhanceDetails}
@@ -473,9 +487,9 @@ export const GlassStyleTransfer = forwardRef<
                   enhanceDetails: e.target.checked,
                 }))
               }
-              className='glass-w-4 glass-h-4 glass-radius glass-border-white/30'
+              className="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
             />
-            <span className='glass-text-sm glass-text-primary-glass-opacity-80'>
+            <span className="glass-text-sm glass-text-primary-glass-opacity-80">
               Enhance Details
             </span>
           </label>
@@ -493,18 +507,18 @@ export const GlassStyleTransfer = forwardRef<
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between">
           <div>
-            <h3 className='glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90'>
+            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
               Style Transfer AI
             </h3>
-            <p className='glass-text-sm glass-text-primary-glass-opacity-60'>
+            <p className="glass-text-sm glass-text-primary-glass-opacity-60">
               Transform your images with artistic styles
             </p>
           </div>
 
-          <div className='glass-flex glass-items-center glass-space-x-2'>
+          <div className="glass-flex glass-items-center glass-space-x-2">
             {realTimePreview && (
-              <div className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
-                <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse' />
+              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
                 <span className="glass-text-xs">Real-time</span>
               </div>
             )}
@@ -512,29 +526,31 @@ export const GlassStyleTransfer = forwardRef<
         </div>
 
         {/* Main interface */}
-        <div className='glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6'>
+        <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6">
           {/* Source image */}
-          <div className='glass-space-y-4'>
-            <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+          <div className="glass-space-y-4">
+            <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
               Source Image
             </h4>
 
             <div
-              className='glass-relative glass-aspect-square glass-surface-subtle/5 glass-border-2 glass-border-dashed glass-border-white/30 glass-radius-lg glass-overflow-hidden glass-cursor-pointer hover:glass-border-white/50 glass-transition-colors'
+              className="glass-relative glass-aspect-square glass-surface-subtle/5 glass-border-2 glass-border-dashed glass-border-white/30 glass-radius-lg glass-overflow-hidden glass-cursor-pointer hover:glass-border-white/50 glass-transition-colors"
               onClick={() => fileInputRef.current?.click()}
             >
               {uploadedImage ? (
                 <img
                   src={uploadedImage}
                   alt="Source"
-                  className='glass-w-full glass-h-full glass-object-cover'
+                  className="glass-w-full glass-h-full glass-object-cover"
                 />
               ) : (
-                <div className='glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50'>
-                  <div className='glass-text-center'>
-                    <div className='glass-text-4xl glass-mb-2'>📷</div>
+                <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50">
+                  <div className="glass-text-center">
+                    <div className="glass-text-4xl glass-mb-2">📷</div>
                     <p>Click to upload image</p>
-                    <p className='glass-text-xs glass-mt-1'>PNG, JPG up to 10MB</p>
+                    <p className="glass-text-xs glass-mt-1">
+                      PNG, JPG up to 10MB
+                    </p>
                   </div>
                 </div>
               )}
@@ -545,36 +561,36 @@ export const GlassStyleTransfer = forwardRef<
                 accept="image/*"
                 onChange={handleFileUpload}
                 aria-label="Upload image file"
-                className='glass-hidden glass-touch-target glass-contrast-guard'
+                className="glass-hidden glass-touch-target glass-contrast-guard"
               />
             </div>
           </div>
 
           {/* Preview */}
-          <div className='glass-space-y-4'>
+          <div className="glass-space-y-4">
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+              <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
                 Style Preview
               </h4>
               {isProcessing && showProgressIndicator && (
-                <div className='glass-flex glass-items-center glass-space-x-2 glass-text-primary'>
-                  <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin' />
+                <div className="glass-flex glass-items-center glass-space-x-2 glass-text-primary">
+                  <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin" />
                   <span className="glass-text-xs">{Math.round(progress)}%</span>
                 </div>
               )}
             </div>
 
-            <div className='glass-relative glass-aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden'>
+            <div className="glass-relative glass-aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden">
               {previewImage ? (
                 <img
                   src={previewImage}
                   alt="Styled preview"
-                  className='glass-w-full glass-h-full glass-object-cover'
+                  className="glass-w-full glass-h-full glass-object-cover"
                 />
               ) : (
-                <div className='glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50'>
-                  <div className='glass-text-center'>
-                    <div className='glass-text-4xl glass-mb-2'>🎨</div>
+                <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50">
+                  <div className="glass-text-center">
+                    <div className="glass-text-4xl glass-mb-2">🎨</div>
                     <p>Style preview will appear here</p>
                   </div>
                 </div>
@@ -582,11 +598,11 @@ export const GlassStyleTransfer = forwardRef<
 
               {/* Processing overlay */}
               {isProcessing && (
-                <div className='glass-absolute glass-inset-0 glass-surface-dark/50 glass-flex glass-items-center glass-justify-center'>
-                  <div className='glass-text-center glass-text-primary'>
-                    <div className='glass-w-8 glass-h-8 glass-border-2 glass-border-white glass-border-t-transparent glass-radius-full glass-animate-spin glass-mx-auto glass-mb-2' />
+                <div className="glass-absolute glass-inset-0 glass-surface-dark/50 glass-flex glass-items-center glass-justify-center">
+                  <div className="glass-text-center glass-text-primary">
+                    <div className="glass-w-8 glass-h-8 glass-border-2 glass-border-white glass-border-t-transparent glass-radius-full glass-animate-spin glass-mx-auto glass-mb-2" />
                     <div className="glass-text-sm">Processing...</div>
-                    <div className='glass-text-xs glass-mt-1'>
+                    <div className="glass-text-xs glass-mt-1">
                       {Math.round(progress)}% complete
                     </div>
                   </div>
@@ -598,7 +614,7 @@ export const GlassStyleTransfer = forwardRef<
               ref={canvasRef}
               width={512}
               height={512}
-              className='glass-hidden'
+              className="glass-hidden"
             />
           </div>
         </div>
@@ -610,10 +626,10 @@ export const GlassStyleTransfer = forwardRef<
         {showAdvancedControls && <AdvancedControls />}
 
         {/* Action buttons */}
-        <div className='glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10'>
-          <div className='glass-flex glass-items-center glass-space-x-4'>
+        <div className="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10">
+          <div className="glass-flex glass-items-center glass-space-x-4">
             <motion.button
-              className='glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors'
+              className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() =>
@@ -627,7 +643,7 @@ export const GlassStyleTransfer = forwardRef<
             </motion.button>
 
             <motion.button
-              className='glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors'
+              className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => {
@@ -643,7 +659,7 @@ export const GlassStyleTransfer = forwardRef<
             <motion.a
               href={previewImage}
               download="styled-image.png"
-              className='glass-px-4 glass-py-2 glass-surface-green hover:glass-surface-green glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors'
+              className="glass-px-4 glass-py-2 glass-surface-green hover:glass-surface-green glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
             >
@@ -660,17 +676,17 @@ export const GlassStyleTransfer = forwardRef<
             ${createGlassStyle({ blur: "sm", opacity: 0.8 }).background}
           `}
           >
-            <div className='glass-flex glass-items-center glass-justify-between glass-mb-2'>
-              <span className='glass-text-sm glass-text-primary-glass-opacity-80'>
+            <div className="glass-flex glass-items-center glass-justify-between glass-mb-2">
+              <span className="glass-text-sm glass-text-primary-glass-opacity-80">
                 Processing Style Transfer
               </span>
-              <span className='glass-text-sm glass-font-medium glass-text-primary'>
+              <span className="glass-text-sm glass-font-medium glass-text-primary">
                 {Math.round(progress)}%
               </span>
             </div>
-            <div className='glass-w-full glass-surface-subtle/20 glass-radius-full glass-h-2'>
+            <div className="glass-w-full glass-surface-subtle/20 glass-radius-full glass-h-2">
               <motion.div
-                className='glass-surface-blue glass-h-2 glass-radius-full'
+                className="glass-surface-blue glass-h-2 glass-radius-full"
                 animate={{ width: `${progress}%` }}
                 transition={
                   prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }

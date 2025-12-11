@@ -1,7 +1,12 @@
-'use client';
-import React, { forwardRef } from 'react';
-import { cn } from '../lib/utilsComprehensive';
-import { createGlassStyle, GlassIntent, GlassElevation, QualityTier } from '../core/mixins/glassMixins';
+"use client";
+import React, { forwardRef } from "react";
+import { cn } from "../lib/utilsComprehensive";
+import {
+  createGlassStyle,
+  GlassIntent,
+  GlassElevation,
+  QualityTier,
+} from "../core/mixins/glassMixins";
 
 export interface GlassProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Glass semantic intent */
@@ -14,7 +19,7 @@ export interface GlassProps extends React.HTMLAttributes<HTMLDivElement> {
   tier?: QualityTier;
 
   /** Border radius */
-  radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  radius?: "none" | "sm" | "md" | "lg" | "xl" | "full";
 
   /** Enable interactive states */
   interactive?: boolean;
@@ -38,10 +43,10 @@ export interface GlassProps extends React.HTMLAttributes<HTMLDivElement> {
 const GlassCore = forwardRef<HTMLDivElement, GlassProps>(
   (
     {
-      intent = 'neutral',
-      elevation = 'level2',
-      tier = 'high',
-      radius = 'md',
+      intent = "neutral",
+      elevation = "level2",
+      tier = "high",
+      radius = "md",
       interactive = false,
       hoverLift = false,
       focusRing = false,
@@ -66,13 +71,20 @@ const GlassCore = forwardRef<HTMLDivElement, GlassProps>(
 
     // Apply border radius based on token system
     const radiusStyles = {
-      borderRadius: 
-        radius === 'none' ? '0px' : 
-        radius === 'sm' ? '4px' :
-        radius === 'md' ? '8px' :
-        radius === 'lg' ? '12px' :
-        radius === 'xl' ? '16px' :
-        radius === 'full' ? '9999px' : '8px',
+      borderRadius:
+        radius === "none"
+          ? "0px"
+          : radius === "sm"
+            ? "4px"
+            : radius === "md"
+              ? "8px"
+              : radius === "lg"
+                ? "12px"
+                : radius === "xl"
+                  ? "16px"
+                  : radius === "full"
+                    ? "9999px"
+                    : "8px",
     };
 
     // Combine all styles
@@ -86,16 +98,16 @@ const GlassCore = forwardRef<HTMLDivElement, GlassProps>(
       <div
         ref={ref}
         className={cn(
-          'glass-foundation-basic',
+          "glass-foundation-basic",
           {
-            'glass-state-interactive': interactive,
-            'glass-state-hoverable': hoverLift,
-            'glass-focus': focusRing,
-            'glass-state-pressable': press,
+            "glass-state-interactive": interactive,
+            "glass-state-hoverable": hoverLift,
+            "glass-focus": focusRing,
+            "glass-state-pressable": press,
           },
           className
         )}
-        style={combinedStyles}
+        style={{ ...combinedStyles }}
         {...props}
       >
         {children}
@@ -104,7 +116,7 @@ const GlassCore = forwardRef<HTMLDivElement, GlassProps>(
   }
 );
 
-GlassCore.displayName = 'GlassCore';
+GlassCore.displayName = "GlassCore";
 
 export { GlassCore };
 export default GlassCore;
@@ -114,6 +126,11 @@ export type { GlassIntent, GlassElevation, QualityTier };
 
 // Legacy types for backward compatibility
 /** @deprecated Use GlassIntent instead */
-export type GlassVariant = 'clear' | 'frosted' | 'tinted' | 'luminous' | 'dynamic';
+export type GlassVariant =
+  | "clear"
+  | "frosted"
+  | "tinted"
+  | "luminous"
+  | "dynamic";
 /** @deprecated Use elevation levels instead */
-export type BlurIntensity = 'none' | 'subtle' | 'medium' | 'strong' | 'intense';
+export type BlurIntensity = "none" | "subtle" | "medium" | "strong" | "intense";

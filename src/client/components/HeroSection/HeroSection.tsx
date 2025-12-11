@@ -70,6 +70,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const hasStats = Array.isArray(stats) && stats.length > 0;
   const hasActions = Array.isArray(actions) && actions.length > 0;
 
+  const mediaFrameStyle = useMemo(
+    () => (glassOverlay ? { ...overlayStyle } : undefined),
+    [glassOverlay, overlayStyle]
+  );
+
   return (
     <section
       data-testid={dataTestId}
@@ -86,7 +91,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {glassOverlay ? (
         <span
           className={styles.backgroundMesh}
-          style={{ opacity: 0.75 }}
+          style={{ ...{ opacity: 0.75 } }}
           aria-hidden
         />
       ) : null}
@@ -113,20 +118,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {hasActions ? (
             <div className={styles.actions} data-testid="hero-actions">
-              {actions.map(({ label, href, variant = "primary", icon, ariaLabel }) => (
-                <a
-                  key={`${label}-${href}`}
-                  className={cn(
-                    styles.actionButton,
-                    variant === "primary" ? styles.primaryAction : styles.secondaryAction
-                  )}
-                  href={href}
-                  aria-label={ariaLabel}
-                >
-                  <span>{label}</span>
-                  {icon}
-                </a>
-              ))}
+              {actions.map(
+                ({ label, href, variant = "primary", icon, ariaLabel }) => (
+                  <a
+                    key={`${label}-${href}`}
+                    className={cn(
+                      styles.actionButton,
+                      variant === "primary"
+                        ? styles.primaryAction
+                        : styles.secondaryAction
+                    )}
+                    href={href}
+                    aria-label={ariaLabel}
+                  >
+                    <span>{label}</span>
+                    {icon}
+                  </a>
+                )
+              )}
             </div>
           ) : null}
         </div>
@@ -148,7 +157,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className={styles.media} data-testid="hero-media">
                 <div
                   className={styles.mediaFrame}
-                  style={glassOverlay ? overlayStyle : undefined}
+                  style={{ ...(mediaFrameStyle || {}) }}
                 >
                   <div className={styles.mediaContent}>{media}</div>
                 </div>

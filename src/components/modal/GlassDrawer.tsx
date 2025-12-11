@@ -21,6 +21,9 @@ import {
 } from "../advanced/GlassPredictiveEngine";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassDrawerProps extends ConsciousnessFeatures {
   /**
@@ -449,7 +452,10 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         }
       };
 
-      const interval = setInterval(updateAdaptiveFeatures, 3000);
+      const interval = setInterval(
+        updateAdaptiveFeatures,
+        ANIMATION.DURATION.slower * 4
+      );
       updateAdaptiveFeatures(); // Run immediately
 
       return () => clearInterval(interval);
@@ -510,7 +516,10 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         }
       };
 
-      const timeoutId = setTimeout(generateDrawerInsights, 1000);
+      const timeoutId = setTimeout(
+        generateDrawerInsights,
+        ANIMATION.DURATION.slower * 1.4
+      );
       return () => clearTimeout(timeoutId);
     }, [
       predictive,
@@ -791,8 +800,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                   "consciousness-urgent-glass",
                 predictive && drawerInsights && "consciousness-predictive-glass"
               )}
-              style={
-                {
+              style={{
+                ...({
                   "--liquid-glass-drawer-density":
                     position === "top" || position === "bottom"
                       ? "0.85"
@@ -800,10 +809,10 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                   "--liquid-glass-motion-factor": "0.6",
                   "--liquid-glass-adaptive-tint":
                     drawerInsights?.urgency === "high"
-                      ? "rgba(220, 38, 38, 0.1)"
-                      : "rgba(0, 0, 0, 0.06)",
-                } as React.CSSProperties
-              }
+                      ? "color-mix(in srgb, var(--glass-color-danger) 10%, transparent)"
+                      : "color-mix(in srgb, var(--glass-black) 6%, transparent)",
+                } as React.CSSProperties),
+              }}
               data-liquid-glass-drawer="true"
               data-drawer-position={position}
               data-drawer-urgency={drawerInsights?.urgency}
@@ -818,7 +827,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {title && (
                           <h2
                             id="drawer-title"
-                            className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
+                            className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                           >
                             {title}
                           </h2>
@@ -826,7 +835,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {description && (
                           <p
                             id="drawer-description"
-                            className='glass-text-sm glass-text-secondary-foreground'
+                            className="glass-text-sm glass-text-secondary-foreground"
                           >
                             {description}
                           </p>
@@ -901,7 +910,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                         {title && (
                           <h2
                             id="drawer-title"
-                            className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
+                            className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                           >
                             {title}
                           </h2>
@@ -932,7 +941,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                       aria-label="Close drawer"
                       data-consciousness-close="true"
                     >
-                      <X className='glass-w-4 glass-h-4' />
+                      <X className="glass-w-4 glass-h-4" />
                     </GlassButton>
                   )}
                 </div>
@@ -993,7 +1002,9 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                   {predictive && drawerInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='glass-text-primary'>Drawer Insights</span>
+                        <span className="glass-text-primary">
+                          Drawer Insights
+                        </span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

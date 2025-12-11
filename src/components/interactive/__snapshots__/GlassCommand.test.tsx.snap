@@ -10,11 +10,11 @@ exports[`GlassCommand matches snapshot 1`] = `
     class="glass-p-4"
   >
     <div
-      class="relative mb-4"
+      class="glass-relative glass-mb-4"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-search absolute left-3 glass-top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/50"
+        class="lucide lucide-search glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -35,22 +35,22 @@ exports[`GlassCommand matches snapshot 1`] = `
         />
       </svg>
       <div
-        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-glass-backdrop-blur-md glass-radius-lg glass-contrast-guard"
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-backdrop-blur-md glass-radius-lg glass-contrast-guard"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
-          class="relative w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none glass-text-primary placeholder-white/50 focus:ring-2 focus:ring-white/30"
+          class="relative w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none glass-text-primary placeholder-white/50 focus:ring-2 glass-focus-ring-white-opacity-30"
           data-glass-component="true"
           data-testid="glassinput"
         >
           <div
-            class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm border-border/30 focus:border-primary/50 ring-2 ring-primary/20 w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none glass-text-primary placeholder-white/50 focus:ring-2 focus:ring-white/30"
+            class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm border-border/30 focus:border-primary/50 ring-2 ring-primary/20 w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none glass-text-primary placeholder-white/50 focus:ring-2 glass-focus-ring-white-opacity-30"
             data-performance-mode="medium"
             style="border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); border: 1px solid rgba(255,255,255,0.5);"
           >
             <input
               aria-label="Search commands..."
-              class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+              class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
               id="glass-input-:r6:"
               placeholder="Search commands..."
               value=""
@@ -67,7 +67,7 @@ exports[`GlassCommand matches snapshot 1`] = `
       style="max-height: 300px;"
     >
       <div
-        class="text-center glass-py-8 text-primary/50"
+        class="glass-text-center glass-py-8 glass-text-primary-glass-opacity-50"
       >
         No commands found
       </div>

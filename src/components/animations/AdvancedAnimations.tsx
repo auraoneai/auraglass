@@ -1,7 +1,10 @@
-'use client';
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utilsComprehensive";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 /**
  * Advanced Animation Easing Functions
  * Provides sophisticated easing curves for glassmorphism transitions
@@ -127,31 +130,31 @@ export const easings = {
     const decay = Math.pow(1 - t, 2);
     const bounce = Math.sin(t * Math.PI * 4) * Math.pow(1 - t, 0.5) * 0.1;
     return decay + bounce;
-  }
+  },
 };
 
 // Glass transition presets using the easing functions
 export const glassTransitionPresets = {
   subtle: {
     duration: 0.3,
-    ease: easings.easeOutCubic
+    ease: easings.easeOutCubic,
   },
   smooth: {
     duration: 0.5,
-    ease: easings.easeInOutCubic
+    ease: easings.easeInOutCubic,
   },
   dramatic: {
     duration: 0.8,
-    ease: easings.easeOutBack
+    ease: easings.easeOutBack,
   },
   glass: {
     duration: 0.6,
-    ease: easings.glassEase
+    ease: easings.glassEase,
   },
   shatter: {
     duration: 1.2,
-    ease: easings.shatterEase
-  }
+    ease: easings.shatterEase,
+  },
 };
 
 export interface AdvancedAnimationsProps
@@ -161,11 +164,11 @@ export interface AdvancedAnimationsProps
 }
 
 const easingSampleKeys = [
-  'subtle',
-  'smooth',
-  'dramatic',
-  'glass',
-  'shatter'
+  "subtle",
+  "smooth",
+  "dramatic",
+  "glass",
+  "shatter",
 ] as const;
 
 export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
@@ -174,50 +177,62 @@ export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
   children,
   ...rest
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const keys = easingSampleKeys.slice(0, Math.max(1, sampleCount));
 
   return (
     <div
-      className={cn(
-        'glass-advanced-animations glass-space-y-6',
-        className
-      )}
+      className={cn("glass-advanced-animations glass-space-y-6", className)}
       {...rest}
     >
       {children ?? (
-        <div className='glass-grid sm:glass-grid-cols-2 glass-gap-4'>
+        <div className="glass-grid sm:glass-grid-cols-2 glass-gap-4">
           {keys.map((key) => {
             const preset = glassTransitionPresets[key];
             return (
               <motion.div
                 key={key}
                 className="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
-                animate={{ y: [0, -8, 0] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: preset.duration,
-                  ease: preset.ease as any
-                }}
+                animate={prefersReducedMotion ? {} : { y: [0, -8, 0] }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : {
+                        repeat: Infinity,
+                        duration: preset.duration,
+                        ease: preset.ease as any,
+                      }
+                }
               >
-                <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-                  {key}
-                </p>
-                <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
-                  {key === 'glass' ? 'Material physics' : 'Easing preview'}
-                </h3>
+                <ContrastGuard>
+                  <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+                    {key}
+                  </p>
+                  <h3 className="glass-text-xl glass-text-primary glass-font-semibold">
+                    {key === "glass" ? "Material physics" : "Easing preview"}
+                  </h3>
+                </ContrastGuard>
                 <div className="glass-h-2 glass-radius-full glass-surface-subtle">
                   <motion.div
                     className="glass-h-full glass-radius-full glass-gradient-primary"
-                    animate={{ width: ['10%', '90%', '10%'] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: preset.duration,
-                      ease: preset.ease as any
-                    }}
+                    animate={
+                      prefersReducedMotion
+                        ? {}
+                        : { width: ["10%", "90%", "10%"] }
+                    }
+                    transition={
+                      prefersReducedMotion
+                        ? { duration: 0 }
+                        : {
+                            repeat: Infinity,
+                            duration: preset.duration,
+                            ease: preset.ease as any,
+                          }
+                    }
                   />
                 </div>
               </motion.div>
-            )
+            );
           })}
         </div>
       )}

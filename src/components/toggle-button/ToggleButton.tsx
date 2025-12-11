@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * Glass ToggleButton Component
  *
@@ -406,7 +406,7 @@ function ToggleButtonComponent(
         preset="scaleIn"
         animateOnHover={true}
         duration={0.2}
-        className='glass-inline-glass-block'
+        className="glass-inline-glass-block"
       >
         <OptimizedGlass
           ref={(node) => {
@@ -433,7 +433,7 @@ function ToggleButtonComponent(
           liftOnHover
           press
           className={baseClasses}
-          style={combinedStyle}
+          style={{ ...(combinedStyle || {}) }}
           type="button"
           disabled={disabled}
           onClick={handleClick}
@@ -442,9 +442,9 @@ function ToggleButtonComponent(
           {...a11yProps}
           {...rest}
         >
-          <span className='glass-relative glass-z-10'>{children}</span>
+          <span className="glass-relative glass-z-10">{children}</span>
           {description && (
-            <span id={descriptionId} className='glass-sr-only'>
+            <span id={descriptionId} className="glass-sr-only">
               {description}
             </span>
           )}
@@ -458,7 +458,7 @@ function ToggleButtonComponent(
       preset="scaleIn"
       animateOnHover={true}
       duration={0.2}
-      className='glass-inline-glass-block'
+      className="glass-inline-glass-block"
     >
       <button
         ref={(node) => {
@@ -474,7 +474,7 @@ function ToggleButtonComponent(
           }
         }}
         className={baseClasses}
-        style={combinedStyle}
+        style={{ ...(combinedStyle || {}) }}
         type="button"
         disabled={disabled}
         onClick={handleClick}
@@ -485,7 +485,7 @@ function ToggleButtonComponent(
       >
         {children}
         {description && (
-          <span id={descriptionId} className='glass-sr-only'>
+          <span id={descriptionId} className="glass-sr-only">
             {description}
           </span>
         )}

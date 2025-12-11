@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass, Motion } from "../../primitives";
@@ -55,7 +55,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
       description,
       link,
       buttonText = "Learn more",
-      className="",
+      className = "",
       customPreview,
       glassVariant = "frosted",
       onClick,
@@ -82,7 +82,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
 
     const ArrowIcon = () => (
       <svg
-        className='glass-w-4 glass-h-4 glass-ml-1 glass-transition-transform glass-duration-300 glass-group-hover:translate-x-1'
+        className="glass-w-4 glass-h-4 glass-ml-1 glass-transition-transform glass-duration-300 glass-group-hover:translate-x-1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="none"
@@ -114,34 +114,34 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
         <>
           {/* Header */}
           {icon && (
-            <div className='glass-relative glass-z-10 glass-mb-6 glass-transition-all glass-duration-300 glass-group-hover:-translate-y-1 glass-group-glass-hover-scale-105'>
-              <div className='glass-relative'>
+            <div className="glass-relative glass-z-10 glass-mb-6 glass-transition-all glass-duration-300 glass-group-hover:-translate-y-1 glass-group-glass-hover-scale-105">
+              <div className="glass-relative">
                 {icon}
                 {/* Glow effect */}
-                <div className='glass-absolute glass-inset-0 glass--inset-2 glass-radius-lg glass-bg-gradient-radial glass-gradient-primary glass-via-blue-glass-opacity-10 glass-gradient-primary glass-opacity-0 glass-transition-opacity glass-duration-400 glass-group-glass-hover-opacity-100' />
+                <div className="glass-absolute glass-inset-0 glass--inset-2 glass-radius-lg glass-bg-gradient-radial glass-gradient-primary glass-via-blue-glass-opacity-10 glass-gradient-primary glass-opacity-0 glass-transition-opacity glass-duration-400 glass-group-glass-hover-opacity-100" />
               </div>
             </div>
           )}
 
           {/* Content */}
-          <div className='glass-relative glass-z-10 glass-mb-6'>
-            <h3 className='glass-mb-2 glass-text-xl glass-font-semibold glass-text-primary glass-transition-colors glass-duration-200'>
+          <div className="glass-relative glass-z-10 glass-mb-6">
+            <h3 className="glass-mb-2 glass-text-xl glass-font-semibold glass-text-primary glass-transition-colors glass-duration-200">
               {title}
             </h3>
-            <p className='glass-mb-4 glass-text-sm glass-text-primary-opacity-70 glass-transition-colors glass-duration-200'>
+            <p className="glass-mb-4 glass-text-sm glass-text-primary-opacity-70 glass-transition-colors glass-duration-200">
               {description}
             </p>
 
             {customPreview && (
-              <div className='custom-preview-container'>{customPreview}</div>
+              <div className="custom-preview-container">{customPreview}</div>
             )}
           </div>
 
           {/* Footer */}
-          <div className='glass-relative glass-z-10 glass-mt-auto glass-pt-4 glass-border-t glass-border-white/10'>
+          <div className="glass-relative glass-z-10 glass-mt-auto glass-pt-4 glass-border-t glass-border-white/10">
             <div className="glass-flex glass-items-center glass-justify-between">
               <div
-                className='glass-flex glass-items-center glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-group glass-transition-colors glass-duration-300 glass-group-hover:glass-text-primary'
+                className="glass-flex glass-items-center glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-group glass-transition-colors glass-duration-300 glass-group-hover:glass-text-primary"
                 aria-hidden="true"
               >
                 <span>{buttonText}</span>
@@ -154,7 +154,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
     };
 
     return (
-      <Motion preset="fadeIn" className='glass-group glass-block'>
+      <Motion preset="fadeIn" className="glass-group glass-block">
         <a
           ref={ref}
           id={componentId}
@@ -162,7 +162,7 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
           onClick={handleClick}
           aria-label={defaultAriaLabel}
           aria-describedby={`${componentId}-description`}
-          className='glass-block glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+          className="glass-block glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           <OptimizedGlass
             intent="neutral"
@@ -197,14 +197,16 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
               className
             )}
             style={{
-              transformStyle: "preserve-3d",
+              ...{
+                transformStyle: "preserve-3d",
+              },
             }}
             {...props}
           >
-            <div id={`${componentId}-description`} className='glass-sr-only'>
+            <div id={`${componentId}-description`} className="glass-sr-only">
               Interactive card link: {title}. {description}
             </div>
-            <div className='glass-relative glass-z-10 glass-flex glass-h-full glass-min-h-200px glass-flex-col'>
+            <div className="glass-relative glass-z-10 glass-flex glass-h-full glass-min-h-200px glass-flex-col">
               {renderCardContent()}
             </div>
           </OptimizedGlass>

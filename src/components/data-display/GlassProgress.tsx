@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef, useEffect, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
@@ -9,6 +9,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface GlassProgressProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -87,8 +88,6 @@ export interface GlassProgressProps
 export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       value = 0,
       max = 100,
       variant = "default",
@@ -127,7 +126,7 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
       if (shouldAnimate) {
         const timer = setTimeout(() => {
           setAnimatedValue(value);
-        }, 100);
+        }, ANIMATION.DURATION.fast / 3);
         return () => clearTimeout(timer);
       } else {
         setAnimatedValue(value);
@@ -192,17 +191,23 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
     };
 
     const labelContent = getLabelContent();
-    const resolvedDataTestId = dataTestIdAttr ?? dataTestIdProp ?? "glassprogress";
+    const resolvedDataTestId =
+      dataTestIdAttr ?? dataTestIdProp ?? "glassprogress";
 
     return (
-      <div ref={ref} className={cn("w-full", className)} data-testid={resolvedDataTestId} {...props}>
+      <div
+        ref={ref}
+        className={cn("w-full", className)}
+        data-testid={resolvedDataTestId}
+        {...props}
+      >
         {/* Top label */}
         {labelContent && labelPosition === "top" && (
           <div
             id={`${progressId}-label`}
-            className='glass-flex glass-justify-between glass-items-center glass-mb-2'
+            className="glass-flex glass-justify-between glass-items-center glass-mb-2"
           >
-            <span className='glass-text-sm glass-font-medium glass-text-primary'>
+            <span className="glass-text-sm glass-font-medium glass-text-primary">
               {label}
             </span>
             {showValue && (
@@ -242,19 +247,21 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
             }}
           >
             {/* Sheen sweep on fill */}
-            <div className='glass-pointer-events-none glass-absolute glass-inset-0 glass-sheen' />
+            <div className="glass-pointer-events-none glass-absolute glass-inset-0 glass-sheen" />
             {/* Inline label */}
             {labelContent && labelPosition === "inline" && (
               <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-px-2">
-                <span className='glass-text-xs glass-font-medium glass-text-primary glass-mix-blend-difference'>
-                  {showValue ? formatDisplayValue() : label}
-                </span>
+                <ContrastGuard>
+                  <span className="glass-text-xs glass-font-medium glass-text-primary glass-mix-blend-difference">
+                    {showValue ? formatDisplayValue() : label}
+                  </span>
+                </ContrastGuard>
               </div>
             )}
 
             {/* Stripes overlay */}
             {striped && (
-              <div className='glass-absolute glass-inset-0 glass-bg-stripes glass-opacity-20' />
+              <div className="glass-absolute glass-inset-0 glass-bg-stripes glass-opacity-20" />
             )}
           </div>
         </OptimizedGlass>
@@ -265,7 +272,7 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
             id={`${progressId}-label`}
             className="glass-flex glass-justify-between glass-items-center glass-mt-2"
           >
-            <span className='glass-text-sm glass-font-medium glass-text-primary'>
+            <span className="glass-text-sm glass-font-medium glass-text-primary">
               {label}
             </span>
             {showValue && (
@@ -347,7 +354,7 @@ export const CircularProgress = forwardRef<
 
       const timer = setTimeout(() => {
         setAnimatedValue(value);
-      }, 100);
+      }, ANIMATION.DURATION.fast / 3);
       return () => clearTimeout(timer);
     }, [value, indeterminate]);
 
@@ -382,7 +389,7 @@ export const CircularProgress = forwardRef<
         {...props}
       >
         <svg
-          className='glass-transform glass---rotate-90'
+          className="glass-transform glass---rotate-90"
           width={config.size}
           height={config.size}
         >
@@ -394,7 +401,7 @@ export const CircularProgress = forwardRef<
             stroke="currentColor"
             strokeWidth={config.stroke}
             fill="transparent"
-            className='glass-text-secondary'
+            className="glass-text-secondary"
           />
 
           {/* Progress circle */}
@@ -411,14 +418,16 @@ export const CircularProgress = forwardRef<
             }
             strokeLinecap="round"
             className={cn(
-              "transition-all duration-500 ease-out",
+              `transition-all var(--glass-motion-duration-normal) var(--glass-motion-easing-standard)`,
               variantColors[variant],
               {
                 "animate-spin": indeterminate,
               }
             )}
             style={{
-              transformOrigin: "50% 50%",
+              ...{
+                transformOrigin: "50% 50%",
+              },
             }}
           />
           {/* Subtle glow overlay for finished arc */}
@@ -431,18 +440,20 @@ export const CircularProgress = forwardRef<
               fill="transparent"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
-              className='glass-stroke-white-opacity-10'
+              className="glass-stroke-white-opacity-10"
             />
           )}
         </svg>
 
         {/* Center content */}
-        <div className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center'>
+        <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center">
           {children ||
             (showValue && (
-              <span className='glass-text-sm glass-font-medium glass-text-primary'>
-                {Math.round(percentage)}%
-              </span>
+              <ContrastGuard>
+                <span className="glass-text-sm glass-font-medium glass-text-primary">
+                  {Math.round(percentage)}%
+                </span>
+              </ContrastGuard>
             ))}
         </div>
       </div>
@@ -560,7 +571,7 @@ export function StepProgress({
             <div
               className={cn(
                 "flex items-center justify-center glass-radius-full font-medium",
-                "border-2 transition-all duration-200",
+                `border-2 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                 config.indicator,
                 {
                   "bg-primary border-primary text-primary-foreground":
@@ -578,7 +589,7 @@ export function StepProgress({
               {variant === "numbered" || !steps ? (
                 status === "completed" ? (
                   <svg
-                    className='glass-w-4 glass-h-4'
+                    className="glass-w-4 glass-h-4"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >

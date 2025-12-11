@@ -14,6 +14,9 @@ import { cn } from "@/lib/utils";
 import ClearIcon from "../icons/ClearIcon";
 import { MultiSelectOption, OptionGroup, MultiSelectProps } from "./types";
 import styles from "./GlassMultiSelect.module.css";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 type InternalOption<T extends string | number> = MultiSelectOption<T> & {
   __isCreatable__?: boolean;
@@ -545,7 +548,9 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
             option.disabled && styles.tokenDisabled
           )}
         >
-          <span className={styles.tokenLabel}>{option.label}</span>
+          <ContrastGuard>
+            <span className={styles.tokenLabel}>{option.label}</span>
+          </ContrastGuard>
           {!disabled && !option.disabled && (
             <button
               type="button"
@@ -608,13 +613,15 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     <div
       ref={mergeRefs(ref, rootRef)}
       className={rootClassName}
-      style={inlineStyle}
+      style={{ ...inlineStyle }}
       data-testid={dataTestId}
     >
       {label && (
-        <label className={styles.label} htmlFor={inputId}>
-          {label}
-        </label>
+        <ContrastGuard>
+          <label className={styles.label} htmlFor={inputId}>
+            {label}
+          </label>
+        </ContrastGuard>
       )}
 
       <div
@@ -673,23 +680,31 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
       </div>
 
       {helperText && !error && (
-        <div className={styles.helperText}>{helperText}</div>
+        <ContrastGuard>
+          <div className={styles.helperText}>{helperText}</div>
+        </ContrastGuard>
       )}
 
       {error && errorMessage && (
-        <div className={styles.errorText}>{errorMessage}</div>
+        <ContrastGuard>
+          <div className={styles.errorText}>{errorMessage}</div>
+        </ContrastGuard>
       )}
 
       <div ref={dropdownRef} className={dropdownClassName} role="presentation">
         {loading && (
-          <div className={styles.loading}>
-            <span className={styles.spinner} aria-hidden="true" />
-            <span>{loadingText}</span>
-          </div>
+          <ContrastGuard>
+            <div className={styles.loading}>
+              <span className={styles.spinner} aria-hidden="true" />
+              <span>{loadingText}</span>
+            </div>
+          </ContrastGuard>
         )}
 
         {!loading && flatOptionList.length === 0 && (
-          <div className={styles.noOptions}>{noOptionsText}</div>
+          <ContrastGuard>
+            <div className={styles.noOptions}>{noOptionsText}</div>
+          </ContrastGuard>
         )}
 
         {!loading && flatOptionList.length > 0 && (
@@ -706,7 +721,9 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
                   (renderGroup ? (
                     renderGroup(group)
                   ) : (
-                    <li className={styles.groupHeader}>{group.label}</li>
+                    <li className={styles.groupHeader}>
+                      <ContrastGuard>{group.label}</ContrastGuard>
+                    </li>
                   ))}
 
                 {groupOptions.map((option) => {
@@ -741,9 +758,11 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
                       }}
                       onMouseEnter={() => setFocusedIndex(optionIndex)}
                     >
-                      {renderOption
-                        ? renderOption(option, isSelected)
-                        : option.label}
+                      {renderOption ? (
+                        renderOption(option, isSelected)
+                      ) : (
+                        <ContrastGuard>{option.label}</ContrastGuard>
+                      )}
                     </li>
                   );
                 })}

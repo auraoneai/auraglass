@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassInput } from "../input/GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -14,6 +14,9 @@ import { Motion } from "../../primitives";
 import { GlassButton, IconButton } from "../button/GlassButton";
 import { GlassBadge } from "../data-display/GlassBadge";
 import { GlassProgress } from "../data-display/GlassProgress";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface UploadedFile {
   id: string;
@@ -289,7 +292,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
             }
             return newFiles;
           });
-        }, 200);
+        }, ANIMATION.DURATION.fast);
 
         const result = await onUpload(fileObj.file);
 
@@ -387,7 +390,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         return (
           <svg
             data-glass-component
-            className='glass-w-5 glass-h-5'
+            className="glass-w-5 glass-h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -405,7 +408,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       if (type.includes("pdf")) {
         return (
           <svg
-            className='glass-w-5 glass-h-5'
+            className="glass-w-5 glass-h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -422,7 +425,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
       return (
         <svg
-          className='glass-w-5 glass-h-5'
+          className="glass-w-5 glass-h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -469,10 +472,10 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                   <img
                     src={file.preview}
                     alt={file.name}
-                    className='glass-w-10 glass-h-10 glass-object-cover glass-radius-md'
+                    className="glass-w-10 glass-h-10 glass-object-cover glass-radius-md"
                   />
                 ) : (
-                  <div className='glass-w-10 glass-h-10 glass-radius-md glass-surface-subtle glass-flex glass-items-center glass-justify-center'>
+                  <div className="glass-w-10 glass-h-10 glass-radius-md glass-surface-subtle glass-flex glass-items-center glass-justify-center">
                     {getFileIcon(file.type)}
                   </div>
                 )}
@@ -480,7 +483,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
               {/* File info */}
               <div className="glass-flex-1 glass-min-glass-w-0">
-                <p className='glass-text-sm glass-font-medium glass-text-primary glass-truncate'>
+                <p className="glass-text-sm glass-font-medium glass-text-primary glass-truncate">
                   {file.name}
                 </p>
                 <div className="glass-flex glass-items-center glass-gap-2 glass-mt-1">
@@ -514,7 +517,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
                 {/* Error message */}
                 {file.error && (
-                  <p className='glass-text-xs glass-text-danger glass-mt-1'>
+                  <p className="glass-text-xs glass-text-danger glass-mt-1">
                     {file.error}
                   </p>
                 )}
@@ -557,7 +560,12 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
     };
 
     return (
-      <div ref={ref} className={cn("w-full", className)} data-testid={props['data-testid'] || 'glassfileupload'} {...props}>
+      <div
+        ref={ref}
+        className={cn("w-full", className)}
+        data-testid={props["data-testid"] || "glassfileupload"}
+        {...props}
+      >
         {/* Hidden file input */}
         <GlassInput
           ref={fileInputRef}
@@ -565,7 +573,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           accept={accept}
           multiple={multiple}
           onChange={handleInputChange}
-          className='glass-hidden'
+          className="glass-hidden"
           disabled={disabled}
         />
 
@@ -602,7 +610,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           aria-label="File upload area"
         >
           {children || (
-            <div className='glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center'>
+            <div className="glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center">
               <svg
                 className={cn(
                   "mx-auto mb-3 glass-text-secondary",
@@ -624,7 +632,9 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                 />
               </svg>
 
-              <p className='glass-text-primary glass-font-medium glass-mb-1'>{instruction}</p>
+              <p className="glass-text-primary glass-font-medium glass-mb-1">
+                {instruction}
+              </p>
 
               {helperText && (
                 <p className="glass-text-sm glass-text-secondary">
@@ -643,7 +653,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
         {/* Error message */}
         {error && (
-          <p className='glass-text-sm glass-text-danger glass-mt-2'>{error}</p>
+          <p className="glass-text-sm glass-text-danger glass-mt-2">{error}</p>
         )}
 
         {/* File list */}

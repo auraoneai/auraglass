@@ -1,24 +1,25 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { useState } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
 import { AnimatePresence, motion } from "framer-motion";
+import { ANIMATION, BORDER_RADIUS } from "../../tokens/designConstants";
 
 export interface PageTransitionDemoProps {
   className?: string;
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
-export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({ 
+export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({
   className,
-  'data-testid': dataTestId,
+  "data-testid": dataTestId,
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const [page, setPage] = useState(0);
 
   return (
-    <div 
+    <div
       className={cn("glass-relative", className)}
       data-testid={dataTestId}
       style={{ width: 520, height: 320 }}
@@ -50,7 +51,7 @@ export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({
       <div
         style={{
           position: "relative",
-          borderRadius: 16,
+          borderRadius: BORDER_RADIUS.lg,
           overflow: "hidden",
           height: 260,
         }}
@@ -67,20 +68,23 @@ export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({
               opacity: 1,
               filter: "blur(0px)",
               y: 0,
-              transition: { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] },
+              transition: {
+                duration: ANIMATION.DURATION.normal / 1000,
+                ease: ANIMATION.EASING.easeInOut,
+              },
             }}
             exit={{
               opacity: 0,
               filter: "blur(var(--glass-blur-md))",
               y: -10,
-              transition: { duration: 0.2 },
+              transition: { duration: ANIMATION.DURATION.fast / 1000 },
             }}
-            style={cardStyle}
+            style={{ ...cardStyle }}
           >
             {page === 0 && (
               <Section
                 title="Overview"
-                color="linear-gradient(135deg, var(--glass-color-primary-light)33, #c084fc33)"
+                color="linear-gradient(135deg, var(--glass-color-primary-light)33, color-mix(in srgb, var(--glass-color-secondary) 20%, transparent))"
               />
             )}
             {page === 1 && (
@@ -92,7 +96,7 @@ export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({
             {page === 2 && (
               <Section
                 title="Insights"
-                color="linear-gradient(135deg, #f472b633, var(--glass-color-warning)33)"
+                color="linear-gradient(135deg, color-mix(in srgb, var(--glass-color-danger) 20%, transparent), color-mix(in srgb, var(--glass-color-warning) 20%, transparent))"
               />
             )}
           </motion.div>
@@ -138,9 +142,11 @@ const cardStyle: React.CSSProperties = {
 
 const btnStyle = (active: boolean): React.CSSProperties => ({
   padding: "6px 10px",
-  borderRadius: 8,
-  border: "1px solid rgba(var(--glass-color-white) / var(--glass-opacity-20))",
-  background: active ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)",
+  borderRadius: BORDER_RADIUS.md,
+  border: "1px solid color-mix(in srgb, var(--glass-white) 20%, transparent)",
+  background: active
+    ? "color-mix(in srgb, var(--glass-white) 18%, transparent)"
+    : "color-mix(in srgb, var(--glass-white) 8%, transparent)",
   color: "white",
 });
 

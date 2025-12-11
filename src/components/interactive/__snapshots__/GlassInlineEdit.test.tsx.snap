@@ -12,7 +12,7 @@ exports[`GlassInlineEdit matches snapshot 1`] = `
     class="glass-px-2 glass-py-1 glass-radius-lg hover:glass-surface-subtle/10 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
   >
     <span
-      class="text-primary/60"
+      class="glass-text-primary-glass-opacity-60"
     >
       Edit…
     </span>

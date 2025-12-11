@@ -43,7 +43,7 @@ export const seasonalThemes = {
   },
   autumn: {
     background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-    glassColor: "rgba(255, 255, 255, 0.12)",
+    glassColor: "color-mix(in srgb, var(--glass-white) 12%, transparent)",
     accentColor: "#efebe9",
   },
 } as const;

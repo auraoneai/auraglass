@@ -10,16 +10,16 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="glass-flex glass-items-center glass-justify-between mb-6"
+      class="glass-flex glass-items-center glass-justify-between glass-mb-6"
     >
       <div>
         <h1
-          class="glass-text-2xl font-bold glass-text-secondary"
+          class="glass-text-2xl glass-font-bold glass-text-secondary"
         >
           🤖 Intelligent Form Builder
         </h1>
         <p
-          class="glass-text-secondary mt-1"
+          class="glass-text-secondary glass-mt-1"
         >
           AI-powered form creation with real-time optimization
         </p>
@@ -28,23 +28,23 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
         class="glass-flex glass-gap-3"
       >
         <button
-          class="glass-px-4 glass-py-2 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           Export Schema
         </button>
         <button
-          class="glass-px-4 glass-py-2 glass-surface-green text-primary glass-radius-lg hover:glass-surface-green transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-px-4 glass-py-2 glass-surface-green glass-text-primary glass-radius-lg hover:glass-surface-green glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           + Add Field
         </button>
       </div>
     </div>
     <div
-      class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6 mb-6"
+      class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6 glass-mb-6"
     >
       <div>
         <label
-          class="block glass-text-sm font-medium glass-text-secondary mb-2"
+          class="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2"
         >
           Form Title *
         </label>
@@ -57,7 +57,7 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
       </div>
       <div>
         <label
-          class="block glass-text-sm font-medium glass-text-secondary mb-2"
+          class="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2"
         >
           Description
         </label>
@@ -71,25 +71,25 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-8"
+    class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-8"
   >
     <div
       class="glass-foundation-basic glass-p-6"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <h2
-        class="glass-text-lg font-semibold glass-text-secondary mb-4"
+        class="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4"
       >
         Form Fields
       </h2>
       <div
-        class="space-y-4 max-h-96 overflow-y-auto"
+        class="glass-space-y-4 glass-max-h-96 glass-overflow-y-auto"
       >
         <div
-          class="text-center glass-py-8 glass-text-secondary"
+          class="glass-text-center glass-py-8 glass-text-secondary"
         >
           <div
-            class="glass-text-4xl mb-2"
+            class="glass-text-4xl glass-mb-2"
           >
             📝
           </div>
@@ -104,15 +104,15 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <h2
-        class="glass-text-lg font-semibold glass-text-secondary mb-4"
+        class="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4"
       >
         Field Editor
       </h2>
       <div
-        class="text-center glass-py-8 glass-text-secondary"
+        class="glass-text-center glass-py-8 glass-text-secondary"
       >
         <div
-          class="glass-text-4xl mb-2"
+          class="glass-text-4xl glass-mb-2"
         >
           ⚙️
         </div>
@@ -127,7 +127,7 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <h2
-      class="glass-text-lg font-semibold glass-text-secondary mb-4"
+      class="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4"
     >
       Live Preview
     </h2>
@@ -135,13 +135,13 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
       class="glass-surface-subtle glass-radius-lg glass-p-6"
     >
       <form
-        class="max-w-2xl glass-mx-auto space-y-6"
+        class="glass-max-w-2xl glass-mx-auto glass-space-y-6"
       >
         <div
-          class="text-center mb-8"
+          class="glass-text-center glass-mb-8"
         >
           <h2
-            class="glass-text-2xl font-bold glass-text-secondary"
+            class="glass-text-2xl glass-font-bold glass-text-secondary"
           >
             New Form
           </h2>

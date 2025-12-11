@@ -6,7 +6,9 @@ exports[`GlassNeuroSync matches snapshot 1`] = `
     class="glass-fixed glass-bottom-4 glass-left-4 glass-z-50"
   >
     <button
-      class="w-14 h-14 glass-radius-full glass-surface-primary glass-elev-4 flex items-center justify-center glass-text-primary transition-all duration-300 hover:scale-105"
+      aria-expanded="false"
+      aria-label="Toggle NeuroSync dashboard"
+      class="w-14 glass-h-14 glass-radius-full glass-surface-primary glass-elev-4 flex items-center justify-center glass-text-primary transition-all glass-hover-scale-105 transitionDuration"
       tabindex="0"
     >
       🧠

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   forwardRef,
@@ -11,6 +11,9 @@ import { FocusTrap } from "../../primitives/focus/FocusTrap";
 import { OptimizedGlass } from "../../primitives";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
 import { Motion } from "../../primitives";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export type PopoverPlacement =
   | "top"
@@ -472,10 +475,13 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
         {triggerElement}
 
         {isOpen && (
-          <div className='glass-fixed glass-inset-0 glass-pointer-events-none' style={{ zIndex }}>
+          <div
+            className="glass-fixed glass-inset-0 glass-pointer-events-none"
+            style={{ zIndex }}
+          >
             <Motion
               preset={getAnimationPreset()}
-              className='glass-pointer-events-auto'
+              className="glass-pointer-events-auto"
               style={{
                 position: "absolute",
                 top: position.top,
@@ -500,12 +506,12 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                       contentClassName
                     )}
                     data-testid={dataTestId}
-                    style={
-                      {
+                    style={{
+                      ...({
                         "--liquid-glass-popover-density": "0.8",
                         "--liquid-glass-micro-refraction": "0.3",
-                      } as React.CSSProperties
-                    }
+                      } as React.CSSProperties),
+                    }}
                     data-liquid-glass-popover="true"
                     data-popover-placement={placement}
                     onMouseEnter={
@@ -573,12 +579,12 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                     >
                       <div className="glass-p-3">
                         {title && (
-                          <h3 className='glass-font-medium glass-text-primary glass-mb-1'>
+                          <h3 className="glass-font-medium glass-text-primary glass-mb-1">
                             {title}
                           </h3>
                         )}
                         {description && (
-                          <p className='glass-text-sm glass-text-secondary glass-mb-2'>
+                          <p className="glass-text-sm glass-text-secondary glass-mb-2">
                             {description}
                           </p>
                         )}
@@ -618,9 +624,13 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
                     onEscape={closeOnEscape ? () => setOpen(false) : undefined}
                   >
                     <div className="glass-p-3">
-                      {title && <h3 className='glass-font-medium glass-mb-1'>{title}</h3>}
+                      {title && (
+                        <h3 className="glass-font-medium glass-mb-1">
+                          {title}
+                        </h3>
+                      )}
                       {description && (
-                        <p className='glass-text-sm glass-text-secondary glass-mb-2'>
+                        <p className="glass-text-sm glass-text-secondary glass-mb-2">
                           {description}
                         </p>
                       )}
@@ -676,7 +686,9 @@ export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
         hideDelay={0}
         placement="top"
         radialReveal={false}
-        content={<span className='glass-text-sm glass-text-primary'>{content}</span>}
+        content={
+          <span className="glass-text-sm glass-text-primary">{content}</span>
+        }
         contentClassName="glass-px-2 glass-py-1"
         {...props}
       />

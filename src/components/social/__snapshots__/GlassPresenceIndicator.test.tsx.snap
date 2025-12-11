@@ -9,7 +9,7 @@ exports[`GlassPresenceIndicator matches snapshot 1`] = `
     class="flex flex-wrap gap-2"
   />
   <div
-    class="mt-3 pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs text-primary/50"
+    class="glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs glass-text-primary-glass-opacity-50"
     style="opacity: 0;"
   >
     <span>

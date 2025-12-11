@@ -9,7 +9,7 @@ exports[`GlassInfiniteScroll matches snapshot 1`] = `
     class=""
   />
   <div
-    class="h-4"
+    class="glass-h-4"
   />
 </div>
 `;

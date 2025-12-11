@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * Glowing Card Component
  * A glassmorphic card with animated glowing edges and hover effects
@@ -39,7 +39,7 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
       // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
 
       children,
-      className="",
+      className = "",
       style = {},
       glowColor = "#00d4ff",
       glowIntensity = 0.8,
@@ -130,7 +130,7 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
         ref={ref}
         data-testid={dataTestId || "glowingcard"}
         className={`glowing-card ${variant} ${getAnimationClass()} ${className}`}
-        style={containerStyles}
+        style={{ ...containerStyles }}
         onClick={!disabled ? onClick : undefined}
         role={onClick ? "button" : undefined}
         tabIndex={onClick && !disabled ? 0 : undefined}
@@ -148,13 +148,13 @@ export const GlowingCard = forwardRef<HTMLDivElement, GlowingCardProps>(
       >
         {/* Glow Layer */}
         {!prefersReducedMotion && (
-          <div className='glowing-card-glow' aria-hidden="true" />
+          <div className="glowing-card-glow" aria-hidden="true" />
         )}
 
         {/* Content */}
         <GlassCard
-          className='glowing-card-content'
-          style={{ position: "relative", zIndex: 1 }}
+          className="glowing-card-content"
+          style={{ ...{ position: "relative", zIndex: 1 } }}
         >
           {children}
         </GlassCard>

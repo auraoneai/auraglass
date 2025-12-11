@@ -2,15 +2,15 @@
 
 exports[`HeatGlass matches snapshot 1`] = `
 <div
-  class="motion-primitive relative"
+  class="motion-primitive glass-relative"
 >
   <div
-    class="optimized-glass-surface glass-danger-level2 glass-lift-on-hover glass-press glass-tier-high relative block w-full min-h-[100px] glass-p-4 box-border overflow-hidden transition-all duration-300 glass-radius-md shadow-heat-glow cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+    class="optimized-glass-surface glass-danger-level2 glass-lift-on-hover glass-press glass-tier-high relative block w-full min-h-[100px] glass-p-4 box-border overflow-hidden transition-all duration-300 glass-radius-md shadow-heat-glow cursor-pointer glass-hover--translate-y-0-5 active:translate-y-0"
     data-performance-mode="high"
     style="border-radius: 8px; box-shadow: 0 0 20px 5px rgba(255, 100, 50, 0.7); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="absolute inset-0 pointer-events-none glass-radius-inherit -z-10 opacity-30"
+      class="glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit glass--z-10 glass-opacity-30"
     />
     <div
       class="relative z-10"

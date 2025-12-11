@@ -14,7 +14,7 @@ exports[`GlassFormWizardSteps matches snapshot 1`] = `
         class="flex flex-row glass-gap-2 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
       >
         <span
-          class="glass-text-sm font-medium text-primary"
+          class="glass-text-sm glass-font-medium glass-text-primary"
         >
           Step 
           NaN
@@ -48,7 +48,7 @@ exports[`GlassFormWizardSteps matches snapshot 1`] = `
             style="width: 0%; transition-duration: 500ms;"
           >
             <div
-              class="pointer-events-none absolute inset-0 glass-sheen"
+              class="glass-pointer-events-none glass-absolute glass-inset-0 glass-sheen"
             />
           </div>
         </div>

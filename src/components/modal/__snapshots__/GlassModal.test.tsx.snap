@@ -10,7 +10,7 @@ exports[`GlassModal matches snapshot 1`] = `
   style="z-index: 50;"
 >
   <div
-    class="motion-primitive absolute inset-0 glass-surface-dark/50"
+    class="motion-primitive glass-absolute glass-inset-0 glass-surface-dark/50"
   />
   <div
     class="motion-primitive relative w-full max-w-md max-h-full"
@@ -41,23 +41,23 @@ exports[`GlassModal matches snapshot 1`] = `
             class="glass-flex glass-items-start glass-justify-between"
           >
             <div
-              class="glass-flex-1 glass-min-w-0"
+              class="glass-flex-1 glass-min-glass-w-0"
             />
             <div
               class="glass-flex-shrink-0 glass-ml-4"
             >
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Close modal"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                   data-consciousness-close="true"
                   id="glass-button-:rd:"
                 >
                   <svg
-                    class="w-4 h-4"
+                    class="glass-w-4 glass-h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

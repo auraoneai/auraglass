@@ -8,7 +8,7 @@ exports[`GlassLoadingSkeleton matches snapshot 1`] = `
     aria-busy="true"
     aria-label="Loading content"
     aria-live="polite"
-    class="relative"
+    class="glass-relative"
     id="skeleton-:r5:"
     role="status"
   >
@@ -17,19 +17,19 @@ exports[`GlassLoadingSkeleton matches snapshot 1`] = `
     >
       <div
         class="glass-skeleton glass-radius-md animate-pulse glass-backdrop-blur-md"
-        style="height: 1rem; width: 100%; border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 4px 16px rgba(var(--glass-color-black) / var(--glass-opacity-10)), 0 1px 0 rgba(255,255,255,0.03) inset;"
+        style="height: 1rem; width: 100%; box-shadow: 0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset;"
       />
       <div
         class="glass-skeleton glass-radius-md animate-pulse glass-backdrop-blur-md"
-        style="height: 1rem; width: 100%; border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 4px 16px rgba(var(--glass-color-black) / var(--glass-opacity-10)), 0 1px 0 rgba(255,255,255,0.03) inset;"
+        style="height: 1rem; width: 100%; box-shadow: 0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset;"
       />
       <div
         class="glass-skeleton glass-radius-md animate-pulse glass-backdrop-blur-md"
-        style="height: 1rem; width: 80%; border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 4px 16px rgba(var(--glass-color-black) / var(--glass-opacity-10)), 0 1px 0 rgba(255,255,255,0.03) inset;"
+        style="height: 1rem; width: 80%; box-shadow: 0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset;"
       />
     </div>
     <div
-      class="absolute inset-0 -skew-x-12 glass-gradient-primary glass-gradient-primary via-blue-300/10 glass-gradient-primary animate-shimmer"
+      class="glass-absolute glass-inset-0 glass--skew-x-12 glass-gradient-primary glass-gradient-primary glass-via-blue-glass-opacity-10 glass-gradient-primary glass-animate-glass-shimmer"
     />
   </div>
 </div>

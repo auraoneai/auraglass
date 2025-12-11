@@ -1,41 +1,43 @@
-'use client';
+"use client";
 /**
  * VisualFeedback Component
  *
  * A component that provides visual feedback effects.
  */
-import React, { forwardRef, useState, useRef, useEffect, useMemo } from 'react';
-import { cn } from '@/lib/utils';
+import React, { forwardRef, useState, useRef, useEffect, useMemo } from "react";
+import { cn } from "@/lib/utils";
 
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { createGlassStyle } from '../../core/mixins/glassMixins';
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
-import { VisualFeedbackProps } from './types';
-import styles from './VisualFeedback.module.css';
+import { VisualFeedbackProps } from "./types";
+import styles from "./VisualFeedback.module.css";
 
 // Convert color string to RGB values
 const colorToRgb = (color: string): string => {
   // Convert named colors to their RGB values
   switch (color) {
-    case 'primary':
-      return '99, 102, 241'; // Indigo
-    case 'secondary':
-      return '156, 39, 176'; // Purple
-    case 'error':
-      return '240, 82, 82'; // Red
-    case 'info':
-      return '3, 169, 244'; // Light Blue
-    case 'success':
-      return '76, 175, 80'; // Green
-    case 'warning':
-      return '255, 152, 0'; // Orange
+    case "primary":
+      return "99, 102, 241"; // Indigo
+    case "secondary":
+      return "156, 39, 176"; // Purple
+    case "error":
+      return "240, 82, 82"; // Red
+    case "info":
+      return "3, 169, 244"; // Light Blue
+    case "success":
+      return "76, 175, 80"; // Green
+    case "warning":
+      return "255, 152, 0"; // Orange
     default:
       // If it's already an RGB value in format 'r, g, b'
       if (/^\d+,\s*\d+,\s*\d+$/.test(color)) {
         return color;
       }
       // Default color (white)
-      return '255, 255, 255';
+      return "255, 255, 255";
   }
 };
 
@@ -48,9 +50,9 @@ function VisualFeedbackComponent(
 ) {
   const {
     children,
-    effect = 'highlight',
+    effect = "highlight",
     active = false,
-    color = 'primary',
+    color = "primary",
     duration = 1000,
     glass = false,
     intensity = 0.5,
@@ -66,14 +68,14 @@ function VisualFeedbackComponent(
   const containerRef = useRef<HTMLDivElement>(null);
 
   // State for ripple effect
-  const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number; size: number }>>(
-    []
-  );
+  const [ripples, setRipples] = useState<
+    Array<{ id: number; x: number; y: number; size: number }>
+  >([]);
   const rippleCount = useRef(0);
 
   // Handle ripple effect
   const handleRipple = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (effect !== 'ripple' || !active || prefersReducedMotion) return;
+    if (effect !== "ripple" || !active || prefersReducedMotion) return;
 
     const container = containerRef.current;
     if (!container) return;
@@ -88,11 +90,11 @@ function VisualFeedbackComponent(
     rippleCount.current += 1;
 
     const newRipple = { id, x, y, size };
-    setRipples(prevRipples => [...prevRipples, newRipple]);
+    setRipples((prevRipples) => [...prevRipples, newRipple]);
 
     // Remove ripple after animation completes
     setTimeout(() => {
-      setRipples(prevRipples => prevRipples.filter((r: any) => r.id !== id));
+      setRipples((prevRipples) => prevRipples.filter((r: any) => r.id !== id));
     }, duration);
   };
 
@@ -105,10 +107,11 @@ function VisualFeedbackComponent(
 
   // Handle forwarded ref
   const setRefs = (element: HTMLDivElement | null) => {
-    (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
+    (containerRef as React.MutableRefObject<HTMLDivElement | null>).current =
+      element;
 
     // Handle the forwarded ref
-    if (typeof ref === 'function') {
+    if (typeof ref === "function") {
       ref(element);
     } else if (ref) {
       (ref as React.MutableRefObject<HTMLDivElement | null>).current = element;
@@ -116,20 +119,20 @@ function VisualFeedbackComponent(
   };
 
   const animationClass = useMemo(() => {
-    if (!active || effect === 'none' || prefersReducedMotion) {
+    if (!active || effect === "none" || prefersReducedMotion) {
       return undefined;
     }
 
     switch (effect) {
-      case 'pulse':
+      case "pulse":
         return styles.pulse;
-      case 'glow':
+      case "glow":
         return styles.glow;
-      case 'highlight':
+      case "highlight":
         return styles.highlight;
-      case 'bounce':
+      case "bounce":
         return styles.bounce;
-      case 'shake':
+      case "shake":
         return styles.shake;
       default:
         return undefined;
@@ -138,15 +141,15 @@ function VisualFeedbackComponent(
 
   const containerClassName = cn(
     styles.container,
-    effect === 'ripple' && styles.rippleOverflow,
+    effect === "ripple" && styles.rippleOverflow,
     animationClass,
-    'glass-visual-feedback',
+    "glass-visual-feedback",
     className
   );
 
   const containerStyle = useMemo<React.CSSProperties>(
     () => ({
-      '--feedback-color-rgb': colorToRgb(color),
+      "--feedback-color-rgb": colorToRgb(color),
       animationDuration: `${duration}ms`,
       ...style,
     }),
@@ -157,8 +160,8 @@ function VisualFeedbackComponent(
     <div
       ref={setRefs}
       className={containerClassName}
-      style={containerStyle}
-      onClick={effect === 'ripple' ? handleRipple : undefined}
+      style={{ ...containerStyle }}
+      onClick={effect === "ripple" ? handleRipple : undefined}
       {...rest}
     >
       {glass && active && !prefersReducedMotion ? (
@@ -166,14 +169,14 @@ function VisualFeedbackComponent(
           className={styles.glassOverlay}
           style={{
             opacity: intensity * 0.5,
-            ...createGlassStyle({ intent: 'neutral', elevation: 'level2' }),
+            ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
           }}
         />
       ) : null}
 
       <div className={styles.content}>{children}</div>
 
-      {effect === 'ripple' && (
+      {effect === "ripple" && (
         <div className={styles.ripples}>
           {ripples.map((ripple) => (
             <div

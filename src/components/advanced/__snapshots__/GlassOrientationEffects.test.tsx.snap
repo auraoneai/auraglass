@@ -2,6 +2,14 @@
 
 exports[`GlassOrientationEffects matches snapshot 1`] = `
 <div
+  aria-label="Orientation effects container"
   class="relative"
-/>
+  role="region"
+>
+  <span
+    class="contrast-guard"
+    data-contrast-level="AA"
+    data-glass-component="true"
+  />
+</div>
 `;

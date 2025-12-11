@@ -6,6 +6,7 @@ import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
 import { createGlassStyle } from "../../utils/createGlassStyle";
 import { cn } from "../../lib/utilsComprehensive";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface WaveEquation {
   id: string;
@@ -133,7 +134,7 @@ export const GlassWaveFunction = forwardRef<
       showLabels = true,
       realTimeMode = true,
       onWaveInteraction,
-      className="",
+      className = "",
       ...props
     },
     ref
@@ -618,7 +619,7 @@ export const GlassWaveFunction = forwardRef<
               <motion.div
                 key={wave.id}
                 className={cn(
-                  "glass-p-2 glass-radius glass-border glass-transition-colors glass-duration-200 glass-cursor-pointer",
+                  `glass-p-2 glass-radius glass-border glass-transition-colors glass-duration-[${ANIMATION.DURATION.fast}ms] glass-cursor-pointer`,
                   selectedWave === wave.id
                     ? "glass-border-primary glass-surface-subtle"
                     : "glass-border-muted hover:glass-border-primary"

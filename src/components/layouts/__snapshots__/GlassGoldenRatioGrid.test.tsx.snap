@@ -9,11 +9,11 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 100%; height: 100%; min-height: 600px;"
 >
   <div
-    class="absolute inset-0"
+    class="glass-absolute glass-inset-0"
     style="width: 800px; height: 600px;"
   >
     <svg
-      class="absolute inset-0 pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-pointer-events-none"
       height="600"
       width="800"
     >
@@ -34,7 +34,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 4px; top: 4px; width: 297.5856472533198px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -53,7 +53,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 4px; top: 233.18923543998983px; width: 297.5856472533198px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -72,7 +72,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 4px; top: 374.82818294190355px; width: 180.86628384012346px; height: 221.17181705809645px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -91,7 +91,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 498.4375772558714px; top: 4px; width: 180.85193000255165px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -110,7 +110,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 309.5856472533198px; top: 4px; width: 180.85193000255163px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -129,7 +129,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 192.86628384012346px; top: 374.82818294190355px; width: 108.71936341319633px; height: 221.17181705809645px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -148,7 +148,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 498.4375772558714px; top: 374.82818294190355px; width: 180.85193000255165px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -167,7 +167,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 309.5856472533198px; top: 374.82818294190355px; width: 180.85193000255163px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -186,7 +186,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 687.2895072584231px; top: 4px; width: 108.71049274157693px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -205,7 +205,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 498.4375772558714px; top: 233.18923543998983px; width: 180.85193000255165px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -224,7 +224,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 309.5856472533198px; top: 233.18923543998983px; width: 180.85193000255163px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -243,7 +243,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 309.5856472533198px; top: 516.4671304438173px; width: 180.85193000255163px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -262,7 +262,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 498.4375772558714px; top: 516.4671304438173px; width: 180.85193000255165px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -281,7 +281,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 687.2895072584231px; top: 374.82818294190355px; width: 108.71049274157693px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -300,7 +300,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 687.2895072584231px; top: 233.18923543998983px; width: 108.71049274157693px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -319,7 +319,7 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
       style="left: 687.2895072584231px; top: 516.4671304438173px; width: 108.71049274157693px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
     >
       <div
-        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center text-primary/30"
+        class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
       >
         <div
@@ -331,49 +331,49 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="absolute bottom-4 left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70"
+    class="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70"
   >
     <div
-      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
     >
       Sections: 
       16
     </div>
     <div
-      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
     >
       Items: 
       0
     </div>
     <div
-      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
     >
       Golden Ratio: 
       1.618
     </div>
     <div
-      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+      class="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
     >
       Levels: 
       4
     </div>
   </div>
   <div
-    class="absolute top-4 right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs text-primary/70"
+    class="glass-absolute glass-top-4 glass-right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70"
   >
     <div
-      class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+      class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
     >
       <div
-        class="w-2 h-2 glass-surface-yellow glass-radius-full"
+        class="glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full"
       />
       Golden Ratio
     </div>
     <div
-      class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-glass-backdrop-blur-sm glass-contrast-guard"
+      class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
     >
       <div
-        class="w-4 h-0-5 glass-surface-yellow opacity-50"
+        class="glass-w-4 glass-h-0-5 glass-surface-yellow glass-opacity-50"
       />
       Spiral
     </div>

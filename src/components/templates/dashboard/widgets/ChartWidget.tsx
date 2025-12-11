@@ -1,9 +1,12 @@
-'use client';
+"use client";
 import { cn } from "@/lib/utils";
 import React, { forwardRef } from "react";
 import { Glass, Motion } from "../../../../primitives";
 import { GlassBadge } from "../../../data-display/GlassBadge";
 import { HStack, VStack } from "../../../layout/GlassStack";
+import { ANIMATION } from "../../../../tokens/designConstants";
+import { ContrastGuard } from "../../../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../../../hooks/useReducedMotion";
 
 export interface ChartDataPoint {
   label: string;
@@ -123,7 +126,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
     const colorSchemes = {
       default: [
         "var(--glass-color-primary)",
-        "#8B5CF6",
+        "var(--glass-color-secondary)",
         "var(--glass-color-success)",
         "var(--glass-color-warning)",
         "var(--glass-color-danger)",
@@ -131,39 +134,39 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       primary: [
         "var(--glass-color-primary)",
         "var(--glass-color-primary-light)",
-        "#93C5FD",
-        "#DBEAFE",
-        "#EBF8FF",
+        "color-mix(in srgb, var(--glass-color-primary) 80%, white)",
+        "color-mix(in srgb, var(--glass-color-primary) 60%, white)",
+        "color-mix(in srgb, var(--glass-color-primary) 40%, white)",
       ],
       success: [
         "var(--glass-color-success)",
         "var(--glass-color-success-light)",
-        "#6EE7B7",
-        "#A7F3D0",
-        "#D1FAE5",
+        "color-mix(in srgb, var(--glass-color-success) 80%, white)",
+        "color-mix(in srgb, var(--glass-color-success) 60%, white)",
+        "color-mix(in srgb, var(--glass-color-success) 40%, white)",
       ],
       warning: [
         "var(--glass-color-warning)",
         "var(--glass-color-warning-light)",
-        "#FCD34D",
-        "#FDE68A",
-        "#FEF3C7",
+        "color-mix(in srgb, var(--glass-color-warning) 80%, white)",
+        "color-mix(in srgb, var(--glass-color-warning) 60%, white)",
+        "color-mix(in srgb, var(--glass-color-warning) 40%, white)",
       ],
       destructive: [
         "var(--glass-color-danger)",
         "var(--glass-color-danger-light)",
-        "#FCA5A5",
-        "#FECACA",
-        "#FEE2E2",
+        "color-mix(in srgb, var(--glass-color-danger) 80%, white)",
+        "color-mix(in srgb, var(--glass-color-danger) 60%, white)",
+        "color-mix(in srgb, var(--glass-color-danger) 40%, white)",
       ],
       rainbow: [
         "var(--glass-color-primary)",
-        "#8B5CF6",
+        "var(--glass-color-secondary)",
         "var(--glass-color-success)",
         "var(--glass-color-warning)",
         "var(--glass-color-danger)",
-        "#EC4899",
-        "#06B6D4",
+        "var(--glass-color-accent)",
+        "var(--glass-color-info)",
       ],
     };
 
@@ -195,11 +198,11 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
               <Motion
                 key={point.label}
                 preset="slideUp"
-                delay={index * 100}
+                delay={(index * ANIMATION.DURATION.fast) / 10}
                 className="glass-flex-1 glass-flex glass-flex-col glass-items-center glass-gap-2"
               >
                 <div
-                  className='glass-w-full glass-radius-t glass-transition-all glass-duration-300 hover:glass-opacity-80 glass-cursor-pointer'
+                  className={`glass-w-full glass-radius-t glass-transition-all glass-duration-[${ANIMATION.DURATION.normal}ms] hover:glass-opacity-80 glass-cursor-pointer`}
                   style={{
                     height: `${height}%`,
                     backgroundColor: color,
@@ -207,7 +210,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   }}
                   title={`${point.label}: ${point.value}`}
                 />
-                <div className='glass-text-xs glass-text-secondary glass-text-center glass-truncate glass-w-full'>
+                <div className="glass-text-xs glass-text-secondary glass-text-center glass-truncate glass-w-full">
                   {point.label}
                 </div>
               </Motion>
@@ -237,7 +240,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
         .join(" ");
 
       return (
-        <div className='glass-relative glass-h-full glass-w-full'>
+        <div className="glass-relative glass-h-full glass-w-full">
           <svg
             className="glass-w-full glass-h-full"
             viewBox="0 0 100 100"
@@ -253,7 +256,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                     y1={i * 25}
                     x2="100"
                     y2={i * 25}
-                    stroke="rgba(255,255,255,0.18)"
+                    stroke="color-mix(in srgb, var(--glass-white) 18%, transparent)"
                     strokeWidth="0.5"
                   />
                 ))}
@@ -266,7 +269,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
               fill="none"
               stroke={colors?.[0] || "var(--glass-color-primary)"}
               strokeWidth="2"
-              className='glass-drop-glass-shadow-sm'
+              className="glass-drop-glass-shadow-sm"
             />
 
             {/* Data points */}
@@ -281,16 +284,19 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   cy={y}
                   r="2"
                   fill={colors?.[0] || "var(--glass-color-primary)"}
-                  className='glass-hover-r-3 glass-transition-all glass-cursor-pointer'
+                  className="glass-hover-r-3 glass-transition-all glass-cursor-pointer"
                 />
               );
             })}
           </svg>
 
           {/* Labels */}
-          <div className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-flex glass-justify-between'>
+          <div className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-flex glass-justify-between">
             {data?.dataPoints.map((point, index) => (
-              <div key={index} className='glass-text-xs glass-text-primary-glass-opacity-80'>
+              <div
+                key={index}
+                className="glass-text-xs glass-text-primary-glass-opacity-80"
+              >
                 {point.label}
               </div>
             ))}
@@ -314,7 +320,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
 
       return (
         <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <svg width="120" height="120" viewBox="0 0 120 120">
               {data?.dataPoints.map((point, index) => {
                 const percentage = point.value / total;
@@ -352,7 +358,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                     key={index}
                     d={pathData}
                     fill={color}
-                    className='hover:glass-opacity-80 glass-transition-opacity glass-cursor-pointer'
+                    className="hover:glass-opacity-80 glass-transition-opacity glass-cursor-pointer"
                   />
                 );
               })}
@@ -383,7 +389,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
 
       return (
         <svg
-          className='glass-w-full glass-h-8'
+          className="glass-w-full glass-h-8"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -392,7 +398,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
             fill="none"
             stroke={colors?.[0] || "var(--glass-color-primary)"}
             strokeWidth="3"
-            className='glass-drop-glass-shadow-sm'
+            className="glass-drop-glass-shadow-sm"
           />
         </svg>
       );
@@ -402,7 +408,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       if (loading) {
         return (
           <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
-            <div className='glass-w-6 glass-h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
+            <div className="glass-w-6 glass-h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin" />
           </div>
         );
       }
@@ -474,7 +480,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                 className="glass-flex glass-items-center glass-gap-1"
               >
                 <div
-                  className='glass-w-3 glass-h-3 glass-radius-sm'
+                  className="glass-w-3 glass-h-3 glass-radius-sm"
                   style={{ backgroundColor: color }}
                 />
                 <span className="glass-text-xs glass-text-secondary">
@@ -518,7 +524,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           {data?.summary && variant !== "minimal" && (
             <HStack space="sm" align="center">
               {data?.summary.total && (
-                <div className='glass-text-lg glass-font-bold glass-text-primary'>
+                <div className="glass-text-lg glass-font-bold glass-text-primary">
                   {data?.summary.total.toLocaleString()}
                 </div>
               )}

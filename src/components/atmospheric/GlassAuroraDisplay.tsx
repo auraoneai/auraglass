@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -12,6 +12,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import { useGlassSound } from "../../utils/soundDesign";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface AuroraLayer {
   points: Array<{ x: number; y: number; intensity: number }>;
@@ -504,8 +507,14 @@ export const GlassAuroraDisplay = forwardRef<
           height * 0.8,
           width
         );
-        glowGradient.addColorStop(0, "rgba(100, 200, 100, 0.1)");
-        glowGradient.addColorStop(1, "rgba(100, 200, 100, 0)");
+        glowGradient.addColorStop(
+          0,
+          `color-mix(in srgb, rgb(100, 200, 100) 10%, transparent)`
+        );
+        glowGradient.addColorStop(
+          1,
+          `color-mix(in srgb, rgb(100, 200, 100) 0%, transparent)`
+        );
 
         ctx.fillStyle = glowGradient;
         ctx.fillRect(0, 0, width, height);
@@ -580,12 +589,18 @@ export const GlassAuroraDisplay = forwardRef<
           (animationTime * 0.1 + 100) % width,
           0
         );
-        shimmerGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        shimmerGradient.addColorStop(
+          0,
+          `color-mix(in srgb, var(--glass-white) 0%, transparent)`
+        );
         shimmerGradient.addColorStop(
           0.5,
-          "rgba(var(--glass-color-white) / var(--glass-opacity-80))"
+          `color-mix(in srgb, var(--glass-white) 80%, transparent)`
         );
-        shimmerGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+        shimmerGradient.addColorStop(
+          1,
+          `color-mix(in srgb, var(--glass-white) 0%, transparent)`
+        );
 
         ctx.fillStyle = shimmerGradient;
         ctx.fill();
@@ -616,8 +631,8 @@ export const GlassAuroraDisplay = forwardRef<
         ctx.fillStyle = "var(--glass-text-secondary-dark)";
         ctx.fillRect(10, 10, 220, 160);
 
-        ctx.fillStyle = "white";
-        ctx.font = "14px sans-serif";
+        ctx.fillStyle = "var(--glass-text-primary)";
+        ctx.font = "var(--typography-body-size) sans-serif";
         ctx.fillText(
           `Aurora Intensity: ${Math.round(currentIntensity * 100)}%`,
           20,
@@ -720,7 +735,11 @@ export const GlassAuroraDisplay = forwardRef<
           className="glass-aurora-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label htmlFor="aurora-intensity" className="glass-text-sm">Intensity:</label>
+            <ContrastGuard>
+              <label htmlFor="aurora-intensity" className="glass-text-sm">
+                Intensity:
+              </label>
+            </ContrastGuard>
             <input
               id="aurora-intensity"
               type="range"
@@ -729,16 +748,20 @@ export const GlassAuroraDisplay = forwardRef<
               step="0.1"
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
-              className='glass-w-20'
+              className="glass-w-20"
               aria-label="Aurora intensity"
             />
-            <span className='glass-text-sm glass-min-w-3ch'>
-              {Math.round(currentIntensity * 100)}%
-            </span>
+            <ContrastGuard>
+              <span className="glass-text-sm glass-min-w-3ch">
+                {Math.round(currentIntensity * 100)}%
+              </span>
+            </ContrastGuard>
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label htmlFor="aurora-colors" className="glass-text-sm">Colors:</label>
+            <label htmlFor="aurora-colors" className="glass-text-sm">
+              Colors:
+            </label>
             <select
               id="aurora-colors"
               value={colorPreset}
@@ -755,7 +778,9 @@ export const GlassAuroraDisplay = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label htmlFor="aurora-activity" className="glass-text-sm">Activity:</label>
+            <label htmlFor="aurora-activity" className="glass-text-sm">
+              Activity:
+            </label>
             <select
               id="aurora-activity"
               value={activityLevel}
@@ -771,7 +796,9 @@ export const GlassAuroraDisplay = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label htmlFor="aurora-time" className="glass-text-sm">Time:</label>
+            <label htmlFor="aurora-time" className="glass-text-sm">
+              Time:
+            </label>
             <input
               id="aurora-time"
               type="range"
@@ -780,7 +807,7 @@ export const GlassAuroraDisplay = forwardRef<
               step="0.5"
               value={observationTime}
               onChange={(e) => {}}
-              className='glass-w-20'
+              className="glass-w-20"
               aria-label="Observation time in hours"
             />
           </div>
@@ -839,7 +866,7 @@ export const GlassAuroraDisplay = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}

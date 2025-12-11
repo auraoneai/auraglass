@@ -21,7 +21,7 @@ exports[`GlassProgress matches snapshot 1`] = `
       style="width: 0%; transition-duration: 500ms;"
     >
       <div
-        class="pointer-events-none absolute inset-0 glass-sheen"
+        class="glass-pointer-events-none glass-absolute glass-inset-0 glass-sheen"
       />
     </div>
   </div>

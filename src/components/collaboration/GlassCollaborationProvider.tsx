@@ -8,6 +8,7 @@ import React, {
   useRef,
 } from "react";
 import { cn } from "../../lib/utilsComprehensive";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface CollaborationUser {
   id: string;
@@ -142,12 +143,12 @@ const generateUserColor = (): string => {
     "var(--glass-color-danger)",
     "var(--glass-color-success)",
     "var(--glass-color-warning)",
-    "#8B5CF6",
-    "#EC4899",
-    "#06B6D4",
-    "#84CC16",
-    "#F97316",
-    "#6366F1",
+    "var(--glass-color-secondary)",
+    "var(--glass-color-accent)",
+    "var(--glass-color-info)",
+    "var(--glass-color-success-light)",
+    "var(--glass-color-warning-light)",
+    "var(--glass-color-primary-light)",
   ];
   return colors[Math.floor(Math.random() * colors.length)];
 };
@@ -180,96 +181,18 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   const heartbeatRef = useRef<NodeJS.Timeout>();
   const cursorTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Initialize connection
-  useEffect(() => {
-    if (!enableRealTime) return;
-
-    const wsBase =
-      process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL ||
-      process.env.WEBSOCKET_SERVER_URL ||
-      "";
-
-    if (!wsBase) {
-      console.warn(
-        "[Collaboration] WEBSOCKET_SERVER_URL is not configured; realtime disabled."
-      );
-      return;
-    }
-
-    let cancelled = false;
-    let reconnectAttempts = 0;
-
-    const normalizedBase = wsBase.replace(/\/$/, "");
-    const connect = () => {
-      if (cancelled) return;
-      const roomParam = `roomId=${encodeURIComponent(roomId)}`;
-      const url =
-        normalizedBase.includes("?") || normalizedBase.includes("&")
-          ? `${normalizedBase}&${roomParam}`
-          : `${normalizedBase}?${roomParam}`;
-
-      setConnectionStatus(reconnectAttempts === 0 ? "connecting" : "reconnecting");
-
-      const ws = new WebSocket(url);
-      wsRef.current = ws;
-
-      ws.onopen = () => {
-        if (cancelled) return;
-        reconnectAttempts = 0;
-        setIsConnected(true);
-        setConnectionStatus("connected");
-        addActivity({
-          userId: "system",
-          type: "join",
-          description: "Connected to collaboration room",
-        });
-
-        heartbeatRef.current = setInterval(() => {
-          if (wsRef.current?.readyState === WebSocket.OPEN) {
-            wsRef.current.send(
-              JSON.stringify({ type: "ping", ts: Date.now(), roomId })
-            );
-          }
-        }, 15000);
+  const addActivity = useCallback(
+    (activity: Omit<CollaborationActivity, "id" | "timestamp">) => {
+      const newActivity: CollaborationActivity = {
+        ...activity,
+        id: `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        timestamp: Date.now(),
       };
 
-      ws.onmessage = handleWebSocketMessage;
-
-      ws.onclose = () => {
-        if (cancelled) return;
-        setIsConnected(false);
-        setConnectionStatus("reconnecting");
-        if (heartbeatRef.current) {
-          clearInterval(heartbeatRef.current);
-        }
-        const backoff = Math.min(30000, 1000 * 2 ** reconnectAttempts);
-        reconnectAttempts += 1;
-        reconnectTimeoutRef.current = setTimeout(connect, backoff);
-      };
-
-      ws.onerror = () => {
-        ws.close();
-      };
-    };
-
-    connect();
-
-    return () => {
-      cancelled = true;
-      if (heartbeatRef.current) {
-        clearInterval(heartbeatRef.current);
-      }
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-      }
-      if (wsRef.current) {
-        wsRef.current.close();
-        wsRef.current = null;
-      }
-      setIsConnected(false);
-      setConnectionStatus("disconnected");
-    };
-  }, [roomId, enableRealTime, handleWebSocketMessage, addActivity]);
+      setActivities((prev: any) => [newActivity, ...prev.slice(0, 49)]); // Keep last 50 activities
+    },
+    []
+  );
 
   const handleWebSocketMessage = useCallback(
     (event: MessageEvent) => {
@@ -336,23 +259,106 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
     [addActivity]
   );
 
+  // Initialize connection
+  useEffect(() => {
+    if (!enableRealTime) return;
+
+    const wsBase =
+      process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL ||
+      process.env.WEBSOCKET_SERVER_URL ||
+      "";
+
+    if (!wsBase) {
+      console.warn(
+        "[Collaboration] WEBSOCKET_SERVER_URL is not configured; realtime disabled."
+      );
+      return;
+    }
+
+    let cancelled = false;
+    let reconnectAttempts = 0;
+
+    const normalizedBase = wsBase.replace(/\/$/, "");
+    const connect = () => {
+      if (cancelled) return;
+      const roomParam = `roomId=${encodeURIComponent(roomId)}`;
+      const url =
+        normalizedBase.includes("?") || normalizedBase.includes("&")
+          ? `${normalizedBase}&${roomParam}`
+          : `${normalizedBase}?${roomParam}`;
+
+      setConnectionStatus(
+        reconnectAttempts === 0 ? "connecting" : "reconnecting"
+      );
+
+      const ws = new WebSocket(url);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        if (cancelled) return;
+        reconnectAttempts = 0;
+        setIsConnected(true);
+        setConnectionStatus("connected");
+        addActivity({
+          userId: "system",
+          type: "join",
+          description: "Connected to collaboration room",
+        });
+
+        heartbeatRef.current = setInterval(() => {
+          if (wsRef.current?.readyState === WebSocket.OPEN) {
+            wsRef.current.send(
+              JSON.stringify({ type: "ping", ts: Date.now(), roomId })
+            );
+          }
+        }, ANIMATION.DURATION.slower * 25);
+      };
+
+      ws.onmessage = handleWebSocketMessage;
+
+      ws.onclose = () => {
+        if (cancelled) return;
+        setIsConnected(false);
+        setConnectionStatus("reconnecting");
+        if (heartbeatRef.current) {
+          clearInterval(heartbeatRef.current);
+        }
+        const backoff = Math.min(
+          ANIMATION.DURATION.slower * 50,
+          ANIMATION.DURATION.slower * 2 ** reconnectAttempts
+        );
+        reconnectAttempts += 1;
+        reconnectTimeoutRef.current = setTimeout(connect, backoff);
+      };
+
+      ws.onerror = () => {
+        ws.close();
+      };
+    };
+
+    connect();
+
+    return () => {
+      cancelled = true;
+      if (heartbeatRef.current) {
+        clearInterval(heartbeatRef.current);
+      }
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
+      }
+      setIsConnected(false);
+      setConnectionStatus("disconnected");
+    };
+  }, [roomId, enableRealTime, handleWebSocketMessage, addActivity]);
+
   const sendMessage = useCallback((payload: any) => {
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
     wsRef.current.send(JSON.stringify(payload));
   }, []);
-
-  const addActivity = useCallback(
-    (activity: Omit<CollaborationActivity, "id" | "timestamp">) => {
-      const newActivity: CollaborationActivity = {
-        ...activity,
-        id: `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        timestamp: Date.now(),
-      };
-
-      setActivities((prev: any) => [newActivity, ...prev.slice(0, 49)]); // Keep last 50 activities
-    },
-    []
-  );
 
   const updateCursor = useCallback(
     (position: { x: number; y: number; elementId?: string }) => {
@@ -370,7 +376,7 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
           userId: currentUser.id,
           cursor: position,
         });
-      }, 50);
+      }, ANIMATION.DURATION.fast / 4);
     },
     [currentUser, sendMessage]
   );
@@ -412,18 +418,21 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
     [currentUser, sendMessage]
   );
 
-  const resolveComment = useCallback((commentId: string) => {
-    setComments((prev: any) =>
-      prev.map((comment: any) =>
-        comment.id === commentId ? { ...comment, resolved: true } : comment
-      )
-    );
+  const resolveComment = useCallback(
+    (commentId: string) => {
+      setComments((prev: any) =>
+        prev.map((comment: any) =>
+          comment.id === commentId ? { ...comment, resolved: true } : comment
+        )
+      );
 
-    sendMessage({
-      type: "comment_resolved",
-      commentId,
-    });
-  }, [sendMessage]);
+      sendMessage({
+        type: "comment_resolved",
+        commentId,
+      });
+    },
+    [sendMessage]
+  );
 
   const replyToComment = useCallback(
     (

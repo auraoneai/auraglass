@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
 import { cn } from '@/lib/utils';
@@ -106,7 +106,7 @@ const DEFAULT_LAYERS: Glass3DLayer[] = [
 
 export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
   children,
-  className="",
+  className = "",
   layers = [],
   enableParallax = true,
   enableDepthOfField = true,
@@ -379,13 +379,13 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
 
     return (
       <motion.div
-        style={
-          {
+        style={{
+          ...({
             ...generateLayerStyles(layer, layer.depth),
             filter: `blur(${layer.blurRadius + focusBlur}px)`,
             opacity: layer.opacity * focusOpacity,
-          } as any
-        }
+          } as any),
+        }}
         animate={{
           filter: `blur(${layer.blurRadius + focusBlur}px)`,
           opacity: layer.opacity * focusOpacity,
@@ -414,10 +414,12 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
       ref={containerRef}
       className={`glass-3d-container ${className}`}
       style={{
-        position: "relative",
-        transformStyle: "preserve-3d",
-        perspective: `${perspectiveDistance}px`,
-        overflow: "hidden",
+        ...{
+          position: "relative",
+          transformStyle: "preserve-3d",
+          perspective: `${perspectiveDistance}px`,
+          overflow: "hidden",
+        },
       }}
       animate={controls}
       onMouseMove={handleMouseMove}
@@ -430,13 +432,15 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
       <motion.div
         className="glass-3d-layers"
         style={{
-          position: "absolute",
-          inset: 0,
-          transformStyle: "preserve-3d",
-          rotateX,
-          rotateY,
-          translateZ,
-          scale: scale3D,
+          ...{
+            position: "absolute",
+            inset: 0,
+            transformStyle: "preserve-3d",
+            rotateX,
+            rotateY,
+            translateZ,
+            scale: scale3D,
+          },
         }}
       >
         {finalLayers.map((layer, index) => (
@@ -444,7 +448,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
             {/* Standard 3D layer */}
             <motion.div
               className={`glass-3d-layer glass-layer-${layer.id}`}
-              style={generateLayerStyles(layer, index) as any}
+              style={{ ...(generateLayerStyles(layer, index) as any) }}
               onHoverStart={() => handleLayerFocus(layer.id)}
               whileHover={{ scale: 1.01 }}
             >
@@ -464,18 +468,20 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
           <motion.div
             className="glass-holographic-overlay"
             style={{
-              position: "absolute",
-              inset: 0,
-              background: `conic-gradient(
+              ...{
+                position: "absolute",
+                inset: 0,
+                background: `conic-gradient(
                 from ${mousePosition.x * 180}deg,
                 hsla(200, 100%, 80%, 0.1) 0deg,
                 hsla(280, 100%, 90%, 0.15) 120deg,
                 hsla(320, 100%, 85%, 0.1) 240deg
               )`,
-              borderRadius: "inherit",
-              zIndex: finalLayers.length + 1,
-              mixBlendMode: "overlay",
-              transform: `translateZ(${finalLayers.length * 20 + 10}px)`,
+                borderRadius: "inherit",
+                zIndex: finalLayers.length + 1,
+                mixBlendMode: "overlay",
+                transform: `translateZ(${finalLayers.length * 20 + 10}px)`,
+              },
             }}
             animate={
               prefersReducedMotion
@@ -496,10 +502,12 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
       <motion.div
         className="glass-3d-content"
         style={{
-          position: "relative",
-          zIndex: finalLayers.length + 2,
-          transform: `translateZ(${(finalLayers.length + 1) * 20}px)`,
-          transformStyle: "preserve-3d",
+          ...{
+            position: "relative",
+            zIndex: finalLayers.length + 2,
+            transform: `translateZ(${(finalLayers.length + 1) * 20}px)`,
+            transformStyle: "preserve-3d",
+          },
         }}
       >
         {children}
@@ -529,7 +537,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
             initial={{ scale: 0, opacity: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className='interaction-pulse'
+            className="interaction-pulse"
             style={{
               position: "absolute",
               top: "50%",

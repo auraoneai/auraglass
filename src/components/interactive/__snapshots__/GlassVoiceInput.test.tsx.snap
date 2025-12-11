@@ -12,7 +12,7 @@ exports[`GlassVoiceInput matches snapshot 1`] = `
     class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-voice-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-voice-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
@@ -25,7 +25,7 @@ exports[`GlassVoiceInput matches snapshot 1`] = `
           Start Listening
         </button>
         <button
-          class="glass-px-3 glass-py-2 glass-radius-md bg-secondary/20 hover:bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-px-3 glass-py-2 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
         >
           Clear
         </button>
@@ -160,10 +160,10 @@ exports[`GlassVoiceInput matches snapshot 1`] = `
           Audio Level:
         </span>
         <div
-          class="w-20 h-2 glass-surface-overlay glass-radius-full overflow-hidden"
+          class="glass-w-20 glass-h-2 glass-surface-overlay glass-radius-full glass-overflow-hidden"
         >
           <div
-            class="glass-h-full glass-surface-green/60 transition-all duration-100"
+            class="glass-h-full glass-surface-green/60 glass-transition-all glass-duration-[25ms]"
             style="width: 0%;"
           />
         </div>
@@ -179,7 +179,7 @@ exports[`GlassVoiceInput matches snapshot 1`] = `
           class="w-3 h-3 glass-radius-full bg-red-500"
         />
         <span
-          class="glass-text-sm font-medium"
+          class="glass-text-sm glass-font-medium"
         >
           Ready
         </span>

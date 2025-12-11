@@ -17,7 +17,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         aria-controls="radix-:rf:"
         aria-expanded="false"
         aria-label="Select combinator (AND/OR)"
-        class="glass-select-trigger group flex items-center justify-between glass-radius-lg glass-backdrop-blur-md transition-all duration-200 text-foreground placeholder:glass-text-secondary focus:outline-none focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 glass-px-3 glass-py-2 glass-text-sm bg-background/50 border border-border/20 focus:border-primary focus:ring-1 focus:ring-primary w-24 h-8 glass-text-sm"
+        class="glass-select-trigger group flex w-full items-center justify-between glass-radius-lg glass-backdrop-blur-md transition-all duration-200 text-foreground placeholder:glass-text-secondary focus:outline-none focus:ring-offset-2 focus:ring-offset-background glass-disabled-cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 h-10 glass-px-3 glass-py-2 glass-text-sm bg-background/50 border border-border/20 focus:border-primary focus:ring-1 focus:ring-primary glass-w-24 glass-h-8 glass-text-sm"
         data-glass-component="true"
         data-state="closed"
         dir="ltr"
@@ -31,7 +31,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         </span>
         <svg
           aria-hidden="true"
-          class="lucide lucide-chevron-down h-4 w-4 opacity-50 transition-transform group-data-[state=open]:rotate-180"
+          class="lucide lucide-chevron-down glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -48,10 +48,10 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         </svg>
       </button>
       <div
-        class="motion-primitive inline-block"
+        class="motion-primitive glass-inline-glass-block"
       >
         <button
-          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
           data-magnet="true"
           data-performance-mode="ultra"
           data-refraction="true"
@@ -59,18 +59,18 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
         >
           <span
-            class="relative z-10"
+            class="glass-relative glass-z-10"
           >
             + Rule
           </span>
         </button>
       </div>
       <div
-        class="motion-primitive inline-block"
+        class="motion-primitive glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
-          class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
           id="glass-button-:rh:"
         >
           + Group

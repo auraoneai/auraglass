@@ -5,36 +5,42 @@ exports[`GlassActivityFeed matches snapshot 1`] = `
   class="motion-primitive glass-w-full"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-4"
+        class="card-header glass-pb-4"
       >
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
           <div>
             <h2
-              class="card-title text-primary glass-text-xl font-semibold"
+              class="card-title glass-text-primary glass-text-xl glass-font-semibold"
             >
-              Activity Feed
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
+              >
+                Activity Feed
+              </span>
             </h2>
           </div>
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
           class="glass-flex glass-flex-col glass-items-center glass-justify-center glass-py-12"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-activity w-12 h-12 text-primary/40 mb-4"
+            class="lucide lucide-activity glass-w-12 glass-h-12 glass-text-primary-glass-opacity-40 glass-mb-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -50,7 +56,7 @@ exports[`GlassActivityFeed matches snapshot 1`] = `
             />
           </svg>
           <p
-            class="text-primary/60 text-center"
+            class="glass-text-primary-glass-opacity-60 glass-text-center"
           >
             No recent activity
           </p>

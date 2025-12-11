@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import { X } from "lucide-react";
 import React, {
@@ -13,6 +13,9 @@ import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
 import { GlassButton } from "../button/GlassButton";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { trapFocus } from "../../utils/focus";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 // import { usePredictiveEngine, useInteractionRecorder } from '../advanced/GlassPredictiveEngine';
 // import { useAchievements } from '../advanced/GlassAchievementSystem';
 // import { useBiometricAdaptation } from '../advanced/GlassBiometricAdaptation';
@@ -248,7 +251,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         if (previouslyFocusedRef.current) {
           setTimeout(() => {
             previouslyFocusedRef.current?.focus();
-          }, 0);
+          }, ANIMATION.DURATION.instant);
         }
       };
     }, [open]);
@@ -259,7 +262,10 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         setIsVisible(true);
       } else {
         // Delay hiding to allow exit animation
-        const timer = setTimeout(() => setIsVisible(false), 200);
+        const timer = setTimeout(
+          () => setIsVisible(false),
+          ANIMATION.DURATION.fast * 1.3
+        );
         return () => clearTimeout(timer);
       }
     }, [open]);
@@ -590,15 +596,15 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                   "consciousness-predictive-glass",
                 className
               )}
-              style={
-                {
+              style={{
+                ...({
                   "--liquid-glass-dialog-density": "0.9",
                   "--liquid-glass-adaptive-tint":
                     dialogInsights?.urgency === "high"
                       ? "rgba(220, 38, 38, 0.12)"
                       : "rgba(0, 0, 0, 0.08)",
-                } as React.CSSProperties
-              }
+                } as React.CSSProperties),
+              }}
               data-liquid-glass-dialog="true"
               data-dialog-urgency={dialogInsights?.urgency}
               {...props}
@@ -612,7 +618,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         {title && (
                           <h2
                             id="dialog-title"
-                            className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
+                            className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                           >
                             {title}
                           </h2>
@@ -620,7 +626,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         {description && (
                           <p
                             id="dialog-description"
-                            className='glass-text-sm glass-text-secondary-foreground'
+                            className="glass-text-sm glass-text-secondary-foreground"
                           >
                             {description}
                           </p>
@@ -697,7 +703,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         {title && (
                           <h2
                             id="dialog-title"
-                            className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
+                            className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                           >
                             {title}
                           </h2>
@@ -732,7 +738,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                       trackAchievements={trackAchievements}
                       data-consciousness-close="true"
                     >
-                      <X className='glass-w-4 glass-h-4' />
+                      <X className="glass-w-4 glass-h-4" />
                     </GlassButton>
                   )}
                 </div>
@@ -788,7 +794,9 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                   {predictive && dialogInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='glass-text-primary'>Dialog Insights</span>
+                        <span className="glass-text-primary">
+                          Dialog Insights
+                        </span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

@@ -11,15 +11,15 @@ exports[`GlassMobileNav matches snapshot 1`] = `
     class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-glass-border/20"
   >
     <div
-      class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none glass-flex-1 min-glass-w-0"
+      class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none glass-flex-1 glass-min-w-0"
     />
     <div
-      class="motion-primitive inline-block"
+      class="motion-primitive glass-inline-glass-block"
       data-glass-component="true"
     >
       <button
         aria-label="Close navigation"
-        class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 glass-focus glass-touch-target"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 glass-focus glass-touch-target"
         id="glass-button-:rg:"
       >
         ×
@@ -27,7 +27,7 @@ exports[`GlassMobileNav matches snapshot 1`] = `
     </div>
   </div>
   <nav
-    class="glass-flex-1 glass-p-4 overflow-y-auto"
+    class="glass-flex-1 glass-p-4 glass-overflow-y-auto"
   >
     <div
       class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import React, {
@@ -12,6 +12,8 @@ import React, {
 } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
 export interface GlassEngineConfig {
   opacity: {
@@ -283,7 +285,7 @@ export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
   variant = "base",
   textureOverride,
   environmentalAware = true,
-  className="",
+  className = "",
   as: Component = "div",
   ...props
 }) => {
@@ -319,12 +321,16 @@ export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
   return (
     <motion.div
       className={`relative ${className}`}
-      style={glassStyle}
+      style={{ ...glassStyle }}
       onMouseEnter={() => setCurrentVariant("hover")}
       onMouseLeave={() => setCurrentVariant(variant)}
       onMouseDown={() => setCurrentVariant("active")}
       onMouseUp={() => setCurrentVariant("hover")}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: ANIMATION.DURATION.fast / 1000 }
+      }
       {...props}
     >
       {children}
@@ -343,7 +349,7 @@ export const GlassOpacityEngine: React.FC<{
   dynamicOpacity = true,
   opacityRange = [0.05, 0.3],
   trigger = "hover",
-  className="",
+  className = "",
 }) => {
   const { createGlassStyle, updateConfig } = useGlassEngine();
   const [opacity, setOpacity] = useState(opacityRange[0]);
@@ -364,7 +370,7 @@ export const GlassOpacityEngine: React.FC<{
           setOpacity(
             Math.max(opacityRange[0], Math.min(opacityRange[1], timeOpacity))
           );
-        }, 60000);
+        }, ANIMATION.DURATION.slower * 85);
         break;
       case "scroll":
         const handleScroll = () => {
@@ -389,7 +395,7 @@ export const GlassOpacityEngine: React.FC<{
       className={className}
       style={{
         ...createGlassStyle("base"),
-        backgroundColor: `rgba(255, 255, 255, ${springOpacity})`,
+        backgroundColor: `rgba(var(--glass-color-white) / ${springOpacity})`,
       }}
       onMouseEnter={
         trigger === "hover" ? () => setOpacity(opacityRange[1]) : undefined
@@ -414,7 +420,7 @@ export const GlassColorTinting: React.FC<{
   contentAware = true,
   tintColor,
   intensity = 0.3,
-  className="",
+  className = "",
 }) => {
   const { createGlassStyle } = useGlassEngine();
   const [adaptiveTint, setAdaptiveTint] = useState(
@@ -430,18 +436,25 @@ export const GlassColorTinting: React.FC<{
     if (images.length > 0) {
       // Simulate extracting dominant color from first image
       const colors = [
-        "var(--glass-color-primary)",
-        "var(--glass-color-danger)",
-        "var(--glass-color-success)",
-        "var(--glass-color-warning)",
-        "#8b5cf6",
+        COLORS.semantic.primary,
+        COLORS.semantic.error,
+        COLORS.semantic.success,
+        COLORS.semantic.warning,
+        COLORS.semantic.primary,
       ];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      const r = parseInt(randomColor.slice(1, 3), 16);
-      const g = parseInt(randomColor.slice(3, 5), 16);
-      const b = parseInt(randomColor.slice(5, 7), 16);
-
-      setAdaptiveTint(`rgba(${r}, ${g}, ${b}, ${intensity})`);
+      // Use CSS variable format for colors
+      if (randomColor.startsWith("var(")) {
+        setAdaptiveTint(
+          `rgba(var(--glass-color-white) / var(--glass-opacity-${Math.round(intensity * 100)}))`
+        );
+      } else {
+        // Fallback for non-variable colors
+        const r = parseInt(randomColor.slice(1, 3), 16);
+        const g = parseInt(randomColor.slice(3, 5), 16);
+        const b = parseInt(randomColor.slice(5, 7), 16);
+        setAdaptiveTint(`rgba(${r}, ${g}, ${b}, ${intensity})`);
+      }
     }
   }, [contentAware, intensity]);
 
@@ -460,7 +473,7 @@ export const GlassColorTinting: React.FC<{
   );
 
   return (
-    <div ref={containerRef} className={className} style={tintedStyle}>
+    <div ref={containerRef} className={className} style={{ ...tintedStyle }}>
       {children}
     </div>
   );
@@ -471,7 +484,7 @@ export const GlassTextureVariations: React.FC<{
   contentType?: "text" | "image" | "video" | "code" | "data";
   autoAdapt?: boolean;
   className?: string;
-}> = ({ children, contentType = "text", autoAdapt = true, className="" }) => {
+}> = ({ children, contentType = "text", autoAdapt = true, className = "" }) => {
   const { createGlassStyle, updateConfig } = useGlassEngine();
   const [currentTexture, setCurrentTexture] = useState<string>("smooth");
 
@@ -499,7 +512,7 @@ export const GlassTextureVariations: React.FC<{
   }, [contentType, autoAdapt, updateConfig]);
 
   return (
-    <div className={className} style={createGlassStyle("base")}>
+    <div className={className} style={{ ...createGlassStyle("base") }}>
       {children}
     </div>
   );
@@ -510,7 +523,7 @@ export const EnvironmentalGlass: React.FC<{
   weatherAPI?: boolean;
   timeSync?: boolean;
   className?: string;
-}> = ({ children, weatherAPI = false, timeSync = true, className="" }) => {
+}> = ({ children, weatherAPI = false, timeSync = true, className = "" }) => {
   const prefersReducedMotion = useReducedMotion();
   const { adaptToEnvironment, createGlassStyle } = useGlassEngine();
   const [conditions, setConditions] = useState<EnvironmentalConditions>({
@@ -559,11 +572,15 @@ export const EnvironmentalGlass: React.FC<{
   return (
     <motion.div
       className={className}
-      style={createGlassStyle("base")}
+      style={{ ...createGlassStyle("base") }}
       animate={{
         filter: `hue-rotate(${conditions.timeOfDay * 15}deg) brightness(${1 + (conditions.timeOfDay > 12 ? (24 - conditions.timeOfDay) / 24 : conditions.timeOfDay / 24) * 0.2})`,
       }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 2 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: ANIMATION.DURATION.slower / 1000 }
+      }
     >
       {children}
     </motion.div>
@@ -574,79 +591,114 @@ export const GlassEngineDemo: React.FC = () => {
   const { config, updateConfig, createGlassStyle } = useGlassEngine();
 
   return (
-    <div className='glass-space-y-6 glass-p-6'>
-      <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4'>
+    <div className="glass-space-y-6 glass-p-6">
+      <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4">
         {/* Different texture types */}
         {(["smooth", "frosted", "rippled", "crystalline"] as const).map(
           (texture) => (
             <AdaptiveGlass
               key={texture}
               textureOverride={texture}
-              className='glass-p-4 glass-text-center'
+              className="glass-p-4 glass-text-center"
             >
-              <h3
-                className={cn(
-                  "glass-text-primary glass-font-medium glass-capitalize glass-mb-2"
-                )}
-              >
-                {texture}
-              </h3>
-              <p className={cn("glass-text-secondary glass-text-sm")}>
-                Glass texture variation
-              </p>
+              <ContrastGuard>
+                <h3
+                  className={cn(
+                    "glass-text-primary glass-font-medium glass-capitalize glass-mb-2"
+                  )}
+                >
+                  {texture}
+                </h3>
+                <p className={cn("glass-text-secondary glass-text-sm")}>
+                  Glass texture variation
+                </p>
+              </ContrastGuard>
             </AdaptiveGlass>
           )
         )}
       </div>
 
-      <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-4'>
+      <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-4">
         {/* Opacity Engine */}
-        <GlassOpacityEngine trigger="hover" className="glass-p-4">
-          <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>
-            Dynamic Opacity
-          </h3>
-          <p className={cn("glass-text-secondary glass-text-sm")}>
-            Hover to see opacity change
-          </p>
+        <GlassOpacityEngine
+          trigger="hover"
+          className="glass-p-4"
+          aria-label="Dynamic opacity demonstration"
+        >
+          <ContrastGuard>
+            <h3
+              className={cn("glass-text-primary glass-font-medium glass-mb-2")}
+            >
+              Dynamic Opacity
+            </h3>
+            <p className={cn("glass-text-secondary glass-text-sm")}>
+              Hover to see opacity change
+            </p>
+          </ContrastGuard>
         </GlassOpacityEngine>
 
         {/* Color Tinting */}
-        <GlassColorTinting contentAware className="glass-p-4">
-          <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>
-            Content-Aware Tinting
-          </h3>
-          <p className={cn("glass-text-secondary glass-text-sm")}>
-            Adapts to content colors
-          </p>
+        <GlassColorTinting
+          contentAware
+          className="glass-p-4"
+          aria-label="Content-aware tinting demonstration"
+        >
+          <ContrastGuard>
+            <h3
+              className={cn("glass-text-primary glass-font-medium glass-mb-2")}
+            >
+              Content-Aware Tinting
+            </h3>
+            <p className={cn("glass-text-secondary glass-text-sm")}>
+              Adapts to content colors
+            </p>
+          </ContrastGuard>
         </GlassColorTinting>
 
         {/* Environmental */}
-        <EnvironmentalGlass timeSync className="glass-p-4">
-          <h3 className={cn("glass-text-primary glass-font-medium glass-mb-2")}>
-            Environmental
-          </h3>
-          <p className={cn("glass-text-secondary glass-text-sm")}>
-            Reacts to time and weather
-          </p>
+        <EnvironmentalGlass
+          timeSync
+          className="glass-p-4"
+          aria-label="Environmental adaptation demonstration"
+        >
+          <ContrastGuard>
+            <h3
+              className={cn("glass-text-primary glass-font-medium glass-mb-2")}
+            >
+              Environmental
+            </h3>
+            <p className={cn("glass-text-secondary glass-text-sm")}>
+              Reacts to time and weather
+            </p>
+          </ContrastGuard>
         </EnvironmentalGlass>
       </div>
 
       {/* Controls */}
-      <div className="glass-p-4" style={createGlassStyle("base")}>
-        <h3 className={cn("glass-text-primary glass-font-medium glass-mb-4")}>
-          Glass Engine Controls
-        </h3>
+      <div
+        className="glass-p-4"
+        style={{ ...createGlassStyle("base") }}
+        role="region"
+        aria-label="Glass engine controls"
+      >
+        <ContrastGuard>
+          <h3 className={cn("glass-text-primary glass-font-medium glass-mb-4")}>
+            Glass Engine Controls
+          </h3>
+        </ContrastGuard>
 
-        <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4'>
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4">
           <div>
             <label
+              htmlFor="base-opacity-slider"
               className={cn(
                 "glass-display-block glass-text-secondary glass-text-sm glass-mb-2"
               )}
             >
-              Base Opacity
+              <ContrastGuard>Base Opacity</ContrastGuard>
             </label>
             <input
+              id="base-opacity-slider"
               type="range"
               min="0.05"
               max="0.3"
@@ -661,18 +713,24 @@ export const GlassEngineDemo: React.FC = () => {
                 })
               }
               className="glass-w-full glass-focus glass-touch-target glass-contrast-guard"
+              aria-label="Base opacity slider"
+              aria-valuemin={0.05}
+              aria-valuemax={0.3}
+              aria-valuenow={config.opacity.base}
             />
           </div>
 
           <div>
             <label
+              htmlFor="blur-intensity-slider"
               className={cn(
                 "glass-display-block glass-text-secondary glass-text-sm glass-mb-2"
               )}
             >
-              Blur Intensity
+              <ContrastGuard>Blur Intensity</ContrastGuard>
             </label>
             <input
+              id="blur-intensity-slider"
               type="range"
               min="5"
               max="30"
@@ -683,15 +741,21 @@ export const GlassEngineDemo: React.FC = () => {
                 })
               }
               className="glass-w-full glass-focus glass-touch-target glass-contrast-guard"
+              aria-label="Blur intensity slider"
+              aria-valuemin={5}
+              aria-valuemax={30}
+              aria-valuenow={config.blur.base}
             />
           </div>
         </div>
 
-        <div className='glass-flex glass-items-center glass-justify-between glass-mt-4'>
-          <span className={cn("glass-text-secondary")}>
-            Environmental Reactions
-          </span>
-          <label className='glass-flex glass-items-center glass-space-x-2'>
+        <div className="glass-flex glass-items-center glass-justify-between glass-mt-4">
+          <ContrastGuard>
+            <span className={cn("glass-text-secondary")}>
+              Environmental Reactions
+            </span>
+          </ContrastGuard>
+          <label className="glass-flex glass-items-center glass-space-x-2">
             <input
               type="checkbox"
               checked={config.environment.weatherReactive}
@@ -704,10 +768,13 @@ export const GlassEngineDemo: React.FC = () => {
                 })
               }
               className="glass-focus glass-touch-target glass-contrast-guard"
+              aria-label="Enable weather reactive effects"
             />
-            <span className={cn("glass-text-primary glass-text-sm")}>
-              Weather
-            </span>
+            <ContrastGuard>
+              <span className={cn("glass-text-primary glass-text-sm")}>
+                Weather
+              </span>
+            </ContrastGuard>
           </label>
         </div>
       </div>
@@ -715,8 +782,7 @@ export const GlassEngineDemo: React.FC = () => {
   );
 };
 
-export interface GlassEngineProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassEngineProps extends React.HTMLAttributes<HTMLDivElement> {
   initialConfig?: Partial<GlassEngineConfig>;
   renderDemo?: boolean;
   children?: React.ReactNode;
@@ -733,6 +799,8 @@ export const GlassEngine: React.FC<GlassEngineProps> = ({
     <GlassEngineProvider initialConfig={initialConfig}>
       <div
         className={cn("glass-engine-wrapper glass-space-y-6", className)}
+        role="main"
+        aria-label="Glass engine"
         {...rest}
       >
         {children ?? (renderDemo ? <GlassEngineDemo /> : null)}

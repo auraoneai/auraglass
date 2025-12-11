@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AuraGlass Magnetic Cursor Effects
  * Interactive cursor with magnetic attraction and glass effects
@@ -21,6 +21,8 @@ import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";
 import { useMotionPreferenceContext } from "@/contexts/MotionPreferenceContext";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface MagneticElement {
   element: HTMLElement;
@@ -56,7 +58,7 @@ export const GlassMagneticCursor = forwardRef<
     className,
     variant = "default",
     size = 20,
-    color = "var(--glass-color-primary, 0.5)",
+    color = "rgba(var(--glass-color-primary) / var(--glass-opacity-50))",
     magnetStrength = 0.3,
     magnetRadius = 100,
     showCursor = true,
@@ -272,7 +274,7 @@ export const GlassMagneticCursor = forwardRef<
   return (
     <>
       {/* Screen reader description */}
-      <span id={descriptionId} className='glass-sr-only'>
+      <span id={descriptionId} className="glass-sr-only">
         {ariaLabel || `Magnetic cursor (${variant})`}. Interactive cursor that
         follows mouse movement
         {morphTargets ? " and morphs when hovering over magnetic elements" : ""}
@@ -291,8 +293,8 @@ export const GlassMagneticCursor = forwardRef<
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy || descriptionId}
         aria-hidden="true"
-        style={
-          shouldAnimate
+        style={{
+          ...(shouldAnimate
             ? {
                 x: cursorX,
                 y: cursorY,
@@ -300,8 +302,8 @@ export const GlassMagneticCursor = forwardRef<
                 width: cursorSize,
                 height: cursorSize,
               }
-            : {}
-        }
+            : {}),
+        }}
         {...restProps}
       >
         <OptimizedGlass intensity="subtle" blur="medium">
@@ -311,11 +313,12 @@ export const GlassMagneticCursor = forwardRef<
               blur="subtle"
               className={cn(
                 "absolute -translate-x-1/2 -translate-y-1/2",
-                "glass-radius-full transition-all duration-200"
+                "glass-radius-full transition-all"
               )}
               style={{
                 width: cursorSize.get(),
                 height: cursorSize.get(),
+                transitionDuration: "var(--glass-motion-duration-fast)",
                 background:
                   variant === "glow"
                     ? `radial-gradient(circle, ${color} 0%, transparent 70%)`
@@ -336,11 +339,11 @@ export const GlassMagneticCursor = forwardRef<
         trail.map((point, index) => (
           <motion.div
             key={point.id}
-            className='glass-fixed glass-pointer-events-none glass-z-9998'
+            className="glass-fixed glass-pointer-events-none glass-z-9998"
             initial={{ opacity: 0.5, scale: 1 }}
             animate={{ opacity: 0, scale: 0.5 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: ANIMATION.DURATION.slow / 1000 }}
             style={{
               left: point.x - size / 2,
               top: point.y - size / 2,
@@ -367,11 +370,14 @@ export const GlassMagneticCursor = forwardRef<
           ripples.map((ripple: any) => (
             <motion.div
               key={ripple.id}
-              className='glass-fixed glass-pointer-events-none glass-z-9997'
+              className="glass-fixed glass-pointer-events-none glass-z-9997"
               initial={{ scale: 0, opacity: 1 }}
               animate={{ scale: 3, opacity: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{
+                duration: ANIMATION.DURATION.slower / 1000,
+                ease: ANIMATION.EASING.easeOut,
+              }}
               style={{
                 left: ripple.x,
                 top: ripple.y,
@@ -380,7 +386,7 @@ export const GlassMagneticCursor = forwardRef<
               }}
             >
               <div
-                className='glass-w-20 glass-h-20 glass-radius-full glass-border-2'
+                className="glass-w-20 glass-h-20 glass-radius-full glass-border-2"
                 style={{
                   borderColor: color,
                 }}
@@ -392,7 +398,7 @@ export const GlassMagneticCursor = forwardRef<
       {/* Hover indicator */}
       {isHovering && targetElement && (
         <motion.div
-          className='glass-fixed glass-pointer-events-none glass-z-9996'
+          className="glass-fixed glass-pointer-events-none glass-z-9996"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}

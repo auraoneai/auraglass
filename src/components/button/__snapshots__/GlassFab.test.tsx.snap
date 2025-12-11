@@ -2,11 +2,11 @@
 
 exports[`GlassFab matches snapshot 1`] = `
 <div
-  class="motion-primitive inline-block"
+  class="motion-primitive glass-inline-glass-block"
 >
   <button
     aria-label="FAB"
-    class="optimized-glass-surface glass-primary-level4 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium cursor-pointer outline-none select-none box-border transition-all duration-200 will-change-transform w-14 h-14 p-0 glass-text-2xl fixed bottom-4 right-4 glass-radius-full hover:scale-105 active:scale-95 opacity-100 scale-100 glass-fab"
+    class="optimized-glass-surface glass-primary-level4 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium cursor-pointer outline-none select-none box-border transition-all duration-[150ms] will-change-transform w-14 glass-h-14 p-0 glass-text-2xl fixed bottom-4 right-4 glass-radius-full glass-hover-scale-105 active:scale-95 opacity-100 scale-100 glass-fab"
     data-caustics="true"
     data-refraction="true"
     id="glass-fab-:r5:"
@@ -14,7 +14,7 @@ exports[`GlassFab matches snapshot 1`] = `
     type="button"
   >
     <span
-      class="relative z-10 glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-relative glass-z-10 glass-focus glass-touch-target glass-contrast-guard"
     >
       +
     </span>

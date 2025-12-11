@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -11,6 +11,9 @@ import { Motion } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface BiomeData {
   type:
@@ -726,7 +729,13 @@ export const GlassBiomeSimulator = forwardRef<
                   );
                 } else {
                   // Fallback for environments without ellipse support
-                  ctx.arc(0, -element.height * 0.3, element.width * 0.5, 0, Math.PI * 2);
+                  ctx.arc(
+                    0,
+                    -element.height * 0.3,
+                    element.width * 0.5,
+                    0,
+                    Math.PI * 2
+                  );
                 }
                 ctx.fill();
                 break;
@@ -1081,7 +1090,9 @@ export const GlassBiomeSimulator = forwardRef<
           className="glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm" htmlFor="biome-select">Biome:</label>
+            <label className="glass-text-sm" htmlFor="biome-select">
+              Biome:
+            </label>
             <select
               id="biome-select"
               value={currentBiome.type}
@@ -1108,7 +1119,9 @@ export const GlassBiomeSimulator = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm" htmlFor="biome-season-select">Season:</label>
+            <label className="glass-text-sm" htmlFor="biome-season-select">
+              Season:
+            </label>
             <select
               id="biome-season-select"
               value={currentBiome.season}
@@ -1131,7 +1144,9 @@ export const GlassBiomeSimulator = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm" htmlFor="biome-time-range">Time:</label>
+            <label className="glass-text-sm" htmlFor="biome-time-range">
+              Time:
+            </label>
             <input
               id="biome-time-range"
               type="range"
@@ -1147,7 +1162,7 @@ export const GlassBiomeSimulator = forwardRef<
                 }));
                 onTimeChange?.(newTime);
               }}
-              className='glass-w-20'
+              className="glass-w-20"
               aria-label="Adjust time of day"
             />
           </div>
@@ -1197,7 +1212,7 @@ export const GlassBiomeSimulator = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}

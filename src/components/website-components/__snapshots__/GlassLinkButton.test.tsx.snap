@@ -2,21 +2,21 @@
 
 exports[`GlassLinkButton matches snapshot 1`] = `
 <a
-  class="group relative inline-flex items-center justify-center rounded-glass font-semibold transition-all duration-200 ease-out hover:glass-text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 active:translate-y-px disabled:opacity-50 disabled:pointer-events-none isolate h-10 px-4 text-sm touch-target glass-text-primary bg-gradient-to-r from-blue-500/80 to-purple-500/80 border border-white/20 glass-backdrop-blur-md-medium shadow-glass hover:shadow-glass-strong sm:hover:-translate-y-0.5"
+  class="group relative inline-flex items-center justify-center rounded-glass font-semibold transition-all duration-200 ease-out hover:glass-text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 active:translate-y-px disabled:opacity-50 disabled:pointer-events-none isolate h-10 px-4 text-sm touch-target glass-text-primary bg-gradient-to-r from-blue-500/80 to-purple-500/80 border border-white/20 glass-backdrop-blur-md-medium shadow-glass hover:shadow-glass-strong sm:glass-hover--translate-y-0-5"
   data-glass-component="true"
 >
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-0"
+    class="glass-pointer-events-none glass-absolute glass-inset-0"
     style="border-radius: 16px; padding: 1px; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0 0 0 / 0.20); mask: linear-gradient(var(--glass-black) 0 0) content-box, linear-gradient(var(--glass-black) 0 0); mask-composite: exclude; opacity: 0.8;"
   />
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200"
+    class="glass-pointer-events-none glass-absolute glass-inset-0 glass-opacity-0 glass-hover-opacity-100 glass-transition-opacity glass-duration-200"
     style="border-radius: 16px; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0 0 0 / 0.20);"
   />
   <span
-    class="relative z-10 glass-flex glass-items-center glass-gap-2 text-primary group-hover:text-indigo-50"
+    class="glass-relative glass-z-10 glass-flex glass-items-center glass-gap-2 glass-text-primary glass-group-hover:text-indigo-50"
   />
 </a>
 `;

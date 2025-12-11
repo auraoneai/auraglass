@@ -16,7 +16,7 @@ exports[`GlassListView matches snapshot 1`] = `
         class="glass-gap-2"
       >
         <h1
-          class="glass-text-3xl font-bold text-primary"
+          class="glass-text-3xl glass-font-bold glass-text-primary"
         >
           List View
         </h1>
@@ -25,11 +25,11 @@ exports[`GlassListView matches snapshot 1`] = `
         class="glass-flex-shrink-0"
       >
         <div
-          class="relative max-w-md w-64"
+          class="relative max-w-md glass-w-64"
           data-glass-component="true"
         >
           <div
-            class="relative"
+            class="glass-relative"
           >
             <div
               class="relative w-full"
@@ -45,7 +45,7 @@ exports[`GlassListView matches snapshot 1`] = `
                   class="flex items-center justify-center mr-3 glass-text-secondary w-4 h-4"
                 >
                   <svg
-                    class="w-4 h-4"
+                    class="glass-w-4 glass-h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -60,7 +60,7 @@ exports[`GlassListView matches snapshot 1`] = `
                 </div>
                 <input
                   aria-label="Search..."
-                  class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed pr-8"
+                  class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed pr-8"
                   id="glass-input-:r8:"
                   placeholder="Search..."
                   value=""
@@ -80,10 +80,10 @@ exports[`GlassListView matches snapshot 1`] = `
   />
   <div>
     <div
-      class="glass-flex glass-flex-col glass-items-center glass-justify-center h-64 text-center"
+      class="glass-flex glass-flex-col glass-items-center glass-justify-center glass-h-64 glass-text-center"
     >
       <div
-        class="glass-text-lg font-medium glass-text-secondary mb-2"
+        class="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2"
       >
         No items found
       </div>

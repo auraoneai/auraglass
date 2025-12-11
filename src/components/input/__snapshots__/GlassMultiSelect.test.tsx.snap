@@ -35,11 +35,17 @@ exports[`GlassMultiSelect matches snapshot 1`] = `
     class="dropdown"
     role="presentation"
   >
-    <div
-      class="noOptions"
+    <span
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      No options
-    </div>
+      <div
+        class="noOptions"
+      >
+        No options
+      </div>
+    </span>
   </div>
 </div>
 `;

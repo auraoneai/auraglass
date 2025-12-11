@@ -15,6 +15,9 @@ import React, {
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 import { detectDevice } from "../../utils/deviceCapabilities";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface DeviceCapabilities {
   gpu: {
@@ -652,7 +655,7 @@ export function GlassProgressiveEnhancement({
 
         {/* Quality indicator */}
         {process.env.NODE_ENV === "development" && (
-          <div className='glass-fixed glass-bottom-2 glass-left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50 glass-z-50'>
+          <div className="glass-fixed glass-bottom-2 glass-left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50 glass-z-50">
             <div>Quality: {currentTier.name}</div>
             <div>FPS: {Math.round(performanceMonitor.current.fps)}</div>
             {capabilities && <div>GPU: {capabilities.gpu.tier}</div>}
@@ -718,24 +721,24 @@ export function EnhancedGlass({
             }
           : undefined
       }
-      style={
-        {
+      style={{
+        ...{
           // Use createGlassStyle() instead,
-        }
-      }
+        },
+      }}
       {...props}
     >
       {children}
 
       {/* Conditional enhancements */}
       {enableParticles && (
-        <div className='glass-absolute glass-inset-0 glass-pointer-events-none'>
+        <div className="glass-absolute glass-inset-0 glass-pointer-events-none">
           {/* Particle system would go here */}
         </div>
       )}
 
       {enableWebGL && (
-        <canvas className='glass-absolute glass-inset-0 glass-pointer-events-none' />
+        <canvas className="glass-absolute glass-inset-0 glass-pointer-events-none" />
       )}
     </motion.div>
   );

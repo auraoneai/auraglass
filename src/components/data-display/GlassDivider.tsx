@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
@@ -9,6 +9,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassDividerProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -40,8 +42,6 @@ export interface GlassDividerProps
 export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       orientation = "horizontal",
       variant = "default",
       size = "sm",
@@ -262,7 +262,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
             "font-medium"
           )}
         >
-          {label}
+          <ContrastGuard>{label}</ContrastGuard>
         </OptimizedGlass>
       );
     };
@@ -285,7 +285,9 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {...props}
         >
           {startDecorator && (
-            <div className='glass-flex-shrink-0 glass-mr-3'>{startDecorator}</div>
+            <div className="glass-flex-shrink-0 glass-mr-3">
+              {startDecorator}
+            </div>
           )}
 
           {labelPosition === "left" && renderLabel()}
@@ -299,7 +301,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {!label && renderDividerLine("full")}
 
           {endDecorator && (
-            <div className='glass-flex-shrink-0 glass-ml-3'>{endDecorator}</div>
+            <div className="glass-flex-shrink-0 glass-ml-3">{endDecorator}</div>
           )}
         </Motion>
       );
@@ -321,7 +323,9 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {...props}
         >
           {startDecorator && (
-            <div className='glass-flex-shrink-0 glass-mb-3'>{startDecorator}</div>
+            <div className="glass-flex-shrink-0 glass-mb-3">
+              {startDecorator}
+            </div>
           )}
 
           {labelPosition === "top" && renderLabel()}
@@ -335,7 +339,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           {!label && renderDividerLine("full")}
 
           {endDecorator && (
-            <div className='glass-flex-shrink-0 glass-mt-3'>{endDecorator}</div>
+            <div className="glass-flex-shrink-0 glass-mt-3">{endDecorator}</div>
           )}
         </Motion>
       );

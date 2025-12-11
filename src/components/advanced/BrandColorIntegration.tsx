@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "../../lib/utilsComprehensive";
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,6 +6,9 @@ import React, { useEffect, useState } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import "./BrandColorIntegration.css";
 import { useIntelligentColor } from "./IntelligentColorSystem";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { COLORS } from "../../tokens/designConstants";
 
 interface EntityBrandColors {
   entityId: string;
@@ -36,10 +39,10 @@ export function BrandColorIntegration({
   brandColors,
   fallbackColors = {
     primary: "var(--glass-color-primary)",
-  secondary: "var(--brand-fallback-secondary, #1e40af)",
+    secondary: COLORS.semantic.secondary,
   },
-  animationDuration = 600,
-  className="",
+  animationDuration = ANIMATION.DURATION.slower,
+  className = "",
   children,
 }: BrandColorIntegrationProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -55,7 +58,9 @@ export function BrandColorIntegration({
     id: string
   ): Promise<EntityBrandColors> => {
     // Simulate API delay - reduced for better performance
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) =>
+      setTimeout(resolve, ANIMATION.DURATION.fast / 3)
+    );
 
     // Mock data - replace with actual API response
     const mockColors: Record<string, EntityBrandColors> = {
@@ -220,7 +225,10 @@ export function BrandColorIntegration({
       transition={
         prefersReducedMotion
           ? { duration: 0 }
-          : { duration: animationDuration / 1000, ease: "easeInOut" }
+          : {
+              duration: animationDuration / 1000,
+              ease: ANIMATION.EASING.easeInOut,
+            }
       }
       onAnimationComplete={() => {
         if (colorTransition) setColorTransition(false);
@@ -230,7 +238,7 @@ export function BrandColorIntegration({
       <AnimatePresence>
         {isLoading && (
           <motion.div
-            className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-z-50'
+            className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-z-50"
             style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
             initial={{ opacity: 0 }}
             animate={prefersReducedMotion ? {} : { opacity: 1 }}
@@ -251,10 +259,16 @@ export function BrandColorIntegration({
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
-                    : { duration: 1.5, repeat: Infinity, ease: "linear" }
+                    : {
+                        duration: ANIMATION.DURATION.slower / 1000,
+                        repeat: Infinity,
+                        ease: ANIMATION.EASING.linear,
+                      }
                 }
               />
-              <span className="glass-text-sm">Loading brand colors...</span>
+              <ContrastGuard>
+                <span className="glass-text-sm">Loading brand colors...</span>
+              </ContrastGuard>
             </motion.div>
           </motion.div>
         )}
@@ -264,14 +278,17 @@ export function BrandColorIntegration({
       <AnimatePresence>
         {entityColors && !isLoading && (
           <motion.div
-            className='glass-absolute glass-top-2 glass-right-2 glass-z-10'
+            className="glass-absolute glass-top-2 glass-right-2 glass-z-10"
             initial={{ opacity: 0, scale: 0, y: -10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0, y: -10 }}
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
-                : { delay: 0.2, duration: 0.3 }
+                : {
+                    delay: ANIMATION.DURATION.fast / 1000,
+                    duration: ANIMATION.DURATION.normal / 1000,
+                  }
             }
           >
             <div
@@ -284,10 +301,12 @@ export function BrandColorIntegration({
               })}
             >
               <div
-                className='glass-w-2 glass-h-2 glass-radius-full'
+                className="glass-w-2 glass-h-2 glass-radius-full"
                 style={{ backgroundColor: entityColors.primaryColor }}
               />
-              <span>Brand</span>
+              <ContrastGuard>
+                <span>Brand</span>
+              </ContrastGuard>
             </div>
           </motion.div>
         )}
@@ -297,7 +316,7 @@ export function BrandColorIntegration({
       <AnimatePresence>
         {colorTransition && entityColors && (
           <motion.div
-            className='glass-absolute glass-inset-0 glass-pointer-events-none'
+            className="glass-absolute glass-inset-0 glass-pointer-events-none"
             style={{
               background: `radial-gradient(circle at center, ${entityColors.primaryColor}20 0%, transparent 70%)`,
               borderRadius: "inherit",
@@ -341,7 +360,7 @@ export function BrandColorIntegration({
 export function BrandGlassButton({
   children,
   variant = "primary",
-  className="",
+  className = "",
   onClick,
   disabled = false,
   ...props
@@ -362,7 +381,7 @@ export function BrandGlassButton({
       border:
         "1px solid var(--brand-border-primary, var(--glass-color-primary, 0.3))",
       boxShadow: "var(--glass-elev-2)",
-      color: "var(--brand-primary, var(--glass-color-primary))",
+      color: "var(--brand-primary, " + COLORS.semantic.primary + ")",
     },
     secondary: {
       background:
@@ -370,14 +389,15 @@ export function BrandGlassButton({
       border:
         "1px solid var(--brand-border-secondary, rgba(var(--glass-color-brand-secondary-rgb, 30, 64, 175) / 0.3))",
       boxShadow: "var(--glass-elev-2)",
-      color: "var(--brand-secondary, var(--brand-fallback-secondary, #1e40af))",
+      color: "var(--brand-secondary, " + COLORS.semantic.secondary + ")",
     },
   };
 
   return (
     <motion.button
-      className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 ${className}`}
+      className={`relative px-4 py-2 rounded-lg font-medium transition-all ${className}`}
       style={{
+        transitionDuration: "var(--glass-motion-duration-fast)",
         ...buttonStyles[variant],
         // Use createGlassStyle() instead,
         // Use createGlassStyle() instead
@@ -388,18 +408,19 @@ export function BrandGlassButton({
       onMouseUp={() => setIsPressed(false)}
       onMouseLeave={() => setIsPressed(false)}
       whileHover={
-        !disabled
+        !disabled && !prefersReducedMotion
           ? {
               scale: 1.01,
               y: -0.5,
               boxShadow:
                 variant === "primary"
-                  ? "var(--brand-shadow-primary, 0 8px 24px var(--glass-color-primary, 0.2))"
-                  : "var(--brand-shadow-secondary, 0 8px 24px rgba(var(--glass-color-brand-secondary-rgb, 30, 64, 175) / 0.2))",
+                  ? "var(--brand-shadow-primary, 0 8px 24px color-mix(in srgb, var(--glass-color-primary) 20%, transparent))"
+                  : "var(--brand-shadow-secondary, 0 8px 24px color-mix(in srgb, var(--glass-color-brand-secondary) 20%, transparent))",
             }
           : {}
       }
-      whileTap={!disabled ? { scale: 0.99, y: 0 } : {}}
+      whileTap={!disabled && !prefersReducedMotion ? { scale: 0.99, y: 0 } : {}}
+      transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
       animate={{
         opacity: disabled ? 0.5 : 1,
         filter: disabled ? "grayscale(1)" : "grayscale(0)",
@@ -410,9 +431,9 @@ export function BrandGlassButton({
 
       {/* Brand color pulse effect */}
       <motion.div
-        className='glass-absolute glass-inset-0 glass-radius-lg glass-pointer-events-none'
+        className="glass-absolute glass-inset-0 glass-radius-lg glass-pointer-events-none"
         style={{
-          background: `radial-gradient(circle at center, var(--brand-${variant}, var(--glass-color-primary, 0.2)) 0%, transparent 70%)`,
+          background: `radial-gradient(circle at center, var(--brand-${variant}, color-mix(in srgb, var(--glass-color-primary) 20%, transparent)) 0%, transparent 70%)`,
         }}
         animate={
           isPressed
@@ -425,7 +446,10 @@ export function BrandGlassButton({
         transition={
           prefersReducedMotion
             ? { duration: 0 }
-            : { duration: 0.2, ease: "easeOut" }
+            : {
+                duration: ANIMATION.DURATION.fast / 1000,
+                ease: ANIMATION.EASING.easeOut,
+              }
         }
       />
     </motion.button>

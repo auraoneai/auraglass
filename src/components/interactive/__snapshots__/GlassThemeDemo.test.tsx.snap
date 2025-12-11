@@ -17,7 +17,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
     />
   </div>
   <header
-    class="mb-4"
+    class="glass-mb-4"
   >
     <h1
       class="glass-text-primary glass-text-5xl"
@@ -32,31 +32,31 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
     </p>
   </header>
   <section
-    class="mt-6"
+    class="glass-mt-6"
   >
     <div
       class="motion-primitive glass-w-full"
       data-glass-component="true"
     >
       <div
-        class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+        class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
         style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
-          class="relative z-10"
+          class="glass-relative glass-z-10"
         >
           <div
-            class="card-header pb-3"
+            class="card-header glass-pb-3"
           >
             <div
               class="glass-flex glass-items-center glass-justify-between"
             >
               <h2
-                class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+                class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-palette w-5 h-5"
+                  class="lucide lucide-palette glass-w-5 glass-h-5"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -100,7 +100,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="card-content pt-0"
+            class="card-content glass-pt-0"
           >
             <div
               class="grid glass-gap-3 mb-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -109,17 +109,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                 class="motion-primitive relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg glass-focus glass-touch-target glass-contrast-guard ring-2 ring-primary bg-primary/20"
               >
                 <div
-                  class="glass-w-full h-16 glass-radius-md mb-3 ring-1 ring-white/10"
+                  class="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
                   style="--preview-primary: var(--glass-color-primary); --preview-secondary: #64748b;"
                 >
                   <div
                     class="glass-p-2 glass-gap-1"
                   >
                     <div
-                      class="h-2 glass-radius-md"
+                      class="glass-h-2 glass-radius-md"
                     />
                     <div
-                      class="h-1 glass-radius-md"
+                      class="glass-h-1 glass-radius-md"
                     />
                   </div>
                 </div>
@@ -131,7 +131,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-sun w-4 h-4"
+                      class="lucide lucide-sun glass-w-4 glass-h-4"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -173,14 +173,14 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       />
                     </svg>
                     <span
-                      class="font-medium glass-text-sm"
+                      class="glass-font-medium glass-text-sm"
                     >
                       Light
                     </span>
                   </div>
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-check w-4 h-4 text-primary"
+                    class="lucide lucide-check glass-w-4 glass-h-4 glass-text-primary"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -201,17 +201,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                 class="motion-primitive relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg glass-focus glass-touch-target glass-contrast-guard ring-1 ring-white/10 bg-white/5 hover:ring-white/30"
               >
                 <div
-                  class="glass-w-full h-16 glass-radius-md mb-3 ring-1 ring-white/10"
+                  class="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
                   style="background-color: rgb(15, 23, 42); --preview-primary: var(--glass-color-primary-light); --preview-secondary: #94a3b8;"
                 >
                   <div
                     class="glass-p-2 glass-gap-1"
                   >
                     <div
-                      class="h-2 glass-radius-md"
+                      class="glass-h-2 glass-radius-md"
                     />
                     <div
-                      class="h-1 glass-radius-md"
+                      class="glass-h-1 glass-radius-md"
                     />
                   </div>
                 </div>
@@ -223,7 +223,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-moon w-4 h-4"
+                      class="lucide lucide-moon glass-w-4 glass-h-4"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -239,7 +239,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       />
                     </svg>
                     <span
-                      class="font-medium glass-text-sm"
+                      class="glass-font-medium glass-text-sm"
                     >
                       Dark
                     </span>
@@ -250,17 +250,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                 class="motion-primitive relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg glass-focus glass-touch-target glass-contrast-guard ring-1 ring-white/10 bg-white/5 hover:ring-white/30"
               >
                 <div
-                  class="glass-w-full h-16 glass-radius-md mb-3 ring-1 ring-white/10"
+                  class="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
                   style="background-color: rgb(248, 250, 252); color: rgb(30, 41, 59); --preview-primary: #8b5cf6; --preview-secondary: #64748b;"
                 >
                   <div
                     class="glass-p-2 glass-gap-1"
                   >
                     <div
-                      class="h-2 glass-radius-md"
+                      class="glass-h-2 glass-radius-md"
                     />
                     <div
-                      class="h-1 glass-radius-md"
+                      class="glass-h-1 glass-radius-md"
                     />
                   </div>
                 </div>
@@ -272,7 +272,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-monitor w-4 h-4"
+                      class="lucide lucide-monitor glass-w-4 glass-h-4"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -304,7 +304,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       />
                     </svg>
                     <span
-                      class="font-medium glass-text-sm"
+                      class="glass-font-medium glass-text-sm"
                     >
                       System
                     </span>
@@ -318,7 +318,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
     </div>
   </section>
   <section
-    class="mt-6"
+    class="glass-mt-6"
   >
     <div
       class="glass-tabs w-full"
@@ -333,10 +333,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
-          class="motion-primitive relative"
+          class="motion-primitive glass-relative"
         >
           <div
-            class="motion-primitive inline-block"
+            class="motion-primitive glass-inline-glass-block"
           >
             <button
               aria-controls="content-inputs"
@@ -351,10 +351,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
             >
               <span
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <span
-                  class="truncate"
+                  class="glass-truncate"
                 >
                   Input Components
                 </span>
@@ -363,10 +363,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="motion-primitive relative"
+          class="motion-primitive glass-relative"
         >
           <div
-            class="motion-primitive inline-block"
+            class="motion-primitive glass-inline-glass-block"
           >
             <button
               aria-controls="content-feedback"
@@ -381,10 +381,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
             >
               <span
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <span
-                  class="truncate"
+                  class="glass-truncate"
                 >
                   Feedback Components
                 </span>
@@ -393,10 +393,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="motion-primitive relative"
+          class="motion-primitive glass-relative"
         >
           <div
-            class="motion-primitive inline-block"
+            class="motion-primitive glass-inline-glass-block"
           >
             <button
               aria-controls="content-layout"
@@ -411,10 +411,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
             >
               <span
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <span
-                  class="truncate"
+                  class="glass-truncate"
                 >
                   Layout Components
                 </span>
@@ -423,10 +423,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="motion-primitive relative"
+          class="motion-primitive glass-relative"
         >
           <div
-            class="motion-primitive inline-block"
+            class="motion-primitive glass-inline-glass-block"
           >
             <button
               aria-controls="content-navigation"
@@ -441,10 +441,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
             >
               <span
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <span
-                  class="truncate"
+                  class="glass-truncate"
                 >
                   Navigation Components
                 </span>
@@ -453,10 +453,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="motion-primitive relative"
+          class="motion-primitive glass-relative"
         >
           <div
-            class="motion-primitive inline-block"
+            class="motion-primitive glass-inline-glass-block"
           >
             <button
               aria-controls="content-display"
@@ -471,10 +471,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
             >
               <span
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <span
-                  class="truncate"
+                  class="glass-truncate"
                 >
                   Display Components
                 </span>
@@ -494,17 +494,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="glass-grid glass-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-6 glass-mt-4"
+            class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-6 glass-mt-4"
           >
             <div
               class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset ease-out glass-p-4 p-5 h-full flex flex-col transition-all duration-200"
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <h2
-                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
+                  class="glass-text-primary glass-text-4xl glass-mb-4 glass-font-semibold"
                 >
                   Button
                 </h2>
@@ -513,10 +513,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   style="display: flex; flex-direction: column; gap: 8px;"
                 >
                   <div
-                    class="motion-primitive inline-block"
+                    class="motion-primitive glass-inline-glass-block"
                   >
                     <button
-                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                       data-caustics="true"
                       data-magnet="true"
                       data-performance-mode="ultra"
@@ -524,17 +524,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     >
                       <span
-                        class="relative z-10"
+                        class="glass-relative glass-z-10"
                       >
                         Primary
                       </span>
                     </button>
                   </div>
                   <div
-                    class="motion-primitive inline-block"
+                    class="motion-primitive glass-inline-glass-block"
                   >
                     <button
-                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                       data-adaptive="true"
                       data-magnet="true"
                       data-performance-mode="ultra"
@@ -542,18 +542,18 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     >
                       <span
-                        class="relative z-10"
+                        class="glass-relative glass-z-10"
                       >
                         Outline
                       </span>
                     </button>
                   </div>
                   <div
-                    class="motion-primitive inline-block"
+                    class="motion-primitive glass-inline-glass-block"
                     data-glass-component="true"
                   >
                     <button
-                      class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
                       id="glass-button-:r3s:"
                     >
                       Ghost
@@ -567,10 +567,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <h2
-                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
+                  class="glass-text-primary glass-text-4xl glass-mb-4 glass-font-semibold"
                 >
                   Text Field
                 </h2>
@@ -590,7 +590,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <input
                         aria-label="Standard"
-                        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+                        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
                         id="glass-input-:r3u:"
                         placeholder="Standard"
                       />
@@ -611,7 +611,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <input
                         aria-label="With placeholder"
-                        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+                        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
                         id="glass-input-:r3v:"
                         placeholder="With placeholder"
                       />
@@ -633,7 +633,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       <input
                         aria-disabled="true"
                         aria-label="Disabled"
-                        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+                        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
                         disabled=""
                         id="glass-input-:r40:"
                         placeholder="Disabled"
@@ -651,10 +651,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <h2
-                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
+                  class="glass-text-primary glass-text-4xl glass-mb-4 glass-font-semibold"
                 >
                   Select
                 </h2>
@@ -665,7 +665,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                 >
                   <select
                     aria-label="Select Option"
-                    class="sr-only glass-touch-target glass-contrast-guard"
+                    class="glass-sr-only glass-touch-target glass-contrast-guard"
                   >
                     <option
                       value="option1"
@@ -687,13 +687,13 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     class="relative inline-block h-10 glass-px-4 glass-text-sm"
                   >
                     <div
-                      class="motion-primitive inline-block"
+                      class="motion-primitive glass-inline-glass-block"
                     >
                       <button
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-label="Select Option"
-                        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:border-white/30 glass-radius-xl outline-none text-left text-primary/90 hover:text-primary glass-glass-glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
+                        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:glass-border-white/30 glass-radius-xl glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
                         data-magnet="true"
                         data-performance-mode="ultra"
                         id="glass-button-:r41:"
@@ -701,10 +701,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                         type="button"
                       >
                         <span
-                          class="relative z-10"
+                          class="glass-relative glass-z-10"
                         >
                           <div
-                            class="glass-flex glass-items-center glass-flex-1 glass-min-w-0"
+                            class="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0"
                           >
                             <span
                               class="flex-1 truncate glass-text-primary/60"
@@ -733,10 +733,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <h2
-                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
+                  class="glass-text-primary glass-text-4xl glass-mb-4 glass-font-semibold"
                 >
                   Checkbox & Radio
                 </h2>
@@ -749,16 +749,16 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     data-testid="glasscheckbox"
                   >
                     <div
-                      class="glass-flex glass-items-start pt-0.5"
+                      class="glass-flex glass-items-start glass-pt-0.5"
                     >
                       <div
-                        class="relative glass-inline-flex glass-items-center"
+                        class="glass-relative glass-inline-glass-flex glass-items-center"
                         data-testid="glasscheckbox"
                       >
                         <input
                           aria-label="Checkbox Option"
                           aria-labelledby="glass-checkbox-label-:r44:"
-                          class="sr-only glass-touch-target glass-contrast-guard"
+                          class="glass-sr-only glass-touch-target glass-contrast-guard"
                           id="glass-checkbox-:r43:"
                           type="checkbox"
                         />
@@ -778,7 +778,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      class="glass-gap-1 glass-min-w-0 glass-flex-1"
+                      class="glass-gap-1 glass-min-glass-w-0 glass-flex-1"
                     >
                       <label
                         class="glass-checkbox-label cursor-pointer font-medium text-foreground glass-text-sm"
@@ -790,7 +790,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    class="relative"
+                    class="glass-relative"
                     data-glass-component="true"
                   >
                     <div
@@ -813,7 +813,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                           class="relative flex items-center justify-center glass-radius-full border-2 transition-all duration-200 w-5 h-5 border-white/40 bg-white/10"
                         />
                         <div
-                          class="glass-flex-1 glass-min-w-0"
+                          class="glass-flex-1 glass-min-glass-w-0"
                         >
                           <div
                             class="glass-flex glass-items-center glass-gap-2"
@@ -869,10 +869,10 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
-                class="relative z-10"
+                class="glass-relative glass-z-10"
               >
                 <h2
-                  class="glass-text-primary glass-text-4xl mb-4 font-semibold"
+                  class="glass-text-primary glass-text-4xl glass-mb-4 glass-font-semibold"
                 >
                   Slider
                 </h2>
@@ -894,11 +894,11 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                         style="width: 50%;"
                       >
                         <div
-                          class="absolute inset-0 glass-sheen"
+                          class="glass-absolute glass-inset-0 glass-sheen"
                         />
                       </div>
                       <div
-                        class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-white/5 glass-gradient-primary"
+                        class="glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-white-opacity-5 glass-gradient-primary"
                       />
                     </div>
                     <div
@@ -917,7 +917,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   </div>
                 </div>
                 <p
-                  class="glass-text-primary glass-text-base glass-text-secondary glass-text-xs mt-1"
+                  class="glass-text-primary glass-text-base glass-text-secondary glass-text-xs glass-mt-1"
                   id="glass-theme-demo-slider-label"
                 >
                   Adjust theme intensity for preview components.

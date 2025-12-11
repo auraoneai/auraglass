@@ -3,6 +3,9 @@ import React, { forwardRef, useRef, useEffect } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { AlertCircle } from "lucide-react";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassTextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -174,7 +177,10 @@ export const GlassTextarea = forwardRef<
           >
             {label}
             {props?.required && (
-              <span className='glass-text-primary glass-ml-1' aria-label="required">
+              <span
+                className="glass-text-primary glass-ml-1"
+                aria-label="required"
+              >
                 *
               </span>
             )}
@@ -182,7 +188,7 @@ export const GlassTextarea = forwardRef<
         )}
 
         {/* Textarea Container */}
-        <div className='glass-relative'>
+        <div className="glass-relative">
           <textarea
             ref={combinedRef}
             id={textareaId}
@@ -201,7 +207,7 @@ export const GlassTextarea = forwardRef<
             aria-invalid={hasError}
             className={cn(
               "glass-textarea",
-              "w-full resize-none glass-radius-lg glass-backdrop-blur-md transition-all duration-200 glass-pulse-ring",
+              `w-full resize-none glass-radius-lg glass-backdrop-blur-md transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-pulse-ring`,
               "placeholder:glass-text-secondary",
               "focus:outline-none focus:ring-offset-2 focus:ring-offset-background",
 
@@ -243,8 +249,8 @@ export const GlassTextarea = forwardRef<
 
           {/* Error Icon */}
           {hasError && (
-            <div className='glass-absolute glass-top-3 glass-right-3 glass-text-primary'>
-              <AlertCircle className='glass-h-5 glass-w-5' />
+            <div className="glass-absolute glass-top-3 glass-right-3 glass-text-primary">
+              <AlertCircle className="glass-h-5 glass-w-5" />
             </div>
           )}
         </div>
@@ -281,9 +287,9 @@ export const GlassTextarea = forwardRef<
         {errorText && (
           <p
             id={`${textareaId}-error`}
-            className='glass-mt-2 glass-text-xs glass-text-primary glass-flex glass-items-center glass-gap-1'
+            className="glass-mt-2 glass-text-xs glass-text-primary glass-flex glass-items-center glass-gap-1"
           >
-            <AlertCircle className='glass-h-3 glass-w-3' />
+            <AlertCircle className="glass-h-3 glass-w-3" />
             {errorText}
           </p>
         )}

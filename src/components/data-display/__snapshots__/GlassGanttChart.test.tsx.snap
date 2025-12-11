@@ -13,40 +13,46 @@ exports[`GlassGanttChart matches snapshot 1`] = `
       class="glass-flex glass-border-b glass-border-glass-border/20"
     >
       <div
-        class="w-64 glass-p-4 glass-border-r glass-border-glass-border/20 glass-surface-overlay"
+        class="glass-w-64 glass-p-4 glass-border-r glass-border-glass-border/20 glass-surface-overlay"
       >
-        <h3
-          class="glass-text-sm font-semibold text-primary"
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
         >
-          Tasks
-        </h3>
+          <h3
+            class="glass-text-sm glass-font-semibold glass-text-primary"
+          >
+            Tasks
+          </h3>
+        </span>
       </div>
       <div
-        class="glass-flex-1 overflow-x-hidden glass-surface-overlay"
+        class="glass-flex-1 glass-overflow-x-hidden glass-surface-overlay"
       >
         <div
-          class="glass-flex h-16"
+          class="glass-flex glass-h-16"
           style="width: 0px;"
         />
       </div>
     </div>
     <div
-      class="glass-flex glass-flex-1 overflow-hidden"
+      class="glass-flex glass-flex-1 glass-overflow-hidden"
     >
       <div
-        class="w-64 glass-border-r glass-border-glass-border/20 overflow-y-hidden glass-surface-overlay"
+        class="glass-w-64 glass-border-r glass-border-glass-border/20 glass-overflow-y-glass-hidden glass-surface-overlay"
       >
         <div />
       </div>
       <div
-        class="glass-flex-1 overflow-auto relative"
+        class="glass-flex-1 glass-overflow-auto glass-relative"
       >
         <div
-          class="relative"
+          class="glass-relative"
           style="width: 0px; height: 0px;"
         >
           <div
-            class="absolute inset-0"
+            class="glass-absolute glass-inset-0"
           />
         </div>
       </div>

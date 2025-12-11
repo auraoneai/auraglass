@@ -8,6 +8,9 @@ import {
   createFormFieldA11y,
   useA11yId,
 } from "../../utils/a11y";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassSliderProps
   extends Omit<
@@ -422,7 +425,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
               // Position
               orientation === "horizontal" ? "top-1/2" : "left-1/2"
             )}
-            style={position}
+            style={{ ...position }}
             onPointerDown={(e: React.PointerEvent) =>
               handlePointerDown(e, index)
             }
@@ -432,9 +435,19 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             aria-valuenow={val}
             aria-valuetext={formatValue(val)}
             aria-invalid={isInvalid || undefined}
-            aria-label={ariaLabel || label || (isRange ? `Range slider ${index === 0 ? 'minimum' : 'maximum'}` : 'Slider')}
+            aria-label={
+              ariaLabel ||
+              label ||
+              (isRange
+                ? `Range slider ${index === 0 ? "minimum" : "maximum"}`
+                : "Slider")
+            }
             aria-labelledby={ariaLabelledBy || (label ? labelId : undefined)}
-            aria-describedby={ariaDescribedBy || (description ? descriptionId : undefined) || (error ? errorId : undefined)}
+            aria-describedby={
+              ariaDescribedBy ||
+              (description ? descriptionId : undefined) ||
+              (error ? errorId : undefined)
+            }
             tabIndex={disabled ? -1 : 0}
           >
             {thumbContent}
@@ -506,7 +519,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
           >
             {/* Tick marks */}
             {showTicks && (
-              <div className='glass-absolute glass-inset-0'>
+              <div className="glass-absolute glass-inset-0">
                 {tickMarks.map((tick, index) => {
                   const percentage = getPercentage(tick);
                   const position =
@@ -531,7 +544,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
                               "left-1/2 transform -translate-x-1/2"
                             )
                       )}
-                      style={position}
+                      style={{ ...position }}
                     />
                   );
                 })}
@@ -545,14 +558,14 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
                 orientation === "horizontal" ? "h-full top-0" : "w-full left-0",
                 colors.fill
               )}
-              style={getFillStyle()}
+              style={{ ...getFillStyle() }}
             >
               {/* Sheen sweep */}
-              <div className='glass-absolute glass-inset-0 glass-sheen' />
+              <div className="glass-absolute glass-inset-0 glass-sheen" />
             </div>
 
             {/* Background gradient */}
-            <div className='glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-white-opacity-5 glass-gradient-primary' />
+            <div className="glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-white-opacity-5 glass-gradient-primary" />
           </div>
 
           {/* Thumbs */}

@@ -32,16 +32,16 @@ const basicTiles: TessellationTile[] = [
   { id: 'user', content: <User size={14} />, shape: 'triangle', color: 'var(--glass-color-danger)' },
   { id: 'settings', content: <Settings size={14} />, shape: 'square', color: 'var(--glass-color-success)' },
   { id: 'mail', content: <Mail size={12} />, shape: 'rhombus', color: 'var(--glass-color-warning)' },
-  { id: 'search', content: <Search size={14} />, shape: 'pentagon', color: '#8B5CF6' },
-  { id: 'bell', content: <Bell size={12} />, shape: 'hexagon', color: '#EC4899' },
+  { id: 'search', content: <Search size={14} />, shape: 'pentagon', color: 'var(--glass-color-secondary)' },
+  { id: 'bell', content: <Bell size={12} />, shape: 'hexagon', color: 'var(--glass-color-secondary)' },
   { id: 'heart', content: <Heart size={12} />, shape: 'triangle', color: 'var(--glass-color-danger)' },
-  { id: 'share', content: <Share size={12} />, shape: 'square', color: '#06B6D4' },
+  { id: 'share', content: <Share size={12} />, shape: 'square', color: 'var(--glass-color-info)' },
 ];
 
 // Elemental themed tiles
 const elementalTiles: TessellationTile[] = [
   { id: 'fire', content: <Flame size={16} />, shape: 'triangle', color: 'var(--glass-color-danger-dark)' },
-  { id: 'water', content: <Droplets size={16} />, shape: 'hexagon', color: '#0891B2' },
+  { id: 'water', content: <Droplets size={16} />, shape: 'hexagon', color: 'var(--glass-color-info)' },
   { id: 'air', content: <Wind size={16} />, shape: 'rhombus', color: '#7C3AED' },
   { id: 'earth', content: <Square size={16} />, shape: 'square', color: 'var(--glass-color-success-dark)' },
   { id: 'lightning', content: <Zap size={14} />, shape: 'triangle', color: 'var(--glass-color-warning-light)' },

@@ -2,8 +2,14 @@
 
 exports[`GlassSeparator matches snapshot 1`] = `
 <div
-  class="glass-separator w-full h-0.5 bg-border/20 motion-safe:transition-all motion-reduce:transition-none"
-  id=":r5:"
-  role="presentation"
-/>
+  class="contrast-guard"
+  data-contrast-level="AA"
+  data-glass-component="true"
+>
+  <div
+    class="glass-separator w-full h-0.5 bg-border/20 motion-safe:transition-all motion-reduce:transition-none"
+    id=":r5:"
+    role="presentation"
+  />
+</div>
 `;

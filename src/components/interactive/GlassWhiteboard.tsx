@@ -2,6 +2,9 @@
 import { cn } from "@/lib/utils";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
+import { COLORS, ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export type DrawingTool =
   | "pen"
@@ -15,12 +18,12 @@ export type DrawingTool =
 export type DrawingColor =
   | "var(--glass-white)"
   | "var(--glass-black)"
-  | "#ff0000"
-  | "#00ff00"
-  | "#0000ff"
-  | "#ffff00"
-  | "#ff00ff"
-  | "#00ffff";
+  | "var(--glass-color-danger)"
+  | "var(--glass-color-success)"
+  | "var(--glass-color-primary)"
+  | "var(--glass-color-warning)"
+  | "var(--glass-color-accent)"
+  | "var(--glass-color-info)";
 
 export interface DrawingPath {
   id: string;
@@ -83,12 +86,12 @@ export interface GlassWhiteboardProps
 const defaultColors: DrawingColor[] = [
   "var(--glass-white)",
   "var(--glass-black)",
-  "#ff0000",
-  "#00ff00",
-  "#0000ff",
-  "#ffff00",
-  "#ff00ff",
-  "#00ffff",
+  "var(--glass-color-danger)",
+  "var(--glass-color-success)",
+  "var(--glass-color-primary)",
+  "var(--glass-color-warning)",
+  "var(--glass-color-accent)",
+  "var(--glass-color-info)",
 ];
 
 const defaultTools: DrawingTool[] = [
@@ -114,7 +117,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
       backgroundPattern = "grid",
       showToolbar = true,
       showMinimap = false,
-      className="",
+      className = "",
       onDrawingChange,
       onToolChange,
       onColorChange,

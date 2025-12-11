@@ -1,30 +1,33 @@
-'use client';
-import React, { forwardRef, useMemo, useState, useEffect } from 'react';
-import { createGlassStyle, GlassOptions } from '../core/mixins/glassMixins';
-import { cn } from '../lib/utilsComprehensive';
-import { detectDevice } from '../utils/deviceCapabilities';
-import { isBrowser } from '../utils/env';
+"use client";
+import React, { forwardRef, useMemo, useState, useEffect } from "react";
+import { createGlassStyle, GlassOptions } from "../core/mixins/glassMixins";
+import { cn } from "../lib/utilsComprehensive";
+import { detectDevice } from "../utils/deviceCapabilities";
+import { isBrowser } from "../utils/env";
 
 // Polymorphic component type helper
-type PolymorphicRef<T extends React.ElementType> = React.ComponentPropsWithRef<T>['ref'];
+type PolymorphicRef<T extends React.ElementType> =
+  React.ComponentPropsWithRef<T>["ref"];
 type PolymorphicComponentProps<T extends React.ElementType, Props = {}> = {
   as?: T;
-} & Props & Omit<React.ComponentPropsWithoutRef<T>, keyof Props>;
+} & Props &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof Props>;
 
-export interface OptimizedGlassProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface OptimizedGlassProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** The HTML element or component to render as */
   as?: React.ElementType;
   /** Glass intent (replaces variant) */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
 
   /** Glass elevation level */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  elevation?: "level1" | "level2" | "level3" | "level4" | "level5";
 
   /** Performance tier */
-  tier?: 'high' | 'medium' | 'low';
+  tier?: "high" | "medium" | "low";
 
   /** Border radius */
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  rounded?: "none" | "sm" | "md" | "lg" | "xl" | "full";
 
   /** Enable glow effect */
   glow?: boolean;
@@ -39,28 +42,37 @@ export interface OptimizedGlassProps extends React.HTMLAttributes<HTMLDivElement
   hover?: boolean;
 
   /** Performance optimization level */
-  optimization?: 'auto' | 'high' | 'medium' | 'low';
+  optimization?: "auto" | "high" | "medium" | "low";
 
   /** Enable hardware acceleration */
   hardwareAcceleration?: boolean;
 
   /** Glass intensity (blur strength level) */
-  intensity?: 'subtle' | 'medium' | 'strong' | 'intense' | 'ultra' | 'extreme';
+  intensity?: "subtle" | "medium" | "strong" | "intense" | "ultra" | "extreme";
 
   /** Glass depth effect */
-  depth?: 'shallow' | 'medium' | 'deep' | 'extreme' | number;
+  depth?: "shallow" | "medium" | "deep" | "extreme" | number;
 
   /** Glass tint color */
   tint?: string;
 
   /** Border configuration */
-  border?: 'none' | 'subtle' | 'medium' | 'strong' | 'glow' | 'gradient' | 'neon' | 'dynamic' | 'particle';
+  border?:
+    | "none"
+    | "subtle"
+    | "medium"
+    | "strong"
+    | "glow"
+    | "gradient"
+    | "neon"
+    | "dynamic"
+    | "particle";
 
   /** Blur intensity for backdrop-filter */
-  blur?: 'none' | 'subtle' | 'medium' | 'strong' | 'intense';
+  blur?: "none" | "subtle" | "medium" | "strong" | "intense";
 
   /** Glass variant */
-  variant?: 'clear' | 'frosted' | 'tinted' | 'luminous' | 'dynamic' | 'crystal';
+  variant?: "clear" | "frosted" | "tinted" | "luminous" | "dynamic" | "crystal";
 
   /** Enable interactive effects */
   interactive?: boolean;
@@ -69,10 +81,18 @@ export interface OptimizedGlassProps extends React.HTMLAttributes<HTMLDivElement
   press?: boolean;
 
   /** Animation preset */
-  animation?: 'none' | 'fade' | 'slide' | 'scale' | 'bounce' | 'pulse' | 'float' | string;
+  animation?:
+    | "none"
+    | "fade"
+    | "slide"
+    | "scale"
+    | "bounce"
+    | "pulse"
+    | "float"
+    | string;
 
   /** Performance mode */
-  performanceMode?: 'high' | 'balanced' | 'low' | 'medium' | 'ultra';
+  performanceMode?: "high" | "balanced" | "low" | "medium" | "ultra";
 
   /** Enable lift on hover effect */
   liftOnHover?: boolean;
@@ -81,7 +101,17 @@ export interface OptimizedGlassProps extends React.HTMLAttributes<HTMLDivElement
   hoverSheen?: boolean;
 
   /** Lighting effect */
-  lighting?: 'ambient' | 'directional' | 'point' | 'spot' | 'none' | 'iridescent' | 'volumetric' | 'caustic' | 'natural' | 'studio';
+  lighting?:
+    | "ambient"
+    | "directional"
+    | "point"
+    | "spot"
+    | "none"
+    | "iridescent"
+    | "volumetric"
+    | "caustic"
+    | "natural"
+    | "studio";
 
   /** Advanced visual flags (filtered from DOM) */
   caustics?: boolean;
@@ -104,18 +134,18 @@ const OptimizedGlassCore = forwardRef<
   PolymorphicComponentProps<React.ElementType, OptimizedGlassProps>
 >((props, ref) => {
   const {
-    as: Component = 'div',
-    intent = 'neutral',
-    elevation = 'level2',
-    tier = 'high',
-    rounded = 'md',
+    as: Component = "div",
+    intent = "neutral",
+    elevation = "level2",
+    tier = "high",
+    rounded = "md",
     glow = false,
-    glowColor = 'rgba(255, 255, 255, 0.5)',
+    glowColor = "rgba(255, 255, 255, 0.5)",
     glowIntensity = 0.5,
     hover = false,
     interactive = false,
     press = false,
-    animation = 'none',
+    animation = "none",
     // Prevent forwarding custom props to DOM
     performanceMode: _performanceMode,
     // Also intercept additional non-DOM props so they don't leak
@@ -143,142 +173,144 @@ const OptimizedGlassCore = forwardRef<
     style,
     ...restProps
   } = props;
-    // CRITICAL FIX for SSR hydration: Defer tier detection until after initial render
-    // This prevents className mismatches between server and client
-    const [computedTier, setComputedTier] = useState<'high' | 'medium' | 'low'>(() => {
+  // CRITICAL FIX for SSR hydration: Defer tier detection until after initial render
+  // This prevents className mismatches between server and client
+  const [computedTier, setComputedTier] = useState<"high" | "medium" | "low">(
+    () => {
       // If tier is explicitly set (not default 'high'), respect it immediately
-      if (tier !== 'high') return tier;
+      if (tier !== "high") return tier;
       // Start with 'medium' for both server and initial client render
-      return 'medium';
-    });
+      return "medium";
+    }
+  );
 
-    // Auto-detect performance tier on client AFTER hydration
-    useEffect(() => {
-      // Only auto-detect if using default tier
-      if (tier !== 'high') {
-        setComputedTier(tier);
-        return;
-      }
+  // Auto-detect performance tier on client AFTER hydration
+  useEffect(() => {
+    // Only auto-detect if using default tier
+    if (tier !== "high") {
+      setComputedTier(tier);
+      return;
+    }
 
-      // Skip detection on server
-      if (!isBrowser()) return;
+    // Skip detection on server
+    if (!isBrowser()) return;
 
-      // Detect device capabilities and update tier
-      const device = detectDevice();
-      if (device.capabilities.gpu && device.capabilities.hardwareAcceleration) {
-        setComputedTier('high');
-      } else if (device.capabilities.webgl) {
-        setComputedTier('medium');
-      } else {
-        setComputedTier('low');
-      }
-    }, [tier]);
+    // Detect device capabilities and update tier
+    const device = detectDevice();
+    if (device.capabilities.gpu && device.capabilities.hardwareAcceleration) {
+      setComputedTier("high");
+    } else if (device.capabilities.webgl) {
+      setComputedTier("medium");
+    } else {
+      setComputedTier("low");
+    }
+  }, [tier]);
 
-    // Use unified glass system with performance tier
-    const glassStyles = useMemo(() => {
-      const glassOptions: GlassOptions = {
-        intent,
-        elevation,
-        tier: computedTier,
-        interactive,
-        hoverLift: liftOnHover,
-        focusRing: interactive,
-        press,
-      };
-
-      return createGlassStyle(glassOptions);
-    }, [
+  // Use unified glass system with performance tier
+  const glassStyles = useMemo(() => {
+    const glassOptions: GlassOptions = {
       intent,
-      elevation, 
-      computedTier,
+      elevation,
+      tier: computedTier,
       interactive,
-      liftOnHover,
+      hoverLift: liftOnHover,
+      focusRing: interactive,
       press,
-    ]);
-
-    // Add border radius and any custom styles 
-    const combinedStyles = {
-      ...glassStyles,
-      borderRadius: rounded === 'none' ? '0px' : 
-                   rounded === 'sm' ? '4px' : 
-                   rounded === 'md' ? '8px' : 
-                   rounded === 'lg' ? '12px' : 
-                   rounded === 'xl' ? '16px' : 
-                   rounded === 'full' ? '9999px' : '8px',
-      ...style,
     };
 
-    // Ensure no custom props leak into the DOM element
-    const {
-      performanceMode: __ignorePerformanceMode,
-      optimization: __ignoreOptimization,
-      hardwareAcceleration: __ignoreHardwareAcceleration,
-      intensity: __ignoreIntensity,
-      depth: __ignoreDepth,
-      tint: __ignoreTint,
-      border: __ignoreBorder,
-      blur: __ignoreBlur,
-      // Common prop name used across components; should not reach DOM
-      blurStrength: __ignoreBlurStrength,
-      variant: __ignoreVariant,
-      lighting: __ignoreLighting,
-      // Consciousness master flag should never reach the DOM
-      consciousness: __ignoreConsciousness,
-      caustics: __ignoreCaustics,
-      chromatic: __ignoreChromatic,
-      parallax: __ignoreParallax,
-      refraction: __ignoreRefraction,
-      adaptive: __ignoreAdaptive,
-      magnet: __ignoreMagnet,
-      cursorHighlight: __ignoreCursorHighlight,
-      glassConfig: __ignoreGlassConfig,
-      ...domProps
-    } = (restProps as any) || {};
+    return createGlassStyle(glassOptions);
+  }, [intent, elevation, computedTier, interactive, liftOnHover, press]);
 
-    // Remove any accidental custom props leaking to DOM, e.g., camelCase starting with 'glass'
-    // Keep data-*/aria-* untouched; React handles them.
-    Object.keys(domProps).forEach((key) => {
-      if (/^glass[A-Z]/.test(key)) {
-        delete (domProps as any)[key];
-      }
-    });
+  // Add border radius and any custom styles
+  const combinedStyles = {
+    ...glassStyles,
+    borderRadius:
+      rounded === "none"
+        ? "0px"
+        : rounded === "sm"
+          ? "4px"
+          : rounded === "md"
+            ? "8px"
+            : rounded === "lg"
+              ? "12px"
+              : rounded === "xl"
+                ? "16px"
+                : rounded === "full"
+                  ? "9999px"
+                  : "8px",
+    ...style,
+  };
 
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          'optimized-glass-surface',
-          `glass-${intent}-${elevation}`,
-          {
-            'glass-interactive': interactive,
-            'glass-lift-on-hover': liftOnHover,
-            'glass-hover-sheen': hoverSheen,
-            'glass-glow': glow,
-            'glass-press': press,
-            'glass-tier-high': computedTier === 'high',
-            'glass-tier-medium': computedTier === 'medium',
-            'glass-tier-low': computedTier === 'low',
-          },
-          className
-        )}
-        style={combinedStyles}
-        data-performance-mode={_performanceMode}
-        data-caustics={caustics || undefined}
-        data-chromatic={chromatic || undefined}
-        data-parallax={parallax || undefined}
-        data-refraction={refraction || undefined}
-        data-adaptive={adaptive || undefined}
-        data-magnet={magnet || undefined}
-        data-cursor-highlight={cursorHighlight || undefined}
-        {...domProps}
-      >
-        {children}
-      </Component>
-    );
-  }
-);
+  // Ensure no custom props leak into the DOM element
+  const {
+    performanceMode: __ignorePerformanceMode,
+    optimization: __ignoreOptimization,
+    hardwareAcceleration: __ignoreHardwareAcceleration,
+    intensity: __ignoreIntensity,
+    depth: __ignoreDepth,
+    tint: __ignoreTint,
+    border: __ignoreBorder,
+    blur: __ignoreBlur,
+    // Common prop name used across components; should not reach DOM
+    blurStrength: __ignoreBlurStrength,
+    variant: __ignoreVariant,
+    lighting: __ignoreLighting,
+    // Consciousness master flag should never reach the DOM
+    consciousness: __ignoreConsciousness,
+    caustics: __ignoreCaustics,
+    chromatic: __ignoreChromatic,
+    parallax: __ignoreParallax,
+    refraction: __ignoreRefraction,
+    adaptive: __ignoreAdaptive,
+    magnet: __ignoreMagnet,
+    cursorHighlight: __ignoreCursorHighlight,
+    glassConfig: __ignoreGlassConfig,
+    ...domProps
+  } = (restProps as any) || {};
 
-OptimizedGlassCore.displayName = 'OptimizedGlassCore';
+  // Remove any accidental custom props leaking to DOM, e.g., camelCase starting with 'glass'
+  // Keep data-*/aria-* untouched; React handles them.
+  Object.keys(domProps).forEach((key) => {
+    if (/^glass[A-Z]/.test(key)) {
+      delete (domProps as any)[key];
+    }
+  });
+
+  return (
+    <Component
+      ref={ref}
+      className={cn(
+        "optimized-glass-surface",
+        `glass-${intent}-${elevation}`,
+        {
+          "glass-interactive": interactive,
+          "glass-lift-on-hover": liftOnHover,
+          "glass-hover-sheen": hoverSheen,
+          "glass-glow": glow,
+          "glass-press": press,
+          "glass-tier-high": computedTier === "high",
+          "glass-tier-medium": computedTier === "medium",
+          "glass-tier-low": computedTier === "low",
+        },
+        className
+      )}
+      style={{ ...combinedStyles }}
+      data-performance-mode={_performanceMode}
+      data-caustics={caustics || undefined}
+      data-chromatic={chromatic || undefined}
+      data-parallax={parallax || undefined}
+      data-refraction={refraction || undefined}
+      data-adaptive={adaptive || undefined}
+      data-magnet={magnet || undefined}
+      data-cursor-highlight={cursorHighlight || undefined}
+      {...domProps}
+    >
+      {children}
+    </Component>
+  );
+});
+
+OptimizedGlassCore.displayName = "OptimizedGlassCore";
 
 export { OptimizedGlassCore };
 export default OptimizedGlassCore;

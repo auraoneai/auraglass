@@ -2,6 +2,12 @@
 
 exports[`VStack matches snapshot 1`] = `
 <div
-  class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
-/>
+  class="contrast-guard"
+  data-contrast-level="AA"
+  data-glass-component="true"
+>
+  <div
+    class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+  />
+</div>
 `;

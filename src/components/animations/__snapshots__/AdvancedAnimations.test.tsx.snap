@@ -5,23 +5,29 @@ exports[`AdvancedAnimations matches snapshot 1`] = `
   class="glass-advanced-animations glass-space-y-6"
 >
   <div
-    class="glass-grid sm:grid-cols-2 glass-gap-4"
+    class="glass-grid sm:glass-grid-cols-2 glass-gap-4"
   >
     <div
       class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
     >
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        subtle
-      </p>
-      <h3
-        class="glass-text-xl glass-text-primary font-semibold"
-      >
-        Easing preview
-      </h3>
+        <p
+          class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+        >
+          subtle
+        </p>
+        <h3
+          class="glass-text-xl glass-text-primary glass-font-semibold"
+        >
+          Easing preview
+        </h3>
+      </span>
       <div
-        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+        class="glass-h-2 glass-radius-full glass-surface-subtle"
       >
         <div
           class="glass-h-full glass-radius-full glass-gradient-primary"
@@ -31,18 +37,24 @@ exports[`AdvancedAnimations matches snapshot 1`] = `
     <div
       class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
     >
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        smooth
-      </p>
-      <h3
-        class="glass-text-xl glass-text-primary font-semibold"
-      >
-        Easing preview
-      </h3>
+        <p
+          class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+        >
+          smooth
+        </p>
+        <h3
+          class="glass-text-xl glass-text-primary glass-font-semibold"
+        >
+          Easing preview
+        </h3>
+      </span>
       <div
-        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+        class="glass-h-2 glass-radius-full glass-surface-subtle"
       >
         <div
           class="glass-h-full glass-radius-full glass-gradient-primary"
@@ -52,18 +64,24 @@ exports[`AdvancedAnimations matches snapshot 1`] = `
     <div
       class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
     >
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        dramatic
-      </p>
-      <h3
-        class="glass-text-xl glass-text-primary font-semibold"
-      >
-        Easing preview
-      </h3>
+        <p
+          class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+        >
+          dramatic
+        </p>
+        <h3
+          class="glass-text-xl glass-text-primary glass-font-semibold"
+        >
+          Easing preview
+        </h3>
+      </span>
       <div
-        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+        class="glass-h-2 glass-radius-full glass-surface-subtle"
       >
         <div
           class="glass-h-full glass-radius-full glass-gradient-primary"
@@ -73,18 +91,24 @@ exports[`AdvancedAnimations matches snapshot 1`] = `
     <div
       class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-3 glass-border glass-border-white/10"
     >
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        glass
-      </p>
-      <h3
-        class="glass-text-xl glass-text-primary font-semibold"
-      >
-        Material physics
-      </h3>
+        <p
+          class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+        >
+          glass
+        </p>
+        <h3
+          class="glass-text-xl glass-text-primary glass-font-semibold"
+        >
+          Material physics
+        </h3>
+      </span>
       <div
-        class="glass-h-2 glass-rounded-full glass-surface-subtle"
+        class="glass-h-2 glass-radius-full glass-surface-subtle"
       >
         <div
           class="glass-h-full glass-radius-full glass-gradient-primary"

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * ToggleButtonGroup Component
  *
@@ -11,18 +11,21 @@ import React, {
   cloneElement,
   useState,
   useCallback,
-} from 'react';
-import { cn } from '@/lib/utils';
-import { OptimizedGlass } from '../../primitives';
-import { Motion } from '../../primitives';
-import { ToggleButtonGroupProps, ToggleButtonProps } from './types';
+} from "react";
+import { cn } from "@/lib/utils";
+import { OptimizedGlass } from "../../primitives";
+import { Motion } from "../../primitives";
+import { ToggleButtonGroupProps, ToggleButtonProps } from "./types";
 
 // Get group orientation classes
-const getGroupOrientationClasses = (orientation: 'horizontal' | 'vertical', fullWidth: boolean) => {
+const getGroupOrientationClasses = (
+  orientation: "horizontal" | "vertical",
+  fullWidth: boolean
+) => {
   return cn(
-    'inline-flex glass-radius-md',
-    orientation === 'vertical' ? 'flex-col' : 'flex-row',
-    fullWidth ? 'w-full' : 'w-auto'
+    "inline-flex glass-radius-md",
+    orientation === "vertical" ? "flex-col" : "flex-row",
+    fullWidth ? "w-full" : "w-auto"
   );
 };
 
@@ -39,17 +42,17 @@ function ToggleButtonGroupComponent(
     defaultValue,
     onChange,
     exclusive = false,
-    orientation = 'horizontal',
+    orientation = "horizontal",
     className,
     style,
     glass = false,
     // Prevent custom props from leaking to DOM
     glassVariant,
     blurStrength,
-    color = 'primary',
-    size = 'medium',
+    color = "primary",
+    size = "medium",
     fullWidth = false,
-    variant = 'outlined',
+    variant = "outlined",
     ...rest
   } = props;
 
@@ -57,7 +60,7 @@ function ToggleButtonGroupComponent(
   const [internalValue, setInternalValue] = useState<any | any[]>(
     defaultValue !== undefined
       ? exclusive && Array.isArray(defaultValue)
-        ? defaultValue[0] ?? null
+        ? (defaultValue[0] ?? null)
         : defaultValue
       : null
   );
@@ -114,9 +117,9 @@ function ToggleButtonGroupComponent(
     const isGroupEnd = index === childrenCount - 1;
 
     // Determine if this button is selected
-    const isSelected = exclusive 
+    const isSelected = exclusive
       ? child.props?.value === value
-      : Array.isArray(value) 
+      : Array.isArray(value)
         ? value.includes(child.props?.value)
         : child.props?.value === value;
 
@@ -143,11 +146,12 @@ function ToggleButtonGroupComponent(
   const groupClasses = getGroupOrientationClasses(orientation, fullWidth);
 
   return (
-    <div data-glass-component
+    <div
+      data-glass-component
       ref={ref}
       role="group"
       className={cn(groupClasses, className)}
-      style={style}
+      style={{ ...(style || {}) }}
       {...rest}
     >
       {childrenWithProps}
@@ -167,11 +171,12 @@ const ToggleButtonGroup = forwardRef(ToggleButtonGroupComponent);
  *
  * Glass variant of the ToggleButtonGroup component.
  */
-const GlassToggleButtonGroup = forwardRef<HTMLDivElement, ToggleButtonGroupProps>((props, ref) => (
-  <ToggleButtonGroup {...props} glass={true} ref={ref} />
-));
+const GlassToggleButtonGroup = forwardRef<
+  HTMLDivElement,
+  ToggleButtonGroupProps
+>((props, ref) => <ToggleButtonGroup {...props} glass={true} ref={ref} />);
 
-GlassToggleButtonGroup.displayName = 'GlassToggleButtonGroup';
+GlassToggleButtonGroup.displayName = "GlassToggleButtonGroup";
 
 export default ToggleButtonGroup;
 export { ToggleButtonGroup, GlassToggleButtonGroup };

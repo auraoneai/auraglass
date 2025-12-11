@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { CSSProperties } from "react";
 import clsx from "clsx";
@@ -39,14 +39,14 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
       )}
       aria-label="Persona selector"
     >
-      <header className='persona-picker__header'>
-        <span className='persona-picker__eyebrow'>Active persona</span>
-        <div className='persona-picker__active'>
-          <strong className='persona-picker__active-name'>
+      <header className="persona-picker__header">
+        <span className="persona-picker__eyebrow">Active persona</span>
+        <div className="persona-picker__active">
+          <strong className="persona-picker__active-name">
             {persona.meta.name}
           </strong>
           {showMeta && (
-            <span className='persona-picker__active-context'>
+            <span className="persona-picker__active-context">
               {persona.meta.primaryContext}
             </span>
           )}
@@ -54,7 +54,7 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
       </header>
 
       <div
-        className='persona-picker__grid'
+        className="persona-picker__grid"
         role="list"
         aria-label="Available personas"
       >
@@ -79,45 +79,47 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
             <button
               key={entry.meta.id}
               type="button"
-              className='persona-picker-card'
-              style={cardStyle}
+              className="persona-picker-card"
+              style={{ ...cardStyle }}
               data-active={active}
               data-persona={entry.meta.id}
               aria-pressed={active}
               aria-current={active}
               onClick={() => handleSelect(entry.meta.id)}
             >
-              <div className='persona-picker-card__header'>
-                <span className='persona-picker-card__name'>
+              <div className="persona-picker-card__header">
+                <span className="persona-picker-card__name">
                   {entry.meta.name}
                 </span>
-                {active && <span className='persona-picker-card__pill'>Active</span>}
+                {active && (
+                  <span className="persona-picker-card__pill">Active</span>
+                )}
               </div>
 
-              <div className='persona-picker-card__swatches' aria-hidden="true">
+              <div className="persona-picker-card__swatches" aria-hidden="true">
                 <span
-                  className='glass-persona-picker-card__swatch glass-persona-picker-card__swatch--primary'
+                  className="glass-persona-picker-card__swatch glass-persona-picker-card__swatch--primary"
                   style={{ background: entry.colors.accent.primary }}
                 />
                 <span
-                  className='glass-persona-picker-card__swatch glass-persona-picker-card__swatch--secondary'
+                  className="glass-persona-picker-card__swatch glass-persona-picker-card__swatch--secondary"
                   style={{ background: entry.colors.accent.secondary }}
                 />
               </div>
 
               {showMeta && (
-                <div className='persona-picker-card__meta'>
-                  <p className='persona-picker-card__context'>
+                <div className="persona-picker-card__meta">
+                  <p className="persona-picker-card__context">
                     {entry.meta.paletteAnchor}
                   </p>
-                  <p className='persona-picker-card__schema'>
+                  <p className="persona-picker-card__schema">
                     {entry.meta.surfaceSchema}
                   </p>
                 </div>
               )}
 
-              <footer className='persona-picker-card__footer'>
-                <span className='persona-picker-card__signal'>
+              <footer className="persona-picker-card__footer">
+                <span className="persona-picker-card__signal">
                   {entry.meta.motionSignals}
                 </span>
               </footer>

@@ -7,18 +7,26 @@ exports[`KpiChart matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    style="font-size: 2.25rem; margin-bottom: 8px;"
+    style="font-size: 2.25rem;"
   >
-    1,234
+    <span
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
+    >
+      1,234
+    </span>
   </div>
-  <div
-    style="opacity: 0.8;"
-  >
-    Test KPI
+  <div>
+    <span
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
+    >
+      Test KPI
+    </span>
   </div>
-  <div
-    style="margin-top: 4px;"
-  >
+  <div>
     ↑
      
     5

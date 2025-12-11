@@ -2,18 +2,18 @@
 
 exports[`GlassDraggable matches snapshot 1`] = `
 <div
-  class="motion-primitive relative cursor-grab active:cursor-grabbing select-none"
+  class="motion-primitive relative cursor-grab glass-active-cursor-grabbing select-none"
   data-glass-component="true"
 >
   <div
-    class="absolute glass-top-2 right-2 z-10"
+    class="glass-absolute glass-top-2 glass-right-2 glass-z-10"
   >
     <div
-      class="glass-flex glass-items-center glass-justify-center w-6 h-6 text-primary/60 hover:text-primary cursor-grab active:cursor-grabbing"
+      class="glass-flex glass-items-center glass-justify-center glass-w-6 glass-h-6 glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-cursor-grab glass-active-cursor-grabbing"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-grip-vertical w-4 h-4"
+        class="lucide lucide-grip-vertical glass-w-4 glass-h-4"
         fill="none"
         height="24"
         stroke="currentColor"

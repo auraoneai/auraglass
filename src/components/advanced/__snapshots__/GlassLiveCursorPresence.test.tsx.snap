@@ -8,18 +8,28 @@ exports[`GlassLiveCursorPresence matches snapshot 1`] = `
     Content
   </div>
   <div
-    class="absolute glass-top-2 left-2 glass-flex glass-items-center glass-gap-2"
+    aria-label="0 users online"
+    aria-live="polite"
+    class="glass-absolute glass-top-2 glass-left-2 glass-flex glass-items-center glass-gap-2"
+    role="status"
   >
     <div
+      aria-hidden="true"
       class="w-2 h-2 glass-radius-full transition-colors bg-red-400"
     />
     <span
-      class="glass-text-xs glass-text-secondary"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      0
-       user
-      s
-       online
+      <span
+        class="glass-text-xs glass-text-secondary"
+      >
+        0
+         user
+        s
+         online
+      </span>
     </span>
   </div>
 </div>

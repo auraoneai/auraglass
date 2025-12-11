@@ -7,15 +7,15 @@ exports[`GlassMessageList matches snapshot 1`] = `
 >
   <div
     aria-label="Message list"
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 flex flex-col h-full overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 flex flex-col h-full overflow-hidden"
     role="log"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-content glass-flex-1 overflow-y-auto glass-p-4"
+        class="card-content glass-flex-1 glass-overflow-y-auto glass-p-4"
         spacing="lg"
       >
         <div />

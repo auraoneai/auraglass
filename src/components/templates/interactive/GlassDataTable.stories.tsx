@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassDataTable } from './GlassDataTable';
 import React from 'react';
+import { ANIMATION } from '../../../tokens/designConstants';
 
 const meta: Meta<typeof GlassDataTable> = {
   title: 'Templates/Interactive/GlassDataTable',
@@ -98,7 +99,7 @@ const userColumns = [
         <span className="font-mono glass-text-sm">{String(value)}</span>
         <div className="glass-w-16 glass-h-1 glass-surface-subtle glass-radius-full overflow-hidden">
           <div 
-            className="glass-h-full glass-surface-blue transition-all duration-300"
+            className={`glass-h-full glass-surface-blue transition-all duration-[${ANIMATION.DURATION.normal}ms]`}
             style={{ width: `${Math.min(100, (Number(value) / 25) * 100)}%` }}
           />
         </div>

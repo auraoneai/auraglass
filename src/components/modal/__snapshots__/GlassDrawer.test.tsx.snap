@@ -30,14 +30,14 @@ exports[`GlassDrawer matches snapshot 1`] = `
         class="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0"
       >
         <div
-          class="glass-flex-1 glass-min-w-0"
+          class="glass-flex-1 glass-min-glass-w-0"
         />
         <div
-          class="motion-primitive inline-block"
+          class="motion-primitive glass-inline-glass-block"
         >
           <button
             aria-label="Close drawer"
-            class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-ml-4 glass-p-2 glass-radius-lg glass-text-secondary hover:text-foreground hover:bg-muted/20 transition-colors"
+            class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-ml-4 glass-p-2 glass-radius-lg glass-text-secondary hover:text-foreground hover:bg-muted/20 transition-colors"
             data-consciousness-close="true"
             data-magnet="true"
             data-performance-mode="ultra"
@@ -46,11 +46,11 @@ exports[`GlassDrawer matches snapshot 1`] = `
             type="button"
           >
             <span
-              class="relative z-10"
+              class="glass-relative glass-z-10"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-x w-4 h-4"
+                class="lucide lucide-x glass-w-4 glass-h-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"

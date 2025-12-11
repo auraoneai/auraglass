@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { cn } from "../../lib/utilsComprehensive";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface AccessibilitySettings {
   focusIndicators: boolean;
@@ -155,8 +156,14 @@ export function AccessibilityProvider({
 
     // Apply reduced motion
     if (settings.reducedMotion) {
-      root.style.setProperty("--animation-duration", "0.01ms");
-      root.style.setProperty("--animation-delay", "0.01ms");
+      root.style.setProperty(
+        "--animation-duration",
+        `${ANIMATION.DURATION.instant}ms`
+      );
+      root.style.setProperty(
+        "--animation-delay",
+        `${ANIMATION.DURATION.instant}ms`
+      );
     } else {
       root.style.removeProperty("--animation-duration");
       root.style.removeProperty("--animation-delay");

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 /**
  * ImageListItemBar Component
  *
  * A title bar for an ImageListItem with glass morphism styling.
  */
 // Typography tokens available via typography.css (imported in index.css)
-import React, { forwardRef, useState } from 'react';
-import { cn } from '@/lib/utils';
+import React, { forwardRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-import { ImageListItemBarProps } from './types';
-import styles from './ImageListItemBar.module.css';
+import { ImageListItemBarProps } from "./types";
+import styles from "./ImageListItemBar.module.css";
 
 /**
  * ImageListItemBar Component Implementation
@@ -26,10 +26,10 @@ function ImageListItemBarComponent(
     style,
     title,
     subtitle,
-    position = 'bottom',
+    position = "bottom",
     glass = false,
     actionIcon,
-    actionPosition = 'right',
+    actionPosition = "right",
     showOnHover = false,
     ...rest
   } = props;
@@ -42,11 +42,11 @@ function ImageListItemBarComponent(
 
   const rootClassName = cn(
     styles.root,
-    position === 'top' && styles.positionTop,
-    position === 'bottom' && styles.positionBottom,
-    position === 'below' && styles.positionBelow,
+    position === "top" && styles.positionTop,
+    position === "bottom" && styles.positionBottom,
+    position === "below" && styles.positionBelow,
     glass && styles.glass,
-    actionPosition === 'left' && styles.actionLeft,
+    actionPosition === "left" && styles.actionLeft,
     showOnHover && styles.showOnHover,
     showOnHover && (isHovered || prefersReducedMotion) && styles.visible,
     prefersReducedMotion && styles.noTransition,
@@ -55,14 +55,14 @@ function ImageListItemBarComponent(
 
   const actionClassName = cn(
     styles.action,
-    actionPosition === 'left' && styles.actionLeftAction
+    actionPosition === "left" && styles.actionLeftAction
   );
 
   return (
     <div
       ref={ref}
       className={rootClassName}
-      style={style}
+      style={{ ...(style ?? {}) }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       {...rest}
@@ -72,9 +72,7 @@ function ImageListItemBarComponent(
         {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
       </div>
 
-      {actionIcon && (
-        <div className={actionClassName}>{actionIcon}</div>
-      )}
+      {actionIcon && <div className={actionClassName}>{actionIcon}</div>}
 
       {children}
     </div>
@@ -93,11 +91,11 @@ const ImageListItemBar = forwardRef(ImageListItemBarComponent);
  *
  * Glass variant of the ImageListItemBar component.
  */
-const GlassImageListItemBar = forwardRef<HTMLDivElement, ImageListItemBarProps>((props, ref) => (
-  <ImageListItemBar {...props} glass={true} ref={ref} />
-));
+const GlassImageListItemBar = forwardRef<HTMLDivElement, ImageListItemBarProps>(
+  (props, ref) => <ImageListItemBar {...props} glass={true} ref={ref} />
+);
 
-GlassImageListItemBar.displayName = 'GlassImageListItemBar';
+GlassImageListItemBar.displayName = "GlassImageListItemBar";
 
 export default ImageListItemBar;
 export { ImageListItemBar, GlassImageListItemBar };

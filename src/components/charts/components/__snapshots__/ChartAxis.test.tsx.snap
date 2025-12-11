@@ -12,54 +12,108 @@ exports[`ChartAxis matches snapshot 1`] = `
     style="position: absolute; left: 0%; bottom: 10px; transform: translateX(-50%); height: 10px;"
   >
     <span
-      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      0
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+        style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      >
+        0
+      </span>
     </span>
   </div>
   <div
     style="position: absolute; left: 20%; bottom: 10px; transform: translateX(-50%); height: 10px;"
   >
     <span
-      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      20
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+        style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      >
+        20
+      </span>
     </span>
   </div>
   <div
     style="position: absolute; left: 40%; bottom: 10px; transform: translateX(-50%); height: 10px;"
   >
     <span
-      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      40
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+        style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      >
+        40
+      </span>
     </span>
   </div>
   <div
     style="position: absolute; left: 60%; bottom: 10px; transform: translateX(-50%); height: 10px;"
   >
     <span
-      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      60
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+        style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      >
+        60
+      </span>
     </span>
   </div>
   <div
     style="position: absolute; left: 80%; bottom: 10px; transform: translateX(-50%); height: 10px;"
   >
     <span
-      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      80
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+        style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      >
+        80
+      </span>
     </span>
   </div>
   <div
     style="position: absolute; left: 100%; bottom: 10px; transform: translateX(-50%); height: 10px;"
   >
     <span
-      style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      100
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+        style="position: absolute; font-size: 0.625rem; white-space: nowrap; top: 12px; left: 50%; transform: translateX(-50%);"
+      >
+        100
+      </span>
     </span>
   </div>
 </div>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Reactions System
@@ -14,6 +14,9 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { glassSoundDesign } from "../../utils/soundDesign";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { COLORS } from "../../tokens/designConstants";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface Reaction {
   id: string;
@@ -82,7 +85,7 @@ const defaultReactionTypes: ReactionType[] = [
   {
     emoji: "😮",
     name: "Wow",
-    color: "var(--glass-color-accent, #8b5cf6)",
+    color: COLORS.semantic.secondary,
     sound: "morph",
     shortcut: "4",
   },
@@ -110,7 +113,7 @@ const defaultReactionTypes: ReactionType[] = [
   {
     emoji: "🤔",
     name: "Think",
-    color: "var(--glass-color-warning-strong, #f97316)",
+    color: "var(--glass-color-warning)",
     sound: "hover",
     shortcut: "8",
   },
@@ -149,7 +152,7 @@ export function GlassReactions({
       const timeSinceLastClick = now - lastClickTime.current;
 
       // Double click detection for quick reactions
-      if (timeSinceLastClick < 300) {
+      if (timeSinceLastClick < ANIMATION.DURATION.normal) {
         // Quick double-click reaction
         const container = containerRef.current;
         if (!container) return;
@@ -162,7 +165,7 @@ export function GlassReactions({
         addReaction(reactionTypes[0].emoji, { x, y }, 1);
 
         // Burst effect for triple+ clicks
-        if (enableBurst && timeSinceLastClick < 150) {
+        if (enableBurst && timeSinceLastClick < ANIMATION.DURATION.fast) {
           burstCount.current++;
           if (burstCount.current >= 2) {
             // Create burst of reactions
@@ -180,7 +183,7 @@ export function GlassReactions({
                   },
                   Math.random() * 0.5 + 0.5
                 );
-              }, i * 100);
+              }, i * ANIMATION.DURATION.fast);
             }
           }
         }
@@ -244,7 +247,7 @@ export function GlassReactions({
 
       // Trigger haptic feedback
       if ("vibrate" in navigator) {
-        navigator.vibrate(50 * intensity);
+        navigator.vibrate((ANIMATION.DURATION.fast / 3) * intensity);
       }
 
       onReactionAdd?.(reaction);
@@ -303,11 +306,13 @@ export function GlassReactions({
       className={cn("relative", className)}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
+      role="region"
+      aria-label="Interactive reactions area"
     >
       {children}
 
       {/* Reactions overlay */}
-      <div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-overflow-hidden'>
+      <div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-overflow-hidden">
         <AnimatePresence>
           {allReactions.map((reaction: any) => (
             <ReactionComponent
@@ -338,9 +343,15 @@ export function GlassReactions({
 
       {/* Keyboard shortcuts hint */}
       {enableShortcuts && (
-        <div className='glass-absolute glass-bottom-2 glass-right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50'>
-          Press 1-{reactionTypes.length} for quick reactions
-        </div>
+        <ContrastGuard>
+          <div
+            className="glass-absolute glass-bottom-2 glass-right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50"
+            role="status"
+            aria-label="Keyboard shortcuts hint"
+          >
+            Press 1-{reactionTypes.length} for quick reactions
+          </div>
+        </ContrastGuard>
       )}
     </div>
   );
@@ -410,8 +421,7 @@ function ReactionComponent({
     <motion.div
       className={cn(
         "absolute select-none",
-        glassEffect &&
-          "glass-optimized-glass glass-blur-sm"
+        glassEffect && "glass-optimized-glass glass-blur-sm"
       )}
       style={{
         x: enablePhysics ? x : position.x,
@@ -439,16 +449,20 @@ function ReactionComponent({
         scale: 0,
         rotate: 180,
       }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: ANIMATION.DURATION.normal / 1000 }
+      }
     >
-      <span className='glass-block glass-transform glass--translate-x-1-2 glass--translate-y-1-2'>
+      <span className="glass-block glass-transform glass--translate-x-1-2 glass--translate-y-1-2">
         {emoji}
       </span>
 
       {/* Glass shimmer effect */}
       {glassEffect && (
         <motion.div
-          className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white glass-gradient-primary glass-opacity-30'
+          className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white glass-gradient-primary glass-opacity-30"
           animate={
             prefersReducedMotion
               ? {}
@@ -460,9 +474,9 @@ function ReactionComponent({
             prefersReducedMotion
               ? { duration: 0 }
               : {
-                  duration: 2,
+                  duration: ANIMATION.DURATION.slower / 1000,
                   repeat: Infinity,
-                  ease: "linear",
+                  ease: ANIMATION.EASING.linear,
                 }
           }
         />
@@ -530,7 +544,13 @@ function ReactionPicker({
       initial={{ opacity: 0, scale: 0.8, y: 10 }}
       animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8, y: 10 }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: ANIMATION.DURATION.normal / 1000 }
+      }
+      role="menu"
+      aria-label="Reaction picker"
     >
       <div className="glass-grid glass-grid-cols-4 glass-gap-1">
         {reactionTypes.map((reactionType, index) => (
@@ -541,14 +561,18 @@ function ReactionPicker({
               "hover:bg-white/10 transition-colors glass-text-xl",
               glassEffect && "glass-button-secondary"
             )}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
+            whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
             onClick={() => onReactionSelect(reactionType.emoji)}
             title={`${reactionType.name} (${reactionType.shortcut})`}
+            aria-label={`React with ${reactionType.name} emoji`}
+            role="menuitem"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
             }
           >
             {reactionType.emoji}
@@ -645,14 +669,17 @@ export function GlassReactionBar({
             "hover:bg-white/10 transition-colors glass-text-lg",
             glassEffect && "glass-button-secondary"
           )}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
+          whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
           onClick={() => onReactionClick?.(reactionType.emoji)}
           title={reactionType.name}
+          aria-label={`React with ${reactionType.name} emoji`}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={
-            prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: ANIMATION.DURATION.normal / 1000 }
           }
         >
           {reactionType.emoji}

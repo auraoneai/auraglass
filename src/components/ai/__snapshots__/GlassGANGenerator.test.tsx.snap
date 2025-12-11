@@ -10,37 +10,37 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
   >
     <div>
       <h3
-        class="glass-text-xl font-semibold text-primary/90"
+        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         GAN Generator
       </h3>
       <p
-        class="glass-text-sm text-primary/60"
+        class="glass-text-sm glass-text-primary-glass-opacity-60"
       >
         Generative Adversarial Networks for image synthesis
       </p>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     />
   </div>
   <div
-    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+    class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6"
   >
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         GAN Models
       </h4>
       <div
-        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-3"
+        class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3"
       >
         <div
           class="
-                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                p-3 rounded-lg border cursor-pointer transition-all duration-[150ms]
                 border-blue-400 bg-blue-400/20
               "
           tabindex="0"
@@ -52,21 +52,21 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <div
-                class="glass-flex glass-items-center space-x-2 mb-1"
+                class="glass-flex glass-items-center glass-space-x-2 glass-mb-1"
               >
                 <h5
-                  class="glass-text-sm font-medium text-primary/90"
+                  class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90"
                 >
                   StyleGAN2 Faces
                 </h5>
                 <span
-                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium"
                 >
                   Trained
                 </span>
               </div>
               <p
-                class="glass-text-xs text-primary/60 mb-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2"
               >
                 High-quality human face generation
               </p>
@@ -74,7 +74,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <div
-                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                  class="glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50"
                 >
                   <span>
                     1024
@@ -96,7 +96,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="text-primary ml-2"
+              class="glass-text-primary glass-ml-2"
             >
               ✓
             </div>
@@ -104,7 +104,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div
           class="
-                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                p-3 rounded-lg border cursor-pointer transition-all duration-[150ms]
                 border-white/20 hover:border-white/40 bg-white/5
               "
           tabindex="0"
@@ -116,21 +116,21 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <div
-                class="glass-flex glass-items-center space-x-2 mb-1"
+                class="glass-flex glass-items-center glass-space-x-2 glass-mb-1"
               >
                 <h5
-                  class="glass-text-sm font-medium text-primary/90"
+                  class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90"
                 >
                   DCGAN Art
                 </h5>
                 <span
-                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium"
                 >
                   Trained
                 </span>
               </div>
               <p
-                class="glass-text-xs text-primary/60 mb-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2"
               >
                 Abstract art generation
               </p>
@@ -138,7 +138,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <div
-                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                  class="glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50"
                 >
                   <span>
                     256
@@ -163,7 +163,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div
           class="
-                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                p-3 rounded-lg border cursor-pointer transition-all duration-[150ms]
                 border-white/20 hover:border-white/40 bg-white/5
               "
           tabindex="0"
@@ -175,21 +175,21 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <div
-                class="glass-flex glass-items-center space-x-2 mb-1"
+                class="glass-flex glass-items-center glass-space-x-2 glass-mb-1"
               >
                 <h5
-                  class="glass-text-sm font-medium text-primary/90"
+                  class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90"
                 >
                   BigGAN Objects
                 </h5>
                 <span
-                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium"
                 >
                   Trained
                 </span>
               </div>
               <p
-                class="glass-text-xs text-primary/60 mb-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2"
               >
                 Conditional object generation
               </p>
@@ -197,7 +197,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <div
-                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                  class="glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50"
                 >
                   <span>
                     512
@@ -222,7 +222,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div
           class="
-                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                p-3 rounded-lg border cursor-pointer transition-all duration-[150ms]
                 border-white/20 hover:border-white/40 bg-white/5
               "
           tabindex="0"
@@ -234,21 +234,21 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <div
-                class="glass-flex glass-items-center space-x-2 mb-1"
+                class="glass-flex glass-items-center glass-space-x-2 glass-mb-1"
               >
                 <h5
-                  class="glass-text-sm font-medium text-primary/90"
+                  class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90"
                 >
                   CycleGAN Style Transfer
                 </h5>
                 <span
-                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium"
                 >
                   Trained
                 </span>
               </div>
               <p
-                class="glass-text-xs text-primary/60 mb-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2"
               >
                 Unpaired image-to-image translation
               </p>
@@ -256,7 +256,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <div
-                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                  class="glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50"
                 >
                   <span>
                     256
@@ -281,7 +281,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div
           class="
-                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                p-3 rounded-lg border cursor-pointer transition-all duration-[150ms]
                 border-white/20 hover:border-white/40 bg-white/5
               "
           tabindex="0"
@@ -293,21 +293,21 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <div
-                class="glass-flex glass-items-center space-x-2 mb-1"
+                class="glass-flex glass-items-center glass-space-x-2 glass-mb-1"
               >
                 <h5
-                  class="glass-text-sm font-medium text-primary/90"
+                  class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90"
                 >
                   Progressive Landscapes
                 </h5>
                 <span
-                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                  class="glass-px-2 glass-py-0.5 glass-surface-green/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium"
                 >
                   Trained
                 </span>
               </div>
               <p
-                class="glass-text-xs text-primary/60 mb-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2"
               >
                 Landscape scene generation
               </p>
@@ -315,7 +315,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <div
-                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                  class="glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50"
                 >
                   <span>
                     512
@@ -340,7 +340,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div
           class="
-                p-3 rounded-lg border cursor-pointer transition-all duration-200
+                p-3 rounded-lg border cursor-pointer transition-all duration-[150ms]
                 border-white/20 hover:border-white/40 bg-white/5
               "
           tabindex="0"
@@ -352,21 +352,21 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <div
-                class="glass-flex glass-items-center space-x-2 mb-1"
+                class="glass-flex glass-items-center glass-space-x-2 glass-mb-1"
               >
                 <h5
-                  class="glass-text-sm font-medium text-primary/90"
+                  class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90"
                 >
                   StyleGAN3 General
                 </h5>
                 <span
-                  class="glass-px-2 glass-py-0.5 glass-surface-primary/20 glass-text-secondary glass-radius glass-text-xs font-medium"
+                  class="glass-px-2 glass-py-0.5 glass-surface-primary/20 glass-text-secondary glass-radius glass-text-xs glass-font-medium"
                 >
                   Untrained
                 </span>
               </div>
               <p
-                class="glass-text-xs text-primary/60 mb-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2"
               >
                 General purpose image generation
               </p>
@@ -374,7 +374,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <div
-                  class="glass-flex glass-items-center space-x-4 glass-text-xs text-primary/50"
+                  class="glass-flex glass-items-center glass-space-x-4 glass-text-xs glass-text-primary-glass-opacity-50"
                 >
                   <span>
                     512
@@ -400,26 +400,26 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         Generation Parameters
       </h4>
       <div
-        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4"
+        class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4"
       >
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             Seed: 
             42
           </label>
           <input
             aria-label="Seed: 42"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             max="1000"
             min="0"
             type="range"
@@ -428,14 +428,14 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             Truncation: 
             0.70
           </label>
           <input
             aria-label="Truncation: 0.70"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             max="2.0"
             min="0.1"
             step="0.1"
@@ -445,14 +445,14 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             Style Strength: 
             1.00
           </label>
           <input
             aria-label="Style Strength: 1.00"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             max="2.0"
             min="0.0"
             step="0.1"
@@ -462,14 +462,14 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             Batch Size: 
             4
           </label>
           <input
             aria-label="Batch Size: 4"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             max="8"
             min="1"
             type="range"
@@ -480,20 +480,20 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-flex glass-items-center glass-justify-between pt-4 glass-border-t glass-border-white/10"
+    class="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10"
   >
     <div
-      class="glass-flex glass-items-center space-x-4"
+      class="glass-flex glass-items-center glass-space-x-4"
     >
       <button
-        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg glass-text-sm font-medium transition-colors disabled:opacity-50"
+        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
         tabindex="0"
       >
         Generate Images
       </button>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-2 glass-text-xs text-primary/60"
+      class="glass-flex glass-items-center glass-space-x-2 glass-text-xs glass-text-primary-glass-opacity-60"
     >
       <span>
         Generated: 

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Foldable Screen Support
@@ -8,6 +8,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface FoldableInfo {
   isFoldable: boolean;
@@ -207,7 +209,7 @@ export function GlassFoldableSupport({
 
     // Listen for orientation changes that might indicate folding
     const handleOrientationChange = () => {
-      setTimeout(detectFoldableCapabilities, 100);
+      setTimeout(detectFoldableCapabilities, ANIMATION.DURATION.fast);
     };
 
     // Listen for resize events that might indicate folding
@@ -258,7 +260,9 @@ export function GlassFoldableSupport({
   const generateLayout = () => {
     if (!adaptiveLayout || !foldableInfo.isFoldable) {
       return (
-        <div className='glass-relative glass-w-full glass-h-full'>{children}</div>
+        <div className="glass-relative glass-w-full glass-h-full">
+          {children}
+        </div>
       );
     }
 
@@ -266,14 +270,16 @@ export function GlassFoldableSupport({
 
     if (independentSegments && segments.length > 1) {
       // Render independent content for each segment
-      const totalWidth = segments.reduce((acc, segment) => acc + segment.width, 0) || 1;
-      const totalHeight = segments.reduce((acc, segment) => acc + segment.height, 0) || 1;
+      const totalWidth =
+        segments.reduce((acc, segment) => acc + segment.width, 0) || 1;
+      const totalHeight =
+        segments.reduce((acc, segment) => acc + segment.height, 0) || 1;
       return (
-        <div className='glass-relative glass-w-full glass-h-full glass-flex'>
+        <div className="glass-relative glass-w-full glass-h-full glass-flex">
           {segments.map((segment, index) => (
             <motion.div
               key={`segment-${index}`}
-              className='glass-relative'
+              className="glass-relative"
               style={{
                 width: `${(segment.width / totalWidth) * 100}%`,
                 height: `${(segment.height / totalHeight) * 100}%`,
@@ -281,10 +287,12 @@ export function GlassFoldableSupport({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
               transition={
-                prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: ANIMATION.DURATION.normal / 1000 }
               }
             >
-              <div className='glass-optimized-glass intensity={0.2} glassBlur={6} glass-w-full glass-h-full'>
+              <div className="glass-optimized-glass intensity={0.2} glassBlur={6} glass-w-full glass-h-full">
                 {React.Children.toArray(children)[index] || children}
               </div>
             </motion.div>
@@ -295,7 +303,7 @@ export function GlassFoldableSupport({
 
     // Adaptive single layout with hinge awareness
     return (
-      <div className='glass-relative glass-w-full glass-h-full'>
+      <div className="glass-relative glass-w-full glass-h-full">
         {bridgeHinge && hinge && (
           <HingeBridge hinge={hinge} continuousGlass={continuousGlass} />
         )}
@@ -337,7 +345,10 @@ export function GlassFoldableSupport({
       transition={
         prefersReducedMotion
           ? { duration: 0 }
-          : { duration: 0.3, ease: "easeInOut" }
+          : {
+              duration: ANIMATION.DURATION.normal / 1000,
+              ease: ANIMATION.EASING.easeInOut,
+            }
       }
     >
       <AnimatePresence mode="wait">
@@ -347,7 +358,9 @@ export function GlassFoldableSupport({
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={
-            prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: ANIMATION.DURATION.fast / 1000 }
           }
         >
           {generateLayout()}
@@ -356,19 +369,26 @@ export function GlassFoldableSupport({
 
       {/* Fold state indicator */}
       {foldableInfo.isFoldable && (
-        <div className='glass-absolute glass-top-2 glass-right-2 glass-surface-primary glass-p-1 glass-radius-sm glass-text-xs glass-opacity-50'>
-          <div className="glass-flex glass-items-center glass-gap-1">
-            <div
-              className={cn(
-                "w-2 h-2 glass-radius-full",
-                foldableInfo.foldState === "folded" && "bg-red-400",
-                foldableInfo.foldState === "unfolded" && "bg-green-400",
-                foldableInfo.foldState === "partial" && "bg-yellow-400",
-                foldableInfo.foldState === "unknown" && "bg-gray-400"
-              )}
-            />
-            <span>{layoutMode}</span>
-          </div>
+        <div
+          className="glass-absolute glass-top-2 glass-right-2 glass-surface-primary glass-p-1 glass-radius-sm glass-text-xs glass-opacity-50"
+          role="status"
+          aria-label={`Fold state: ${foldableInfo.foldState}, Layout mode: ${layoutMode}`}
+        >
+          <ContrastGuard>
+            <div className="glass-flex glass-items-center glass-gap-1">
+              <div
+                className={cn(
+                  "w-2 h-2 glass-radius-full",
+                  foldableInfo.foldState === "folded" && "bg-red-400",
+                  foldableInfo.foldState === "unfolded" && "bg-green-400",
+                  foldableInfo.foldState === "partial" && "bg-yellow-400",
+                  foldableInfo.foldState === "unknown" && "bg-gray-400"
+                )}
+                aria-hidden="true"
+              />
+              <span>{layoutMode}</span>
+            </div>
+          </ContrastGuard>
         </div>
       )}
     </motion.div>
@@ -404,7 +424,7 @@ function HingeBridge({
               height: `${hinge.width}px`,
             }),
         background:
-          "linear-gradient(90deg, transparent, rgba(var(--glass-color-primary) / 0.1), transparent)",
+          "linear-gradient(90deg, transparent, rgba(var(--glass-color-primary) / var(--glass-opacity-10)), transparent)",
       }}
     />
   );

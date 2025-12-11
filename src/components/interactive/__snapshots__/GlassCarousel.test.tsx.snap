@@ -2,15 +2,15 @@
 
 exports[`GlassCarousel matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 p-8"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 p-8"
   data-glass-component="true"
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="relative z-10"
+    class="glass-relative glass-z-10"
   >
     <div
-      class="text-center text-primary/60"
+      class="glass-text-center glass-text-primary-glass-opacity-60"
     >
       No items to display
     </div>

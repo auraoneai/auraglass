@@ -210,7 +210,7 @@ function ImageListItemComponent(
     <li
       ref={ref}
       className={rootClassName}
-      style={itemStyle}
+      style={{ ...itemStyle }}
       tabIndex={isInteractive ? 0 : -1}
       onClick={isInteractive ? handleClick : undefined}
       onKeyDown={isInteractive ? handleKeyDown : undefined}

@@ -7,6 +7,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface TimelineItem {
   /**
@@ -94,8 +96,6 @@ export interface GlassTimelineProps
 export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       items,
       variant = "default",
       size = "md",
@@ -169,14 +169,14 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
         >
           {showLine && (
             <div
-              className='glass-absolute glass-top-8 glass-left-0 glass-right-0 glass-h-px glass-bg-glass-border-glass-opacity-20'
+              className="glass-absolute glass-top-8 glass-left-0 glass-right-0 glass-h-px glass-bg-glass-border-glass-opacity-20"
               style={{ backgroundColor: lineColor }}
             />
           )}
           {items.map((item, index) => (
             <div
               key={item.id}
-              className='glass-relative glass-flex-shrink-0 glass-min-glass-w-0'
+              className="glass-relative glass-flex-shrink-0 glass-min-glass-w-0"
               role="listitem"
             >
               {/* Dot */}
@@ -189,7 +189,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
               />
 
               {/* Content */}
-              <div className='glass-pt-12'>
+              <div className="glass-pt-12">
                 <OptimizedGlass
                   elevation="level1"
                   intensity="medium"
@@ -211,27 +211,31 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                         config.title
                       )}
                     >
-                      {item.title}
+                      <ContrastGuard>{item.title}</ContrastGuard>
                     </div>
                     {item.subtitle && (
-                      <div
-                        className={cn(
-                          "glass-text-secondary truncate glass-mt-1",
-                          config.subtitle
-                        )}
-                      >
-                        {item.subtitle}
-                      </div>
+                      <ContrastGuard>
+                        <div
+                          className={cn(
+                            "glass-text-secondary truncate glass-mt-1",
+                            config.subtitle
+                          )}
+                        >
+                          {item.subtitle}
+                        </div>
+                      </ContrastGuard>
                     )}
                     {item.time && (
-                      <div
-                        className={cn(
-                          "glass-text-secondary glass-mt-2",
-                          config.time
-                        )}
-                      >
-                        {item.time}
-                      </div>
+                      <ContrastGuard>
+                        <div
+                          className={cn(
+                            "glass-text-secondary glass-mt-2",
+                            config.time
+                          )}
+                        >
+                          {item.time}
+                        </div>
+                      </ContrastGuard>
                     )}
                   </div>
                 </OptimizedGlass>
@@ -269,7 +273,7 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
             const isLast = index === items.length - 1;
 
             return (
-              <li key={item.id} className='glass-relative' role="listitem">
+              <li key={item.id} className="glass-relative" role="listitem">
                 {/* Dot */}
                 <span
                   className={cn(
@@ -308,17 +312,19 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                             config.title
                           )}
                         >
-                          {item.title}
+                          <ContrastGuard>{item.title}</ContrastGuard>
                         </div>
                         {item.subtitle && (
-                          <div
-                            className={cn(
-                              "glass-text-secondary glass-mt-1",
-                              config.subtitle
-                            )}
-                          >
-                            {item.subtitle}
-                          </div>
+                          <ContrastGuard>
+                            <div
+                              className={cn(
+                                "glass-text-secondary glass-mt-1",
+                                config.subtitle
+                              )}
+                            >
+                              {item.subtitle}
+                            </div>
+                          </ContrastGuard>
                         )}
                       </div>
                     </div>
@@ -331,21 +337,23 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                           config.time
                         )}
                       >
-                        {item.time}
+                        <ContrastGuard>{item.time}</ContrastGuard>
                       </div>
                     )}
                   </div>
 
                   {/* Inline time */}
                   {item.time && timePosition === "inline" && (
-                    <div
-                      className={cn(
-                        "glass-text-secondary glass-mt-2",
-                        config.time
-                      )}
-                    >
-                      {item.time}
-                    </div>
+                    <ContrastGuard>
+                      <div
+                        className={cn(
+                          "glass-text-secondary glass-mt-2",
+                          config.time
+                        )}
+                      >
+                        {item.time}
+                      </div>
+                    </ContrastGuard>
                   )}
                 </OptimizedGlass>
               </li>
@@ -397,16 +405,24 @@ export const TimelineItemComponent = forwardRef<
         performanceMode="medium"
         className="glass-radius-lg glass-p-3"
       >
-        <div className='glass-font-medium glass-text-primary'>{item.title}</div>
-        {item.subtitle && (
-          <div className="glass-text-sm glass-text-secondary glass-mt-1">
-            {item.subtitle}
+        <ContrastGuard>
+          <div className="glass-font-medium glass-text-primary">
+            {item.title}
           </div>
+        </ContrastGuard>
+        {item.subtitle && (
+          <ContrastGuard>
+            <div className="glass-text-sm glass-text-secondary glass-mt-1">
+              {item.subtitle}
+            </div>
+          </ContrastGuard>
         )}
         {item.time && (
-          <div className="glass-text-xs glass-text-secondary glass-mt-2">
-            {item.time}
-          </div>
+          <ContrastGuard>
+            <div className="glass-text-xs glass-text-secondary glass-mt-2">
+              {item.time}
+            </div>
+          </ContrastGuard>
         )}
       </OptimizedGlass>
     </div>

@@ -5,20 +5,20 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
   class="motion-primitive glass-w-full"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden relative group"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden relative group"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
         class="card-content glass-p-0"
       >
         <div
-          class="relative glass-surface-dark aspect-video overflow-hidden"
+          class="glass-relative glass-surface-dark glass-aspect-video glass-overflow-hidden"
         >
           <video
-            class="glass-w-full glass-h-full object-contain"
+            class="glass-w-full glass-h-full glass-object-contain"
           >
             <source
               src="test-video.mp4"
@@ -27,11 +27,11 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
             Your browser does not support the video tag.
           </video>
           <div
-            class="absolute inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/50"
+            class="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/50"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-loader-circle w-8 h-8 text-primary animate-spin"
+              class="lucide lucide-loader-circle glass-w-8 glass-h-8 glass-text-primary glass-animate-spin"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -48,26 +48,26 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
             </svg>
           </div>
           <div
-            class="absolute inset-0 glass-gradient-primary glass-gradient-primary via-transparent glass-gradient-primary"
+            class="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary"
           >
             <div
-              class="absolute top-0 left-0 right-0 glass-p-4 glass-flex glass-justify-between glass-items-center"
+              class="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-p-4 glass-flex glass-justify-between glass-items-center"
             >
               <div
                 class="glass-flex glass-items-center glass-gap-2"
               >
                 <div
-                  class="motion-primitive inline-block"
+                  class="motion-primitive glass-inline-glass-block"
                   data-glass-component="true"
                 >
                   <button
                     aria-label="Video settings"
-                    class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary"
+                    class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary"
                     id="glass-button-:rl:"
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-settings w-4 h-4"
+                      class="lucide lucide-settings glass-w-4 glass-h-4"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -92,17 +92,17 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="absolute inset-0 glass-flex glass-items-center glass-justify-center"
+              class="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
             >
               <div
-                class="glass-flex glass-items-center glass-gap-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                class="glass-flex glass-items-center glass-gap-4 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity"
               >
                 <div
-                  class="motion-primitive inline-block"
+                  class="motion-primitive glass-inline-glass-block"
                 >
                   <button
                     aria-label="Rewind 10 seconds"
-                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-3"
+                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-3"
                     data-magnet="true"
                     data-performance-mode="ultra"
                     data-refraction="true"
@@ -110,11 +110,11 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                   >
                     <span
-                      class="relative z-10"
+                      class="glass-relative glass-z-10"
                     >
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-skip-back w-6 h-6"
+                        class="lucide lucide-skip-back glass-w-6 glass-h-6"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -136,11 +136,11 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   </button>
                 </div>
                 <div
-                  class="motion-primitive inline-block"
+                  class="motion-primitive glass-inline-glass-block"
                 >
                   <button
                     aria-label="Play video"
-                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-4"
+                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-4"
                     data-magnet="true"
                     data-performance-mode="ultra"
                     data-refraction="true"
@@ -148,11 +148,11 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                   >
                     <span
-                      class="relative z-10"
+                      class="glass-relative glass-z-10"
                     >
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-play w-8 h-8"
+                        class="lucide lucide-play glass-w-8 glass-h-8"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -171,11 +171,11 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   </button>
                 </div>
                 <div
-                  class="motion-primitive inline-block"
+                  class="motion-primitive glass-inline-glass-block"
                 >
                   <button
                     aria-label="Forward 10 seconds"
-                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-3"
+                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-12 px-6 text-base glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-3"
                     data-magnet="true"
                     data-performance-mode="ultra"
                     data-refraction="true"
@@ -183,11 +183,11 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                   >
                     <span
-                      class="relative z-10"
+                      class="glass-relative glass-z-10"
                     >
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-skip-forward w-6 h-6"
+                        class="lucide lucide-skip-forward glass-w-6 glass-h-6"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -211,13 +211,13 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="absolute bottom-0 left-0 right-0 glass-p-4"
+              class="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-p-4"
             >
               <div
-                class="glass-w-full h-1 glass-surface-subtle/20 glass-radius-full mb-4 cursor-pointer"
+                class="glass-w-full glass-h-1 glass-surface-subtle/20 glass-radius-full glass-mb-4 glass-cursor-pointer"
               >
                 <div
-                  class="glass-h-full glass-surface-primary glass-radius-full transition-all duration-100"
+                  class="glass-h-full glass-surface-primary glass-radius-full glass-transition-all glass-duration-100"
                   style="width: 0%;"
                 />
               </div>
@@ -228,17 +228,17 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   class="glass-flex glass-items-center glass-gap-4"
                 >
                   <div
-                    class="motion-primitive inline-block"
+                    class="motion-primitive glass-inline-glass-block"
                     data-glass-component="true"
                   >
                     <button
                       aria-label="Play video"
-                      class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary glass-p-2"
+                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
                       id="glass-button-:rp:"
                     >
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-play w-5 h-5"
+                        class="lucide lucide-play glass-w-5 glass-h-5"
                         fill="none"
                         height="24"
                         stroke="currentColor"
@@ -259,17 +259,17 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     class="glass-flex glass-items-center glass-gap-2"
                   >
                     <div
-                      class="motion-primitive inline-block"
+                      class="motion-primitive glass-inline-glass-block"
                       data-glass-component="true"
                     >
                       <button
                         aria-label="Mute video"
-                        class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary glass-p-2"
+                        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
                         id="glass-button-:rq:"
                       >
                         <svg
                           aria-hidden="true"
-                          class="lucide lucide-volume2 lucide-volume-2 w-5 h-5"
+                          class="lucide lucide-volume2 lucide-volume-2 glass-w-5 glass-h-5"
                           fill="none"
                           height="24"
                           stroke="currentColor"
@@ -293,7 +293,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                       </button>
                     </div>
                     <div
-                      class="w-20 h-1 glass-surface-subtle/20 glass-radius-full cursor-pointer"
+                      class="glass-w-20 glass-h-1 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer"
                     >
                       <div
                         class="glass-h-full glass-surface-subtle glass-radius-full"
@@ -302,7 +302,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     </div>
                   </div>
                   <span
-                    class="text-primary glass-text-sm"
+                    class="glass-text-primary glass-text-sm"
                   >
                     0:00
                      / 
@@ -313,23 +313,23 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   class="glass-flex glass-items-center glass-gap-2"
                 >
                   <span
-                    class="text-primary glass-text-sm"
+                    class="glass-text-primary glass-text-sm"
                   >
                     1
                     x
                   </span>
                   <div
-                    class="motion-primitive inline-block"
+                    class="motion-primitive glass-inline-glass-block"
                     data-glass-component="true"
                   >
                     <button
                       aria-label="Enter fullscreen"
-                      class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press text-primary glass-p-2"
+                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
                       id="glass-button-:rr:"
                     >
                       <svg
                         aria-hidden="true"
-                        class="lucide lucide-maximize w-5 h-5"
+                        class="lucide lucide-maximize glass-w-5 glass-h-5"
                         fill="none"
                         height="24"
                         stroke="currentColor"

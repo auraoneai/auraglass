@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Device Orientation Effects
@@ -8,6 +8,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface OrientationData {
   alpha: number; // Z-axis rotation (0-360)
@@ -306,18 +308,25 @@ export function GlassOrientationEffects({
           className
         )}
       >
-        <div className='glass-text-center'>
-          <h3 className='glass-text-lg glass-font-semibold glass-mb-2'>
-            Enable Device Orientation
-          </h3>
-          <p className='glass-text-secondary glass-mb-4'>
-            Allow orientation access for interactive glass effects
-          </p>
+        <div
+          className="glass-text-center"
+          role="region"
+          aria-label="Orientation permission request"
+        >
+          <ContrastGuard>
+            <h3 className="glass-text-lg glass-font-semibold glass-mb-2">
+              Enable Device Orientation
+            </h3>
+            <p className="glass-text-secondary glass-mb-4">
+              Allow orientation access for interactive glass effects
+            </p>
+          </ContrastGuard>
           <button
             onClick={requestPermissions}
-            className="glass-button glass-button-primary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-button glass-button-primary glass-focus glass-touch-target"
+            aria-label="Enable orientation effects"
           >
-            Enable Orientation Effects
+            <ContrastGuard>Enable Orientation Effects</ContrastGuard>
           </button>
         </div>
       </div>
@@ -325,7 +334,15 @@ export function GlassOrientationEffects({
   }
 
   if (!isSupported) {
-    return <div className={cn("relative", className)}>{children}</div>;
+    return (
+      <div
+        className={cn("relative", className)}
+        role="region"
+        aria-label="Orientation effects container"
+      >
+        <ContrastGuard>{children}</ContrastGuard>
+      </div>
+    );
   }
 
   return (
@@ -336,15 +353,19 @@ export function GlassOrientationEffects({
         "transform-gpu will-change-transform",
         className
       )}
+      role="region"
+      aria-label="Device orientation effects"
       style={{
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
+        ...{
+          transformStyle: "preserve-3d",
+          perspective: "1000px",
+        },
       }}
     >
       {/* Tilt effect layer */}
       {effectTypes.includes("tilt") && (
         <motion.div
-          className='glass-absolute glass-inset-0'
+          className="glass-absolute glass-inset-0"
           style={{
             rotateX: perspectiveX,
             rotateY: perspectiveY,
@@ -354,7 +375,7 @@ export function GlassOrientationEffects({
           {/* Background parallax layer */}
           {effectTypes.includes("parallax") && (
             <motion.div
-              className='glass-absolute glass-inset-0 glass-optimized-glass intensity={0.2} glassBlur={6} glass-opacity-30'
+              className="glass-absolute glass-inset-0 glass-optimized-glass intensity={0.2} glassBlur={6} glass-opacity-30"
               style={{
                 x: backgroundX,
                 y: backgroundY,
@@ -370,17 +391,19 @@ export function GlassOrientationEffects({
 
           {/* Shimmer effect */}
           {effectTypes.includes("shimmer") && (
-            <motion.div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20 glass-surface-primary/10' />
+            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20 glass-surface-primary/10" />
           )}
 
           {/* Content */}
-          <div className='glass-relative glass-z-10'>{children}</div>
+          <div className="glass-relative glass-z-10">
+            <ContrastGuard>{children}</ContrastGuard>
+          </div>
         </motion.div>
       )}
 
       {/* Fallback for non-tilt effects */}
       {!effectTypes.includes("tilt") && (
-        <div className='glass-relative'>
+        <div className="glass-relative">
           {effectTypes.includes("parallax") && (
             <motion.div
               className="glass-absolute glass-inset-0 glass-opacity-30"
@@ -393,19 +416,27 @@ export function GlassOrientationEffects({
           )}
 
           {effectTypes.includes("shimmer") && (
-            <motion.div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20 glass-surface-primary/10' />
+            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20 glass-surface-primary/10" />
           )}
 
-          <div className='glass-relative glass-z-10'>{children}</div>
+          <div className="glass-relative glass-z-10">
+            <ContrastGuard>{children}</ContrastGuard>
+          </div>
         </div>
       )}
 
       {/* Debug info */}
       {process.env.NODE_ENV === "development" && (
-        <div className='glass-absolute glass-bottom-2 glass-left-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm glass-opacity-50'>
-          <div>α: {orientation.alpha.toFixed(1)}°</div>
-          <div>β: {orientation.beta.toFixed(1)}°</div>
-          <div>γ: {orientation.gamma.toFixed(1)}°</div>
+        <div
+          className="glass-absolute glass-bottom-2 glass-left-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm glass-opacity-50"
+          role="status"
+          aria-label="Orientation debug information"
+        >
+          <ContrastGuard>
+            <div>α: {orientation.alpha.toFixed(1)}°</div>
+            <div>β: {orientation.beta.toFixed(1)}°</div>
+            <div>γ: {orientation.gamma.toFixed(1)}°</div>
+          </ContrastGuard>
         </div>
       )}
     </motion.div>

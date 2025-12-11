@@ -7,15 +7,15 @@ exports[`GlassProductRecommendations matches snapshot 1`] = `
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="text-center glass-py-12"
+      class="glass-text-center glass-py-12"
     >
       <div
-        class="glass-text-4xl mb-4"
+        class="glass-text-4xl glass-mb-4"
       >
         🤖
       </div>
       <h3
-        class="glass-text-lg font-medium glass-text-secondary mb-2"
+        class="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2"
       >
         No recommendations available
       </h3>

@@ -10,7 +10,7 @@ exports[`GlassConnectionStatus matches snapshot 1`] = `
   style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="relative glass-flex glass-items-center glass-gap-2"
+    class="glass-relative glass-flex glass-items-center glass-gap-2"
   >
     <div
       class="text-green-500"

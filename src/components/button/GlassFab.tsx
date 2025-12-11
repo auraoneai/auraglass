@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useState,
@@ -25,6 +25,8 @@ import { useAchievements } from "../advanced/GlassAchievementSystem";
 import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
 import { useEyeTracking } from "../advanced/GlassEyeTracking";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface FabProps extends ConsciousnessFeatures {
   /**
@@ -317,7 +319,7 @@ const TooltipComponent: React.FC<{
       data-glass-component
       className={cn(
         "bg-gray-900/90 glass-text-primary px-2 py-1 glass-radius-md glass-text-xs whitespace-nowrap",
-        "pointer-events-none z-50 transition-opacity duration-200",
+        `pointer-events-none z-50 transition-opacity duration-[${ANIMATION.DURATION.fast}ms]`,
         getTooltipPosition(position),
         show ? "opacity-100 visible" : "opacity-0 invisible"
       )}
@@ -425,7 +427,10 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
         setShouldRender(true);
       } else {
         // Delay hiding to allow exit animation
-        const timeout = setTimeout(() => setShouldRender(false), 300);
+        const timeout = setTimeout(
+          () => setShouldRender(false),
+          ANIMATION.DURATION.normal
+        );
         return () => clearTimeout(timeout);
       }
     }, [isVisible]);
@@ -559,7 +564,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
       // Base styles
       "inline-flex items-center justify-center",
       "font-medium cursor-pointer outline-none",
-      "select-none box-border transition-all duration-200",
+      `select-none box-border transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
       "will-change-transform",
       // Size classes
       sizeClasses.width,
@@ -601,7 +606,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
         duration={0.3}
         animateOnMount={isVisible}
         animateOnHover={!disabled}
-        className='glass-inline-glass-block'
+        className="glass-inline-glass-block"
       >
         {variant === "glass" ? (
           <OptimizedGlass
@@ -618,7 +623,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             liftOnHover
             press
             className={baseClasses}
-            style={combinedStyle}
+            style={{ ...combinedStyle }}
             onClick={handleInteraction}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -635,11 +640,11 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             {...a11yProps}
             {...rest}
           >
-            <span className='glass-relative glass-z-10 glass-focus glass-touch-target glass-contrast-guard'>
+            <span className="glass-relative glass-z-10 glass-focus glass-touch-target glass-contrast-guard">
               {children}
             </span>
             {description && (
-              <span id={descriptionId} className='glass-sr-only'>
+              <span id={descriptionId} className="glass-sr-only">
                 {description}
               </span>
             )}
@@ -647,7 +652,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
         ) : (
           <Component
             className={baseClasses}
-            style={combinedStyle}
+            style={{ ...combinedStyle }}
             href={href}
             disabled={disabled}
             onClick={handleInteraction}
@@ -671,7 +676,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             {description && (
               <span
                 id={descriptionId}
-                className='glass-sr-only glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-sr-only glass-focus glass-touch-target glass-contrast-guard"
               >
                 {description}
               </span>

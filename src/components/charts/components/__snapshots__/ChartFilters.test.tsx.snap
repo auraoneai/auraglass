@@ -231,12 +231,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="#8b5cf6"
+        stop-color="var(--glass-color-secondary)"
         stop-opacity="0.8"
       />
       <stop
         offset="100%"
-        stop-color="#8b5cf6"
+        stop-color="var(--glass-color-secondary)"
         stop-opacity="0.2"
       />
     </lineargradient>
@@ -248,12 +248,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="#8b5cf6"
+        stop-color="var(--glass-color-secondary)"
         stop-opacity="0.6"
       />
       <stop
         offset="100%"
-        stop-color="#8b5cf6"
+        stop-color="var(--glass-color-secondary)"
         stop-opacity="0"
       />
     </radialgradient>

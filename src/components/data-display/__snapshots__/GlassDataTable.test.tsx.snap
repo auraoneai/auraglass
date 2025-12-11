@@ -6,18 +6,18 @@ exports[`GlassDataTable matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="glass-flex glass-items-center glass-justify-between glass-gap-4 mb-4"
+    class="glass-flex glass-items-center glass-justify-between glass-gap-4 glass-mb-4"
   >
     <div
       class="glass-flex glass-items-center glass-gap-4"
     >
       <div
-        class="relative w-64"
+        class="relative glass-w-64"
         data-glass-component="true"
         data-testid="glassinput"
       >
         <div
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 w-64"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-64"
           data-performance-mode="medium"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
@@ -25,7 +25,7 @@ exports[`GlassDataTable matches snapshot 1`] = `
             class="flex items-center justify-center mr-3 glass-text-secondary w-4 h-4"
           >
             <svg
-              class="w-4 h-4"
+              class="glass-w-4 glass-h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -40,7 +40,7 @@ exports[`GlassDataTable matches snapshot 1`] = `
           </div>
           <input
             aria-label="Search..."
-            class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed pr-8"
+            class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed pr-8"
             id="glass-input-:r4:"
             placeholder="Search..."
             value=""
@@ -53,12 +53,12 @@ exports[`GlassDataTable matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high overflow-hidden transition-all duration-500"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high overflow-hidden transition-all duration-[500ms]"
     data-performance-mode="medium"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="overflow-x-auto"
+      class="glass-overflow-x-auto"
     >
       <table
         class="glass-w-full"
@@ -74,7 +74,13 @@ exports[`GlassDataTable matches snapshot 1`] = `
               class="text-center glass-text-secondary py-8 glass-px-4 glass-py-3"
               colspan="0"
             >
-              No data available
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
+              >
+                No data available
+              </span>
             </td>
           </tr>
         </tbody>

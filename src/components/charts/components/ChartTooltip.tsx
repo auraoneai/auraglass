@@ -6,6 +6,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../../tokens/designConstants";
 
 export interface TooltipData {
   datasetIndex: number;
@@ -54,37 +55,38 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
         ? "var(--glass-text-secondary-dark)"
         : tooltipStyle === "minimal"
           ? "var(--glass-text-primary)"
-          : '${glassStyles.text?.primary || "rgba(var(--glass-color-white) / var(--glass-opacity-90))"}',
+          : "color-mix(in srgb, var(--glass-white) var(--glass-opacity-90), transparent)",
     // Use createGlassStyle() instead,
     border:
       tooltipStyle === "frosted"
-        ? '1px solid ${glassStyles.borderColor || "rgba(var(--glass-color-white) / var(--glass-opacity-20))"}'
-        : "1px solid rgba(var(--glass-color-black) / var(--glass-opacity-10))",
-    borderRadius: "8px",
+        ? "1px solid color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
+        : "1px solid color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+    borderRadius: "var(--glass-radius-md)",
     padding: "8px 12px",
     fontSize: "0.75rem", // caption
     color: tooltipStyle === "frosted" ? "white" : "black",
     pointerEvents: "none",
     zIndex: 1000,
-    boxShadow:
-      "0 4px 12px rgba(var(--glass-color-black) / var(--glass-opacity-15))",
+    boxShadow: "var(--aura-shadow-elevation-md)",
     maxWidth: "200px",
     whiteSpace: "nowrap",
   };
+
+  const headerMarginStyle: React.CSSProperties = { marginBottom: "4px" };
 
   return (
     <ContrastGuard
       as="div"
       level="AA"
       data-glass-component
-      style={style}
+      style={{ ...(style ?? {}) }}
       className={className}
       data-testid={dataTestId || "charttooltip"}
     >
       <TextWithContrast
         as="div"
         className="glass-font-semibold"
-        style={{ marginBottom: "4px" }}
+        style={{ ...headerMarginStyle }}
       >
         {tooltipData.value.dataset || "Dataset"}
       </TextWithContrast>

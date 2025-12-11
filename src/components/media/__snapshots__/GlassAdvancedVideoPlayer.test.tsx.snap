@@ -7,60 +7,60 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
     data-testid="glassadvancedvideoplayer"
   >
     <div
-      class="relative glass-w-full glass-h-full glass-flex"
+      class="glass-relative glass-w-full glass-h-full glass-flex"
     >
       <div
-        class="glass-flex-1 relative"
+        class="glass-flex-1 glass-relative"
       >
         <video
-          class="glass-w-full glass-h-full object-contain"
+          class="glass-w-full glass-h-full glass-object-contain"
           preload="metadata"
           src="https://example.com/video.mp4"
         />
         <div
-          class="absolute bottom-0 left-0 right-0 glass-gradient-primary glass-gradient-primary via-black/40 glass-gradient-primary glass-p-4"
+          class="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-gradient-primary glass-gradient-primary glass-via-black-glass-opacity-40 glass-gradient-primary glass-p-4"
           data-glass-component="true"
         >
           <div
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-full cursor-pointer mb-4 relative"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer glass-mb-4 glass-relative"
           >
             <div
-              class="absolute top-0 left-0 glass-h-full glass-surface-subtle/30 glass-radius-full"
+              class="glass-absolute glass-top-0 glass-left-0 glass-h-full glass-surface-subtle/30 glass-radius-full"
             />
             <div
-              class="absolute top-0 left-0 glass-h-full glass-surface-blue glass-radius-full"
+              class="glass-absolute glass-top-0 glass-left-0 glass-h-full glass-surface-blue glass-radius-full"
             />
             <div
-              class="absolute glass-top-1/2 transform -translate-y-1/2 w-4 h-4 glass-surface-blue glass-radius-full glass-border-2 glass-border-white glass-shadow-md"
+              class="glass-absolute glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-surface-blue glass-radius-full glass-border-2 glass-border-white glass-shadow-md"
               style="left: calc(NaN% - 8px);"
             />
           </div>
           <div
-            class="glass-flex glass-items-center glass-justify-between text-primary"
+            class="glass-flex glass-items-center glass-justify-between glass-text-primary"
           >
             <div
               class="glass-flex glass-items-center glass-gap-3"
             >
               <button
                 aria-label="Play video"
-                class="w-12 h-12 glass-flex glass-items-center glass-justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                class="glass-w-12 glass-h-12 glass-flex glass-items-center glass-justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 <div
-                  class="w-0 h-0 glass-border-l-4 glass-border-l-white glass-border-y-4 glass-border-y-transparent ml-1"
+                  class="glass-w-0 glass-h-0 glass-border-l-4 glass-border-l-white glass-border-y-4 glass-border-y-transparent glass-ml-1"
                 />
               </button>
               <div
-                class="relative"
+                class="glass-relative"
               >
                 <button
                   aria-label="Mute video"
-                  class="w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                  class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   🔊
                 </button>
               </div>
               <div
-                class="glass-text-sm font-mono"
+                class="glass-text-sm glass-font-mono"
               >
                 0:00
                  / 
@@ -71,29 +71,29 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
               class="glass-flex glass-items-center glass-gap-3"
             >
               <div
-                class="relative"
+                class="glass-relative"
               >
                 <button
                   aria-label="Playback speed: 1x"
-                  class="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                  class="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   1
                   x
                 </button>
               </div>
               <div
-                class="relative"
+                class="glass-relative"
               >
                 <button
                   aria-label="Video quality: auto"
-                  class="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                  class="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   auto
                 </button>
               </div>
               <button
                 aria-label="Enter fullscreen"
-                class="w-10 h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 ⊞
               </button>

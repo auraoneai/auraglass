@@ -8,6 +8,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassSkeletonLoaderProps {
   /** Whether the loader is active */
@@ -83,7 +85,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
     text = "Loading...",
     size = "md",
     variant = "pulse",
-    className="",
+    className = "",
     children,
     "aria-label": ariaLabel,
     "data-testid": dataTestId,
@@ -158,7 +160,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
           <div style={{ position: "relative" }}>
             <OptimizedGlass
               className={cn("glass-radius-full", sizeClasses[size])}
-              style={getAnimationStyle()}
+              style={{ ...getAnimationStyle() }}
               intensity="medium"
               elevation="level1"
               interactive={false}
@@ -236,7 +238,7 @@ interface GlassSkeletonTextProps {
 export const GlassSkeletonText: React.FC<GlassSkeletonTextProps> = ({
   lines = 1,
   width = "100%",
-  className="",
+  className = "",
 }) => {
   const { shouldAnimate } = useAccessibleAnimation();
   const widths = Array.isArray(width) ? width : [width];
@@ -270,7 +272,9 @@ export const GlassSkeletonText: React.FC<GlassSkeletonTextProps> = ({
 // Compound component for skeleton card
 export const GlassSkeletonCard: React.FC<{
   className?: string;
-}> = ({ className="" }) => {
+}> = ({ className = "" }) => {
+  const basePulseStyle = { animation: "glass-pulse 2s ease-in-out infinite" };
+
   return (
     <OptimizedGlass
       className={cn("glass-p-6 glass-gap-4", className)}
@@ -282,16 +286,13 @@ export const GlassSkeletonCard: React.FC<{
       <div className={cn("glass-flex glass-gap-2")}>
         <OptimizedGlass
           className={cn("glass-h-8 glass-w-16 glass-radius-md")}
-          style={{ animation: "glass-pulse 2s ease-in-out infinite" }}
+          style={{ ...basePulseStyle }}
           intensity="subtle"
           elevation="level1"
         />
         <OptimizedGlass
           className={cn("glass-h-8 glass-w-16 glass-radius-md")}
-          style={{
-            animation: "glass-pulse 2s ease-in-out infinite",
-            animationDelay: "0.2s",
-          }}
+          style={{ ...basePulseStyle, animationDelay: "0.2s" }}
           intensity="subtle"
           elevation="level1"
         />

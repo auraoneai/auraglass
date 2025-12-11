@@ -23,6 +23,7 @@ import { useAchievements } from "../advanced/GlassAchievementSystem";
 import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
 import { useEyeTracking } from "../advanced/GlassEyeTracking";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 // Helper function to convert elevation strings to numbers
 const getNumericElevation = (elevation: string | number): number => {
@@ -89,6 +90,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
 // Import modular components
 import {
@@ -142,8 +144,6 @@ Chart.register(
 export const ModularGlassDataChart = React.forwardRef<
   GlassDataChartRef,
   GlassDataChartProps & {
-    // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
-
     // Consciousness interface features
     predictive?: boolean;
     preloadData?: boolean;
@@ -195,7 +195,7 @@ export const ModularGlassDataChart = React.forwardRef<
     usageContext = "dashboard",
     animation = {
       physicsEnabled: true,
-      duration: 1000,
+      duration: ANIMATION.DURATION.normal,
       tension: 300,
       friction: 30,
       mass: 1,
@@ -230,13 +230,13 @@ export const ModularGlassDataChart = React.forwardRef<
     showToolbar = true,
     allowDownload = true,
     palette = [
-      "#6366F1", // primary
-      "#8B5CF6", // secondary
+      COLORS.semantic.secondary, // primary
+      COLORS.semantic.secondary, // secondary
       "var(--glass-color-primary)", // blue
       "var(--glass-color-success)", // green
       "var(--glass-color-warning)", // yellow
       "var(--glass-color-danger)", // red
-      "#EC4899", // pink
+      COLORS.semantic.error, // pink
       "var(--glass-gray-500)", // gray
     ],
     allowTypeSwitch = true,
@@ -339,7 +339,12 @@ export const ModularGlassDataChart = React.forwardRef<
   const [isAnimating, setIsAnimating] = useState(false);
 
   const animate = React.useCallback(
-    (key: string, from: number, to: number, duration: number = 500) => {
+    (
+      key: string,
+      from: number,
+      to: number,
+      duration: number = ANIMATION.DURATION.slow
+    ) => {
       setIsAnimating(true);
       setAnimationValues((prev: any) => ({ ...prev, [key]: from }));
 
@@ -446,7 +451,10 @@ export const ModularGlassDataChart = React.forwardRef<
     adaptChartComplexity();
 
     // Listen for biometric changes
-    const interval = setInterval(adaptChartComplexity, 3000);
+    const interval = setInterval(
+      adaptChartComplexity,
+      ANIMATION.DURATION.slower * 4
+    );
     return () => clearInterval(interval);
   }, [biometricResponsive, biometricAdapter]);
 
@@ -765,7 +773,7 @@ export const ModularGlassDataChart = React.forwardRef<
 
       if (subtitle) {
         ctx.fillStyle =
-          '${glassStyles.text?.secondary || "rgba(var(--glass-color-white) / var(--glass-opacity-70))"}';
+          '${glassStyles.text?.secondary || "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"}';
         ctx.font = "12px Inter, sans-serif";
         ctx.fillText(subtitle, tempCanvas.width / 2, 45);
       }
@@ -839,7 +847,7 @@ export const ModularGlassDataChart = React.forwardRef<
     // Use a more visible grid color for the clear variant
     gridColor:
       glassVariant === "clear"
-        ? "rgba(var(--glass-color-black) / var(--glass-opacity-15))" // Darker, semi-transparent
+        ? "color-mix(in srgb, var(--glass-black) 15%, transparent)" // Darker, semi-transparent
         : axis.gridColor ||
           '${glassStyles.surface?.base || "var(--glass-bg-default)"}', // Original default
   };
@@ -879,22 +887,32 @@ export const ModularGlassDataChart = React.forwardRef<
         {/* Chart title with consciousness insights */}
         {(title || subtitle || chartInsights.length > 0) && (
           <ChartHeader>
-            {title && <ChartTitle>{title}</ChartTitle>}
-            {subtitle && <ChartSubtitle>{subtitle}</ChartSubtitle>}
+            {title && (
+              <ContrastGuard>
+                <ChartTitle>{title}</ChartTitle>
+              </ContrastGuard>
+            )}
+            {subtitle && (
+              <ContrastGuard>
+                <ChartSubtitle>{subtitle}</ChartSubtitle>
+              </ContrastGuard>
+            )}
 
             {/* Predictive insights display */}
             {predictive && chartInsights.length > 0 && (
               <div
-                className='glass-mt-2 glass-px-3 glass-py-2 glass-radius glass-border glass-text-primary glass-surface-primary/10 glass-contrast-guard'
+                className="glass-mt-2 glass-px-3 glass-py-2 glass-radius glass-border glass-text-primary glass-surface-primary/10 glass-contrast-guard"
                 data-insights-panel="true"
               >
-                <strong>💡 KPI Insights:</strong>{" "}
-                {chartInsights
-                  .slice(0, 2)
-                  .map((insight: any) => insight.title || insight.message)
-                  .join(", ")}
-                {chartInsights.length > 2 &&
-                  ` (+${chartInsights.length - 2} more)`}
+                <ContrastGuard>
+                  <strong>💡 KPI Insights:</strong>{" "}
+                  {chartInsights
+                    .slice(0, 2)
+                    .map((insight: any) => insight.title || insight.message)
+                    .join(", ")}
+                  {chartInsights.length > 2 &&
+                    ` (+${chartInsights.length - 2} more)`}
+                </ContrastGuard>
               </div>
             )}
           </ChartHeader>
@@ -977,32 +995,44 @@ export const ModularGlassDataChart = React.forwardRef<
       {/* Chart header with consciousness insights */}
       {(title || subtitle || chartInsights.length > 0) && (
         <ChartHeader>
-          {title && <ChartTitle>{title}</ChartTitle>}
-          {subtitle && <ChartSubtitle>{subtitle}</ChartSubtitle>}
+          {title && (
+            <ContrastGuard>
+              <ChartTitle>{title}</ChartTitle>
+            </ContrastGuard>
+          )}
+          {subtitle && (
+            <ContrastGuard>
+              <ChartSubtitle>{subtitle}</ChartSubtitle>
+            </ContrastGuard>
+          )}
 
           {/* Predictive insights display */}
           {predictive && chartInsights.length > 0 && (
             <div
-              className='glass-mt-2 glass-px-3 glass-py-2 glass-radius glass-border glass-text-primary glass-surface-primary/10 glass-contrast-guard'
+              className="glass-mt-2 glass-px-3 glass-py-2 glass-radius glass-border glass-text-primary glass-surface-primary/10 glass-contrast-guard"
               data-insights-panel="true"
             >
-              <strong>💡 Insights:</strong>{" "}
-              {chartInsights
-                .slice(0, 2)
-                .map((insight: any) => insight.title || insight.message)
-                .join(", ")}
-              {chartInsights.length > 2 &&
-                ` (+${chartInsights.length - 2} more)`}
+              <ContrastGuard>
+                <strong>💡 Insights:</strong>{" "}
+                {chartInsights
+                  .slice(0, 2)
+                  .map((insight: any) => insight.title || insight.message)
+                  .join(", ")}
+                {chartInsights.length > 2 &&
+                  ` (+${chartInsights.length - 2} more)`}
+              </ContrastGuard>
             </div>
           )}
 
           {/* Biometric adaptation indicator */}
           {biometricResponsive && adaptiveComplexity !== "medium" && (
             <div
-              className='glass-mt-1 glass-text-xs glass-text-secondary'
+              className="glass-mt-1 glass-text-xs glass-text-secondary"
               data-adaptation-indicator="true"
             >
-              🧠 Adapted for {adaptiveComplexity} cognitive load
+              <ContrastGuard>
+                🧠 Adapted for {adaptiveComplexity} cognitive load
+              </ContrastGuard>
             </div>
           )}
         </ChartHeader>
@@ -1019,28 +1049,28 @@ export const ModularGlassDataChart = React.forwardRef<
                 $active={chartType === ("line" as ChartVariant)}
                 onClick={(e) => handleTypeChange("line")}
               >
-                Line
+                <ContrastGuard>Line</ContrastGuard>
               </TypeButton>
               <TypeButton
                 type="button"
                 $active={chartType === ("bar" as ChartVariant)}
                 onClick={(e) => handleTypeChange("bar")}
               >
-                Bar
+                <ContrastGuard>Bar</ContrastGuard>
               </TypeButton>
               <TypeButton
                 type="button"
                 $active={chartType === ("area" as ChartVariant)}
                 onClick={(e) => handleTypeChange("area")}
               >
-                Area
+                <ContrastGuard>Area</ContrastGuard>
               </TypeButton>
               <TypeButton
                 type="button"
                 $active={chartType === ("pie" as ChartVariant)}
                 onClick={(e) => handleTypeChange("pie")}
               >
-                Pie
+                <ContrastGuard>Pie</ContrastGuard>
               </TypeButton>
             </ChartTypeSelector>
           )}
@@ -1051,7 +1081,7 @@ export const ModularGlassDataChart = React.forwardRef<
               renderExportButton(handleExport)
             ) : (
               <EnhancedExportButton onClick={handleExport}>
-                Export
+                <ContrastGuard>Export</ContrastGuard>
               </EnhancedExportButton>
             ))}
         </ChartToolbar>
@@ -1076,7 +1106,9 @@ export const ModularGlassDataChart = React.forwardRef<
                 $active={isActive}
               >
                 <LegendColor $color={color} $active={isActive} />
-                <LegendLabel $active={isActive}>{dataset.label}</LegendLabel>
+                <LegendLabel $active={isActive}>
+                  <ContrastGuard>{dataset.label}</ContrastGuard>
+                </LegendLabel>
               </LegendItem>
             );
           })}
@@ -1135,7 +1167,9 @@ export const ModularGlassDataChart = React.forwardRef<
                 $active={isActive}
               >
                 <LegendColor $color={color} $active={isActive} />
-                <LegendLabel $active={isActive}>{dataset.label}</LegendLabel>
+                <LegendLabel $active={isActive}>
+                  <ContrastGuard>{dataset.label}</ContrastGuard>
+                </LegendLabel>
               </LegendItem>
             );
           })}
@@ -1161,14 +1195,14 @@ export const ModularGlassDataChart = React.forwardRef<
       {/* Eye tracking focus overlay */}
       {currentDataFocus && gazeResponsive && (
         <div
-          className='glass-absolute glass-inset-0 glass-surface-primary/10 glass-pointer-events-none glass-z-10 glass-focus glass-touch-target glass-contrast-guard'
+          className="glass-absolute glass-inset-0 glass-surface-primary/10 glass-pointer-events-none glass-z-10 glass-focus glass-touch-target glass-contrast-guard"
           data-gaze-overlay="true"
         />
       )}
 
       {/* Preloading indicator */}
       {isPreloading && (
-        <div className='glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary glass-text-primary glass-px-3 glass-py-2 glass-radius glass-contrast-guard'>
+        <div className="glass-absolute glass-z-50 glass-top-2 glass-left-2 glass-surface-primary glass-text-primary glass-px-3 glass-py-2 glass-radius glass-contrast-guard">
           🔄 Analyzing data patterns...
         </div>
       )}
@@ -1176,13 +1210,15 @@ export const ModularGlassDataChart = React.forwardRef<
       {/* Chart insights footer */}
       {(chartInsights.length > 0 || currentDataFocus) && (
         <div
-          className='glass-absolute glass-px-2 glass-py-1 glass-surface-primary/10 glass-text-primary glass-radius glass-z-10 glass-contrast-guard'
+          className="glass-absolute glass-px-2 glass-py-1 glass-surface-primary/10 glass-text-primary glass-radius glass-z-10 glass-contrast-guard"
           data-consciousness-footer="true"
         >
-          {chartInsights.length > 0 && `📊 ${chartInsights.length} insights`}
-          {currentDataFocus && chartInsights.length > 0 && " | "}
-          {currentDataFocus &&
-            `Focus: S${currentDataFocus.seriesIndex + 1}P${currentDataFocus.pointIndex + 1}`}
+          <ContrastGuard>
+            {chartInsights.length > 0 && `📊 ${chartInsights.length} insights`}
+            {currentDataFocus && chartInsights.length > 0 && " | "}
+            {currentDataFocus &&
+              `Focus: S${currentDataFocus.seriesIndex + 1}P${currentDataFocus.pointIndex + 1}`}
+          </ContrastGuard>
         </div>
       )}
     </ChartContainer>

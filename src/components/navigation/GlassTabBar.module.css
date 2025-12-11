@@ -5,7 +5,7 @@
   padding: 0.25rem;
   gap: 0;
   overflow: hidden;
-  border-radius: var(--glass-radius-lg, 12px);
+  border-radius: var(--glass-radius-lg, var(--glass-radius-xl));
   isolation: isolate;
   backdrop-filter: var(
     --glass-tabbar-filter,
@@ -16,8 +16,8 @@
     blur(var(--ag-tabbar-blur, var(--glass-blur-md, 12px))) saturate(1.15)
   );
   transition:
-    backdrop-filter 180ms ease,
-    box-shadow 220ms ease;
+    backdrop-filter var(--glass-motion-duration-fast, 150ms) ease,
+    box-shadow var(--glass-motion-duration-fast, 150ms) ease;
 }
 
 .horizontal {
@@ -31,7 +31,7 @@
 .elevated {
   box-shadow: var(
     --glass-elev-tabbar-container,
-    0 12px 32px rgba(15, 23, 42, 0.18)
+    0 12px 32px color-mix(in srgb, var(--glass-black) 18%, transparent)
   );
 }
 
@@ -50,35 +50,52 @@
   left: 0;
   top: 0;
   z-index: 0;
-  border-radius: var(--glass-radius-lg, 12px);
+  border-radius: var(--glass-radius-lg, var(--glass-radius-xl));
   pointer-events: none;
   background: var(
     --glass-tabbar-selector-bg,
     linear-gradient(
       180deg,
-      var(--glass-tabbar-selector-color-top, rgba(255, 255, 255, 0.28)) 0%,
-      var(--glass-tabbar-selector-color-bottom, rgba(255, 255, 255, 0.16)) 100%
+      var(
+          --glass-tabbar-selector-color-top,
+          color-mix(in srgb, var(--glass-white) 28%, transparent)
+        )
+        0%,
+      var(
+          --glass-tabbar-selector-color-bottom,
+          color-mix(in srgb, var(--glass-white) 16%, transparent)
+        )
+        100%
     )
   );
   box-shadow: var(
     --glass-elev-tabbar-selector,
-    inset 0 1px 0 var(--glass-border-hover, rgba(255, 255, 255, 0.26))
+    inset 0 1px 0
+      var(
+        --glass-border-hover,
+        color-mix(in srgb, var(--glass-white) 26%, transparent)
+      )
   );
   backdrop-filter: var(
     --glass-tabbar-selector-filter,
-    blur(var(--ag-selector-blur, var(--glass-blur-md, 12px))) saturate(1.2)
-  ); /* token-lint-ignore */
+    blur(var(--ag-selector-blur, var(--glass-blur-lg))) saturate(1.2)
+  );
   -webkit-backdrop-filter: var(
     --glass-tabbar-selector-filter,
-    blur(var(--ag-selector-blur, var(--glass-blur-md, 12px))) saturate(1.2)
-  ); /* token-lint-ignore */
+    blur(var(--ag-selector-blur, var(--glass-blur-lg))) saturate(1.2)
+  );
   transition:
-    transform 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
-    width 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
-    height 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
-    left 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
-    top 220ms var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
-    opacity 180ms ease;
+    transform var(--glass-motion-duration-fast, 150ms)
+      var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
+    width var(--glass-motion-duration-fast, 150ms)
+      var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
+    height var(--glass-motion-duration-fast, 150ms)
+      var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
+    left var(--glass-motion-duration-fast, 150ms)
+      var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
+    top var(--glass-motion-duration-fast, 150ms)
+      var(--glass-motion-snap, cubic-bezier(0.2, 0, 0, 1)),
+    opacity var(--glass-motion-duration-fast, 150ms) ease;
   will-change: transform, width, height, left, top, opacity;
 }
 
@@ -92,8 +109,12 @@
     --glass-tabbar-selector-highlight,
     radial-gradient(
       120% 60% at 20% 0%,
-      var(--glass-tabbar-highlight-inner, rgba(255, 255, 255, 0.55)) 0%,
-      var(--glass-tabbar-highlight-fade, rgba(255, 255, 255, 0)) 40%
+      var(
+          --glass-tabbar-highlight-inner,
+          color-mix(in srgb, var(--glass-white) 55%, transparent)
+        )
+        0%,
+      var(--glass-tabbar-highlight-fade, transparent) 40%
     )
   );
   mix-blend-mode: overlay;
@@ -101,7 +122,10 @@
 
 .selectorUnderline {
   border-radius: var(--glass-radius-pill, 9999px);
-  background: var(--glass-color-primary, rgba(99, 102, 241, 0.85));
+  background: var(
+    --glass-color-primary,
+    color-mix(in srgb, var(--glass-color-primary) 85%, transparent)
+  );
   box-shadow: none;
   backdrop-filter: var(--glass-tabbar-underline-filter, none);
   -webkit-backdrop-filter: var(--glass-tabbar-underline-filter, none);

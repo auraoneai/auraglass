@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * Dimensional Dashboard Container
  * Advanced dashboard container with 3D depth layers and Z-space positioning
@@ -41,7 +41,7 @@ export const DimensionalDashboardContainer = forwardRef<
   (
     {
       children,
-      className="",
+      className = "",
       style = {},
       perspective = 1200,
       depth = 100,
@@ -172,14 +172,14 @@ export const DimensionalDashboardContainer = forwardRef<
       <div
         ref={ref}
         className={`dimensional-dashboard-container ${className}`}
-        style={containerStyles}
+        style={{ ...containerStyles }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
         <div
           ref={containerRef}
-          className='dimensional-dashboard-content'
-          style={contentStyles}
+          className="dimensional-dashboard-content"
+          style={{ ...contentStyles }}
         >
           {/* Render layers */}
           {layers.length > 0 ? (
@@ -189,16 +189,18 @@ export const DimensionalDashboardContainer = forwardRef<
               return (
                 <div
                   key={index}
-                  className='dimensional-dashboard-layer'
+                  className="dimensional-dashboard-layer"
                   style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    transform: `translateZ(${zPosition}px)`,
-                    transformStyle: "preserve-3d",
-                    cursor: onLayerClick ? "pointer" : "default",
+                    ...{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      transform: `translateZ(${zPosition}px)`,
+                      transformStyle: "preserve-3d",
+                      cursor: onLayerClick ? "pointer" : "default",
+                    },
                   }}
                   onClick={() => onLayerClick?.(index)}
                   role={onLayerClick ? "button" : undefined}
@@ -216,9 +218,11 @@ export const DimensionalDashboardContainer = forwardRef<
                 >
                   <GlassContainer
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      opacity: 1 - Math.abs(zPosition) / (depth * 2),
+                      ...{
+                        width: "100%",
+                        height: "100%",
+                        opacity: 1 - Math.abs(zPosition) / (depth * 2),
+                      },
                     }}
                   >
                     {layer}
@@ -253,7 +257,7 @@ export const DimensionalDashboardContainer = forwardRef<
           }
 
           .dimensional-dashboard-layer:focus-visible {
-            outline: 2px solid var(--aura-accent-color, #00d4ff);
+            outline: 2px solid var(--aura-accent-color, var(--glass-color-info));
             outline-offset: 4px;
           }
 

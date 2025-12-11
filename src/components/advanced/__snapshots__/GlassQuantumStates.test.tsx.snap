@@ -3,16 +3,16 @@
 exports[`GlassQuantumStates matches snapshot 1`] = `
 <div>
   <button
-    class="relative overflow-hidden glass-surface-primary glass-elev-2 glass-px-6 glass-py-3 glass-radius-md glass-text-primary font-medium transition-all duration-300 hover:glass-elev-3"
+    class="relative overflow-hidden glass-surface-primary glass-elev-2 glass-px-6 glass-py-3 glass-radius-md glass-text-primary font-medium transition-all duration-[300ms] hover:glass-elev-3"
     tabindex="0"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       Quantum Button
     </div>
     <div
-      class="absolute inset-0 opacity-10 pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-opacity-10 glass-pointer-events-none"
     >
       <canvas
         class="w-full h-full"

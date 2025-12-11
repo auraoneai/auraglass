@@ -1,13 +1,21 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Context-Aware Glass Intensity
  * Dynamic glass effects based on environment and usage patterns
  */
 
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface EnvironmentContext {
   lightLevel: number; // 0-1 (dark to bright)
@@ -204,7 +212,10 @@ export function GlassContextAware({
     };
 
     updateEnvironmentContext();
-    const interval = setInterval(updateEnvironmentContext, 60000); // Update every minute
+    const interval = setInterval(
+      updateEnvironmentContext,
+      ANIMATION.DURATION.slower * 10
+    ); // Update every minute
 
     return () => clearInterval(interval);
   }, []);
@@ -403,6 +414,26 @@ export function GlassContextAware({
     calculateGlassProperties();
   }, [calculateGlassProperties]);
 
+  const adaptiveStyle = useMemo(
+    () =>
+      ({
+        "--glass-adaptive-intensity": smoothIntensity,
+        "--glass-adaptive-blur": smoothBlur,
+        "--glass-adaptive-opacity": smoothOpacity,
+        "--glass-adaptive-contrast": smoothContrast,
+        "--glass-adaptive-saturation": smoothSaturation,
+        // Use createGlassStyle() instead,
+        backgroundColor: `color-mix(in srgb, var(--glass-white) ${smoothOpacity.get() * 100}%, transparent)`,
+      }) as React.CSSProperties,
+    [
+      smoothIntensity,
+      smoothBlur,
+      smoothOpacity,
+      smoothContrast,
+      smoothSaturation,
+    ]
+  );
+
   return (
     <motion.div
       ref={containerRef}
@@ -411,30 +442,28 @@ export function GlassContextAware({
         "transform-gpu will-change-transform",
         className
       )}
-      style={
-        {
-          "--glass-adaptive-intensity": smoothIntensity,
-          "--glass-adaptive-blur": smoothBlur,
-          "--glass-adaptive-opacity": smoothOpacity,
-          "--glass-adaptive-contrast": smoothContrast,
-          "--glass-adaptive-saturation": smoothSaturation,
-          // Use createGlassStyle() instead,
-          backgroundColor: `rgba(255, 255, 255, ${smoothOpacity.get()})`,
-        } as React.CSSProperties
-      }
+      style={{ ...adaptiveStyle }}
     >
       {children}
 
       {/* Context debug overlay (development only) */}
       {process.env.NODE_ENV === "development" && (
-        <div className='glass-absolute glass-top-2 glass-right-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm glass-opacity-50'>
-          <div>Light: {(environmentContext.lightLevel * 100).toFixed(0)}%</div>
-          <div>
-            Battery: {(environmentContext.batteryLevel * 100).toFixed(0)}%
+        <ContrastGuard>
+          <div
+            className="glass-absolute glass-top-2 glass-right-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm glass-opacity-50"
+            role="status"
+            aria-label="Context debug information"
+          >
+            <div>
+              Light: {(environmentContext.lightLevel * 100).toFixed(0)}%
+            </div>
+            <div>
+              Battery: {(environmentContext.batteryLevel * 100).toFixed(0)}%
+            </div>
+            <div>Task: {usageContext.taskType}</div>
+            <div>Intensity: {smoothIntensity.get().toFixed(2)}</div>
           </div>
-          <div>Task: {usageContext.taskType}</div>
-          <div>Intensity: {smoothIntensity.get().toFixed(2)}</div>
-        </div>
+        </ContrastGuard>
       )}
     </motion.div>
   );

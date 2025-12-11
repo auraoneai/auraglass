@@ -7,7 +7,7 @@ exports[`GlassFileTree matches snapshot 1`] = `
   role="region"
 >
   <div
-    class="mb-4"
+    class="glass-mb-4"
   >
     <div
       class="relative"
@@ -24,7 +24,7 @@ exports[`GlassFileTree matches snapshot 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-search w-4 h-4"
+            class="lucide lucide-search glass-w-4 glass-h-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -47,7 +47,7 @@ exports[`GlassFileTree matches snapshot 1`] = `
         </div>
         <input
           aria-label="Search files..."
-          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
           id="glass-input-:r5:"
           placeholder="Search files..."
           value=""
@@ -59,11 +59,11 @@ exports[`GlassFileTree matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="overflow-y-auto"
+    class="glass-overflow-y-auto"
     style="max-height: 400px;"
   >
     <div
-      class="text-center glass-py-8 text-primary/60"
+      class="glass-text-center glass-py-8 glass-text-primary-glass-opacity-60"
     >
       No files to display
     </div>

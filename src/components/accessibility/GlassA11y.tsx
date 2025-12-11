@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface GlassA11yProps {
   className?: string;
@@ -39,7 +40,7 @@ interface AccessibilitySection {
 }
 
 export function GlassA11y({
-  className="",
+  className = "",
   showDashboard = true,
   onConfigChange,
   enableTesting = true,
@@ -75,7 +76,7 @@ export function GlassA11y({
     {
       id: "contrast",
       title: "High Contrast & Visual",
-      icon: <Contrast className='glass-w-5 glass-h-5' />,
+      icon: <Contrast className="glass-w-5 glass-h-5" />,
       description: "Adjust contrast levels and visual accessibility settings",
       component: () => (
         <GlassHighContrast
@@ -89,7 +90,7 @@ export function GlassA11y({
     {
       id: "motion",
       title: "Motion & Animation",
-      icon: <Move className='glass-w-5 glass-h-5' />,
+      icon: <Move className="glass-w-5 glass-h-5" />,
       description: "Control motion and animation preferences",
       component: () => (
         <GlassMotionControls
@@ -103,7 +104,7 @@ export function GlassA11y({
     {
       id: "screen-reader",
       title: "Screen Reader",
-      icon: <Volume2 className='glass-w-5 glass-h-5' />,
+      icon: <Volume2 className="glass-w-5 glass-h-5" />,
       description: "Enhanced screen reader support and descriptions",
       component: () => (
         <GlassScreenReader config={config} updateConfig={setConfig} />
@@ -113,7 +114,7 @@ export function GlassA11y({
     {
       id: "keyboard",
       title: "Keyboard Navigation",
-      icon: <Keyboard className='glass-w-5 glass-h-5' />,
+      icon: <Keyboard className="glass-w-5 glass-h-5" />,
       description: "Enhanced keyboard navigation and focus indicators",
       component: () => (
         <GlassKeyboardNav config={config} updateConfig={setConfig} />
@@ -144,7 +145,9 @@ export function GlassA11y({
 
     try {
       // Simulate test delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, ANIMATION.DURATION.slower * 1.5)
+      );
 
       // Mock test results
       const mockResults = [
@@ -253,7 +256,7 @@ export function GlassA11y({
   return (
     <div
       className={`glass-a11y-controller ${className}`}
-      style={containerStyles}
+      style={{ ...containerStyles }}
       aria-label={ariaLabel}
       data-testid={dataTestId}
     >
@@ -279,7 +282,7 @@ export function GlassA11y({
         aria-label="Toggle accessibility controls"
         title="Accessibility Settings"
       >
-        <Accessibility className='glass-w-6 glass-h-6' />
+        <Accessibility className="glass-w-6 glass-h-6" />
       </motion.button>
 
       {/* Main Panel */}
@@ -292,7 +295,11 @@ export function GlassA11y({
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
-                : { duration: isMotionReduced ? 0.1 : 0.3 }
+                : {
+                    duration: isMotionReduced
+                      ? ANIMATION.DURATION.fast / 1000
+                      : ANIMATION.DURATION.normal / 1000,
+                  }
             }
             className={cn(
               // Base glass foundation
@@ -309,9 +316,9 @@ export function GlassA11y({
           >
             {/* Header */}
             <div className="glass-p-6 glass-border-b glass-border-white/10">
-              <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
-                <h2 className='glass-text-xl glass-font-semibold glass-flex glass-items-center glass-gap-2'>
-                  <Settings className='glass-w-5 glass-h-5' />
+              <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
+                <h2 className="glass-text-xl glass-font-semibold glass-flex glass-items-center glass-gap-2">
+                  <Settings className="glass-w-5 glass-h-5" />
                   Accessibility Controls
                 </h2>
                 <div className="glass-flex glass-gap-2">
@@ -329,7 +336,7 @@ export function GlassA11y({
                     `}
                     title="Detect system preferences"
                   >
-                    <Monitor className='glass-w-4 glass-h-4' />
+                    <Monitor className="glass-w-4 glass-h-4" />
                   </button>
                   <button
                     onClick={() =>
@@ -354,7 +361,7 @@ export function GlassA11y({
                     `}
                     title="Reset to defaults"
                   >
-                    <RotateCcw className='glass-w-4 glass-h-4' />
+                    <RotateCcw className="glass-w-4 glass-h-4" />
                   </button>
                 </div>
               </div>
@@ -382,8 +389,10 @@ export function GlassA11y({
                     `}
                   >
                     <div className="glass-flex glass-items-center glass-gap-1">
-                      {setting.active && <Check className='glass-w-3 glass-h-3' />}
-                      <span className='glass-truncate'>{setting.label}</span>
+                      {setting.active && (
+                        <Check className="glass-w-3 glass-h-3" />
+                      )}
+                      <span className="glass-truncate">{setting.label}</span>
                     </div>
                   </motion.button>
                 ))}
@@ -391,7 +400,7 @@ export function GlassA11y({
             </div>
 
             {/* Content */}
-            <div className='glass-flex-1 glass-overflow-y-auto'>
+            <div className="glass-flex-1 glass-overflow-y-auto">
               {/* Tab Navigation */}
               <div className="glass-flex glass-border-b glass-border-white/10">
                 <button
@@ -455,7 +464,7 @@ export function GlassA11y({
               {/* Tab Content */}
               <div className="glass-p-6">
                 {activeTab === "overview" && (
-                  <div className='glass-space-y-4'>
+                  <div className="glass-space-y-4">
                     <div className="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm">
                       <div
                         className={`
@@ -467,7 +476,9 @@ export function GlassA11y({
                         }
                       `}
                       >
-                        <div className='glass-font-medium glass-mb-1'>Contrast</div>
+                        <div className="glass-font-medium glass-mb-1">
+                          Contrast
+                        </div>
                         <div
                           className={`capitalize ${isHighContrast ? "text-white/80" : "text-gray-600"}`}
                         >
@@ -484,7 +495,9 @@ export function GlassA11y({
                         }
                       `}
                       >
-                        <div className='glass-font-medium glass-mb-1'>Motion</div>
+                        <div className="glass-font-medium glass-mb-1">
+                          Motion
+                        </div>
                         <div
                           className={`capitalize ${isHighContrast ? "text-white/80" : "text-gray-600"}`}
                         >
@@ -501,7 +514,9 @@ export function GlassA11y({
                         }
                       `}
                       >
-                        <div className='glass-font-medium glass-mb-1'>Text Scale</div>
+                        <div className="glass-font-medium glass-mb-1">
+                          Text Scale
+                        </div>
                         <div
                           className={`${isHighContrast ? "text-white/80" : "text-gray-600"}`}
                         >
@@ -518,7 +533,9 @@ export function GlassA11y({
                         }
                       `}
                       >
-                        <div className='glass-font-medium glass-mb-1'>Color Vision</div>
+                        <div className="glass-font-medium glass-mb-1">
+                          Color Vision
+                        </div>
                         <div
                           className={`capitalize ${isHighContrast ? "text-white/80" : "text-gray-600"}`}
                         >
@@ -540,12 +557,12 @@ export function GlassA11y({
                     `}
                     >
                       <div className="glass-flex glass-items-start glass-gap-3">
-                        <Info className='glass-w-5 glass-h-5 glass-mt-0-5 glass-flex-shrink-0' />
+                        <Info className="glass-w-5 glass-h-5 glass-mt-0-5 glass-flex-shrink-0" />
                         <div>
-                          <p className='glass-font-medium glass-mb-1'>
+                          <p className="glass-font-medium glass-mb-1">
                             WCAG 2.1 AAA Compliant
                           </p>
-                          <p className='glass-text-sm glass-opacity-90'>
+                          <p className="glass-text-sm glass-opacity-90">
                             This interface meets the highest accessibility
                             standards and adapts to your needs.
                           </p>
@@ -556,7 +573,7 @@ export function GlassA11y({
                 )}
 
                 {activeTab === "sections" && (
-                  <div className='glass-space-y-3'>
+                  <div className="glass-space-y-3">
                     {sections.map((section: any) => {
                       const Component = section.component;
                       return (
@@ -579,7 +596,7 @@ export function GlassA11y({
                               <div className="glass-flex glass-items-center glass-gap-3">
                                 {section.icon}
                                 <div>
-                                  <div className='glass-font-medium'>
+                                  <div className="glass-font-medium">
                                     {section.title}
                                   </div>
                                   <div
@@ -590,9 +607,9 @@ export function GlassA11y({
                                 </div>
                               </div>
                               {section.isExpanded ? (
-                                <ChevronUp className='glass-w-5 glass-h-5' />
+                                <ChevronUp className="glass-w-5 glass-h-5" />
                               ) : (
-                                <ChevronDown className='glass-w-5 glass-h-5' />
+                                <ChevronDown className="glass-w-5 glass-h-5" />
                               )}
                             </div>
                           </button>
@@ -610,7 +627,11 @@ export function GlassA11y({
                                 transition={
                                   prefersReducedMotion
                                     ? { duration: 0 }
-                                    : { duration: isMotionReduced ? 0.1 : 0.3 }
+                                    : {
+                                        duration: isMotionReduced
+                                          ? ANIMATION.DURATION.fast / 1000
+                                          : ANIMATION.DURATION.normal / 1000,
+                                      }
                                 }
                                 className="glass-border-t glass-border-white/10"
                               >
@@ -627,9 +648,9 @@ export function GlassA11y({
                 )}
 
                 {activeTab === "testing" && enableTesting && (
-                  <div className='glass-space-y-4'>
+                  <div className="glass-space-y-4">
                     <div className="glass-flex glass-items-center glass-justify-between">
-                      <h3 className='glass-font-medium'>Accessibility Tests</h3>
+                      <h3 className="glass-font-medium">Accessibility Tests</h3>
                       <motion.button
                         onClick={runAccessibilityTests}
                         disabled={isRunningTests}
@@ -646,14 +667,14 @@ export function GlassA11y({
                         `}
                       >
                         <div className="glass-flex glass-items-center glass-gap-2">
-                          <TestTube className='glass-w-4 glass-h-4' />
+                          <TestTube className="glass-w-4 glass-h-4" />
                           {isRunningTests ? "Running..." : "Run Tests"}
                         </div>
                       </motion.button>
                     </div>
 
                     {testResults.length > 0 && (
-                      <div className='glass-space-y-3'>
+                      <div className="glass-space-y-3">
                         {testResults.map((result, index) => (
                           <div
                             key={index}
@@ -668,8 +689,10 @@ export function GlassA11y({
                               }
                             `}
                           >
-                            <div className='glass-flex glass-items-center glass-justify-between glass-mb-1'>
-                              <span className='glass-font-medium'>{result.test}</span>
+                            <div className="glass-flex glass-items-center glass-justify-between glass-mb-1">
+                              <span className="glass-font-medium">
+                                {result.test}
+                              </span>
                               <span className="glass-text-sm">
                                 {result.score}%
                               </span>
@@ -692,7 +715,7 @@ export function GlassA11y({
       </AnimatePresence>
 
       {/* Keyboard shortcut hint */}
-      <div className='glass-sr-only' role="region" aria-live="polite">
+      <div className="glass-sr-only" role="region" aria-live="polite">
         Press Alt+A to open accessibility controls
       </div>
     </div>
@@ -706,11 +729,11 @@ export function GlassHighContrast({
   isHighContrast,
 }: any) {
   return (
-    <div className='glass-space-y-4'>
-      <h4 className='glass-font-medium'>High Contrast Settings</h4>
-      <div className='glass-space-y-3'>
+    <div className="glass-space-y-4">
+      <h4 className="glass-font-medium">High Contrast Settings</h4>
+      <div className="glass-space-y-3">
         <div>
-          <label className='glass-block glass-text-sm glass-font-medium glass-mb-2'>
+          <label className="glass-block glass-text-sm glass-font-medium glass-mb-2">
             Contrast Level
           </label>
           <select
@@ -752,11 +775,11 @@ export function GlassMotionControls({
   isMotionReduced,
 }: any) {
   return (
-    <div className='glass-space-y-4'>
-      <h4 className='glass-font-medium'>Motion & Animation</h4>
-      <div className='glass-space-y-3'>
+    <div className="glass-space-y-4">
+      <h4 className="glass-font-medium">Motion & Animation</h4>
+      <div className="glass-space-y-3">
         <div>
-          <label className='glass-block glass-text-sm glass-font-medium glass-mb-2'>
+          <label className="glass-block glass-text-sm glass-font-medium glass-mb-2">
             Motion Preference
           </label>
           <select
@@ -794,9 +817,9 @@ export function GlassMotionControls({
 
 export function GlassScreenReader({ config, updateConfig }: any) {
   return (
-    <div className='glass-space-y-4'>
-      <h4 className='glass-font-medium'>Screen Reader Support</h4>
-      <div className='glass-space-y-3'>
+    <div className="glass-space-y-4">
+      <h4 className="glass-font-medium">Screen Reader Support</h4>
+      <div className="glass-space-y-3">
         <div className="glass-flex glass-items-center glass-justify-between">
           <span>Provide Long Descriptions</span>
           <button
@@ -836,9 +859,9 @@ export function GlassScreenReader({ config, updateConfig }: any) {
 
 export function GlassKeyboardNav({ config, updateConfig }: any) {
   return (
-    <div className='glass-space-y-4'>
-      <h4 className='glass-font-medium'>Keyboard Navigation</h4>
-      <div className='glass-space-y-3'>
+    <div className="glass-space-y-4">
+      <h4 className="glass-font-medium">Keyboard Navigation</h4>
+      <div className="glass-space-y-3">
         <div className="glass-flex glass-items-center glass-justify-between">
           <span>Enhanced Keyboard Navigation</span>
           <button

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   Activity,
@@ -16,6 +16,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassMetricCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -257,15 +259,15 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
         >
           <div className="glass-gap-4">
             <div className="glass-flex glass-items-center glass-justify-between">
-              <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24'></div>
-              <div className='glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md'></div>
+              <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24"></div>
+              <div className="glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md"></div>
             </div>
             <div className="glass-gap-2">
-              <div className='glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32'></div>
-              <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
+              <div className="glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32"></div>
+              <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
             </div>
             {showProgress && (
-              <div className='glass-h-2 glass-surface-subtle/10 glass-radius-md'></div>
+              <div className="glass-h-2 glass-surface-subtle/10 glass-radius-md"></div>
             )}
           </div>
         </GlassCard>
@@ -292,13 +294,13 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
             onClick && [
               "cursor-pointer",
               "hover:shadow-2xl hover:shadow-blue-500/20",
-              "transition-all duration-500 ease-out",
+              `transition-all duration-[${ANIMATION.DURATION.slow}ms] ease-out`,
             ],
             className
           )}
           {...props}
         >
-          <CardHeader className='glass-pb-2'>
+          <CardHeader className="glass-pb-2">
             <div
               className={cn(
                 "flex items-start justify-between",
@@ -321,28 +323,32 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                         "group-hover:from-white/15 group-hover:to-white/8",
                         "group-hover:border-white/30 group-hover:shadow-lg",
                         "group-hover:scale-110 group-hover:-rotate-2",
-                        "transition-all duration-300 ease-out",
+                        `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
                         variantConfig.iconColor
                       )}
                     >
                       {/* Icon glow effect */}
-                      <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-300' />
+                      <div
+                        className={`glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-[${ANIMATION.DURATION.normal}ms]`}
+                      />
                       <span
                         className={cn(
                           config.iconSize,
-                          "relative z-10 transition-transform duration-300 group-hover:scale-110"
+                          `relative z-10 transition-transform duration-[${ANIMATION.DURATION.normal}ms] group-hover:scale-110`
                         )}
                       >
                         {displayIcon}
                       </span>
                     </div>
                   )}
-                  {title}
+                  <ContrastGuard>{title}</ContrastGuard>
                 </CardTitle>
                 {description && (
-                  <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1'>
-                    {description}
-                  </p>
+                  <ContrastGuard>
+                    <p className="glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1">
+                      {description}
+                    </p>
+                  </ContrastGuard>
                 )}
               </div>
 
@@ -382,7 +388,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
             </div>
           </CardHeader>
 
-          <CardContent className='glass-pt-0'>
+          <CardContent className="glass-pt-0">
             <div
               className={cn(
                 "flex items-baseline glass-gap-2 glass-mb-4 relative",
@@ -390,9 +396,11 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
               )}
             >
               {/* Value with sophisticated hover effects */}
-              <div className='glass-relative'>
+              <div className="glass-relative">
                 {/* Background glow on hover */}
-                <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-500 glass--z-10 glass-scale-150' />
+                <div
+                  className={`glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-[${ANIMATION.DURATION.slow}ms] glass--z-10 glass-scale-150`}
+                />
 
                 <span
                   className={cn(
@@ -400,7 +408,7 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                     variantConfig.valueColor,
                     "relative z-10 font-bold tracking-tight",
                     "group-glass-hover-scale-105 group-hover:glass-text-primary",
-                    "transition-all duration-300 ease-out",
+                    `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
                     "drop-shadow-sm group-hover:drop-shadow-lg"
                   )}
                 >
@@ -409,20 +417,22 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
               </div>
 
               {unit && (
-                <span
-                  className={cn(
-                    "glass-text-lg glass-text-primary/70 font-medium relative",
-                    "group-hover:glass-text-primary/90 transition-colors duration-300"
-                  )}
-                >
-                  {unit}
-                </span>
+                <ContrastGuard>
+                  <span
+                    className={cn(
+                      "glass-text-lg glass-text-primary/70 font-medium relative",
+                      `group-hover:glass-text-primary/90 transition-colors duration-[${ANIMATION.DURATION.normal}ms]`
+                    )}
+                  >
+                    {unit}
+                  </span>
+                </ContrastGuard>
               )}
             </div>
 
             {/* Progress bar */}
             {showProgress && (
-              <div className='glass-mb-4'>
+              <div className="glass-mb-4">
                 <div
                   className={cn(
                     "w-full glass-radius-full overflow-hidden",
@@ -438,12 +448,16 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                 </div>
                 {progressLabel && (
                   <div className="glass-flex glass-justify-between glass-items-center glass-mt-2">
-                    <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
-                      {progressLabel}
-                    </span>
-                    <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
-                      {Math.round(progress)}%
-                    </span>
+                    <ContrastGuard>
+                      <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+                        {progressLabel}
+                      </span>
+                    </ContrastGuard>
+                    <ContrastGuard>
+                      <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+                        {Math.round(progress)}%
+                      </span>
+                    </ContrastGuard>
                   </div>
                 )}
               </div>
@@ -451,14 +465,18 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
 
             {/* Comparison */}
             {comparison && (
-              <div className='glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
+              <div className="glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg">
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm glass-text-primary-opacity-70'>
-                    {comparison.label}
-                  </span>
-                  <span className='glass-text-sm glass-font-medium glass-text-primary'>
-                    {comparison.value}
-                  </span>
+                  <ContrastGuard>
+                    <span className="glass-text-sm glass-text-primary-opacity-70">
+                      {comparison.label}
+                    </span>
+                  </ContrastGuard>
+                  <ContrastGuard>
+                    <span className="glass-text-sm glass-font-medium glass-text-primary">
+                      {comparison.value}
+                    </span>
+                  </ContrastGuard>
                 </div>
               </div>
             )}

@@ -10,14 +10,14 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
     class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-pattern-tools glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-pattern-tools glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
         class="glass-flex glass-items-center glass-gap-2"
       >
         <span
-          class="glass-text-sm font-medium"
+          class="glass-text-sm glass-font-medium"
         >
           Tool:
         </span>
@@ -46,7 +46,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-gap-2"
       >
         <span
-          class="glass-text-sm font-medium"
+          class="glass-text-sm glass-font-medium"
         >
           Color:
         </span>
@@ -104,7 +104,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
           Redo
         </button>
         <button
-          class="glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-px-3 glass-py-1 text-primary"
+          class="glass-focus glass-touch-target glass-contrast-guard glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-px-3 glass-py-1 glass-text-primary"
         >
           Export
         </button>
@@ -119,7 +119,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
         </span>
         <input
           aria-label="Zoom level"
-          class="w-20 glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
           max="3"
           min="0.5"
           step="0.1"
@@ -127,7 +127,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
           value="1"
         />
         <span
-          class="glass-text-sm min-w-[3ch]"
+          class="glass-text-sm glass-min-w-3ch"
         >
           100
           %
@@ -138,28 +138,28 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
       class="glass-flex glass-gap-4"
     >
       <div
-        class="w-64 space-y-4"
+        class="glass-w-64 glass-space-y-4"
       >
         <div
-          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-layer-panel glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-layer-panel glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <div
-            class="glass-flex glass-items-center glass-justify-between mb-3"
+            class="glass-flex glass-items-center glass-justify-between glass-mb-3"
           >
             <span
-              class="glass-text-sm font-medium"
+              class="glass-text-sm glass-font-medium"
             >
               Layers
             </span>
             <button
-              class="glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 text-primary glass-text-xs glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-px-2 glass-py-1 glass-radius-md glass-surface-primary/20 hover:glass-surface-primary/30 glass-text-primary glass-text-xs glass-focus glass-touch-target glass-contrast-guard"
             >
               Add
             </button>
           </div>
           <div
-            class="space-y-2"
+            class="glass-space-y-2"
           >
             <div
               class="glass-p-2 glass-radius-md border transition-colors cursor-pointer glass-focus glass-touch-target glass-contrast-guard border-primary/50 bg-primary/10"
@@ -168,7 +168,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-between"
               >
                 <span
-                  class="glass-text-sm font-medium"
+                  class="glass-text-sm glass-font-medium"
                 >
                   Layer 1
                 </span>
@@ -183,7 +183,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
                   </button>
                   <button
                     aria-label="Delete layer Layer 1"
-                    class="glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm text-primary glass-focus glass-touch-target glass-contrast-guard"
+                    class="glass-text-xs glass-px-1 hover:glass-surface-red/20 glass-radius-sm glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
                   >
                     🗑
                   </button>
@@ -199,22 +199,22 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-templates glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-templates glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-contrast-guard glass-border glass-border-glass-border/20 glass-contrast-guard"
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <div
-            class="glass-text-sm font-medium mb-3"
+            class="glass-text-sm glass-font-medium glass-mb-3"
           >
             Templates
           </div>
           <div
-            class="space-y-2"
+            class="glass-space-y-2"
           >
             <button
-              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay glass-text-left glass-focus glass-touch-target glass-contrast-guard"
             >
               <div
-                class="glass-text-sm font-medium"
+                class="glass-text-sm glass-font-medium"
               >
                 Geometric Grid
               </div>
@@ -225,10 +225,10 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
               </div>
             </button>
             <button
-              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay glass-text-left glass-focus glass-touch-target glass-contrast-guard"
             >
               <div
-                class="glass-text-sm font-medium"
+                class="glass-text-sm glass-font-medium"
               >
                 Concentric Circles
               </div>
@@ -239,10 +239,10 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
               </div>
             </button>
             <button
-              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay text-left glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-w-full glass-p-2 glass-radius-md glass-surface-overlay hover:glass-surface-overlay glass-text-left glass-focus glass-touch-target glass-contrast-guard"
             >
               <div
-                class="glass-text-sm font-medium"
+                class="glass-text-sm glass-font-medium"
               >
                 Mandala
               </div>
@@ -259,7 +259,7 @@ exports[`GlassPatternBuilder matches snapshot 1`] = `
         class="glass-flex-1"
       >
         <canvas
-          class="glass-border glass-border-glass-border/20 glass-radius-md glass-surface-subtle cursor-crosshair"
+          class="glass-border glass-border-glass-border/20 glass-radius-md glass-surface-subtle glass-cursor-crosshair"
           height="600"
           style="width: 800px; height: 600px;"
           width="800"

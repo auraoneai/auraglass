@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassTabBar Component
  *
@@ -227,7 +227,11 @@ export const GlassTabBar = forwardRef<
       },
       getActiveTab: () => activeTab || 0,
       setActiveTab: (index: number) => {
-        if (index >= 0 && index < normalizedTabs.length && !normalizedTabs[index].disabled) {
+        if (
+          index >= 0 &&
+          index < normalizedTabs.length &&
+          !normalizedTabs[index].disabled
+        ) {
           // Create a synthetic mouse event
           const syntheticEvent = {
             currentTarget:
@@ -241,7 +245,11 @@ export const GlassTabBar = forwardRef<
         }
       },
       selectTab: (index: number) => {
-        if (index >= 0 && index < normalizedTabs.length && !normalizedTabs[index].disabled) {
+        if (
+          index >= 0 &&
+          index < normalizedTabs.length &&
+          !normalizedTabs[index].disabled
+        ) {
           // Create a synthetic mouse event
           const syntheticEvent = {
             currentTarget:
@@ -1062,7 +1070,7 @@ export const GlassTabBar = forwardRef<
       $height={effectiveHeight}
       $borderRadius={borderRadius}
       className={containerClassName}
-      style={style}
+      style={{ ...(style || {}) }}
       onMouseMove={isScrolling ? handleScrollGestureMove : magneticSelector}
       onMouseLeave={isScrolling ? handleScrollGestureEnd : handleMouseLeave}
       onMouseDown={handleScrollGestureStart}
@@ -1091,9 +1099,9 @@ export const GlassTabBar = forwardRef<
 
       {/* Magnetic trail effect */}
       {animationStyle === "spring" && !finalDisableAnimation && (
-        <div className='glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-lg glass-opacity-30'>
+        <div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-lg glass-opacity-30">
           <div
-            className='glass-absolute glass-radius-full glass-surface-blue/20 glass-transition-all glass-duration-500 glass-ease-out'
+            className="glass-absolute glass-radius-full glass-surface-blue/20 glass-transition-all glass-duration-500 glass-ease-out"
             style={{
               left: `${tabMagneticData.closestTabIndex !== null ? tabMagneticData.closestTabIndex * 60 : 0}px`,
               width: "60px",

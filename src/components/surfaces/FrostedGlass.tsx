@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * FrostedGlass Component
  *
@@ -11,6 +11,8 @@ import { OptimizedGlass, Motion } from "../../primitives";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { useGlassParallax } from "../../hooks/useGlassParallax";
 import { FrostedGlassProps } from "./types";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 /**
  * FrostedGlass Component
@@ -33,7 +35,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
       interactive = true,
       padding = 16,
       intensity = 0.5,
-      frostColor = "rgba(var(--glass-color-white) / var(--glass-opacity-80))",
+      frostColor = "color-mix(in srgb, var(--glass-white) var(--glass-opacity-80), transparent)",
       animate = true,
       pattern = "noise",
       backgroundColor,
@@ -135,7 +137,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
     return (
       <Motion
         preset={shouldAnimate ? "fadeIn" : "none"}
-        className='glass-relative glass-isolate'
+        className="glass-relative glass-isolate"
       >
         <OptimizedGlass
           ref={setRefs}
@@ -152,7 +154,8 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
           className={cn(
             // Base styles
             "relative block box-border overflow-hidden isolate",
-            "transition-all duration-300",
+            `transition-all`,
+            `duration-[${ANIMATION.DURATION.normal}ms]`,
 
             // Size
             fullWidth && "w-full",
@@ -186,18 +189,16 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
                 warning:
                   "drop-shadow-[0_0_18px_var(--glass-color-warning,0.28)]",
                 danger: "drop-shadow-[0_0_18px_var(--glass-color-danger,0.28)]",
-                info: "drop-shadow-[0_0_18px_rgba(14,165,233,0.28)]",
+                info: "drop-shadow-[0_0_18px_color-mix(in_srgb,var(--glass-color-info)_28%,transparent)]",
               }[glowColor],
 
             className
           )}
-          style={
-            {
-              backgroundColor,
-              borderWidth: borderWidth > 0 ? `${borderWidth}px` : undefined,
-              ...style,
-            } as React.CSSProperties
-          }
+          style={{
+            backgroundColor,
+            borderWidth: borderWidth > 0 ? `${borderWidth}px` : undefined,
+            ...(style || {}),
+          }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           {...rest}
@@ -233,7 +234,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
 
           {/* Specular highlight and edge frost */}
           <div
-            className='glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit'
+            className="glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit"
             style={{
               // Edge frost (less aggressive)
               boxShadow: `inset 0 0 ${4 + intensity * 9}px ${frostColor}`,
@@ -243,8 +244,8 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
               // Specular highlight (dimmed)
               background: specular
                 ? `
-                radial-gradient(${intensity * 70 + 40}% ${intensity * 35 + 40}% at 50% -10%, rgba(255,255,255, ${Math.min(0.25, 0.1 + intensity * 0.22)}) 0%, rgba(255,255,255,0.0) 60%),
-                linear-gradient(${lightAngle}deg, rgba(255,255,255,0.12), rgba(255,255,255,0.00) 35%)
+                radial-gradient(${intensity * 70 + 40}% ${intensity * 35 + 40}% at 50% -10%, color-mix(in srgb, var(--glass-white) ${Math.min(25, (0.1 + intensity * 0.22) * 100)}%, transparent) 0%, color-mix(in srgb, var(--glass-white) 0%, transparent) 60%),
+                linear-gradient(${lightAngle}deg, color-mix(in srgb, var(--glass-white) 12%, transparent), color-mix(in srgb, var(--glass-white) 0%, transparent) 35%)
               `
                 : undefined,
               // Softer blending to preserve label contrast
@@ -252,12 +253,12 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
               transform: parallax
                 ? "translate(var(--glass-parallax-x), var(--glass-parallax-y))"
                 : undefined,
-              transition: "transform 150ms ease-out, opacity 300ms ease",
+              transition: `transform ${ANIMATION.DURATION.fast}ms ${ANIMATION.EASING.easeOut}, opacity ${ANIMATION.DURATION.normal}ms ${ANIMATION.EASING.ease}`,
             }}
           />
 
           {/* Content */}
-          <div className='glass-relative glass-z-10'>{children}</div>
+          <div className="glass-relative glass-z-10">{children}</div>
         </OptimizedGlass>
       </Motion>
     );

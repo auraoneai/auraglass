@@ -11,43 +11,43 @@ exports[`GlassChart matches snapshot 1`] = `
   data-patterns-count="0"
   data-usage-context="dashboard"
   role="img"
-  style="width: 100%; height: 400px; box-shadow: 0 18px 48px rgba(15, 23, 42, 0.24);"
+  style="width: 100%; height: 400px; box-shadow: var(--aura-shadow-elevation-2);"
 >
   <div
-    style="padding: 16px; height: 100%; display: flex; flex-direction: column; opacity: 1; transition: opacity 0.3s ease;"
+    style="padding: 16px; height: 100%; display: flex; flex-direction: column; opacity: 1; transition: opacity var(--glass-motion-duration-normal) var(--glass-motion-easing-standard);"
   >
     <div
       class="content"
       data-adaptive-complexity="medium"
-      style="transition: filter 0.3s ease; position: relative;"
+      style="transition: filter var(--glass-motion-duration-normal) var(--glass-motion-easing-standard); position: relative;"
     >
       <div
         class="motion-primitive glass-w-full"
       >
         <div
-          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
           data="[object Object]"
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <div
-            class="relative z-10"
+            class="glass-relative glass-z-10"
           >
             <div
               class="glass-text-primary glass-auto-gap glass-auto-gap-md glass-p-4"
             >
               <div
-                class="relative"
+                class="glass-relative"
               >
                 <svg
-                  class="overflow-visible"
+                  class="glass-overflow-visible"
                   height="100%"
                   width="100%"
                 >
                   <g
-                    class="opacity-20"
+                    class="glass-opacity-20"
                   />
                   <line
-                    class="text-primary/50"
+                    class="glass-text-primary-glass-opacity-50"
                     stroke="currentColor"
                     stroke-width="1"
                     x1="60"
@@ -56,7 +56,7 @@ exports[`GlassChart matches snapshot 1`] = `
                     y2="NaN"
                   />
                   <line
-                    class="text-primary/50"
+                    class="glass-text-primary-glass-opacity-50"
                     stroke="currentColor"
                     stroke-width="1"
                     x1="60"

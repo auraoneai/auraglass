@@ -11,12 +11,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
   >
     <button
       aria-label="Bold"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Bold"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -31,12 +31,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Italic"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Italic"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -51,12 +51,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Underline"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Underline"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -71,12 +71,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Heading"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Heading"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -91,12 +91,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Quote"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Quote"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -111,12 +111,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Bullet List"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Bullet List"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -131,12 +131,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Numbered List"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Numbered List"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -151,12 +151,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Link"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Link"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -171,12 +171,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Code"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Code"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -191,12 +191,12 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
     <button
       aria-label="Clear Formatting"
-      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-radius-md transition-all duration-200 hover:bg-white/10 active:bg-white/20 disabled:opacity-50 glass-disabled-cursor-not-allowed glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
       title="Clear Formatting"
       type="button"
     >
       <svg
-        class="w-4 h-4"
+        class="glass-w-4 glass-h-4"
         fill="none"
         viewBox="0 0 24 24"
       >
@@ -211,21 +211,21 @@ exports[`GlassRichTextEditor matches snapshot 1`] = `
     </button>
   </div>
   <div
-    class="relative"
+    class="glass-relative"
   >
     <div
       aria-disabled="false"
       aria-label="Rich text editor"
       aria-multiline="true"
       aria-readonly="false"
-      class="glass-p-4 outline-none overflow-y-auto glass-text-primary prose prose-sm max-w-none focus:ring-2 focus:ring-blue-500/50"
+      class="glass-p-4 outline-none overflow-y-auto glass-text-primary prose prose-sm max-w-none focus:ring-2 glass-focus-ring-blue-500/50"
       contenteditable="true"
       role="textbox"
       style="min-height: 200px; max-height: 400px;"
     />
     <div
       aria-hidden="true"
-      class="absolute top-0 left-0 glass-p-4 glass-text-secondary pointer-events-none select-none"
+      class="glass-absolute glass-top-0 glass-left-0 glass-p-4 glass-text-secondary glass-pointer-events-none glass-select-none"
     >
       Start typing...
     </div>

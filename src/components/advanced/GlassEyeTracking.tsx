@@ -1,16 +1,26 @@
-'use client';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+"use client";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Eye Tracking Integration
  * Gaze-responsive glass effects using WebGazer.js and device camera
  */
 
-import React, { useEffect, useRef, useState, useCallback, createContext, useContext, forwardRef } from 'react';
-import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
-import { cn } from '../../lib/utils';
-import { OptimizedGlassCore as OptimizedGlass } from '@/primitives/OptimizedGlassCore';
-import { useA11yId } from '@/utils/a11y';
-import { useMotionPreferenceContext } from '@/contexts/MotionPreferenceContext';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+  forwardRef,
+} from "react";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { cn } from "../../lib/utils";
+import { OptimizedGlassCore as OptimizedGlass } from "@/primitives/OptimizedGlassCore";
+import { useA11yId } from "@/utils/a11y";
+import { useMotionPreferenceContext } from "@/contexts/MotionPreferenceContext";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Eye tracking data types
 interface GazePoint {
@@ -33,7 +43,7 @@ interface GazeInteraction {
   region: GazeRegion;
   duration: number;
   intensity: number;
-  type: 'fixation' | 'saccade' | 'pursuit' | 'drift';
+  type: "fixation" | "saccade" | "pursuit" | "drift";
   startTime: number;
   endTime: number;
 }
@@ -41,7 +51,10 @@ interface GazeInteraction {
 interface EyeTrackingCalibration {
   isCalibrated: boolean;
   accuracy: number;
-  points: Array<{ screen: { x: number; y: number }; gaze: { x: number; y: number } }>;
+  points: Array<{
+    screen: { x: number; y: number };
+    gaze: { x: number; y: number };
+  }>;
 }
 
 // WebGazer integration class
@@ -55,20 +68,20 @@ class WebGazerIntegration {
   async initialize(): Promise<boolean> {
     try {
       // Check if WebGazer is already loaded
-      if (typeof window !== 'undefined' && !(window as any).webgazer) {
+      if (typeof window !== "undefined" && !(window as any).webgazer) {
         // Dynamically load WebGazer
         await this.loadWebGazer();
       }
 
       const webgazer = (window as any).webgazer;
       if (!webgazer) {
-        throw new Error('WebGazer failed to load');
+        throw new Error("WebGazer failed to load");
       }
 
       // Initialize WebGazer
       await webgazer
-        .setRegression('ridge')
-        .setTracker('TFFacemesh')
+        .setRegression("ridge")
+        .setTracker("TFFacemesh")
         .setGazeListener((data: any, timestamp: number) => {
           if (data) {
             const gazePoint: GazePoint = {
@@ -89,19 +102,18 @@ class WebGazerIntegration {
 
       this.isInitialized = true;
       return true;
-
     } catch (error) {
-      console.warn('Failed to initialize eye tracking:', error);
+      console.warn("Failed to initialize eye tracking:", error);
       return false;
     }
   }
 
   private async loadWebGazer(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://webgazer.cs.brown.edu/webgazer.js';
+      const script = document.createElement("script");
+      script.src = "https://webgazer.cs.brown.edu/webgazer.js";
       script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load WebGazer'));
+      script.onerror = () => reject(new Error("Failed to load WebGazer"));
       document.head.appendChild(script);
     });
   }
@@ -120,9 +132,15 @@ class WebGazerIntegration {
     if (!this.isInitialized) return;
 
     this.calibrationPoints = [
-      { x: 0.1, y: 0.1 }, { x: 0.5, y: 0.1 }, { x: 0.9, y: 0.1 },
-      { x: 0.1, y: 0.5 }, { x: 0.5, y: 0.5 }, { x: 0.9, y: 0.5 },
-      { x: 0.1, y: 0.9 }, { x: 0.5, y: 0.9 }, { x: 0.9, y: 0.9 }
+      { x: 0.1, y: 0.1 },
+      { x: 0.5, y: 0.1 },
+      { x: 0.9, y: 0.1 },
+      { x: 0.1, y: 0.5 },
+      { x: 0.5, y: 0.5 },
+      { x: 0.9, y: 0.5 },
+      { x: 0.1, y: 0.9 },
+      { x: 0.5, y: 0.9 },
+      { x: 0.9, y: 0.9 },
     ];
   }
 
@@ -132,9 +150,9 @@ class WebGazerIntegration {
     const webgazer = (window as any).webgazer;
     if (webgazer) {
       // Add calibration point
-      await new Promise(resolve => {
-        webgazer.recordScreenPosition(x, y, 'click');
-        setTimeout(resolve, 1000); // Allow time for calibration
+      await new Promise((resolve) => {
+        webgazer.recordScreenPosition(x, y, "click");
+        setTimeout(resolve, ANIMATION.DURATION.fast); // Allow time for calibration
       });
     }
   }
@@ -185,7 +203,7 @@ class EyeTrackingEngine {
 
     // Add to history
     this.gazeHistory.push(gaze);
-    
+
     // Keep only recent history
     if (this.gazeHistory.length > 1000) {
       this.gazeHistory = this.gazeHistory.slice(-500);
@@ -203,8 +221,8 @@ class EyeTrackingEngine {
 
     const previousGaze = this.gazeHistory[this.gazeHistory.length - 2];
     const distance = Math.sqrt(
-      Math.pow(currentGaze.x - previousGaze.x, 2) + 
-      Math.pow(currentGaze.y - previousGaze.y, 2)
+      Math.pow(currentGaze.x - previousGaze.x, 2) +
+        Math.pow(currentGaze.y - previousGaze.y, 2)
     );
 
     const timeDiff = currentGaze.timestamp - previousGaze.timestamp;
@@ -227,15 +245,19 @@ class EyeTrackingEngine {
       if (existingInteraction) {
         // Update existing interaction
         existingInteraction.endTime = gaze.timestamp;
-        existingInteraction.duration = gaze.timestamp - existingInteraction.startTime;
-        existingInteraction.intensity = Math.min(1, existingInteraction.intensity + 0.1);
+        existingInteraction.duration =
+          gaze.timestamp - existingInteraction.startTime;
+        existingInteraction.intensity = Math.min(
+          1,
+          existingInteraction.intensity + 0.1
+        );
       } else {
         // Start new interaction
         this.activeInteractions.set(region.id, {
           region,
           duration: 0,
           intensity: 0.1,
-          type: 'fixation',
+          type: "fixation",
           startTime: gaze.timestamp,
           endTime: gaze.timestamp,
         });
@@ -253,7 +275,7 @@ class EyeTrackingEngine {
       const fromInteraction = this.activeInteractions.get(fromRegion.id);
       if (fromInteraction) {
         fromInteraction.endTime = from.timestamp;
-        fromInteraction.type = 'saccade';
+        fromInteraction.type = "saccade";
       }
 
       // Start interaction with new region
@@ -261,7 +283,7 @@ class EyeTrackingEngine {
         region: toRegion,
         duration: 0,
         intensity: 0.1,
-        type: 'saccade',
+        type: "saccade",
         startTime: to.timestamp,
         endTime: to.timestamp,
       });
@@ -270,12 +292,13 @@ class EyeTrackingEngine {
 
   private checkRegionInteractions(gaze: GazePoint): void {
     const currentRegion = this.findRegionAt(gaze.x, gaze.y);
-    
+
     // End interactions for regions that are no longer being gazed at
     this.activeInteractions.forEach((interaction, regionId) => {
       if (!currentRegion || regionId !== currentRegion.id) {
         const timeSinceEnd = gaze.timestamp - interaction.endTime;
-        if (timeSinceEnd > 500) { // 500ms timeout
+        if (timeSinceEnd > 500) {
+          // 500ms timeout
           this.activeInteractions.delete(regionId);
         }
       }
@@ -284,8 +307,12 @@ class EyeTrackingEngine {
 
   private findRegionAt(x: number, y: number): GazeRegion | null {
     for (const region of this.regions.values()) {
-      if (x >= region.x && x <= region.x + region.width &&
-          y >= region.y && y <= region.y + region.height) {
+      if (
+        x >= region.x &&
+        x <= region.x + region.width &&
+        y >= region.y &&
+        y <= region.y + region.height
+      ) {
         return region;
       }
     }
@@ -361,17 +388,21 @@ export function GlassEyeTrackingProvider({
   const engineRef = useRef<EyeTrackingEngine | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [isCalibrating, setIsCalibrating] = useState(false);
-  const [activeInteractions, setActiveInteractions] = useState<GazeInteraction[]>([]);
+  const [activeInteractions, setActiveInteractions] = useState<
+    GazeInteraction[]
+  >([]);
 
   // Initialize engine
   useEffect(() => {
     engineRef.current = new EyeTrackingEngine();
 
     if (autoInitialize) {
-      engineRef.current.initialize().then(success => {
+      engineRef.current.initialize().then((success) => {
         setIsInitialized(success);
         if (!success) {
-          console.warn('Eye tracking initialization failed. Using fallback mode.');
+          console.warn(
+            "Eye tracking initialization failed. Using fallback mode."
+          );
         }
       });
     }
@@ -390,24 +421,26 @@ export function GlassEyeTrackingProvider({
     const interval = setInterval(() => {
       const interactions = engineRef.current!.getActiveInteractions();
       setActiveInteractions(interactions);
-      
+
       // Trigger callback for new interactions
-      interactions.forEach((interaction: any) => onGazeInteraction?.(interaction));
-    }, 100);
+      interactions.forEach((interaction: any) =>
+        onGazeInteraction?.(interaction)
+      );
+    }, ANIMATION.DURATION.fast / 10);
 
     return () => clearInterval(interval);
   }, [isInitialized, onGazeInteraction]);
 
   const startCalibration = useCallback(async () => {
     if (!engineRef.current) return;
-    
+
     setIsCalibrating(true);
     await engineRef.current.startCalibration();
   }, []);
 
   const finishCalibration = useCallback(() => {
     if (!engineRef.current) return;
-    
+
     engineRef.current.finishCalibration();
     setIsCalibrating(false);
   }, []);
@@ -432,7 +465,9 @@ export function GlassEyeTrackingProvider({
 export function useEyeTracking() {
   const context = useContext(EyeTrackingContext);
   if (!context) {
-    throw new Error('useEyeTracking must be used within GlassEyeTrackingProvider');
+    throw new Error(
+      "useEyeTracking must be used within GlassEyeTrackingProvider"
+    );
   }
   return context;
 }
@@ -446,14 +481,21 @@ export function GlassEyeTrackingCalibration({
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
-  const { startCalibration, finishCalibration, isCalibrating } = useEyeTracking();
+  const { startCalibration, finishCalibration, isCalibrating } =
+    useEyeTracking();
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isCalibrationActive, setIsCalibrationActive] = useState(false);
 
   const calibrationPoints = [
-    { x: 10, y: 10 }, { x: 50, y: 10 }, { x: 90, y: 10 },
-    { x: 10, y: 50 }, { x: 50, y: 50 }, { x: 90, y: 50 },
-    { x: 10, y: 90 }, { x: 50, y: 90 }, { x: 90, y: 90 }
+    { x: 10, y: 10 },
+    { x: 50, y: 10 },
+    { x: 90, y: 10 },
+    { x: 10, y: 50 },
+    { x: 50, y: 50 },
+    { x: 90, y: 50 },
+    { x: 10, y: 90 },
+    { x: 50, y: 90 },
+    { x: 90, y: 90 },
   ];
 
   const handleStartCalibration = async () => {
@@ -462,7 +504,10 @@ export function GlassEyeTrackingCalibration({
     setCurrentPoint(0);
   };
 
-  const handlePointClick = async (point: { x: number; y: number }, index: number) => {
+  const handlePointClick = async (
+    point: { x: number; y: number },
+    index: number
+  ) => {
     if (!isCalibrationActive) return;
 
     // Convert percentage to screen coordinates
@@ -488,71 +533,125 @@ export function GlassEyeTrackingCalibration({
 
   if (!isCalibrating && !isCalibrationActive) {
     return (
-      <div className={cn("glass-flex glass-flex-col glass-items-center glass-gap-4", className)}>
-        <div className={cn("glass-text-center")}>
-          <h3 className={cn("glass-text-lg glass-font-medium glass-text-primary glass-mb-2")}>
-            Eye Tracking Calibration
-          </h3>
-          <p className={cn("glass-text-sm glass-text-secondary glass-mb-4")}>
-            Look at each dot and click to calibrate your gaze tracking
-          </p>
-          <motion.button
-            className={cn(
-              "glass-px-6 glass-py-3 glass-surface-primary glass-elev-2 glass-radius-lg",
-              "glass-text-primary font-medium transition-all duration-300",
-              "hover:glass-elev-3 focus:outline-none focus:ring-2 glass-focus-ring-blue-500"
-            )}
-            onClick={handleStartCalibration}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Start Calibration
-          </motion.button>
+      <ContrastGuard>
+        <div
+          className={cn(
+            "glass-flex glass-flex-col glass-items-center glass-gap-4",
+            className
+          )}
+        >
+          <div className={cn("glass-text-center")}>
+            <h3
+              className={cn(
+                "glass-text-lg glass-font-medium glass-text-primary glass-mb-2"
+              )}
+            >
+              Eye Tracking Calibration
+            </h3>
+            <p className={cn("glass-text-sm glass-text-secondary glass-mb-4")}>
+              Look at each dot and click to calibrate your gaze tracking
+            </p>
+            <motion.button
+              className={cn(
+                "glass-px-6 glass-py-3 glass-surface-primary glass-elev-2 glass-radius-lg",
+                "glass-text-primary font-medium transition-all",
+                { transitionDuration: "var(--glass-motion-duration-normal)" },
+                "hover:glass-elev-3 focus:outline-none focus:ring-2 glass-focus-ring-blue-500"
+              )}
+              onClick={handleStartCalibration}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+              transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+              aria-label="Start eye tracking calibration"
+            >
+              Start Calibration
+            </motion.button>
+          </div>
         </div>
-      </div>
+      </ContrastGuard>
     );
   }
 
   if (isCalibrationActive) {
     return (
-      <div className={cn("fixed inset-0 z-50 glass-surface-primary", className)}>
+      <div
+        className={cn("fixed inset-0 z-50 glass-surface-primary", className)}
+      >
         <div className={cn("glass-absolute glass-inset-0")}>
           <div className={cn("glass-relative glass-w-full glass-h-full")}>
             {/* Progress */}
-            <div className={cn("glass-absolute glass-top-4 glass-left-1-2 glass-translate-x-1/2-neg")}> 
-              <div className={cn("glass-surface-secondary glass-radius-lg glass-px-4 glass-py-2")}>
-                <span className={cn("glass-text-sm glass-text-primary")}>
-                  Point {currentPoint + 1} of {calibrationPoints.length}
-                </span>
+            <ContrastGuard>
+              <div
+                className={cn(
+                  "glass-absolute glass-top-4 glass-left-1-2 glass-translate-x-1/2-neg"
+                )}
+                role="status"
+                aria-label={`Calibration progress: point ${currentPoint + 1} of ${calibrationPoints.length}`}
+              >
+                <div
+                  className={cn(
+                    "glass-surface-secondary glass-radius-lg glass-px-4 glass-py-2"
+                  )}
+                >
+                  <span className={cn("glass-text-sm glass-text-primary")}>
+                    Point {currentPoint + 1} of {calibrationPoints.length}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Instructions */}
-            <div className={cn("glass-absolute glass-top-20 glass-left-1-2 glass-translate-x-1/2-neg glass-text-center")}> 
-              <p className={cn("glass-text-lg glass-text-primary glass-mb-2")}>
-                Look at the blue dot and click it
-              </p>
-              <p className={cn("glass-text-sm glass-text-secondary")}>
-                Keep your head still and follow the dot with your eyes
-              </p>
-            </div>
+              {/* Instructions */}
+              <div
+                className={cn(
+                  "glass-absolute glass-top-20 glass-left-1-2 glass-translate-x-1/2-neg glass-text-center"
+                )}
+              >
+                <p
+                  className={cn("glass-text-lg glass-text-primary glass-mb-2")}
+                >
+                  Look at the blue dot and click it
+                </p>
+                <p className={cn("glass-text-sm glass-text-secondary")}>
+                  Keep your head still and follow the dot with your eyes
+                </p>
+              </div>
+            </ContrastGuard>
 
             {/* Calibration points */}
             {calibrationPoints.map((point, index) => (
               <motion.div
                 key={index}
-                className={cn("glass-absolute glass-w-4 glass-h-4 glass-translate-x-1/2-neg glass-translate-y-1/2-neg glass-cursor-pointer glass-focus")}
-                ref={(el)=>{ if(el){ el.style.left = `${point.x}%`; el.style.top = `${point.y}%`; }}}
+                className={cn(
+                  "glass-absolute glass-w-4 glass-h-4 glass-translate-x-1/2-neg glass-translate-y-1/2-neg glass-cursor-pointer glass-focus"
+                )}
+                ref={(el) => {
+                  if (el) {
+                    el.style.left = `${point.x}%`;
+                    el.style.top = `${point.y}%`;
+                  }
+                }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{
-                  scale: index === currentPoint ? [1, 1.2, 1] : index < currentPoint ? 1 : 0,
+                  scale:
+                    index === currentPoint
+                      ? [1, 1.2, 1]
+                      : index < currentPoint
+                        ? 1
+                        : 0,
                   opacity: index <= currentPoint ? 1 : 0.3,
                 }}
-                transition={prefersReducedMotion ? { duration: 0 } : {
-    duration: index === currentPoint ? 0.5 : 0.2,
-    repeat: index === currentPoint ? Infinity : 0,
-                }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : {
+                        duration:
+                          index === currentPoint
+                            ? ANIMATION.DURATION.slow / 1000
+                            : ANIMATION.DURATION.fast / 1000,
+                        repeat: index === currentPoint ? Infinity : 0,
+                      }
+                }
                 onClick={() => handlePointClick(point, index)}
+                aria-label={`Calibration point ${index + 1} of ${calibrationPoints.length}`}
               >
                 <div
                   className={cn(
@@ -560,8 +659,8 @@ export function GlassEyeTrackingCalibration({
                     index === currentPoint
                       ? "glass-surface-accent glass-ring-4 glass-ring-accent/30"
                       : index < currentPoint
-                      ? "glass-surface-success"
-                      : "glass-surface-muted"
+                        ? "glass-surface-success"
+                        : "glass-surface-muted"
                   )}
                 />
               </motion.div>
@@ -609,7 +708,7 @@ export function GlassGazeResponsive({
 
     const element = elementRef.current;
     const rect = element.getBoundingClientRect();
-    
+
     const region: GazeRegion = {
       id: regionId,
       x: rect.left,
@@ -633,19 +732,21 @@ export function GlassGazeResponsive({
       });
     };
 
-    window.addEventListener('resize', updateRegion);
-    window.addEventListener('scroll', updateRegion);
+    window.addEventListener("resize", updateRegion);
+    window.addEventListener("scroll", updateRegion);
 
     return () => {
       engine.unregisterRegion(regionId);
-      window.removeEventListener('resize', updateRegion);
-      window.removeEventListener('scroll', updateRegion);
+      window.removeEventListener("resize", updateRegion);
+      window.removeEventListener("scroll", updateRegion);
     };
   }, [engine, regionId]);
 
   // Track gaze interactions
   useEffect(() => {
-    const interaction = activeInteractions.find(i => i.region.id === regionId);
+    const interaction = activeInteractions.find(
+      (i) => i.region.id === regionId
+    );
 
     if (interaction && !isGazed) {
       setIsGazed(true);
@@ -660,41 +761,58 @@ export function GlassGazeResponsive({
       setGazeIntensity(interaction.intensity);
       onGazeIntensityChange?.(interaction.intensity);
     }
-  }, [activeInteractions, regionId, isGazed, onGazeEnter, onGazeLeave, onGazeIntensityChange]);
+  }, [
+    activeInteractions,
+    regionId,
+    isGazed,
+    onGazeEnter,
+    onGazeLeave,
+    onGazeIntensityChange,
+  ]);
 
   return (
     <motion.div
       ref={elementRef}
       className={cn(
-        "transition-all duration-300",
-        glassIntensity && isGazed && "OptimizedGlassCore intensity={0.2} glassBlur={6}",
+        "transition-all",
+        { transitionDuration: "var(--glass-motion-duration-normal)" },
+        glassIntensity && isGazed && "glass-surface-primary glass-elev-2",
         className
       )}
       animate={{
         scale: isGazed ? 1 + gazeIntensity * 0.02 : 1,
-        ...(glassBlur && {
-          // Use createGlassStyle() instead,
-        }),
+        ...(glassBlur &&
+          {
+            // Use createGlassStyle() instead,
+          }),
         ...(glassRadius && {
           borderRadius: `${8 + gazeIntensity * 4}px`,
         }),
       }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: ANIMATION.DURATION.normal / 1000 }
+      }
       // background color applied via ref assignment above
     >
       {children}
-      
+
       {/* Gaze indicator */}
       <AnimatePresence>
         {isGazed && (
           <motion.div
-            className={cn("glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit")}
+            className={cn(
+              "glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit"
+            )}
             initial={{ opacity: 0 }}
             animate={prefersReducedMotion ? {} : { opacity: 0.8 }}
             exit={{ opacity: 0 }}
           >
-            <div 
-              className={cn("glass-absolute glass-inset-0 glass-radius-inherit")}
+            <div
+              className={cn(
+                "glass-absolute glass-inset-0 glass-radius-inherit"
+              )}
               style={{
                 boxShadow: `inset 0 0 ${20 + gazeIntensity * 30}px var(--glass-color-primary, ${0.2 + gazeIntensity * 0.3})`,
               }}
@@ -719,22 +837,47 @@ export function GlassGazeVisualization({
   if (!show) return null;
 
   return (
-    <div className={cn("glass-fixed glass-inset-0 glass-pointer-events-none glass-z-40", className)}>
+    <div
+      className={cn(
+        "glass-fixed glass-inset-0 glass-pointer-events-none glass-z-40",
+        className
+      )}
+    >
       <AnimatePresence>
         {activeInteractions.map((interaction: any) => (
           <motion.div
             key={interaction.region.id}
             className="glass-absolute"
-            ref={(el)=>{ if(!el) return; const r=interaction.region as any; el.style.left = typeof r.x==='number'? `${r.x}px` : r.x; el.style.top = typeof r.y==='number'? `${r.y}px` : r.y; el.style.width = typeof r.width==='number'? `${r.width}px` : r.width; el.style.height = typeof r.height==='number'? `${r.height}px` : r.height; }}
+            ref={(el) => {
+              if (!el) return;
+              const r = interaction.region as any;
+              el.style.left = typeof r.x === "number" ? `${r.x}px` : r.x;
+              el.style.top = typeof r.y === "number" ? `${r.y}px` : r.y;
+              el.style.width =
+                typeof r.width === "number" ? `${r.width}px` : r.width;
+              el.style.height =
+                typeof r.height === "number" ? `${r.height}px` : r.height;
+            }}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 0.6, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
           >
             <div
-              className={cn("glass-w-full glass-h-full glass-border-2 glass-radius-md")}
-              ref={(el)=>{ if(!el) return; const a=interaction.intensity; el.style.borderColor = `var(--glass-color-primary,${a})`; el.style.backgroundColor = `var(--glass-color-primary,${a*0.1})`; }}
+              className={cn(
+                "glass-w-full glass-h-full glass-border-2 glass-radius-md"
+              )}
+              ref={(el) => {
+                if (!el) return;
+                const a = interaction.intensity;
+                el.style.borderColor = `var(--glass-color-primary,${a})`;
+                el.style.backgroundColor = `var(--glass-color-primary,${a * 0.1})`;
+              }}
             />
-            <div className={cn("glass-absolute glass--top-2 glass-left-0 glass-text-xs glass-font-mono glass-text-primary")}> 
+            <div
+              className={cn(
+                "glass-absolute glass--top-2 glass-left-0 glass-text-xs glass-font-mono glass-text-primary"
+              )}
+            >
               {interaction.type} ({(interaction.intensity * 100).toFixed(0)}%)
             </div>
           </motion.div>
@@ -788,33 +931,39 @@ function EyeTrackingSummaryCard() {
       )}
       data-testid="glass-eye-tracking-summary"
     >
-      <div>
-        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-          Eye tracking
-        </p>
-        <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
-          {isInitialized ? "Active" : "Initializing"}
-        </h2>
-        <p className="glass-text-sm glass-text-secondary">
-          {isCalibrating
-            ? "Calibration in progress"
-            : "Capturing gaze interactions"}
-        </p>
-      </div>
-      <div className="glass-grid glass-grid-cols-2 glass-gap-3">
-        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Interactions</p>
-          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
-            {activeInteractions.length}
+      <ContrastGuard>
+        <div>
+          <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+            Eye tracking
+          </p>
+          <h2 className="glass-text-2xl glass-text-primary glass-font-semibold">
+            {isInitialized ? "Active" : "Initializing"}
+          </h2>
+          <p className="glass-text-sm glass-text-secondary">
+            {isCalibrating
+              ? "Calibration in progress"
+              : "Capturing gaze interactions"}
           </p>
         </div>
-        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Status</p>
-          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
-            {isCalibrating ? "Calibrating" : "Tracking"}
-          </p>
+        <div className="glass-grid glass-grid-cols-2 glass-gap-3">
+          <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+            <p className="glass-text-xs glass-text-tertiary glass-mb-1">
+              Interactions
+            </p>
+            <p className="glass-text-lg glass-text-primary glass-font-semibold">
+              {activeInteractions.length}
+            </p>
+          </div>
+          <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+            <p className="glass-text-xs glass-text-tertiary glass-mb-1">
+              Status
+            </p>
+            <p className="glass-text-lg glass-text-primary glass-font-semibold">
+              {isCalibrating ? "Calibrating" : "Tracking"}
+            </p>
+          </div>
         </div>
-      </div>
+      </ContrastGuard>
     </div>
   );
 }

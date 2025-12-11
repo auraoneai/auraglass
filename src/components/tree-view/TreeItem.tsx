@@ -1,17 +1,29 @@
-'use client';
+"use client";
 /**
  * TreeItem Component
  *
  * A item component for the TreeView.
  */
-import React, { forwardRef, useContext, useRef, useMemo, useState, useEffect, useLayoutEffect } from 'react';
-import { cn } from '@/lib/utils';
+import React, {
+  forwardRef,
+  useContext,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
+  useLayoutEffect,
+} from "react";
+import { cn } from "@/lib/utils";
 
-import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { useAnimationContext } from '../../contexts/AnimationContext';
-import { SpringConfig, SpringPresets } from '../../animations/physics/springPhysics';
-import { TreeViewContext } from './TreeView';
-import styles from './TreeItem.module.css';
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { useAnimationContext } from "../../contexts/AnimationContext";
+import {
+  SpringConfig,
+  SpringPresets,
+} from "../../animations/physics/springPhysics";
+import { ANIMATION } from "../../tokens/designConstants";
+import { TreeViewContext } from "./TreeView";
+import styles from "./TreeItem.module.css";
 
 // TreeItem props interface
 interface TreeItemProps extends React.HTMLAttributes<HTMLLIElement> {
@@ -32,19 +44,43 @@ interface TreeItemProps extends React.HTMLAttributes<HTMLLIElement> {
 
 // Default icons
 const DefaultExpandIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z" fill="currentColor" />
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
 const DefaultCollapseIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="currentColor" />
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
 const DefaultEndIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <circle cx="12" cy="12" r="4" fill="currentColor" />
   </svg>
 );
@@ -52,7 +88,10 @@ const DefaultEndIcon = () => (
 /**
  * TreeItem Component Implementation
  */
-function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIElement>) {
+function TreeItemComponent(
+  props: TreeItemProps,
+  ref: React.ForwardedRef<HTMLLIElement>
+) {
   const {
     nodeId,
     label,
@@ -84,7 +123,7 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
   const treeContext = useContext(TreeViewContext);
 
   if (!treeContext) {
-    throw new Error('TreeItem must be used within a TreeView');
+    throw new Error("TreeItem must be used within a TreeView");
   }
 
   const {
@@ -119,27 +158,27 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
   const finalSpringConfig = useMemo(() => {
     const baseConfig: SpringConfig = SpringPresets.default;
     let contextConfig: Partial<SpringConfig> = {};
-    if (typeof defaultSpring === 'string' && defaultSpring in SpringPresets) {
-      contextConfig = SpringPresets[defaultSpring as keyof typeof SpringPresets];
-    } else if (typeof defaultSpring === 'object') {
+    if (typeof defaultSpring === "string" && defaultSpring in SpringPresets) {
+      contextConfig =
+        SpringPresets[defaultSpring as keyof typeof SpringPresets];
+    } else if (typeof defaultSpring === "object") {
       contextConfig = defaultSpring ?? {};
     }
 
     let propConfig: Partial<SpringConfig> = {};
     const propSource = animationConfig;
-    if (typeof propSource === 'string' && propSource in SpringPresets) {
+    if (typeof propSource === "string" && propSource in SpringPresets) {
       propConfig = SpringPresets[propSource as keyof typeof SpringPresets];
-    } else if (typeof propSource === 'object') {
+    } else if (typeof propSource === "object") {
       propConfig = propSource ?? {};
     }
 
     // Return merged config
     return { ...baseConfig, ...contextConfig, ...propConfig };
-
   }, [defaultSpring, animationConfig]);
 
   // State for measuring height
-  const [measuredHeight, setMeasuredHeight] = useState<number | 'auto'>('auto');
+  const [measuredHeight, setMeasuredHeight] = useState<number | "auto">("auto");
 
   // UseLayoutEffect to measure height before animation
   useLayoutEffect(() => {
@@ -147,14 +186,15 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
     if (isExpanded && childrenRef.current) {
       // Use requestAnimationFrame to defer measurement slightly
       rafId = requestAnimationFrame(() => {
-        if (childrenRef.current) { // Check ref again inside RAF
+        if (childrenRef.current) {
+          // Check ref again inside RAF
           const height = childrenRef.current.scrollHeight;
           setMeasuredHeight(height);
         }
       });
     } else {
-        // Set to 0 when collapsed or no children
-        setMeasuredHeight(0);
+      // Set to 0 when collapsed or no children
+      setMeasuredHeight(0);
     }
 
     // Cleanup RAF on effect change or unmount
@@ -166,25 +206,35 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
   }, [isExpanded, children]); // Rerun when expansion state or children change
 
   // Define spring targets using useMemo
-  const animationTargets = useMemo(() => ({
+  const animationTargets = useMemo(
+    () => ({
       // Use measuredHeight, ensuring it's a number for the spring
-      height: isExpanded && typeof measuredHeight === 'number' ? measuredHeight : 0,
+      height:
+        isExpanded && typeof measuredHeight === "number" ? measuredHeight : 0,
       opacity: isExpanded ? 1 : 0,
-  }), [isExpanded, measuredHeight]);
+    }),
+    [isExpanded, measuredHeight]
+  );
 
   // Simple animation style calculation
-  const animatedStyle = finalDisableAnimation ? {
-    height: animationTargets.height,
-    opacity: animationTargets.opacity,
-    transform: isExpanded ? 'perspective(800px) rotateX(0deg)' : 'perspective(800px) rotateX(-5deg)',
-    transformOrigin: 'top',
-  } : {
-    height: animationTargets.height,
-    opacity: animationTargets.opacity,
-    transform: isExpanded ? 'perspective(800px) rotateX(0deg)' : 'perspective(800px) rotateX(-5deg)',
-    transformOrigin: 'top',
-    transition: 'height 0.3s ease, opacity 0.3s ease, transform 0.28s ease',
-  };
+  const animatedStyle = finalDisableAnimation
+    ? {
+        height: animationTargets.height,
+        opacity: animationTargets.opacity,
+        transform: isExpanded
+          ? "perspective(800px) rotateX(0deg)"
+          : "perspective(800px) rotateX(-5deg)",
+        transformOrigin: "top",
+      }
+    : {
+        height: animationTargets.height,
+        opacity: animationTargets.opacity,
+        transform: isExpanded
+          ? "perspective(800px) rotateX(0deg)"
+          : "perspective(800px) rotateX(-5deg)",
+        transformOrigin: "top",
+        transition: `height ${ANIMATION.DURATION.normal}ms ${ANIMATION.EASING.ease}, opacity ${ANIMATION.DURATION.normal}ms ${ANIMATION.EASING.ease}, transform ${ANIMATION.DURATION.normal}ms ${ANIMATION.EASING.ease}`,
+      };
 
   // Handle click event
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -211,20 +261,20 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
     if (finalDisabled) return;
 
     switch (event.key) {
-      case ' ':
-      case 'Enter':
+      case " ":
+      case "Enter":
         event.preventDefault();
         if (selectNode) {
           selectNode(nodeId);
         }
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         event.preventDefault();
         if (hasChildren && !isExpanded && toggleNode) {
           toggleNode(nodeId);
         }
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         event.preventDefault();
         if (hasChildren && isExpanded && toggleNode) {
           toggleNode(nodeId);
@@ -256,8 +306,8 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
   };
 
   const sizeClass =
-    (size === 'small' && styles.sizeSmall) ||
-    (size === 'large' && styles.sizeLarge) ||
+    (size === "small" && styles.sizeSmall) ||
+    (size === "large" && styles.sizeLarge) ||
     styles.sizeMedium;
 
   const contentClassName = cn(
@@ -267,23 +317,27 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
     finalDisabled && styles.disabled,
     isSelected && styles.selected,
     isFocused && styles.focused,
-    'glass-focus glass-touch-target glass-contrast-guard'
+    "glass-focus glass-touch-target glass-contrast-guard"
   );
 
-  const toggleIconClass = cn(styles.icon, hasChildren && styles.toggleIcon, hasChildren && 'glass-focus glass-touch-target');
+  const toggleIconClass = cn(
+    styles.icon,
+    hasChildren && styles.toggleIcon,
+    hasChildren && "glass-focus glass-touch-target"
+  );
   const iconClass = cn(styles.icon);
   const labelClass = styles.label;
   const rootClass = cn(styles.root, className);
 
   const itemStyleVars: React.CSSProperties | undefined = color
-    ? ({ '--tree-view-color': color } as React.CSSProperties)
+    ? ({ "--tree-view-color": color } as React.CSSProperties)
     : undefined;
 
   return (
     <li
       ref={ref}
       className={rootClass}
-      style={style}
+      style={{ ...(style ?? {}) }}
       role="treeitem"
       aria-expanded={hasChildren ? isExpanded : undefined}
       aria-selected={isSelected}
@@ -298,12 +352,12 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
         tabIndex={finalDisabled ? -1 : 0}
         aria-disabled={finalDisabled}
         className={contentClassName}
-        style={itemStyleVars}
+        style={{ ...(itemStyleVars ?? {}) }}
       >
         <div
           onClick={hasChildren ? handleToggle : undefined}
           className={toggleIconClass}
-          role={hasChildren ? 'button' : undefined}
+          role={hasChildren ? "button" : undefined}
           aria-hidden={!hasChildren}
         >
           {renderToggleIcon()}
@@ -322,7 +376,7 @@ function TreeItemComponent(props: TreeItemProps, ref: React.ForwardedRef<HTMLLIE
           className={styles.children}
           style={{
             ...animatedStyle,
-            willChange: 'height, opacity, transform',
+            willChange: "height, opacity, transform",
           }}
         >
           {children}
@@ -348,7 +402,7 @@ const GlassTreeItem = forwardRef<HTMLLIElement, TreeItemProps>((props, ref) => (
   <TreeItem {...props} glass={true} ref={ref} />
 ));
 
-GlassTreeItem.displayName = 'GlassTreeItem';
+GlassTreeItem.displayName = "GlassTreeItem";
 
 export default TreeItem;
 export { TreeItem, GlassTreeItem };

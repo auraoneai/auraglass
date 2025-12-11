@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 import { GlassInput } from "./GlassInput";
 
@@ -16,6 +16,9 @@ import {
   keyboardHandlers,
   focusUtils,
 } from "../../utils/a11y";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface SelectOption {
   value: string | number;
@@ -369,8 +372,12 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
     return (
       <div
         data-glass-component
-        data-testid={props['data-testid'] || 'glassselect'}
-        className={cn("relative inline-block", { "w-full": fullWidth }, className)}
+        data-testid={props["data-testid"] || "glassselect"}
+        className={cn(
+          "relative inline-block",
+          { "w-full": fullWidth },
+          className
+        )}
       >
         {/* Hidden native select for form compatibility */}
         <select
@@ -378,8 +385,10 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
           value={value}
           onChange={onChange}
           multiple={multiple}
-          className='glass-sr-only glass-touch-target glass-contrast-guard'
-          aria-label={props.label || props['aria-label'] || placeholder || "Select option"}
+          className="glass-sr-only glass-touch-target glass-contrast-guard"
+          aria-label={
+            props.label || props["aria-label"] || placeholder || "Select option"
+          }
           {...props}
         >
           {options.map((option: any) => (
@@ -406,14 +415,19 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
             <GlassButton
               ref={triggerRef}
               type="button"
-              className='glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:glass-border-white/30 glass-radius-xl glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:glass-border-white/30 glass-radius-xl glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
               disabled={disabled || loading}
               onClick={(e) => setIsOpen(!isOpen)}
               onKeyDown={handleKeyDown}
               aria-haspopup="listbox"
               aria-expanded={isOpen}
               aria-busy={loading || undefined}
-              aria-label={props.label || props['aria-label'] || placeholder || "Select option"}
+              aria-label={
+                props.label ||
+                props["aria-label"] ||
+                placeholder ||
+                "Select option"
+              }
             >
               <div className="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0">
                 {leftIcon && (
@@ -482,14 +496,19 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
             <GlassButton
               ref={triggerRef}
               type="button"
-              className='glass-w-full glass-flex glass-items-center glass-justify-between glass-bg-transparent glass-border-0 glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-full glass-flex glass-items-center glass-justify-between glass-bg-transparent glass-border-0 glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
               disabled={disabled || loading}
               onClick={(e) => setIsOpen(!isOpen)}
               onKeyDown={handleKeyDown}
               aria-haspopup="listbox"
               aria-expanded={isOpen}
               aria-busy={loading || undefined}
-              aria-label={props.label || props['aria-label'] || placeholder || "Select option"}
+              aria-label={
+                props.label ||
+                props["aria-label"] ||
+                placeholder ||
+                "Select option"
+              }
             >
               <div className="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0">
                 {leftIcon && (
@@ -515,7 +534,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                 </span>
               </div>
 
-              <div className='glass-ml-3 glass-flex glass-items-center'>
+              <div className="glass-ml-3 glass-flex glass-items-center">
                 {loading && (
                   <div
                     className={cn(
@@ -542,7 +561,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
         {isOpen &&
           portalReady &&
           createPortal(
-            <Motion preset="slideDown" className='glass-pointer-events-auto'>
+            <Motion preset="slideDown" className="glass-pointer-events-auto">
               <div
                 style={{
                   position: "fixed",
@@ -593,7 +612,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
 
                     <ul
                       ref={listRef}
-                      className='glass-max-h-48 glass-overflow-y-auto'
+                      className="glass-max-h-48 glass-overflow-y-auto"
                       role="listbox"
                       aria-multiselectable={multiple}
                     >
@@ -601,7 +620,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                         ([group, groupOptions]) => (
                           <React.Fragment key={group}>
                             {group && (
-                              <li className='glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-primary-glass-opacity-60 glass-surface-subtle/5 glass-border-b glass-border-white/10'>
+                              <li className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-primary-glass-opacity-60 glass-surface-subtle/5 glass-border-b glass-border-white/10">
                                 {group}
                               </li>
                             )}
@@ -652,7 +671,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                                     )}
 
                                     {multiple && isSelected && (
-                                      <span className='glass-ml-2 glass-text-primary'>
+                                      <span className="glass-ml-2 glass-text-primary">
                                         ✓
                                       </span>
                                     )}
@@ -665,7 +684,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                       )}
 
                       {filteredOptions.length === 0 && (
-                        <li className='glass-px-3 glass-py-4 glass-text-primary-glass-opacity-50 glass-text-center glass-text-sm'>
+                        <li className="glass-px-3 glass-py-4 glass-text-primary-glass-opacity-50 glass-text-center glass-text-sm">
                           No options found
                         </li>
                       )}

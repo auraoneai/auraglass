@@ -5,6 +5,12 @@ import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceConte
 import { Motion, OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useGlassSound } from "../../utils/soundDesign";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface KanbanCard {
   id: string;
@@ -285,7 +291,7 @@ export const GlassKanbanBoard = forwardRef<
             tint="neutral"
             border="subtle"
             className={cn(
-              "glass-kanban-card relative cursor-pointer transition-all duration-200",
+              `glass-kanban-card relative cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
               "glass-backdrop-blur-md border border-border/20 glass-radius-md",
               config.padding,
               config.minHeight,
@@ -315,14 +321,16 @@ export const GlassKanbanBoard = forwardRef<
                   config.text
                 )}
               >
-                {card.title}
+                <ContrastGuard>{card.title}</ContrastGuard>
               </h3>
 
               {/* Card Description */}
               {card.description && (
-                <p className='glass-text-secondary glass-text-sm glass-line-clamp-3'>
-                  {card.description}
-                </p>
+                <ContrastGuard>
+                  <p className="glass-text-secondary glass-text-sm glass-line-clamp-3">
+                    {card.description}
+                  </p>
+                </ContrastGuard>
               )}
 
               {/* Custom Content */}
@@ -336,21 +344,23 @@ export const GlassKanbanBoard = forwardRef<
                   {card.tags.slice(0, 3).map((tag, index) => (
                     <span
                       key={index}
-                      className='glass-px-2 glass-py-1 glass-text-xs glass-surface-primary/10 glass-text-primary glass-radius-full'
+                      className="glass-px-2 glass-py-1 glass-text-xs glass-surface-primary/10 glass-text-primary glass-radius-full"
                     >
-                      {tag}
+                      <ContrastGuard>{tag}</ContrastGuard>
                     </span>
                   ))}
                   {card.tags.length > 3 && (
-                    <span className="glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius-full">
-                      +{card.tags.length - 3}
-                    </span>
+                    <ContrastGuard>
+                      <span className="glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius-full">
+                        +{card.tags.length - 3}
+                      </span>
+                    </ContrastGuard>
                   )}
                 </div>
               )}
 
               {/* Footer */}
-              <div className='glass-flex glass-items-center glass-justify-between glass-pt-2'>
+              <div className="glass-flex glass-items-center glass-justify-between glass-pt-2">
                 {/* Assignee */}
                 {card.assignee && (
                   <div className="glass-flex glass-items-center glass-gap-2">
@@ -358,11 +368,13 @@ export const GlassKanbanBoard = forwardRef<
                       <img
                         src={card.assignee.avatar}
                         alt={card.assignee.name}
-                        className='glass-w-6 glass-h-6 glass-radius-full'
+                        className="glass-w-6 glass-h-6 glass-radius-full"
                       />
                     ) : (
-                      <div className='glass-w-6 glass-h-6 glass-surface-primary/20 glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-medium'>
-                        {card.assignee.name.charAt(0).toUpperCase()}
+                      <div className="glass-w-6 glass-h-6 glass-surface-primary/20 glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-medium">
+                        <ContrastGuard>
+                          {card.assignee.name.charAt(0).toUpperCase()}
+                        </ContrastGuard>
                       </div>
                     )}
                   </div>
@@ -381,7 +393,9 @@ export const GlassKanbanBoard = forwardRef<
                           : "bg-muted/20 glass-text-secondary"
                     )}
                   >
-                    {new Date(card.dueDate).toLocaleDateString()}
+                    <ContrastGuard>
+                      {new Date(card.dueDate).toLocaleDateString()}
+                    </ContrastGuard>
                   </div>
                 )}
               </div>
@@ -412,24 +426,30 @@ export const GlassKanbanBoard = forwardRef<
           <div className="glass-flex glass-items-center glass-justify-between">
             <div className="glass-flex glass-items-center glass-gap-2">
               <div
-                className='glass-w-3 glass-h-3 glass-radius-full'
+                className="glass-w-3 glass-h-3 glass-radius-full"
                 style={{
                   backgroundColor: column.color || "var(--glass-gray-500)",
                 }}
               />
-              <h2 className='glass-font-semibold glass-text-primary'>{column.title}</h2>
+              <ContrastGuard>
+                <h2 className="glass-font-semibold glass-text-primary">
+                  {column.title}
+                </h2>
+              </ContrastGuard>
               {showCardCounts && (
-                <span
-                  className={cn(
-                    "glass-px-2 glass-py-1 glass-text-xs glass-radius-full",
-                    isOverLimit
-                      ? "bg-red-500/20 text-red-600"
-                      : "bg-muted/20 glass-text-secondary"
-                  )}
-                >
-                  {cardCount}
-                  {showColumnLimits && column.limit && ` / ${column.limit}`}
-                </span>
+                <ContrastGuard>
+                  <span
+                    className={cn(
+                      "glass-px-2 glass-py-1 glass-text-xs glass-radius-full",
+                      isOverLimit
+                        ? "bg-red-500/20 text-red-600"
+                        : "bg-muted/20 glass-text-secondary"
+                    )}
+                  >
+                    {cardCount}
+                    {showColumnLimits && column.limit && ` / ${column.limit}`}
+                  </span>
+                </ContrastGuard>
               )}
             </div>
 
@@ -481,6 +501,9 @@ export const GlassKanbanBoard = forwardRef<
       []
     );
 
+    const maxHeightStyle = maxHeight ? { maxHeight } : undefined;
+    const columnsContainerStyle = { minWidth: "fit-content" };
+
     return (
       <OptimizedGlass
         ref={ref}
@@ -494,7 +517,7 @@ export const GlassKanbanBoard = forwardRef<
           "glass-kanban-board glass-radius-lg glass-backdrop-blur-md border border-border/20",
           className
         )}
-        style={maxHeight ? { maxHeight } : undefined}
+        style={{ ...(maxHeightStyle ?? {}) }}
         role="region"
         aria-label={ariaLabel || "Kanban Board"}
         data-testid={dataTestId}
@@ -510,7 +533,7 @@ export const GlassKanbanBoard = forwardRef<
           {(title || description) && (
             <div className="glass-p-6 glass-border-b glass-border-glass-border/20">
               {title && (
-                <h1 className='glass-text-xl glass-font-bold glass-text-primary glass-mb-2'>
+                <h1 className="glass-text-xl glass-font-bold glass-text-primary glass-mb-2">
                   {title}
                 </h1>
               )}
@@ -521,7 +544,7 @@ export const GlassKanbanBoard = forwardRef<
           )}
 
           {/* Kanban Columns */}
-          <div className='glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden'>
+          <div className="glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden">
             {columns.length === 0 && emptyState ? (
               <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-p-8">
                 {emptyState}
@@ -529,7 +552,7 @@ export const GlassKanbanBoard = forwardRef<
             ) : (
               <div
                 className="glass-flex glass-gap-6 glass-p-6 glass-h-full"
-                style={{ minWidth: "fit-content" }}
+                style={{ ...columnsContainerStyle }}
               >
                 {columns.map((column) => (
                   <Motion
@@ -578,7 +601,7 @@ export const GlassKanbanBoard = forwardRef<
                         ref={(el) => {
                           if (el) columnRefs.current[column.id] = el;
                         }}
-                        className='glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-3'
+                        className="glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-3"
                         onScroll={(e: React.UIEvent) =>
                           handleColumnScroll(
                             column.id,
@@ -621,7 +644,7 @@ export const GlassKanbanBoard = forwardRef<
 
                         {/* Empty State */}
                         {column.cards.length === 0 && (
-                          <div className='glass-flex glass-items-center glass-justify-center glass-h-32 glass-text-secondary glass-text-sm glass-border-2 glass-border-dashed glass-border-glass-border/20 glass-radius-lg'>
+                          <div className="glass-flex glass-items-center glass-justify-center glass-h-32 glass-text-secondary glass-text-sm glass-border-2 glass-border-dashed glass-border-glass-border/20 glass-radius-lg">
                             {column.readOnly
                               ? "No cards"
                               : "Drop cards here or click + to add"}
@@ -652,10 +675,12 @@ export const GlassKanbanBoard = forwardRef<
                       )}
                       aria-label="Add new column"
                     >
-                      <div className='glass-w-12 glass-h-12 glass-radius-full glass-bg-transparent/10 glass-flex glass-items-center glass-justify-center glass-mb-2'>
-                        <span className='glass-text-2xl glass-font-light'>+</span>
+                      <div className="glass-w-12 glass-h-12 glass-radius-full glass-bg-transparent/10 glass-flex glass-items-center glass-justify-center glass-mb-2">
+                        <span className="glass-text-2xl glass-font-light">
+                          +
+                        </span>
                       </div>
-                      <span className='glass-text-sm glass-font-medium'>
+                      <span className="glass-text-sm glass-font-medium">
                         Add Column
                       </span>
                     </button>

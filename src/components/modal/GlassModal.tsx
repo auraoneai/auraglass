@@ -18,6 +18,9 @@ import {
 } from "../../utils/a11y";
 import { GlassButton, IconButton } from "../button/GlassButton";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 // import { usePredictiveEngine, useInteractionRecorder } from '../advanced/GlassPredictiveEngine';
 // import { useAchievements } from '../advanced/GlassAchievementSystem';
 // import { useBiometricAdaptation } from '../advanced/GlassBiometricAdaptation';
@@ -507,7 +510,10 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         }
       };
 
-      const interval = setInterval(updateAdaptiveFeatures, 3000);
+      const interval = setInterval(
+        updateAdaptiveFeatures,
+        ANIMATION.DURATION.slower * 4
+      );
       updateAdaptiveFeatures(); // Run immediately
 
       return () => clearInterval(interval);
@@ -550,7 +556,10 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         }
       };
 
-      const timeoutId = setTimeout(generateModalInsights, 1000);
+      const timeoutId = setTimeout(
+        generateModalInsights,
+        ANIMATION.DURATION.slower * 1.4
+      );
       return () => clearTimeout(timeoutId);
     }, [
       predictive,
@@ -703,7 +712,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         {backdrop || (
           <Motion
             preset="fadeIn"
-            className='glass-absolute glass-inset-0 glass-surface-dark/50'
+            className="glass-absolute glass-inset-0 glass-surface-dark/50"
             onClick={handleBackdropClick}
           />
         )}
@@ -757,16 +766,16 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                     modalInsights &&
                     "consciousness-predictive-glass"
                 )}
-                style={
-                  {
+                style={{
+                  ...({
                     "--liquid-glass-depth-offset":
                       variant === "drawer" ? "8px" : "12px",
                     "--liquid-glass-tint-adaptive":
                       modalInsights?.urgency === "high"
-                        ? "rgba(220, 38, 38, 0.15)"
-                        : "rgba(var(--glass-color-black) / var(--glass-opacity-10))",
-                  } as React.CSSProperties
-                }
+                        ? "color-mix(in srgb, var(--glass-color-danger) 15%, transparent)"
+                        : "color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+                  } as React.CSSProperties),
+                }}
                 data-liquid-glass-modal="true"
                 data-modal-urgency={modalInsights?.urgency}
                 {...props}
@@ -779,7 +788,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {title && (
                           <h2
                             id={titleId}
-                            className='glass-text-lg glass-font-semibold glass-text-primary'
+                            className="glass-text-lg glass-font-semibold glass-text-primary"
                           >
                             {title}
                           </h2>
@@ -787,7 +796,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {description && (
                           <p
                             id={descriptionId}
-                            className='glass-text-sm glass-text-secondary-foreground glass-mt-1'
+                            className="glass-text-sm glass-text-secondary-foreground glass-mt-1"
                           >
                             {description}
                           </p>
@@ -864,7 +873,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                         {title && (
                           <h2
                             id={titleId}
-                            className='glass-text-lg glass-font-semibold glass-text-primary'
+                            className="glass-text-lg glass-font-semibold glass-text-primary"
                           >
                             {title}
                           </h2>
@@ -885,7 +894,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                             <IconButton
                               icon={
                                 <svg
-                                  className='glass-w-4 glass-h-4'
+                                  className="glass-w-4 glass-h-4"
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -1001,7 +1010,9 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                   {predictive && modalInsights && (
                     <div className="glass-mt-4 glass-p-3 glass-surface-primary/10 glass-radius-lg glass-border glass-border-primary/20 glass-text-xs">
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='glass-text-primary'>Modal Insights</span>
+                        <span className="glass-text-primary">
+                          Modal Insights
+                        </span>
                         <div className="glass-flex glass-gap-2">
                           <span
                             className={cn(

@@ -6,14 +6,14 @@ exports[`VoiceGlassControl matches snapshot 1`] = `
   data-testid="voiceglasscontrol"
 >
   <div
-    class="glass-glass-glass-backdrop-blur-lg glass-border glass-border-red/20 glass-surface-red/10 glass-p-3 glass-radius-lg glass-contrast-guard"
+    class="glass-backdrop-blur-lg glass-border glass-border-red/20 glass-surface-red/10 glass-p-3 glass-radius-lg glass-contrast-guard"
   >
     <div
-      class="glass-flex glass-items-center glass-gap-2 text-primary"
+      class="glass-flex glass-items-center glass-gap-2 glass-text-primary"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-circle-alert h-4 w-4"
+        class="lucide lucide-circle-alert glass-h-4 glass-w-4"
         fill="none"
         height="24"
         stroke="currentColor"

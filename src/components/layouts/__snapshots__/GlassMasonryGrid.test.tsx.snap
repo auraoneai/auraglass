@@ -6,16 +6,16 @@ exports[`GlassMasonryGrid matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="glass-flex glass-items-center glass-justify-between mb-6"
+    class="glass-flex glass-items-center glass-justify-between glass-mb-6"
   >
     <div>
       <h3
-        class="glass-text-xl font-semibold text-primary/90"
+        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         Masonry Grid
       </h3>
       <p
-        class="glass-text-sm text-primary/60"
+        class="glass-text-sm glass-text-primary-glass-opacity-60"
       >
         Pinterest-style dynamic layout system
       </p>
@@ -28,52 +28,52 @@ exports[`GlassMasonryGrid matches snapshot 1`] = `
         "
   >
     <div
-      class="glass-grid glass-grid-cols-2 md:grid-cols-4 glass-gap-4 glass-text-sm"
+      class="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4 glass-text-sm"
     >
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Total Items:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
         </div>
       </div>
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Visible:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
         </div>
       </div>
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Columns:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           -
         </div>
       </div>
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Avg Height:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
           px
@@ -82,19 +82,19 @@ exports[`GlassMasonryGrid matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-flex glass-flex-wrap glass-items-center glass-gap-4 mb-6"
+    class="glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-mb-6"
   >
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     >
       <span
-        class="glass-text-sm text-primary/70"
+        class="glass-text-sm glass-text-primary-opacity-70"
       >
         Sort:
       </span>
       <select
         aria-label="Sort items"
-        class="glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius text-primary/90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary-glass-opacity-90 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
       >
         <option
           value="id"
@@ -118,26 +118,26 @@ exports[`GlassMasonryGrid matches snapshot 1`] = `
         </option>
       </select>
       <button
-        class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius text-primary/90 glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius glass-text-primary-glass-opacity-90 glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       >
         ↑
       </button>
     </div>
   </div>
   <div
-    class="relative overflow-auto"
+    class="glass-relative glass-overflow-auto"
     style="height: auto; max-height: none;"
   >
     <div
-      class="relative"
+      class="glass-relative"
       style="width: 100%; height: auto; min-height: 200px;"
     />
   </div>
   <div
-    class="glass-flex glass-items-center glass-justify-between mt-6 pt-4 glass-border-t glass-border-white/10 glass-text-xs text-primary/60"
+    class="glass-flex glass-items-center glass-justify-between glass-mt-6 glass-pt-4 glass-border-t glass-border-white/10 glass-text-xs glass-text-primary-glass-opacity-60"
   >
     <div
-      class="glass-flex glass-items-center space-x-4"
+      class="glass-flex glass-items-center glass-space-x-4"
     />
     <div>
       Grid: 

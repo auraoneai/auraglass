@@ -1,25 +1,37 @@
-'use client';
-import React, { forwardRef } from 'react';
-import { cn } from '@/lib/utils';
+"use client";
+import React, { forwardRef } from "react";
+import { cn } from "@/lib/utils";
 
-import { SpeedDialIconProps } from './types';
-import styles from './SpeedDialIcon.module.css';
+import { SpeedDialIconProps } from "./types";
+import styles from "./SpeedDialIcon.module.css";
 
 // Default icons
 const DefaultIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="currentColor" />
   </svg>
 );
 
 const DefaultOpenIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M19 13H5V11H19V13Z" fill="currentColor" />
   </svg>
 );
 
 const isOpenIconProvided = (props: SpeedDialIconProps) =>
-  Object.prototype.hasOwnProperty.call(props, 'openIcon');
+  Object.prototype.hasOwnProperty.call(props, "openIcon");
 
 function SpeedDialIconComponent(
   props: SpeedDialIconProps,
@@ -37,12 +49,12 @@ function SpeedDialIconComponent(
       <div
         ref={ref}
         className={cn(
-          'glass-speed-dial-icon',
+          "glass-speed-dial-icon",
           styles.icon,
           open && styles.iconOpen,
-          className,
+          className
         )}
-        style={style}
+        style={{ ...(style || {}) }}
         {...rest}
       >
         {iconToShow}
@@ -54,24 +66,14 @@ function SpeedDialIconComponent(
   return (
     <div
       ref={ref}
-      className={cn('glass-speed-dial-icon', styles.iconContainer, className)}
-      style={style}
+      className={cn("glass-speed-dial-icon", styles.iconContainer, className)}
+      style={{ ...(style || {}) }}
       {...rest}
     >
-      <div
-        className={cn(
-          styles.iconLayer,
-          !open && styles.iconLayerActive,
-        )}
-      >
+      <div className={cn(styles.iconLayer, !open && styles.iconLayerActive)}>
         {iconToShow}
       </div>
-      <div
-        className={cn(
-          styles.iconLayer,
-          open && styles.iconLayerActive,
-        )}
-      >
+      <div className={cn(styles.iconLayer, open && styles.iconLayerActive)}>
         {openIconToShow}
       </div>
     </div>

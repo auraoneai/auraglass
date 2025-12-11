@@ -2,14 +2,14 @@
 
 exports[`GlassToggle matches snapshot 1`] = `
 <div
-  class="motion-primitive inline-block"
+  class="motion-primitive glass-inline-glass-block"
   data-glass-component="true"
   tabindex="0"
 >
   <div
     aria-label="Toggle"
     aria-pressed="false"
-    class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative flex items-center justify-center glass-gap-2 font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none h-10 glass-px-4 glass-text-base glass-radius-lg glass-backdrop-blur-md border border-white/20 transition-all duration-300 bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:border-white/30 hover:scale-105"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative flex items-center justify-center glass-gap-2 font-medium focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 glass-px-4 glass-text-base glass-radius-lg glass-backdrop-blur-md border border-white/20 transition-all duration-[300ms] bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:border-white/30 glass-hover-scale-105"
     data-performance-mode="medium"
     data-testid="glasstoggle"
     role="button"

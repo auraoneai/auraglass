@@ -16,6 +16,8 @@ import React, {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Meta-engine data types
 interface SystemUsageMetric {
@@ -362,18 +364,18 @@ class GlassMetaEngineCore {
     // Continuous evolution cycle
     setInterval(() => {
       this.evolveSystem();
-    }, 5000); // Every 5 seconds
+    }, ANIMATION.DURATION.slower); // Every 5 seconds
 
     // Health monitoring cycle
     setInterval(() => {
       this.monitorSystemHealth();
-    }, 10000); // Every 10 seconds
+    }, ANIMATION.DURATION.slower * 2); // Every 10 seconds
 
     // Neural network healing
     setInterval(() => {
       this.selfHealingNetwork.diagnoseHealth();
       this.selfHealingNetwork.healNetwork();
-    }, 30000); // Every 30 seconds
+    }, ANIMATION.DURATION.slower * 6); // Every 30 seconds
   }
 
   recordSystemUsage(metric: SystemUsageMetric): void {
@@ -825,7 +827,7 @@ export function GlassMetaEngineProvider({
         newOptimizations.forEach((opt: any) => onOptimization?.(opt));
         newEvolutions.forEach((evo: any) => onEvolution?.(evo));
       }
-    }, 1000);
+    }, ANIMATION.DURATION.fast);
 
     return () => clearInterval(updateInterval);
   }, [onEvolution, onOptimization]);
@@ -891,7 +893,7 @@ export function GlassMetaDashboard({
       };
 
       updateStates();
-      const interval = setInterval(updateStates, 2000);
+      const interval = setInterval(updateStates, ANIMATION.DURATION.normal);
       return () => clearInterval(interval);
     }
   }, [engine, showQuantumStates]);
@@ -908,19 +910,23 @@ export function GlassMetaDashboard({
         className={cn(
           "w-14 glass-h-14 glass-radius-full glass-surface-primary glass-elev-4",
           "flex items-center justify-center glass-text-primary",
-          "transition-all duration-300 glass-hover-scale-105",
+          "transition-all glass-hover-scale-105",
+          { transitionDuration: "var(--glass-motion-duration-normal)" },
           "relative overflow-hidden"
         )}
         onClick={() => setShowDashboard(!showDashboard)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+        whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+        transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+        aria-label="Toggle Meta-Engine dashboard"
+        aria-expanded={showDashboard}
       >
         {/* Quantum coherence visualization */}
-        <div className='glass-absolute glass-inset-0 glass-opacity-20'>
+        <div className="glass-absolute glass-inset-0 glass-opacity-20">
           {quantumStates.map((state, index) => (
             <motion.div
               key={state.system}
-              className='glass-absolute glass-w-1 glass-h-1 glass-surface-blue glass-radius-full'
+              className="glass-absolute glass-w-1 glass-h-1 glass-surface-blue glass-radius-full"
               animate={
                 prefersReducedMotion
                   ? {}
@@ -933,21 +939,27 @@ export function GlassMetaDashboard({
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
-                  : { duration: 2, repeat: Infinity, ease: "linear" }
+                  : {
+                      duration: ANIMATION.DURATION.slower / 1000,
+                      repeat: Infinity,
+                      ease: ANIMATION.EASING.linear,
+                    }
               }
             />
           ))}
         </div>
 
-        <div className='glass-relative glass-z-10'>
+        <div className="glass-relative glass-z-10">
           🧬
           {optimizations.length > 0 && (
             <motion.div
-              className='glass-absolute glass--top-2 glass--right-2 glass-w-4 glass-h-4 glass-surface-green glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center'
+              className="glass-absolute glass--top-2 glass--right-2 glass-w-4 glass-h-4 glass-surface-green glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center"
               initial={{ scale: 0 }}
               animate={prefersReducedMotion ? {} : { scale: 1 }}
               transition={
-                prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: ANIMATION.DURATION.normal / 1000 }
               }
             >
               {optimizations.length}
@@ -968,198 +980,207 @@ export function GlassMetaDashboard({
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
             }
+            role="dialog"
+            aria-label="Meta-Engine dashboard"
           >
-            <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-text-lg glass-font-semibold glass-text-primary'>
-                Meta-Engine Dashboard
-              </h3>
-              <button
-                onClick={() => setShowDashboard(false)}
-                className='glass-text-sm glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
-              >
-                ✕
-              </button>
-            </div>
+            <ContrastGuard>
+              <div className="glass-flex glass-items-center glass-justify-between">
+                <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
+                  Meta-Engine Dashboard
+                </h3>
+                <button
+                  onClick={() => setShowDashboard(false)}
+                  className="glass-text-sm glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target"
+                  aria-label="Close Meta-Engine dashboard"
+                >
+                  ✕
+                </button>
+              </div>
 
-            {/* System Health Overview */}
-            <div className="glass-gap-2">
-              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                System Health
-              </h4>
-              <div className="glass-grid glass-grid-cols-1 glass-gap-2">
-                {Array.from(systemHealth.entries()).map(
-                  ([systemId, health]) => (
+              {/* System Health Overview */}
+              <div className="glass-gap-2">
+                <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                  System Health
+                </h4>
+                <div className="glass-grid glass-grid-cols-1 glass-gap-2">
+                  {Array.from(systemHealth.entries()).map(
+                    ([systemId, health]) => (
+                      <motion.div
+                        key={systemId}
+                        className="glass-p-3 glass-surface-secondary glass-radius-md"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={
+                          prefersReducedMotion ? {} : { opacity: 1, x: 0 }
+                        }
+                      >
+                        <div className="glass-flex glass-items-center glass-justify-between">
+                          <span className="glass-text-sm glass-text-primary glass-font-medium">
+                            {systemId.replace("Glass", "")}
+                          </span>
+                          <div className="glass-flex glass-items-center glass-gap-2">
+                            <div
+                              className="glass-w-3 glass-h-3 glass-radius-full"
+                              style={{
+                                backgroundColor:
+                                  health.healthScore > 0.8
+                                    ? "var(--glass-color-success)"
+                                    : health.healthScore > 0.6
+                                      ? "var(--glass-color-warning)"
+                                      : "var(--glass-color-danger)",
+                              }}
+                            />
+                            <span className="glass-text-xs glass-text-secondary">
+                              {(health.healthScore * 100).toFixed(0)}%
+                            </span>
+                          </div>
+                        </div>
+                        {health.issues.length > 0 && (
+                          <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
+                            {health.issues.length} issue
+                            {health.issues.length !== 1 ? "s" : ""} detected
+                          </div>
+                        )}
+                      </motion.div>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Quantum States */}
+              {showQuantumStates && quantumStates.length > 0 && (
+                <div className="glass-gap-2">
+                  <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                    Quantum Coherence
+                  </h4>
+                  <div className="glass-grid glass-grid-cols-2 glass-gap-2">
+                    {quantumStates.map((state: any) => (
+                      <div
+                        key={state.system}
+                        className="glass-p-2 glass-surface-secondary glass-radius-sm"
+                      >
+                        <div className="glass-text-xs glass-text-primary glass-font-medium">
+                          {state.system.replace("Glass", "")}
+                        </div>
+                        <div className="glass-mt-1 glass-flex glass-items-center glass-gap-2">
+                          <div className="glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2">
+                            <motion.div
+                              className="glass-h-2 glass-surface-blue glass-radius-full"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${state.coherence * 100}%` }}
+                              transition={
+                                prefersReducedMotion
+                                  ? { duration: 0 }
+                                  : { duration: ANIMATION.DURATION.slow / 1000 }
+                              }
+                            />
+                          </div>
+                          <span className="glass-text-xs glass-text-secondary">
+                            {(state.coherence * 100).toFixed(0)}%
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Active Optimizations */}
+              {topOptimizations.length > 0 && (
+                <div className="glass-gap-2">
+                  <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                    Active Optimizations
+                  </h4>
+                  {topOptimizations.map((optimization: any) => (
                     <motion.div
-                      key={systemId}
+                      key={optimization.id}
                       className="glass-p-3 glass-surface-secondary glass-radius-md"
                       initial={{ opacity: 0, x: -10 }}
                       animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
                     >
                       <div className="glass-flex glass-items-center glass-justify-between">
-                        <span className='glass-text-sm glass-text-primary glass-font-medium'>
-                          {systemId.replace("Glass", "")}
+                        <span className="glass-text-sm glass-text-primary glass-font-medium">
+                          {optimization.targetSystem.replace("Glass", "")}
                         </span>
-                        <div className="glass-flex glass-items-center glass-gap-2">
+                        <div className="glass-flex glass-items-center glass-gap-1">
                           <div
-                            className='glass-w-3 glass-h-3 glass-radius-full'
+                            className="glass-w-2 glass-h-2 glass-radius-full"
                             style={{
                               backgroundColor:
-                                health.healthScore > 0.8
-                                  ? "var(--glass-color-success)"
-                                  : health.healthScore > 0.6
+                                optimization.priority === "critical"
+                                  ? "var(--glass-color-danger-dark)"
+                                  : optimization.priority === "high"
                                     ? "var(--glass-color-warning)"
-                                    : "var(--glass-color-danger)",
+                                    : optimization.priority === "medium"
+                                      ? "var(--glass-color-success)"
+                                      : "var(--glass-gray-500)",
                             }}
                           />
-                          <span className="glass-text-xs glass-text-secondary">
-                            {(health.healthScore * 100).toFixed(0)}%
+                          <span className="glass-text-xs glass-text-secondary glass-capitalize">
+                            {optimization.priority}
                           </span>
                         </div>
                       </div>
-                      {health.issues.length > 0 && (
-                        <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
-                          {health.issues.length} issue
-                          {health.issues.length !== 1 ? "s" : ""} detected
-                        </div>
-                      )}
-                    </motion.div>
-                  )
-                )}
-              </div>
-            </div>
-
-            {/* Quantum States */}
-            {showQuantumStates && quantumStates.length > 0 && (
-              <div className="glass-gap-2">
-                <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                  Quantum Coherence
-                </h4>
-                <div className="glass-grid glass-grid-cols-2 glass-gap-2">
-                  {quantumStates.map((state: any) => (
-                    <div
-                      key={state.system}
-                      className="glass-p-2 glass-surface-secondary glass-radius-sm"
-                    >
-                      <div className='glass-text-xs glass-text-primary glass-font-medium'>
-                        {state.system.replace("Glass", "")}
+                      <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
+                        {optimization.description}
                       </div>
-                      <div className="glass-mt-1 glass-flex glass-items-center glass-gap-2">
-                        <div className='glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2'>
-                          <motion.div
-                            className='glass-h-2 glass-surface-blue glass-radius-full'
-                            initial={{ width: 0 }}
-                            animate={{ width: `${state.coherence * 100}%` }}
-                            transition={
-                              prefersReducedMotion
-                                ? { duration: 0 }
-                                : { duration: 0.5 }
-                            }
-                          />
-                        </div>
+                      <div className="glass-mt-2 glass-flex glass-items-center glass-justify-between">
+                        <span className="glass-text-xs glass-text-secondary glass-capitalize">
+                          {optimization.optimizationType}
+                        </span>
                         <span className="glass-text-xs glass-text-secondary">
-                          {(state.coherence * 100).toFixed(0)}%
+                          Impact: {(optimization.impact * 100).toFixed(0)}%
                         </span>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Active Optimizations */}
-            {topOptimizations.length > 0 && (
-              <div className="glass-gap-2">
-                <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                  Active Optimizations
-                </h4>
-                {topOptimizations.map((optimization: any) => (
-                  <motion.div
-                    key={optimization.id}
-                    className="glass-p-3 glass-surface-secondary glass-radius-md"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                  >
-                    <div className="glass-flex glass-items-center glass-justify-between">
-                      <span className='glass-text-sm glass-text-primary glass-font-medium'>
-                        {optimization.targetSystem.replace("Glass", "")}
-                      </span>
-                      <div className="glass-flex glass-items-center glass-gap-1">
-                        <div
-                          className='glass-w-2 glass-h-2 glass-radius-full'
-                          style={{
-                            backgroundColor:
-                              optimization.priority === "critical"
-                                ? "var(--glass-color-danger-dark)"
-                                : optimization.priority === "high"
-                                  ? "var(--glass-color-warning)"
-                                  : optimization.priority === "medium"
-                                    ? "var(--glass-color-success)"
-                                    : "var(--glass-gray-500)",
-                          }}
-                        />
-                        <span className='glass-text-xs glass-text-secondary glass-capitalize'>
-                          {optimization.priority}
+              {/* System Evolutions */}
+              {showEvolutions && criticalEvolutions.length > 0 && (
+                <div className="glass-gap-2">
+                  <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                    System Evolutions
+                  </h4>
+                  {criticalEvolutions.slice(0, 3).map((evolution: any) => (
+                    <motion.div
+                      key={evolution.id}
+                      className="glass-p-3 glass-surface-secondary glass-radius-md"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    >
+                      <div className="glass-text-sm glass-text-primary glass-font-medium">
+                        {evolution.evolutionType.replace("-", " ")}
+                      </div>
+                      <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
+                        {evolution.description}
+                      </div>
+                      <div className="glass-mt-2 glass-flex glass-items-center glass-justify-between">
+                        <span className="glass-text-xs glass-text-secondary glass-capitalize">
+                          {evolution.evolutionStage}
+                        </span>
+                        <span className="glass-text-xs glass-text-secondary">
+                          {(evolution.confidence * 100).toFixed(0)}% confidence
                         </span>
                       </div>
-                    </div>
-                    <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
-                      {optimization.description}
-                    </div>
-                    <div className="glass-mt-2 glass-flex glass-items-center glass-justify-between">
-                      <span className='glass-text-xs glass-text-secondary glass-capitalize'>
-                        {optimization.optimizationType}
-                      </span>
-                      <span className="glass-text-xs glass-text-secondary">
-                        Impact: {(optimization.impact * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {/* System Evolutions */}
-            {showEvolutions && criticalEvolutions.length > 0 && (
-              <div className="glass-gap-2">
-                <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                  System Evolutions
-                </h4>
-                {criticalEvolutions.slice(0, 3).map((evolution: any) => (
-                  <motion.div
-                    key={evolution.id}
-                    className="glass-p-3 glass-surface-secondary glass-radius-md"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                  >
-                    <div className='glass-text-sm glass-text-primary glass-font-medium'>
-                      {evolution.evolutionType.replace("-", " ")}
-                    </div>
-                    <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
-                      {evolution.description}
-                    </div>
-                    <div className="glass-mt-2 glass-flex glass-items-center glass-justify-between">
-                      <span className='glass-text-xs glass-text-secondary glass-capitalize'>
-                        {evolution.evolutionStage}
-                      </span>
-                      <span className="glass-text-xs glass-text-secondary">
-                        {(evolution.confidence * 100).toFixed(0)}% confidence
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {optimizations.length === 0 && evolutions.length === 0 && (
-              <div className='glass-text-center glass-text-sm glass-text-secondary glass-py-8'>
-                System operating at optimal parameters
-                <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
-                  Meta-engine monitoring all systems...
+                    </motion.div>
+                  ))}
                 </div>
-              </div>
-            )}
+              )}
+
+              {optimizations.length === 0 && evolutions.length === 0 && (
+                <div className="glass-text-center glass-text-sm glass-text-secondary glass-py-8">
+                  System operating at optimal parameters
+                  <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
+                    Meta-engine monitoring all systems...
+                  </div>
+                </div>
+              )}
+            </ContrastGuard>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AuraGlass Biometric Adaptation System
  * Heart rate and stress-responsive UI with device sensors and ML analysis
@@ -18,6 +18,8 @@ import { cn } from "../../lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";
 import { useMotionPreferenceContext } from "@/contexts/MotionPreferenceContext";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
 // Biometric data types
 interface BiometricReading {
@@ -75,8 +77,8 @@ class BiometricSensorManager {
 
   async initialize(): Promise<boolean> {
     // CRITICAL SSR FIX: Skip all sensor initialization on server
-    if (typeof window === 'undefined') {
-      console.warn('BiometricSensorManager: Skipping initialization on server');
+    if (typeof window === "undefined") {
+      console.warn("BiometricSensorManager: Skipping initialization on server");
       return false;
     }
 
@@ -129,7 +131,7 @@ class BiometricSensorManager {
 
   private setupBehavioralAnalysis(): void {
     // CRITICAL SSR FIX: Skip document access on server
-    if (typeof document === 'undefined') {
+    if (typeof document === "undefined") {
       return;
     }
 
@@ -203,7 +205,7 @@ class BiometricSensorManager {
     // Periodic behavioral analysis
     setInterval(() => {
       this.analyzeBehavioralPatterns();
-    }, 5000);
+    }, ANIMATION.DURATION.slower);
   }
 
   private handleAccelerometer(): void {
@@ -295,8 +297,8 @@ class BiometricSensorManager {
 
   async connectHeartRateMonitor(): Promise<boolean> {
     // CRITICAL SSR FIX: Skip bluetooth access on server
-    if (typeof navigator === 'undefined') {
-      console.warn('BiometricSensorManager: Bluetooth not available on server');
+    if (typeof navigator === "undefined") {
+      console.warn("BiometricSensorManager: Bluetooth not available on server");
       return false;
     }
 
@@ -570,7 +572,7 @@ export class BiometricAdaptationEngine {
 
   private loadProfile(): void {
     // CRITICAL SSR FIX: Skip localStorage access on server
-    if (typeof localStorage === 'undefined') {
+    if (typeof localStorage === "undefined") {
       return;
     }
 
@@ -587,7 +589,7 @@ export class BiometricAdaptationEngine {
 
   private saveProfile(): void {
     // CRITICAL SSR FIX: Skip localStorage access on server
-    if (typeof localStorage === 'undefined') {
+    if (typeof localStorage === "undefined") {
       return;
     }
 
@@ -659,7 +661,7 @@ export function GlassBiometricAdaptationProvider({
           setCurrentStressLevel(reading.stressLevel || 0);
         }
       }
-    }, 1000);
+    }, ANIMATION.DURATION.fast);
 
     return () => {
       clearInterval(interval);
@@ -783,8 +785,7 @@ export const GlassStressResponsive = forwardRef<
 
   if (colorAdaptation) {
     if (colorAdaptation.type === "calming") {
-      const calmColor =
-        colorAdaptation.colors[0] || "var(--glass-color-primary)";
+      const calmColor = colorAdaptation.colors[0] || COLORS.semantic.primary;
       adaptiveStyles.backgroundColor = `${calmColor}20`;
       adaptiveStyles.borderColor = `${calmColor}40`;
     }
@@ -797,7 +798,7 @@ export const GlassStressResponsive = forwardRef<
   return (
     <motion.div
       ref={ref}
-      style={adaptiveStyles}
+      style={{ ...adaptiveStyles }}
       animate={
         shouldAnimate
           ? {
@@ -811,8 +812,11 @@ export const GlassStressResponsive = forwardRef<
       transition={
         shouldAnimate
           ? {
-              duration: 2 / motionSpeed,
-              ease: currentStressLevel > 0.7 ? "easeOut" : "easeInOut",
+              duration: ANIMATION.DURATION.slower / 1000 / motionSpeed,
+              ease:
+                currentStressLevel > 0.7
+                  ? ANIMATION.EASING.easeOut
+                  : ANIMATION.EASING.easeInOut,
             }
           : {}
       }
@@ -825,7 +829,8 @@ export const GlassStressResponsive = forwardRef<
       aria-describedby={ariaDescribedBy || descriptionId}
       aria-live="polite"
       className={cn(
-        "glass-surface glass-border glass-radius-md glass-glass-backdrop-blur-md glass-contrast-guard transition-all duration-1000",
+        "glass-surface glass-border glass-radius-md glass-glass-backdrop-blur-md transition-all",
+        { transitionDuration: "var(--glass-motion-duration-slower)" },
         currentStressLevel > 0.7
           ? "glass-surface-subtle glass-border-subtle"
           : "glass-surface-medium glass-border-medium",
@@ -836,14 +841,14 @@ export const GlassStressResponsive = forwardRef<
     >
       <OptimizedGlass>
         {/* Screen reader description */}
-        <span id={descriptionId} className='glass-sr-only'>
+        <span id={descriptionId} className="glass-sr-only">
           Biometric adaptation interface responding to stress level{" "}
           {Math.round(currentStressLevel * 100)}%.
           {adaptationType !== "all"
             ? ` Adaptation type: ${adaptationType}`
             : " All adaptations active."}
         </span>
-        {children}
+        <ContrastGuard>{children}</ContrastGuard>
 
         {/* Stress level indicator */}
         <div className="glass-absolute glass-top-2 glass-right-2 glass-opacity-30">
@@ -892,7 +897,7 @@ export const GlassBiometricDashboard = forwardRef<
       if (readings) {
         setHistory((prev: any) => [...prev.slice(-19), readings]); // Keep last 20 readings
       }
-    }, 2000);
+    }, ANIMATION.DURATION.normal);
 
     return () => clearInterval(interval);
   }, [engine]);
@@ -910,150 +915,156 @@ export const GlassBiometricDashboard = forwardRef<
       aria-label={ariaLabel || "Biometric monitoring dashboard"}
       {...restProps}
     >
-      <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
-        <h3 className='glass-text-sm glass-font-medium glass-text-secondary dark:glass-text-secondary'>
-          Biometrics
-        </h3>
-        <button
-          onClick={() => setShowDetails(!showDetails)}
-          className='glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard'
-          aria-expanded={showDetails}
-          aria-controls={`${dashboardId}-details`}
-        >
-          {showDetails ? "−" : "+"}
-        </button>
-      </div>
-
-      {/* Current status */}
-      <div className="glass-gap-2">
-        <div className="glass-flex glass-items-center glass-justify-between">
-          <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
-            Stress Level
-          </span>
-          <div className="glass-flex glass-items-center glass-gap-2">
-            <div className="glass-w-16 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden">
-              <motion.div
-                className={cn(
-                  "glass-h-full glass-radius-full glass-transition",
-                  currentStressLevel > 0.7
-                    ? "glass-surface-danger"
-                    : currentStressLevel > 0.4
-                      ? "glass-surface-warning"
-                      : "glass-surface-success"
-                )}
-                animate={{ width: `${currentStressLevel * 100}%` }}
-                transition={{ duration: 0.5 }}
-              />
-            </div>
-            <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
-              {(currentStressLevel * 100).toFixed(0)}%
-            </span>
-          </div>
+      <ContrastGuard>
+        <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
+          <h3 className="glass-text-sm glass-font-medium glass-text-secondary dark:glass-text-secondary">
+            Biometrics
+          </h3>
+          <button
+            onClick={() => setShowDetails(!showDetails)}
+            className="glass-text-xs glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target"
+            aria-expanded={showDetails}
+            aria-controls={`${dashboardId}-details`}
+            aria-label={showDetails ? "Hide details" : "Show details"}
+          >
+            {showDetails ? "−" : "+"}
+          </button>
         </div>
 
-        {latestReading?.heartRate && (
+        {/* Current status */}
+        <div className="glass-gap-2">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
-              Heart Rate
+            <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+              Stress Level
             </span>
-            <span className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
-              {latestReading.heartRate} bpm
-            </span>
+            <div className="glass-flex glass-items-center glass-gap-2">
+              <div className="glass-w-16 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden">
+                <motion.div
+                  className={cn(
+                    "glass-h-full glass-radius-full glass-transition",
+                    currentStressLevel > 0.7
+                      ? "glass-surface-danger"
+                      : currentStressLevel > 0.4
+                        ? "glass-surface-warning"
+                        : "glass-surface-success"
+                  )}
+                  animate={{ width: `${currentStressLevel * 100}%` }}
+                  transition={{ duration: ANIMATION.DURATION.slow / 1000 }}
+                />
+              </div>
+              <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                {(currentStressLevel * 100).toFixed(0)}%
+              </span>
+            </div>
           </div>
-        )}
-      </div>
+
+          {latestReading?.heartRate && (
+            <div className="glass-flex glass-items-center glass-justify-between">
+              <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                Heart Rate
+              </span>
+              <span className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                {latestReading.heartRate} bpm
+              </span>
+            </div>
+          )}
+        </div>
+      </ContrastGuard>
 
       {/* Detailed view */}
       <AnimatePresence>
         {showDetails && (
           <motion.div
             id={`${dashboardId}-details`}
-            className='glass-mt-4 glass-pt-4 glass-border-t glass-border-white/10 glass-gap-3'
+            className="glass-mt-4 glass-pt-4 glass-border-t glass-border-white/10 glass-gap-3"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: ANIMATION.DURATION.normal / 1000 }}
           >
             {/* Stress history chart */}
-            <div>
-              <div className="glass-text-xs glass-text-secondary glass-mb-2">
-                Stress History
-              </div>
-              <div className="glass-relative glass-h-12 glass-surface-primary/50 glass-radius-md">
-                {history.map((reading, index) => (
-                  <div
-                    key={index}
-                    ref={(el) => {
-                      if (!el) return;
-                      el.style.left = `${(index / (history.length - 1)) * 100}%`;
-                      el.style.height = `${(reading.stressLevel || 0) * 100}%`;
-                      el.style.backgroundColor =
-                        (reading.stressLevel || 0) > 0.7
-                          ? "var(--glass-color-danger)"
-                          : (reading.stressLevel || 0) > 0.4
-                            ? "var(--glass-color-warning)"
-                            : "var(--glass-color-success)";
-                    }}
-                    className="glass-absolute glass-bottom-0 glass-w-1 glass-radius-md"
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Heart rate monitor connection */}
-            <div>
-              <button
-                onClick={connectHeartRateMonitor}
-                className={cn(
-                  "glass-w-full glass-px-3 glass-py-2 glass-text-xs glass-surface-subtle glass-radius-md glass-focus glass-touch-target glass-contrast-guard",
-                  "glass-text-secondary hover:glass-surface-subtle glass-transition"
-                )}
-              >
-                Connect Heart Rate Monitor
-              </button>
-            </div>
-
-            {/* Current adaptations */}
-            {engine && (
+            <ContrastGuard>
               <div>
-                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary glass-mb-2'>
-                  Active Adaptations
+                <div className="glass-text-xs glass-text-secondary glass-mb-2">
+                  Stress History
                 </div>
-                <div className="glass-gap-1">
-                  {["color", "motion", "layout", "audio"].map((type: any) => {
-                    const adaptation = engine.getCurrentAdaptation(type);
-                    return adaptation ? (
-                      <div
-                        key={type}
-                        className="glass-flex glass-items-center glass-justify-between glass-text-xs"
-                      >
-                        <span className='glass-text-secondary dark:glass-text-secondary glass-capitalize'>
-                          {type}
-                        </span>
-                        <span className='glass-text-secondary dark:glass-text-secondary glass-capitalize'>
-                          {adaptation.type}
-                        </span>
-                      </div>
-                    ) : null;
-                  })}
+                <div className="glass-relative glass-h-12 glass-surface-primary/50 glass-radius-md">
+                  {history.map((reading, index) => (
+                    <div
+                      key={index}
+                      ref={(el) => {
+                        if (!el) return;
+                        el.style.left = `${(index / (history.length - 1)) * 100}%`;
+                        el.style.height = `${(reading.stressLevel || 0) * 100}%`;
+                        el.style.backgroundColor =
+                          (reading.stressLevel || 0) > 0.7
+                            ? "var(--glass-color-danger)"
+                            : (reading.stressLevel || 0) > 0.4
+                              ? "var(--glass-color-warning)"
+                              : "var(--glass-color-success)";
+                      }}
+                      className="glass-absolute glass-bottom-0 glass-w-1 glass-radius-md"
+                    />
+                  ))}
                 </div>
               </div>
-            )}
 
-            {/* Readings info */}
-            {latestReading && (
+              {/* Heart rate monitor connection */}
               <div>
-                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary glass-mb-1'>
-                  Last Reading
-                </div>
-                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
-                  {new Date(latestReading.timestamp).toLocaleTimeString()}
-                </div>
-                <div className='glass-text-xs glass-text-secondary dark:glass-text-secondary'>
-                  Confidence: {(latestReading.confidence * 100).toFixed(0)}%
-                </div>
+                <button
+                  onClick={connectHeartRateMonitor}
+                  className={cn(
+                    "glass-w-full glass-px-3 glass-py-2 glass-text-xs glass-surface-subtle glass-radius-md glass-focus glass-touch-target",
+                    "glass-text-secondary hover:glass-surface-subtle glass-transition"
+                  )}
+                  aria-label="Connect heart rate monitor"
+                >
+                  <ContrastGuard>Connect Heart Rate Monitor</ContrastGuard>
+                </button>
               </div>
-            )}
+
+              {/* Current adaptations */}
+              {engine && (
+                <div>
+                  <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary glass-mb-2">
+                    Active Adaptations
+                  </div>
+                  <div className="glass-gap-1">
+                    {["color", "motion", "layout", "audio"].map((type: any) => {
+                      const adaptation = engine.getCurrentAdaptation(type);
+                      return adaptation ? (
+                        <div
+                          key={type}
+                          className="glass-flex glass-items-center glass-justify-between glass-text-xs"
+                        >
+                          <span className="glass-text-secondary dark:glass-text-secondary glass-capitalize">
+                            {type}
+                          </span>
+                          <span className="glass-text-secondary dark:glass-text-secondary glass-capitalize">
+                            {adaptation.type}
+                          </span>
+                        </div>
+                      ) : null;
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Readings info */}
+              {latestReading && (
+                <div>
+                  <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary glass-mb-1">
+                    Last Reading
+                  </div>
+                  <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                    {new Date(latestReading.timestamp).toLocaleTimeString()}
+                  </div>
+                  <div className="glass-text-xs glass-text-secondary dark:glass-text-secondary">
+                    Confidence: {(latestReading.confidence * 100).toFixed(0)}%
+                  </div>
+                </div>
+              )}
+            </ContrastGuard>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1111,41 +1122,47 @@ function BiometricSummaryCard() {
       )}
       data-testid="glass-biometric-summary"
     >
-      <div>
-        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-          Biometric adaptation
-        </p>
-        <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
-          {isInitialized ? "Monitoring" : "Initializing"}
-        </h2>
-        <p className="glass-text-sm glass-text-secondary">
-          Stress level {(currentStressLevel * 100).toFixed(0)}%
-        </p>
-      </div>
-      <div className="glass-grid glass-grid-cols-2 glass-gap-3">
-        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Heart rate</p>
-          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
-            {latestReading?.heartRate
-              ? `${latestReading.heartRate.toFixed(0)} bpm`
-              : "—"}
+      <ContrastGuard>
+        <div>
+          <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+            Biometric adaptation
+          </p>
+          <h2 className="glass-text-2xl glass-text-primary glass-font-semibold">
+            {isInitialized ? "Monitoring" : "Initializing"}
+          </h2>
+          <p className="glass-text-sm glass-text-secondary">
+            Stress level {(currentStressLevel * 100).toFixed(0)}%
           </p>
         </div>
-        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Respiratory</p>
-          <p className='glass-text-lg glass-text-primary glass-font-semibold'>
-            {latestReading?.respiratoryRate
-              ? `${latestReading.respiratoryRate.toFixed(0)} rpm`
-              : "—"}
-          </p>
+        <div className="glass-grid glass-grid-cols-2 glass-gap-3">
+          <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+            <p className="glass-text-xs glass-text-tertiary glass-mb-1">
+              Heart rate
+            </p>
+            <p className="glass-text-lg glass-text-primary glass-font-semibold">
+              {latestReading?.heartRate
+                ? `${latestReading.heartRate.toFixed(0)} bpm`
+                : "—"}
+            </p>
+          </div>
+          <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+            <p className="glass-text-xs glass-text-tertiary glass-mb-1">
+              Respiratory
+            </p>
+            <p className="glass-text-lg glass-text-primary glass-font-semibold">
+              {latestReading?.respiratoryRate
+                ? `${latestReading.respiratoryRate.toFixed(0)} rpm`
+                : "—"}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="glass-text-xs glass-text-secondary">
-        Confidence{" "}
-        {latestReading
-          ? `${Math.round((latestReading.confidence || 0) * 100)}%`
-          : "Collecting signals"}
-      </div>
+        <div className="glass-text-xs glass-text-secondary">
+          Confidence{" "}
+          {latestReading
+            ? `${Math.round((latestReading.confidence || 0) * 100)}%`
+            : "Collecting signals"}
+        </div>
+      </ContrastGuard>
     </div>
   );
 }

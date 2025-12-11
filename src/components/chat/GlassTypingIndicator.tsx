@@ -1,8 +1,10 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { OptimizedGlass } from "../../primitives";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface GlassTypingIndicatorProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -193,11 +195,11 @@ export const GlassTypingIndicator = forwardRef<
             {displayText || (
               <>
                 {getUserText()} typing
-                <span className='glass-inline-glass-flex glass-ml-1 glass-gap-0.5'>
+                <span className="glass-inline-glass-flex glass-ml-1 glass-gap-0.5">
                   {Array.from({ length: 3 }, (_, i) => (
                     <span
                       key={i}
-                      className='glass-animate-pulse'
+                      className="glass-animate-pulse"
                       style={{ animationDelay: `${i * 200}ms` }}
                     >
                       .

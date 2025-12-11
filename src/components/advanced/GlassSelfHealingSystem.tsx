@@ -16,6 +16,8 @@ import React, {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Self-healing system types
 interface ComponentHealthCheck {
@@ -852,7 +854,9 @@ class SelfHealingSystem {
   private async resetComponentStyles(): Promise<boolean> {
     try {
       // Implementation would reset component styles
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) =>
+        setTimeout(resolve, ANIMATION.DURATION.fast)
+      );
       return true;
     } catch {
       return false;
@@ -861,13 +865,17 @@ class SelfHealingSystem {
 
   private async restoreComponentStyles(): Promise<void> {
     // Rollback implementation
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) =>
+      setTimeout(resolve, ANIMATION.DURATION.fast / 3)
+    );
   }
 
   private async rebuildComponentDOM(): Promise<boolean> {
     try {
       // Implementation would trigger React re-render
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) =>
+        setTimeout(resolve, ANIMATION.DURATION.fast * 1.3)
+      );
       return true;
     } catch {
       return false;
@@ -881,7 +889,9 @@ class SelfHealingSystem {
   private async fixAriaAttributes(): Promise<boolean> {
     try {
       // Implementation would add missing ARIA attributes
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) =>
+        setTimeout(resolve, ANIMATION.DURATION.fast / 3)
+      );
       return true;
     } catch {
       return false;
@@ -889,13 +899,17 @@ class SelfHealingSystem {
   }
 
   private async removeAriaAttributes(): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 25));
+    await new Promise((resolve) =>
+      setTimeout(resolve, ANIMATION.DURATION.fast / 6)
+    );
   }
 
   private async optimizePerformance(): Promise<boolean> {
     try {
       // Implementation would apply performance optimizations
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) =>
+        setTimeout(resolve, ANIMATION.DURATION.normal * 2)
+      );
       return true;
     } catch {
       return false;
@@ -903,7 +917,9 @@ class SelfHealingSystem {
   }
 
   private async revertPerformanceChanges(): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    await new Promise((resolve) =>
+      setTimeout(resolve, ANIMATION.DURATION.normal)
+    );
   }
 
   // Public API
@@ -1075,7 +1091,10 @@ export function GlassSelfHealingWrapper({
     runDiagnosis();
 
     // Periodic monitoring
-    const monitorInterval = setInterval(runDiagnosis, 10000);
+    const monitorInterval = setInterval(
+      runDiagnosis,
+      ANIMATION.DURATION.slower * 14
+    );
 
     // Monitor for DOM mutations
     const observer = new MutationObserver(() => {
@@ -1126,7 +1145,7 @@ export function GlassSelfHealingWrapper({
         monitoringEnabled &&
         health && (
           <motion.div
-            className='glass-absolute glass-top-1 glass-right-1 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white/20'
+            className="glass-absolute glass-top-1 glass-right-1 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white/20"
             style={{ backgroundColor: statusColor }}
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
@@ -1190,7 +1209,7 @@ export function GlassSelfHealingDashboard({
         🏥
         {criticalCount + warningCount + healingCount > 0 && (
           <motion.div
-            className='glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-red glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center'
+            className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-red glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center"
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
           >
@@ -1211,12 +1230,12 @@ export function GlassSelfHealingDashboard({
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
           >
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-text-sm glass-font-medium glass-text-primary'>
+              <h3 className="glass-text-sm glass-font-medium glass-text-primary">
                 Self-Healing Dashboard
               </h3>
               <button
                 onClick={() => setShowDashboard(false)}
-                className='glass-text-xs glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-text-xs glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
               >
                 ✕
               </button>
@@ -1230,12 +1249,12 @@ export function GlassSelfHealingDashboard({
                 animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
               >
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm glass-text-primary glass-font-medium'>
+                  <span className="glass-text-sm glass-text-primary glass-font-medium">
                     {health.componentType}
                   </span>
                   <div className="glass-flex glass-items-center glass-gap-2">
                     <div
-                      className='glass-w-3 glass-h-3 glass-radius-full'
+                      className="glass-w-3 glass-h-3 glass-radius-full"
                       style={{
                         backgroundColor: (
                           {
@@ -1263,7 +1282,7 @@ export function GlassSelfHealingDashboard({
             ))}
 
             {allHealth.length === 0 && (
-              <div className='glass-text-center glass-text-sm glass-text-secondary glass-py-4'>
+              <div className="glass-text-center glass-text-sm glass-text-secondary glass-py-4">
                 All components healthy! 🎉
               </div>
             )}

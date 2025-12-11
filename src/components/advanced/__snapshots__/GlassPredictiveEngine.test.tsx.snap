@@ -10,12 +10,12 @@ exports[`GlassPredictiveEngine matches snapshot 1`] = `
   >
     <div>
       <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+        class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
       >
         Predictive Engine
       </p>
       <h2
-        class="glass-text-2xl glass-text-primary font-semibold"
+        class="glass-text-2xl glass-text-primary glass-font-semibold"
       >
         Monitoring behavior
       </h2>
@@ -32,12 +32,12 @@ exports[`GlassPredictiveEngine matches snapshot 1`] = `
         class="glass-surface-subtle glass-radius-xl glass-p-4"
       >
         <p
-          class="glass-text-xs glass-text-tertiary mb-1"
+          class="glass-text-xs glass-text-tertiary glass-mb-1"
         >
           Predictions
         </p>
         <p
-          class="glass-text-lg glass-text-primary font-semibold"
+          class="glass-text-lg glass-text-primary glass-font-semibold"
         >
           0
         </p>
@@ -46,12 +46,12 @@ exports[`GlassPredictiveEngine matches snapshot 1`] = `
         class="glass-surface-subtle glass-radius-xl glass-p-4"
       >
         <p
-          class="glass-text-xs glass-text-tertiary mb-1"
+          class="glass-text-xs glass-text-tertiary glass-mb-1"
         >
           Insights
         </p>
         <p
-          class="glass-text-lg glass-text-primary font-semibold"
+          class="glass-text-lg glass-text-primary glass-font-semibold"
         >
           0
         </p>
@@ -67,11 +67,11 @@ exports[`GlassPredictiveEngine matches snapshot 1`] = `
     class="fixed top-4 right-4 z-50"
   >
     <button
-      class="w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3 flex items-center justify-center glass-text-primary transition-all duration-300 hover:scale-105"
+      class="w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3 flex items-center justify-center glass-text-primary transition-all duration-[300ms] glass-hover-scale-105"
       tabindex="0"
     >
       <div
-        class="relative"
+        class="glass-relative"
       >
         🧠
       </div>

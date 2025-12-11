@@ -1,4 +1,4 @@
-'use client';
+"use client";
 // Removed circular imports - components import directly from source
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -11,6 +11,9 @@ import {
   useA11yId,
 } from "../../utils/a11y";
 import { GlassButton } from "../button/GlassButton";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -163,8 +166,8 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     });
 
     // Add aria-label if no explicit label is provided
-    if (!label && !props['aria-label'] && !ariaLabelledBy) {
-      a11yProps['aria-label'] = props.placeholder || "Input field";
+    if (!label && !props["aria-label"] && !ariaLabelledBy) {
+      a11yProps["aria-label"] = props.placeholder || "Input field";
     }
 
     // Announce error state changes
@@ -272,12 +275,12 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
               },
               className
             )}
-            style={
-              {
+            style={{
+              ...({
                 "--liquid-glass-input-density": isFocused ? "0.95" : "0.92",
                 "--liquid-glass-focus-refraction": "1.15",
-              } as React.CSSProperties
-            }
+              } as React.CSSProperties),
+            }}
             data-liquid-glass-input="true"
             data-input-state={currentState}
             data-input-focused={isFocused}
@@ -352,7 +355,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                   iconSize?.[size]
                 )}
               >
-                <div className='glass-animate-spin'>⟳</div>
+                <div className="glass-animate-spin">⟳</div>
               </GlassButton>
             )}
 

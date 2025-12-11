@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useRef,
@@ -12,6 +12,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import { useGlassSound } from "../../utils/soundDesign";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface VortexRing {
   radius: number;
@@ -238,7 +241,9 @@ export const GlassVortexPortal = forwardRef<
             currentColors.accent[1] + Math.random() * 50,
             currentColors.accent[2] + Math.random() * 50,
           ],
-          lifetime: Math.random() * 5000 + 2000,
+          lifetime:
+            Math.random() * ANIMATION.DURATION.slower * 10 +
+            ANIMATION.DURATION.slower * 3,
           id: `particle-${i}`,
         });
       }
@@ -284,12 +289,12 @@ export const GlassVortexPortal = forwardRef<
         const interval = setInterval(() => {
           setCurrentIntensity((prev: any) => Math.min(intensity, prev + 0.02));
           setCurrentRadius((prev: any) => Math.min(radius, prev + 3));
-        }, 16);
+        }, ANIMATION.DURATION.fast);
 
         setTimeout(() => {
           clearInterval(interval);
           play("success");
-        }, 2000);
+        }, ANIMATION.DURATION.slower * 3);
 
         return () => clearInterval(interval);
       }
@@ -298,13 +303,13 @@ export const GlassVortexPortal = forwardRef<
         const interval = setInterval(() => {
           setCurrentIntensity((prev: any) => Math.max(0, prev - 0.02));
           setCurrentRadius((prev: any) => Math.max(0, prev - 3));
-        }, 16);
+        }, ANIMATION.DURATION.fast);
 
         setTimeout(() => {
           clearInterval(interval);
           setPortalActive(false);
           play("error");
-        }, 2000);
+        }, ANIMATION.DURATION.slower * 3);
 
         return () => clearInterval(interval);
       }
@@ -392,7 +397,9 @@ export const GlassVortexPortal = forwardRef<
                 currentColors.accent[1] + Math.random() * 50,
                 currentColors.accent[2] + Math.random() * 50,
               ],
-              lifetime: Math.random() * 5000 + 2000,
+              lifetime:
+                Math.random() * ANIMATION.DURATION.slower * 10 +
+                ANIMATION.DURATION.slower * 3,
               id: `particle-${Date.now()}-${i}`,
             });
           }
@@ -426,8 +433,7 @@ export const GlassVortexPortal = forwardRef<
       const centerY = height / 2;
 
       // Clear canvas
-      ctx.fillStyle =
-        "rgba(var(--glass-color-black) / var(--glass-opacity-10))";
+      ctx.fillStyle = "color-mix(in srgb, var(--glass-black) 10%, transparent)";
       ctx.fillRect(0, 0, width, height);
 
       // Apply distortion effects
@@ -443,8 +449,11 @@ export const GlassVortexPortal = forwardRef<
             distortionRadius
           );
 
-          gradient.addColorStop(0, "rgba(255, 255, 255, 0.02)");
-          gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+          gradient.addColorStop(
+            0,
+            "color-mix(in srgb, var(--glass-white) 2%, transparent)"
+          );
+          gradient.addColorStop(1, "transparent");
 
           ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, width, height);
@@ -464,13 +473,13 @@ export const GlassVortexPortal = forwardRef<
 
         horizonGradient.addColorStop(
           0,
-          `rgba(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}, 0.8)`
+          `color-mix(in srgb, rgb(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}) 80%, transparent)`
         );
         horizonGradient.addColorStop(
           0.7,
-          `rgba(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}, 0.3)`
+          `color-mix(in srgb, rgb(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}) 30%, transparent)`
         );
-        horizonGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+        horizonGradient.addColorStop(1, "transparent");
 
         ctx.fillStyle = horizonGradient;
         ctx.beginPath();
@@ -495,15 +504,15 @@ export const GlassVortexPortal = forwardRef<
         );
         ringGradient.addColorStop(
           0,
-          `rgba(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}, 0)`
+          `color-mix(in srgb, rgb(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}) 0%, transparent)`
         );
         ringGradient.addColorStop(
           0.5,
-          `rgba(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}, ${ring.opacity})`
+          `color-mix(in srgb, rgb(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}) ${ring.opacity * 100}%, transparent)`
         );
         ringGradient.addColorStop(
           1,
-          `rgba(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}, 0)`
+          `color-mix(in srgb, rgb(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}) 0%, transparent)`
         );
 
         ctx.strokeStyle = ringGradient;
@@ -734,14 +743,16 @@ export const GlassVortexPortal = forwardRef<
                 initializeDistortions();
                 play("success");
               }}
-              className='glass-px-3 glass-py-1 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-3 glass-py-1 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
             >
               Reset
             </button>
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm" htmlFor="vortex-type-select">Type:</label>
+            <label className="glass-text-sm" htmlFor="vortex-type-select">
+              Type:
+            </label>
             <select
               id="vortex-type-select"
               value={type}
@@ -758,7 +769,9 @@ export const GlassVortexPortal = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm" htmlFor="vortex-color-select">Color:</label>
+            <label className="glass-text-sm" htmlFor="vortex-color-select">
+              Color:
+            </label>
             <select
               id="vortex-color-select"
               value={colorScheme}
@@ -776,7 +789,9 @@ export const GlassVortexPortal = forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            <label className="glass-text-sm" htmlFor="vortex-intensity-range">Intensity:</label>
+            <label className="glass-text-sm" htmlFor="vortex-intensity-range">
+              Intensity:
+            </label>
             <input
               id="vortex-intensity-range"
               type="range"
@@ -785,10 +800,10 @@ export const GlassVortexPortal = forwardRef<
               step="0.1"
               value={currentIntensity}
               onChange={(e) => setCurrentIntensity(parseFloat(e.target.value))}
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
               aria-label="Adjust vortex intensity"
             />
-            <span className='glass-text-sm glass-min-w-3ch'>
+            <span className="glass-text-sm glass-min-w-3ch">
               {(currentIntensity * 100).toFixed(0)}%
             </span>
           </div>
@@ -847,7 +862,7 @@ export const GlassVortexPortal = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}

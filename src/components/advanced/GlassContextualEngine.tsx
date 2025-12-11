@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Contextual Engine
@@ -16,6 +16,8 @@ import React, {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Context data types
 interface BiometricData {
@@ -599,12 +601,12 @@ class GlassContextualEngineCore {
     // Update context every 500ms
     setInterval(() => {
       this.updateContext();
-    }, 500);
+    }, ANIMATION.DURATION.fast);
 
     // Generate adaptations every 2 seconds
     setInterval(() => {
       this.generateAdaptations();
-    }, 2000);
+    }, ANIMATION.DURATION.normal);
   }
 
   private async updateContext(): Promise<void> {
@@ -740,7 +742,7 @@ class GlassContextualEngineCore {
             },
           },
           confidence: 0.85,
-          duration: 300000, // 5 minutes
+          duration: ANIMATION.DURATION.slower * 428, // 5 minutes
         };
 
       case "high-stress":
@@ -783,7 +785,7 @@ class GlassContextualEngineCore {
             },
           },
           confidence: 0.9,
-          duration: 600000, // 10 minutes
+          duration: ANIMATION.DURATION.slower * 857, // 10 minutes
         };
 
       case "outdoor-bright":
@@ -826,7 +828,7 @@ class GlassContextualEngineCore {
             },
           },
           confidence: 0.95,
-          duration: 180000, // 3 minutes
+          duration: ANIMATION.DURATION.slower * 257, // 3 minutes
         };
 
       case "relaxation":
@@ -869,7 +871,7 @@ class GlassContextualEngineCore {
             },
           },
           confidence: 0.8,
-          duration: 900000, // 15 minutes
+          duration: ANIMATION.DURATION.slower * 1285, // 15 minutes
         };
     }
 
@@ -916,8 +918,8 @@ class ContextualSensors {
 
   async initialize(): Promise<void> {
     // CRITICAL SSR FIX: Skip all sensor initialization on server
-    if (typeof window === 'undefined' || typeof navigator === 'undefined') {
-      console.warn('ContextualSensors: Skipping initialization on server');
+    if (typeof window === "undefined" || typeof navigator === "undefined") {
+      console.warn("ContextualSensors: Skipping initialization on server");
       return;
     }
 
@@ -1083,7 +1085,7 @@ class ContextualSensors {
 
   private estimateNetworkQuality(): DeviceSensorData["networkQuality"] {
     // CRITICAL SSR FIX: Skip navigator access on server
-    if (typeof navigator === 'undefined') {
+    if (typeof navigator === "undefined") {
       return "good";
     }
 
@@ -1204,7 +1206,7 @@ export function GlassContextualEngineProvider({
         onContextUpdate?.(currentContext);
         onAdaptationChange?.(currentTopAdaptation);
       }
-    }, 1000);
+    }, ANIMATION.DURATION.fast);
 
     return () => clearInterval(updateInterval);
   }, [onContextUpdate, onAdaptationChange]);
@@ -1260,16 +1262,20 @@ export function GlassContextualDashboard({
         className={cn(
           "w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3",
           "flex items-center justify-center glass-text-primary",
-          "transition-all duration-300 glass-hover-scale-105"
+          "transition-all glass-hover-scale-105",
+          { transitionDuration: "var(--glass-motion-duration-normal)" }
         )}
         onClick={() => setShowDashboard(!showDashboard)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+        whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+        transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+        aria-label="Toggle contextual engine dashboard"
+        aria-expanded={showDashboard}
       >
         🌐
         {adaptations.length > 0 && (
           <motion.div
-            className='glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full'
+            className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full"
             initial={{ scale: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1 }}
           />
@@ -1286,65 +1292,75 @@ export function GlassContextualDashboard({
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
+            }
+            role="dialog"
+            aria-label="Contextual engine dashboard"
           >
-            <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-text-sm glass-font-medium glass-text-primary'>
-                Contextual Engine
-              </h3>
-              <button
-                onClick={() => setShowDashboard(false)}
-                className='glass-text-xs glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Current Context */}
-            <div className="glass-gap-2">
-              <h4 className='glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                Current Context
-              </h4>
-              <div className="glass-grid glass-grid-cols-2 glass-gap-2 glass-text-xs">
-                <div className="glass-surface-secondary glass-p-2 glass-radius-sm">
-                  <div className="glass-text-tertiary">Environment</div>
-                  <div className='glass-text-primary'>
-                    {context.environment?.timeOfDay}
-                  </div>
-                  <div className="glass-text-secondary">
-                    {context.environment?.lightLevel}lx
-                  </div>
-                </div>
-                <div className="glass-surface-secondary glass-p-2 glass-radius-sm">
-                  <div className="glass-text-tertiary">Device</div>
-                  <div className='glass-text-primary'>
-                    {context.device?.deviceMotion}
-                  </div>
-                  <div className="glass-text-secondary">
-                    {((context.device?.batteryLevel || 0) * 100).toFixed(0)}%
-                  </div>
-                </div>
+            <ContrastGuard>
+              <div className="glass-flex glass-items-center glass-justify-between">
+                <h3 className="glass-text-sm glass-font-medium glass-text-primary">
+                  Contextual Engine
+                </h3>
+                <button
+                  onClick={() => setShowDashboard(false)}
+                  className="glass-text-xs glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target"
+                  aria-label="Close contextual engine dashboard"
+                >
+                  ✕
+                </button>
               </div>
-            </div>
 
-            {/* Active Adaptation */}
-            {topAdaptation && (
+              {/* Current Context */}
               <div className="glass-gap-2">
-                <h4 className='glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                  Active Adaptation
+                <h4 className="glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                  Current Context
                 </h4>
-                <div className="glass-p-3 glass-surface-secondary glass-radius-md">
-                  <div className='glass-text-sm glass-text-primary glass-font-medium glass-mb-1'>
-                    {topAdaptation.id
-                      .split("-")[0]
-                      .replace(/([A-Z])/g, " $1")
-                      .toLowerCase()}
+                <div className="glass-grid glass-grid-cols-2 glass-gap-2 glass-text-xs">
+                  <div className="glass-surface-secondary glass-p-2 glass-radius-sm">
+                    <div className="glass-text-tertiary">Environment</div>
+                    <div className="glass-text-primary">
+                      {context.environment?.timeOfDay}
+                    </div>
+                    <div className="glass-text-secondary">
+                      {context.environment?.lightLevel}lx
+                    </div>
                   </div>
-                  <div className="glass-text-xs glass-text-tertiary">
-                    Confidence: {(topAdaptation.confidence * 100).toFixed(0)}%
+                  <div className="glass-surface-secondary glass-p-2 glass-radius-sm">
+                    <div className="glass-text-tertiary">Device</div>
+                    <div className="glass-text-primary">
+                      {context.device?.deviceMotion}
+                    </div>
+                    <div className="glass-text-secondary">
+                      {((context.device?.batteryLevel || 0) * 100).toFixed(0)}%
+                    </div>
                   </div>
                 </div>
               </div>
-            )}
+
+              {/* Active Adaptation */}
+              {topAdaptation && (
+                <div className="glass-gap-2">
+                  <h4 className="glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                    Active Adaptation
+                  </h4>
+                  <div className="glass-p-3 glass-surface-secondary glass-radius-md">
+                    <div className="glass-text-sm glass-text-primary glass-font-medium glass-mb-1">
+                      {topAdaptation.id
+                        .split("-")[0]
+                        .replace(/([A-Z])/g, " $1")
+                        .toLowerCase()}
+                    </div>
+                    <div className="glass-text-xs glass-text-tertiary">
+                      Confidence: {(topAdaptation.confidence * 100).toFixed(0)}%
+                    </div>
+                  </div>
+                </div>
+              )}
+            </ContrastGuard>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1427,84 +1443,89 @@ function ContextualEngineSummary() {
       style={getAdaptiveStyles()}
       data-testid="glass-contextual-engine-summary"
     >
-      <div className="glass-flex glass-items-center glass-justify-between">
+      <ContrastGuard>
+        <div className="glass-flex glass-items-center glass-justify-between">
+          <div>
+            <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+              Contextual Engine
+            </p>
+            <h2 className="glass-text-xl glass-text-primary glass-font-semibold">
+              {isAdapting ? "Adaptive Mode" : "Learning Mode"}
+            </h2>
+          </div>
+          <div className="glass-text-right">
+            <p className="glass-text-xs glass-text-tertiary">Battery</p>
+            <p className="glass-text-lg glass-text-primary glass-font-medium">
+              {device?.batteryLevel
+                ? `${Math.round(device.batteryLevel * 100)}%`
+                : "—"}
+            </p>
+          </div>
+        </div>
+
+        <div className="glass-grid glass-grid-cols-2 glass-gap-3">
+          <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+            <p className="glass-text-xs glass-text-tertiary glass-mb-1">
+              Time of day
+            </p>
+            <p className="glass-text-lg glass-text-primary glass-font-medium glass-capitalize">
+              {environment?.timeOfDay || "detecting"}
+            </p>
+            <p className="glass-text-xs glass-text-secondary">
+              Light{" "}
+              {environment?.lightLevel ? `${environment.lightLevel}lx` : "—"}
+            </p>
+          </div>
+          <div className="glass-surface-subtle glass-radius-xl glass-p-4">
+            <p className="glass-text-xs glass-text-tertiary glass-mb-1">
+              Motion
+            </p>
+            <p className="glass-text-lg glass-text-primary glass-font-medium glass-capitalize">
+              {device?.deviceMotion || "idle"}
+            </p>
+            <p className="glass-text-xs glass-text-secondary">
+              {environment?.temperature
+                ? `${environment.temperature.toFixed(1)}°C`
+                : "Analyzing ambient"}
+            </p>
+          </div>
+        </div>
+
         <div>
-          <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-            Contextual Engine
+          <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2">
+            Active adaptations
           </p>
-          <h2 className='glass-text-xl glass-text-primary glass-font-semibold'>
-            {isAdapting ? "Adaptive Mode" : "Learning Mode"}
-          </h2>
+          <div className="glass-flex glass-flex-wrap glass-gap-2">
+            {safeAdaptations.length === 0 && (
+              <span className="glass-text-sm glass-text-secondary">
+                Gathering signals…
+              </span>
+            )}
+            {safeAdaptations.map((item) => (
+              <span
+                key={item.id}
+                className="glass-text-xs glass-radius-full glass-px-3 glass-py-1 glass-surface-subtle"
+              >
+                {item.id.split("-")[0]}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="glass-text-right">
-          <p className="glass-text-xs glass-text-tertiary">Battery</p>
-          <p className='glass-text-lg glass-text-primary glass-font-medium'>
-            {device?.batteryLevel
-              ? `${Math.round(device.batteryLevel * 100)}%`
+
+        <div className="glass-text-xs glass-text-secondary glass-flex glass-items-center glass-justify-between">
+          <span>
+            {adaptation
+              ? `Confidence ${(adaptation.confidence * 100).toFixed(0)}%`
+              : "Awaiting adaptation event"}
+          </span>
+          <span>
+            Ambient noise:{" "}
+            {environment?.ambientNoise
+              ? `${environment.ambientNoise.toFixed(0)} dB`
               : "—"}
-          </p>
+          </span>
         </div>
-      </div>
-
-      <div className="glass-grid glass-grid-cols-2 glass-gap-3">
-        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>
-            Time of day
-          </p>
-          <p className='glass-text-lg glass-text-primary glass-font-medium glass-capitalize'>
-            {environment?.timeOfDay || "detecting"}
-          </p>
-          <p className="glass-text-xs glass-text-secondary">
-            Light {environment?.lightLevel ? `${environment.lightLevel}lx` : "—"}
-          </p>
-        </div>
-        <div className="glass-surface-subtle glass-radius-xl glass-p-4">
-          <p className='glass-text-xs glass-text-tertiary glass-mb-1'>Motion</p>
-          <p className='glass-text-lg glass-text-primary glass-font-medium glass-capitalize'>
-            {device?.deviceMotion || "idle"}
-          </p>
-          <p className="glass-text-xs glass-text-secondary">
-            {environment?.temperature
-              ? `${environment.temperature.toFixed(1)}°C`
-              : "Analyzing ambient"}
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2'>
-          Active adaptations
-        </p>
-        <div className="glass-flex glass-flex-wrap glass-gap-2">
-          {safeAdaptations.length === 0 && (
-            <span className="glass-text-sm glass-text-secondary">
-              Gathering signals…
-            </span>
-          )}
-          {safeAdaptations.map((item) => (
-            <span
-              key={item.id}
-              className="glass-text-xs glass-radius-full glass-px-3 glass-py-1 glass-surface-subtle"
-            >
-              {item.id.split("-")[0]}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="glass-text-xs glass-text-secondary glass-flex glass-items-center glass-justify-between">
-        <span>
-          {adaptation
-            ? `Confidence ${(adaptation.confidence * 100).toFixed(0)}%`
-            : "Awaiting adaptation event"}
-        </span>
-        <span>
-          Ambient noise:{" "}
-          {environment?.ambientNoise
-            ? `${environment.ambientNoise.toFixed(0)} dB`
-            : "—"}
-        </span>
-      </div>
+      </ContrastGuard>
     </div>
   );
 }

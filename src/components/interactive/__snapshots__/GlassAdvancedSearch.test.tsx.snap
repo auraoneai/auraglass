@@ -7,32 +7,32 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
   <div
     aria-describedby="advanced-search-:rf:-description"
     aria-label="Advanced search interface"
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     id="advanced-search-:rf:"
     role="search"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="sr-only"
+        class="glass-sr-only"
         id="advanced-search-:rf:-description"
       >
         Advanced search interface with filters, suggestions, and result management
       </div>
       <div
-        class="card-header pb-3"
+        class="card-header glass-pb-3"
       >
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
           <h2
-            class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+            class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-search w-5 h-5"
+              class="lucide lucide-search glass-w-5 glass-h-5"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -58,19 +58,19 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2"
           >
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-disabled="true"
                 aria-label="Save search"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 disabled=""
                 id="glass-button-:rg:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-save w-4 h-4"
+                  class="lucide lucide-save glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -94,18 +94,18 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Show filters"
                 aria-pressed="false"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 relative"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-relative"
                 id="glass-button-:rh:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-funnel w-4 h-4"
+                  class="lucide lucide-funnel glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -126,17 +126,17 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="card-content pt-0 glass-auto-gap glass-auto-gap-lg"
+        class="card-content glass-pt-0 glass-auto-gap glass-auto-gap-lg"
       >
         <div
-          class="relative"
+          class="glass-relative"
         >
           <div
-            class="relative"
+            class="glass-relative"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-search absolute left-3 glass-top-1/2 transform -translate-y-1/2 text-primary/60 w-4 h-4"
+              class="lucide lucide-search glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-text-primary-glass-opacity-60 glass-w-4 glass-h-4"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -157,7 +157,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               />
             </svg>
             <input
-              class="glass-w-full pl-10 pr-4 glass-py-3 glass-surface-subtle/10 ring-1 ring-white/10 glass-radius-lg text-primary placeholder-white/50 focus:outline-none focus:ring-white/30 glass-touch-target glass-contrast-guard"
+              class="glass-w-full glass-pl-10 glass-pr-4 glass-py-3 glass-surface-subtle/10 glass-ring-1 glass-ring-white-opacity-10 glass-radius-lg glass-text-primary glass-placeholder-white-opacity-50 glass-focus-outline-none glass-focus-ring-white-opacity-30 glass-touch-target glass-contrast-guard"
               placeholder="Search..."
               type="text"
               value=""

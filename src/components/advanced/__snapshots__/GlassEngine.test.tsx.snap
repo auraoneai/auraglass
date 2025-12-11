@@ -2,7 +2,9 @@
 
 exports[`GlassEngine matches snapshot 1`] = `
 <div
+  aria-label="Glass engine"
   class="glass-engine-wrapper glass-space-y-6"
+  role="main"
 >
   <div>
     Test content

@@ -19,11 +19,11 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
     class="motion-primitive"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 glass-p-6"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 glass-p-6"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
-        class="relative z-10"
+        class="glass-relative glass-z-10"
       >
         <div
           class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
@@ -38,7 +38,7 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
                 class="glass-auto-gap glass-auto-gap-2xl"
               >
                 <div
-                  class="text-center glass-py-8 glass-text-secondary"
+                  class="glass-text-center glass-py-8 glass-text-secondary"
                 >
                   <p>
                     No form sections configured
@@ -46,14 +46,14 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8"
+                class="glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8"
               >
                 <div
-                  class="motion-primitive inline-block"
+                  class="motion-primitive glass-inline-glass-block"
                 >
                   <button
                     aria-label="Submit form"
-                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                    class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                     data-magnet="true"
                     data-performance-mode="ultra"
                     id="glass-button-:rj:"
@@ -61,7 +61,7 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
                     type="submit"
                   >
                     <span
-                      class="relative z-10"
+                      class="glass-relative glass-z-10"
                     />
                   </button>
                 </div>
@@ -78,10 +78,10 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
               class="flex flex-row glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
             >
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
               >
                 <button
-                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                   data-magnet="true"
                   data-performance-mode="ultra"
                   id="glass-button-:rn:"
@@ -89,7 +89,7 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
                   type="submit"
                 >
                   <span
-                    class="relative z-10"
+                    class="glass-relative glass-z-10"
                   >
                     Submit
                   </span>

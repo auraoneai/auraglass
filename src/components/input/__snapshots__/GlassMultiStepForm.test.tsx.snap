@@ -2,29 +2,29 @@
 
 exports[`GlassMultiStepForm matches snapshot 1`] = `
 <div
-  class="motion-primitive glass-w-full max-w-4xl glass-mx-auto"
+  class="motion-primitive glass-w-full glass-max-w-4xl glass-mx-auto"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-6"
+        class="card-header glass-pb-6"
       >
         <div
           aria-label="Form progress"
-          class="mt-6"
+          class="glass-mt-6"
           role="group"
         >
           <div
-            class="glass-flex glass-justify-between glass-items-center mb-2"
+            class="glass-flex glass-justify-between glass-items-center glass-mb-2"
           >
             <span
               aria-live="polite"
-              class="glass-text-sm text-primary/60"
+              class="glass-text-sm glass-text-primary-glass-opacity-60"
             >
               Step 
               1
@@ -33,7 +33,7 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
             </span>
             <span
               aria-live="polite"
-              class="glass-text-sm text-primary/60"
+              class="glass-text-sm glass-text-primary-glass-opacity-60"
             >
               0
               % Complete
@@ -44,7 +44,7 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
             aria-valuemax="100"
             aria-valuemin="0"
             aria-valuenow="0"
-            class="glass-w-full glass-surface-subtle/10 glass-radius-full h-2 overflow-hidden"
+            class="glass-w-full glass-surface-subtle/10 glass-radius-full glass-h-2 glass-overflow-hidden"
             role="progressbar"
           >
             <div
@@ -59,13 +59,13 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
-          class="min-h-[400px]"
+          class="glass-min-h-400px"
         />
         <div
-          class="glass-flex glass-justify-between glass-items-center mt-8 pt-6 glass-border-t glass-border-white/10"
+          class="glass-flex glass-justify-between glass-items-center glass-mt-8 glass-pt-6 glass-border-t glass-border-white/10"
         >
           <div
             class="glass-flex glass-gap-3"
@@ -74,10 +74,10 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
             class="glass-flex glass-gap-3"
           >
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
             >
               <button
-                class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-flex glass-items-center glass-gap-2 glass-min-w-24"
+                class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-flex glass-items-center glass-gap-2 glass-min-glass-w-24"
                 data-caustics="true"
                 data-magnet="true"
                 data-performance-mode="ultra"
@@ -85,11 +85,11 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
                 style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
-                  class="relative z-10"
+                  class="glass-relative glass-z-10"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-circle-check-big w-4 h-4"
+                    class="lucide lucide-circle-check-big glass-w-4 glass-h-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"

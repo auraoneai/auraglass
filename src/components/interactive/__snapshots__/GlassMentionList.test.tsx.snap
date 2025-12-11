@@ -7,10 +7,10 @@ exports[`GlassMentionList matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <ul
-    class="max-h-60 overflow-auto"
+    class="glass-max-h-60 glass-overflow-auto"
   >
     <li
-      class="glass-text-sm glass-text-secondary glass-py-3 text-center"
+      class="glass-text-sm glass-text-secondary glass-py-3 glass-text-center"
     >
       No mentions available.
     </li>

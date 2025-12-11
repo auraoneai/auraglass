@@ -10,28 +10,28 @@ exports[`GlassCollaborationDashboard matches snapshot 1`] = `
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <button
-        class="glass-flex glass-items-center glass-gap-3 hover:glass-surface-subtle glass-radius glass-p-2 transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-flex glass-items-center glass-gap-3 hover:glass-surface-subtle glass-radius glass-p-2 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       >
         <div
-          class="glass-flex -space-x-2"
+          class="glass-flex glass--space-x-2"
         />
         <div
-          class="text-left"
+          class="glass-text-left"
         >
           <div
-            class="glass-text-sm font-medium glass-text-secondary"
+            class="glass-text-sm glass-font-medium glass-text-secondary"
           >
             0
              online
           </div>
           <div
-            class="flex items-center gap-2 text-sm text-yellow-600"
+            class="flex items-center gap-2 text-sm text-red-600"
           >
             <span>
-              🟡
+              🔴
             </span>
             <span>
-              Connecting...
+              Disconnected
             </span>
           </div>
         </div>

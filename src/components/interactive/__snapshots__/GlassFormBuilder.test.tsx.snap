@@ -8,7 +8,7 @@ exports[`GlassFormBuilder matches snapshot 1`] = `
     class="glass-auto-gap glass-auto-gap-2xl"
   >
     <div
-      class="text-center glass-py-8 glass-text-secondary"
+      class="glass-text-center glass-py-8 glass-text-secondary"
     >
       <p>
         No form sections configured
@@ -16,14 +16,14 @@ exports[`GlassFormBuilder matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8"
+    class="glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8"
   >
     <div
-      class="motion-primitive inline-block"
+      class="motion-primitive glass-inline-glass-block"
     >
       <button
         aria-label="Submit"
-        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
         data-magnet="true"
         data-performance-mode="ultra"
         id="glass-button-:r6:"
@@ -31,7 +31,7 @@ exports[`GlassFormBuilder matches snapshot 1`] = `
         type="submit"
       >
         <span
-          class="relative z-10"
+          class="glass-relative glass-z-10"
         >
           Submit
         </span>

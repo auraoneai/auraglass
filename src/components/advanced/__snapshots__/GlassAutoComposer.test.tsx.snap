@@ -3,37 +3,69 @@
 exports[`GlassAutoComposer matches snapshot 1`] = `
 <div>
   <div
+    aria-label="AI Layout Generator"
     class="space-y-6"
+    role="main"
   >
     <div
       class="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6"
     >
-      <h2
-        class="glass-text-2xl font-bold text-primary mb-4"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        AI Layout Generator
-      </h2>
+        <h2
+          class="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4"
+        >
+          AI Layout Generator
+        </h2>
+      </span>
       <div
         class="glass-gap-4"
       >
         <div>
           <label
-            class="block glass-text-sm font-medium glass-text-secondary mb-2"
+            class="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2"
+            for="layout-prompt-textarea"
           >
-            Describe the layout you want
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              Describe the layout you want
+            </span>
           </label>
           <textarea
-            class="glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 text-primary glass-touch-target glass-contrast-guard"
+            aria-describedby="layout-prompt-description"
+            aria-label="Layout description input"
+            class="glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 glass-text-primary glass-touch-target glass-contrast-guard"
+            id="layout-prompt-textarea"
             placeholder="e.g., Create a modern dashboard with charts, stats cards, and a sidebar navigation"
             rows="3"
           />
+          <span
+            class="glass-sr-only"
+            id="layout-prompt-description"
+          >
+            Enter a description of the layout you want to generate
+          </span>
         </div>
         <button
-          class="glass-surface-accent glass-px-6 glass-py-3 glass-radius-md font-medium"
+          aria-busy="false"
+          aria-label="Generate layout"
+          class="glass-surface-accent glass-px-6 glass-py-3 glass-radius-md glass-font-medium"
           disabled=""
           tabindex="0"
         >
-          Generate Layout
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
+          >
+            Generate Layout
+          </span>
         </button>
       </div>
     </div>

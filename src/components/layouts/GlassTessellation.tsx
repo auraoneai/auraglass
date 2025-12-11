@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { AnimatePresence, motion } from "framer-motion";
 import React, {
   forwardRef,
@@ -17,6 +17,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface TessellationTile {
   id: string;
@@ -91,7 +93,7 @@ export const GlassTessellation = forwardRef<
       onTileHover,
       glassConfig = {},
       soundEnabled = true,
-      className="",
+      className = "",
       style = {},
       ...props
     },
@@ -341,7 +343,7 @@ export const GlassTessellation = forwardRef<
           play("click");
         }
 
-        setTimeout(() => setSelectedTile(null), 300);
+        setTimeout(() => setSelectedTile(null), ANIMATION.DURATION.normal);
       },
       [onTileClick, soundEnabled, play]
     );
@@ -368,7 +370,7 @@ export const GlassTessellation = forwardRef<
 
       const shapeProps = {
         className: `
-          transition-all duration-200 cursor-pointer
+          transition-all duration-[${ANIMATION.DURATION.fast}ms] cursor-pointer
           ${
             isHovered || isSelected
               ? "fill-white/20 stroke-white/60"
@@ -425,9 +427,9 @@ export const GlassTessellation = forwardRef<
             y="0"
             width={effectiveSize}
             height={effectiveSize}
-            className='glass-pointer-events-none'
+            className="glass-pointer-events-none"
           >
-            <div className='glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-primary-glass-opacity-90'>
+            <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-primary-glass-opacity-90">
               {tile.content}
             </div>
           </foreignObject>
@@ -481,7 +483,7 @@ export const GlassTessellation = forwardRef<
         }}
         glassConfig={{
           blur: 10,
-          opacity: 0.95,
+          opacity: 0.95, // Using opacity value for glass effect
           saturation: 1.1,
           brightness: 1.05,
           ...glassConfig,
@@ -491,10 +493,10 @@ export const GlassTessellation = forwardRef<
         id={tessellationId}
         {...props}
       >
-        <div ref={containerRef} className='glass-absolute glass-inset-0'>
+        <div ref={containerRef} className="glass-absolute glass-inset-0">
           {/* Grid overlay */}
           {showGrid && (
-            <div className='glass-absolute glass-inset-0 glass-pointer-events-none'>
+            <div className="glass-absolute glass-inset-0 glass-pointer-events-none">
               <svg width={containerWidth} height={containerHeight}>
                 <defs>
                   <pattern
@@ -521,7 +523,7 @@ export const GlassTessellation = forwardRef<
           <svg
             width={containerWidth}
             height={containerHeight}
-            className='glass-absolute glass-inset-0'
+            className="glass-absolute glass-inset-0"
           >
             <AnimatePresence>
               {tiles.map((tile, index) => {
@@ -561,7 +563,7 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Info panel */}
-        <div className='glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70'>
+        <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70">
           <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             Pattern: {tessellationType}
           </div>
@@ -579,7 +581,7 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Legend */}
-        <div className='glass-absolute glass-top-4 glass-right-4 glass-text-xs glass-text-primary-opacity-70'>
+        <div className="glass-absolute glass-top-4 glass-right-4 glass-text-xs glass-text-primary-opacity-70">
           <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             {tessellationType.charAt(0).toUpperCase() +
               tessellationType.slice(1)}{" "}

@@ -5,14 +5,14 @@ exports[`GlassStatCard matches snapshot 1`] = `
   class="motion-primitive glass-w-full glass-stat-card"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 glass-p-6 group relative overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 glass-p-6 group relative overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-2"
+        class="card-header glass-pb-2"
       >
         <div
           class="flex items-start justify-between flex-col"
@@ -23,13 +23,19 @@ exports[`GlassStatCard matches snapshot 1`] = `
             <h2
               class="card-title glass-text-base font-medium glass-text-primary/90 flex items-center glass-gap-2"
             >
-              Test Stat
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
+              >
+                Test Stat
+              </span>
             </h2>
           </div>
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
           class="flex items-baseline glass-gap-2 glass-mb-4 justify-center"
@@ -37,7 +43,13 @@ exports[`GlassStatCard matches snapshot 1`] = `
           <span
             class="glass-text-2xl font-bold glass-text-primary"
           >
-            100
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              100
+            </span>
           </span>
         </div>
       </div>

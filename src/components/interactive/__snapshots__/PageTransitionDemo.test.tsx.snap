@@ -2,33 +2,33 @@
 
 exports[`PageTransitionDemo matches snapshot 1`] = `
 <div
-  class="relative"
-  style="position: relative; width: 520px; height: 320px;"
+  class="glass-relative"
+  style="width: 520px; height: 320px;"
 >
   <div
     style="display: flex; gap: 8px; margin-bottom: 12px;"
   >
     <button
       class="glass-focus glass-touch-target glass-contrast-guard"
-      style="padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.18); color: white;"
+      style="padding: 6px 10px; border-radius: 0.375rem; color: white;"
     >
       Overview
     </button>
     <button
       class="glass-focus glass-touch-target glass-contrast-guard"
-      style="padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); color: white;"
+      style="padding: 6px 10px; border-radius: 0.375rem; color: white;"
     >
       Details
     </button>
     <button
       class="glass-focus glass-touch-target glass-contrast-guard"
-      style="padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.08); color: white;"
+      style="padding: 6px 10px; border-radius: 0.375rem; color: white;"
     >
       Insights
     </button>
   </div>
   <div
-    style="position: relative; border-radius: 16px; overflow: hidden; height: 260px;"
+    style="position: relative; border-radius: 0.5rem; overflow: hidden; height: 260px;"
   >
     <div
       style="position: absolute; inset: 0; opacity: 0; filter: blur(var(--glass-blur-md)); transform: translateY(10px);"

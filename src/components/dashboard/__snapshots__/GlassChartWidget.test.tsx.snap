@@ -6,28 +6,34 @@ exports[`GlassChartWidget matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 glass-p-6"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 glass-p-6"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-4"
+        class="card-header glass-pb-4"
       >
         <div
           class="glass-flex glass-items-start glass-justify-between"
         >
           <div
-            class="glass-flex-1 glass-min-w-0"
+            class="glass-flex-1 glass-min-glass-w-0"
           >
             <div
-              class="glass-flex glass-items-center glass-gap-3 mb-2"
+              class="glass-flex glass-items-center glass-gap-3 glass-mb-2"
             >
               <h2
                 class="card-title glass-text-xl font-semibold glass-text-primary flex items-center glass-gap-2"
               >
-                Chart Widget
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
+                >
+                  Chart Widget
+                </span>
               </h2>
             </div>
           </div>
@@ -38,12 +44,12 @@ exports[`GlassChartWidget matches snapshot 1`] = `
               class="glass-flex glass-items-center glass-gap-1"
             >
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Refresh chart data"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:r9:"
                 >
                   <svg
@@ -75,17 +81,17 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Download chart data"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:ra:"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-download w-4 h-4"
+                    class="lucide lucide-download glass-w-4 glass-h-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -109,17 +115,17 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Enter fullscreen"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:rb:"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-maximize2 lucide-maximize-2 w-4 h-4"
+                    class="lucide lucide-maximize2 lucide-maximize-2 glass-w-4 glass-h-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -150,10 +156,10 @@ exports[`GlassChartWidget matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
-          class="min-h-[300px]"
+          class="glass-min-h-300px"
         />
       </div>
     </div>

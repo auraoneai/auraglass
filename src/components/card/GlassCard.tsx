@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -11,6 +11,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface GlassCardProps
   extends Omit<OptimizedGlassProps, "variant" | "tint"> {
@@ -104,8 +105,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       default: "",
       outlined: "glass-focus glass-border-subtle",
       elevated: "",
-      interactive:
-        "transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
+      interactive: `transition-all duration-[${ANIMATION.DURATION.fast}ms] hover:scale-[1.02] active:scale-[0.98]`,
       feature: "relative overflow-hidden",
       minimal: "glass-glass-backdrop-blur-md bg-transparent border-0",
       primary: "",
@@ -125,6 +125,12 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     };
 
     const isInteractive = interactive || hoverable || clickable;
+
+    const cardStyle = {
+      "--liquid-glass-card-density": variant === "minimal" ? "0.8" : "0.92",
+      "--liquid-glass-hover-lift": hoverable ? "8px" : "0px",
+      "--liquid-glass-interaction-depth": isInteractive ? "1.05" : "1.0",
+    } as React.CSSProperties;
 
     return material === "liquid" ? (
       <LiquidGlassMaterial
@@ -162,7 +168,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         interactive={isInteractive}
         className={cn(
           "liquid-glass-card-surface relative glass-radius-xl overflow-hidden",
-          "transition-all duration-300 ease-out",
+          `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
           hoverable && ["group"],
           sizeClasses[size],
           variantClasses[variant],
@@ -174,21 +180,14 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           },
           className
         )}
-        style={
-          {
-            "--liquid-glass-card-density":
-              variant === "minimal" ? "0.8" : "0.92",
-            "--liquid-glass-hover-lift": hoverable ? "8px" : "0px",
-            "--liquid-glass-interaction-depth": isInteractive ? "1.05" : "1.0",
-          } as React.CSSProperties
-        }
+        style={{ ...cardStyle }}
         data-liquid-glass-card="true"
         data-card-variant={variant}
         data-card-size={size}
         {...props}
       >
         {loading && (
-          <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass-animate-glass-shimmer' />
+          <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass-animate-glass-shimmer" />
         )}
         {children}
       </LiquidGlassMaterial>
@@ -203,7 +202,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         tier="high"
         className={cn(
           "glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset",
-          "transition-all duration-300 ease-out",
+          `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
           // Advanced hover effects with glass enhancement
           hoverable && ["group"],
           sizeClasses[size],
@@ -229,28 +228,34 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         {hoverable && (
           <>
             {/* Subtle glow overlay on hover */}
-            <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-300 glass-pointer-events-none glass-radius-lg' />
+            <div
+              className={`glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-[${ANIMATION.DURATION.normal}ms] glass-pointer-events-none glass-radius-lg`}
+            />
 
             {/* Shimmer effect on hover */}
-            <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass--translate-x-full glass-group-hover:translate-x-full glass-transition-transform glass-duration-1000 glass-pointer-events-none glass-radius-lg' />
+            <div
+              className={`glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass--translate-x-full glass-group-hover:translate-x-full glass-transition-transform glass-duration-[${ANIMATION.DURATION.slower * 1.4}ms] glass-pointer-events-none glass-radius-lg`}
+            />
 
             {/* Border glow enhancement */}
-            <div className='glass-absolute glass-inset-0 glass-radius-lg glass-border glass-border-white/0 glass-group-hover:glass-border-white/20 glass-transition-colors glass-duration-300 glass-pointer-events-none' />
+            <div
+              className={`glass-absolute glass-inset-0 glass-radius-lg glass-border glass-border-white/0 glass-group-hover:glass-border-white/20 glass-transition-colors glass-duration-[${ANIMATION.DURATION.normal}ms] glass-pointer-events-none`}
+            />
           </>
         )}
 
         {/* Feature variant enhancement */}
         {variant === "feature" && (
-          <div className='glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-4 glass-gradient-primary glass-radius-lg' />
+          <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-4 glass-gradient-primary glass-radius-lg" />
         )}
 
         {/* Content with enhanced loading state */}
-        <div className='glass-relative glass-z-10'>
+        <div className="glass-relative glass-z-10">
           {loading ? (
             <div className="glass-auto-gap glass-auto-gap-md">
-              <div className='glass-h-4 glass-surface-subtle/20 glass-animate-pulse glass-radius-sm glass-shimmer glass-contrast-guard' />
-              <div className='glass-h-4 glass-surface-subtle/15 glass-animate-pulse glass-radius-sm glass-w-3-4 glass-shimmer glass-contrast-guard' />
-              <div className='glass-h-4 glass-surface-subtle/10 glass-animate-pulse glass-radius-sm glass-w-1-2 glass-shimmer glass-contrast-guard' />
+              <div className="glass-h-4 glass-surface-subtle/20 glass-animate-pulse glass-radius-sm glass-shimmer glass-contrast-guard" />
+              <div className="glass-h-4 glass-surface-subtle/15 glass-animate-pulse glass-radius-sm glass-w-3-4 glass-shimmer glass-contrast-guard" />
+              <div className="glass-h-4 glass-surface-subtle/10 glass-animate-pulse glass-radius-sm glass-w-1-2 glass-shimmer glass-contrast-guard" />
             </div>
           ) : (
             children

@@ -21,6 +21,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 // Quantum state types
 interface QuantumState<T = any> {
@@ -339,7 +341,7 @@ class QuantumUISystem {
     };
 
     // Continuous quantum evolution
-    setInterval(evolveState, 50); // 20fps evolution
+    setInterval(evolveState, ANIMATION.DURATION.fast / 2); // 20fps evolution
   }
 
   measureState(
@@ -366,7 +368,7 @@ class QuantumUISystem {
     this.handleEntangledMeasurements(stateId, measurement.stateIndex);
 
     // Start decoherence process
-    this.scheduleDecoherence(stateId, 5000); // 5 seconds
+    this.scheduleDecoherence(stateId, ANIMATION.DURATION.slower * 8); // 5 seconds
 
     return quantumMeasurement;
   }
@@ -703,7 +705,7 @@ export function GlassQuantumButton({
     };
 
     updateSuperposition();
-    const interval = setInterval(updateSuperposition, 100);
+    const interval = setInterval(updateSuperposition, ANIMATION.DURATION.fast);
 
     return () => clearInterval(interval);
   }, [buttonId, createQuantumState, getSuperposition, possibleStates]);
@@ -721,7 +723,7 @@ export function GlassQuantumButton({
       setTimeout(() => {
         setIsCollapsed(false);
         setCurrentState(null);
-      }, 3000);
+      }, ANIMATION.DURATION.slower * 5);
     }
   }, [buttonId, measureState, onCollapse]);
 
@@ -730,7 +732,7 @@ export function GlassQuantumButton({
       className={cn(
         "relative overflow-hidden glass-surface-primary glass-elev-2",
         "glass-px-6 glass-py-3 glass-radius-md glass-text-primary font-medium",
-        "transition-all duration-300 hover:glass-elev-3",
+        `transition-all duration-[${ANIMATION.DURATION.normal}ms] hover:glass-elev-3`,
         className
       )}
       onClick={handleClick}
@@ -743,11 +745,11 @@ export function GlassQuantumButton({
       {/* Quantum superposition visualization */}
       <AnimatePresence>
         {!isCollapsed && superposition.length > 0 && (
-          <div className='glass-absolute glass-inset-0 glass-flex'>
+          <div className="glass-absolute glass-inset-0 glass-flex">
             {superposition.map((state, index) => (
               <motion.div
                 key={index}
-                className='glass-flex-1 glass-h-full glass-opacity-30'
+                className="glass-flex-1 glass-h-full glass-opacity-30"
                 style={{ backgroundColor: state.state.color }}
                 initial={{ opacity: 0 }}
                 animate={
@@ -760,7 +762,9 @@ export function GlassQuantumButton({
                 }
                 exit={{ opacity: 0 }}
                 transition={
-                  prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: ANIMATION.DURATION.fast / 1000 }
                 }
               />
             ))}
@@ -772,25 +776,27 @@ export function GlassQuantumButton({
       <AnimatePresence>
         {isCollapsed && currentState && (
           <motion.div
-            className='glass-absolute glass-inset-0'
+            className="glass-absolute glass-inset-0"
             style={{ backgroundColor: currentState.color }}
             initial={{ scale: 0, opacity: 0 }}
             animate={prefersReducedMotion ? {} : { scale: 1, opacity: 0.8 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
             }
           />
         )}
       </AnimatePresence>
 
       {/* Button content */}
-      <div className='glass-relative glass-z-10'>
+      <div className="glass-relative glass-z-10">
         {isCollapsed ? currentState?.label : children}
       </div>
 
       {/* Quantum interference pattern */}
-      <div className='glass-absolute glass-inset-0 glass-opacity-10 glass-pointer-events-none'>
+      <div className="glass-absolute glass-inset-0 glass-opacity-10 glass-pointer-events-none">
         <QuantumInterferencePattern
           width={100}
           height={40}
@@ -842,7 +848,7 @@ export function QuantumInterferencePattern({
         for (let x = 0; x < width; x++) {
           const intensity = pattern[y][x];
           const alpha = intensity * 0.3;
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.fillStyle = `color-mix(in srgb, var(--glass-white) ${alpha * 100}%, transparent)`;
           ctx.fillRect(x, y, 1, 1);
         }
       }
@@ -917,7 +923,7 @@ export function GlassQuantumEntangledPair({
     };
 
     updateSuperpositions();
-    const interval = setInterval(updateSuperpositions, 100);
+    const interval = setInterval(updateSuperpositions, ANIMATION.DURATION.fast);
 
     return () => clearInterval(interval);
   }, [
@@ -935,7 +941,7 @@ export function GlassQuantumEntangledPair({
     <div className={cn("flex glass-gap-4", className)}>
       const prefersReducedMotion = useReducedMotion();
       <motion.div
-        className='glass-flex-1 glass-relative'
+        className="glass-flex-1 glass-relative"
         animate={
           prefersReducedMotion
             ? {}
@@ -944,12 +950,16 @@ export function GlassQuantumEntangledPair({
                 scale: 0.95 + (state1Superposition[0]?.probability || 0) * 0.1,
               }
         }
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1 }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: ANIMATION.DURATION.fast / 2000 }
+        }
       >
         {children[0]}
       </motion.div>
       <motion.div
-        className='glass-flex-1 glass-relative'
+        className="glass-flex-1 glass-relative"
         animate={
           prefersReducedMotion
             ? {}
@@ -958,12 +968,16 @@ export function GlassQuantumEntangledPair({
                 scale: 0.95 + (state2Superposition[0]?.probability || 0) * 0.1,
               }
         }
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.1 }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: ANIMATION.DURATION.fast / 2000 }
+        }
       >
         {children[1]}
       </motion.div>
       {/* Entanglement visualization */}
-      <div className='glass-absolute glass-inset-0 glass-pointer-events-none'>
+      <div className="glass-absolute glass-inset-0 glass-pointer-events-none">
         <svg className="glass-w-full glass-h-full">
           <motion.line
             x1="25%"
@@ -1010,7 +1024,7 @@ export function GlassQuantumCoherenceIndicator({
     };
 
     updateCoherence();
-    const interval = setInterval(updateCoherence, 200);
+    const interval = setInterval(updateCoherence, ANIMATION.DURATION.fast * 2);
 
     return () => clearInterval(interval);
   }, [stateId, getCoherence]);
@@ -1018,12 +1032,14 @@ export function GlassQuantumCoherenceIndicator({
   return (
     <div className={cn("flex items-center glass-gap-2", className)}>
       <span className="glass-text-xs glass-text-secondary">Coherence:</span>
-      <div className='glass-w-20 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden'>
+      <div className="glass-w-20 glass-h-2 glass-surface-subtle glass-radius-full glass-overflow-hidden">
         <motion.div
           className="glass-h-full glass-surface-blue glass-radius-full"
           animate={{ width: `${coherence * 100}%` }}
           transition={
-            prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: ANIMATION.DURATION.normal / 1000 }
           }
         />
       </div>
@@ -1062,7 +1078,7 @@ export function useQuantumState<T>(
     };
 
     updateSuperposition();
-    const interval = setInterval(updateSuperposition, 100);
+    const interval = setInterval(updateSuperposition, ANIMATION.DURATION.fast);
 
     return () => clearInterval(interval);
   }, [stateId, getSuperposition]);

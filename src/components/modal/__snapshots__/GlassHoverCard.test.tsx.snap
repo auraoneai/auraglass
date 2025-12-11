@@ -2,7 +2,7 @@
 
 exports[`GlassHoverCard matches snapshot 1`] = `
 <div
-  class="relative inline-block"
+  class="glass-relative glass-inline-glass-block"
 >
   <div>
     <button>
@@ -10,7 +10,7 @@ exports[`GlassHoverCard matches snapshot 1`] = `
     </button>
   </div>
   <div
-    class="motion-primitive fixed z-[9999]"
+    class="motion-primitive glass-fixed glass-z-9999"
     style="left: 0px; top: 0px; max-width: 320px;"
   >
     <div
@@ -19,7 +19,7 @@ exports[`GlassHoverCard matches snapshot 1`] = `
       role="tooltip"
     >
       <div
-        class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-hover-sheen glass-tier-high glass-glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/20 glass-shadow-2xl glass-radial-reveal glass-contrast-guard"
+        class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-hover-sheen glass-tier-high glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/20 glass-shadow-2xl glass-radial-reveal glass-contrast-guard"
         data-performance-mode="medium"
         style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >

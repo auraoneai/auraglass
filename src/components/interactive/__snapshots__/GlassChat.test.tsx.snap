@@ -6,25 +6,25 @@ exports[`GlassChat matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 flex flex-col h-full overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 flex flex-col h-full overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-3 glass-border-b glass-border-white/10"
+        class="card-header glass-pb-3 glass-border-b glass-border-white/10"
       >
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
           <div>
             <h2
-              class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+              class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-hash w-5 h-5"
+                class="lucide lucide-hash glass-w-5 glass-h-5"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -67,17 +67,17 @@ exports[`GlassChat matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2"
           >
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Search messages"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 id="glass-button-:r13:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-search w-4 h-4"
+                  class="lucide lucide-search glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -100,17 +100,17 @@ exports[`GlassChat matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Start voice call"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 id="glass-button-:r14:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-phone w-4 h-4"
+                  class="lucide lucide-phone glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -128,17 +128,17 @@ exports[`GlassChat matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Start video call"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 id="glass-button-:r15:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-video w-4 h-4"
+                  class="lucide lucide-video glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -163,17 +163,17 @@ exports[`GlassChat matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive inline-block"
+              class="motion-primitive glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="More options"
-                class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                 id="glass-button-:r16:"
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-ellipsis-vertical w-4 h-4"
+                  class="lucide lucide-ellipsis-vertical glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -206,13 +206,13 @@ exports[`GlassChat matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="glass-flex glass-flex-1 overflow-hidden"
+        class="glass-flex glass-flex-1 glass-overflow-hidden"
       >
         <div
-          class="glass-flex-1 glass-flex glass-flex-col overflow-hidden"
+          class="glass-flex-1 glass-flex glass-flex-col glass-overflow-hidden"
         >
           <div
-            class="card-content glass-flex-1 overflow-y-auto glass-p-4 glass-gap-4"
+            class="card-content glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-4"
           >
             <div />
           </div>
@@ -226,17 +226,17 @@ exports[`GlassChat matches snapshot 1`] = `
               class="glass-flex glass-items-end glass-gap-2"
             >
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Attach file"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
                   id="glass-button-:r17:"
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-paperclip w-4 h-4"
+                    class="lucide lucide-paperclip glass-w-4 glass-h-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -254,10 +254,10 @@ exports[`GlassChat matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="glass-flex-1 relative"
+                class="glass-flex-1 glass-relative"
               >
                 <textarea
-                  class="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-2 glass-text-primary placeholder-white/50 focus:outline-none focus:ring-white/30 resize-none max-h-[120px]"
+                  class="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-2 glass-text-primary placeholder-white/50 focus:outline-none glass-focus-ring-white-opacity-30 resize-none max-h-[120px]"
                   data-adaptive-height="40"
                   data-consciousness-input="true"
                   data-eye-tracking="false"
@@ -266,17 +266,17 @@ exports[`GlassChat matches snapshot 1`] = `
                   style="min-height: 40px; height: 0px;"
                 />
                 <div
-                  class="motion-primitive inline-block"
+                  class="motion-primitive glass-inline-glass-block"
                   data-glass-component="true"
                 >
                   <button
                     aria-label="Open emoji picker"
-                    class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press absolute right-2 glass-top-1/2 transform -translate-y-1/2 glass-p-1"
+                    class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-absolute glass-right-2 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-p-1"
                     id="glass-button-:r18:"
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-smile w-4 h-4"
+                      class="lucide lucide-smile glass-w-4 glass-h-4"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -312,12 +312,12 @@ exports[`GlassChat matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
               >
                 <button
                   aria-disabled="true"
                   aria-label="Send message"
-                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2"
+                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2"
                   data-caustics="true"
                   data-consciousness-send="true"
                   data-has-attachments="false"
@@ -329,11 +329,11 @@ exports[`GlassChat matches snapshot 1`] = `
                   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                 >
                   <span
-                    class="relative z-10"
+                    class="glass-relative glass-z-10"
                   >
                     <svg
                       aria-hidden="true"
-                      class="lucide lucide-send w-4 h-4"
+                      class="lucide lucide-send glass-w-4 glass-h-4"
                       fill="none"
                       height="24"
                       stroke="currentColor"
@@ -358,7 +358,7 @@ exports[`GlassChat matches snapshot 1`] = `
             <input
               accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt"
               aria-label="Upload file attachment"
-              class="hidden glass-touch-target glass-contrast-guard"
+              class="glass-hidden glass-touch-target glass-contrast-guard"
               multiple=""
               type="file"
             />

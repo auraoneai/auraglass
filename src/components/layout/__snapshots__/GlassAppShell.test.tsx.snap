@@ -7,7 +7,7 @@ exports[`GlassAppShell matches snapshot 1`] = `
   id=":r5:"
 >
   <div
-    class="glass-flex glass-flex-col glass-flex-1 overflow-hidden"
+    class="glass-flex glass-flex-col glass-flex-1 glass-overflow-hidden"
   >
     <main
       aria-label="Main content"

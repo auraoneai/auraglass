@@ -7,7 +7,7 @@ exports[`GlassTagInput matches snapshot 1`] = `
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <input
-    class="glass-flex-1 min-w-[120px] bg-transparent outline-none glass-text-sm placeholder:text-primary/50 glass-focus glass-touch-target glass-contrast-guard"
+    class="glass-flex-1 glass-min-w-120px glass-bg-transparent glass-outline-none glass-text-sm glass-placeholder-text-primary-opacity-50 glass-focus glass-touch-target glass-contrast-guard"
     placeholder="Add tag…"
     value=""
   />

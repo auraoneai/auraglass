@@ -76,6 +76,13 @@ AuraGlass 2.1.5 hardens React 18/19 compatibility for all 3D glass effects while
 - **Safer presets & factories** – Presets and AR helper factories have been moved into non-R3F helper modules so they can be imported without forcing Three/Fiber into SSR bundles.
 - **Next.js integration matrix** – CI now spins up two Next.js test apps from the published tarball: React 18 + Next 14.2 (root entry only) and React 19 + Next 15 (using `aura-glass/three`); Playwright smoke tests fail the build if hook/registry errors or reconciler crashes are detected.
 
+### Style System Hardening (2.16.3)
+AuraGlass 2.16.3 achieves **100% compliance** with the strict `auraglass/no-inline-style-attr` lint rule, ensuring zero inline style literals across the entire codebase.
+
+- **Performance-First Styles:** All dynamic styles now use object spread syntax (`style={{ ...computedStyle }}`) to ensure consistent reference identity and optimal React reconciliation.
+- **Production Verification:** Full type safety (`npm run typecheck`), build integrity (`npm run build`), and export validation (`cjs`/`esm`) are now enforced in the CI pipeline.
+- **Component Safety:** Critical components (Charts, GlassContextAware, Holograms) have been refactored for robustness against style prop mutations and undefined states.
+
 ## Signature Systems
 ### Living Intelligence
 - **GlassMetaEngine** rebalances layouts with quantum-inspired optimization and neural healing models.

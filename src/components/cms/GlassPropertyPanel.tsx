@@ -1,8 +1,11 @@
-'use client';
+"use client";
 import React, { useState, useCallback } from "react";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { useDragDrop, ComponentDefinition } from "./GlassDragDropProvider";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface PropertyPanelProps {
   className?: string;
@@ -41,7 +44,7 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
             type="text"
             value={value || ""}
             onChange={(e) => onChange(e.target.value)}
-            className='glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500'
+            className="glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500"
           />
         );
 
@@ -54,13 +57,13 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
             max={max}
             step={step}
             onChange={(e) => onChange(Number(e.target.value))}
-            className='glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500'
+            className="glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500"
           />
         );
 
       case "range":
         return (
-          <div className='glass-space-y-2'>
+          <div className="glass-space-y-2">
             <input
               type="range"
               value={value || 0}
@@ -70,7 +73,7 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
               onChange={(e) => onChange(Number(e.target.value))}
               className="glass-w-full"
             />
-            <div className='glass-text-xs glass-text-secondary glass-text-center'>
+            <div className="glass-text-xs glass-text-secondary glass-text-center">
               {value}
             </div>
           </div>
@@ -83,25 +86,25 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
               type="color"
               value={value || "var(--glass-black)"}
               onChange={(e) => onChange(e.target.value)}
-              className='glass-w-12 glass-h-8 glass-border glass-border-subtle glass-radius glass-cursor-pointer'
+              className="glass-w-12 glass-h-8 glass-border glass-border-subtle glass-radius glass-cursor-pointer"
             />
             <input
               type="text"
               value={value || "var(--glass-black)"}
               onChange={(e) => onChange(e.target.value)}
-              className='glass-flex-1 glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500'
+              className="glass-flex-1 glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500"
             />
           </div>
         );
 
       case "boolean":
         return (
-          <label className='glass-flex glass-items-center glass-cursor-pointer'>
+          <label className="glass-flex glass-items-center glass-cursor-pointer">
             <input
               type="checkbox"
               checked={value || false}
               onChange={(e) => onChange(e.target.checked)}
-              className='glass-mr-2 glass-w-4 glass-h-4 glass-text-primary glass-border-subtle glass-radius glass-focus-ring-blue-500'
+              className="glass-mr-2 glass-w-4 glass-h-4 glass-text-primary glass-border-subtle glass-radius glass-focus-ring-blue-500"
             />
             <span className="glass-text-sm glass-text-secondary">Enabled</span>
           </label>
@@ -112,7 +115,7 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
           <select
             value={value || ""}
             onChange={(e) => onChange(e.target.value)}
-            className='glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500'
+            className="glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500"
           >
             {options?.map((option: any) => (
               <option key={option} value={option}>
@@ -124,13 +127,13 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
 
       case "image":
         return (
-          <div className='glass-space-y-2'>
+          <div className="glass-space-y-2">
             <input
               type="url"
               value={value || ""}
               onChange={(e) => onChange(e.target.value)}
               placeholder="https://example.com/image.jpg"
-              className='glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500'
+              className="glass-w-full glass-px-3 glass-py-2 glass-text-sm glass-border glass-border-subtle glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500"
             />
             <div className="glass-flex glass-gap-2">
               <button
@@ -148,23 +151,23 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
                   };
                   input.click();
                 }}
-                className='glass-px-3 glass-py-1.5 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle glass-transition-colors'
+                className="glass-px-3 glass-py-1.5 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle glass-transition-colors"
               >
                 Upload
               </button>
               <button
                 onClick={() => onChange("https://via.placeholder.com/400x300")}
-                className='glass-px-3 glass-py-1.5 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle glass-transition-colors'
+                className="glass-px-3 glass-py-1.5 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle glass-transition-colors"
               >
                 Placeholder
               </button>
             </div>
             {value && (
-              <div className='glass-mt-2'>
+              <div className="glass-mt-2">
                 <img
                   src={value}
                   alt="Preview"
-                  className='glass-w-full glass-h-24 glass-object-cover glass-radius glass-border'
+                  className="glass-w-full glass-h-24 glass-object-cover glass-radius glass-border"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
                       "https://via.placeholder.com/400x300?text=Invalid+Image";
@@ -177,7 +180,7 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
 
       default:
         return (
-          <div className='glass-text-sm glass-text-secondary glass-italic'>
+          <div className="glass-text-sm glass-text-secondary glass-italic">
             Unsupported input type: {type}
           </div>
         );
@@ -185,8 +188,8 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
   };
 
   return (
-    <div className='glass-space-y-2'>
-      <label className='glass-block glass-text-sm glass-font-medium glass-text-secondary'>
+    <div className="glass-space-y-2">
+      <label className="glass-block glass-text-sm glass-font-medium glass-text-secondary">
         {label}
       </label>
       {renderInput()}
@@ -255,7 +258,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
         <Glass className="glass-h-full glass-contrast-guard">
           <button
             onClick={onToggleCollapse}
-            className='glass-flex glass-items-center glass-justify-center glass-w-full glass-h-12 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
+            className="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-12 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Expand Property Panel"
           >
             <div className="glass-text-lg">⚙️</div>
@@ -266,16 +269,19 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
   }
 
   return (
-    <div className={cn("w-80 h-full flex flex-col", className)} data-testid={dataTestId}>
+    <div
+      className={cn("w-80 h-full flex flex-col", className)}
+      data-testid={dataTestId}
+    >
       <Glass className="glass-h-full glass-flex glass-flex-col glass-contrast-guard">
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-subtle">
-          <h2 className='glass-text-lg glass-font-semibold glass-text-secondary'>
+          <h2 className="glass-text-lg glass-font-semibold glass-text-secondary">
             Properties
           </h2>
           <button
             onClick={onToggleCollapse}
-            className='glass-p-2 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
+            className="glass-p-2 glass-text-secondary hover:glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             title="Collapse Panel"
           >
             ▶
@@ -285,9 +291,9 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
         {!selectedComponent ? (
           /* No Selection State */
           <div className="glass-flex-1 glass-flex glass-items-center glass-justify-center glass-p-6">
-            <div className='glass-text-center'>
-              <div className='glass-text-4xl glass-mb-4'>🎯</div>
-              <h3 className='glass-text-lg glass-font-medium glass-text-secondary glass-mb-2'>
+            <div className="glass-text-center">
+              <div className="glass-text-4xl glass-mb-4">🎯</div>
+              <h3 className="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2">
                 No Component Selected
               </h3>
               <p className="glass-text-secondary glass-text-sm">
@@ -296,15 +302,15 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
             </div>
           </div>
         ) : (
-          <div className='glass-flex-1 glass-flex glass-flex-col glass-overflow-hidden'>
+          <div className="glass-flex-1 glass-flex glass-flex-col glass-overflow-hidden">
             {/* Component Info */}
             <div className="glass-p-4 glass-surface-subtle glass-border-b glass-border-subtle">
               <div className="glass-flex glass-items-center glass-gap-3">
                 <span className="glass-text-2xl">
                   {componentDefinition?.icon || "📦"}
                 </span>
-                <div className='glass-flex-1 glass-min-w-0'>
-                  <div className='glass-text-sm glass-font-medium glass-text-secondary glass-truncate'>
+                <div className="glass-flex-1 glass-min-w-0">
+                  <div className="glass-text-sm glass-font-medium glass-text-secondary glass-truncate">
                     {componentDefinition?.name || selectedComponent.type}
                   </div>
                   <div className="glass-text-xs glass-text-secondary">
@@ -365,9 +371,9 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
             </div>
 
             {/* Properties Content */}
-            <div className='glass-flex-1 glass-overflow-y-auto glass-p-4'>
+            <div className="glass-flex-1 glass-overflow-y-auto glass-p-4">
               {componentDefinition?.editableProps ? (
-                <div className='glass-space-y-4'>
+                <div className="glass-space-y-4">
                   {Object.entries(componentDefinition.editableProps)
                     .filter(([key, config]) => {
                       // Filter properties based on active section
@@ -461,8 +467,8 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
                       }
                     }
                   ).length === 0 && (
-                    <div className='glass-text-center glass-py-8 glass-text-secondary'>
-                      <div className='glass-text-2xl glass-mb-2'>
+                    <div className="glass-text-center glass-py-8 glass-text-secondary">
+                      <div className="glass-text-2xl glass-mb-2">
                         {activeSection === "styles"
                           ? "🎨"
                           : activeSection === "advanced"
@@ -476,8 +482,8 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
                   )}
                 </div>
               ) : (
-                <div className='glass-text-center glass-py-8 glass-text-secondary'>
-                  <div className='glass-text-2xl glass-mb-2'>⚠️</div>
+                <div className="glass-text-center glass-py-8 glass-text-secondary">
+                  <div className="glass-text-2xl glass-mb-2">⚠️</div>
                   <p className="glass-text-sm">No editable properties found</p>
                 </div>
               )}
@@ -485,7 +491,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
 
             {/* Component Stats */}
             <div className="glass-p-4 glass-surface-subtle glass-border-t glass-border-subtle">
-              <div className='glass-text-xs glass-text-secondary glass-space-y-1'>
+              <div className="glass-text-xs glass-text-secondary glass-space-y-1">
                 <div className="glass-flex glass-justify-between">
                   <span>Children:</span>
                   <span>{selectedComponent.children.length}</span>
@@ -495,7 +501,7 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
                   <span>{selectedComponent.parent ? "Yes" : "Root"}</span>
                 </div>
                 {selectedComponent.locked && (
-                  <div className='glass-flex glass-items-center glass-gap-1 glass-text-primary'>
+                  <div className="glass-flex glass-items-center glass-gap-1 glass-text-primary">
                     <span>🔒</span>
                     <span>Locked</span>
                   </div>

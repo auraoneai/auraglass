@@ -4,6 +4,8 @@ import { cn } from "../../lib/utilsComprehensive";
 import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { easings } from "./AdvancedAnimations";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Glass transition variants
 const glassTransitionVariants = {
@@ -26,7 +28,7 @@ const glassTransitionVariants = {
       ],
       rotate: [0, -2, 4, -8, 15],
       transition: {
-        duration: 0.8,
+        duration: ANIMATION.DURATION.slower / 1000,
         times: [0, 0.2, 0.4, 0.7, 1],
         ease: easings.easeOutExpo,
       },
@@ -42,7 +44,7 @@ const glassTransitionVariants = {
       ],
       rotate: [15, -5, 2, 0],
       transition: {
-        duration: 0.8,
+        duration: ANIMATION.DURATION.slower / 1000,
         times: [0, 0.3, 0.7, 1],
         ease: easings.easeOutBack,
       },
@@ -66,7 +68,7 @@ const glassTransitionVariants = {
       scale: [1, 0.95, 0.8, 0.5],
       opacity: [1, 0.8, 0.4, 0],
       transition: {
-        duration: 0.6,
+        duration: ANIMATION.DURATION.slow / 1000,
         ease: easings.easeInOutCubic,
       },
     },
@@ -80,7 +82,7 @@ const glassTransitionVariants = {
       scale: [0.5, 0.8, 0.95, 1],
       opacity: [0, 0.4, 0.8, 1],
       transition: {
-        duration: 0.6,
+        duration: (ANIMATION.DURATION.slow * 1.2) / 1000,
         ease: easings.easeOutExpo,
       },
     },
@@ -98,7 +100,7 @@ const glassTransitionVariants = {
       opacity: [1, 0.3, 0],
       borderRadius: ["16px", "50%", "50%"],
       transition: {
-        duration: 0.5,
+        duration: ANIMATION.DURATION.slow / 1000,
         ease: easings.easeInOutCubic,
       },
     },
@@ -107,7 +109,7 @@ const glassTransitionVariants = {
       opacity: [0, 0.6, 1],
       borderRadius: ["50%", "50%", "16px"],
       transition: {
-        duration: 0.5,
+        duration: ANIMATION.DURATION.slow / 1000,
         ease: easings.easeOutBack,
       },
     },
@@ -132,7 +134,7 @@ const glassTransitionVariants = {
       scaleY: [1, 1.2, 0.8, 0],
       opacity: [1, 0.7, 0.3, 0],
       transition: {
-        duration: 0.7,
+        duration: ANIMATION.DURATION.slower / 1000,
         ease: easings.easeInOutCubic,
       },
     },
@@ -147,7 +149,7 @@ const glassTransitionVariants = {
       scaleY: [0, 0.8, 1.2, 1],
       opacity: [0, 0.3, 0.7, 1],
       transition: {
-        duration: 0.7,
+        duration: (ANIMATION.DURATION.slow * 1.4) / 1000,
         ease: easings.easeOutExpo,
       },
     },
@@ -170,7 +172,7 @@ const glassTransitionVariants = {
         "blur(var(--glass-glass-blur-lg)) brightness(0.5)",
       ],
       transition: {
-        duration: 0.8,
+        duration: ANIMATION.DURATION.slower / 1000,
         ease: easings.easeInOutCubic,
       },
     },
@@ -234,7 +236,7 @@ export function GlassTransition({
   return (
     <motion.div
       className={cn("glass-transition-container", className)}
-      style={style}
+      style={{ ...(style ?? {}) }}
       variants={customVariant}
       initial="initial"
       animate="initial"
@@ -325,7 +327,7 @@ export function SwipeableGlassCards({
       scale: 1,
       rotateY: 0,
       transition: {
-        duration: 0.5,
+        duration: ANIMATION.DURATION.slow / 1000,
         ease: easings.easeOutExpo,
       },
     },
@@ -335,7 +337,7 @@ export function SwipeableGlassCards({
       scale: 0.8,
       rotateY: direction === "left" ? -45 : 45,
       transition: {
-        duration: 0.3,
+        duration: ANIMATION.DURATION.normal / 1000,
         ease: easings.easeInOutCubic,
       },
     }),
@@ -440,8 +442,11 @@ export function GlassAccordion({
               className={cn(
                 "glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               )}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.01 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
+              transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+              aria-label={`${item.title} accordion item`}
+              aria-expanded={isOpen}
             >
               <div className={cn("glass-flex glass-items-center glass-gap-3")}>
                 {item.icon}
@@ -485,7 +490,7 @@ export function GlassAccordion({
                     prefersReducedMotion
                       ? { duration: 0 }
                       : {
-                          duration: 0.3,
+                          duration: ANIMATION.DURATION.normal / 1000,
                           ease: easings.easeInOutCubic,
                         }
                   }
@@ -497,7 +502,7 @@ export function GlassAccordion({
                     exit={{ y: -10 }}
                     className={cn("glass-p-4 glass-text-primary")}
                   >
-                    {item.content}
+                    <ContrastGuard>{item.content}</ContrastGuard>
                   </motion.div>
                 </motion.div>
               )}
@@ -553,6 +558,9 @@ export function GlassModal({
             "glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4"
           )}
           onClick={onClose}
+          role="dialog"
+          aria-label="Modal dialog"
+          aria-modal="true"
         >
           {/* Backdrop */}
           <motion.div
@@ -560,6 +568,7 @@ export function GlassModal({
             animate={prefersReducedMotion ? {} : { opacity: 1 }}
             exit={{ opacity: 0 }}
             className={cn("glass-absolute glass-inset-0 glass-surface-overlay")}
+            aria-hidden="true"
           />
 
           {/* Modal Content */}
@@ -644,7 +653,9 @@ export function GlassTabs({
             )}
           >
             {tab.icon}
-            <span>{tab.label}</span>
+            <ContrastGuard>
+              <span>{tab.label}</span>
+            </ContrastGuard>
           </button>
         ))}
       </div>
@@ -655,6 +666,8 @@ export function GlassTabs({
           "glass-flex-1 glass-foundation-complete glass-surface-subtle glass-border glass-border-subtle glass-radius-lg",
           "glass-min-h-200"
         )}
+        role="tabpanel"
+        aria-labelledby={`tab-${activeTab}`}
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -665,7 +678,10 @@ export function GlassTabs({
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
-                : { duration: 0.3, ease: easings.easeOutExpo }
+                : {
+                    duration: ANIMATION.DURATION.normal / 1000,
+                    ease: easings.easeOutExpo,
+                  }
             }
             className={cn("glass-p-6")}
           >
@@ -686,49 +702,55 @@ const demoCards = [
   {
     id: "insight",
     content: (
-      <div>
-        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-          Insight
-        </p>
-        <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
-          Fluid page transitions
-        </h3>
-        <p className="glass-text-sm glass-text-secondary">
-          Use material-aware easing to keep movement intuitive.
-        </p>
-      </div>
+      <ContrastGuard>
+        <div>
+          <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+            Insight
+          </p>
+          <h3 className="glass-text-xl glass-text-primary glass-font-semibold">
+            Fluid page transitions
+          </h3>
+          <p className="glass-text-sm glass-text-secondary">
+            Use material-aware easing to keep movement intuitive.
+          </p>
+        </div>
+      </ContrastGuard>
     ),
   },
   {
     id: "motion",
     content: (
-      <div>
-        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-          Motion
-        </p>
-        <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
-          Directional swipes
-        </h3>
-        <p className="glass-text-sm glass-text-secondary">
-          Cards respond to drag gestures with depth and blur.
-        </p>
-      </div>
+      <ContrastGuard>
+        <div>
+          <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+            Motion
+          </p>
+          <h3 className="glass-text-xl glass-text-primary glass-font-semibold">
+            Directional swipes
+          </h3>
+          <p className="glass-text-sm glass-text-secondary">
+            Cards respond to drag gestures with depth and blur.
+          </p>
+        </div>
+      </ContrastGuard>
     ),
   },
   {
     id: "layers",
     content: (
-      <div>
-        <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide'>
-          Layers
-        </p>
-        <h3 className='glass-text-xl glass-text-primary glass-font-semibold'>
-          Frosted overlays
-        </h3>
-        <p className="glass-text-sm glass-text-secondary">
-          Blend regions using the glass transition variants.
-        </p>
-      </div>
+      <ContrastGuard>
+        <div>
+          <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide">
+            Layers
+          </p>
+          <h3 className="glass-text-xl glass-text-primary glass-font-semibold">
+            Frosted overlays
+          </h3>
+          <p className="glass-text-sm glass-text-secondary">
+            Blend regions using the glass transition variants.
+          </p>
+        </div>
+      </ContrastGuard>
     ),
   },
 ];
@@ -769,19 +791,22 @@ const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
               key={panels[panelIndex].id}
               className="glass-surface-primary glass-radius-3xl glass-p-8 glass-border glass-border-white/10"
             >
-              <p className='glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2'>
-                {panels[panelIndex].title}
-              </p>
-              <h2 className='glass-text-2xl glass-text-primary glass-font-semibold'>
-                {panels[panelIndex].description}
-              </h2>
-              <button
-                type="button"
-                onClick={nextPanel}
-                className="glass-mt-6 glass-text-sm glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
-              >
-                Cycle transition
-              </button>
+              <ContrastGuard>
+                <p className="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2">
+                  {panels[panelIndex].title}
+                </p>
+                <h2 className="glass-text-2xl glass-text-primary glass-font-semibold">
+                  {panels[panelIndex].description}
+                </h2>
+                <button
+                  type="button"
+                  onClick={nextPanel}
+                  className="glass-mt-6 glass-text-sm glass-text-secondary glass-focus glass-touch-target"
+                  aria-label="Cycle to next transition panel"
+                >
+                  Cycle transition
+                </button>
+              </ContrastGuard>
             </motion.div>
           </GlassPageTransition>
           <SwipeableGlassCards cards={demoCards} />

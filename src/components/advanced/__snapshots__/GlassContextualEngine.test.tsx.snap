@@ -8,113 +8,121 @@ exports[`GlassContextualEngine matches snapshot 1`] = `
     class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10 glass-shadow-soft-lg"
     data-testid="glass-contextual-engine-summary"
   >
-    <div
-      class="glass-flex glass-items-center glass-justify-between"
+    <span
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
+      <div
+        class="glass-flex glass-items-center glass-justify-between"
+      >
+        <div>
+          <p
+            class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+          >
+            Contextual Engine
+          </p>
+          <h2
+            class="glass-text-xl glass-text-primary glass-font-semibold"
+          >
+            Learning Mode
+          </h2>
+        </div>
+        <div
+          class="glass-text-right"
+        >
+          <p
+            class="glass-text-xs glass-text-tertiary"
+          >
+            Battery
+          </p>
+          <p
+            class="glass-text-lg glass-text-primary glass-font-medium"
+          >
+            —
+          </p>
+        </div>
+      </div>
+      <div
+        class="glass-grid glass-grid-cols-2 glass-gap-3"
+      >
+        <div
+          class="glass-surface-subtle glass-radius-xl glass-p-4"
+        >
+          <p
+            class="glass-text-xs glass-text-tertiary glass-mb-1"
+          >
+            Time of day
+          </p>
+          <p
+            class="glass-text-lg glass-text-primary glass-font-medium glass-capitalize"
+          >
+            detecting
+          </p>
+          <p
+            class="glass-text-xs glass-text-secondary"
+          >
+            Light 
+            —
+          </p>
+        </div>
+        <div
+          class="glass-surface-subtle glass-radius-xl glass-p-4"
+        >
+          <p
+            class="glass-text-xs glass-text-tertiary glass-mb-1"
+          >
+            Motion
+          </p>
+          <p
+            class="glass-text-lg glass-text-primary glass-font-medium glass-capitalize"
+          >
+            idle
+          </p>
+          <p
+            class="glass-text-xs glass-text-secondary"
+          >
+            Analyzing ambient
+          </p>
+        </div>
+      </div>
       <div>
         <p
-          class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+          class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2"
         >
-          Contextual Engine
+          Active adaptations
         </p>
-        <h2
-          class="glass-text-xl glass-text-primary font-semibold"
+        <div
+          class="glass-flex glass-flex-wrap glass-gap-2"
         >
-          Learning Mode
-        </h2>
+          <span
+            class="glass-text-sm glass-text-secondary"
+          >
+            Gathering signals…
+          </span>
+        </div>
       </div>
       <div
-        class="glass-text-right"
+        class="glass-text-xs glass-text-secondary glass-flex glass-items-center glass-justify-between"
       >
-        <p
-          class="glass-text-xs glass-text-tertiary"
-        >
-          Battery
-        </p>
-        <p
-          class="glass-text-lg glass-text-primary font-medium"
-        >
+        <span>
+          Awaiting adaptation event
+        </span>
+        <span>
+          Ambient noise:
+           
           —
-        </p>
-      </div>
-    </div>
-    <div
-      class="glass-grid glass-grid-cols-2 glass-gap-3"
-    >
-      <div
-        class="glass-surface-subtle glass-radius-xl glass-p-4"
-      >
-        <p
-          class="glass-text-xs glass-text-tertiary mb-1"
-        >
-          Time of day
-        </p>
-        <p
-          class="glass-text-lg glass-text-primary font-medium capitalize"
-        >
-          detecting
-        </p>
-        <p
-          class="glass-text-xs glass-text-secondary"
-        >
-          Light 
-          —
-        </p>
-      </div>
-      <div
-        class="glass-surface-subtle glass-radius-xl glass-p-4"
-      >
-        <p
-          class="glass-text-xs glass-text-tertiary mb-1"
-        >
-          Motion
-        </p>
-        <p
-          class="glass-text-lg glass-text-primary font-medium capitalize"
-        >
-          idle
-        </p>
-        <p
-          class="glass-text-xs glass-text-secondary"
-        >
-          Analyzing ambient
-        </p>
-      </div>
-    </div>
-    <div>
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2"
-      >
-        Active adaptations
-      </p>
-      <div
-        class="glass-flex glass-flex-wrap glass-gap-2"
-      >
-        <span
-          class="glass-text-sm glass-text-secondary"
-        >
-          Gathering signals…
         </span>
       </div>
-    </div>
-    <div
-      class="glass-text-xs glass-text-secondary glass-flex glass-items-center glass-justify-between"
-    >
-      <span>
-        Awaiting adaptation event
-      </span>
-      <span>
-        Ambient noise:
-         
-        —
-      </span>
-    </div>
+    </span>
   </div>
   <div
     class="fixed top-4 right-4 z-50"
   >
     <button
-      class="w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3 flex items-center justify-center glass-text-primary transition-all duration-300 hover:scale-105"
+      aria-expanded="false"
+      aria-label="Toggle contextual engine dashboard"
+      class="w-12 h-12 glass-radius-full glass-surface-primary glass-elev-3 flex items-center justify-center glass-text-primary transition-all glass-hover-scale-105 transitionDuration"
       tabindex="0"
     >
       🌐

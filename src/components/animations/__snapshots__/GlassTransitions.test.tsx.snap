@@ -11,22 +11,29 @@ exports[`GlassTransitions matches snapshot 1`] = `
     <div
       class="glass-surface-primary glass-radius-3xl glass-p-8 glass-border glass-border-white/10"
     >
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide mb-2"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        Glass dashboards
-      </p>
-      <h2
-        class="glass-text-2xl glass-text-primary font-semibold"
-      >
-        Morph between layouts while preserving context.
-      </h2>
-      <button
-        class="glass-mt-6 glass-text-sm glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
-        type="button"
-      >
-        Cycle transition
-      </button>
+        <p
+          class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide glass-mb-2"
+        >
+          Glass dashboards
+        </p>
+        <h2
+          class="glass-text-2xl glass-text-primary glass-font-semibold"
+        >
+          Morph between layouts while preserving context.
+        </h2>
+        <button
+          aria-label="Cycle to next transition panel"
+          class="glass-mt-6 glass-text-sm glass-text-secondary glass-focus glass-touch-target"
+          type="button"
+        >
+          Cycle transition
+        </button>
+      </span>
     </div>
   </div>
   <div
@@ -37,23 +44,29 @@ exports[`GlassTransitions matches snapshot 1`] = `
       draggable="false"
       style="opacity: 0; transform: translateX(300px) scale(0.8) rotateY(45deg); user-select: none;"
     >
-      <div>
-        <p
-          class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
-        >
-          Insight
-        </p>
-        <h3
-          class="glass-text-xl glass-text-primary font-semibold"
-        >
-          Fluid page transitions
-        </h3>
-        <p
-          class="glass-text-sm glass-text-secondary"
-        >
-          Use material-aware easing to keep movement intuitive.
-        </p>
-      </div>
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+      >
+        <div>
+          <p
+            class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+          >
+            Insight
+          </p>
+          <h3
+            class="glass-text-xl glass-text-primary glass-font-semibold"
+          >
+            Fluid page transitions
+          </h3>
+          <p
+            class="glass-text-sm glass-text-secondary"
+          >
+            Use material-aware easing to keep movement intuitive.
+          </p>
+        </div>
+      </span>
     </div>
     <div
       class="glass-flex glass-justify-center glass-mt-4 glass-gap-2"

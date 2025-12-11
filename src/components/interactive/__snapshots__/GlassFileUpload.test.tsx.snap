@@ -6,18 +6,18 @@ exports[`GlassFileUpload matches snapshot 1`] = `
   data-testid="glassfileupload"
 >
   <div
-    class="relative hidden"
+    class="relative glass-hidden"
     data-glass-component="true"
     data-testid="glassinput"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 hidden"
+      class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-hidden"
       data-performance-mode="medium"
       style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <input
         aria-label="Input field"
-        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
         id="glass-input-:r8:"
         type="file"
       />
@@ -35,7 +35,7 @@ exports[`GlassFileUpload matches snapshot 1`] = `
     tabindex="0"
   >
     <div
-      class="glass-flex glass-flex-col glass-items-center glass-justify-center text-center"
+      class="glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center"
     >
       <svg
         class="mx-auto mb-3 glass-text-secondary w-10 h-10"
@@ -51,7 +51,7 @@ exports[`GlassFileUpload matches snapshot 1`] = `
         />
       </svg>
       <p
-        class="text-primary font-medium mb-1"
+        class="glass-text-primary glass-font-medium glass-mb-1"
       >
         Drag and drop files here, or click to select
       </p>

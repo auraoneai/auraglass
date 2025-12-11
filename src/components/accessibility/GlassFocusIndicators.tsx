@@ -5,6 +5,8 @@ import { cn } from "../../lib/utilsComprehensive";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useAccessibility } from "./AccessibilityProvider";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "./ContrastGuard";
 import "./GlassFocusIndicators.css";
 
 interface FocusRingProps {
@@ -50,7 +52,8 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
     const base = {
       ring: "ring-offset-2 ring-offset-slate-900",
       background: "bg-blue-400/8",
-      shadowVar: "var(--glass-focus-shadow-primary, 0 0 15px rgba(96,165,250,0.5))",
+      shadowVar:
+        "var(--glass-focus-shadow-primary, 0 0 15px color-mix(in srgb, var(--glass-color-primary) 50%, transparent))",
     };
 
     if (variant === "interactive") {
@@ -58,7 +61,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         ring: `${base.ring} ring-4 ring-blue-400/60`,
         background: "bg-blue-400/10",
         shadowVar:
-          "var(--glass-focus-shadow-interactive, 0 0 20px rgba(96,165,250,0.6))",
+          "var(--glass-focus-shadow-interactive, 0 0 20px color-mix(in srgb, var(--glass-color-primary) 60%, transparent))",
       };
     }
     if (variant === "navigation") {
@@ -66,7 +69,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         ring: `${base.ring} ring-3 ring-purple-400/60`,
         background: "bg-purple-400/10",
         shadowVar:
-          "var(--glass-focus-shadow-navigation, 0 0 15px rgba(167,139,250,0.6))",
+          "var(--glass-focus-shadow-navigation, 0 0 15px color-mix(in srgb, var(--glass-color-secondary) 60%, transparent))",
       };
     }
     if (variant === "form") {
@@ -74,7 +77,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         ring: `${base.ring} ring-3 ring-green-400/60`,
         background: "bg-green-400/10",
         shadowVar:
-          "var(--glass-focus-shadow-form, 0 0 15px rgba(34,197,94,0.6))",
+          "var(--glass-focus-shadow-form, 0 0 15px color-mix(in srgb, var(--glass-color-success) 60%, transparent))",
       };
     }
     return {
@@ -105,9 +108,9 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{
         type: "spring",
-        stiffness: 400,
-        damping: 25,
-        opacity: { duration: 0.15 },
+        stiffness: ANIMATION.SPRING.stiff.stiffness,
+        damping: ANIMATION.SPRING.stiff.damping,
+        opacity: { duration: ANIMATION.DURATION.fast / 1000 },
       }}
     >
       {/* Animated border */}
@@ -117,7 +120,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         )}
         style={{
           // token-lint-ignore: animated gradient uses brand accent colors derived from theme
-          background: `linear-gradient(45deg, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "#A78BFA" : variant === "form" ? "#22C55E" : "var(--glass-color-primary-light)"}, transparent, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "#A78BFA" : variant === "form" ? "#22C55E" : "var(--glass-color-primary-light)"})`,
+          background: `linear-gradient(45deg, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "var(--glass-color-secondary)" : variant === "form" ? "var(--glass-color-success)" : "var(--glass-color-primary-light)"}, transparent, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "var(--glass-color-secondary)" : variant === "form" ? "var(--glass-color-success)" : "var(--glass-color-primary-light)"})`,
           backgroundSize: "200% 200%",
         }}
         animate={
@@ -128,7 +131,11 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         transition={
           prefersReducedMotion
             ? { duration: 0 }
-            : { duration: 2, repeat: Infinity, ease: "linear" }
+            : {
+                duration: ANIMATION.DURATION.slower / 1000,
+                repeat: Infinity,
+                ease: "linear",
+              }
         }
       />
 
@@ -166,15 +173,15 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
               prefersReducedMotion
                 ? { duration: 0 }
                 : {
-                    duration: 1.5,
+                    duration: ANIMATION.DURATION.slow / 1000,
                     repeat: Infinity,
                     delay:
                       corner === "top-right"
-                        ? 0.2
+                        ? ANIMATION.DURATION.fast / 1000
                         : corner === "bottom-right"
-                          ? 0.4
+                          ? (ANIMATION.DURATION.fast * 2) / 1000
                           : corner === "bottom-left"
-                            ? 0.6
+                            ? ANIMATION.DURATION.normal / 1000
                             : 0,
                   }
             }
@@ -258,7 +265,7 @@ export function GlassFocusIndicators() {
         ) {
           setFocusedElement(null);
         }
-      }, 10);
+      }, ANIMATION.DURATION.fast / 15);
     };
 
     // Enhanced keyboard navigation
@@ -328,7 +335,7 @@ export function GlassFocusIndicators() {
       "[autofocus]"
     ) as HTMLElement;
     if (autoFocusElement) {
-      setTimeout(() => autoFocusElement.focus(), 100);
+      setTimeout(() => autoFocusElement.focus(), ANIMATION.DURATION.fast);
     }
 
     return () => {
@@ -411,7 +418,7 @@ export function SkipLinks() {
   ];
 
   return (
-    <div className='skip-links'>
+    <div className="skip-links">
       {skipLinks.map((link) => (
         <a
           key={link.href}
@@ -463,7 +470,7 @@ export function LandmarkAnnouncer() {
           (window as any).announceToScreenReader(
             `Page landmarks: ${landmarksList}`
           );
-        }, 1000);
+        }, ANIMATION.DURATION.slower * 1.5);
       }
     };
 
@@ -516,7 +523,7 @@ export function KeyboardShortcutsHelper() {
     <AnimatePresence>
       {showHelp && (
         <motion.div
-          className='glass-fixed glass-bottom-4 glass-right-4 glass-z-50 glass-max-w-sm'
+          className="glass-fixed glass-bottom-4 glass-right-4 glass-z-50 glass-max-w-sm"
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -526,10 +533,12 @@ export function KeyboardShortcutsHelper() {
               "glass-foundation-complete glass-surface-overlay glass-border-subtle glass-radius-xl glass-p-4 glass-shadow-2xl"
             )}
           >
-            <div className='glass-flex glass-items-center glass-justify-between glass-mb-3'>
-              <h3 className={cn("glass-font-semibold glass-text-primary")}>
-                Keyboard Shortcuts
-              </h3>
+            <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
+              <ContrastGuard>
+                <h3 className={cn("glass-font-semibold glass-text-primary")}>
+                  Keyboard Shortcuts
+                </h3>
+              </ContrastGuard>
               <button
                 onClick={() => setShowHelp(false)}
                 className={cn(
@@ -540,7 +549,7 @@ export function KeyboardShortcutsHelper() {
               </button>
             </div>
 
-            <div className='glass-space-y-2'>
+            <div className="glass-space-y-2">
               {shortcuts.map((shortcut) => (
                 <div
                   key={shortcut.key}
@@ -553,13 +562,15 @@ export function KeyboardShortcutsHelper() {
                   >
                     {shortcut.key}
                   </kbd>
-                  <span
-                    className={cn(
-                      "glass-text-secondary glass-ml-3 glass-text-xs"
-                    )}
-                  >
-                    {shortcut.description}
-                  </span>
+                  <ContrastGuard>
+                    <span
+                      className={cn(
+                        "glass-text-secondary glass-ml-3 glass-text-xs"
+                      )}
+                    >
+                      {shortcut.description}
+                    </span>
+                  </ContrastGuard>
                 </div>
               ))}
             </div>

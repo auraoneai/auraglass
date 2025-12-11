@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
@@ -6,6 +6,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export type SkeletonVariant =
   | "text"
@@ -36,7 +37,7 @@ const skeletonKeyframes = `
       opacity: 1;
     }
     50% {
-      opacity: 0.6;
+      opacity: var(--glass-opacity-60);
     }
   }
 
@@ -57,8 +58,6 @@ const skeletonKeyframes = `
 export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       variant = "text",
       width,
       height,
@@ -87,20 +86,20 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
           return {
             width: baseWidth,
             height: baseHeight || "1rem",
-            borderRadius: "0.375rem",
+            borderRadius: "var(--glass-radius-md)",
           };
         case "rectangular":
           return {
             width: baseWidth,
             height: baseHeight || "1rem",
-            borderRadius: "0.25rem",
+            borderRadius: "var(--glass-radius-sm)",
           };
         case "text":
         default:
           return {
             width: baseWidth,
             height: baseHeight || "1rem",
-            borderRadius: "0.125rem",
+            borderRadius: "var(--glass-radius-xs)",
           };
       }
     };
@@ -109,7 +108,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
       switch (animation) {
         case "pulse":
           return {
-            animation: "skeleton-pulse 2s ease-in-out infinite",
+            animation: `skeleton-pulse ${ANIMATION.DURATION.slower * 2}ms ${ANIMATION.EASING.easeInOut} infinite`,
           };
         case "wave":
           return {
@@ -118,7 +117,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
             background:
               '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
             backgroundSize: "200% 100%",
-            animation: "skeleton-wave 2s infinite",
+            animation: `skeleton-wave ${ANIMATION.DURATION.slower * 2}ms infinite`,
           };
         case "none":
         default:
@@ -209,7 +208,7 @@ GlassSkeleton.displayName = "GlassSkeleton";
 export const GlassSkeletonAvatar: React.FC<{
   size?: "sm" | "md" | "lg" | "xl";
   className?: string;
-}> = ({ size = "md", className="" }) => {
+}> = ({ size = "md", className = "" }) => {
   const sizeClasses = {
     sm: "w-8 h-8",
     md: "w-10 h-10",
@@ -229,7 +228,7 @@ export const GlassSkeletonAvatar: React.FC<{
 export const GlassSkeletonButton: React.FC<{
   width?: string;
   className?: string;
-}> = ({ width = "80px", className="" }) => {
+}> = ({ width = "80px", className = "" }) => {
   return (
     <GlassSkeleton
       variant="glass-radius-md"
@@ -243,7 +242,7 @@ export const GlassSkeletonButton: React.FC<{
 
 export const GlassSkeletonCard: React.FC<{
   className?: string;
-}> = ({ className="" }) => {
+}> = ({ className = "" }) => {
   return (
     <OptimizedGlass
       elevation="level1"
@@ -272,7 +271,7 @@ export const GlassSkeletonCard: React.FC<{
       </div>
 
       {/* Actions skeleton */}
-      <div className='glass-flex glass-gap-2 glass-pt-2'>
+      <div className="glass-flex glass-gap-2 glass-pt-2">
         <GlassSkeleton width="60px" height="2rem" variant="glass-radius-md" />
         <GlassSkeleton width="60px" height="2rem" variant="glass-radius-md" />
       </div>
@@ -284,7 +283,7 @@ export const GlassSkeletonTable: React.FC<{
   rows?: number;
   columns?: number;
   className?: string;
-}> = ({ rows = 5, columns = 4, className="" }) => {
+}> = ({ rows = 5, columns = 4, className = "" }) => {
   return (
     <OptimizedGlass
       elevation="level1"
@@ -309,7 +308,7 @@ export const GlassSkeletonTable: React.FC<{
       </div>
 
       {/* Table rows */}
-      <div className='glass-divide-y glass-divide-white-opacity-5'>
+      <div className="glass-divide-y glass-divide-white-opacity-5">
         {Array.from({ length: rows }, (_, rowIndex) => (
           <div key={`row-${rowIndex}`} className="glass-p-4">
             <div
@@ -334,7 +333,7 @@ export const GlassSkeletonTable: React.FC<{
 export const GlassSkeletonList: React.FC<{
   items?: number;
   className?: string;
-}> = ({ items = 3, className="" }) => {
+}> = ({ items = 3, className = "" }) => {
   return (
     <div className={`glass-gap-4 ${className}`}>
       {Array.from({ length: items }, (_, index) => (

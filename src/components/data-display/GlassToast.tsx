@@ -18,6 +18,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface ToastData {
   id: string;
@@ -109,8 +110,6 @@ export const useToast = () => {
  * Individual toast notification
  */
 export const GlassToast: React.FC<GlassToastProps> = ({
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
   id,
   title,
   description,
@@ -147,7 +146,7 @@ export const GlassToast: React.FC<GlassToastProps> = ({
         }
         return prev - 100 / (duration / 100);
       });
-    }, 100);
+    }, ANIMATION.DURATION.fast / 3);
 
     return () => clearInterval(interval);
   }, [duration, paused]);
@@ -157,32 +156,38 @@ export const GlassToast: React.FC<GlassToastProps> = ({
     setTimeout(() => {
       onDismiss?.(id);
       onClose?.();
-    }, 300); // Wait for exit animation
+    }, ANIMATION.DURATION.normal); // Wait for exit animation
   };
 
   const getTypeStyles = () => {
     switch (type) {
       case "success":
         return {
-          icon: <CheckCircle className='glass-w-5 glass-h-5 glass-text-primary' />,
+          icon: (
+            <CheckCircle className="glass-w-5 glass-h-5 glass-text-primary" />
+          ),
           borderColor: "border-green-400/30",
           bgColor: "bg-green-500/10",
         };
       case "error":
         return {
-          icon: <AlertCircle className='glass-w-5 glass-h-5 glass-text-primary' />,
+          icon: (
+            <AlertCircle className="glass-w-5 glass-h-5 glass-text-primary" />
+          ),
           borderColor: "border-red-400/30",
           bgColor: "bg-red-500/10",
         };
       case "warning":
         return {
-          icon: <AlertTriangle className='glass-w-5 glass-h-5 glass-text-primary' />,
+          icon: (
+            <AlertTriangle className="glass-w-5 glass-h-5 glass-text-primary" />
+          ),
           borderColor: "border-yellow-400/30",
           bgColor: "bg-yellow-500/10",
         };
       default:
         return {
-          icon: <Info className='glass-w-5 glass-h-5 glass-text-primary' />,
+          icon: <Info className="glass-w-5 glass-h-5 glass-text-primary" />,
           borderColor: "border-blue-400/30",
           bgColor: "bg-blue-500/10",
         };
@@ -197,7 +202,7 @@ export const GlassToast: React.FC<GlassToastProps> = ({
     <Motion
       data-glass-component
       preset="slideRight"
-      duration={300}
+      duration={ANIMATION.DURATION.normal}
       {...motionProps}
     >
       <OptimizedGlass
@@ -224,10 +229,10 @@ export const GlassToast: React.FC<GlassToastProps> = ({
       >
         {/* Progress bar */}
         {duration > 0 && (
-          <div className='glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-h-1 glass-surface-subtle/20 glass-radius-t-lg glass-overflow-hidden'>
+          <div className="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-h-1 glass-surface-subtle/20 glass-radius-t-lg glass-overflow-hidden">
             <div
               className={cn(
-                "h-full transition-all duration-100 ease-linear",
+                `h-full transition-all var(--glass-motion-duration-fast) var(--glass-motion-easing-linear)`,
                 borderColor.replace("border-", "bg-")
               )}
               style={{ width: `${progress}%` }}
@@ -242,20 +247,24 @@ export const GlassToast: React.FC<GlassToastProps> = ({
           {/* Content */}
           <div className="glass-flex-1 glass-min-glass-w-0">
             {title && (
-              <h4 className='glass-text-primary glass-font-medium glass-text-sm glass-leading-tight glass-mb-1'>
-                {title}
-              </h4>
+              <ContrastGuard>
+                <h4 className="glass-text-primary glass-font-medium glass-text-sm glass-leading-tight glass-mb-1">
+                  {title}
+                </h4>
+              </ContrastGuard>
             )}
 
             {description && (
-              <p className='glass-text-primary-glass-opacity-80 glass-text-sm glass-leading-relaxed'>
-                {description}
-              </p>
+              <ContrastGuard>
+                <p className="glass-text-primary-glass-opacity-80 glass-text-sm glass-leading-relaxed">
+                  {description}
+                </p>
+              </ContrastGuard>
             )}
 
             {/* Action */}
             {action && (
-              <GlassToastAction onClick={action.onClick} className='glass-mt-3'>
+              <GlassToastAction onClick={action.onClick} className="glass-mt-3">
                 {action.label}
               </GlassToastAction>
             )}
@@ -264,10 +273,10 @@ export const GlassToast: React.FC<GlassToastProps> = ({
           {/* Close button */}
           <GlassButton
             onClick={handleDismiss}
-            className='glass-flex-shrink-0 glass-p-1 glass-radius-md hover:glass-surface-subtle/10 glass-transition-colors glass-duration-200'
+            className={`glass-flex-shrink-0 glass-p-1 glass-radius-md hover:glass-surface-subtle/10 glass-transition-colors glass-duration-[${ANIMATION.DURATION.fast}ms]`}
             aria-label="Close toast"
           >
-            <X className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60 hover:glass-text-primary' />
+            <X className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60 hover:glass-text-primary" />
           </GlassButton>
         </div>
       </OptimizedGlass>
@@ -391,7 +400,7 @@ export const GlassToastViewport: React.FC<
         <div
           key={toast.id}
           data-toast-id={toast.id}
-          className='glass-pointer-events-auto'
+          className="glass-pointer-events-auto"
         >
           <GlassToast {...toast} onDismiss={removeToast} />
         </div>
@@ -416,7 +425,7 @@ export const GlassToastAction: React.FC<
         "inline-flex items-center justify-center glass-px-3 glass-py-1.5",
         "glass-text-xs font-medium glass-text-primary/90",
         "bg-black/30 hover:bg-black/40 border border-white/30 hover:border-white/40",
-        "glass-radius-md transition-all duration-200",
+        `glass-radius-md transition-all var(--glass-motion-duration-fast)`,
         "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30",
         className
       )}

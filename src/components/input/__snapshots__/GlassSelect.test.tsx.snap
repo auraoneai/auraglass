@@ -8,19 +8,19 @@ exports[`GlassSelect matches snapshot 1`] = `
 >
   <select
     aria-label="Select an option..."
-    class="sr-only glass-touch-target glass-contrast-guard"
+    class="glass-sr-only glass-touch-target glass-contrast-guard"
   />
   <div
     class="relative inline-block h-10 glass-px-4 glass-text-sm"
   >
     <div
-      class="motion-primitive inline-block"
+      class="motion-primitive glass-inline-glass-block"
     >
       <button
         aria-expanded="false"
         aria-haspopup="listbox"
         aria-label="Select an option..."
-        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:border-white/30 glass-radius-xl outline-none text-left text-primary/90 hover:text-primary glass-glass-glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
+        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:glass-border-white/30 glass-radius-xl glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
         data-magnet="true"
         data-performance-mode="ultra"
         id="glass-button-:r8:"
@@ -28,10 +28,10 @@ exports[`GlassSelect matches snapshot 1`] = `
         type="button"
       >
         <span
-          class="relative z-10"
+          class="glass-relative glass-z-10"
         >
           <div
-            class="glass-flex glass-items-center glass-flex-1 glass-min-w-0"
+            class="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0"
           >
             <span
               class="flex-1 truncate glass-text-primary/60"

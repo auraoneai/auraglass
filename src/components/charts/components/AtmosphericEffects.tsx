@@ -5,6 +5,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../../tokens/designConstants";
 
 export interface AtmosphericEffectsProps {
   qualityTier?: "low" | "medium" | "high" | "ultra";
@@ -133,7 +134,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
     <div
       data-glass-component
       ref={containerRef}
-      style={effectStyle}
+      style={{ ...effectStyle }}
       className={className}
       data-testid={dataTestId}
     >
@@ -145,7 +146,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
           left: 0,
           right: 0,
           bottom: 0,
-          background: `radial-gradient(ellipse at center, ${color}10 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at center, color-mix(in srgb, ${color} 10%, transparent) 0%, transparent 70%)`,
           opacity: 0.3,
         }}
       />
@@ -161,13 +162,9 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
             width: `${particle.size}px`,
             height: `${particle.size}px`,
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${color}${Math.round(
-              particle.opacity * 255
-            )
-              .toString(16)
-              .padStart(2, "0")}, transparent)`,
-            filter: `blur(${particle.size * 0.5}px)`,
-            transition: "all 0.3s ease",
+            background: `radial-gradient(circle, color-mix(in srgb, ${color} ${Math.round(particle.opacity * 100)}%, transparent), transparent)`,
+            filter: `blur(var(--glass-blur-sm))`,
+            transition: `all var(--glass-motion-duration-normal) var(--glass-motion-easing-standard)`,
           }}
         />
       ))}
@@ -180,10 +177,12 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
           left: "20%",
           width: "60%",
           height: "60%",
-          background: `radial-gradient(ellipse, ${color}08, transparent)`,
+          background: `radial-gradient(ellipse, color-mix(in srgb, ${color} 8%, transparent), transparent)`,
           borderRadius: "50%",
           filter: "blur(var(--glass-blur-lg))",
-          animation: isReducedMotion ? "none" : "pulse 8s ease-in-out infinite",
+          animation: isReducedMotion
+            ? "none"
+            : `pulse ${(ANIMATION.DURATION.slower * 10) / 1000}s ${ANIMATION.EASING.easeInOut} infinite`,
         }}
       />
     </div>

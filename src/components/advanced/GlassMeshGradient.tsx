@@ -1,5 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
 /**
  * AuraGlass Ambient Mesh Gradients
  * Animated mesh gradients with glass overlay effects
@@ -37,10 +39,10 @@ interface GlassMeshGradientProps {
 export function GlassMeshGradient({
   className,
   colors = [
-    "var(--glass-color-primary)",
-    "#8b5cf6",
-    "#ec4899",
-    "var(--glass-color-warning)",
+    COLORS.semantic.primary,
+    COLORS.semantic.primary,
+    COLORS.semantic.primary,
+    COLORS.semantic.warning,
   ],
   points = 4,
   speed = 0.5,
@@ -220,7 +222,7 @@ export function GlassMeshGradient({
     >
       <canvas
         ref={canvasRef}
-        className='glass-absolute glass-inset-0 glass-w-full glass-h-full'
+        className="glass-absolute glass-inset-0 glass-w-full glass-h-full"
         style={{
           filter: `blur(${blur}px) ${filterStyle}`,
           opacity,
@@ -251,8 +253,13 @@ export const GlassMeshBackground = forwardRef<
       aria-label={ariaLabel || "Mesh gradient background"}
       aria-hidden="true"
     >
-      <GlassMeshGradient className='glass-absolute glass-inset-0' {...meshProps} />
-      <div className='glass-relative glass-z-10'>{children}</div>
+      <GlassMeshGradient
+        className="glass-absolute glass-inset-0"
+        {...meshProps}
+      />
+      <div className="glass-relative glass-z-10">
+        <ContrastGuard>{children}</ContrastGuard>
+      </div>
     </OptimizedGlass>
   );
 });
@@ -260,24 +267,34 @@ export const GlassMeshBackground = forwardRef<
 // Preset configurations
 export const meshGradientPresets = {
   ocean: {
-    colors: ["#0891b2", "#06b6d4", "#0ea5e9", "#0284c7"],
+    colors: [
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+    ],
     variant: "ambient" as const,
     speed: 0.3,
     blur: 120,
   },
   sunset: {
-    colors: ["#f97316", "#fb923c", "#ec4899", "#f43f5e"],
+    colors: [
+      COLORS.semantic.warning,
+      COLORS.semantic.warning,
+      COLORS.semantic.primary,
+      COLORS.semantic.error,
+    ],
     variant: "vibrant" as const,
     speed: 0.4,
     blur: 100,
   },
   aurora: {
     colors: [
-      "var(--glass-color-success)",
-      "#14b8a6",
-      "#06b6d4",
-      "var(--glass-color-primary)",
-      "#8b5cf6",
+      COLORS.semantic.success,
+      COLORS.semantic.success,
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
     ],
     variant: "ambient" as const,
     speed: 0.2,
@@ -285,7 +302,12 @@ export const meshGradientPresets = {
     points: 5,
   },
   galaxy: {
-    colors: ["#6366f1", "#8b5cf6", "#a855f7", "#d946ef"],
+    colors: [
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+      COLORS.semantic.primary,
+    ],
     variant: "dark" as const,
     speed: 0.15,
     blur: 200,

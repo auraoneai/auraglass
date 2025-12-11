@@ -1,10 +1,13 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { useEffect, useRef, useState, forwardRef } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 import { useA11yId, announceToScreenReader } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassHoverCardProps {
   /**
@@ -281,7 +284,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
     useEffect(() => {
       if (open) {
         // Small delay to ensure content is rendered
-        setTimeout(calculatePosition, 0);
+        setTimeout(calculatePosition, ANIMATION.DURATION.instant);
 
         // Announce to screen readers when opened
         announceToScreenReader(
@@ -301,7 +304,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
     }, [open]);
 
     return (
-      <div className='glass-relative glass-inline-glass-block'>
+      <div className="glass-relative glass-inline-glass-block">
         <div
           ref={triggerRef}
           className={triggerClassName}
@@ -315,7 +318,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
           <Motion
             preset="fadeIn"
             duration={shouldAnimate ? 200 : 0}
-            className='glass-fixed glass-z-9999'
+            className="glass-fixed glass-z-9999"
             style={{
               left: position.x,
               top: position.y,
@@ -352,11 +355,11 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
                 <div className="glass-p-4">
                   {/* Header with title and description */}
                   {(title || description) && (
-                    <div className='glass-mb-2'>
+                    <div className="glass-mb-2">
                       {title && (
                         <h3
                           id={titleId}
-                          className='glass-font-medium glass-text-primary glass-text-sm glass-mb-1'
+                          className="glass-font-medium glass-text-primary glass-text-sm glass-mb-1"
                         >
                           {title}
                         </h3>
@@ -391,9 +394,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
                       placement.startsWith("right"),
                   }
                 )}
-                style={{
-                  clipPath: "polygon(0 0, 100% 100%, 0 100%)",
-                }}
+                style={{ ...{ clipPath: "polygon(0 0, 100% 100%, 0 100%)" } }}
               />
             </div>
           </Motion>

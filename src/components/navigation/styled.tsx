@@ -21,7 +21,8 @@ const toDimension = (value?: string | number): string | undefined => {
   return typeof value === "number" ? `${value}px` : value;
 };
 
-export interface TabBarContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TabBarContainerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   $orientation?: Orientation;
   $variant?: TabVariant;
   $glassVariant?: GlassVariant;
@@ -61,7 +62,8 @@ export const TabBarContainer = forwardRef<HTMLDivElement, TabBarContainerProps>(
       ...rest
     } = props;
 
-    const inlineStyle: CSSProperties & Record<string, string | number | undefined> = {
+    const inlineStyle: CSSProperties &
+      Record<string, string | number | undefined> = {
       width: toDimension($width),
       height: toDimension($height),
       ...(typeof $borderRadius !== "undefined"
@@ -70,7 +72,8 @@ export const TabBarContainer = forwardRef<HTMLDivElement, TabBarContainerProps>(
       ...style,
     };
 
-    inlineStyle["--ag-tabbar-blur"] = BLUR_MAP[$blurStrength] || BLUR_MAP.standard;
+    inlineStyle["--ag-tabbar-blur"] =
+      BLUR_MAP[$blurStrength] || BLUR_MAP.standard;
 
     if ($background === false) {
       inlineStyle.background = "transparent";
@@ -102,7 +105,7 @@ export const TabBarContainer = forwardRef<HTMLDivElement, TabBarContainerProps>(
         data-placement={$placement}
         data-responsive={$isResponsive ? "true" : "false"}
         data-color={$color}
-        style={inlineStyle}
+        style={{ ...(inlineStyle || {}) }}
         {...rest}
       >
         {children}
@@ -113,8 +116,7 @@ export const TabBarContainer = forwardRef<HTMLDivElement, TabBarContainerProps>(
 
 TabBarContainer.displayName = "TabBarContainer";
 
-export interface TabSelectorProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface TabSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   left: number;
   top: number;
   width: number;
@@ -126,20 +128,24 @@ export interface TabSelectorProps
 }
 
 export const TabSelector = forwardRef<HTMLDivElement, TabSelectorProps>(
-  ({
-    left,
-    top,
-    width,
-    height,
-    variant = "pills",
-    orientation = "horizontal",
-    disableAnimation = false,
-    offset,
-    className,
-    style,
-    ...rest
-  }, ref) => {
-    const selectorStyle: CSSProperties & Record<string, string | number | undefined> = {
+  (
+    {
+      left,
+      top,
+      width,
+      height,
+      variant = "pills",
+      orientation = "horizontal",
+      disableAnimation = false,
+      offset,
+      className,
+      style,
+      ...rest
+    },
+    ref
+  ) => {
+    const selectorStyle: CSSProperties &
+      Record<string, string | number | undefined> = {
       left,
       top,
       width,
@@ -153,7 +159,8 @@ export const TabSelector = forwardRef<HTMLDivElement, TabSelectorProps>(
       ...style,
     };
 
-    selectorStyle["--ag-selector-blur"] = "var(--ag-tabbar-blur, var(--glass-blur-md, 12px))";
+    selectorStyle["--ag-selector-blur"] =
+      "var(--ag-tabbar-blur, var(--glass-blur-md, 12px))";
 
     if (variant === "underline") {
       selectorStyle.borderRadius = "9999px";
@@ -174,7 +181,7 @@ export const TabSelector = forwardRef<HTMLDivElement, TabSelectorProps>(
           variant === "underline" && styles.selectorUnderline,
           className
         )}
-        style={selectorStyle}
+        style={{ ...selectorStyle }}
         {...rest}
       />
     );

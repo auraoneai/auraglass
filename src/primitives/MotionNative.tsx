@@ -1,14 +1,14 @@
-'use client';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { cn } from '../lib/utilsComprehensive';
-import { useMultiSpring } from '../animations/hooks/useMultiSpringBasic';
+"use client";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import { cn } from "../lib/utilsComprehensive";
+import { useMultiSpring } from "../animations/hooks/useMultiSpringBasic";
 
 export interface MotionProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Animation type */
-  type?: 'fade' | 'slide' | 'scale' | 'bounce' | 'elastic' | 'flip' | 'rotate';
+  type?: "fade" | "slide" | "scale" | "bounce" | "elastic" | "flip" | "rotate";
 
   /** Animation direction */
-  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
+  direction?: "up" | "down" | "left" | "right" | "none";
 
   /** Animation duration in milliseconds */
   duration?: number;
@@ -48,7 +48,7 @@ export interface MotionProps extends React.HTMLAttributes<HTMLDivElement> {
   keyframes?: Record<string, any>;
 
   /** Animation fill mode */
-  fillMode?: 'none' | 'forwards' | 'backwards' | 'both';
+  fillMode?: "none" | "forwards" | "backwards" | "both";
 
   /** Enable reduced motion support */
   respectReducedMotion?: boolean;
@@ -63,11 +63,11 @@ export interface MotionProps extends React.HTMLAttributes<HTMLDivElement> {
 const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
   (
     {
-      type = 'fade',
-      direction = 'none',
+      type = "fade",
+      direction = "none",
       duration = 300,
       delay = 0,
-      easing = 'ease-out',
+      easing = "ease-out",
       physics = false,
       springConfig,
       animateOnMount = true,
@@ -76,7 +76,7 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
       loop = false,
       repeat = 1,
       keyframes,
-      fillMode = 'forwards',
+      fillMode = "forwards",
       respectReducedMotion = true,
       className,
       children,
@@ -99,16 +99,16 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
 
     // Check for reduced motion preference safely
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-    
+
     useEffect(() => {
-      if (typeof window !== 'undefined' && window.matchMedia) {
-        const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (typeof window !== "undefined" && window.matchMedia) {
+        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
         const updatePreference = () => setPrefersReducedMotion(mq.matches);
         updatePreference();
-        
+
         if (mq.addEventListener) {
-          mq.addEventListener('change', updatePreference);
-          return () => mq.removeEventListener('change', updatePreference);
+          mq.addEventListener("change", updatePreference);
+          return () => mq.removeEventListener("change", updatePreference);
         } else {
           // @ts-ignore - Legacy API
           mq.addListener(updatePreference);
@@ -126,94 +126,94 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
       const frames: Record<string, any> = {};
 
       switch (type) {
-        case 'fade':
+        case "fade":
           frames.from = { opacity: 0 };
           frames.to = { opacity: 1 };
           break;
 
-        case 'slide':
+        case "slide":
           frames.from = {
             opacity: 0,
             transform: getDirectionalTransform(direction, 20),
           };
           frames.to = {
             opacity: 1,
-            transform: 'translate(0, 0) scale(1) rotate(0deg)',
+            transform: "translate(0, 0) scale(1) rotate(0deg)",
           };
           break;
 
-        case 'scale':
+        case "scale":
           frames.from = {
             opacity: 0,
-            transform: 'scale(0.8)',
+            transform: "scale(0.8)",
           };
           frames.to = {
             opacity: 1,
-            transform: 'scale(1)',
+            transform: "scale(1)",
           };
           break;
 
-        case 'bounce':
+        case "bounce":
           frames.from = {
             opacity: 0,
             transform: getDirectionalTransform(direction, 30),
           };
-          frames['60%'] = {
+          frames["60%"] = {
             opacity: 1,
             transform: getDirectionalTransform(direction, -10),
           };
-          frames['80%'] = {
+          frames["80%"] = {
             opacity: 1,
             transform: getDirectionalTransform(direction, 5),
           };
           frames.to = {
             opacity: 1,
-            transform: 'translate(0, 0) scale(1) rotate(0deg)',
+            transform: "translate(0, 0) scale(1) rotate(0deg)",
           };
           break;
 
-        case 'elastic':
+        case "elastic":
           frames.from = {
             opacity: 0,
-            transform: getDirectionalTransform(direction, 20) + ' scale(0.3)',
+            transform: getDirectionalTransform(direction, 20) + " scale(0.3)",
           };
-          frames['55%'] = {
+          frames["55%"] = {
             opacity: 1,
-            transform: getDirectionalTransform(direction, -5) + ' scale(1.05)',
+            transform: getDirectionalTransform(direction, -5) + " scale(1.05)",
           };
-          frames['65%'] = {
+          frames["65%"] = {
             opacity: 1,
-            transform: getDirectionalTransform(direction, 3) + ' scale(0.95)',
+            transform: getDirectionalTransform(direction, 3) + " scale(0.95)",
           };
-          frames['75%'] = {
+          frames["75%"] = {
             opacity: 1,
-            transform: getDirectionalTransform(direction, -1) + ' scale(1.02)',
+            transform: getDirectionalTransform(direction, -1) + " scale(1.02)",
           };
           frames.to = {
             opacity: 1,
-            transform: 'translate(0, 0) scale(1) rotate(0deg)',
+            transform: "translate(0, 0) scale(1) rotate(0deg)",
           };
           break;
 
-        case 'flip':
+        case "flip":
           frames.from = {
             opacity: 0,
-            transform: `rotateY(${direction === 'left' ? -90 : 90}deg)`,
+            transform: `rotateY(${direction === "left" ? -90 : 90}deg)`,
           };
           frames.to = {
             opacity: 1,
-            transform: 'rotateY(0deg)',
+            transform: "rotateY(0deg)",
           };
           break;
 
-        case 'rotate':
+        case "rotate":
           frames.from = {
             opacity: 0,
-            transform: 'rotate(-180deg)',
+            transform: "rotate(-180deg)",
           };
           frames.to = {
             opacity: 1,
-            transform: 'rotate(0deg)',
+            transform: "rotate(0deg)",
           };
           break;
 
@@ -228,16 +228,16 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
     // Helper function for directional transforms
     const getDirectionalTransform = (dir: string, distance: number) => {
       switch (dir) {
-        case 'up':
+        case "up":
           return `translateY(${distance}px)`;
-        case 'down':
+        case "down":
           return `translateY(-${distance}px)`;
-        case 'left':
+        case "left":
           return `translateX(${distance}px)`;
-        case 'right':
+        case "right":
           return `translateX(-${distance}px)`;
         default:
-          return 'translate(0, 0)';
+          return "translate(0, 0)";
       }
     };
 
@@ -257,10 +257,13 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
         const targetValues = generateKeyframes().to;
         const springTargets: Record<string, number> = {};
 
-        if (targetValues.opacity !== undefined) springTargets.opacity = targetValues.opacity;
+        if (targetValues.opacity !== undefined)
+          springTargets.opacity = targetValues.opacity;
         if (targetValues.transform) {
           // Parse transform values (simplified)
-          const translateMatch = targetValues.transform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+          const translateMatch = targetValues.transform.match(
+            /translate\(([^,]+),\s*([^)]+)\)/
+          );
           if (translateMatch) {
             springTargets.x = parseFloat(translateMatch[1]);
             springTargets.y = parseFloat(translateMatch[2]);
@@ -279,7 +282,9 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
           iterations: loop ? Infinity : repeat,
         };
 
-            animationRef.current = element.animate ? element.animate(animationKeyframes, timing) : null;
+        animationRef.current = element.animate
+          ? element.animate(animationKeyframes, timing)
+          : null;
       }
     };
 
@@ -340,30 +345,30 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
           elementRef.current = el;
           // Handle forwarded ref
           if (ref) {
-            if (typeof ref === 'function') {
+            if (typeof ref === "function") {
               ref(el);
-            } else if (ref && 'current' in ref) {
+            } else if (ref && "current" in ref) {
               ref.current = el;
             }
           }
         }}
         className={cn(
-          'motion-element',
+          "motion-element",
           {
-            'motion-fade': type === 'fade',
-            'motion-slide': type === 'slide',
-            'motion-scale': type === 'scale',
-            'motion-bounce': type === 'bounce',
-            'motion-elastic': type === 'elastic',
-            'motion-flip': type === 'flip',
-            'motion-rotate': type === 'rotate',
-            'motion-physics': physics,
-            'motion-hover': animateOnHover,
-            'motion-click': animateOnClick,
+            "motion-fade": type === "fade",
+            "motion-slide": type === "slide",
+            "motion-scale": type === "scale",
+            "motion-bounce": type === "bounce",
+            "motion-elastic": type === "elastic",
+            "motion-flip": type === "flip",
+            "motion-rotate": type === "rotate",
+            "motion-physics": physics,
+            "motion-hover": animateOnHover,
+            "motion-click": animateOnClick,
           },
           className
         )}
-        style={combinedStyles}
+        style={{ ...combinedStyles }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
@@ -375,7 +380,7 @@ const MotionNative = forwardRef<HTMLDivElement, MotionProps>(
   }
 );
 
-MotionNative.displayName = 'MotionNative';
+MotionNative.displayName = "MotionNative";
 
 export { MotionNative };
 export default MotionNative;

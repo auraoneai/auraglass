@@ -11,10 +11,10 @@ exports[`GlassToast matches snapshot 1`] = `
     style="border-radius: 8px; box-shadow: 0px 16px 40px 0px rgba(0,0,0,0.3); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="absolute top-0 left-0 right-0 h-1 glass-surface-subtle/20 glass-radius-t-lg overflow-hidden"
+      class="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-h-1 glass-surface-subtle/20 glass-radius-t-lg glass-overflow-hidden"
     >
       <div
-        class="h-full transition-all duration-100 ease-linear bg-blue-400/30"
+        class="h-full transition-all var(--glass-motion-duration-fast) var(--glass-motion-easing-linear) bg-blue-400/30"
         style="width: 100%;"
       />
     </div>
@@ -26,7 +26,7 @@ exports[`GlassToast matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-info w-5 h-5 text-primary"
+          class="lucide lucide-info glass-w-5 glass-h-5 glass-text-primary"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -51,25 +51,25 @@ exports[`GlassToast matches snapshot 1`] = `
         </svg>
       </div>
       <div
-        class="glass-flex-1 glass-min-w-0"
+        class="glass-flex-1 glass-min-glass-w-0"
       />
       <div
-        class="motion-primitive inline-block"
+        class="motion-primitive glass-inline-glass-block"
       >
         <button
           aria-label="Close toast"
-          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-flex-shrink-0 glass-p-1 glass-radius-md hover:glass-surface-subtle/10 transition-colors duration-200"
+          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-flex-shrink-0 glass-p-1 glass-radius-md hover:glass-surface-subtle/10 glass-transition-colors glass-duration-[150ms]"
           data-magnet="true"
           data-performance-mode="ultra"
           id="glass-button-:r6:"
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
         >
           <span
-            class="relative z-10"
+            class="glass-relative glass-z-10"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-x w-4 h-4 text-primary/60 hover:text-primary"
+              class="lucide lucide-x glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60 hover:glass-text-primary"
               fill="none"
               height="24"
               stroke="currentColor"

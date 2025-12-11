@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -32,9 +32,24 @@ const statusAccent: Record<
 };
 
 const DEFAULT_USERS: CollaborationParticipant[] = [
-  { id: "1", name: "Nova", presence: "active", color: "#38bdf8" },
-  { id: "2", name: "Orion", presence: "idle", color: "#f472b6" },
-  { id: "3", name: "Lyra", presence: "offline", color: "#a855f7" },
+  {
+    id: "1",
+    name: "Nova",
+    presence: "active",
+    color: "var(--glass-color-info)",
+  },
+  {
+    id: "2",
+    name: "Orion",
+    presence: "idle",
+    color: "var(--glass-color-secondary)",
+  },
+  {
+    id: "3",
+    name: "Lyra",
+    presence: "offline",
+    color: "var(--glass-color-secondary)",
+  },
 ];
 
 export function MultiUserGlassEditor({
@@ -74,7 +89,13 @@ export function MultiUserGlassEditor({
     return activeUsers.map((user, index) => ({
       ...user,
       presence: user.presence ?? (index === 0 ? "active" : "idle"),
-      color: user.color ?? ["#38bdf8", "#f472b6", "#facc15"][index % 3],
+      color:
+        user.color ??
+        [
+          "var(--glass-color-info)",
+          "var(--glass-color-secondary)",
+          "var(--glass-color-warning)",
+        ][index % 3],
     }));
   }, [users]);
 
@@ -111,12 +132,14 @@ export function MultiUserGlassEditor({
     >
       <header className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-4">
         <div>
-          <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>{header}</h2>
-          <p className='glass-text-sm glass-text-primary-opacity-70'>
+          <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
+            {header}
+          </h2>
+          <p className="glass-text-sm glass-text-primary-opacity-70">
             Synced presence across team members with glass awareness.
           </p>
         </div>
-        <span className='glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs glass-text-primary-opacity-70'>
+        <span className="glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs glass-text-primary-opacity-70">
           Updated {formattedTimestamp}
         </span>
       </header>
@@ -125,12 +148,16 @@ export function MultiUserGlassEditor({
         {participants.map((user) => (
           <span
             key={user.id}
-            className='glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs glass-text-primary'
+            className="glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs glass-text-primary"
             style={{ boxShadow: `0 0 25px -12px ${user.color}` }}
           >
             <span
-              className='glass-flex glass-h-2-5 glass-w-2-5 glass-radius-full'
-              style={{ backgroundColor: user.presence ? undefined : "#94a3b8" }}
+              className="glass-flex glass-h-2-5 glass-w-2-5 glass-radius-full"
+              style={{
+                backgroundColor: user.presence
+                  ? undefined
+                  : "var(--glass-gray-500)",
+              }}
             >
               {user.presence && (
                 <span
@@ -141,10 +168,12 @@ export function MultiUserGlassEditor({
                 />
               )}
             </span>
-            <span className='glass-font-medium' style={{ color: user.color }}>
+            <span className="glass-font-medium" style={{ color: user.color }}>
               {user.name}
             </span>
-            <span className='glass-text-primary-glass-opacity-50'>{user.presence ?? "active"}</span>
+            <span className="glass-text-primary-glass-opacity-50">
+              {user.presence ?? "active"}
+            </span>
           </span>
         ))}
       </div>

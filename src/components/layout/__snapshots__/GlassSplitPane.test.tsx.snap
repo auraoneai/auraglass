@@ -10,18 +10,20 @@ exports[`GlassSplitPane matches snapshot 1`] = `
   style="--a: 50%;"
 >
   <span
-    class="sr-only"
+    class="glass-sr-only"
     id="split-pane-label-:r15:"
   >
     Split pane
   </span>
   <div
     aria-labelledby="split-pane-left-:r16:"
-    class="glass-min-w-0 glass-min-h-0 overflow-auto"
+    class="contrast-guard glass-min-w-0 glass-min-h-0 glass-overflow-auto"
+    data-contrast-level="AA"
+    data-glass-component="true"
     role="region"
   >
     <span
-      class="sr-only"
+      class="glass-sr-only"
       id="split-pane-left-:r16:"
     >
       Left pane
@@ -40,11 +42,13 @@ exports[`GlassSplitPane matches snapshot 1`] = `
   />
   <div
     aria-labelledby="split-pane-right-:r17:"
-    class="glass-min-w-0 glass-min-h-0 overflow-auto"
+    class="contrast-guard glass-min-w-0 glass-min-h-0 glass-overflow-auto"
+    data-contrast-level="AA"
+    data-glass-component="true"
     role="region"
   >
     <span
-      class="sr-only"
+      class="glass-sr-only"
       id="split-pane-right-:r17:"
     >
       Right pane

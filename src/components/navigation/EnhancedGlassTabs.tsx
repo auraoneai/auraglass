@@ -18,6 +18,7 @@ import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass, Motion } from "../../primitives";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { useA11yId } from "@/utils/a11y";
+import { ANIMATION } from "../../tokens/designConstants";
 
 /**
  * TabItem interface
@@ -163,9 +164,18 @@ const getTabColors = (
   highContrast: boolean
 ) => {
   const baseColors = {
-    primary: { light: "#4B66EA", dark: "#6366F1" },
-    secondary: { light: "#8B5CF6", dark: "#A855F7" },
-    accent: { light: "#EC4899", dark: "#F472B6" },
+    primary: {
+      light: "var(--glass-color-primary)",
+      dark: "var(--glass-color-primary)",
+    },
+    secondary: {
+      light: "var(--glass-color-secondary)",
+      dark: "var(--glass-color-secondary)",
+    },
+    accent: {
+      light: "var(--glass-color-danger)",
+      dark: "var(--glass-color-danger)",
+    },
     light: { light: "var(--glass-gray-50)", dark: "var(--glass-gray-100)" },
     dark: { light: "var(--glass-gray-800)", dark: "var(--glass-gray-900)" },
   };
@@ -183,15 +193,17 @@ const getTabColors = (
       : selectedColor,
     inactiveText: isDarkMode
       ? highContrast
-        ? "rgba(var(--glass-color-white) / var(--glass-opacity-80))"
-        : "rgba(var(--glass-color-white) / var(--glass-opacity-60))"
+        ? "color-mix(in srgb, var(--glass-white) 80%, transparent)"
+        : "color-mix(in srgb, var(--glass-white) 60%, transparent)"
       : highContrast
         ? "var(--glass-text-secondary-dark)"
         : "var(--glass-text-tertiary-dark)",
-    hoverBg: isDarkMode ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.03)",
+    hoverBg: isDarkMode
+      ? "color-mix(in srgb, var(--glass-white) 5%, transparent)"
+      : "color-mix(in srgb, var(--glass-black) 3%, transparent)",
     disabledText: isDarkMode
       ? "var(--glass-bg-hover)"
-      : "rgba(var(--glass-color-black) / var(--glass-opacity-30))",
+      : "color-mix(in srgb, var(--glass-black) 30%, transparent)",
   };
 };
 
@@ -422,7 +434,7 @@ export const EnhancedGlassTabs = forwardRef<
               "bg-transparent": variant === "text",
             }
           )}
-          style={style}
+          style={{ ...style }}
         >
           <div
             className={cn("flex w-full relative", {
@@ -449,7 +461,7 @@ export const EnhancedGlassTabs = forwardRef<
                   disabled={tab.disabled}
                   className={cn(
                     "relative flex items-center glass-gap-2 whitespace-nowrap border-none cursor-pointer",
-                    "outline-none transition-all duration-200 ease-out",
+                    `outline-none transition-all duration-[${ANIMATION.DURATION.fast}ms] ${ANIMATION.EASING.easeOut}`,
                     "glass-focus glass-touch-target glass-contrast-guard",
                     "focus-visible:ring-2 focus-visible:ring-offset-2",
                     sizeConfig.padding,
@@ -462,18 +474,14 @@ export const EnhancedGlassTabs = forwardRef<
                       "font-medium": !isActive,
                     }
                   )}
-                  style={
-                    {
-                      color: tab.disabled
-                        ? colors.disabledText
-                        : isActive
-                          ? colors.activeText
-                          : colors.inactiveText,
-                      backgroundColor: isActive
-                        ? colors.activeBg
-                        : "transparent",
-                    } as React.CSSProperties
-                  }
+                  style={{
+                    color: tab.disabled
+                      ? colors.disabledText
+                      : isActive
+                        ? colors.activeText
+                        : colors.inactiveText,
+                    backgroundColor: isActive ? colors.activeBg : "transparent",
+                  }}
                   onMouseEnter={(e) => {
                     if (!tab.disabled && !isActive) {
                       e.currentTarget.style.backgroundColor = colors.hoverBg;
@@ -492,7 +500,7 @@ export const EnhancedGlassTabs = forwardRef<
                   <span>{tab.label}</span>
                   {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
                     <span
-                      className='glass-inline-glass-flex glass-items-center glass-justify-center glass-min-w-18px glass-h-18px glass-px-1.5 glass-text-xs glass-font-semibold glass-text-primary glass-radius-full'
+                      className="glass-inline-glass-flex glass-items-center glass-justify-center glass-min-w-18px glass-h-18px glass-px-1.5 glass-text-xs glass-font-semibold glass-text-primary glass-radius-full"
                       style={{ backgroundColor: colors.activeColor }}
                     >
                       {tab.badgeCount > 99 ? "99+" : tab.badgeCount}
@@ -506,12 +514,15 @@ export const EnhancedGlassTabs = forwardRef<
           {/* Active indicator */}
           {showIndicator && currentTab && (
             <div
-              className={cn("absolute pointer-events-none", {
-                "transition-all duration-300 ease-out":
-                  indicatorAnimation === "slide" && !shouldReduceMotion,
-                "transition-opacity duration-200 ease-out":
-                  indicatorAnimation === "fade" && !shouldReduceMotion,
-              })}
+              className={cn(
+                "absolute pointer-events-none",
+                indicatorAnimation === "slide" &&
+                  !shouldReduceMotion &&
+                  `transition-all duration-[${ANIMATION.DURATION.normal}ms] ${ANIMATION.EASING.easeOut}`,
+                indicatorAnimation === "fade" &&
+                  !shouldReduceMotion &&
+                  `transition-opacity duration-[${ANIMATION.DURATION.fast}ms] ${ANIMATION.EASING.easeOut}`
+              )}
               style={{
                 left: `${indicatorStyle.left}px`,
                 width: `${indicatorStyle.width}px`,

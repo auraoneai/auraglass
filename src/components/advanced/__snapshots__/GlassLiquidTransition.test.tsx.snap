@@ -8,15 +8,21 @@ exports[`GlassLiquidTransition matches snapshot 1`] = `
   style="border-radius: 12px; transform: none;"
 >
   <div
-    class="absolute inset-0 pointer-events-none"
+    class="glass-absolute glass-inset-0 glass-pointer-events-none"
     style="transform: none;"
   />
   <div
-    class="relative z-10"
+    class="glass-relative glass-z-10"
   >
-    <div>
-      Content
-    </div>
+    <span
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
+    >
+      <div>
+        Content
+      </div>
+    </span>
   </div>
 </div>
 `;

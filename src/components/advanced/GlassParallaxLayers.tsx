@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AuraGlass Parallax Glass Layers
  * Multi-depth glass layers with mouse/scroll parallax effects
@@ -21,6 +21,9 @@ import React, {
 } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface ParallaxLayer {
   depth: number; // 0-10, where 0 is closest
@@ -73,19 +76,9 @@ export const GlassParallaxLayers = forwardRef<
     const containerRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
     const componentId = useA11yId("parallax-layers");
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+    const prefersReducedMotion = useReducedMotion();
 
-    // Check for reduced motion preference
-    useEffect(() => {
-      if (!respectMotionPreference) return;
-      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      setPrefersReducedMotion(mediaQuery.matches);
-
-      const handleChange = (e: MediaQueryListEvent) =>
-        setPrefersReducedMotion(e.matches);
-      mediaQuery.addEventListener("change", handleChange);
-      return () => mediaQuery.removeEventListener("change", handleChange);
-    }, [respectMotionPreference]);
+    // Reduced motion is handled by useReducedMotion hook
 
     // Motion values for mouse position
     const mouseX = useMotionValue(0);
@@ -252,6 +245,21 @@ export const GlassParallaxLayers = forwardRef<
 
           const finalBlur = mapBlurValue(layer.blur) || autoBlur;
 
+          const layerStyle = {
+            x: prefersReducedMotion ? 0 : xTransform,
+            y: prefersReducedMotion ? 0 : scrollY,
+            rotateX: prefersReducedMotion ? 0 : rotateXTransform,
+            rotateY: prefersReducedMotion
+              ? 0
+              : autoRotate
+                ? rotation
+                : rotateYTransform,
+            z: prefersReducedMotion ? 0 : layer.depth * 50,
+            scale: layer.scale || 1 - depthFactor * 0.1,
+            opacity: layer.opacity || 1 - depthFactor * 0.2,
+            transformStyle: prefersReducedMotion ? "flat" : "preserve-3d",
+          } as any;
+
           return (
             <motion.div
               key={`layer-${index}`}
@@ -261,25 +269,12 @@ export const GlassParallaxLayers = forwardRef<
                 scale: layer.scale || 1 - depthFactor * 0.1,
               }}
               transition={{
-                duration: prefersReducedMotion ? 0 : 0.6,
+                duration: prefersReducedMotion
+                  ? 0
+                  : ANIMATION.DURATION.slower / 1000,
                 delay: prefersReducedMotion ? 0 : index * 0.1,
               }}
-              style={
-                {
-                  x: prefersReducedMotion ? 0 : xTransform,
-                  y: prefersReducedMotion ? 0 : scrollY,
-                  rotateX: prefersReducedMotion ? 0 : rotateXTransform,
-                  rotateY: prefersReducedMotion
-                    ? 0
-                    : autoRotate
-                      ? rotation
-                      : rotateYTransform,
-                  z: prefersReducedMotion ? 0 : layer.depth * 50,
-                  scale: layer.scale || 1 - depthFactor * 0.1,
-                  opacity: layer.opacity || 1 - depthFactor * 0.2,
-                  transformStyle: prefersReducedMotion ? "flat" : "preserve-3d",
-                } as any
-              }
+              style={{ ...layerStyle }}
             >
               <OptimizedGlass
                 intent="neutral"
@@ -289,16 +284,19 @@ export const GlassParallaxLayers = forwardRef<
                 depth={Math.min(layer.depth, 5)}
                 className={cn(
                   "absolute inset-0",
-                  "transition-all duration-300",
+                  "transition-all",
+                  { transitionDuration: "var(--glass-motion-duration-normal)" },
                   layer.className
                 )}
               >
-                {layer.content}
+                <ContrastGuard>{layer.content}</ContrastGuard>
 
                 {debug && (
-                  <div className='glass-absolute glass-top-2 glass-left-2 glass-surface-dark/20 glass-backdrop-blur-sm glass-contrast-guard glass-p-2 glass-radius-sm glass-text-xs glass-text-primary-glass-opacity-90 glass-contrast-guard'>
-                    Layer {index + 1} | Depth: {layer.depth}
-                  </div>
+                  <ContrastGuard>
+                    <div className="glass-absolute glass-top-2 glass-left-2 glass-surface-dark/20 glass-backdrop-blur-sm glass-p-2 glass-radius-sm glass-text-xs glass-text-primary-glass-opacity-90">
+                      Layer {index + 1} | Depth: {layer.depth}
+                    </div>
+                  </ContrastGuard>
                 )}
               </OptimizedGlass>
             </motion.div>
@@ -308,13 +306,15 @@ export const GlassParallaxLayers = forwardRef<
         {/* Interactive indicator */}
         {interactive && !prefersReducedMotion && (
           <motion.div
-            className='glass-absolute glass-bottom-4 glass-right-4 glass-text-primary-glass-opacity-60 glass-text-xs glass-surface-dark/20 glass-backdrop-blur-sm glass-contrast-guard glass-p-2 glass-radius-md glass-contrast-guard'
+            className="glass-absolute glass-bottom-4 glass-right-4 glass-text-primary-glass-opacity-60 glass-text-xs glass-surface-dark/20 glass-backdrop-blur-sm glass-p-2 glass-radius-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: isHovered ? 1 : 0.5 }}
             role="status"
             aria-live="polite"
           >
-            {isHovered ? "Move mouse to parallax" : "Hover to interact"}
+            <ContrastGuard>
+              {isHovered ? "Move mouse to parallax" : "Hover to interact"}
+            </ContrastGuard>
           </motion.div>
         )}
       </div>

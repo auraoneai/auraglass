@@ -11,7 +11,7 @@ exports[`GlassStepper matches snapshot 1`] = `
     <button
       aria-current="step"
       aria-label="Go to Step 1 (current step)"
-      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200 ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary"
+      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-[150ms] ring-1 ring-white/10 bg-glass-fill glass-hover--translate-y-0-5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary"
       type="button"
     >
       <span
@@ -21,7 +21,7 @@ exports[`GlassStepper matches snapshot 1`] = `
       </span>
     </button>
     <div
-      class="w-8 h-px glass-surface-subtle/15"
+      class="glass-w-8 glass-h-px glass-surface-subtle/15"
     />
   </div>
   <div
@@ -29,7 +29,7 @@ exports[`GlassStepper matches snapshot 1`] = `
   >
     <button
       aria-label="Go to Step 2"
-      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200 ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary/80"
+      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-[150ms] ring-1 ring-white/10 bg-glass-fill glass-hover--translate-y-0-5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary/80"
       type="button"
     >
       <span
@@ -39,7 +39,7 @@ exports[`GlassStepper matches snapshot 1`] = `
       </span>
     </button>
     <div
-      class="w-8 h-px glass-surface-subtle/15"
+      class="glass-w-8 glass-h-px glass-surface-subtle/15"
     />
   </div>
   <div
@@ -47,7 +47,7 @@ exports[`GlassStepper matches snapshot 1`] = `
   >
     <button
       aria-label="Go to Step 3"
-      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-200 ring-1 ring-white/10 bg-glass-fill hover:-translate-y-0.5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary/80"
+      class="glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-[150ms] ring-1 ring-white/10 bg-glass-fill glass-hover--translate-y-0-5 glass-press glass-ripple glass-focus glass-touch-target glass-contrast-guard glass-text-primary/80"
       type="button"
     >
       <span

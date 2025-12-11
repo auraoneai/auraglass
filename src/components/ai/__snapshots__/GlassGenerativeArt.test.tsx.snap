@@ -10,31 +10,31 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
   >
     <div>
       <h3
-        class="glass-text-xl font-semibold text-primary/90"
+        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         AI Art Generator
       </h3>
       <p
-        class="glass-text-sm text-primary/60"
+        class="glass-text-sm glass-text-primary-glass-opacity-60"
       >
         Create stunning AI-generated artwork from text prompts
       </p>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     />
   </div>
   <div
-    class="space-y-4"
+    class="glass-space-y-4"
   >
     <div>
       <label
-        class="block glass-text-sm font-medium text-primary/80 mb-2"
+        class="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2"
       >
         Describe your artwork
       </label>
       <textarea
-        class="glass-w-full h-24 glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 placeholder-white/50 resize-none focus:outline-none focus:border-blue"
+        class="glass-w-full glass-h-24 glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-placeholder-white-opacity-50 glass-resize-none glass-focus-outline-none focus:glass-border-blue"
         placeholder="A majestic dragon soaring through a cosmic nebula, digital art style, highly detailed..."
       />
     </div>
@@ -42,25 +42,25 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
       class="glass-flex glass-items-center glass-justify-between"
     >
       <div
-        class="glass-flex glass-items-center space-x-4"
+        class="glass-flex glass-items-center glass-space-x-4"
       >
         <label
-          class="glass-flex glass-items-center space-x-2 cursor-pointer"
+          class="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer"
         >
           <input
             checked=""
-            class="w-4 h-4 glass-radius glass-border-white/30"
+            class="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
             type="checkbox"
           />
           <span
-            class="glass-text-sm text-primary/80"
+            class="glass-text-sm glass-text-primary-glass-opacity-80"
           >
             Enhance Prompt
           </span>
         </label>
       </div>
       <button
-        class="glass-px-6 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg font-medium transition-colors disabled:opacity-50"
+        class="glass-px-6 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-font-medium glass-transition-colors disabled:glass-opacity-50"
         disabled=""
         tabindex="0"
       >
@@ -69,13 +69,13 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+    class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6"
   >
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         Prompt Library
       </h4>
@@ -83,7 +83,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
         class="glass-grid glass-gap-2"
       >
         <div
-          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5 glass-cursor-pointer glass-transition-colors"
         >
           <div
             class="glass-flex glass-items-start glass-justify-between"
@@ -92,12 +92,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <p
-                class="glass-text-sm text-primary/90 mb-1"
+                class="glass-text-sm glass-text-primary-glass-opacity-90 glass-mb-1"
               >
                 Cosmic abstract painting with swirling galaxies and nebulae in vibrant colors
               </p>
               <div
-                class="glass-flex glass-items-center space-x-2"
+                class="glass-flex glass-items-center glass-space-x-2"
               >
                 <span
                   class="
@@ -108,12 +108,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
                   abstract
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   space
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   cosmic
                 </span>
@@ -122,7 +122,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5 glass-cursor-pointer glass-transition-colors"
         >
           <div
             class="glass-flex glass-items-start glass-justify-between"
@@ -131,12 +131,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <p
-                class="glass-text-sm text-primary/90 mb-1"
+                class="glass-text-sm glass-text-primary-glass-opacity-90 glass-mb-1"
               >
                 Cyberpunk cityscape at night with neon lights reflecting on wet streets
               </p>
               <div
-                class="glass-flex glass-items-center space-x-2"
+                class="glass-flex glass-items-center glass-space-x-2"
               >
                 <span
                   class="
@@ -147,12 +147,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
                   architecture
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   cyberpunk
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   neon
                 </span>
@@ -161,7 +161,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5 glass-cursor-pointer glass-transition-colors"
         >
           <div
             class="glass-flex glass-items-start glass-justify-between"
@@ -170,12 +170,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <p
-                class="glass-text-sm text-primary/90 mb-1"
+                class="glass-text-sm glass-text-primary-glass-opacity-90 glass-mb-1"
               >
                 Ethereal portrait of a person made of flowing light and energy
               </p>
               <div
-                class="glass-flex glass-items-center space-x-2"
+                class="glass-flex glass-items-center glass-space-x-2"
               >
                 <span
                   class="
@@ -186,12 +186,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
                   portrait
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   ethereal
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   light
                 </span>
@@ -200,7 +200,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5 glass-cursor-pointer glass-transition-colors"
         >
           <div
             class="glass-flex glass-items-start glass-justify-between"
@@ -209,12 +209,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <p
-                class="glass-text-sm text-primary/90 mb-1"
+                class="glass-text-sm glass-text-primary-glass-opacity-90 glass-mb-1"
               >
                 Surreal landscape with floating islands and impossible waterfalls
               </p>
               <div
-                class="glass-flex glass-items-center space-x-2"
+                class="glass-flex glass-items-center glass-space-x-2"
               >
                 <span
                   class="
@@ -225,12 +225,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
                   landscape
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   surreal
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   floating
                 </span>
@@ -239,7 +239,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:border-white/40 glass-surface-subtle/5 cursor-pointer transition-colors"
+          class="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5 glass-cursor-pointer glass-transition-colors"
         >
           <div
             class="glass-flex glass-items-start glass-justify-between"
@@ -248,12 +248,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
               class="glass-flex-1"
             >
               <p
-                class="glass-text-sm text-primary/90 mb-1"
+                class="glass-text-sm glass-text-primary-glass-opacity-90 glass-mb-1"
               >
                 Biomechanical fusion of organic forms and technological components
               </p>
               <div
-                class="glass-flex glass-items-center space-x-2"
+                class="glass-flex glass-items-center glass-space-x-2"
               >
                 <span
                   class="
@@ -264,12 +264,12 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
                   surreal
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   biomechanical
                 </span>
                 <span
-                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 text-primary/60 glass-radius glass-text-xs"
+                  class="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
                 >
                   organic
                 </span>
@@ -280,26 +280,26 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         Generation Settings
       </h4>
       <div
-        class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4"
+        class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4"
       >
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-2"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
             for="model-select"
           >
             Model
           </label>
           <select
             aria-label="AI model"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             id="model-select"
           >
             <option
@@ -326,14 +326,14 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-2"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
             for="style-select"
           >
             Style
           </label>
           <select
             aria-label="Art style preset"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             id="style-select"
           >
             <option
@@ -400,14 +400,14 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-2"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
             for="resolution-select"
           >
             Resolution
           </label>
           <select
             aria-label="Image resolution"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             id="resolution-select"
           >
             <option
@@ -434,7 +434,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-2"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
             for="iterations-slider"
           >
             Iterations: 
@@ -442,7 +442,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </label>
           <input
             aria-label="Number of iterations"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             id="iterations-slider"
             max="4"
             min="1"
@@ -452,7 +452,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-2"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
             for="steps-slider"
           >
             Steps: 
@@ -460,7 +460,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </label>
           <input
             aria-label="Number of steps"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             id="steps-slider"
             max="50"
             min="10"
@@ -470,7 +470,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-2"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
             for="guidance-slider"
           >
             Guidance: 
@@ -478,7 +478,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
           </label>
           <input
             aria-label="Guidance scale"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             id="guidance-slider"
             max="20"
             min="1"
@@ -491,7 +491,7 @@ exports[`GlassGenerativeArt matches snapshot 1`] = `
     </div>
   </div>
   <canvas
-    class="hidden"
+    class="glass-hidden"
   />
 </div>
 `;

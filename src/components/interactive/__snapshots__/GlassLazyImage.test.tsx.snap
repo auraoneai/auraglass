@@ -7,7 +7,7 @@ exports[`GlassLazyImage matches snapshot 1`] = `
   style="width: auto; height: auto;"
 >
   <div
-    class="absolute inset-0 glass-surface-subtle/10 glass-flex glass-items-center glass-justify-center"
+    class="glass-absolute glass-inset-0 glass-surface-subtle/10 glass-flex glass-items-center glass-justify-center"
     style="filter: blur(5px);"
   >
     <div
@@ -15,7 +15,7 @@ exports[`GlassLazyImage matches snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-image w-8 h-8 text-primary/40"
+        class="lucide lucide-image glass-w-8 glass-h-8 glass-text-primary-glass-opacity-40"
         fill="none"
         height="24"
         stroke="currentColor"

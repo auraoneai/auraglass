@@ -11,7 +11,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
       class="flex flex-col glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
     >
       <h1
-        class="glass-text-2xl font-bold text-primary"
+        class="glass-text-2xl glass-font-bold glass-text-primary"
       >
         Test Wizard
       </h1>
@@ -29,7 +29,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
             class="flex flex-row glass-gap-2 items-center justify-between motion-safe:transition-all motion-reduce:transition-none"
           >
             <span
-              class="glass-text-sm font-medium text-primary"
+              class="glass-text-sm glass-font-medium glass-text-primary"
             >
               Step 
               1
@@ -63,7 +63,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
                 style="width: 0%; transition-duration: 500ms;"
               >
                 <div
-                  class="pointer-events-none absolute inset-0 glass-sheen"
+                  class="glass-pointer-events-none glass-absolute glass-inset-0 glass-sheen"
                 />
               </div>
             </div>
@@ -73,7 +73,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
           class="flex items-center justify-between"
         >
           <div
-            class="animate-slide-in-up"
+            class="glass-animate-slide-in-up"
             style="animation-delay: 0ms; animation-fill-mode: both;"
           >
             <div
@@ -103,7 +103,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
             class="flex-1 h-0.5 glass-mx-4 transition-colors bg-border"
           />
           <div
-            class="animate-slide-in-up"
+            class="glass-animate-slide-in-up"
             style="animation-delay: 100ms; animation-fill-mode: both;"
           >
             <div
@@ -137,11 +137,11 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
     class="motion-primitive"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 glass-p-6"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 glass-p-6"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
-        class="relative z-10"
+        class="glass-relative glass-z-10"
       >
         <div
           class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
@@ -156,7 +156,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
                 class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none"
               >
                 <h2
-                  class="glass-text-xl font-semibold text-primary"
+                  class="glass-text-xl glass-font-semibold glass-text-primary"
                 >
                   Step 1
                 </h2>
@@ -177,7 +177,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
                   class="glass-auto-gap glass-auto-gap-2xl"
                 >
                   <div
-                    class="text-center glass-py-8 glass-text-secondary"
+                    class="glass-text-center glass-py-8 glass-text-secondary"
                   >
                     <p>
                       No form sections configured
@@ -185,14 +185,14 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  class="glass-flex glass-items-center glass-justify-end glass-gap-3 mt-8"
+                  class="glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8"
                 >
                   <div
-                    class="motion-primitive inline-block"
+                    class="motion-primitive glass-inline-glass-block"
                   >
                     <button
                       aria-label="Submit form"
-                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                      class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                       data-magnet="true"
                       data-performance-mode="ultra"
                       id="glass-button-:r27:"
@@ -200,7 +200,7 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
                       type="submit"
                     >
                       <span
-                        class="relative z-10"
+                        class="glass-relative glass-z-10"
                       />
                     </button>
                   </div>
@@ -218,17 +218,17 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
               class="flex flex-row glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
             >
               <div
-                class="motion-primitive inline-block"
+                class="motion-primitive glass-inline-glass-block"
               >
                 <button
-                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                   data-magnet="true"
                   data-performance-mode="ultra"
                   id="glass-button-:r2b:"
                   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                 >
                   <span
-                    class="relative z-10"
+                    class="glass-relative glass-z-10"
                   >
                     Next
                   </span>

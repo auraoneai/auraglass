@@ -12,6 +12,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import { useGlassSound } from "../../utils/soundDesign";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 // Define SpeechRecognition types for browsers that don't have them in TypeScript
 declare global {
@@ -532,9 +535,18 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
       // Set up gradient
       const gradient = ctx.createLinearGradient(0, height, 0, 0);
-      gradient.addColorStop(0, "rgba(100, 150, 255, 0.8)");
-      gradient.addColorStop(0.5, "rgba(150, 200, 255, 0.6)");
-      gradient.addColorStop(1, "rgba(200, 220, 255, 0.4)");
+      gradient.addColorStop(
+        0,
+        "color-mix(in srgb, var(--glass-color-info) 80%, transparent)"
+      );
+      gradient.addColorStop(
+        0.5,
+        "color-mix(in srgb, var(--glass-color-info) 60%, transparent)"
+      );
+      gradient.addColorStop(
+        1,
+        "color-mix(in srgb, var(--glass-color-info) 40%, transparent)"
+      );
 
       switch (visualizerStyle) {
         case "waveform":
@@ -606,7 +618,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
             const size = Math.random() * 3 + 1;
             const alpha = Math.random() * 0.8 + 0.2;
 
-            ctx.fillStyle = `rgba(100, 150, 255, ${alpha})`;
+            ctx.fillStyle = `color-mix(in srgb, var(--glass-color-info) ${alpha * 100}%, transparent)`;
             ctx.beginPath();
             ctx.arc(x, y, size, 0, Math.PI * 2);
             ctx.fill();
@@ -682,7 +694,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
             <button
               onClick={clearTranscript}
-              className='glass-px-3 glass-py-2 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-3 glass-py-2 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-contrast-guard"
             >
               Clear
             </button>
@@ -752,9 +764,9 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
           <div className="glass-flex glass-items-center glass-gap-2">
             <span className="glass-text-sm">Audio Level:</span>
-            <div className='glass-w-20 glass-h-2 glass-surface-overlay glass-radius-full glass-overflow-hidden'>
+            <div className="glass-w-20 glass-h-2 glass-surface-overlay glass-radius-full glass-overflow-hidden">
               <div
-                className='glass-h-full glass-surface-green/60 glass-transition-all glass-duration-100'
+                className={`glass-h-full glass-surface-green/60 glass-transition-all glass-duration-[${ANIMATION.DURATION.fast / 6}ms]`}
                 style={{ width: `${audioLevel * 100}%` }}
               />
             </div>
@@ -796,7 +808,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
                   isListening ? "bg-green-500 animate-pulse" : "bg-red-500"
                 )}
               />
-              <span className='glass-text-sm glass-font-medium'>
+              <span className="glass-text-sm glass-font-medium">
                 {isListening ? "Listening..." : "Ready"}
               </span>
               {frequency > 0 && (
@@ -828,11 +840,13 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           {/* Transcript */}
           {showTranscript && (transcript || interimTranscript) && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm glass-font-medium glass-mb-2'>Transcript:</div>
+              <div className="glass-text-sm glass-font-medium glass-mb-2">
+                Transcript:
+              </div>
               <div className="glass-text-sm">
                 <span>{transcript}</span>
                 {interimTranscript && (
-                  <span className='glass-text-secondary glass-italic'>
+                  <span className="glass-text-secondary glass-italic">
                     {" "}
                     {interimTranscript}
                   </span>
@@ -844,16 +858,16 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
           {/* Recent commands */}
           {recognizedCommands.length > 0 && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm glass-font-medium glass-mb-2'>
+              <div className="glass-text-sm glass-font-medium glass-mb-2">
                 Recent Commands:
               </div>
-              <div className='glass-space-y-1'>
+              <div className="glass-space-y-1">
                 {recognizedCommands.slice(-5).map((command: any) => (
                   <div
                     key={command.id}
                     className="glass-text-xs glass-p-2 glass-surface-primary/10 glass-radius-sm"
                   >
-                    <span className='glass-font-medium'>{command.phrase}</span>
+                    <span className="glass-font-medium">{command.phrase}</span>
                     <span className="glass-text-secondary glass-ml-2">
                       ({Math.round(command.confidence * 100)}% confidence)
                     </span>

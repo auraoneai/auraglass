@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassInput } from "./GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -11,6 +11,9 @@ import {
   announceToScreenReader,
 } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassCheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -180,7 +183,10 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
     const isCheckedOrIndeterminate = checked || indeterminate;
 
     const checkboxElement = (
-      <div className='glass-relative glass-inline-glass-flex glass-items-center' data-testid={dataTestId || "glasscheckbox"}>
+      <div
+        className="glass-relative glass-inline-glass-flex glass-items-center"
+        data-testid={dataTestId || "glasscheckbox"}
+      >
         {/* Hidden input */}
         <input
           ref={ref}
@@ -189,8 +195,10 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
           checked={checked}
           onChange={handleChange}
           disabled={disabled || loading}
-          className='glass-sr-only glass-touch-target glass-contrast-guard'
-          aria-label={ariaLabel || label || a11yProps['aria-label'] || 'Checkbox'}
+          className="glass-sr-only glass-touch-target glass-contrast-guard"
+          aria-label={
+            ariaLabel || label || a11yProps["aria-label"] || "Checkbox"
+          }
           {...props}
         />
 
@@ -232,9 +240,11 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
           role="checkbox"
           aria-checked={!!checked} // Ensure it's always a boolean
           aria-busy={loading || undefined}
-          aria-label={a11yProps['aria-label'] || label || description || "checkbox"}
-          aria-labelledby={a11yProps['aria-labelledby']}
-          aria-describedby={a11yProps['aria-describedby']}
+          aria-label={
+            a11yProps["aria-label"] || label || description || "checkbox"
+          }
+          aria-labelledby={a11yProps["aria-labelledby"]}
+          aria-describedby={a11yProps["aria-describedby"]}
         >
           {/* Check/indeterminate icon */}
           <Motion
@@ -329,12 +339,22 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
     }
 
     return (
-      <div className={cn("glass-flex", {
-        "glass-flex-row glass-items-start": labelPosition === "left" || labelPosition === "right",
-        "glass-flex-col glass-items-start": labelPosition === "top" || labelPosition === "bottom",
-      }, config.gap, className)} data-testid={dataTestId || "glasscheckbox"}>
+      <div
+        className={cn(
+          "glass-flex",
+          {
+            "glass-flex-row glass-items-start":
+              labelPosition === "left" || labelPosition === "right",
+            "glass-flex-col glass-items-start":
+              labelPosition === "top" || labelPosition === "bottom",
+          },
+          config.gap,
+          className
+        )}
+        data-testid={dataTestId || "glasscheckbox"}
+      >
         {(labelPosition === "left" || labelPosition === "right") && (
-          <div className='glass-flex glass-items-start glass-pt-0.5'>
+          <div className="glass-flex glass-items-start glass-pt-0.5">
             {checkboxElement}
           </div>
         )}

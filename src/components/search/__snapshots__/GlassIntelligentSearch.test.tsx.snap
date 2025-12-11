@@ -6,24 +6,24 @@ exports[`GlassIntelligentSearch matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="glass-foundation-basic relative"
+    class="glass-foundation-basic glass-relative"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
       class="glass-flex glass-items-center glass-gap-3 glass-p-4"
     >
       <div
-        class="relative glass-flex-1"
+        class="glass-relative glass-flex-1"
       >
         <input
           aria-label="Search input"
-          class="glass-w-full pl-10 pr-4 glass-py-3 glass-border glass-border-subtle glass-radius-lg focus:ring-2 focus:ring-blue-500 focus:border-blue glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-w-full glass-pl-10 glass-pr-4 glass-py-3 glass-border glass-border-subtle glass-radius-lg glass-focus-ring-2 glass-focus-ring-blue-500 focus:glass-border-blue glass-focus glass-touch-target glass-contrast-guard"
           placeholder="Search with natural language..."
           type="text"
           value=""
         />
         <div
-          class="absolute left-3 glass-top-1/2 transform -translate-y-1/2"
+          class="glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2"
         >
           <span
             class="glass-text-secondary glass-text-lg"
@@ -33,17 +33,17 @@ exports[`GlassIntelligentSearch matches snapshot 1`] = `
         </div>
       </div>
       <button
-        class="glass-px-6 glass-py-3 glass-surface-blue text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       >
         Search
       </button>
     </div>
   </div>
   <div
-    class="mt-6"
+    class="glass-mt-6"
   >
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     />
   </div>
 </div>

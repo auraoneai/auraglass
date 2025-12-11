@@ -13,7 +13,7 @@ exports[`GlassScrollArea matches snapshot 1`] = `
     class="relative overflow-hidden glass-radius-lg"
   >
     <div
-      class="relative"
+      class="glass-relative"
       style="overflow-x: hidden; overflow-y: auto;"
     />
   </div>

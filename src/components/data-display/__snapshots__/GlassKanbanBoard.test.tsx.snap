@@ -12,7 +12,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
     class="motion-primitive glass-flex glass-flex-col glass-h-full"
   >
     <div
-      class="glass-flex-1 overflow-x-auto overflow-y-hidden"
+      class="glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden"
     >
       <div
         class="glass-flex glass-gap-6 glass-p-6 glass-h-full"

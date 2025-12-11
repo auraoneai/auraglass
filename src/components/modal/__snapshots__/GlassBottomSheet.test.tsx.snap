@@ -16,7 +16,7 @@ exports[`GlassBottomSheet matches snapshot 1`] = `
   >
     <div
       aria-hidden="true"
-      class="glass-mx-auto w-10 h-1.5 glass-radius-full glass-surface-subtle/30 mb-3"
+      class="glass-mx-auto glass-w-10 glass-h-1.5 glass-radius-full glass-surface-subtle/30 glass-mb-3"
     />
     <div>
       Content

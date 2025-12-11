@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * Glass Tab Item Component
  * Individual tab item with glassmorphic styling for tab navigation
@@ -39,7 +39,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       icon,
       badge,
       onClick,
-      className="",
+      className = "",
       style = {},
       href,
       target,
@@ -86,7 +86,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       opacity: disabled ? 0.5 : active ? 1 : 0.82,
       transition: prefersReducedMotion
         ? "none"
-        : `all ${transitionDuration} cubic-bezier(0.4, 0, 0.2, 1)` ,
+        : `all ${transitionDuration} cubic-bezier(0.4, 0, 0.2, 1)`,
       textDecoration: "none",
       userSelect: "none",
       ...style,
@@ -98,7 +98,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       <Component
         ref={ref as any}
         className={`glass-tab-item ${active ? "active" : ""} ${disabled ? "disabled" : ""} ${className}`}
-        style={tabStyles}
+        style={{ ...tabStyles }}
         onClick={href ? undefined : handleClick}
         onKeyDown={href ? undefined : handleKeyDown}
         disabled={href ? undefined : disabled}

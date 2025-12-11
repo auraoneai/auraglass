@@ -6,6 +6,8 @@ import { GlassAvatar } from "../data-display/GlassAvatar";
 import { ChevronRight } from "lucide-react";
 import { useA11yId } from "@/utils/a11y";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { BORDER_RADIUS, ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 export interface HeaderUserMenuItem {
   id: string;
@@ -101,14 +103,14 @@ export const HeaderUserMenu = forwardRef<
           trigger="click"
           placement="bottom-end"
           appearance="glass"
-          contentClassName="w-80 glass-p-1 ring-1 ring-white/10 shadow-[0_20px_60px_rgba(2,8,23,0.55)] rounded-2xl"
+          contentClassName={`w-80 glass-p-1 ring-1 ring-white/10 shadow-[0_20px_60px_color-mix(in_srgb,_var(--glass-black)_55%,_transparent)] rounded-2xl`}
           content={
-            <div className='glass-w-80'>
+            <div className="glass-w-80">
               {/* User header */}
-              <div className='glass-px-4 glass-pt-4'>
+              <div className="glass-px-4 glass-pt-4">
                 <div
-                  className='glass-flex glass-items-center glass-gap-3 glass-px-3 glass-py-3 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-3 glass-gradient-primary glass-border glass-border-white/12 glass-shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
-                  style={{ borderRadius: 18 }}
+                  className="glass-flex glass-items-center glass-gap-3 glass-px-3 glass-py-3 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-3 glass-gradient-primary glass-border glass-border-white/12 glass-shadow-[inset_0_1px_0_color-mix(in_srgb,_var(--glass-white)_8%,_transparent)]"
+                  style={{ borderRadius: BORDER_RADIUS.xl }}
                 >
                   <GlassAvatar
                     size="md"
@@ -117,12 +119,12 @@ export const HeaderUserMenu = forwardRef<
                     showStatus={!!user.status}
                     status={user.status as any}
                   />
-                  <div className='glass-min-w-0'>
-                    <div className='glass-font-semibold glass-text-primary glass-truncate'>
+                  <div className="glass-min-w-0">
+                    <div className="glass-font-semibold glass-text-primary glass-truncate">
                       {user.name}
                     </div>
                     {user.email && (
-                      <div className='glass-text-xs glass-text-primary-glass-opacity-80 glass-truncate'>
+                      <div className="glass-text-xs glass-text-primary-glass-opacity-80 glass-truncate">
                         {user.email}
                       </div>
                     )}
@@ -134,7 +136,7 @@ export const HeaderUserMenu = forwardRef<
                             statusColor
                           )}
                         />
-                        <span className='glass-text-xs glass-text-primary-opacity-70 glass-capitalize'>
+                        <span className="glass-text-xs glass-text-primary-opacity-70 glass-capitalize">
                           {user.status}
                         </span>
                       </div>
@@ -160,15 +162,15 @@ export const HeaderUserMenu = forwardRef<
                         )}
                         onClick={(e) => setOpen(false)}
                       >
-                        <span className='glass-inline-glass-flex glass-items-center glass-gap-3 glass-truncate'>
+                        <span className="glass-inline-glass-flex glass-items-center glass-gap-3 glass-truncate">
                           {item?.icon && (
-                            <span className='glass-text-primary-glass-opacity-80'>
+                            <span className="glass-text-primary-glass-opacity-80">
                               {item?.icon}
                             </span>
                           )}
-                          <span className='glass-truncate'>{item?.label}</span>
+                          <span className="glass-truncate">{item?.label}</span>
                         </span>
-                        <ChevronRight className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-40 glass-group-hover:glass-text-primary-opacity-70' />
+                        <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-40 glass-group-hover:glass-text-primary-opacity-70" />
                       </a>
                     ) : (
                       <button
@@ -185,7 +187,7 @@ export const HeaderUserMenu = forwardRef<
                             : "glass-text-primary/90 hover:glass-text-primary hover:bg-white/10"
                         )}
                       >
-                        <span className='glass-inline-glass-flex glass-items-center glass-gap-3 glass-truncate'>
+                        <span className="glass-inline-glass-flex glass-items-center glass-gap-3 glass-truncate">
                           {item?.icon && (
                             <span
                               className={cn(
@@ -197,10 +199,10 @@ export const HeaderUserMenu = forwardRef<
                               {item?.icon}
                             </span>
                           )}
-                          <span className='glass-truncate'>{item?.label}</span>
+                          <span className="glass-truncate">{item?.label}</span>
                         </span>
                         {item?.variant !== "danger" && (
-                          <ChevronRight className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-40 glass-group-hover:glass-text-primary-opacity-70' />
+                          <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-40 glass-group-hover:glass-text-primary-opacity-70" />
                         )}
                       </button>
                     )}
@@ -218,7 +220,7 @@ export const HeaderUserMenu = forwardRef<
               "bg-transparent text-foreground hover:bg-white/10 focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30",
               "glass-focus glass-touch-target glass-contrast-guard",
               !shouldReduceMotion &&
-                "transition-all duration-200 glass-hover-scale-105",
+                `transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-hover-scale-105`,
               className
             )}
             aria-label={user.name}

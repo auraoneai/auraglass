@@ -18,8 +18,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -623,8 +623,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -1229,8 +1229,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -1834,8 +1834,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -2440,8 +2440,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -3045,8 +3045,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -3651,8 +3651,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>
@@ -4256,8 +4256,8 @@ exports[`Glass3DEngine matches snapshot 1`] = `
         style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;"
       >
         <svg
+          class="glass-absolute glass-inset-0"
           height="100%"
-          style="position: absolute; inset: 0;"
           width="100%"
         >
           <defs>

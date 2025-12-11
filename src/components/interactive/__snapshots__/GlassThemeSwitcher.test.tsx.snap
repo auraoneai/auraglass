@@ -6,24 +6,24 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-3"
+        class="card-header glass-pb-3"
       >
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
           <h2
-            class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+            class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-palette w-5 h-5"
+              class="lucide lucide-palette glass-w-5 glass-h-5"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -67,7 +67,7 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
           class="grid glass-gap-3 mb-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -76,17 +76,17 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
             class="motion-primitive relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg glass-focus glass-touch-target glass-contrast-guard ring-2 ring-primary bg-primary/20"
           >
             <div
-              class="glass-w-full h-16 glass-radius-md mb-3 ring-1 ring-white/10"
+              class="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
               style="--preview-primary: var(--glass-color-primary); --preview-secondary: #64748b;"
             >
               <div
                 class="glass-p-2 glass-gap-1"
               >
                 <div
-                  class="h-2 glass-radius-md"
+                  class="glass-h-2 glass-radius-md"
                 />
                 <div
-                  class="h-1 glass-radius-md"
+                  class="glass-h-1 glass-radius-md"
                 />
               </div>
             </div>
@@ -98,7 +98,7 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-sun w-4 h-4"
+                  class="lucide lucide-sun glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -140,14 +140,14 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
                   />
                 </svg>
                 <span
-                  class="font-medium glass-text-sm"
+                  class="glass-font-medium glass-text-sm"
                 >
                   Light
                 </span>
               </div>
               <svg
                 aria-hidden="true"
-                class="lucide lucide-check w-4 h-4 text-primary"
+                class="lucide lucide-check glass-w-4 glass-h-4 glass-text-primary"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -168,17 +168,17 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
             class="motion-primitive relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg glass-focus glass-touch-target glass-contrast-guard ring-1 ring-white/10 bg-white/5 hover:ring-white/30"
           >
             <div
-              class="glass-w-full h-16 glass-radius-md mb-3 ring-1 ring-white/10"
+              class="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
               style="background-color: rgb(15, 23, 42); --preview-primary: var(--glass-color-primary-light); --preview-secondary: #94a3b8;"
             >
               <div
                 class="glass-p-2 glass-gap-1"
               >
                 <div
-                  class="h-2 glass-radius-md"
+                  class="glass-h-2 glass-radius-md"
                 />
                 <div
-                  class="h-1 glass-radius-md"
+                  class="glass-h-1 glass-radius-md"
                 />
               </div>
             </div>
@@ -190,7 +190,7 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-moon w-4 h-4"
+                  class="lucide lucide-moon glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -206,7 +206,7 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
                   />
                 </svg>
                 <span
-                  class="font-medium glass-text-sm"
+                  class="glass-font-medium glass-text-sm"
                 >
                   Dark
                 </span>
@@ -217,17 +217,17 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
             class="motion-primitive relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg glass-focus glass-touch-target glass-contrast-guard ring-1 ring-white/10 bg-white/5 hover:ring-white/30"
           >
             <div
-              class="glass-w-full h-16 glass-radius-md mb-3 ring-1 ring-white/10"
+              class="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
               style="background-color: rgb(248, 250, 252); color: rgb(30, 41, 59); --preview-primary: #8b5cf6; --preview-secondary: #64748b;"
             >
               <div
                 class="glass-p-2 glass-gap-1"
               >
                 <div
-                  class="h-2 glass-radius-md"
+                  class="glass-h-2 glass-radius-md"
                 />
                 <div
-                  class="h-1 glass-radius-md"
+                  class="glass-h-1 glass-radius-md"
                 />
               </div>
             </div>
@@ -239,7 +239,7 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-monitor w-4 h-4"
+                  class="lucide lucide-monitor glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -271,7 +271,7 @@ exports[`GlassThemeSwitcher matches snapshot 1`] = `
                   />
                 </svg>
                 <span
-                  class="font-medium glass-text-sm"
+                  class="glass-font-medium glass-text-sm"
                 >
                   System
                 </span>

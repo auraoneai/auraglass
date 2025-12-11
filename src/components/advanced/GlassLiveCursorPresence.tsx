@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
  * AuraGlass Live Cursor Presence
@@ -8,6 +8,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 interface CursorUser {
   id: string;
@@ -367,16 +369,24 @@ export function GlassLiveCursorPresence({
       </AnimatePresence>
 
       {/* Connection status indicator */}
-      <div className='glass-absolute glass-top-2 glass-left-2 glass-flex glass-items-center glass-gap-2'>
+      <div
+        className="glass-absolute glass-top-2 glass-left-2 glass-flex glass-items-center glass-gap-2"
+        role="status"
+        aria-live="polite"
+        aria-label={`${cursors.size} user${cursors.size !== 1 ? "s" : ""} online`}
+      >
         <div
           className={cn(
             "w-2 h-2 glass-radius-full transition-colors",
             isConnected ? "bg-green-400" : "bg-red-400"
           )}
+          aria-hidden="true"
         />
-        <span className="glass-text-xs glass-text-secondary">
-          {cursors.size} user{cursors.size !== 1 ? "s" : ""} online
-        </span>
+        <ContrastGuard>
+          <span className="glass-text-xs glass-text-secondary">
+            {cursors.size} user{cursors.size !== 1 ? "s" : ""} online
+          </span>
+        </ContrastGuard>
       </div>
     </div>
   );
@@ -406,7 +416,7 @@ function LiveCursorComponent({
         cursor.trail.map((trailPoint, index) => (
           <motion.div
             key={`trail-${cursor.id}-${index}`}
-            className='glass-absolute glass-pointer-events-none'
+            className="glass-absolute glass-pointer-events-none"
             initial={{ opacity: 0, scale: 0 }}
             animate={
               prefersReducedMotion
@@ -420,7 +430,9 @@ function LiveCursorComponent({
             }
             exit={{ opacity: 0, scale: 0 }}
             transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
             }
           >
             <div
@@ -440,7 +452,7 @@ function LiveCursorComponent({
 
       {/* Main cursor */}
       <motion.div
-        className='glass-absolute glass-pointer-events-none glass-z-50'
+        className="glass-absolute glass-pointer-events-none glass-z-50"
         initial={{ opacity: 0, scale: 0, rotate: 0 }}
         animate={
           prefersReducedMotion
@@ -456,7 +468,11 @@ function LiveCursorComponent({
               }
         }
         exit={{ opacity: 0, scale: 0 }}
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: ANIMATION.DURATION.normal / 1000 }
+        }
       >
         {/* Cursor icon */}
         <div
@@ -483,12 +499,15 @@ function LiveCursorComponent({
           {/* Typing indicator */}
           {cursor.isTyping && (
             <motion.div
-              className='glass-absolute glass--glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full'
+              className="glass-absolute glass--glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full"
               animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
-                  : { repeat: Infinity, duration: 1 }
+                  : {
+                      repeat: Infinity,
+                      duration: ANIMATION.DURATION.slower / 1000,
+                    }
               }
             />
           )}
@@ -514,10 +533,10 @@ function LiveCursorComponent({
               <img
                 src={cursor.avatar}
                 alt={cursor.name}
-                className='glass-inline-glass-block glass-w-3 glass-h-3 glass-radius-full glass-mr-1'
+                className="glass-inline-glass-block glass-w-3 glass-h-3 glass-radius-full glass-mr-1"
               />
             )}
-            {cursor.name}
+            <ContrastGuard>{cursor.name}</ContrastGuard>
           </motion.div>
         )}
       </motion.div>

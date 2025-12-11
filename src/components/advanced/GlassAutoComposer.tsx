@@ -16,6 +16,8 @@ import React, {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Generative UI types
 interface UIPrompt {
@@ -74,13 +76,14 @@ class AILayoutGenerator {
       colors: {
         primary: "var(--glass-color-primary)",
         secondary: "var(--glass-color-success)",
-        accent: "#8b5cf6",
+        accent: "var(--glass-color-primary)",
         background:
           '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-        surface: "var(--glass-bg-default)",
+        surface:
+          "color-mix(in srgb, var(--glass-white) var(--glass-opacity-10), transparent)",
         text: "var(--glass-white)",
         textSecondary:
-          "rgba(var(--glass-color-white) / var(--glass-opacity-70))",
+          "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)",
       },
       spacing: {
         xs: "0.25rem",
@@ -108,25 +111,26 @@ class AILayoutGenerator {
         },
       },
       shadows: {
-        sm: "0 1px 2px 0 rgba(var(--glass-color-black) / var(--glass-opacity-5))",
-        md: "0 4px 6px -1px rgba(var(--glass-color-black) / var(--glass-opacity-10))",
-        lg: "0 10px 15px -3px rgba(var(--glass-color-black) / var(--glass-opacity-10))",
-        glass: "0 8px 32px rgba(31, 38, 135, 0.37)",
+        sm: "0 1px 2px 0 color-mix(in srgb, var(--glass-black) var(--glass-opacity-5), transparent)",
+        md: "0 4px 6px -1px color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+        lg: "0 10px 15px -3px color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+        glass:
+          "0 8px 32px color-mix(in srgb, var(--glass-black) var(--glass-opacity-37), transparent)",
       },
       borders: {
         radius: "0.375rem",
       },
       animations: {
         duration: {
-          fast: "0.15s",
-          normal: "0.3s",
-          slow: "0.5s",
+          fast: "var(--glass-motion-duration-fast)",
+          normal: "var(--glass-motion-duration-normal)",
+          slow: "var(--glass-motion-duration-slow)",
         },
         easing: {
-          ease: "ease",
-          easeIn: "ease-in",
-          easeOut: "ease-out",
-          bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+          ease: "var(--glass-motion-ease-standard)",
+          easeIn: "var(--glass-motion-ease-in)",
+          easeOut: "var(--glass-motion-ease-out)",
+          bounce: "var(--glass-motion-ease-spring)",
         },
       },
     };
@@ -209,6 +213,7 @@ class AILayoutGenerator {
   }
 
   private generateDashboardLayout(prompt: UIPrompt): string {
+    const normalDuration = ANIMATION.DURATION.normal / 1000;
     return `
 <div className="glass-min-glass-h-screen glass-surface-primary glass-p-6">
   <div className="glass-max-w-7xl glass-mx-auto glass-space-y-6">
@@ -233,7 +238,7 @@ class AILayoutGenerator {
           className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: ${normalDuration} }}
         >
           <div className="glass-text-2xl glass-font-bold glass-text-primary">{stat.value}</div>
           <div className="glass-text-sm glass-text-secondary">{stat.label}</div>
@@ -312,6 +317,7 @@ class AILayoutGenerator {
   }
 
   private generateCardLayout(prompt: UIPrompt): string {
+    const normalDuration = ANIMATION.DURATION.normal / 1000;
     return `
 <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-6 glass-p-6">
   {items.map((item, index) => (
@@ -320,7 +326,7 @@ class AILayoutGenerator {
       className="glass-surface-secondary glass-elev-2 glass-radius-lg glass-overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: ${ANIMATION.DURATION.normal / 1000} }}
       whileHover={{ scale: 1.02 }}
     >
       {item.image && (
@@ -354,6 +360,7 @@ class AILayoutGenerator {
   }
 
   private generateListLayout(prompt: UIPrompt): string {
+    const normalDuration = ANIMATION.DURATION.normal / 1000;
     return `
 <div className="glass-max-w-2xl glass-mx-auto glass-surface-primary glass-elev-2 glass-radius-lg glass-overflow-hidden">
   <div className="glass-p-6 glass-border-b glass-border">
@@ -368,7 +375,7 @@ class AILayoutGenerator {
         className="glass-p-4 hover:glass-surface-secondary glass-transition-colors"
         initial={{ opacity: 0, x: -20 }}
         animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: ${ANIMATION.DURATION.normal / 1000} }}
       >
         <div className="glass-flex glass-items-center glass-justify-between">
           <div className="glass-flex glass-items-center glass-gap-3">
@@ -445,7 +452,7 @@ class AILayoutGenerator {
   -webkit-backdrop-filter: var(--glass-backdrop-blur);
   background: var(--glass-bg-default);
   border: 1px solid var(--glass-border-default);
-  border-radius: 12px;
+  border-radius: var(--glass-radius-xl);
   box-shadow: var(--glass-elev-2);
 }
 
@@ -478,18 +485,18 @@ class AILayoutGenerator {
       case "minimal":
         styleSpecificCSS = `
 .generated-component {
-  --glass-blur: 5px;
-  --glass-opacity: 0.05;
-  --animation-duration: 0.2s;
+  --glass-blur: var(--glass-blur-sm);
+  --glass-opacity: var(--glass-opacity-5);
+  --animation-duration: var(--glass-motion-duration-fast);
 }
 `;
         break;
       case "detailed":
         styleSpecificCSS = `
 .generated-component {
-  --glass-blur: 25px;
-  --glass-opacity: 0.15;
-  --animation-duration: 0.4s;
+  --glass-blur: var(--glass-blur-xl);
+  --glass-opacity: var(--glass-opacity-15);
+  --animation-duration: var(--glass-motion-duration-slow);
   box-shadow: var(--glass-elev-2);
 }
 `;
@@ -497,11 +504,11 @@ class AILayoutGenerator {
       case "experimental":
         styleSpecificCSS = `
 .generated-component {
-  --glass-blur: 30px;
-  --glass-opacity: 0.2;
-  --animation-duration: 0.6s;
+  --glass-blur: var(--glass-blur-2xl);
+  --glass-opacity: var(--glass-opacity-20);
+  --animation-duration: var(--glass-motion-duration-slower);
   background: var(--glass-bg-default);
-  animation: glowPulse 2s ease-in-out infinite alternate;
+  animation: glowPulse var(--glass-motion-duration-slowest) var(--glass-motion-ease-in-out) infinite alternate;
 }
 
 @keyframes glowPulse {
@@ -852,68 +859,115 @@ export function GlassAutoComposerInterface({
     }
   };
 
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <div className={cn("space-y-6", className)}>
+    <div
+      className={cn("space-y-6", className)}
+      role="main"
+      aria-label="AI Layout Generator"
+    >
       <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6">
-        <h2 className='glass-text-2xl glass-font-bold glass-text-primary glass-mb-4'>
-          AI Layout Generator
-        </h2>
+        <ContrastGuard>
+          <h2 className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-4">
+            AI Layout Generator
+          </h2>
+        </ContrastGuard>
 
         <div className="glass-gap-4">
           <div>
-            <label className='glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2'>
-              Describe the layout you want
+            <label
+              htmlFor="layout-prompt-textarea"
+              className="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2"
+            >
+              <ContrastGuard>Describe the layout you want</ContrastGuard>
             </label>
             <textarea
-              className='glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 glass-text-primary glass-touch-target glass-contrast-guard'
+              id="layout-prompt-textarea"
+              className="glass-w-full glass-surface-secondary glass-border glass-radius-md glass-px-3 glass-py-2 glass-text-primary glass-touch-target glass-contrast-guard"
               rows={3}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="e.g., Create a modern dashboard with charts, stats cards, and a sidebar navigation"
+              aria-label="Layout description input"
+              aria-describedby="layout-prompt-description"
             />
+            <span id="layout-prompt-description" className="glass-sr-only">
+              Enter a description of the layout you want to generate
+            </span>
           </div>
 
           <motion.button
-            className='glass-surface-accent glass-px-6 glass-py-3 glass-radius-md glass-font-medium'
+            className="glass-surface-accent glass-px-6 glass-py-3 glass-radius-md glass-font-medium"
             onClick={handleGenerate}
             disabled={isGenerating || !prompt.trim()}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : {
+                    duration: ANIMATION.DURATION.fast,
+                    ease: ANIMATION.EASING.easeOut,
+                  }
+            }
+            aria-label={isGenerating ? "Generating layout" : "Generate layout"}
+            aria-busy={isGenerating}
           >
-            {isGenerating ? "Generating..." : "Generate Layout"}
+            <ContrastGuard>
+              {isGenerating ? "Generating..." : "Generate Layout"}
+            </ContrastGuard>
           </motion.button>
         </div>
       </div>
 
       {/* Generated Layout Preview */}
       {generatedLayout && (
-        <div className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6">
-          <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
-            <h3 className='glass-text-xl glass-font-semibold glass-text-primary'>
-              Generated Layout
-            </h3>
+        <div
+          className="glass-surface-primary glass-elev-2 glass-radius-lg glass-p-6"
+          role="region"
+          aria-label="Generated layout preview"
+        >
+          <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
+            <ContrastGuard>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary">
+                Generated Layout
+              </h3>
+            </ContrastGuard>
             <div className="glass-flex glass-items-center glass-gap-2">
-              <span className="glass-text-sm glass-text-secondary">
-                Confidence: {(generatedLayout.confidence * 100).toFixed(0)}%
-              </span>
+              <ContrastGuard>
+                <span className="glass-text-sm glass-text-secondary">
+                  Confidence: {(generatedLayout.confidence * 100).toFixed(0)}%
+                </span>
+              </ContrastGuard>
             </div>
           </div>
 
           <div className="glass-gap-4">
             <div>
-              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-mb-2'>
-                JSX Code
-              </h4>
-              <pre className='glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs glass-text-primary glass-overflow-x-auto'>
+              <ContrastGuard>
+                <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-mb-2">
+                  JSX Code
+                </h4>
+              </ContrastGuard>
+              <pre
+                className="glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs glass-text-primary glass-overflow-x-auto"
+                aria-label="Generated JSX code"
+              >
                 {generatedLayout.jsx}
               </pre>
             </div>
 
             <div>
-              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-mb-2'>
-                CSS Styles
-              </h4>
-              <pre className='glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs glass-text-primary glass-overflow-x-auto'>
+              <ContrastGuard>
+                <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-mb-2">
+                  CSS Styles
+                </h4>
+              </ContrastGuard>
+              <pre
+                className="glass-surface-secondary glass-radius-md glass-p-4 glass-text-xs glass-text-primary glass-overflow-x-auto"
+                aria-label="Generated CSS styles"
+              >
                 {generatedLayout.css}
               </pre>
             </div>
@@ -938,16 +992,18 @@ export function GlassGeneratedLayoutRenderer({
     // In a real implementation, this would safely execute the generated JSX
     // For demo purposes, we'll show a placeholder
     return (
-      <div className='generated-component glass-p-6 glass-text-center'>
-        <h3 className='glass-text-xl glass-font-bold glass-text-primary glass-mb-2'>
-          Generated Component Preview
-        </h3>
-        <p className='glass-text-secondary glass-mb-4'>
-          Based on: "{layout.prompt.description}"
-        </p>
-        <div className="glass-text-xs glass-text-tertiary">
-          Generated at: {new Date(layout.timestamp).toLocaleString()}
-        </div>
+      <div className="generated-component glass-p-6 glass-text-center">
+        <ContrastGuard>
+          <h3 className="glass-text-xl glass-font-bold glass-text-primary glass-mb-2">
+            Generated Component Preview
+          </h3>
+          <p className="glass-text-secondary glass-mb-4">
+            Based on: "{layout.prompt.description}"
+          </p>
+          <div className="glass-text-xs glass-text-tertiary">
+            Generated at: {new Date(layout.timestamp).toLocaleString()}
+          </div>
+        </ContrastGuard>
       </div>
     );
   }, [layout]);

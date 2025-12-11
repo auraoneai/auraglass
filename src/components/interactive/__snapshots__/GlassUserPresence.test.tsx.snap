@@ -6,24 +6,24 @@ exports[`GlassUserPresence matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-3"
+        class="card-header glass-pb-3"
       >
         <div
           class="glass-flex glass-items-center glass-justify-between"
         >
           <h2
-            class="card-title text-primary glass-text-lg font-semibold glass-flex glass-items-center glass-gap-2"
+            class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-users w-5 h-5"
+              class="lucide lucide-users glass-w-5 glass-h-5"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -53,23 +53,29 @@ exports[`GlassUserPresence matches snapshot 1`] = `
           </h2>
           <div
             aria-label="Badge: 0, online"
-            class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-1 font-medium transition-all duration-200 glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-secondary/10 glass-text-primary/90 border-0"
+            class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-1 font-medium transition-all duration-[150ms] glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-secondary/10 glass-text-primary/90 border-0"
             data-performance-mode="medium"
             id="badge-:r3:"
             role="status"
             style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
           >
             <span
-              class="whitespace-nowrap"
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
             >
-              0
-               online
+              <span
+                class="glass-whitespace-nowrap"
+              >
+                0
+                 online
+              </span>
             </span>
           </div>
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
           class="glass-gap-2"

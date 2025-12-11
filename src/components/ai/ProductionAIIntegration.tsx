@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { OpenAIService } from "../../services/ai/openai-service";
@@ -9,16 +9,19 @@ import { AuthService } from "../../services/auth/auth-service";
 import { defaultAIConfig } from "../../services/ai/config";
 import * as Sentry from "@sentry/react";
 import { cn } from "../../lib/utilsComprehensive";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
-interface ProductionAIIntegrationProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ProductionAIIntegrationProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   authToken?: string;
   userId?: string;
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 export const ProductionAIIntegration: React.FC<
   ProductionAIIntegrationProps
-> = ({ authToken, userId, className, 'data-testid': dataTestId, ...props }) => {
+> = ({ authToken, userId, className, "data-testid": dataTestId, ...props }) => {
   const prefersReducedMotion = useReducedMotion();
   const [isInitialized, setIsInitialized] = useState(false);
   const [formFields, setFormFields] = useState<any[]>([]);
@@ -267,11 +270,11 @@ export const ProductionAIIntegration: React.FC<
           "glass-flex glass-items-center glass-justify-center glass-p-8",
           className
         )}
-        data-testid={dataTestId || 'productionaiintegration'}
+        data-testid={dataTestId || "productionaiintegration"}
         {...props}
       >
-        <div className='glass-text-center'>
-          <div className='glass-animate-spin glass-radius-full glass-h-12 glass-w-12 glass-border-b-2 glass-border-blue glass-mx-auto glass-mb-4'></div>
+        <div className="glass-text-center">
+          <div className="glass-animate-spin glass-radius-full glass-h-12 glass-w-12 glass-border-b-2 glass-border-blue glass-mx-auto glass-mb-4"></div>
           <p className="glass-text-secondary">Initializing AI services...</p>
         </div>
       </div>
@@ -281,23 +284,25 @@ export const ProductionAIIntegration: React.FC<
   return (
     <div
       data-glass-component
-      className={cn('production-ai-integration glass-p-6', className)}
-      data-testid={dataTestId || 'productionaiintegration'}
+      className={cn("production-ai-integration glass-p-6", className)}
+      data-testid={dataTestId || "productionaiintegration"}
       {...props}
     >
       {error && (
-        <div className='glass-surface-subtle glass-border glass-border-red-200 glass-text-primary glass-px-4 glass-py-3 glass-radius glass-mb-4 glass-contrast-guard'>
+        <div className="glass-surface-subtle glass-border glass-border-red-200 glass-text-primary glass-px-4 glass-py-3 glass-radius glass-mb-4 glass-contrast-guard">
           {error}
         </div>
       )}
 
-      <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6'>
+      <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
         <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
-          <h2 className='glass-text-xl glass-font-bold glass-mb-4'>Smart Form Builder</h2>
+          <h2 className="glass-text-xl glass-font-bold glass-mb-4">
+            Smart Form Builder
+          </h2>
           <input
             type="text"
             placeholder="Describe your form (e.g., 'user registration')"
-            className='glass-w-full glass-px-4 glass-py-2 glass-border glass-radius glass-mb-4 glass-touch-target glass-contrast-guard'
+            className="glass-w-full glass-px-4 glass-py-2 glass-border glass-radius glass-mb-4 glass-touch-target glass-contrast-guard"
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 generateSmartForm((e.target as HTMLInputElement).value);
@@ -305,18 +310,18 @@ export const ProductionAIIntegration: React.FC<
             }}
           />
           {formFields.length > 0 && (
-            <div className='glass-space-y-2'>
+            <div className="glass-space-y-2">
               {formFields.map((field, idx) => (
                 <div
                   key={idx}
                   className="glass-p-3 glass-surface-subtle glass-radius glass-contrast-guard"
                 >
-                  <span className='glass-font-medium'>{field.label}</span>
-                  <span className='glass-text-sm glass-text-secondary glass-ml-2'>
+                  <span className="glass-font-medium">{field.label}</span>
+                  <span className="glass-text-sm glass-text-secondary glass-ml-2">
                     ({field.fieldType})
                   </span>
                   {field.required && (
-                    <span className='glass-text-primary glass-ml-1'>*</span>
+                    <span className="glass-text-primary glass-ml-1">*</span>
                   )}
                 </div>
               ))}
@@ -325,11 +330,13 @@ export const ProductionAIIntegration: React.FC<
         </div>
 
         <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
-          <h2 className='glass-text-xl glass-font-bold glass-mb-4'>Semantic Search</h2>
+          <h2 className="glass-text-xl glass-font-bold glass-mb-4">
+            Semantic Search
+          </h2>
           <input
             type="text"
             placeholder="Search anything..."
-            className='glass-w-full glass-px-4 glass-py-2 glass-border glass-radius glass-mb-4 glass-touch-target glass-contrast-guard'
+            className="glass-w-full glass-px-4 glass-py-2 glass-border glass-radius glass-mb-4 glass-touch-target glass-contrast-guard"
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 performSemanticSearch((e.target as HTMLInputElement).value);
@@ -337,13 +344,13 @@ export const ProductionAIIntegration: React.FC<
             }}
           />
           {searchResults.length > 0 && (
-            <div className='glass-space-y-2 glass-max-glass-h-64 glass-overflow-y-auto'>
+            <div className="glass-space-y-2 glass-max-glass-h-64 glass-overflow-y-auto">
               {searchResults.map((result, idx) => (
                 <div
                   key={idx}
                   className="glass-p-3 glass-surface-subtle glass-radius glass-contrast-guard"
                 >
-                  <div className='glass-font-medium'>
+                  <div className="glass-font-medium">
                     {result.content.substring(0, 100)}...
                   </div>
                   <div className="glass-text-sm glass-text-secondary">
@@ -356,18 +363,20 @@ export const ProductionAIIntegration: React.FC<
         </div>
 
         <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
-          <h2 className='glass-text-xl glass-font-bold glass-mb-4'>Image Analysis</h2>
+          <h2 className="glass-text-xl glass-font-bold glass-mb-4">
+            Image Analysis
+          </h2>
           <input
             type="file"
             accept="image/*"
-            className='glass-mb-4 glass-touch-target glass-contrast-guard'
+            className="glass-mb-4 glass-touch-target glass-contrast-guard"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) analyzeImage(file);
             }}
           />
           {imageAnalysis && (
-            <div className='glass-space-y-2 glass-text-sm'>
+            <div className="glass-space-y-2 glass-text-sm">
               <div>Faces detected: {imageAnalysis.faces?.length || 0}</div>
               <div>Objects detected: {imageAnalysis.objects?.length || 0}</div>
               <div>
@@ -385,12 +394,14 @@ export const ProductionAIIntegration: React.FC<
         </div>
 
         <div className="glass-surface-subtle glass-radius-lg glass-shadow glass-p-6 glass-contrast-guard">
-          <h2 className='glass-text-xl glass-font-bold glass-mb-4'>Collaboration</h2>
-          <div className='glass-mb-4'>
+          <h2 className="glass-text-xl glass-font-bold glass-mb-4">
+            Collaboration
+          </h2>
+          <div className="glass-mb-4">
             <input
               type="text"
               placeholder="Room ID"
-              className='glass-w-full glass-px-4 glass-py-2 glass-border glass-radius glass-mb-2 glass-touch-target glass-contrast-guard'
+              className="glass-w-full glass-px-4 glass-py-2 glass-border glass-radius glass-mb-2 glass-touch-target glass-contrast-guard"
               id="roomId"
             />
             <button
@@ -400,20 +411,20 @@ export const ProductionAIIntegration: React.FC<
                 ) as HTMLInputElement;
                 if (input?.value) joinCollaborationRoom(input.value);
               }}
-              className='glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard"
             >
               Join Room
             </button>
           </div>
           {collaborators.length > 0 && (
-            <div className='glass-space-y-1'>
-              <div className='glass-font-medium'>Active Collaborators:</div>
+            <div className="glass-space-y-1">
+              <div className="glass-font-medium">Active Collaborators:</div>
               {collaborators.map((collab, idx) => (
                 <div
                   key={idx}
                   className="glass-flex glass-items-center glass-gap-2"
                 >
-                  <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-contrast-guard'></div>
+                  <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-contrast-guard"></div>
                   <span className="glass-text-sm">{collab.userName}</span>
                 </div>
               ))}
@@ -423,10 +434,10 @@ export const ProductionAIIntegration: React.FC<
       </div>
 
       {loading && (
-        <div className='glass-fixed glass-inset-0 glass-surface-dark glass-opacity-50 glass-flex glass-items-center glass-justify-center glass-z-50 glass-contrast-guard'>
+        <div className="glass-fixed glass-inset-0 glass-surface-dark glass-opacity-50 glass-flex glass-items-center glass-justify-center glass-z-50 glass-contrast-guard">
           <div className="glass-surface-subtle glass-radius-lg glass-p-6 glass-contrast-guard">
-            <div className='glass-animate-spin glass-radius-full glass-h-12 glass-w-12 glass-border-b-2 glass-border-blue glass-mx-auto'></div>
-            <p className='glass-mt-4'>Processing...</p>
+            <div className="glass-animate-spin glass-radius-full glass-h-12 glass-w-12 glass-border-b-2 glass-border-blue glass-mx-auto"></div>
+            <p className="glass-mt-4">Processing...</p>
           </div>
         </div>
       )}

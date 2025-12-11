@@ -2,12 +2,12 @@
 
 exports[`GlassCheckboxUI matches snapshot 1`] = `
 <div
-  class="relative glass-inline-flex glass-items-center"
+  class="glass-relative glass-inline-glass-flex glass-items-center"
   data-testid="glasscheckbox"
 >
   <input
     aria-label="Checkbox"
-    class="sr-only glass-touch-target glass-contrast-guard"
+    class="glass-sr-only glass-touch-target glass-contrast-guard"
     id="glass-checkbox-:r3:"
     type="checkbox"
   />

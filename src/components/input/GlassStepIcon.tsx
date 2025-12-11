@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -61,7 +61,11 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
   const iconStateClasses = getIconStateClasses(active, completed);
 
   return (
-    <Motion data-glass-component className={cn('inline-block', className)} data-testid={dataTestId}>
+    <Motion
+      data-glass-component
+      className={cn("inline-block", className)}
+      data-testid={dataTestId}
+    >
       <OptimizedGlass
         intent={intent}
         elevation={elevation}
@@ -78,7 +82,7 @@ export const GlassStepIcon: React.FC<GlassStepIconProps> = ({
           // State-based styles
           iconStateClasses
         )}
-        style={style}
+        style={{ ...(style || {}) }}
       >
         {getIconContent()}
       </OptimizedGlass>

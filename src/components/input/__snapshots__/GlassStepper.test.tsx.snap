@@ -12,14 +12,14 @@ exports[`GlassStepper matches snapshot 1`] = `
     >
       <div
         aria-label="Decrease value"
-        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer hover:scale-105 active:scale-95"
+        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer glass-hover-scale-105 active:scale-95"
         data-performance-mode="high"
         role="button"
         style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         tabindex="0"
       >
         <svg
-          class="w-4 h-4"
+          class="glass-w-4 glass-h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -53,14 +53,14 @@ exports[`GlassStepper matches snapshot 1`] = `
     >
       <div
         aria-label="Increase value"
-        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer hover:scale-105 active:scale-95"
+        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer glass-hover-scale-105 active:scale-95"
         data-performance-mode="high"
         role="button"
         style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         tabindex="0"
       >
         <svg
-          class="w-4 h-4"
+          class="glass-w-4 glass-h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

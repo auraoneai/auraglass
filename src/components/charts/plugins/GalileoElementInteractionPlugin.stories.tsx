@@ -138,7 +138,7 @@ export const Default: Story = {
           className={`chart-element relative overflow-hidden ${className}`}
           style={{ transition: 'transform 180ms ease, box-shadow 180ms ease' }}
         >
-          <div className="glass-absolute glass-inset-0 glass-pointer-events-none" style={style} />
+          <div className="glass-absolute glass-inset-0 glass-pointer-events-none" style={{ ...(style ?? {}) }} />
           <div className="glass-relative glass-text-center">
             <div className="glass-w-8 glass-h-8 glass-radius-full glass-mx-auto glass-mb-2" style={{ backgroundColor: dotColor }} />
             <p className="glass-text-sm glass-font-medium">{label}</p>

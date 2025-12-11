@@ -12,7 +12,7 @@ exports[`AtmosphericBackground matches snapshot 1`] = `
 >
   <div
     class="gradientLayer reduceMotion"
-    style="background-color: rgba(10, 10, 20, 0.8); opacity: 0.7;"
+    style="opacity: 0.7;"
   />
   <div
     class="atmosphericEffect reduceMotion"

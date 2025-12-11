@@ -10,7 +10,7 @@ exports[`GlassBiomeSimulator matches snapshot 1`] = `
     class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-glass-glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-biome-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
@@ -116,7 +116,7 @@ exports[`GlassBiomeSimulator matches snapshot 1`] = `
         </label>
         <input
           aria-label="Adjust time of day"
-          class="w-20"
+          class="glass-w-20"
           id="biome-time-range"
           max="24"
           min="0"
@@ -151,7 +151,7 @@ exports[`GlassBiomeSimulator matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative"
+      class="glass-relative"
     >
       <canvas
         class="glass-border glass-border-glass-border/20 glass-radius-md"

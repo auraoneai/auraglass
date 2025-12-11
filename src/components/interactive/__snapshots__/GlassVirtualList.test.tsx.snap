@@ -10,11 +10,11 @@ exports[`GlassVirtualList matches snapshot 1`] = `
     style="height: 300px;"
   >
     <div
-      class="relative"
+      class="glass-relative"
       style="height: 150px;"
     >
       <div
-        class="absolute top-0 left-0 right-0"
+        class="glass-absolute glass-top-0 glass-left-0 glass-right-0"
         style="transform: translateY(0px);"
       >
         <div

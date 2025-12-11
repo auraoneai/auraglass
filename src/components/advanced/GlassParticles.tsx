@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AuraGlass Glassmorphic Particles System
  * Interactive particle effects with glass aesthetics
@@ -15,6 +15,9 @@ import { motion, useAnimationFrame } from "framer-motion";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface Particle {
   id: number;
@@ -66,9 +69,9 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
       mouseRadius = 150,
       colorScheme = "gradient",
       colors = [
-        "var(--glass-color-primary)",
-        "var(--glass-color-accent, #8b5cf6)",
-        "var(--glass-color-accent-2, #ec4899)",
+        COLORS.semantic.primary,
+        COLORS.semantic.primary,
+        COLORS.semantic.primary,
       ],
       blur = true,
       glow = true,
@@ -88,19 +91,7 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
     const lastEmit = useRef(0);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const componentId = useA11yId("glass-particles");
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    // Check for reduced motion preference
-    useEffect(() => {
-      if (!respectMotionPreference) return;
-      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      setPrefersReducedMotion(mediaQuery.matches);
-
-      const handleChange = (e: MediaQueryListEvent) =>
-        setPrefersReducedMotion(e.matches);
-      mediaQuery.addEventListener("change", handleChange);
-      return () => mediaQuery.removeEventListener("change", handleChange);
-    }, [respectMotionPreference]);
+    const prefersReducedMotion = useReducedMotion();
 
     // Initialize particles
     const initParticles = useCallback(() => {
@@ -478,13 +469,13 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
       >
         <canvas
           ref={canvasRef}
-          className='glass-absolute glass-inset-0 glass-w-full glass-h-full'
+          className="glass-absolute glass-inset-0 glass-w-full glass-h-full"
           aria-hidden="true"
         />
 
         {/* Glass overlay */}
         <OptimizedGlass
-          className='glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-30'
+          className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-30"
           intent="neutral"
           elevation="level1"
           blur="subtle"
@@ -508,7 +499,7 @@ export const GlassParticleEmitter = forwardRef<
   const handleInteraction = useCallback(() => {
     if (trigger === "click") {
       setIsActive(true);
-      setTimeout(() => setIsActive(false), 2000);
+      setTimeout(() => setIsActive(false), ANIMATION.DURATION.slower);
     }
   }, [trigger]);
 
@@ -522,9 +513,14 @@ export const GlassParticleEmitter = forwardRef<
       role="presentation"
     >
       {isActive && (
-        <GlassParticles className='glass-absolute glass-inset-0' {...particleProps} />
+        <GlassParticles
+          className="glass-absolute glass-inset-0"
+          {...particleProps}
+        />
       )}
-      <div className='glass-relative glass-z-10'>{children}</div>
+      <div className="glass-relative glass-z-10">
+        <ContrastGuard>{children}</ContrastGuard>
+      </div>
     </div>
   );
 });
@@ -548,9 +544,9 @@ export const particlePresets = {
     speed: 0.5,
     colorScheme: "gradient" as const,
     colors: [
-      "var(--glass-color-warning-light)",
-      "var(--glass-color-warning)",
-      "var(--glass-color-warning-strong, #fde047)",
+      COLORS.semantic.warning,
+      COLORS.semantic.warning,
+      COLORS.semantic.warning,
     ],
     shape: "circle" as const,
     behavior: "swarm" as const,
@@ -586,9 +582,9 @@ export const particlePresets = {
     speed: 1,
     colorScheme: "custom" as const,
     colors: [
-      "var(--glass-color-success)",
-      "var(--glass-color-success-strong, #22c55e)",
-      "var(--glass-color-success-deep, #16a34a)",
+      COLORS.semantic.success,
+      COLORS.semantic.success,
+      COLORS.semantic.success,
     ],
     shape: "square" as const,
     behavior: "gravity" as const,

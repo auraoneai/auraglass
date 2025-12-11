@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { useMemo, useState } from "react";
 import { Motion } from "../../primitives";
@@ -12,6 +12,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
 export interface BarDataPoint {
   x: string | number;
@@ -111,8 +112,6 @@ export interface GlassBarChartProps {
  * A glassmorphism bar chart with multiple series support and interactive features
  */
 export const GlassBarChart: React.FC<GlassBarChartProps> = ({
-  // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
-
   title,
   series = [],
   width = 600,
@@ -127,14 +126,14 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
     "var(--glass-color-danger)",
     "var(--glass-color-success)",
     "var(--glass-color-warning)",
-    "#8b5cf6",
-    "#06b6d4",
-    "#84cc16",
-    "#f97316",
-    "#ec4899",
+    COLORS.semantic.secondary,
+    COLORS.semantic.info,
+    COLORS.semantic.success,
+    COLORS.semantic.warning,
+    COLORS.semantic.error,
     "var(--glass-gray-500)",
   ],
-  animationDuration = 1000,
+  animationDuration = ANIMATION.DURATION.normal,
   showTooltips = true,
   formatYValue = (value) => value.toString(),
   formatXValue = (value) => value.toString(),
@@ -386,9 +385,9 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
   if (loading) {
     return (
       <GlassCard data-glass-component className={cn("glass-p-6", className)}>
-        <div className='glass-animate-pulse glass-gap-4'>
-          <div className='glass-h-6 glass-surface-subtle/20 glass-radius-md glass-w-48'></div>
-          <div className='glass-h-64 glass-surface-subtle/10 glass-radius-md glass-flex glass-items-end glass-justify-center glass-gap-2'>
+        <div className="glass-animate-pulse glass-gap-4">
+          <div className="glass-h-6 glass-surface-subtle/20 glass-radius-md glass-w-48"></div>
+          <div className="glass-h-64 glass-surface-subtle/10 glass-radius-md glass-flex glass-items-end glass-justify-center glass-gap-2">
             {Array.from({ length: 8 }).map((_: any, i: any) => (
               <div
                 key={i}
@@ -401,9 +400,9 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
             ))}
           </div>
           <div className="glass-flex glass-justify-center glass-gap-4">
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
           </div>
         </div>
       </GlassCard>
@@ -415,18 +414,24 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
       <GlassCard className={cn("overflow-hidden", className)} {...props}>
         {title && (
           <CardHeader>
-            <CardTitle className='glass-text-primary glass-text-lg glass-font-semibold'>
-              {title}
-            </CardTitle>
+            <ContrastGuard>
+              <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold">
+                {title}
+              </CardTitle>
+            </ContrastGuard>
           </CardHeader>
         )}
 
         <CardContent className="glass-p-4">
-          <div className='glass-relative'>
-            <svg width={width} height={height} className='glass-overflow-visible'>
+          <div className="glass-relative">
+            <svg
+              width={width}
+              height={height}
+              className="glass-overflow-visible"
+            >
               {/* Grid lines */}
               {showGrid && (
-                <g className='glass-opacity-20'>
+                <g className="glass-opacity-20">
                   {processedData.yLabels.map((label, index) => {
                     if (orientation === "vertical") {
                       return (
@@ -438,7 +443,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                           y2={label.y - 4}
                           stroke="currentColor"
                           strokeWidth="1"
-                          className='glass-text-primary-glass-opacity-30'
+                          className="glass-text-primary-glass-opacity-30"
                         />
                       );
                     } else {
@@ -451,7 +456,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                           y2={height - padding.bottom}
                           stroke="currentColor"
                           strokeWidth="1"
-                          className='glass-text-primary-glass-opacity-30'
+                          className="glass-text-primary-glass-opacity-30"
                         />
                       );
                     }
@@ -465,7 +470,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   key={`${bar.seriesId}-${bar.dataIndex}`}
                   preset="slideUp"
                   delay={index * 50}
-                  className='glass-relative'
+                  className="glass-relative"
                 >
                   <rect
                     x={bar.x}
@@ -473,7 +478,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                     width={bar.width}
                     height={bar.height}
                     fill={bar.color}
-                    className='glass-cursor-pointer glass-transition-all glass-duration-200 hover:glass-opacity-80'
+                    className={`glass-cursor-pointer glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] hover:glass-opacity-80`}
                     style={{
                       animation: `barGrow ${animationDuration}ms ease-out ${index * 50}ms both`,
                     }}
@@ -496,10 +501,10 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                           : bar.y + bar.height / 2 + 4
                       }
                       textAnchor="middle"
-                      className='glass-text-xs glass-fill-white-opacity-80 glass-font-medium'
+                      className="glass-text-xs glass-fill-white-opacity-80 glass-font-medium"
                       style={{ fontSize: "0.625rem" }}
                     >
-                      {formatYValue(bar.value)}
+                      <ContrastGuard>{formatYValue(bar.value)}</ContrastGuard>
                     </text>
                   )}
                 </Motion>
@@ -514,7 +519,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={height - padding.bottom}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className='glass-text-primary-glass-opacity-50'
+                  className="glass-text-primary-glass-opacity-50"
                 />
               ) : (
                 <line
@@ -524,7 +529,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={padding.top}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className='glass-text-primary-glass-opacity-50'
+                  className="glass-text-primary-glass-opacity-50"
                 />
               )}
 
@@ -537,7 +542,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={height - padding.bottom}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className='glass-text-primary-glass-opacity-50'
+                  className="glass-text-primary-glass-opacity-50"
                 />
               ) : (
                 <line
@@ -547,7 +552,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y2={padding.top}
                   stroke="currentColor"
                   strokeWidth="1"
-                  className='glass-text-primary-glass-opacity-50'
+                  className="glass-text-primary-glass-opacity-50"
                 />
               )}
 
@@ -558,7 +563,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={label.x}
                   y={label.y}
                   textAnchor="middle"
-                  className='glass-text-xs glass-fill-white/70'
+                  className="glass-text-xs glass-fill-white/70"
                   style={{ fontSize: "0.625rem" }}
                 >
                   {label.label}
@@ -571,7 +576,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={label.x}
                   y={label.y}
                   textAnchor={orientation === "vertical" ? "end" : "middle"}
-                  className='glass-text-xs glass-fill-white/70'
+                  className="glass-text-xs glass-fill-white/70"
                   style={{ fontSize: "0.625rem" }}
                 >
                   {label.label}
@@ -584,9 +589,9 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={width / 2}
                   y={height - 10}
                   textAnchor="middle"
-                  className='glass-text-sm glass-fill-white-opacity-80 glass-font-medium'
+                  className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
                 >
-                  {xAxisLabel}
+                  <ContrastGuard>{xAxisLabel}</ContrastGuard>
                 </text>
               )}
 
@@ -596,7 +601,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   y={height / 2}
                   textAnchor="middle"
                   transform={`rotate(-90, 15, ${height / 2})`}
-                  className='glass-text-sm glass-fill-white-opacity-80 glass-font-medium'
+                  className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
                 >
                   {yAxisLabel}
                 </text>
@@ -607,7 +612,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   x={width / 2}
                   y={15}
                   textAnchor="middle"
-                  className='glass-text-sm glass-fill-white-opacity-80 glass-font-medium'
+                  className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
                 >
                   {yAxisLabel}
                 </text>
@@ -620,7 +625,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                 <svg
                   width={width}
                   height={height}
-                  className='glass-absolute glass-inset-0 glass-pointer-events-none'
+                  className="glass-absolute glass-inset-0 glass-pointer-events-none"
                 >
                   {orientation === "vertical" ? (
                     <line
@@ -644,7 +649,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                     />
                   )}
                 </svg>
-                <Motion preset="fadeIn" className='glass-absolute glass-z-10'>
+                <Motion preset="fadeIn" className="glass-absolute glass-z-10">
                   <div
                     className={cn(
                       "absolute glass-radius-xl glass-p-3 shadow-xl",
@@ -657,13 +662,18 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                         hoveredBar.x > width / 2 ? "translateX(-100%)" : "none",
                     }}
                   >
-                    <div className='glass-text-primary glass-text-sm'>
-                      <div className='glass-font-medium'>
-                        {series.find((s) => s.id === hoveredBar.seriesId)?.name}
-                      </div>
-                      <div className='glass-text-primary-glass-opacity-80'>
-                        Value: {formatYValue(hoveredBar.value)}
-                      </div>
+                    <div className="glass-text-primary glass-text-sm">
+                      <ContrastGuard>
+                        <div className="glass-font-medium">
+                          {
+                            series.find((s) => s.id === hoveredBar.seriesId)
+                              ?.name
+                          }
+                        </div>
+                        <div className="glass-text-primary-glass-opacity-80">
+                          Value: {formatYValue(hoveredBar.value)}
+                        </div>
+                      </ContrastGuard>
                     </div>
                   </div>
                 </Motion>
@@ -674,7 +684,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
           {/* Legend */}
           {showLegend && series.length > 0 && (
             <div
-              className='glass-flex glass-flex-wrap glass-justify-center glass-gap-4 glass-mt-6'
+              className="glass-flex glass-flex-wrap glass-justify-center glass-gap-4 glass-mt-6"
               role="list"
               aria-label="Chart legend"
             >
@@ -682,7 +692,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                 <div
                   key={s.id}
                   className={cn(
-                    "flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-200 glass-hover--translate-y-0-5",
+                    `flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-hover--translate-y-0-5`,
                     hoveredSeriesId && hoveredSeriesId !== s.id
                       ? "opacity-50"
                       : "opacity-100"
@@ -702,16 +712,18 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   }}
                 >
                   <div
-                    className='glass-w-3 glass-h-3 glass-radius-md'
+                    className="glass-w-3 glass-h-3 glass-radius-md"
                     style={{
                       backgroundColor:
                         s.color || colors[idx % (colors?.length || 0)],
                     }}
                     aria-hidden="true"
                   />
-                  <span className='glass-text-sm glass-text-primary-glass-opacity-80'>
-                    {s.name}
-                  </span>
+                  <ContrastGuard>
+                    <span className="glass-text-sm glass-text-primary-glass-opacity-80">
+                      {s.name}
+                    </span>
+                  </ContrastGuard>
                 </div>
               ))}
             </div>

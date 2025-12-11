@@ -5,15 +5,15 @@ exports[`GlassMetricCard matches snapshot 1`] = `
   class="motion-primitive glass-w-full glass-metric-card"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 glass-p-6 group relative overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 glass-p-6 group relative overflow-hidden"
     data-performance-mode="medium"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
-        class="card-header pb-2"
+        class="card-header glass-pb-2"
       >
         <div
           class="flex items-start justify-between flex-col"
@@ -24,25 +24,31 @@ exports[`GlassMetricCard matches snapshot 1`] = `
             <h2
               class="card-title glass-text-base font-medium glass-text-primary/90 flex items-center glass-gap-2"
             >
-              Test Metric
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
+              >
+                Test Metric
+              </span>
             </h2>
           </div>
         </div>
       </div>
       <div
-        class="card-content pt-0"
+        class="card-content glass-pt-0"
       >
         <div
           class="flex items-baseline glass-gap-2 glass-mb-4 relative justify-center"
         >
           <div
-            class="relative"
+            class="glass-relative"
           >
             <div
-              class="absolute inset-0 glass-gradient-primary glass-gradient-primary via-purple-400/30 glass-gradient-primary glass-blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-150"
+              class="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-purple-opacity-30 glass-gradient-primary glass-blur-xl glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-duration-[500ms] glass--z-10 glass-scale-150"
             />
             <span
-              class="glass-text-2xl glass-text-primary relative z-10 font-bold tracking-tight group-hover:scale-105 group-hover:glass-text-primary transition-all duration-300 ease-out drop-shadow-sm group-hover:drop-shadow-lg"
+              class="glass-text-2xl glass-text-primary relative z-10 font-bold tracking-tight group-glass-hover-scale-105 group-hover:glass-text-primary transition-all duration-[300ms] ease-out drop-shadow-sm group-hover:drop-shadow-lg"
             >
               100
             </span>

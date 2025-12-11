@@ -10,24 +10,24 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
   >
     <div>
       <h3
-        class="glass-text-xl font-semibold text-primary/90"
+        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         Music Visualizer
       </h3>
       <p
-        class="glass-text-sm text-primary/60"
+        class="glass-text-sm glass-text-primary-glass-opacity-60"
       >
         Real-time audio visualization and analysis
       </p>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     >
       <div
-        class="glass-flex glass-items-center space-x-1 text-primary"
+        class="glass-flex glass-items-center glass-space-x-1 glass-text-primary"
       >
         <div
-          class="w-2 h-2 glass-surface-green glass-radius-full animate-pulse"
+          class="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse"
         />
         <span
           class="glass-text-xs"
@@ -38,37 +38,37 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-flex glass-items-center space-x-4"
+    class="glass-flex glass-items-center glass-space-x-4"
   >
     <button
-      class="glass-p-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg transition-colors"
+      class="glass-p-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-transition-colors"
       tabindex="0"
     >
       ▶️
     </button>
     <button
-      class="glass-p-2 glass-surface-primary hover:glass-surface-primary text-primary glass-radius-lg transition-colors"
+      class="glass-p-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-transition-colors"
       tabindex="0"
     >
       ⏹️
     </button>
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     >
       <span
-        class="glass-text-xs text-primary/60"
+        class="glass-text-xs glass-text-primary-glass-opacity-60"
       >
         0
         :
         00
       </span>
       <span
-        class="text-primary/40"
+        class="glass-text-primary-glass-opacity-40"
       >
         /
       </span>
       <span
-        class="glass-text-xs text-primary/60"
+        class="glass-text-xs glass-text-primary-glass-opacity-60"
       >
         0
         :
@@ -76,17 +76,17 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </span>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     >
       <label
-        class="glass-text-xs text-primary/80"
+        class="glass-text-xs glass-text-primary-glass-opacity-80"
         for="glass-music-volume-:rm:"
       >
         Volume:
       </label>
       <input
         aria-label="Volume"
-        class="w-16 h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+        class="glass-w-16 glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
         id="glass-music-volume-:rm:"
         max="1"
         min="0"
@@ -97,7 +97,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="relative"
+    class="glass-relative"
   >
     <canvas
       class="
@@ -108,38 +108,38 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       width="800"
     />
     <div
-      class="absolute glass-top-2 right-2"
+      class="glass-absolute glass-top-2 glass-right-2"
     >
       <div
-        class="w-4 h-4 glass-radius-full glass-surface-red"
+        class="glass-w-4 glass-h-4 glass-radius-full glass-surface-red"
         style="opacity: 0; transform: scale(1);"
       />
     </div>
   </div>
   <div
-    class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-6"
+    class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6"
   >
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         Visualization
       </h4>
       <div
-        class="space-y-3"
+        class="glass-space-y-3"
       >
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
             for="glass-music-mode-:ri:"
           >
             Mode
           </label>
           <select
             aria-label="Visualization mode"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             id="glass-music-mode-:ri:"
           >
             <option
@@ -176,14 +176,14 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
             for="glass-music-color-scheme-:rj:"
           >
             Color Scheme
           </label>
           <select
             aria-label="Color scheme"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
             id="glass-music-color-scheme-:rj:"
           >
             <option
@@ -220,14 +220,14 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             Sensitivity: 
             1.0
           </label>
           <input
             aria-label="Sensitivity"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             max="3.0"
             min="0.1"
             step="0.1"
@@ -238,26 +238,26 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         Audio Settings
       </h4>
       <div
-        class="space-y-3"
+        class="glass-space-y-3"
       >
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             Smoothing: 
             0.8
           </label>
           <input
             aria-label="Smoothing"
-            class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer"
+            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
             max="1.0"
             min="0.0"
             step="0.1"
@@ -267,13 +267,13 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
         </div>
         <div>
           <label
-            class="block glass-text-xs text-primary/70 mb-1"
+            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
           >
             FFT Size
           </label>
           <select
             aria-label="FFT size"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
           >
             <option
               value="128"
@@ -312,7 +312,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
           "
   >
     <h4
-      class="glass-text-sm font-medium text-primary/80 mb-2"
+      class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2"
     >
       Frequency Analysis
     </h4>
@@ -321,12 +321,12 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
     >
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Bass:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
           %
@@ -334,12 +334,12 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </div>
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Mid:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
           %
@@ -347,12 +347,12 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </div>
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Treble:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
           %
@@ -360,12 +360,12 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </div>
       <div>
         <span
-          class="text-primary/60"
+          class="glass-text-primary-glass-opacity-60"
         >
           Beat:
         </span>
         <div
-          class="text-primary/90 font-medium"
+          class="glass-text-primary-glass-opacity-90 glass-font-medium"
         >
           0
           %

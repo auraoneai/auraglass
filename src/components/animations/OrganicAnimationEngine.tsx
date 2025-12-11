@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
 import { cn } from '@/lib/utils';
  * Organic Animation Engine
@@ -24,6 +24,8 @@ import {
   Variants,
   Transition,
 } from "framer-motion";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 // Organic motion pattern types
 type OrganicMotionPattern =
@@ -108,65 +110,65 @@ const DEFAULT_PHYSICS: PhysicsProperties = {
 // Emotional context animation mappings
 const EMOTIONAL_ANIMATIONS: Record<EmotionalContext, Partial<Transition>> = {
   calm: {
-    duration: 3,
-    ease: [0.25, 0.46, 0.45, 0.94], // Calm bezier curve
+    duration: ANIMATION.DURATION.slower / 1000,
+    ease: ANIMATION.EASING.easeInOut,
     type: "spring",
     stiffness: 50,
     damping: 20,
   },
   excited: {
-    duration: 0.8,
-    ease: [0.68, -0.55, 0.265, 1.55], // Excited bounce
+    duration: ANIMATION.DURATION.fast / 1000,
+    ease: ANIMATION.EASING.bounceOut,
     type: "spring",
     stiffness: 400,
     damping: 15,
   },
   focused: {
-    duration: 2,
-    ease: [0.4, 0, 0.2, 1], // Linear focus
+    duration: ANIMATION.DURATION.normal / 1000,
+    ease: ANIMATION.EASING.easeInOut,
     type: "tween",
   },
   stressed: {
-    duration: 0.5,
-    ease: [0.76, 0, 0.24, 1], // Sharp stressed motion
+    duration: ANIMATION.DURATION.fast / 1000 / 2,
+    ease: ANIMATION.EASING.easeIn,
     type: "spring",
     stiffness: 500,
     damping: 25,
   },
   joyful: {
-    duration: 1.2,
-    ease: [0.175, 0.885, 0.32, 1.275], // Joyful bounce
+    duration: (ANIMATION.DURATION.normal / 1000) * 1.2,
+    ease: ANIMATION.EASING.bounceOut,
     type: "spring",
     stiffness: 200,
     damping: 10,
   },
   melancholy: {
-    duration: 4,
-    ease: [0.77, 0, 0.175, 1], // Slow melancholy
+    duration: (ANIMATION.DURATION.slower / 1000) * 1.3,
+    ease: ANIMATION.EASING.easeOut,
     type: "tween",
   },
   energetic: {
-    duration: 0.6,
-    ease: [0.23, 1, 0.32, 1], // Quick energy
+    duration: ANIMATION.DURATION.fast / 1000,
+    ease: ANIMATION.EASING.easeOut,
     type: "spring",
     stiffness: 350,
     damping: 12,
   },
   peaceful: {
-    duration: 5,
-    ease: [0.25, 0.46, 0.45, 0.94], // Very calm
+    duration: (ANIMATION.DURATION.slower / 1000) * 1.7,
+    ease: ANIMATION.EASING.easeInOut,
     type: "spring",
     stiffness: 30,
     damping: 25,
   },
   urgent: {
-    duration: 0.3,
-    ease: [0.55, 0.055, 0.675, 0.19], // Sharp urgent
+    duration: ANIMATION.DURATION.fast / 1000 / 3,
+    ease: ANIMATION.EASING.easeIn,
     type: "tween",
   },
   contemplative: {
-    duration: 6,
-    ease: [0.19, 1, 0.22, 1], // Slow contemplation
+    duration: (ANIMATION.DURATION.slower / 1000) * 2,
+    ease: ANIMATION.EASING.easeOut,
     type: "spring",
     stiffness: 40,
     damping: 30,
@@ -186,8 +188,8 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
       scale: [1, 1.05, 1],
       boxShadow: [
         "0 0 0 0 var(--glass-bg-hover)",
-        "0 0 0 20px rgba(255, 255, 255, 0)",
-        "0 0 0 0 rgba(255, 255, 255, 0)",
+        "0 0 0 20px color-mix(in srgb, var(--glass-white) 0%, transparent)",
+        "0 0 0 0 color-mix(in srgb, var(--glass-white) 0%, transparent)",
       ],
     },
   },
@@ -232,15 +234,20 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
   ripple: {
     animate: {
       scale: [1, 1.1, 1.05, 1],
-      borderRadius: ["10px", "50%", "10px", "10px"],
+      borderRadius: [
+        "var(--glass-radius-md)",
+        "50%",
+        "var(--glass-radius-md)",
+        "var(--glass-radius-md)",
+      ],
     },
   },
   shimmer: {
     animate: {
       background: [
-        "linear-gradient(90deg, transparent 0%, rgba(var(--glass-color-white) / var(--glass-opacity-20)) 50%, transparent 100%)",
+        "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--glass-white) 20%, transparent) 50%, transparent 100%)",
         "linear-gradient(90deg, transparent 25%, var(--glass-border-default) 75%, transparent 100%)",
-        "linear-gradient(90deg, transparent 50%, rgba(var(--glass-color-white) / var(--glass-opacity-20)) 100%, transparent 100%)",
+        "linear-gradient(90deg, transparent 50%, color-mix(in srgb, var(--glass-white) 20%, transparent) 100%, transparent 100%)",
       ],
       backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
     },
@@ -277,7 +284,13 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
   dissolve: {
     animate: {
       opacity: [1, 0.8, 0.6, 0.8, 1],
-      filter: ["blur(0px)", "blur(2px)", "blur(5px)", "blur(2px)", "blur(0px)"],
+      filter: [
+        "blur(0px)",
+        "blur(var(--glass-blur-sm))",
+        "blur(var(--glass-blur-md))",
+        "blur(var(--glass-blur-sm))",
+        "blur(0px)",
+      ],
       scale: [1, 0.98, 0.95, 0.98, 1],
     },
   },
@@ -285,7 +298,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
 
 export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   children,
-  className="",
+  className = "",
   sequences = [],
   emotionalContext = "calm",
   enablePhysics = true,
@@ -467,8 +480,9 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
 
         // Apply adaptive speed
         const adaptedDuration =
-          (sequence.duration || (emotionalTransition as any).duration || 2) *
-          adaptiveSpeedFactor;
+          (sequence.duration ||
+            (emotionalTransition as any).duration ||
+            (ANIMATION.DURATION.slower * 3) / 1000) * adaptiveSpeedFactor;
 
         // Merge physics properties if enabled
         let finalTransition = {
@@ -673,7 +687,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
       {/* Animation state indicators for debugging */}
       {(showDebugHud || process.env.NODE_ENV === "development") && (
         <div
-          className='animation-debug-info glass-focus glass-touch-target glass-contrast-guard'
+          className="animation-debug-info glass-focus glass-touch-target glass-contrast-guard"
           style={{
             position: "absolute",
             top: 0,
@@ -683,12 +697,14 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
             color: "white",
             padding: "4px 8px",
             fontSize: "10px",
-            borderRadius: "0 0 0 8px",
+            borderRadius: "0 0 0 var(--glass-radius-md)",
             pointerEvents: "none",
           }}
         >
-          Emotion: {currentEmotion} | Active: {activeSequences.size} | Perf:{" "}
-          {performanceLevel}
+          <ContrastGuard>
+            Emotion: {currentEmotion} | Active: {activeSequences.size} | Perf:{" "}
+            {performanceLevel}
+          </ContrastGuard>
         </div>
       )}
     </motion.div>
@@ -701,7 +717,7 @@ export const COMMON_SEQUENCES: Record<string, AnimationSequence[]> = {
     {
       id: "gentle-breathe",
       pattern: "breathe",
-      duration: 4,
+      duration: (ANIMATION.DURATION.slower / 1000) * 1.3,
       delay: 0,
       intensity: 0.3,
       emotional: "calm",
@@ -713,7 +729,7 @@ export const COMMON_SEQUENCES: Record<string, AnimationSequence[]> = {
     {
       id: "energetic-pulse",
       pattern: "pulse",
-      duration: 1,
+      duration: ANIMATION.DURATION.normal / 1000,
       delay: 0,
       intensity: 0.8,
       emotional: "energetic",
@@ -725,7 +741,7 @@ export const COMMON_SEQUENCES: Record<string, AnimationSequence[]> = {
     {
       id: "hover-shimmer",
       pattern: "shimmer",
-      duration: 1.5,
+      duration: ANIMATION.DURATION.slow / 1000,
       delay: 0,
       intensity: 0.6,
       emotional: "focused",
@@ -734,7 +750,7 @@ export const COMMON_SEQUENCES: Record<string, AnimationSequence[]> = {
     {
       id: "click-ripple",
       pattern: "ripple",
-      duration: 0.8,
+      duration: ANIMATION.DURATION.fast / 1000,
       delay: 0,
       intensity: 1,
       emotional: "excited",
@@ -745,8 +761,8 @@ export const COMMON_SEQUENCES: Record<string, AnimationSequence[]> = {
     {
       id: "drift-slow",
       pattern: "drift",
-      duration: 8,
-      delay: 2,
+      duration: (ANIMATION.DURATION.slower / 1000) * 2.7,
+      delay: ANIMATION.DURATION.fast / 1000,
       intensity: 0.2,
       emotional: "contemplative",
       loop: true,

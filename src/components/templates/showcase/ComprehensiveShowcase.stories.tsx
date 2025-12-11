@@ -7,6 +7,7 @@ import GlassDevTools from '../../../tools/GlassDevTools';
 import { useAccessibility } from '../../../hooks/useAccessibility';
 import { usePerformance } from '../../../hooks/usePerformance';
 import { Glass } from '../../../primitives';
+import { ANIMATION } from '../../../tokens/designConstants';
 
 const meta: Meta = {
   title: 'Templates/Showcase/ComprehensiveShowcase',
@@ -79,7 +80,7 @@ const ShowcaseDemo: React.FC = () => {
     // Simulate upload
     setTimeout(() => {
       success('Upload complete', 'All files uploaded successfully!');
-    }, 2000);
+    }, ANIMATION.DURATION.slower * 3);
   };
 
   const showPerformanceDemo = () => {
@@ -92,7 +93,7 @@ const ShowcaseDemo: React.FC = () => {
   };
 
   return (
-    <div className="glass-min-glass-h-screen transition-colors duration-300 glass-gradient-primary glass-gradient-primary via-blue-50 glass-gradient-primary">
+        <div className={`glass-min-glass-h-screen transition-colors duration-[${ANIMATION.DURATION.normal}ms] glass-gradient-primary glass-gradient-primary via-blue-50 glass-gradient-primary`}>
       <div className="glass-relative glass-z-10 glass-p-8">
         <div className="max-w-7xl glass-mx-auto">
           {/* Header */}

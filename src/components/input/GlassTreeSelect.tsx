@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   forwardRef,
@@ -9,6 +9,9 @@ import React, {
   useEffect,
 } from "react";
 import { OptimizedGlass } from "../../primitives";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface TreeNode {
   /**
@@ -273,7 +276,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
           <div
             className={cn(
               "flex items-center gap-2 glass-p-2 glass-radius-md cursor-pointer",
-              "transition-all duration-200",
+              `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
               "hover:bg-white/5",
               "glass-focus glass-touch-target glass-contrast-guard",
               isSelected && "bg-white/10",
@@ -297,13 +300,13 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                   e.stopPropagation();
                   toggleExpand(node.id);
                 }}
-                className='glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5'
+                className="glass-flex-shrink-0 glass-text-secondary hover:glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-radius-sm glass-p-0.5"
               >
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
                   className={cn(
-                    "w-4 h-4 transition-transform duration-200",
+                    `w-4 h-4 transition-transform duration-[${ANIMATION.DURATION.fast}ms]`,
                     isExpanded && "rotate-90"
                   )}
                 >
@@ -317,7 +320,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
                 </svg>
               </button>
             )}
-            {!hasChildren && <div className='glass-w-4' />}
+            {!hasChildren && <div className="glass-w-4" />}
 
             {shouldShowCheckbox && (
               <input
@@ -334,7 +337,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               <span className="glass-flex-shrink-0">{node.icon}</span>
             )}
 
-            <span className='glass-flex-1 glass-text-sm glass-text-primary glass-truncate'>
+            <span className="glass-flex-1 glass-text-sm glass-text-primary glass-truncate">
               {node.label}
             </span>
           </div>
@@ -360,7 +363,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
             "w-full flex items-center justify-between gap-2",
             "glass-p-3 glass-radius-md",
             "bg-white/5 border glass-border-subtle",
-            "transition-all duration-200",
+            `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
             "hover:bg-white/10",
             "focus:outline-none glass-focus glass-touch-target glass-contrast-guard",
             "disabled:opacity-50 glass-disabled-cursor-not-allowed",
@@ -381,7 +384,7 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
             viewBox="0 0 24 24"
             fill="none"
             className={cn(
-              "w-4 h-4 glass-text-secondary flex-shrink-0 transition-transform duration-200",
+              `w-4 h-4 glass-text-secondary flex-shrink-0 transition-transform duration-[${ANIMATION.DURATION.fast}ms]`,
               isOpen && "rotate-180"
             )}
           >
@@ -421,9 +424,12 @@ export const GlassTreeSelect = forwardRef<HTMLDivElement, GlassTreeSelectProps>(
               </div>
             )}
 
-            <div className='glass-overflow-y-auto glass-p-2' style={{ maxHeight }}>
+            <div
+              className="glass-overflow-y-auto glass-p-2"
+              style={{ maxHeight }}
+            >
               {filteredData.length === 0 ? (
-                <div className='glass-p-4 glass-text-center glass-text-sm glass-text-secondary'>
+                <div className="glass-p-4 glass-text-center glass-text-sm glass-text-secondary">
                   No results found
                 </div>
               ) : (

@@ -33,6 +33,9 @@ const useVectorSpring = (options: any) => ({
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import styles from "./GlassDataGrid.module.css";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 // Define the component using forwardRef
 export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
@@ -169,15 +172,17 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
           animation="none"
           performanceMode="medium"
           className={cn("glass-w-full glass-p-6 glass-text-center", className)}
-          style={style}
+          style={{ ...(style ?? {}) }}
           role="region"
           aria-label={ariaLabel || "Data Grid"}
           data-testid={dataTestId}
           {...restProps}
         >
-          <p className="glass-text-sm glass-text-secondary">
-            No columns configured for this data grid.
-          </p>
+          <ContrastGuard>
+            <p className="glass-text-sm glass-text-secondary">
+              No columns configured for this data grid.
+            </p>
+          </ContrastGuard>
         </OptimizedGlass>
       );
     }
@@ -264,8 +269,9 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                             : "none"
                         : undefined
                     }
+                    aria-label={col.header ? `Column ${col.header}` : undefined}
                   >
-                    {col.header}
+                    <ContrastGuard>{col.header}</ContrastGuard>
                     <span
                       className={styles.sortIndicator}
                       style={{
@@ -306,7 +312,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                   <tr
                     key={`row-${row?.id ?? originalIndex}`}
                     ref={rowRefs?.[originalIndex]}
-                    style={rowStyle}
+                    style={{ ...(rowStyle ?? {}) }}
                     className={rowClassName}
                   >
                     {enableRowDragging && (
@@ -332,14 +338,16 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                         key={`${col.id}-${originalIndex}`}
                         className={styles.cell}
                       >
-                        {col.cellRenderer
-                          ? col.cellRenderer(
-                              row?.[col.accessorKey as keyof typeof row],
-                              row
-                            )
-                          : (row?.[col.accessorKey as keyof typeof row] ??
-                            col.placeholder ??
-                            "—")}
+                        <ContrastGuard>
+                          {col.cellRenderer
+                            ? col.cellRenderer(
+                                row?.[col.accessorKey as keyof typeof row],
+                                row
+                              )
+                            : (row?.[col.accessorKey as keyof typeof row] ??
+                              col.placeholder ??
+                              "—")}
+                        </ContrastGuard>
                       </td>
                     ))}
                   </tr>
@@ -348,9 +356,11 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
             ) : (
               <tr>
                 <td className={styles.cell} colSpan={Math.max(1, totalColumns)}>
-                  <div className='glass-text-sm glass-text-secondary glass-text-center'>
-                    No data available.
-                  </div>
+                  <ContrastGuard>
+                    <div className="glass-text-sm glass-text-secondary glass-text-center">
+                      No data available.
+                    </div>
+                  </ContrastGuard>
                 </td>
               </tr>
             )}

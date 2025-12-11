@@ -1,15 +1,25 @@
-'use client';
+"use client";
 /**
  * ContrastGuard Component
  * A React wrapper component that ensures WCAG contrast compliance
  */
 
-import React, { useRef, useEffect, useState } from 'react';
-import { useContrastGuard, applyContrastAdjustment, type ContrastLevel } from '../../utils/contrastGuard';
-import type { LiquidGlassMaterial, MaterialVariant } from '../../tokens/glass';
-import { cn } from '../../lib/utilsComprehensive';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import {
+  useContrastGuard,
+  applyContrastAdjustment,
+  type ContrastLevel,
+} from "../../utils/contrastGuard";
+import type { LiquidGlassMaterial, MaterialVariant } from "../../tokens/glass";
+import { cn } from "../../lib/utilsComprehensive";
 
-export interface ContrastGuardProps {
+export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
   /**
    * Content to be rendered with contrast protection
    */
@@ -80,89 +90,112 @@ export interface ContrastGuardProps {
  * ContrastGuard wrapper component
  * Ensures text content meets WCAG contrast requirements
  */
-export const ContrastGuard: React.FC<ContrastGuardProps> = ({
-  children,
-  level = 'AA',
-  minContrast = 4.5,
-  fallbackColor = 'var(--glass-text-primary)',
-  backgroundColor,
-  textColor = 'var(--glass-text-primary)',
-  material = 'liquid',
-  variant = 'regular',
-  autoAdjust = true,
-  className,
-  as: Component = 'span',
-  onAdjustment,
-}) => {
-  const elementRef = useRef<HTMLElement>(null);
-  const [appliedStyles, setAppliedStyles] = useState<React.CSSProperties>({});
+export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
+  (
+    {
+      children,
+      level = "AA",
+      minContrast = 4.5,
+      fallbackColor = "var(--glass-text-primary)",
+      backgroundColor,
+      textColor = "var(--glass-text-primary)",
+      material = "liquid",
+      variant = "regular",
+      autoAdjust = true,
+      className,
+      as: Component = "span",
+      onAdjustment,
+      style,
+      ...rest
+    },
+    forwardedRef: React.ForwardedRef<HTMLElement | null>
+  ) => {
+    const elementRef = useRef<HTMLElement | null>(null);
+    const [appliedStyles, setAppliedStyles] = useState<React.CSSProperties>({});
 
-  // Use ContrastGuard hook if autoAdjust is enabled
-  const adjustment = useContrastGuard(
-    elementRef,
-    autoAdjust ? {
-      targetLevel: level,
-      material,
-      variant,
-      textColor,
-      onAdjustment: (adj) => {
-        if (elementRef.current) {
-          applyContrastAdjustment(elementRef.current, adj);
-        }
-        onAdjustment?.(adj.meetsRequirement, adj.adjustedContrast);
+    useImperativeHandle<HTMLElement | null, HTMLElement | null>(
+      forwardedRef,
+      () => elementRef.current,
+      []
+    );
 
-        // Apply styles dynamically
-        const styles: React.CSSProperties = {};
-        if (adj.modifications.fallbackMode && fallbackColor) {
-          styles.color = fallbackColor;
-        }
-        setAppliedStyles(styles);
-      },
-    } : undefined
-  );
+    // Use ContrastGuard hook if autoAdjust is enabled
+    const adjustment = useContrastGuard(
+      elementRef,
+      autoAdjust
+        ? {
+            targetLevel: level,
+            material,
+            variant,
+            textColor,
+            onAdjustment: (adj) => {
+              if (elementRef.current) {
+                applyContrastAdjustment(elementRef.current, adj);
+              }
+              onAdjustment?.(adj.meetsRequirement, adj.adjustedContrast);
 
-  return (
-    <Component data-glass-component
-      {...{
-        ref: elementRef as any,
-        className: cn(
-          'contrast-guard',
-          adjustment?.meetsRequirement && 'contrast-guard--compliant',
-          adjustment?.modifications.fallbackMode && 'contrast-guard--fallback',
+              // Apply styles dynamically
+              const styles: React.CSSProperties = {};
+              if (adj.modifications.fallbackMode && fallbackColor) {
+                styles.color = fallbackColor;
+              }
+              setAppliedStyles(styles);
+            },
+          }
+        : undefined
+    );
+
+    return (
+      <Component
+        data-glass-component
+        ref={elementRef as any}
+        className={cn(
+          "contrast-guard",
+          adjustment?.meetsRequirement && "contrast-guard--compliant",
+          adjustment?.modifications.fallbackMode && "contrast-guard--fallback",
           className
-        ),
-        style: {
+        )}
+        style={{
+          ...style,
           ...appliedStyles,
           ...(backgroundColor && { backgroundColor }),
-        },
-        'data-contrast-level': level,
-        'data-contrast-ratio': adjustment?.adjustedContrast?.toFixed(2),
-        'data-meets-wcag': adjustment?.meetsRequirement,
-        children,
-      } as any}
-    />
-  );
-};
+        }}
+        data-contrast-level={level}
+        data-contrast-ratio={adjustment?.adjustedContrast?.toFixed(2)}
+        data-meets-wcag={adjustment?.meetsRequirement}
+        {...rest}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
 
 /**
  * Simpler text wrapper with contrast protection
  */
-export interface TextWithContrastProps {
+export interface TextWithContrastProps
+  extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
-  level?: 'AA' | 'AAA';
+  level?: "AA" | "AAA";
   className?: string;
+  as?: keyof JSX.IntrinsicElements;
 }
 
 export const TextWithContrast: React.FC<TextWithContrastProps> = ({
   children,
-  level = 'AA',
+  level = "AA",
   className,
+  as: Component = "span",
+  ...rest
 }) => {
   return (
     <ContrastGuard
       level={level}
-      minContrast={level === 'AAA' ? 7.0 : 4.5}
+      minContrast={level === "AAA" ? 7.0 : 4.5}
+      as={Component}
       className={className}
+      {...rest}
     >
       {children}
     </ContrastGuard>
@@ -172,10 +205,10 @@ export const TextWithContrast: React.FC<TextWithContrastProps> = ({
 /**
  * High contrast mode wrapper for critical UI elements
  */
-export const HighContrastText: React.FC<{ children: React.ReactNode; className?: string }> = ({
-  children,
-  className,
-}) => {
+export const HighContrastText: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({ children, className }) => {
   return (
     <ContrastGuard
       level="AAA"

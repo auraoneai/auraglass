@@ -2,7 +2,7 @@
 
 exports[`GlassRadioGroup matches snapshot 1`] = `
 <div
-  class="relative"
+  class="glass-relative"
   data-glass-component="true"
 >
   <div

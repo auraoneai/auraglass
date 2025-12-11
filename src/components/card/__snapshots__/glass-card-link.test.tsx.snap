@@ -2,7 +2,7 @@
 
 exports[`GlassCardLink matches snapshot 1`] = `
 <div
-  class="motion-primitive inline-block"
+  class="motion-primitive glass-inline-glass-block"
   data-glass-component="true"
 >
   <a

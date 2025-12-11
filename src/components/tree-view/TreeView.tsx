@@ -1,23 +1,58 @@
-'use client';
+"use client";
 /**
  * Glass TreeView Component
  *
  * A hierarchical list with collapsible items.
  */
-import React, { forwardRef, useState, useCallback, useMemo, createContext } from 'react';
-import { cn } from '@/lib/utils';
+import React, {
+  forwardRef,
+  useState,
+  useCallback,
+  useMemo,
+  createContext,
+} from "react";
+import { cn } from "@/lib/utils";
 
-import { TreeViewProps, TreeViewContextProps } from './types';
-import styles from './TreeView.module.css';
+import { TreeViewProps, TreeViewContextProps } from "./types";
+import styles from "./TreeView.module.css";
 
-const TREE_COLOR_MAP: Record<NonNullable<TreeViewProps['color']>, { accent: string; highlight: string }> = {
-  default: { accent: 'rgba(248, 250, 252, 0.9)', highlight: 'rgba(99, 102, 241, 0.14)' },
-  primary: { accent: 'rgba(99, 102, 241, 0.9)', highlight: 'rgba(99, 102, 241, 0.18)' },
-  secondary: { accent: 'rgba(156, 39, 176, 0.9)', highlight: 'rgba(156, 39, 176, 0.16)' },
-  success: { accent: 'rgba(34, 197, 94, 0.9)', highlight: 'rgba(34, 197, 94, 0.18)' },
-  warning: { accent: 'rgba(251, 191, 36, 0.9)', highlight: 'rgba(251, 191, 36, 0.18)' },
-  danger: { accent: 'rgba(239, 68, 68, 0.9)', highlight: 'rgba(239, 68, 68, 0.18)' },
-  info: { accent: 'rgba(14, 165, 233, 0.9)', highlight: 'rgba(14, 165, 233, 0.18)' },
+const TREE_COLOR_MAP: Record<
+  NonNullable<TreeViewProps["color"]>,
+  { accent: string; highlight: string }
+> = {
+  default: {
+    accent: "color-mix(in srgb, var(--glass-gray-50) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, var(--glass-color-primary) 14%, transparent)",
+  },
+  primary: {
+    accent: "color-mix(in srgb, var(--glass-color-primary) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, var(--glass-color-primary) 18%, transparent)",
+  },
+  secondary: {
+    accent: "color-mix(in srgb, var(--glass-color-secondary) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, var(--glass-color-secondary) 16%, transparent)",
+  },
+  success: {
+    accent: "color-mix(in srgb, var(--glass-color-success) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, var(--glass-color-success) 18%, transparent)",
+  },
+  warning: {
+    accent: "color-mix(in srgb, var(--glass-color-warning) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, var(--glass-color-warning) 18%, transparent)",
+  },
+  danger: {
+    accent: "color-mix(in srgb, var(--glass-color-danger) 90%, transparent)",
+    highlight: "color-mix(in srgb, var(--glass-color-danger) 18%, transparent)",
+  },
+  info: {
+    accent: "color-mix(in srgb, var(--glass-color-info) 90%, transparent)",
+    highlight: "color-mix(in srgb, var(--glass-color-info) 18%, transparent)",
+  },
 };
 
 // Create context for TreeView state
@@ -26,7 +61,10 @@ export const TreeViewContext = createContext<TreeViewContextProps | null>(null);
 /**
  * TreeView Component Implementation
  */
-function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLUListElement>) {
+function TreeViewComponent(
+  props: TreeViewProps,
+  ref: React.ForwardedRef<HTMLUListElement>
+) {
   const {
     selectedIds,
     expandedIds,
@@ -35,10 +73,10 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
     multiSelect = false,
     showIcons = false,
     showLines = false,
-    size = 'medium',
+    size = "medium",
     disabled = false,
     glass = true,
-    color = 'default',
+    color = "default",
     children,
     className,
     style,
@@ -46,8 +84,12 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
   } = props;
 
   // State for uncontrolled component
-  const [internalExpanded, setInternalExpanded] = useState<string[]>(expandedIds || []);
-  const [internalSelected, setInternalSelected] = useState<string[]>(selectedIds || []);
+  const [internalExpanded, setInternalExpanded] = useState<string[]>(
+    expandedIds || []
+  );
+  const [internalSelected, setInternalSelected] = useState<string[]>(
+    selectedIds || []
+  );
   const [internalFocused, setInternalFocused] = useState<string | null>(null);
 
   // Determine if component is controlled
@@ -143,17 +185,21 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
   const compatibleRest = rest;
 
   const sizeClass =
-    size === 'small'
+    size === "small"
       ? styles.sizeSmall
-      : size === 'large'
-      ? styles.sizeLarge
-      : styles.sizeMedium;
+      : size === "large"
+        ? styles.sizeLarge
+        : styles.sizeMedium;
 
   const containerVars = useMemo<React.CSSProperties>(
-    () => ({
-      '--tree-view-color': (TREE_COLOR_MAP[color] ?? TREE_COLOR_MAP.default).accent,
-      '--tree-view-selected-bg': (TREE_COLOR_MAP[color] ?? TREE_COLOR_MAP.default).highlight,
-    }) as React.CSSProperties,
+    () =>
+      ({
+        "--tree-view-color": (TREE_COLOR_MAP[color] ?? TREE_COLOR_MAP.default)
+          .accent,
+        "--tree-view-selected-bg": (
+          TREE_COLOR_MAP[color] ?? TREE_COLOR_MAP.default
+        ).highlight,
+      }) as React.CSSProperties,
     [color]
   );
 
@@ -162,7 +208,12 @@ function TreeViewComponent(props: TreeViewProps, ref: React.ForwardedRef<HTMLULi
       <ul
         ref={ref}
         role="tree"
-        className={cn(styles.root, sizeClass, disabled && styles.disabled, className)}
+        className={cn(
+          styles.root,
+          sizeClass,
+          disabled && styles.disabled,
+          className
+        )}
         style={{ ...containerVars, ...style }}
         aria-multiselectable={multiSelect}
         {...compatibleRest}
@@ -185,11 +236,11 @@ const TreeView = forwardRef(TreeViewComponent);
  *
  * Glass variant of the TreeView component.
  */
-const GlassTreeView = forwardRef<HTMLUListElement, TreeViewProps>((props, ref) => (
-  <TreeView {...props} ref={ref} />
-));
+const GlassTreeView = forwardRef<HTMLUListElement, TreeViewProps>(
+  (props, ref) => <TreeView {...props} ref={ref} />
+);
 
-GlassTreeView.displayName = 'GlassTreeView';
+GlassTreeView.displayName = "GlassTreeView";
 
 export default TreeView;
 export { TreeView, GlassTreeView };

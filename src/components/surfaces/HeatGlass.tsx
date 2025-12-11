@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * HeatGlass Component
  *
@@ -13,7 +13,7 @@ import { HeatGlassProps } from "./types";
 
 // SVG filters for heat distortion effect
 const HeatDistortionFilters = React.memo(() => (
-  <svg width="0" height="0" className='glass-absolute glass-invisible'>
+  <svg width="0" height="0" className="glass-absolute glass-invisible">
     <defs>
       <filter id="heat-distortion-0">
         <feTurbulence
@@ -123,7 +123,7 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
 
         <Motion
           preset={shouldAnimate ? "pulseIn" : "none"}
-          className='glass-relative'
+          className="glass-relative"
         >
           <OptimizedGlass
             ref={ref}
@@ -160,21 +160,19 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
 
               className
             )}
-            style={
-              {
-                // Heat glow box shadow
-                boxShadow: `0 0 20px 5px ${heatColor}`,
-                backgroundColor,
-                ...style,
-              } as React.CSSProperties
-            }
+            style={{
+              // Heat glow box shadow
+              boxShadow: `0 0 20px 5px ${heatColor}`,
+              backgroundColor,
+              ...(style || {}),
+            }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             {...rest}
           >
             {/* Heat radial gradient background */}
             <div
-              className='glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit glass--z-10 glass-opacity-30'
+              className="glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit glass--z-10 glass-opacity-30"
               style={{
                 background: `radial-gradient(circle at 50% 50%, ${heatColor} 0%, transparent 70%)`,
               }}
@@ -203,7 +201,7 @@ export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
             {/* Enhanced hover glow */}
             {interactive && isHovered && (
               <div
-                className='glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit glass-transition-opacity glass-duration-300'
+                className="glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit glass-transition-opacity glass-duration-300"
                 style={{
                   boxShadow: `0 0 30px 10px ${heatColor}`,
                   opacity: 0.8,

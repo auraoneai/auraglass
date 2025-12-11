@@ -4,6 +4,6 @@ exports[`GlobalCookieConsent matches snapshot 1`] = `
 <div
   aria-hidden="true"
   class="container positionCenterBottom"
-  style="--cookie-blur-scale: 0.8; --cookie-box-shadow: 0 12px 25.60px rgba(15, 23, 42, 0.18); display: none;"
+  style="--cookie-blur-scale: 0.8; --cookie-box-shadow: 0 12px 25.60px color-mix(in srgb, var(--glass-black) 18%, transparent); display: none;"
 />
 `;

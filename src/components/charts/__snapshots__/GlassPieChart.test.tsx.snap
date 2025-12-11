@@ -5,11 +5,11 @@ exports[`GlassPieChart matches snapshot 1`] = `
   class="motion-primitive glass-w-full"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-300 ease-out glass-p-4 overflow-hidden"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="relative z-10"
+      class="glass-relative glass-z-10"
     >
       <div
         class="card-content glass-p-4"
@@ -18,10 +18,10 @@ exports[`GlassPieChart matches snapshot 1`] = `
           class="flex flex-row items-center glass-gap-6"
         >
           <div
-            class="relative glass-flex-shrink-0"
+            class="glass-relative glass-flex-shrink-0"
           >
             <svg
-              class="overflow-visible"
+              class="glass-overflow-visible"
               height="300"
               width="300"
             />

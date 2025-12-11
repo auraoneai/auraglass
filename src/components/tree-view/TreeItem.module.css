@@ -80,8 +80,16 @@
   outline: none;
   box-shadow: var(
     --glass-elev-treeitem-focus,
-    0 0 0 2px var(--glass-treeitem-focus-inner, rgba(148, 163, 184, 0.45)),
-    0 0 0 6px var(--glass-treeitem-focus-outer, rgba(99, 102, 241, 0.28))
+    0 0 0 2px
+      var(
+        --glass-treeitem-focus-inner,
+        color-mix(in srgb, var(--glass-gray-500) 45%, transparent)
+      ),
+    0 0 0 6px
+      var(
+        --glass-treeitem-focus-outer,
+        color-mix(in srgb, var(--glass-color-primary) 28%, transparent)
+      )
   );
 }
 

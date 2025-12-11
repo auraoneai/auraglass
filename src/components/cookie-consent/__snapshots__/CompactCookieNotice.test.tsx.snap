@@ -4,7 +4,7 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
 <div
   aria-hidden="false"
   class="container positionBottomLeft"
-  style="--cookie-blur-scale: 0.6; --cookie-box-shadow: 0 10px 14.40px rgba(15, 23, 42, 0.16); opacity: 0; transform: translateY(15px);"
+  style="--cookie-blur-scale: 0.6; --cookie-box-shadow: 0 10px 14.40px color-mix(in srgb, var(--glass-black) 16%, transparent); opacity: 0; transform: translateY(15px);"
 >
   <p
     class="glass-text-primary glass-text-base"
@@ -15,21 +15,21 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
     class="buttonGroup"
   >
     <div
-      class="motion-primitive inline-block"
+      class="motion-primitive glass-inline-glass-block"
       data-glass-component="true"
     >
       <button
-        class="inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-link hover:glass-text-link-hover underline-offset-4 hover:underline glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-link hover:glass-text-link-hover underline-offset-4 hover:underline glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
         id="glass-button-:ra:"
       >
         More Info
       </button>
     </div>
     <div
-      class="motion-primitive inline-block"
+      class="motion-primitive glass-inline-glass-block"
     >
       <button
-        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
         data-caustics="true"
         data-magnet="true"
         data-performance-mode="ultra"
@@ -37,7 +37,7 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
         style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
       >
         <span
-          class="relative z-10"
+          class="glass-relative glass-z-10"
         >
           Accept
         </span>

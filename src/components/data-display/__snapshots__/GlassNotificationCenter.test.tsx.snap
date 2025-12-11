@@ -7,7 +7,7 @@ exports[`GlassNotificationCenter matches snapshot 1`] = `
   data-empty="true"
 >
   <span
-    class="sr-only"
+    class="glass-sr-only"
   >
     No notifications
   </span>

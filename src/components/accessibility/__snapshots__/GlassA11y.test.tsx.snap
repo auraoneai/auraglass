@@ -7,13 +7,13 @@ exports[`GlassA11y matches snapshot 1`] = `
 >
   <button
     aria-label="Toggle accessibility controls"
-    class="glass-foundation-complete glass-w-14 glass-h-14 glass-radius-full flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl glass-transition glass-focus glass-press glass-magnet glass-surface-transparent glass-text-secondary glass-border-subtle"
+    class="glass-foundation-complete glass-w-14 glass-glass-h-14 glass-radius-full flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl glass-transition glass-focus glass-press glass-magnet glass-surface-transparent glass-text-secondary glass-border-subtle"
     tabindex="0"
     title="Accessibility Settings"
   >
     <svg
       aria-hidden="true"
-      class="lucide lucide-accessibility w-6 h-6"
+      class="lucide lucide-accessibility glass-w-6 glass-h-6"
       fill="none"
       height="24"
       stroke="currentColor"
@@ -45,7 +45,7 @@ exports[`GlassA11y matches snapshot 1`] = `
   </button>
   <div
     aria-live="polite"
-    class="sr-only"
+    class="glass-sr-only"
     role="region"
   >
     Press Alt+A to open accessibility controls

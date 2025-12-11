@@ -18,7 +18,7 @@ exports[`GlassAvatar matches snapshot 1`] = `
       class="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-full"
     >
       <div
-        class="w-4 h-4 glass-surface-subtle/30 glass-radius-md"
+        class="glass-w-4 glass-h-4 glass-surface-subtle/30 glass-radius-md"
       />
     </div>
   </div>

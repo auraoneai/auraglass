@@ -7,14 +7,14 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
   role="region"
 >
   <div
-    class="glass-flex glass-items-center glass-justify-between mb-6"
+    class="glass-flex glass-items-center glass-justify-between glass-mb-6"
   >
     <div
       class="glass-flex glass-items-center glass-gap-2"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-funnel w-5 h-5 text-primary/70"
+        class="lucide lucide-funnel glass-w-5 glass-h-5 glass-text-primary-opacity-70"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -30,7 +30,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
         />
       </svg>
       <h3
-        class="font-semibold text-primary"
+        class="glass-font-semibold glass-text-primary"
       >
         Filters
       </h3>
@@ -39,11 +39,11 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
       class="glass-flex glass-items-center glass-gap-2"
     >
       <div
-        class="motion-primitive inline-block"
+        class="motion-primitive glass-inline-glass-block"
       >
         <button
           aria-disabled="true"
-          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-focus glass-touch-target"
+          class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-focus glass-touch-target"
           data-caustics="true"
           data-magnet="true"
           data-performance-mode="ultra"
@@ -52,7 +52,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
         >
           <span
-            class="relative z-10"
+            class="glass-relative glass-z-10"
           >
             Apply Filters
           </span>
@@ -61,7 +61,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="mb-4"
+    class="glass-mb-4"
   >
     <div
       class="relative glass-w-full"
@@ -78,7 +78,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-search w-4 h-4"
+            class="lucide lucide-search glass-w-4 glass-h-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -101,7 +101,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
         </div>
         <input
           aria-label="Search filters..."
-          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
           id="glass-input-:r7:"
           placeholder="Search filters..."
           value=""

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 // Typography tokens available via typography.css (imported in index.css)
 import React, {
   forwardRef,
@@ -21,6 +21,8 @@ import { GlassModal as Modal } from "../modal/GlassModal";
 import { GlassCheckbox as Checkbox } from "../input/GlassCheckbox";
 
 import { GlobalCookieConsentProps, CookieCategory } from "./types";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Cookie management utilities
 const setCookie = (name: string, value: string, days: number): void => {
@@ -266,7 +268,7 @@ export const GlobalCookieConsent = forwardRef<
       const shadowDepth = (32 * depth).toFixed(2);
       return {
         "--cookie-blur-scale": depth,
-        "--cookie-box-shadow": `0 12px ${shadowDepth}px rgba(15, 23, 42, 0.18)`,
+        "--cookie-box-shadow": `0 12px ${shadowDepth}px color-mix(in srgb, var(--glass-black) 18%, transparent)`,
       } as React.CSSProperties;
     }, [glassIntensity]);
 
@@ -319,7 +321,7 @@ export const GlobalCookieConsent = forwardRef<
                 }
                 disabled={category.required}
               />
-              <Typography variant="span" className='glass-font-semibold'>
+              <Typography variant="span" className="glass-font-semibold">
                 {category.name} {category.required && <em>(Required)</em>}
               </Typography>
             </div>
@@ -360,7 +362,7 @@ export const GlobalCookieConsent = forwardRef<
           {...rest}
         >
           <Box>
-            <Typography variant="h6" className='glass-mb-2 glass-font-semibold'>
+            <Typography variant="h6" className="glass-mb-2 glass-font-semibold">
               {title}
             </Typography>
 
@@ -438,8 +440,8 @@ export const GlobalCookieConsent = forwardRef<
             open={showDetailsModal}
             onClose={() => setShowDetailsModal(false)}
           >
-            <div className='dialog-container'>
-              <div className='dialog-header'>
+            <div className="dialog-container">
+              <div className="dialog-header">
                 <Typography variant="h6">Cookie Settings</Typography>
                 <Button
                   variant="ghost"
@@ -449,8 +451,8 @@ export const GlobalCookieConsent = forwardRef<
                   ×
                 </Button>
               </div>
-              <div className='dialog-content'>{renderCategories()}</div>
-              <div className='dialog-actions'>
+              <div className="dialog-content">{renderCategories()}</div>
+              <div className="dialog-actions">
                 <Button
                   variant="outline"
                   onClick={(e) => setShowDetailsModal(false)}

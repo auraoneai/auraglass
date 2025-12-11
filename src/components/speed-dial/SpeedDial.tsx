@@ -1,40 +1,56 @@
-'use client';
-import React, { forwardRef, useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { cn } from '@/lib/utils';
+"use client";
+import React, {
+  forwardRef,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
+import { cn } from "@/lib/utils";
 
-import SpeedDialAction from './SpeedDialAction';
-import SpeedDialIcon from './SpeedDialIcon';
-import { SpeedDialProps, SpeedDialActionProps } from './types';
-import styles from './SpeedDial.module.css';
+import SpeedDialAction from "./SpeedDialAction";
+import SpeedDialIcon from "./SpeedDialIcon";
+import { SpeedDialProps, SpeedDialActionProps } from "./types";
+import styles from "./SpeedDial.module.css";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 const COLOR_VARIANT_CLASS: Record<string, keyof typeof styles> = {
-  primary: 'fabSolidPrimary',
-  secondary: 'fabSolidSecondary',
-  error: 'fabSolidError',
-  info: 'fabSolidInfo',
-  success: 'fabSolidSuccess',
-  warning: 'fabSolidWarning',
-  default: 'fabSolidDefault',
+  primary: "fabSolidPrimary",
+  secondary: "fabSolidSecondary",
+  error: "fabSolidError",
+  info: "fabSolidInfo",
+  success: "fabSolidSuccess",
+  warning: "fabSolidWarning",
+  default: "fabSolidDefault",
 };
 
-const resolvePositionStyle = (position: SpeedDialProps['position']) => {
+const resolvePositionStyle = (position: SpeedDialProps["position"]) => {
   if (!position) return undefined;
   const entries = Object.entries(position);
   if (entries.length === 0) return undefined;
   return entries.reduce<Record<string, string>>((acc, [key, value]) => {
     if (value === undefined) return acc;
-    acc[key] = typeof value === 'number' ? `${value}px` : value;
+    acc[key] = typeof value === "number" ? `${value}px` : value;
     return acc;
   }, {});
 };
 
-const mergeRefs = <T,>(
-  ...refs: Array<React.ForwardedRef<T> | React.MutableRefObject<T | null> | null | undefined>
-) =>
+const mergeRefs =
+  <T,>(
+    ...refs: Array<
+      | React.ForwardedRef<T>
+      | React.MutableRefObject<T | null>
+      | null
+      | undefined
+    >
+  ) =>
   (value: T | null) => {
     refs.forEach((ref) => {
       if (!ref) return;
-      if (typeof ref === 'function') {
+      if (typeof ref === "function") {
         ref(value);
       } else {
         (ref as React.MutableRefObject<T | null>).current = value;
@@ -45,7 +61,10 @@ const mergeRefs = <T,>(
 /**
  * SpeedDial Component Implementation
  */
-function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLDivElement>) {
+function SpeedDialComponent(
+  props: SpeedDialProps,
+  ref: React.ForwardedRef<HTMLDivElement>
+) {
   const {
     className,
     style,
@@ -53,15 +72,15 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
     children,
     defaultOpen = false,
     open: controlledOpen,
-    direction = 'up',
+    direction = "up",
     disabled = false,
     onOpen,
     onClose,
     onActionClick,
     hideOnScroll = false,
     position = { bottom: 16, right: 16 },
-    size = 'medium',
-    color = 'default',
+    size = "medium",
+    color = "default",
     glass = false,
     glassActions = false,
     showTooltips = true,
@@ -137,11 +156,13 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
   useEffect(() => {
     if (!hideOnScroll) return;
 
-    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let lastScrollTop =
+      window.pageYOffset || document.documentElement.scrollTop;
     let scrollTimer: number | undefined;
 
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
 
       if (scrollTop > lastScrollTop + 10) {
         // Scrolling down
@@ -169,10 +190,10 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
       }, 1000);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       if (scrollTimer) {
         window.clearTimeout(scrollTimer);
       }
@@ -182,7 +203,7 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
   // Handle keyboard events
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && open) {
+      if (event.key === "Escape" && open) {
         if (!isControlled) {
           setInternalOpen(false);
         }
@@ -193,10 +214,10 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [open, isControlled, onClose]);
 
@@ -214,9 +235,9 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
         ref={mergeRefs(ref, rootRef)}
         className={cn(
           styles.root,
-          'glass-speed-dial',
+          "glass-speed-dial",
           !visible && styles.hidden,
-          className,
+          className
         )}
         style={{ ...resolvePositionStyle(position), ...(style ?? {}) }}
         {...rest}
@@ -226,17 +247,20 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
             className={cn(
               styles.actions,
               open && styles.actionsOpen,
-              direction === 'up' || direction === 'down'
+              direction === "up" || direction === "down"
                 ? styles.actionsVertical
-                : styles.actionsHorizontal,
+                : styles.actionsHorizontal
             )}
             aria-hidden={!open}
           >
             {React.Children.toArray(children).map((child, index) => {
               // Check if the action is a valid React element before rendering
               if (!React.isValidElement(child)) {
-                if (process.env.NODE_ENV === 'development') {
-                  console.warn('Invalid element passed as child to SpeedDial:', child);
+                if (process.env.NODE_ENV === "development") {
+                  console.warn(
+                    "Invalid element passed as child to SpeedDial:",
+                    child
+                  );
                 }
                 return null;
               }
@@ -248,7 +272,7 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
                 <SpeedDialAction
                   key={child.key || index}
                   {...actionProps}
-                  onClick={event => handleActionClick(event, index)}
+                  onClick={(event) => handleActionClick(event, index)}
                   glass={glassActions}
                   index={index}
                   totalActions={React.Children.count(children)}
@@ -273,10 +297,10 @@ function SpeedDialComponent(props: SpeedDialProps, ref: React.ForwardedRef<HTMLD
             className={cn(
               styles.fab,
               glass ? styles.fabGlass : colorClass,
-              size === 'small' && styles.fabSmall,
-              size === 'medium' && styles.fabMedium,
-              size === 'large' && styles.fabLarge,
-              disabled && styles.fabDisabled,
+              size === "small" && styles.fabSmall,
+              size === "medium" && styles.fabMedium,
+              size === "large" && styles.fabLarge,
+              disabled && styles.fabDisabled
             )}
           >
             <SpeedDialIcon icon={icon} open={open} />
@@ -299,11 +323,13 @@ const SpeedDial = forwardRef(SpeedDialComponent);
  *
  * Glass variant of the SpeedDial component.
  */
-const GlassSpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>((props, ref) => (
-  <SpeedDial {...props} glass={true} glassActions={true} ref={ref} />
-));
+const GlassSpeedDial = forwardRef<HTMLDivElement, SpeedDialProps>(
+  (props, ref) => (
+    <SpeedDial {...props} glass={true} glassActions={true} ref={ref} />
+  )
+);
 
-GlassSpeedDial.displayName = 'GlassSpeedDial';
+GlassSpeedDial.displayName = "GlassSpeedDial";
 
 export default SpeedDial;
 export { SpeedDial, GlassSpeedDial };

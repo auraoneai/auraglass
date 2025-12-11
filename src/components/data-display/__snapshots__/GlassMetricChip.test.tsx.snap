@@ -7,14 +7,26 @@ exports[`GlassMetricChip matches snapshot 1`] = `
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <span
-    class="glass-text-xs text-primary/70"
+    class="contrast-guard"
+    data-contrast-level="AA"
+    data-glass-component="true"
   >
-    Metric
+    <span
+      class="glass-text-xs glass-text-primary-opacity-70"
+    >
+      Metric
+    </span>
   </span>
   <span
-    class="font-semibold glass-text-primary"
+    class="contrast-guard"
+    data-contrast-level="AA"
+    data-glass-component="true"
   >
-    --
+    <span
+      class="font-semibold glass-text-primary"
+    >
+      --
+    </span>
   </span>
 </div>
 `;

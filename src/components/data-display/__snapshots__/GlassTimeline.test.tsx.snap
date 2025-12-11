@@ -15,7 +15,7 @@ exports[`GlassTimeline matches snapshot 1`] = `
     role="list"
   >
     <li
-      class="relative"
+      class="glass-relative"
       role="listitem"
     >
       <span
@@ -30,33 +30,51 @@ exports[`GlassTimeline matches snapshot 1`] = `
           class="glass-flex glass-items-start glass-justify-between glass-gap-4"
         >
           <div
-            class="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1"
+            class="glass-flex glass-items-start glass-gap-3 glass-min-glass-w-0 glass-flex-1"
           >
             <div
-              class="glass-min-w-0 glass-flex-1"
+              class="glass-min-glass-w-0 glass-flex-1"
             >
               <div
                 class="font-medium text-foreground glass-text-base"
               >
-                Event 1
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
+                >
+                  Event 1
+                </span>
               </div>
-              <div
-                class="glass-text-secondary glass-mt-1 glass-text-sm"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Description 1
-              </div>
+                <div
+                  class="glass-text-secondary glass-mt-1 glass-text-sm"
+                >
+                  Description 1
+                </div>
+              </span>
             </div>
           </div>
           <div
             class="glass-text-secondary whitespace-nowrap glass-text-xs"
           >
-            2024-01-01
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              2024-01-01
+            </span>
           </div>
         </div>
       </div>
     </li>
     <li
-      class="relative"
+      class="glass-relative"
       role="listitem"
     >
       <span
@@ -71,33 +89,51 @@ exports[`GlassTimeline matches snapshot 1`] = `
           class="glass-flex glass-items-start glass-justify-between glass-gap-4"
         >
           <div
-            class="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1"
+            class="glass-flex glass-items-start glass-gap-3 glass-min-glass-w-0 glass-flex-1"
           >
             <div
-              class="glass-min-w-0 glass-flex-1"
+              class="glass-min-glass-w-0 glass-flex-1"
             >
               <div
                 class="font-medium text-foreground glass-text-base"
               >
-                Event 2
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
+                >
+                  Event 2
+                </span>
               </div>
-              <div
-                class="glass-text-secondary glass-mt-1 glass-text-sm"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Description 2
-              </div>
+                <div
+                  class="glass-text-secondary glass-mt-1 glass-text-sm"
+                >
+                  Description 2
+                </div>
+              </span>
             </div>
           </div>
           <div
             class="glass-text-secondary whitespace-nowrap glass-text-xs"
           >
-            2024-01-02
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              2024-01-02
+            </span>
           </div>
         </div>
       </div>
     </li>
     <li
-      class="relative"
+      class="glass-relative"
       role="listitem"
     >
       <span
@@ -112,27 +148,45 @@ exports[`GlassTimeline matches snapshot 1`] = `
           class="glass-flex glass-items-start glass-justify-between glass-gap-4"
         >
           <div
-            class="glass-flex glass-items-start glass-gap-3 glass-min-w-0 glass-flex-1"
+            class="glass-flex glass-items-start glass-gap-3 glass-min-glass-w-0 glass-flex-1"
           >
             <div
-              class="glass-min-w-0 glass-flex-1"
+              class="glass-min-glass-w-0 glass-flex-1"
             >
               <div
                 class="font-medium text-foreground glass-text-base"
               >
-                Event 3
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
+                >
+                  Event 3
+                </span>
               </div>
-              <div
-                class="glass-text-secondary glass-mt-1 glass-text-sm"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                Description 3
-              </div>
+                <div
+                  class="glass-text-secondary glass-mt-1 glass-text-sm"
+                >
+                  Description 3
+                </div>
+              </span>
             </div>
           </div>
           <div
             class="glass-text-secondary whitespace-nowrap glass-text-xs"
           >
-            2024-01-03
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              2024-01-03
+            </span>
           </div>
         </div>
       </div>

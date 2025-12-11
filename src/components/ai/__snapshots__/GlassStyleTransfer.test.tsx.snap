@@ -10,24 +10,24 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
   >
     <div>
       <h3
-        class="glass-text-xl font-semibold text-primary/90"
+        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         Style Transfer AI
       </h3>
       <p
-        class="glass-text-sm text-primary/60"
+        class="glass-text-sm glass-text-primary-glass-opacity-60"
       >
         Transform your images with artistic styles
       </p>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-2"
+      class="glass-flex glass-items-center glass-space-x-2"
     >
       <div
-        class="glass-flex glass-items-center space-x-1 text-primary"
+        class="glass-flex glass-items-center glass-space-x-1 glass-text-primary"
       >
         <div
-          class="w-2 h-2 glass-surface-green glass-radius-full animate-pulse"
+          class="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse"
         />
         <span
           class="glass-text-xs"
@@ -38,27 +38,27 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-grid glass-grid-cols-1 lg:grid-cols-2 glass-gap-6"
+    class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6"
   >
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <h4
-        class="glass-text-sm font-medium text-primary/80"
+        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
       >
         Source Image
       </h4>
       <div
-        class="relative aspect-square glass-surface-subtle/5 glass-border-2 glass-border-dashed glass-border-white/30 glass-radius-lg overflow-hidden cursor-pointer hover:border-white/50 transition-colors"
+        class="glass-relative glass-aspect-square glass-surface-subtle/5 glass-border-2 glass-border-dashed glass-border-white/30 glass-radius-lg glass-overflow-hidden glass-cursor-pointer hover:glass-border-white/50 glass-transition-colors"
       >
         <div
-          class="glass-flex glass-items-center glass-justify-center glass-h-full text-primary/50"
+          class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50"
         >
           <div
-            class="text-center"
+            class="glass-text-center"
           >
             <div
-              class="glass-text-4xl mb-2"
+              class="glass-text-4xl glass-mb-2"
             >
               📷
             </div>
@@ -66,7 +66,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
               Click to upload image
             </p>
             <p
-              class="glass-text-xs mt-1"
+              class="glass-text-xs glass-mt-1"
             >
               PNG, JPG up to 10MB
             </p>
@@ -75,34 +75,34 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         <input
           accept="image/*"
           aria-label="Upload image file"
-          class="hidden glass-touch-target glass-contrast-guard"
+          class="glass-hidden glass-touch-target glass-contrast-guard"
           type="file"
         />
       </div>
     </div>
     <div
-      class="space-y-4"
+      class="glass-space-y-4"
     >
       <div
         class="glass-flex glass-items-center glass-justify-between"
       >
         <h4
-          class="glass-text-sm font-medium text-primary/80"
+          class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
         >
           Style Preview
         </h4>
       </div>
       <div
-        class="relative aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+        class="glass-relative glass-aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden"
       >
         <div
-          class="glass-flex glass-items-center glass-justify-center glass-h-full text-primary/50"
+          class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50"
         >
           <div
-            class="text-center"
+            class="glass-text-center"
           >
             <div
-              class="glass-text-4xl mb-2"
+              class="glass-text-4xl glass-mb-2"
             >
               🎨
             </div>
@@ -113,22 +113,22 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         </div>
       </div>
       <canvas
-        class="hidden"
+        class="glass-hidden"
         height="512"
         width="512"
       />
     </div>
   </div>
   <div
-    class="space-y-4"
+    class="glass-space-y-4"
   >
     <h4
-      class="glass-text-sm font-medium text-primary/80"
+      class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
     >
       Style Library
     </h4>
     <div
-      class="glass-grid glass-grid-cols-2 md:grid-cols-3 glass-gap-3"
+      class="glass-grid glass-grid-cols-2 md:glass-grid-cols-3 glass-gap-3"
     >
       <div
         class="
@@ -138,7 +138,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         tabindex="0"
       >
         <div
-          class="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden"
+          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
         >
           <div
             class="
@@ -148,17 +148,17 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-text-xs text-primary/90 font-medium mb-1"
+          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
         >
           Van Gogh Starry Night
         </div>
         <div
-          class="glass-text-xs text-primary/60"
+          class="glass-text-xs glass-text-primary-glass-opacity-60"
         >
           Impressionistic swirls and bold brushstrokes
         </div>
         <div
-          class="absolute glass-top-2 right-2"
+          class="glass-absolute glass-top-2 glass-right-2"
         >
           <div
             class="
@@ -178,7 +178,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         tabindex="0"
       >
         <div
-          class="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden"
+          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
         >
           <div
             class="
@@ -188,17 +188,17 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-text-xs text-primary/90 font-medium mb-1"
+          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
         >
           Picasso Cubism
         </div>
         <div
-          class="glass-text-xs text-primary/60"
+          class="glass-text-xs glass-text-primary-glass-opacity-60"
         >
           Geometric fragmentation and multiple perspectives
         </div>
         <div
-          class="absolute glass-top-2 right-2"
+          class="glass-absolute glass-top-2 glass-right-2"
         >
           <div
             class="
@@ -218,7 +218,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         tabindex="0"
       >
         <div
-          class="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden"
+          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
         >
           <div
             class="
@@ -228,17 +228,17 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-text-xs text-primary/90 font-medium mb-1"
+          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
         >
           Monet Water Lilies
         </div>
         <div
-          class="glass-text-xs text-primary/60"
+          class="glass-text-xs glass-text-primary-glass-opacity-60"
         >
           Soft impressionistic light and color
         </div>
         <div
-          class="absolute glass-top-2 right-2"
+          class="glass-absolute glass-top-2 glass-right-2"
         >
           <div
             class="
@@ -258,7 +258,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         tabindex="0"
       >
         <div
-          class="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden"
+          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
         >
           <div
             class="
@@ -268,17 +268,17 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-text-xs text-primary/90 font-medium mb-1"
+          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
         >
           Film Noir
         </div>
         <div
-          class="glass-text-xs text-primary/60"
+          class="glass-text-xs glass-text-primary-glass-opacity-60"
         >
           High contrast black and white cinematography
         </div>
         <div
-          class="absolute glass-top-2 right-2"
+          class="glass-absolute glass-top-2 glass-right-2"
         >
           <div
             class="
@@ -298,7 +298,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         tabindex="0"
       >
         <div
-          class="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden"
+          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
         >
           <div
             class="
@@ -308,17 +308,17 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-text-xs text-primary/90 font-medium mb-1"
+          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
         >
           Synthwave
         </div>
         <div
-          class="glass-text-xs text-primary/60"
+          class="glass-text-xs glass-text-primary-glass-opacity-60"
         >
           Retro-futuristic neon aesthetics
         </div>
         <div
-          class="absolute glass-top-2 right-2"
+          class="glass-absolute glass-top-2 glass-right-2"
         >
           <div
             class="
@@ -338,7 +338,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         tabindex="0"
       >
         <div
-          class="aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg mb-2 overflow-hidden"
+          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
         >
           <div
             class="
@@ -348,17 +348,17 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-text-xs text-primary/90 font-medium mb-1"
+          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
         >
           Kandinsky Abstract
         </div>
         <div
-          class="glass-text-xs text-primary/60"
+          class="glass-text-xs glass-text-primary-glass-opacity-60"
         >
           Geometric abstraction with vibrant colors
         </div>
         <div
-          class="absolute glass-top-2 right-2"
+          class="glass-absolute glass-top-2 glass-right-2"
         >
           <div
             class="
@@ -373,19 +373,19 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="space-y-4"
+    class="glass-space-y-4"
   >
     <h4
-      class="glass-text-sm font-medium text-primary/80"
+      class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
     >
       Advanced Controls
     </h4>
     <div
-      class="glass-grid glass-grid-cols-1 md:grid-cols-2 glass-gap-4"
+      class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4"
     >
       <div>
         <label
-          class="block glass-text-xs text-primary/70 mb-2"
+          class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
         >
           Transfer Strength: 
           70
@@ -393,7 +393,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         </label>
         <input
           aria-label="Transfer Strength: 70%"
-          class="glass-w-full h-2 glass-surface-subtle/20 glass-radius-lg appearance-none cursor-pointer slider"
+          class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-slider"
           max="1"
           min="0"
           step="0.1"
@@ -403,13 +403,13 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
       </div>
       <div>
         <label
-          class="block glass-text-xs text-primary/70 mb-2"
+          class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
         >
           Resolution
         </label>
         <select
           aria-label="Resolution"
-          class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+          class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
         >
           <option
             value="low"
@@ -435,13 +435,13 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
       </div>
       <div>
         <label
-          class="block glass-text-xs text-primary/70 mb-2"
+          class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
         >
           Blend Mode
         </label>
         <select
           aria-label="Blend Mode"
-          class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg text-primary/90 glass-text-sm"
+          class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
         >
           <option
             value="normal"
@@ -472,31 +472,31 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="glass-flex glass-items-center space-x-6"
+      class="glass-flex glass-items-center glass-space-x-6"
     >
       <label
-        class="glass-flex glass-items-center space-x-2 cursor-pointer"
+        class="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer"
       >
         <input
-          class="w-4 h-4 glass-radius glass-border-white/30"
+          class="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
           type="checkbox"
         />
         <span
-          class="glass-text-sm text-primary/80"
+          class="glass-text-sm glass-text-primary-glass-opacity-80"
         >
           Preserve Colors
         </span>
       </label>
       <label
-        class="glass-flex glass-items-center space-x-2 cursor-pointer"
+        class="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer"
       >
         <input
           checked=""
-          class="w-4 h-4 glass-radius glass-border-white/30"
+          class="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
           type="checkbox"
         />
         <span
-          class="glass-text-sm text-primary/80"
+          class="glass-text-sm glass-text-primary-glass-opacity-80"
         >
           Enhance Details
         </span>
@@ -504,20 +504,20 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-flex glass-items-center glass-justify-between pt-4 glass-border-t glass-border-white/10"
+    class="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10"
   >
     <div
-      class="glass-flex glass-items-center space-x-4"
+      class="glass-flex glass-items-center glass-space-x-4"
     >
       <button
-        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue text-primary glass-radius-lg glass-text-sm font-medium transition-colors"
+        class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
         disabled=""
         tabindex="0"
       >
         Apply Style
       </button>
       <button
-        class="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:border-white/50 text-primary/80 glass-radius-lg glass-text-sm transition-colors"
+        class="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
         tabindex="0"
       >
         Clear

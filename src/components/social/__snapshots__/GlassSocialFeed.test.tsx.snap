@@ -6,30 +6,30 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="glass-p-4 space-y-4"
+    class="glass-p-4 glass-space-y-4"
   >
     <div
       class="glass-flex glass-items-center glass-justify-between"
     >
       <h2
-        class="glass-text-lg font-semibold text-primary/90"
+        class="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         Social Feed (
         1
         )
       </h2>
       <div
-        class="glass-flex glass-items-center space-x-2 glass-text-sm"
+        class="glass-flex glass-items-center glass-space-x-2 glass-text-sm"
       >
         <label
-          class="sr-only"
+          class="glass-sr-only"
           for="glass-social-sort-:rd:"
         >
           Sort posts by
         </label>
         <select
           aria-label="Sort posts by"
-          class="glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-px-2 glass-py-1 text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-px-2 glass-py-1 glass-text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
           id="glass-social-sort-:rd:"
         >
           <option
@@ -58,17 +58,17 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
     >
       <div
         class="
-            relative p-4 rounded-lg cursor-pointer transition-all duration-200
+            relative p-4 rounded-lg cursor-pointer transition-all duration-[150ms]
             [object Object]
             hover:bg-white/5 border border-white/10
           "
         style="opacity: 0; transform: translateY(20px);"
       >
         <div
-          class="glass-flex glass-items-start space-x-3 mb-3"
+          class="glass-flex glass-items-start glass-space-x-3 glass-mb-3"
         >
           <div
-            class="relative cursor-pointer"
+            class="glass-relative glass-cursor-pointer"
             tabindex="0"
           >
             <div
@@ -83,10 +83,10 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="glass-flex-1 glass-min-w-0"
+            class="glass-flex-1 glass-min-glass-w-0"
           >
             <div
-              class="glass-flex glass-items-center space-x-2"
+              class="glass-flex glass-items-center glass-space-x-2"
             >
               <h3
                 class="
@@ -106,7 +106,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
                 user1
               </span>
               <div
-                class="w-2 h-2 glass-radius-full"
+                class="glass-w-2 glass-h-2 glass-radius-full"
                 title="medium engagement"
               />
             </div>
@@ -121,7 +121,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="mb-3"
+          class="glass-mb-3"
         >
           <p
             class="
@@ -133,14 +133,14 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
           </p>
         </div>
         <div
-          class="glass-flex glass-items-center glass-justify-between pt-3 glass-border-t glass-border-white/10"
+          class="glass-flex glass-items-center glass-justify-between glass-pt-3 glass-border-t glass-border-white/10"
         >
           <div
-            class="glass-flex glass-items-center space-x-6"
+            class="glass-flex glass-items-center glass-space-x-6"
           >
             <button
               class="
-                    flex items-center space-x-2 text-sm transition-colors duration-200
+                    flex items-center space-x-2 text-sm transition-colors duration-[150ms]
                     text-white/60 hover:text-red-400
                   "
               tabindex="0"
@@ -153,7 +153,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
               </span>
             </button>
             <button
-              class="glass-flex glass-items-center space-x-2 glass-text-sm text-primary/60 hover:text-primary transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-transition-colors glass-duration-200 glass-focus glass-touch-target glass-contrast-guard"
             >
               <span>
                 💬
@@ -164,7 +164,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
             </button>
             <button
               class="
-                    flex items-center space-x-2 text-sm transition-colors duration-200
+                    flex items-center space-x-2 text-sm transition-colors duration-[150ms]
                     text-white/60 hover:text-green-400
                   "
               tabindex="0"
@@ -178,7 +178,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
             </button>
           </div>
           <div
-            class="glass-flex glass-items-center space-x-2 glass-text-sm text-primary/50"
+            class="glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-primary-glass-opacity-50"
           >
             <span>
               📈

@@ -2,6 +2,8 @@
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
 import React, {
   createContext,
   useCallback,
@@ -66,7 +68,8 @@ const defaultPalette: ColorPalette = {
   textSecondary: "var(--glass-text-on-dark-secondary, #cbd5e1)",
   border: "var(--glass-bg-default)",
   glassBase: "var(--glass-bg-default)",
-  glassTint: "var(--glass-glow-tint, rgba(255, 255, 255, 0.05))",
+  glassTint:
+    "var(--glass-glow-tint, color-mix(in srgb, var(--glass-white) 5%, transparent))",
 };
 
 // Dark theme palette with high contrast text colors
@@ -77,10 +80,12 @@ const darkThemePalette: ColorPalette = {
   background: "var(--glass-surface-deeper, #020617)",
   surface: "var(--glass-surface-elevated, #1e293b)",
   text: "var(--glass-text-primary)",
-  textSecondary: "var(--glass-text-secondary, rgba(255, 255, 255, 0.80))",
+  textSecondary:
+    "var(--glass-text-secondary, color-mix(in srgb, var(--glass-white) 80%, transparent))",
   border: "var(--glass-bg-disabled)",
   glassBase: "var(--glass-bg-disabled)",
-  glassTint: "var(--glass-glow-tint-strong, rgba(255, 255, 255, 0.08))",
+  glassTint:
+    "var(--glass-glow-tint-strong, color-mix(in srgb, var(--glass-white) 8%, transparent))",
 };
 
 const IntelligentColorContext =
@@ -267,7 +272,7 @@ export const IntelligentColorProvider: React.FC<{
   const [config, setConfig] = useState<ColorAdaptationConfig>({
     enabled: true,
     sensitivity: 0.7,
-    transitionDuration: 0.8,
+    transitionDuration: (ANIMATION.DURATION.slow * 1.6) / 1000,
     preserveAccessibility: true,
     contextualAwareness: true,
     timeBasedShifts: true,
@@ -384,8 +389,8 @@ export const IntelligentColorProvider: React.FC<{
             );
             newPalette.secondary = hslToHex((h + 30) % 360, s * 0.8, l * 0.9);
             newPalette.accent = hslToHex((h + 120) % 360, s * 1.1, l * 0.85);
-            newPalette.glassBase = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
-            newPalette.glassTint = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.05)`;
+            newPalette.glassBase = `color-mix(in srgb, rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}) 10%, transparent)`;
+            newPalette.glassTint = `color-mix(in srgb, rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}) 5%, transparent)`;
           }
         }
 
@@ -411,12 +416,14 @@ export const IntelligentColorProvider: React.FC<{
           timeBasePalette.primary = "var(--glass-color-primary)";
           timeBasePalette.glassBase = "var(--glass-color-primary, 0.1)";
         } else if (hour >= 17 && hour < 21) {
-          timeBasePalette.primary = "#f97316";
-          timeBasePalette.glassBase = "rgba(249, 115, 22, 0.1)";
+          timeBasePalette.primary = "var(--glass-color-warning)";
+          timeBasePalette.glassBase =
+            "color-mix(in srgb, var(--glass-color-warning) 10%, transparent)";
         } else {
-          timeBasePalette.primary = "#6366f1";
-          timeBasePalette.background = "#020617";
-          timeBasePalette.glassBase = "rgba(99, 102, 241, 0.08)";
+          timeBasePalette.primary = "var(--glass-color-primary)";
+          timeBasePalette.background = "var(--glass-black)";
+          timeBasePalette.glassBase =
+            "color-mix(in srgb, var(--glass-color-primary) 8%, transparent)";
         }
         return timeBasePalette;
       });
@@ -433,27 +440,30 @@ export const IntelligentColorProvider: React.FC<{
           case "spring":
             seasonPalette.primary = "var(--glass-color-success)";
             seasonPalette.secondary = "var(--glass-color-warning)";
-            seasonPalette.accent = "#ec4899";
+            seasonPalette.accent = "var(--glass-color-secondary)";
             seasonPalette.glassBase = "var(--glass-color-success, 0.1)";
             break;
           case "summer":
-            seasonPalette.primary = "#06b6d4";
+            seasonPalette.primary = "var(--glass-color-info)";
             seasonPalette.secondary = "var(--glass-color-warning)";
             seasonPalette.accent = "var(--glass-color-danger)";
-            seasonPalette.glassBase = "rgba(6, 182, 212, 0.1)";
+            seasonPalette.glassBase =
+              "color-mix(in srgb, var(--glass-color-info) 10%, transparent)";
             break;
           case "autumn":
-            seasonPalette.primary = "#f97316";
-            seasonPalette.secondary = "#eab308";
+            seasonPalette.primary = "var(--glass-color-warning)";
+            seasonPalette.secondary = "var(--glass-color-warning)";
             seasonPalette.accent = "var(--glass-color-danger-dark)";
-            seasonPalette.glassBase = "rgba(249, 115, 22, 0.1)";
+            seasonPalette.glassBase =
+              "color-mix(in srgb, var(--glass-color-warning) 10%, transparent)";
             break;
           case "winter":
-            seasonPalette.primary = "#6366f1";
-            seasonPalette.secondary = "#06b6d4";
-            seasonPalette.accent = "#8b5cf6";
-            seasonPalette.background = "#020617";
-            seasonPalette.glassBase = "rgba(99, 102, 241, 0.08)";
+            seasonPalette.primary = "var(--glass-color-primary)";
+            seasonPalette.secondary = "var(--glass-color-info)";
+            seasonPalette.accent = "var(--glass-color-secondary)";
+            seasonPalette.background = "var(--glass-black)";
+            seasonPalette.glassBase =
+              "color-mix(in srgb, var(--glass-color-primary) 8%, transparent)";
             break;
         }
         return seasonPalette;
@@ -495,8 +505,8 @@ export const IntelligentColorProvider: React.FC<{
                 brandPalette.accent = color;
                 break;
             }
-            brandPalette.glassBase = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.1)`;
-            brandPalette.glassTint = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.05)`;
+            brandPalette.glassBase = `color-mix(in srgb, rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}) 10%, transparent)`;
+            brandPalette.glassTint = `color-mix(in srgb, rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}) 5%, transparent)`;
           }
         });
         return brandPalette;
@@ -596,7 +606,7 @@ export const IntelligentColorProvider: React.FC<{
 
       if (hasRelevantChange) {
         // Debounce the theme check
-        setTimeout(checkThemeAndUpdate, 50);
+        setTimeout(checkThemeAndUpdate, ANIMATION.DURATION.fast / 3);
       }
     });
 
@@ -618,7 +628,7 @@ export const IntelligentColorProvider: React.FC<{
 
       updateTime();
       // Reduce frequency to every 5 minutes for better performance
-      const interval = setInterval(updateTime, 300000);
+      const interval = setInterval(updateTime, ANIMATION.DURATION.slower * 428);
 
       return () => clearInterval(interval);
     }
@@ -730,8 +740,8 @@ export const ColorAdaptationDemo: React.FC = () => {
       "var(--glass-color-danger)",
       "var(--glass-color-success)",
       "var(--glass-color-warning)",
-      "#8b5cf6",
-      "#06b6d4",
+      "var(--glass-color-secondary)",
+      "var(--glass-color-info)",
     ],
     []
   );
@@ -753,159 +763,181 @@ export const ColorAdaptationDemo: React.FC = () => {
           : { duration: config.transitionDuration }
       }
     >
-      <h3
-        className={cn("glass-text-xl glass-font-bold glass-mb-4")}
-        style={{ color: currentPalette.text }}
-      >
-        Intelligent Color System Demo
-      </h3>
+      <ContrastGuard>
+        <h3
+          className={cn("glass-text-xl glass-font-bold glass-mb-4")}
+          style={{ color: currentPalette.text }}
+        >
+          Intelligent Color System Demo
+        </h3>
 
-      {/* Current Palette Display */}
-      <div
-        className={cn("glass-grid glass-grid-cols-4 glass-gap-2 glass-mb-6")}
-      >
-        {Object.entries(currentPalette).map(([name, color]) => (
-          <div key={name} className={cn("glass-text-center")}>
-            <div
-              className={cn(
-                "glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
-              )}
-              style={{ backgroundColor: color }}
-            />
-            <div
-              className={cn("glass-text-xs")}
-              style={{ color: currentPalette.textSecondary }}
-            >
-              {name}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Controls */}
-      <div className={cn("glass-space-y-4")}>
-        <div>
-          <label
-            className={cn(
-              "glass-block glass-text-sm glass-font-medium glass-mb-2"
-            )}
-            style={{ color: currentPalette.text }}
-          >
-            Time of Day
-          </label>
-          <div className={cn("glass-flex glass-space-x-2")}>
-            {["Morning", "Day", "Evening", "Night"].map((time, index) => (
-              <motion.button
-                key={time}
+        {/* Current Palette Display */}
+        <div
+          className={cn("glass-grid glass-grid-cols-4 glass-gap-2 glass-mb-6")}
+        >
+          {Object.entries(currentPalette).map(([name, color]) => (
+            <div key={name} className={cn("glass-text-center")}>
+              <div
                 className={cn(
-                  "glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
+                  "glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
                 )}
-                style={{
-                  backgroundColor: currentPalette.primary,
-                  color: currentPalette.background,
-                }}
-                onClick={() => adaptToTime([6, 12, 18, 0][index])}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={`Switch to ${time} color scheme`}
-              >
-                {time}
-              </motion.button>
-            ))}
-          </div>
+                style={{ backgroundColor: color }}
+              />
+              <ContrastGuard>
+                <div
+                  className={cn("glass-text-xs")}
+                  style={{ color: currentPalette.textSecondary }}
+                >
+                  {name}
+                </div>
+              </ContrastGuard>
+            </div>
+          ))}
         </div>
 
-        <div>
-          <label
-            className={cn(
-              "glass-block glass-text-sm glass-font-medium glass-mb-2"
-            )}
-            style={{ color: currentPalette.text }}
-          >
-            Season
-          </label>
-          <div className={cn("glass-flex glass-space-x-2")}>
-            {(["spring", "summer", "autumn", "winter"] as const).map(
-              (season) => (
+        {/* Controls */}
+        <div className={cn("glass-space-y-4")}>
+          <div>
+            <ContrastGuard>
+              <label
+                className={cn(
+                  "glass-block glass-text-sm glass-font-medium glass-mb-2"
+                )}
+                style={{ color: currentPalette.text }}
+              >
+                Time of Day
+              </label>
+            </ContrastGuard>
+            <div className={cn("glass-flex glass-space-x-2")}>
+              {["Morning", "Day", "Evening", "Night"].map((time, index) => (
                 <motion.button
-                  key={season}
+                  key={time}
                   className={cn(
-                    "glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+                    "glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium"
                   )}
                   style={{
-                    backgroundColor: currentPalette.secondary,
+                    backgroundColor: currentPalette.primary,
                     color: currentPalette.background,
                   }}
-                  onClick={() => adaptToSeason(season)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  aria-label={`Switch to ${season} color scheme`}
+                  onClick={() => adaptToTime([6, 12, 18, 0][index])}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                  transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+                  aria-label={`Switch to ${time} color scheme`}
                 >
-                  {season}
+                  <ContrastGuard>{time}</ContrastGuard>
                 </motion.button>
-              )
-            )}
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label
-            className={cn(
-              "glass-block glass-text-sm glass-font-medium glass-mb-2"
-            )}
-            style={{ color: currentPalette.text }}
-          >
-            Brand Colors
-          </label>
-          <div className={cn("glass-flex glass-space-x-2")}>
-            {demoColors.map((color, i) => (
-              <motion.button
-                key={`${color}-${i}`}
+          <div>
+            <ContrastGuard>
+              <label
                 className={cn(
-                  "glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+                  "glass-block glass-text-sm glass-font-medium glass-mb-2"
                 )}
-                style={{
-                  backgroundColor: color,
-                  borderColor: currentPalette.border,
-                }}
-                onClick={() => adaptToBrand([color])}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label={`Apply brand color ${i + 1}`}
+                style={{ color: currentPalette.text }}
+              >
+                Season
+              </label>
+            </ContrastGuard>
+            <div className={cn("glass-flex glass-space-x-2")}>
+              {(["spring", "summer", "autumn", "winter"] as const).map(
+                (season) => (
+                  <motion.button
+                    key={season}
+                    className={cn(
+                      "glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-capitalize"
+                    )}
+                    style={{
+                      backgroundColor: currentPalette.secondary,
+                      color: currentPalette.background,
+                    }}
+                    onClick={() => adaptToSeason(season)}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                    transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+                    aria-label={`Switch to ${season} color scheme`}
+                  >
+                    <ContrastGuard>{season}</ContrastGuard>
+                  </motion.button>
+                )
+              )}
+            </div>
+          </div>
+
+          <div>
+            <ContrastGuard>
+              <label
+                className={cn(
+                  "glass-block glass-text-sm glass-font-medium glass-mb-2"
+                )}
+                style={{ color: currentPalette.text }}
+              >
+                Brand Colors
+              </label>
+            </ContrastGuard>
+            <div className={cn("glass-flex glass-space-x-2")}>
+              {demoColors.map((color, i) => (
+                <motion.button
+                  key={`${color}-${i}`}
+                  className={cn(
+                    "glass-w-8 glass-h-8 glass-radius-full glass-border-2"
+                  )}
+                  style={{
+                    backgroundColor: color,
+                    borderColor: currentPalette.border,
+                  }}
+                  onClick={() => adaptToBrand([color])}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
+                  transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+                  aria-label={`Apply brand color ${i + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div
+            className={cn(
+              "glass-flex glass-items-center glass-justify-between"
+            )}
+          >
+            <label style={{ color: currentPalette.text }}>
+              Auto-adaptation enabled
+            </label>
+            <motion.button
+              className={cn(
+                "glass-w-12 glass-h-6 glass-radius-full glass-p-1",
+                config.enabled ? "glass-surface-success" : "glass-surface-muted"
+              )}
+              onClick={() => updateConfig({ enabled: !config.enabled })}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+              transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+              aria-label={
+                config.enabled
+                  ? "Disable auto-adaptation"
+                  : "Enable auto-adaptation"
+              }
+            >
+              <motion.div
+                className={cn(
+                  "glass-w-4 glass-h-4 glass-surface-light glass-radius-full"
+                )}
+                animate={
+                  prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }
+                }
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: ANIMATION.DURATION.normal / 1000 }
+                }
               />
-            ))}
+            </motion.button>
           </div>
         </div>
-
-        <div
-          className={cn("glass-flex glass-items-center glass-justify-between")}
-        >
-          <label style={{ color: currentPalette.text }}>
-            Auto-adaptation enabled
-          </label>
-          <motion.button
-            className={cn(
-              "glass-w-12 glass-h-6 glass-radius-full glass-p-1",
-              config.enabled ? "glass-surface-success" : "glass-surface-muted"
-            )}
-            onClick={() => updateConfig({ enabled: !config.enabled })}
-            whileTap={{ scale: 0.95 }}
-            aria-label={config.enabled ? "Disable auto-adaptation" : "Enable auto-adaptation"}
-          >
-            <motion.div
-              className={cn(
-                "glass-w-4 glass-h-4 glass-surface-light glass-radius-full"
-              )}
-              animate={
-                prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }
-              }
-              transition={
-                prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
-              }
-            />
-          </motion.button>
-        </div>
-      </div>
+      </ContrastGuard>
     </motion.div>
   );
 };

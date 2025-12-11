@@ -6,19 +6,19 @@ exports[`GlassIslandLayout matches snapshot 1`] = `
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); height: 600px;"
 >
   <div
-    class="absolute top-0 left-0 right-0 glass-p-4 z-10"
+    class="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-p-4 glass-z-10"
   >
     <div
       class="glass-flex glass-items-center glass-justify-between"
     >
       <div>
         <h3
-          class="glass-text-xl font-semibold text-primary/90"
+          class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
         >
           Island Layout
         </h3>
         <p
-          class="glass-text-sm text-primary/60"
+          class="glass-text-sm glass-text-primary-glass-opacity-60"
         >
           Floating content islands with connections
         </p>
@@ -26,57 +26,57 @@ exports[`GlassIslandLayout matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="absolute inset-0 overflow-hidden cursor-move"
+    class="glass-absolute glass-inset-0 glass-overflow-hidden glass-cursor-move"
     style="transform: scale(1) translate(0px, 0px); transform-origin: 0 0;"
   >
     <canvas
-      class="absolute inset-0 pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-pointer-events-none"
       height="2000"
       width="2000"
     />
   </div>
   <div
-    class="absolute top-4 left-4 glass-flex glass-flex-col space-y-2"
+    class="glass-absolute glass-top-4 glass-left-4 glass-flex glass-flex-col glass-space-y-2"
   >
     <button
-      class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       tabindex="0"
     >
       🔍+
     </button>
     <button
-      class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       tabindex="0"
     >
       🔍-
     </button>
     <button
-      class="p-2 border border-white/20 rounded-lg text-white transition-colors glass-focus glass-touch-target glass-contrast-guard bg-white/10 hover:bg-white/20"
+      class="p-2 border border-white/20 0.5rem text-white transition-colors glass-focus glass-touch-target glass-contrast-guard bg-white/10 hover:bg-white/20"
       tabindex="0"
     >
       🔗
     </button>
     <button
-      class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg text-primary transition-colors glass-focus glass-touch-target glass-contrast-guard"
+      class="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       tabindex="0"
     >
       ⚡
     </button>
   </div>
   <div
-    class="absolute top-4 right-4 w-50 h-38 glass-surface-dark/50 glass-border glass-border-white/20 glass-radius-lg glass-p-2"
+    class="glass-absolute glass-top-4 glass-right-4 glass-w-50 glass-h-38 glass-surface-dark/50 glass-border glass-border-white/20 glass-radius-lg glass-p-2"
   >
     <div
-      class="glass-text-xs text-primary/70 mb-1"
+      class="glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
     >
       Overview
     </div>
     <div
-      class="relative glass-surface-dark/30 glass-radius"
+      class="glass-relative glass-surface-dark/30 glass-radius"
       style="width: 200px; height: 150px;"
     >
       <div
-        class="absolute glass-border glass-border-blue pointer-events-none"
+        class="glass-absolute glass-border glass-border-blue glass-pointer-events-none"
         style="left: 0px; top: 0px; width: 20px; height: 15px;"
       />
     </div>
@@ -88,7 +88,7 @@ exports[`GlassIslandLayout matches snapshot 1`] = `
       "
   >
     <div
-      class="glass-text-xs text-primary/90 space-y-1"
+      class="glass-text-xs glass-text-primary-glass-opacity-90 glass-space-y-1"
     >
       <div>
         Islands: 

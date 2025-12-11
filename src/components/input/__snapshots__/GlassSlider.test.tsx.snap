@@ -18,11 +18,11 @@ exports[`GlassSlider matches snapshot 1`] = `
         style="width: 0%;"
       >
         <div
-          class="absolute inset-0 glass-sheen"
+          class="glass-absolute glass-inset-0 glass-sheen"
         />
       </div>
       <div
-        class="absolute inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary via-white/5 glass-gradient-primary"
+        class="glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-white-opacity-5 glass-gradient-primary"
       />
     </div>
     <div

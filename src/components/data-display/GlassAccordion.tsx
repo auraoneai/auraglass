@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -10,6 +10,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export interface AccordionItem {
   /**
@@ -360,7 +361,9 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
                       {item?.icon}
                     </span>
                   )}
-                  <span>{item?.title}</span>
+                  <ContrastGuard>
+                    <span>{item?.title}</span>
+                  </ContrastGuard>
                 </div>
 
                 {showIcons && !item?.disabled && (
@@ -451,7 +454,7 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
       ? {
           height: height === "auto" ? "auto" : `${height}px`,
           overflow: height === "auto" ? "visible" : "hidden",
-          transition: `height ${duration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+          transition: `height ${duration}ms var(--glass-motion-easing-standard)`,
         }
       : {
           height: isOpen ? "auto" : 0,
@@ -459,14 +462,14 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
         };
 
     return (
-      <div ref={contentRef} id={id} style={contentStyle} {...props}>
+      <div ref={contentRef} id={id} style={{ ...contentStyle }} {...props}>
         <div
           className={cn("transition-opacity duration-200", className, {
             "opacity-0": !isOpen && animated,
             "opacity-100": isOpen || !animated,
           })}
         >
-          {children}
+          <ContrastGuard>{children}</ContrastGuard>
         </div>
       </div>
     );

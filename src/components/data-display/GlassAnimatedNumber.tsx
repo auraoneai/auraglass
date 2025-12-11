@@ -12,6 +12,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassAnimatedNumberProps {
   /** The target number to animate to */
@@ -60,11 +62,9 @@ export const GlassAnimatedNumber = forwardRef<
 >(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       value = 0,
       from = 0,
-      duration = 1000,
+      duration = ANIMATION.DURATION.normal,
       easing = "easeOut",
       decimals = 0,
       separator = false,
@@ -72,7 +72,7 @@ export const GlassAnimatedNumber = forwardRef<
       suffix = "",
       formatter,
       animateOnChange = true,
-      className="",
+      className = "",
       size = "md",
       variant = "count",
       "aria-label": ariaLabel,
@@ -177,14 +177,14 @@ export const GlassAnimatedNumber = forwardRef<
         case "scale":
           return {
             transform: isAnimating ? "scale(1.1)" : "scale(1)",
-            transition: "transform 0.2s ease",
+            transition: `transform var(--glass-motion-duration-fast) var(--glass-motion-easing-standard)`,
           };
         case "glow":
           return {
             textShadow: isAnimating
               ? '0 0 20px var(--glass-border-hover), 0 0 40px ${glassStyles.borderColor || "var(--glass-bg-hover)"}'
               : "none",
-            transition: "text-shadow 0.3s ease",
+            transition: `text-shadow var(--glass-motion-duration-normal) var(--glass-motion-easing-standard)`,
           };
         case "count":
         default:
@@ -201,15 +201,17 @@ export const GlassAnimatedNumber = forwardRef<
           sizeClassName,
           className
         )}
-        style={getVariantStyles()}
+        style={{ ...getVariantStyles() }}
         elevation="level1"
         interactive={false}
         aria-label={ariaLabel}
         {...props}
       >
-        <span className={cn("glass-tabular-nums")}>
-          {formatNumber(displayValue)}
-        </span>
+        <ContrastGuard>
+          <span className={cn("glass-tabular-nums")}>
+            {formatNumber(displayValue)}
+          </span>
+        </ContrastGuard>
       </OptimizedGlass>
     );
   }
@@ -229,9 +231,9 @@ export const GlassAnimatedCounter: React.FC<{
   value,
   label,
   from = 0,
-  duration = 1500,
+  duration = ANIMATION.DURATION.slow,
   size = "lg",
-  className="",
+  className = "",
 }) => {
   return (
     <div
@@ -275,8 +277,8 @@ export const GlassAnimatedStat: React.FC<{
   total,
   label,
   showPercentage = false,
-  duration = 1000,
-  className="",
+  duration = ANIMATION.DURATION.normal,
+  className = "",
 }) => {
   const percentage = total ? (value / total) * 100 : value;
 
@@ -306,7 +308,7 @@ export const GlassAnimatedStat: React.FC<{
           className={cn("glass-text-sm glass-text-primary-70")}
           elevation="level1"
         >
-          {label}
+          <ContrastGuard>{label}</ContrastGuard>
         </OptimizedGlass>
       )}
 
@@ -320,9 +322,13 @@ export const GlassAnimatedStat: React.FC<{
         >
           <div
             className={cn(
-              "glass-h-full glass-bg-gradient-to-r glass-from-blue-500 glass-to-purple-500 glass-radius-full glass-transition-all glass-duration-1000 glass-ease-out"
+              "glass-h-full glass-bg-gradient-to-r glass-from-blue-500 glass-to-purple-500 glass-radius-full glass-transition-all"
             )}
-            style={{ width: `${percentage}%` }}
+            style={{
+              transitionDuration: `${ANIMATION.DURATION.normal}ms`,
+              transitionTimingFunction: ANIMATION.EASING.easeOut,
+              width: `${percentage}%`,
+            }}
           />
         </OptimizedGlass>
       )}
@@ -348,7 +354,7 @@ export const useAnimatedNumber = (
     setIsAnimating(true);
     const startValue = currentValue;
     const startTime = Date.now();
-    const duration = options.duration || 1000;
+    const duration = options.duration || ANIMATION.DURATION.normal;
 
     const animate = () => {
       const elapsed = Date.now() - startTime;

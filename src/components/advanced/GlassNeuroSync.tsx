@@ -16,6 +16,8 @@ import React, {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 // Neural signal types
 interface EEGSignal {
@@ -706,7 +708,7 @@ class NeuroSyncSystem {
     };
 
     // Run simulation at ~256 Hz (realistic EEG sampling rate)
-    setInterval(simulateEEG, 1000 / 256);
+    setInterval(simulateEEG, ANIMATION.DURATION.fast / 64); // ~256 Hz
   }
 
   processSignal(signal: EEGSignal): NeuroMetrics {
@@ -730,7 +732,9 @@ class NeuroSyncSystem {
     return this.adaptationEngine.getCurrentAdaptation();
   }
 
-  calibrateBaseline(duration: number = 30000): Promise<void> {
+  calibrateBaseline(
+    duration: number = ANIMATION.DURATION.slower * 42
+  ): Promise<void> {
     return new Promise((resolve) => {
       const startTime = Date.now();
       const calibrationMetrics: NeuroMetrics[] = [];
@@ -748,7 +752,7 @@ class NeuroSyncSystem {
         }
 
         calibrationMetrics.push({ ...this.currentMetrics });
-        setTimeout(collectBaseline, 100);
+        setTimeout(collectBaseline, ANIMATION.DURATION.fast / 10);
       };
 
       collectBaseline();
@@ -856,7 +860,7 @@ export function GlassNeuroSyncProvider({
         onMetricsUpdate?.(currentMetrics);
         onAdaptationChange?.(currentAdaptation);
       }
-    }, 100); // 10Hz update rate
+    }, ANIMATION.DURATION.fast / 10); // 10Hz update rate
 
     return () => clearInterval(updateInterval);
   }, [autoConnect, onMetricsUpdate, onAdaptationChange]);
@@ -958,12 +962,16 @@ export function GlassNeuroMetricsDashboard({
         className={cn(
           "w-14 glass-h-14 glass-radius-full glass-surface-primary glass-elev-4",
           "flex items-center justify-center glass-text-primary",
-          "transition-all duration-300 glass-hover-scale-105",
+          "transition-all glass-hover-scale-105",
+          { transitionDuration: "var(--glass-motion-duration-normal)" },
           isConnected ? "animate-pulse" : ""
         )}
         onClick={() => setShowDashboard(!showDashboard)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+        whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+        transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
+        aria-label="Toggle NeuroSync dashboard"
+        aria-expanded={showDashboard}
       >
         🧠
         <div
@@ -985,123 +993,133 @@ export function GlassNeuroMetricsDashboard({
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
+            }
+            role="dialog"
+            aria-label="NeuroSync dashboard"
           >
-            <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-text-lg glass-font-semibold glass-text-primary'>
-                NeuroSync Dashboard
-              </h3>
-              <button
-                onClick={() => setShowDashboard(false)}
-                className='glass-text-sm glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Device Status */}
-            <div className="glass-gap-2">
-              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                Device Status
-              </h4>
-              <div className="glass-p-3 glass-surface-secondary glass-radius-md">
-                <div className="glass-flex glass-items-center glass-justify-between">
-                  <span className='glass-text-sm glass-text-primary'>
-                    {deviceInfo?.name || "No Device"}
-                  </span>
-                  <div className="glass-flex glass-items-center glass-gap-2">
-                    <div
-                      className={cn(
-                        "glass-w-2 glass-h-2 glass-radius-full",
-                        isConnected
-                          ? "glass-surface-success"
-                          : "glass-surface-danger"
-                      )}
-                    />
-                    <span className="glass-text-xs glass-text-secondary">
-                      {isConnected ? "Connected" : "Disconnected"}
-                    </span>
-                  </div>
-                </div>
-                {deviceInfo && (
-                  <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
-                    {deviceInfo.channels} channels • {deviceInfo.type}
-                  </div>
-                )}
+            <ContrastGuard>
+              <div className="glass-flex glass-items-center glass-justify-between">
+                <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
+                  NeuroSync Dashboard
+                </h3>
+                <button
+                  onClick={() => setShowDashboard(false)}
+                  className="glass-text-sm glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target"
+                  aria-label="Close NeuroSync dashboard"
+                >
+                  ✕
+                </button>
               </div>
-            </div>
 
-            {/* Neural Metrics */}
-            <div className="glass-gap-2">
-              <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                Neural Metrics
-              </h4>
-              <div className="glass-grid glass-grid-cols-2 glass-gap-2">
-                {metricsArray.map((metric: any) => (
-                  <div
-                    key={metric.name}
-                    className="glass-p-3 glass-surface-secondary glass-radius-md"
-                  >
-                    <div className='glass-text-xs glass-font-medium glass-text-primary'>
-                      {metric.name}
-                    </div>
-                    <div className="glass-mt-2 glass-flex glass-items-center glass-gap-2">
-                      <div className='glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2'>
-                        <motion.div
-                          className='glass-h-2 glass-radius-full'
-                          ref={(el) => {
-                            if (el) el.style.backgroundColor = metric.color;
-                          }}
-                          initial={{ width: 0 }}
-                          animate={{ width: `${metric.value * 100}%` }}
-                          transition={
-                            prefersReducedMotion
-                              ? { duration: 0 }
-                              : { duration: 0.3 }
-                          }
-                        />
-                      </div>
-                      <span className='glass-text-xs glass-text-secondary glass-w-8 glass-text-right'>
-                        {(metric.value * 100).toFixed(0)}%
+              {/* Device Status */}
+              <div className="glass-gap-2">
+                <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                  Device Status
+                </h4>
+                <div className="glass-p-3 glass-surface-secondary glass-radius-md">
+                  <div className="glass-flex glass-items-center glass-justify-between">
+                    <span className="glass-text-sm glass-text-primary">
+                      {deviceInfo?.name || "No Device"}
+                    </span>
+                    <div className="glass-flex glass-items-center glass-gap-2">
+                      <div
+                        className={cn(
+                          "glass-w-2 glass-h-2 glass-radius-full",
+                          isConnected
+                            ? "glass-surface-success"
+                            : "glass-surface-danger"
+                        )}
+                      />
+                      <span className="glass-text-xs glass-text-secondary">
+                        {isConnected ? "Connected" : "Disconnected"}
                       </span>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Current Adaptation */}
-            {adaptation && (
-              <div className="glass-gap-2">
-                <h4 className='glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
-                  Active Adaptation
-                </h4>
-                <div className="glass-p-3 glass-surface-secondary glass-radius-md">
-                  <div className='glass-text-sm glass-text-primary glass-font-medium glass-mb-2'>
-                    {adaptation.id
-                      .replace("-", " ")
-                      .replace(/\b\w/g, (l) => l.toUpperCase())}
-                  </div>
-                  <div className="glass-text-xs glass-text-tertiary glass-gap-1">
-                    <div>UI: {adaptation.adaptation.uiComplexity}</div>
-                    <div>Colors: {adaptation.adaptation.colorScheme}</div>
-                    <div>
-                      Animation: {adaptation.adaptation.animationIntensity}
+                  {deviceInfo && (
+                    <div className="glass-mt-1 glass-text-xs glass-text-tertiary">
+                      {deviceInfo.channels} channels • {deviceInfo.type}
                     </div>
-                  </div>
-                  <div className="glass-mt-2 glass-flex glass-items-center glass-justify-between">
-                    <span className="glass-text-xs glass-text-secondary">
-                      Confidence: {(adaptation.confidence * 100).toFixed(0)}%
-                    </span>
-                  </div>
+                  )}
                 </div>
               </div>
-            )}
 
-            {!isConnected && (
-              <div className='glass-text-center glass-text-sm glass-text-secondary glass-py-4'>
-                Connect an EEG device to start neural monitoring
+              {/* Neural Metrics */}
+              <div className="glass-gap-2">
+                <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                  Neural Metrics
+                </h4>
+                <div className="glass-grid glass-grid-cols-2 glass-gap-2">
+                  {metricsArray.map((metric: any) => (
+                    <div
+                      key={metric.name}
+                      className="glass-p-3 glass-surface-secondary glass-radius-md"
+                    >
+                      <div className="glass-text-xs glass-font-medium glass-text-primary">
+                        {metric.name}
+                      </div>
+                      <div className="glass-mt-2 glass-flex glass-items-center glass-gap-2">
+                        <div className="glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2">
+                          <motion.div
+                            className="glass-h-2 glass-radius-full"
+                            ref={(el) => {
+                              if (el) el.style.backgroundColor = metric.color;
+                            }}
+                            initial={{ width: 0 }}
+                            animate={{ width: `${metric.value * 100}%` }}
+                            transition={
+                              prefersReducedMotion
+                                ? { duration: 0 }
+                                : { duration: ANIMATION.DURATION.normal / 1000 }
+                            }
+                          />
+                        </div>
+                        <span className="glass-text-xs glass-text-secondary glass-w-8 glass-text-right">
+                          {(metric.value * 100).toFixed(0)}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            )}
+
+              {/* Current Adaptation */}
+              {adaptation && (
+                <div className="glass-gap-2">
+                  <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
+                    Active Adaptation
+                  </h4>
+                  <div className="glass-p-3 glass-surface-secondary glass-radius-md">
+                    <div className="glass-text-sm glass-text-primary glass-font-medium glass-mb-2">
+                      {adaptation.id
+                        .replace("-", " ")
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </div>
+                    <div className="glass-text-xs glass-text-tertiary glass-gap-1">
+                      <div>UI: {adaptation.adaptation.uiComplexity}</div>
+                      <div>Colors: {adaptation.adaptation.colorScheme}</div>
+                      <div>
+                        Animation: {adaptation.adaptation.animationIntensity}
+                      </div>
+                    </div>
+                    <div className="glass-mt-2 glass-flex glass-items-center glass-justify-between">
+                      <span className="glass-text-xs glass-text-secondary">
+                        Confidence: {(adaptation.confidence * 100).toFixed(0)}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {!isConnected && (
+                <div className="glass-text-center glass-text-sm glass-text-secondary glass-py-4">
+                  Connect an EEG device to start neural monitoring
+                </div>
+              )}
+            </ContrastGuard>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1127,11 +1145,11 @@ export function GlassNeuroFeedback({
 
   return (
     <div className={cn("glass-flex glass-items-center glass-gap-3", className)}>
-      <div className='glass-text-sm glass-text-primary glass-capitalize glass-font-medium'>
+      <div className="glass-text-sm glass-text-primary glass-capitalize glass-font-medium">
         {type}
       </div>
-      <div className='glass-flex-1 glass-relative'>
-        <div className='glass-w-full glass-h-4 glass-surface-subtle glass-radius-full glass-overflow-hidden'>
+      <div className="glass-flex-1 glass-relative">
+        <div className="glass-w-full glass-h-4 glass-surface-subtle glass-radius-full glass-overflow-hidden">
           <motion.div
             className="glass-h-full glass-radius-full"
             ref={(el) => {
@@ -1144,19 +1162,21 @@ export function GlassNeuroFeedback({
             }}
             animate={{ width: `${currentValue * 100}%` }}
             transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: ANIMATION.DURATION.normal / 1000 }
             }
           />
           {/* Target indicator */}
           <div
-            className='glass-absolute glass-top-0 glass-w-1 glass-h-full glass-surface-subtle glass-opacity-60'
+            className="glass-absolute glass-top-0 glass-w-1 glass-h-full glass-surface-subtle glass-opacity-60"
             ref={(el) => {
               if (el) el.style.left = `${target * 100}%`;
             }}
           />
         </div>
       </div>
-      <div className='glass-text-sm glass-text-secondary glass-w-12 glass-text-right'>
+      <div className="glass-text-sm glass-text-secondary glass-w-12 glass-text-right">
         {(currentValue * 100).toFixed(0)}%
       </div>
     </div>
@@ -1193,7 +1213,7 @@ export function useNeuroAdaptive() {
           adaptiveStyle.animationDuration = "0.8s";
           break;
         case "enhanced":
-          adaptiveStyle.animationDuration = "0.3s";
+          adaptiveStyle.animationDuration = `${ANIMATION.DURATION.normal / 1000}s`;
           break;
       }
 

@@ -12,16 +12,16 @@ exports[`GlassMetricsGrid matches snapshot 1`] = `
     class="motion-primitive glass-p-6"
   >
     <div
-      class="glass-flex glass-items-center glass-justify-center h-64 text-center"
+      class="glass-flex glass-items-center glass-justify-center glass-h-64 glass-text-center"
     >
       <div>
         <div
-          class="glass-text-4xl mb-4"
+          class="glass-text-4xl glass-mb-4"
         >
           📊
         </div>
         <h3
-          class="glass-text-lg font-semibold text-primary mb-2"
+          class="glass-text-lg glass-font-semibold glass-text-primary glass-mb-2"
         >
           No Metrics Found
         </h3>

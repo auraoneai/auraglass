@@ -8,75 +8,87 @@ exports[`GlassAchievementSystem matches snapshot 1`] = `
     class="glass-surface-primary glass-radius-2xl glass-p-6 glass-space-y-4 glass-border glass-border-white/10 glass-shadow-soft-lg"
     data-testid="glass-achievement-summary"
   >
-    <div>
-      <p
-        class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
-      >
-        Achievement System
-      </p>
-      <h2
-        class="glass-text-2xl glass-text-primary font-semibold"
-      >
-        0
-      </h2>
-      <p
-        class="glass-text-sm glass-text-secondary"
-      >
-        Total interactions tracked
-      </p>
-    </div>
-    <div
-      class="glass-grid glass-grid-cols-3 glass-gap-3"
+    <span
+      class="contrast-guard"
+      data-contrast-level="AA"
+      data-glass-component="true"
     >
-      <div
-        class="glass-surface-subtle glass-radius-xl glass-p-3"
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
       >
-        <p
-          class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
+        <div>
+          <p
+            class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+          >
+            Achievement System
+          </p>
+          <h2
+            class="glass-text-2xl glass-text-primary glass-font-semibold"
+          >
+            0
+          </h2>
+          <p
+            class="glass-text-sm glass-text-secondary"
+          >
+            Total interactions tracked
+          </p>
+        </div>
+        <div
+          class="glass-grid glass-grid-cols-3 glass-gap-3"
         >
-          Current level
-        </p>
-        <p
-          class="glass-text-lg glass-text-primary font-semibold"
+          <div
+            class="glass-surface-subtle glass-radius-xl glass-p-3"
+          >
+            <p
+              class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+            >
+              Current level
+            </p>
+            <p
+              class="glass-text-lg glass-text-primary glass-font-semibold"
+            >
+              1
+            </p>
+          </div>
+          <div
+            class="glass-surface-subtle glass-radius-xl glass-p-3"
+          >
+            <p
+              class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+            >
+              Unlocked
+            </p>
+            <p
+              class="glass-text-lg glass-text-primary glass-font-semibold"
+            >
+              0
+            </p>
+          </div>
+          <div
+            class="glass-surface-subtle glass-radius-xl glass-p-3"
+          >
+            <p
+              class="glass-text-xs glass-text-tertiary glass-uppercase glass-tracking-wide"
+            >
+              Streak
+            </p>
+            <p
+              class="glass-text-lg glass-text-primary glass-font-semibold"
+            >
+              0
+            </p>
+          </div>
+        </div>
+        <div
+          class="glass-text-xs glass-text-secondary"
         >
-          1
-        </p>
-      </div>
-      <div
-        class="glass-surface-subtle glass-radius-xl glass-p-3"
-      >
-        <p
-          class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
-        >
-          Unlocked
-        </p>
-        <p
-          class="glass-text-lg glass-text-primary font-semibold"
-        >
-          0
-        </p>
-      </div>
-      <div
-        class="glass-surface-subtle glass-radius-xl glass-p-3"
-      >
-        <p
-          class="glass-text-xs glass-text-tertiary uppercase tracking-wide"
-        >
-          Streak
-        </p>
-        <p
-          class="glass-text-lg glass-text-primary font-semibold"
-        >
-          0
-        </p>
-      </div>
-    </div>
-    <div
-      class="glass-text-xs glass-text-secondary"
-    >
-      XP to next level: 
-      100
-    </div>
+          XP to next level: 
+          100
+        </div>
+      </span>
+    </span>
   </div>
   <section>
     <div
@@ -89,205 +101,274 @@ exports[`GlassAchievementSystem matches snapshot 1`] = `
       <div
         class="glass-p-4 glass-border-b glass-border-white/10"
       >
-        <div
-          class="glass-flex glass-items-center glass-justify-between mb-2"
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
         >
-          <h3
-            class="glass-text-lg font-medium text-primary/90"
-          >
-            Glass Achievements
-          </h3>
           <div
-            class="glass-text-sm text-primary/70"
+            class="glass-flex glass-items-center glass-justify-between glass-mb-2"
           >
-            Level 
-            1
+            <h3
+              class="glass-text-lg glass-font-medium glass-text-primary-glass-opacity-90"
+            >
+              Glass Achievements
+            </h3>
+            <div
+              class="glass-text-sm glass-text-primary-opacity-70"
+            >
+              Level 
+              1
+            </div>
           </div>
-        </div>
+        </span>
         <div
-          class="glass-w-full glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm h-2 overflow-hidden glass-contrast-guard"
+          class="glass-w-full glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-sm glass-h-2 glass-overflow-hidden"
         >
           <div
             class="glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary"
           />
         </div>
-        <div
-          class="glass-flex glass-justify-between glass-text-xs text-primary/50 glass-mt-1"
+        <span
+          class="contrast-guard"
+          data-contrast-level="AA"
+          data-glass-component="true"
         >
-          <span>
-            0
-             XP
-          </span>
-          <span>
-            100
-             XP to next level
-          </span>
-        </div>
+          <div
+            class="glass-flex glass-justify-between glass-text-xs glass-text-primary-glass-opacity-50 glass-mt-1"
+          >
+            <span>
+              0
+               XP
+            </span>
+            <span>
+              100
+               XP to next level
+            </span>
+          </div>
+        </span>
       </div>
       <div
         class="glass-flex glass-border-b glass-border-white/10"
       >
         <button
-          class="flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary/90 bg-white/10"
+          aria-label="Progress tab, 0 items"
+          class="flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-text-primary/90 bg-white/10"
         >
-          <div>
-            Progress
-          </div>
-          <div
-            class="glass-text-xs"
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
           >
-            0
-          </div>
+            <div>
+              Progress
+            </div>
+            <div
+              class="glass-text-xs"
+            >
+              0
+            </div>
+          </span>
         </button>
         <button
-          class="flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary/60 hover:glass-text-primary/90"
+          aria-label="Achievements tab, 0 items"
+          class="flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-text-primary/60 hover:glass-text-primary/90"
         >
-          <div>
-            Achievements
-          </div>
-          <div
-            class="glass-text-xs"
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
           >
-            0
-          </div>
+            <div>
+              Achievements
+            </div>
+            <div
+              class="glass-text-xs"
+            >
+              0
+            </div>
+          </span>
         </button>
         <button
-          class="flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary/60 hover:glass-text-primary/90"
+          aria-label="Stats tab, 0 items"
+          class="flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target glass-text-primary/60 hover:glass-text-primary/90"
         >
-          <div>
-            Stats
-          </div>
-          <div
-            class="glass-text-xs"
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
           >
-            0
-          </div>
+            <div>
+              Stats
+            </div>
+            <div
+              class="glass-text-xs"
+            >
+              0
+            </div>
+          </span>
         </button>
       </div>
       <div
-        class="glass-p-4 glass-max-h-64 overflow-y-auto"
+        class="glass-p-4 glass-max-glass-h-64 glass-overflow-y-auto"
       >
         <div
           class="glass-gap-3"
         >
           <div
-            class="glass-grid glass-grid-cols-2 glass-gap-2 text-center"
+            class="glass-grid glass-grid-cols-2 glass-gap-2 glass-text-center"
           >
             <div
-              class="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-md glass-p-2 glass-contrast-guard"
+              class="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-md glass-p-2"
             >
-              <div
-                class="glass-text-lg font-medium text-primary/90"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                1
-              </div>
-              <div
-                class="glass-text-xs text-primary/60"
-              >
-                Level
-              </div>
+                <div
+                  class="glass-text-lg glass-font-medium glass-text-primary-glass-opacity-90"
+                >
+                  1
+                </div>
+                <div
+                  class="glass-text-xs glass-text-primary-glass-opacity-60"
+                >
+                  Level
+                </div>
+              </span>
             </div>
             <div
-              class="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-md glass-p-2 glass-contrast-guard"
+              class="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-md glass-p-2"
             >
-              <div
-                class="glass-text-lg font-medium text-primary/90"
+              <span
+                class="contrast-guard"
+                data-contrast-level="AA"
+                data-glass-component="true"
               >
-                0
-              </div>
-              <div
-                class="glass-text-xs text-primary/60"
-              >
-                Total XP
-              </div>
+                <div
+                  class="glass-text-lg glass-font-medium glass-text-primary-glass-opacity-90"
+                >
+                  0
+                </div>
+                <div
+                  class="glass-text-xs glass-text-primary-glass-opacity-60"
+                >
+                  Total XP
+                </div>
+              </span>
             </div>
           </div>
           <div>
-            <h4
-              class="glass-text-sm font-medium text-primary/90 mb-2"
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
             >
-              In Progress
-            </h4>
+              <h4
+                class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-mb-2"
+              >
+                In Progress
+              </h4>
+            </span>
             <div
               class="glass-gap-2"
             >
               <div
-                class="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm glass-p-2 glass-contrast-guard"
+                class="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-sm glass-p-2"
               >
-                <div
-                  class="glass-flex glass-items-center glass-justify-between mb-1"
-                >
-                  <span
-                    class="glass-text-sm text-primary/90"
-                  >
-                    Glass Toucher
-                  </span>
-                  <span
-                    class="glass-text-xs text-primary/60"
-                  >
-                    0
-                    %
-                  </span>
-                </div>
-                <div
-                  class="glass-w-full glass-surface-subtle glass-radius-full h-1"
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
                 >
                   <div
-                    class="glass-surface-blue h-1 glass-radius-full"
+                    class="glass-flex glass-items-center glass-justify-between glass-mb-1"
+                  >
+                    <span
+                      class="glass-text-sm glass-text-primary-glass-opacity-90"
+                    >
+                      Glass Toucher
+                    </span>
+                    <span
+                      class="glass-text-xs glass-text-primary-glass-opacity-60"
+                    >
+                      0
+                      %
+                    </span>
+                  </div>
+                </span>
+                <div
+                  class="glass-w-full glass-surface-subtle glass-radius-full glass-h-1"
+                >
+                  <div
+                    class="glass-surface-blue glass-h-1 glass-radius-full"
                     style="width: 0%;"
                   />
                 </div>
               </div>
               <div
-                class="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm glass-p-2 glass-contrast-guard"
+                class="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-sm glass-p-2"
               >
-                <div
-                  class="glass-flex glass-items-center glass-justify-between mb-1"
-                >
-                  <span
-                    class="glass-text-sm text-primary/90"
-                  >
-                    Glass Enthusiast
-                  </span>
-                  <span
-                    class="glass-text-xs text-primary/60"
-                  >
-                    0
-                    %
-                  </span>
-                </div>
-                <div
-                  class="glass-w-full glass-surface-subtle glass-radius-full h-1"
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
                 >
                   <div
-                    class="glass-surface-blue h-1 glass-radius-full"
+                    class="glass-flex glass-items-center glass-justify-between glass-mb-1"
+                  >
+                    <span
+                      class="glass-text-sm glass-text-primary-glass-opacity-90"
+                    >
+                      Glass Enthusiast
+                    </span>
+                    <span
+                      class="glass-text-xs glass-text-primary-glass-opacity-60"
+                    >
+                      0
+                      %
+                    </span>
+                  </div>
+                </span>
+                <div
+                  class="glass-w-full glass-surface-subtle glass-radius-full glass-h-1"
+                >
+                  <div
+                    class="glass-surface-blue glass-h-1 glass-radius-full"
                     style="width: 0%;"
                   />
                 </div>
               </div>
               <div
-                class="glass-surface-subtle/5 glass-glass-glass-backdrop-blur-sm glass-contrast-guard glass-radius-sm glass-p-2 glass-contrast-guard"
+                class="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-sm glass-p-2"
               >
-                <div
-                  class="glass-flex glass-items-center glass-justify-between mb-1"
-                >
-                  <span
-                    class="glass-text-sm text-primary/90"
-                  >
-                    Ethereal Navigator
-                  </span>
-                  <span
-                    class="glass-text-xs text-primary/60"
-                  >
-                    0
-                    %
-                  </span>
-                </div>
-                <div
-                  class="glass-w-full glass-surface-subtle glass-radius-full h-1"
+                <span
+                  class="contrast-guard"
+                  data-contrast-level="AA"
+                  data-glass-component="true"
                 >
                   <div
-                    class="glass-surface-blue h-1 glass-radius-full"
+                    class="glass-flex glass-items-center glass-justify-between glass-mb-1"
+                  >
+                    <span
+                      class="glass-text-sm glass-text-primary-glass-opacity-90"
+                    >
+                      Ethereal Navigator
+                    </span>
+                    <span
+                      class="glass-text-xs glass-text-primary-glass-opacity-60"
+                    >
+                      0
+                      %
+                    </span>
+                  </div>
+                </span>
+                <div
+                  class="glass-w-full glass-surface-subtle glass-radius-full glass-h-1"
+                >
+                  <div
+                    class="glass-surface-blue glass-h-1 glass-radius-full"
                     style="width: 0%;"
                   />
                 </div>

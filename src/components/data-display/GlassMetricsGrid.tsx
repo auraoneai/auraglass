@@ -18,6 +18,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface MetricValue {
   current: number;
@@ -332,9 +334,9 @@ export const GlassMetricsGrid = forwardRef<
           .join(" ");
 
         return (
-          <div className='glass-relative glass-w-full glass-h-8 glass-mt-2'>
+          <div className="glass-relative glass-w-full glass-h-8 glass-mt-2">
             <svg
-              className='glass-absolute glass-inset-0 glass-w-full glass-h-full'
+              className="glass-absolute glass-inset-0 glass-w-full glass-h-full"
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
             >
@@ -342,7 +344,7 @@ export const GlassMetricsGrid = forwardRef<
                 <polygon
                   points={`0,100 ${points} 100,100`}
                   fill="currentColor"
-                  className='glass-opacity-10'
+                  className="glass-opacity-10"
                   style={{ color: spark.color || "currentColor" }}
                 />
               )}
@@ -351,7 +353,7 @@ export const GlassMetricsGrid = forwardRef<
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className='glass-transition-all glass-duration-300'
+                className="glass-transition-all glass-duration-300"
                 style={{ color: spark.color || "currentColor" }}
               />
             </svg>
@@ -434,9 +436,9 @@ export const GlassMetricsGrid = forwardRef<
             )}
 
             {/* Header */}
-            <div className='glass-flex glass-items-start glass-justify-between glass-mb-2'>
+            <div className="glass-flex glass-items-start glass-justify-between glass-mb-2">
               <div className="glass-flex-1 glass-min-glass-w-0">
-                <div className='glass-flex glass-items-center glass-gap-2 glass-mb-1'>
+                <div className="glass-flex glass-items-center glass-gap-2 glass-mb-1">
                   {metric.icon && (
                     <div
                       className="glass-flex-shrink-0"
@@ -480,8 +482,8 @@ export const GlassMetricsGrid = forwardRef<
 
             {/* Progress to Target */}
             {metric.value.target && (
-              <div className='glass-mb-2'>
-                <div className='glass-flex glass-justify-between glass-text-xs glass-text-secondary glass-mb-1'>
+              <div className="glass-mb-2">
+                <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary glass-mb-1">
                   <span>
                     Target:{" "}
                     {formatValue({
@@ -497,9 +499,9 @@ export const GlassMetricsGrid = forwardRef<
                     %
                   </span>
                 </div>
-                <div className='glass-w-full glass-surface-overlay glass-radius-full glass-h-2'>
+                <div className="glass-w-full glass-surface-overlay glass-radius-full glass-h-2">
                   <div
-                    className='glass-surface-primary glass-h-2 glass-radius-full glass-transition-all glass-duration-500'
+                    className="glass-surface-primary glass-h-2 glass-radius-full glass-transition-all glass-duration-500"
                     style={{
                       width: `${Math.min((metric.value.current / metric.value.target) * 100, 100)}%`,
                     }}
@@ -521,7 +523,7 @@ export const GlassMetricsGrid = forwardRef<
 
             {/* Category Badge */}
             {metric.category && (
-              <div className='glass-absolute glass-bottom-2 glass-right-2'>
+              <div className="glass-absolute glass-bottom-2 glass-right-2">
                 <span className="glass-px-2 glass-py-1 glass-text-xs glass-surface-overlay glass-text-secondary glass-radius-full">
                   {metric.category}
                 </span>
@@ -612,7 +614,7 @@ export const GlassMetricsGrid = forwardRef<
         >
           {/* Header */}
           {(searchable || exportable || autoRefresh) && (
-            <div className='glass-flex glass-items-center glass-justify-between glass-mb-6'>
+            <div className="glass-flex glass-items-center glass-justify-between glass-mb-6">
               <div className="glass-flex glass-items-center glass-gap-4">
                 {searchable && (
                   <OptimizedGlass
@@ -621,7 +623,7 @@ export const GlassMetricsGrid = forwardRef<
                     depth={1}
                     tint="neutral"
                     border="subtle"
-                    className='glass-relative'
+                    className="glass-relative"
                   >
                     <input
                       type="text"
@@ -634,7 +636,7 @@ export const GlassMetricsGrid = forwardRef<
                         "glass-text-sm"
                       )}
                     />
-                    <div className='glass-absolute glass-right-3 glass-top-1/2 glass--translate-y-1-2 glass-text-secondary'>
+                    <div className="glass-absolute glass-right-3 glass-top-1/2 glass--translate-y-1-2 glass-text-secondary">
                       🔍
                     </div>
                   </OptimizedGlass>
@@ -681,10 +683,10 @@ export const GlassMetricsGrid = forwardRef<
 
           {/* Metrics Grid */}
           {filteredMetrics.length === 0 ? (
-            <div className='glass-flex glass-items-center glass-justify-center glass-h-64 glass-text-center'>
+            <div className="glass-flex glass-items-center glass-justify-center glass-h-64 glass-text-center">
               <div>
-                <div className='glass-text-4xl glass-mb-4'>📊</div>
-                <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-2'>
+                <div className="glass-text-4xl glass-mb-4">📊</div>
+                <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-2">
                   No Metrics Found
                 </h3>
                 <p className="glass-text-secondary">
@@ -695,7 +697,7 @@ export const GlassMetricsGrid = forwardRef<
               </div>
             </div>
           ) : (
-            <div className="glass-grid" style={gridStyle}>
+            <div className="glass-grid" style={{ ...gridStyle }}>
               {filteredMetrics.map((metric, index) => (
                 <Motion
                   key={metric.id}

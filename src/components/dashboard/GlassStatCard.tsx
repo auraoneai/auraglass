@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   Activity,
@@ -19,6 +19,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassStatCardProps {
   /**
@@ -284,12 +286,12 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
       >
         <div className="glass-gap-4">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24'></div>
-            <div className='glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md'></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-24"></div>
+            <div className="glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-md"></div>
           </div>
           <div className="glass-gap-2">
-            <div className='glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32'></div>
-            <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
+            <div className="glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32"></div>
+            <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
           </div>
           {showSparkline && (
             <div
@@ -318,13 +320,13 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
           onClick && [
             "cursor-pointer",
             "hover:shadow-2xl hover:shadow-emerald-500/20",
-            "transition-all duration-500 ease-out",
+            `transition-all duration-[${ANIMATION.DURATION.slow}ms] ease-out`,
           ],
           className
         )}
         {...props}
       >
-        <CardHeader className='glass-pb-2'>
+        <CardHeader className="glass-pb-2">
           <div
             className={cn(
               "flex items-start justify-between",
@@ -345,12 +347,14 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
                     {displayIcon}
                   </span>
                 )}
-                {title}
+                <ContrastGuard>{title}</ContrastGuard>
               </CardTitle>
               {description && (
-                <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1'>
-                  {description}
-                </p>
+                <ContrastGuard>
+                  <p className="glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1">
+                    {description}
+                  </p>
+                </ContrastGuard>
               )}
             </div>
 
@@ -390,7 +394,7 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className='glass-pt-0'>
+        <CardContent className="glass-pt-0">
           <div
             className={cn(
               "flex items-baseline glass-gap-2 glass-mb-4",
@@ -398,22 +402,24 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
             )}
           >
             <span className={cn(config.valueClass, variantConfig.valueColor)}>
-              {value}
+              <ContrastGuard>{value}</ContrastGuard>
             </span>
             {unit && (
-              <span className='glass-text-lg glass-text-primary-opacity-70 glass-font-medium'>
-                {unit}
-              </span>
+              <ContrastGuard>
+                <span className="glass-text-lg glass-text-primary-opacity-70 glass-font-medium">
+                  {unit}
+                </span>
+              </ContrastGuard>
             )}
           </div>
 
           {/* Sparkline */}
           {showSparkline && (sparklineData?.length || 0) > 0 && (
-            <div className='glass-mb-4'>
+            <div className="glass-mb-4">
               <svg
                 width="100%"
                 height={config.sparklineHeight.replace("h-", "")}
-                className='glass-overflow-visible'
+                className="glass-overflow-visible"
               >
                 <path
                   d={generateSparklinePath(sparklineData)}
@@ -428,8 +434,8 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
 
           {/* Progress bar */}
           {progress !== undefined && (
-            <div className='glass-mb-4'>
-              <div className='glass-w-full glass-surface-subtle/10 glass-radius-full glass-h-2 glass-overflow-hidden'>
+            <div className="glass-mb-4">
+              <div className="glass-w-full glass-surface-subtle/10 glass-radius-full glass-h-2 glass-overflow-hidden">
                 <Motion
                   preset="slideRight"
                   className="glass-h-full glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-full"
@@ -437,25 +443,35 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
                 />
               </div>
               <div className="glass-flex glass-justify-between glass-items-center glass-mt-1">
-                <span className='glass-text-xs glass-text-primary-glass-opacity-60'>Progress</span>
-                <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
-                  {Math.round(progress)}%
-                </span>
+                <ContrastGuard>
+                  <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+                    Progress
+                  </span>
+                </ContrastGuard>
+                <ContrastGuard>
+                  <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+                    {Math.round(progress)}%
+                  </span>
+                </ContrastGuard>
               </div>
             </div>
           )}
 
           {/* Previous value comparison */}
           {previousValue && (
-            <div className='glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg'>
+            <div className="glass-mb-4 glass-p-3 glass-surface-subtle/5 glass-radius-lg">
               <div className="glass-flex glass-items-center glass-justify-between">
-                <span className='glass-text-sm glass-text-primary-opacity-70'>
-                  Previous period
-                </span>
-                <span className='glass-text-sm glass-font-medium glass-text-primary'>
-                  {previousValue}
-                  {unit}
-                </span>
+                <ContrastGuard>
+                  <span className="glass-text-sm glass-text-primary-opacity-70">
+                    Previous period
+                  </span>
+                </ContrastGuard>
+                <ContrastGuard>
+                  <span className="glass-text-sm glass-font-medium glass-text-primary">
+                    {previousValue}
+                    {unit}
+                  </span>
+                </ContrastGuard>
               </div>
             </div>
           )}
@@ -468,27 +484,29 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
                   key={index}
                   className="glass-flex glass-items-center glass-justify-between"
                 >
-                  <span className='glass-text-sm glass-text-primary-opacity-70'>
+                  <span className="glass-text-sm glass-text-primary-opacity-70">
                     {stat.label}
                   </span>
                   <div className="glass-flex glass-items-center glass-gap-2">
-                    <span className='glass-text-sm glass-font-medium glass-text-primary'>
+                    <span className="glass-text-sm glass-font-medium glass-text-primary">
                       {stat.value}
                     </span>
                     {stat.change !== undefined && (
-                      <span
-                        className={cn(
-                          "glass-text-xs font-medium",
-                          stat.change > 0
-                            ? "text-green-400"
-                            : stat.change < 0
-                              ? "text-red-400"
-                              : "text-yellow-400"
-                        )}
-                      >
-                        {stat.change > 0 ? "+" : ""}
-                        {stat.change}%
-                      </span>
+                      <ContrastGuard>
+                        <span
+                          className={cn(
+                            "glass-text-xs font-medium",
+                            stat.change > 0
+                              ? "text-green-400"
+                              : stat.change < 0
+                                ? "text-red-400"
+                                : "text-yellow-400"
+                          )}
+                        >
+                          {stat.change > 0 ? "+" : ""}
+                          {stat.change}%
+                        </span>
+                      </ContrastGuard>
                     )}
                   </div>
                 </div>

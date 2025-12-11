@@ -12,6 +12,9 @@ import { Motion } from "../../primitives";
 import { GlassButton } from "../button";
 import { CardContent, CardHeader, CardTitle, GlassCard } from "../card";
 import { GlassProgress } from "../data-display";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface WizardStep {
   id: string;
@@ -302,28 +305,33 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 
   return (
     <WizardContext.Provider data-glass-component value={contextValue}>
-      <Motion preset="fadeIn" className='glass-w-full glass-max-w-4xl glass-mx-auto'>
+      <Motion
+        preset="fadeIn"
+        className="glass-w-full glass-max-w-4xl glass-mx-auto"
+      >
         <GlassCard className={cn("overflow-hidden", className)} {...props}>
           {/* Header */}
           <CardHeader className="glass-border-b glass-border-white/10">
             <div className="glass-flex glass-items-center glass-justify-between">
               <div>
                 {title && (
-                  <CardTitle className='glass-text-xl glass-font-semibold glass-text-primary glass-mb-1'>
+                  <CardTitle className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-1">
                     {title}
                   </CardTitle>
                 )}
                 {description && (
-                  <p className='glass-text-sm glass-text-primary-opacity-70'>{description}</p>
+                  <p className="glass-text-sm glass-text-primary-opacity-70">
+                    {description}
+                  </p>
                 )}
               </div>
 
               {showProgress && (
                 <div className="glass-flex glass-items-center glass-gap-3">
-                  <span className='glass-text-sm glass-text-primary-glass-opacity-60'>
+                  <span className="glass-text-sm glass-text-primary-glass-opacity-60">
                     Step {currentStep + 1} of {steps.length}
                   </span>
-                  <div className='glass-w-24'>
+                  <div className="glass-w-24">
                     <GlassProgress value={progress} size="sm" />
                   </div>
                 </div>
@@ -334,7 +342,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             {showStepNavigation && (
               <nav
                 aria-label="Wizard steps"
-                className='glass-flex glass-items-center glass-gap-2 glass-mt-6 glass-overflow-x-auto glass-pb-2'
+                className="glass-flex glass-items-center glass-gap-2 glass-mt-6 glass-overflow-x-auto glass-pb-2"
               >
                 {steps.map((step, index) => {
                   const isActive = index === currentStep;
@@ -357,7 +365,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                       aria-current={isActive ? "step" : undefined}
                       aria-disabled={isDisabled}
                       className={cn(
-                        "flex items-center glass-gap-2 glass-px-3 glass-py-2 glass-radius-lg glass-text-sm font-medium transition-all duration-200 whitespace-nowrap",
+                        `flex items-center glass-gap-2 glass-px-3 glass-py-2 glass-radius-lg glass-text-sm font-medium transition-all duration-[${ANIMATION.DURATION.fast}ms] whitespace-nowrap`,
                         "border border-white/20",
                         "glass-focus glass-touch-target glass-contrast-guard",
                         {
@@ -372,16 +380,18 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                         }
                       )}
                     >
-                      <div className='glass-flex glass-items-center glass-justify-center glass-w-6 glass-h-6 glass-radius-full glass-text-xs'>
+                      <div className="glass-flex glass-items-center glass-justify-center glass-w-6 glass-h-6 glass-radius-full glass-text-xs">
                         {isCompleted ? (
-                          <Check className='glass-w-3 glass-h-3' />
+                          <Check className="glass-w-3 glass-h-3" />
                         ) : isActive && validatingStep === index ? (
-                          <Loader2 className='glass-w-3 glass-h-3 glass-animate-spin' />
+                          <Loader2 className="glass-w-3 glass-h-3 glass-animate-spin" />
                         ) : (
                           <span>{index + 1}</span>
                         )}
                       </div>
-                      <span className='glass-hidden sm:glass-inline'>{step.title}</span>
+                      <span className="glass-hidden sm:glass-inline">
+                        {step.title}
+                      </span>
                     </button>
                   );
                 })}
@@ -394,24 +404,24 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
             <Motion
               key={currentStep}
               preset="slideIn"
-              className='glass-min-h-300px'
+              className="glass-min-h-300px"
             >
               {currentStepData ? (
                 <>
                   {/* Step Header */}
-                  <div className='glass-flex glass-items-start glass-gap-4 glass-mb-6'>
+                  <div className="glass-flex glass-items-start glass-gap-4 glass-mb-6">
                     {currentStepData.icon && (
-                      <div className='glass-flex glass-items-center glass-justify-center glass-w-12 glass-h-12 glass-radius-lg glass-surface-subtle/10'>
+                      <div className="glass-flex glass-items-center glass-justify-center glass-w-12 glass-h-12 glass-radius-lg glass-surface-subtle/10">
                         {currentStepData.icon}
                       </div>
                     )}
 
                     <div className="glass-flex-1">
-                      <h2 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'>
+                      <h2 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1">
                         {currentStepData.title}
                       </h2>
                       {currentStepData.description && (
-                        <p className='glass-text-sm glass-text-primary-opacity-70'>
+                        <p className="glass-text-sm glass-text-primary-opacity-70">
                           {currentStepData.description}
                         </p>
                       )}
@@ -422,9 +432,12 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                       <div
                         role="alert"
                         aria-live="assertive"
-                        className='glass-flex glass-items-center glass-gap-2 glass-text-primary'
+                        className="glass-flex glass-items-center glass-gap-2 glass-text-primary"
                       >
-                        <AlertCircle className='glass-w-4 glass-h-4' aria-hidden="true" />
+                        <AlertCircle
+                          className="glass-w-4 glass-h-4"
+                          aria-hidden="true"
+                        />
                         <span className="glass-text-sm">
                           {stepErrors[currentStep]}
                         </span>
@@ -437,7 +450,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                 </>
               ) : (
                 <div className="glass-flex glass-items-center glass-justify-center glass-p-8">
-                  <p className='glass-text-sm glass-text-primary-glass-opacity-60'>
+                  <p className="glass-text-sm glass-text-primary-glass-opacity-60">
                     No steps configured
                   </p>
                 </div>
@@ -456,7 +469,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                     disabled={loading}
                     className="glass-flex glass-items-center glass-gap-2"
                   >
-                    <ChevronLeft className='glass-w-4 glass-h-4' />
+                    <ChevronLeft className="glass-w-4 glass-h-4" />
                     {previousButtonText}
                   </GlassButton>
                 )}
@@ -488,11 +501,11 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
                   className="glass-flex glass-items-center glass-gap-2"
                 >
                   {validatingStep === currentStep ? (
-                    <Loader2 className='glass-w-4 glass-h-4 glass-animate-spin' />
+                    <Loader2 className="glass-w-4 glass-h-4 glass-animate-spin" />
                   ) : isLastStep ? (
-                    <Check className='glass-w-4 glass-h-4' />
+                    <Check className="glass-w-4 glass-h-4" />
                   ) : (
-                    <ChevronRight className='glass-w-4 glass-h-4' />
+                    <ChevronRight className="glass-w-4 glass-h-4" />
                   )}
                   {isLastStep ? completeButtonText : nextButtonText}
                 </GlassButton>
@@ -551,7 +564,7 @@ export const GlassWizardStepper: React.FC<GlassWizardStepperProps> = ({
             <div className="glass-flex glass-flex-col glass-items-center">
               <div
                 className={cn(
-                  "flex items-center justify-center w-10 h-10 glass-radius-full border-2 transition-all duration-200",
+                  `flex items-center justify-center w-10 h-10 glass-radius-full border-2 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                   {
                     "bg-primary border-primary text-primary-foreground":
                       isActive,
@@ -564,9 +577,11 @@ export const GlassWizardStepper: React.FC<GlassWizardStepperProps> = ({
                 )}
               >
                 {isCompleted ? (
-                  <Check className='glass-w-5 glass-h-5' />
+                  <Check className="glass-w-5 glass-h-5" />
                 ) : (
-                  <span className='glass-text-sm glass-font-medium'>{index + 1}</span>
+                  <span className="glass-text-sm glass-font-medium">
+                    {index + 1}
+                  </span>
                 )}
               </div>
 
@@ -585,7 +600,7 @@ export const GlassWizardStepper: React.FC<GlassWizardStepperProps> = ({
             {index < steps.length - 1 && (
               <div
                 className={cn(
-                  "w-12 h-0.5 transition-all duration-200",
+                  `w-12 h-0.5 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                   isCompleted || isPast ? "bg-green-500" : "bg-white/20"
                 )}
               />

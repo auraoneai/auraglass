@@ -2,7 +2,7 @@
 
 exports[`ToggleButton matches snapshot 1`] = `
 <div
-  class="motion-primitive inline-block"
+  class="motion-primitive glass-inline-glass-block"
 >
   <button
     aria-pressed="false"

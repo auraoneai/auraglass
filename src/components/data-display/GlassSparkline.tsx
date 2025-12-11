@@ -1,7 +1,12 @@
-'use client';
-import React, { SVGAttributes } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
-import { ContrastGuard, TextWithContrast } from '@/components/accessibility/ContrastGuard';
+"use client";
+import React, { SVGAttributes } from "react";
+import { cn } from "../../lib/utilsComprehensive";
+import {
+  ContrastGuard,
+  TextWithContrast,
+} from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 const DEFAULT_DATA = [0, 0];
 
@@ -18,8 +23,8 @@ export function GlassSparkline({
   data,
   width = 120,
   height = 32,
-  stroke = 'currentColor',
-  fill = 'none',
+  stroke = "currentColor",
+  fill = "none",
   className,
   ...rest
 }: GlassSparklineProps) {
@@ -27,11 +32,13 @@ export function GlassSparkline({
     Array.isArray(data) && data.length ? data : DEFAULT_DATA;
   const max = Math.max(...sparklineData);
   const min = Math.min(...sparklineData);
-  const norm = (v: number) => (height - 2) - ((v - min) / (max - min || 1)) * (height - 4);
-  const step = sparklineData.length > 1 ? (width - 4) / (sparklineData.length - 1) : 0;
+  const norm = (v: number) =>
+    height - 2 - ((v - min) / (max - min || 1)) * (height - 4);
+  const step =
+    sparklineData.length > 1 ? (width - 4) / (sparklineData.length - 1) : 0;
   const d = sparklineData
-    .map((v, i) => `${i === 0 ? 'M' : 'L'} ${2 + i * step} ${norm(v)}`)
-    .join(' ');
+    .map((v, i) => `${i === 0 ? "M" : "L"} ${2 + i * step} ${norm(v)}`)
+    .join(" ");
 
   return (
     <svg
@@ -39,7 +46,7 @@ export function GlassSparkline({
       viewBox={`0 0 ${width} ${height}`}
       width={width}
       height={height}
-      className={cn('text-blue-300/90', className)}
+      className={cn("text-blue-300/90", className)}
       {...rest}
     >
       <path

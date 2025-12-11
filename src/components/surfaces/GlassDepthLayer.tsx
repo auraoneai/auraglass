@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { HTMLMotionProps, motion } from "framer-motion";
 import React, { forwardRef, useMemo } from "react";
@@ -8,6 +8,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
 
 export type DepthLayer =
   | "background"
@@ -58,7 +59,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     zIndex: 10,
     transform: "translateZ(-150px) scale(1.5)",
     shadow:
-      "0 4px 20px rgba(var(--glass-color-black) / var(--glass-opacity-10))",
+      "0 4px 20px color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
   },
   "mid-far": {
     layer: "mid-far",
@@ -68,7 +69,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     zIndex: 20,
     transform: "translateZ(-100px) scale(1.3)",
     shadow:
-      "0 6px 25px rgba(var(--glass-color-black) / var(--glass-opacity-15))",
+      "0 6px 25px color-mix(in srgb, var(--glass-black) var(--glass-opacity-15), transparent)",
   },
   mid: {
     layer: "mid",
@@ -78,7 +79,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     zIndex: 30,
     transform: "translateZ(-50px) scale(1.1)",
     shadow:
-      "0 8px 30px rgba(var(--glass-color-black) / var(--glass-opacity-20))",
+      "0 8px 30px color-mix(in srgb, var(--glass-black) var(--glass-opacity-20), transparent)",
   },
   "mid-near": {
     layer: "mid-near",
@@ -87,7 +88,8 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 0.7,
     zIndex: 40,
     transform: "translateZ(0px) scale(1)",
-    shadow: "0 10px 35px rgba(0, 0, 0, 0.25)",
+    shadow:
+      "0 10px 35px color-mix(in srgb, var(--glass-black) 25%, transparent)",
   },
   near: {
     layer: "near",
@@ -97,7 +99,7 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     zIndex: 50,
     transform: "translateZ(50px) scale(0.9)",
     shadow:
-      "0 12px 40px rgba(var(--glass-color-black) / var(--glass-opacity-30))",
+      "0 12px 40px color-mix(in srgb, var(--glass-black) var(--glass-opacity-30), transparent)",
   },
   foreground: {
     layer: "foreground",
@@ -106,7 +108,8 @@ const DEFAULT_DEPTH_CONFIGS: Record<DepthLayer, GlassDepthConfig> = {
     brightness: 0.9,
     zIndex: 60,
     transform: "translateZ(100px) scale(0.8)",
-    shadow: "0 16px 50px rgba(0, 0, 0, 0.4)",
+    shadow:
+      "0 16px 50px color-mix(in srgb, var(--glass-black) 40%, transparent)",
   },
   overlay: {
     layer: "overlay",
@@ -130,13 +133,12 @@ export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(
       parallaxStrength = 0.5,
       enableHover = true,
       hoverLift = 10,
-      className="",
+      className = "",
       ...props
     },
     ref
   ) => {
     const prefersReducedMotion = useReducedMotion();
-    // TODO: Integrate ContrastGuard for any section titles, labels, and helper text for WCAG AA compliance
 
     const config = useMemo(
       () => ({
@@ -158,8 +160,11 @@ export const GlassDepthLayer = forwardRef<HTMLDivElement, DepthLayerProps>(
       whileHover: enableHover
         ? {
             transform: `${config.transform} translateY(-${hoverLift}px)`,
-            boxShadow: `0 ${20 + hoverLift}px ${60 + hoverLift}px rgba(0, 0, 0, 0.4)`,
-            transition: { duration: 0.3, ease: "easeOut" },
+            boxShadow: `0 ${20 + hoverLift}px ${60 + hoverLift}px color-mix(in srgb, var(--glass-black) 40%, transparent)`,
+            transition: {
+              duration: ANIMATION.DURATION.normal / 1000,
+              ease: ANIMATION.EASING.easeOut,
+            },
           }
         : undefined,
       ...(enableParallax && {
@@ -200,7 +205,7 @@ interface DepthSceneProps {
 export const GlassDepthScene: React.FC<DepthSceneProps> = ({
   children,
   perspective = 1000,
-  className="",
+  className = "",
 }) => {
   return (
     <div
@@ -231,7 +236,7 @@ export const LayeredGlassStack: React.FC<LayeredGlassStackProps> = ({
   layers,
   enableParallax = true,
   enableHover = true,
-  className="",
+  className = "",
 }) => {
   const sortedLayers = useMemo(
     () =>
@@ -252,7 +257,7 @@ export const LayeredGlassStack: React.FC<LayeredGlassStackProps> = ({
           customConfig={layerData.config}
           enableParallax={enableParallax}
           enableHover={enableHover}
-          className='glass-absolute glass-inset-0'
+          className="glass-absolute glass-inset-0"
         >
           {layerData.content}
         </GlassDepthLayer>
@@ -276,8 +281,8 @@ export const useDepthAnimation = (layer: DepthLayer) => {
         z: 0,
         scale: 1,
         transition: {
-          duration: 1,
-          ease: [0.23, 1, 0.32, 1],
+          duration: ANIMATION.DURATION.slower / 1000,
+          ease: ANIMATION.EASING.easeInOut,
           delay: config.zIndex * 0.1,
         },
       },
@@ -286,7 +291,7 @@ export const useDepthAnimation = (layer: DepthLayer) => {
         z: -200,
         scale: 0.8,
         transition: {
-          duration: 0.5,
+          duration: ANIMATION.DURATION.slow / 1000,
           ease: "easeInOut",
         },
       },

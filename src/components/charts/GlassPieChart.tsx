@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { useMemo, useState, forwardRef } from "react";
 import { Motion } from "../../primitives";
@@ -7,6 +7,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
 export interface PieDataPoint {
   label: string;
@@ -84,8 +85,6 @@ export interface GlassPieChartProps {
 export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
   function GlassPieChartComponent(
     {
-      // TODO: Integrate ContrastGuard in chart labels, tooltips, and legends for WCAG AA compliance
-
       title,
       data = [],
       size = 300,
@@ -95,7 +94,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
       showLabels = false,
       showPercentages = true,
       colors,
-      animationDuration = 1000,
+      animationDuration = ANIMATION.DURATION.normal,
       showTooltips = true,
       formatValue,
       formatPercentage,
@@ -110,11 +109,11 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
       "var(--glass-color-danger)",
       "var(--glass-color-success)",
       "var(--glass-color-warning)",
-      "#8b5cf6",
-      "#06b6d4",
-      "#84cc16",
-      "#f97316",
-      "#ec4899",
+      COLORS.semantic.secondary,
+      COLORS.semantic.info,
+      COLORS.semantic.success,
+      COLORS.semantic.warning,
+      COLORS.semantic.error,
       "var(--glass-gray-500)",
     ];
     const actualColors = colors || defaultColors;
@@ -241,16 +240,16 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
     if (actualLoading) {
       return (
         <GlassCard data-glass-component className={cn("glass-p-6", className)}>
-          <div className='glass-animate-pulse glass-gap-4'>
-            <div className='glass-h-6 glass-surface-subtle/20 glass-radius-md glass-w-48'></div>
+          <div className="glass-animate-pulse glass-gap-4">
+            <div className="glass-h-6 glass-surface-subtle/20 glass-radius-md glass-w-48"></div>
             <div className="glass-flex glass-items-center glass-justify-center">
-              <div className='glass-w-64 glass-h-64 glass-surface-subtle/10 glass-radius-full'></div>
+              <div className="glass-w-64 glass-h-64 glass-surface-subtle/10 glass-radius-full"></div>
             </div>
             {showLegend && (
               <div className="glass-flex glass-justify-center glass-gap-4">
-                <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
-                <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
-                <div className='glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20'></div>
+                <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
+                <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
+                <div className="glass-h-4 glass-surface-subtle/20 glass-radius-md glass-w-20"></div>
               </div>
             )}
           </div>
@@ -263,7 +262,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
         <GlassCard className={cn("overflow-hidden", className)} {...props}>
           {title && (
             <CardHeader>
-              <CardTitle className='glass-text-primary glass-text-lg glass-font-semibold'>
+              <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold">
                 {title}
               </CardTitle>
             </CardHeader>
@@ -278,22 +277,26 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
               )}
             >
               {/* Chart */}
-              <div className='glass-relative glass-flex-shrink-0'>
-                <svg width={size} height={size} className='glass-overflow-visible'>
+              <div className="glass-relative glass-flex-shrink-0">
+                <svg
+                  width={size}
+                  height={size}
+                  className="glass-overflow-visible"
+                >
                   {/* Segments */}
                   {processedData.segments.map((segment, index) => (
                     <Motion
                       key={`${segment.label}-${index}`}
                       preset="scaleIn"
                       delay={index * 100}
-                      className='glass-relative'
+                      className="glass-relative"
                     >
                       <path
                         d={segment.path}
                         fill={segment.color}
-                        stroke="rgba(var(--glass-color-white) / var(--glass-opacity-20))"
+                        stroke="color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
                         strokeWidth="1"
-                        className='glass-cursor-pointer glass-transition-all glass-duration-200 hover:glass-opacity-80'
+                        className={`glass-cursor-pointer glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] hover:glass-opacity-80`}
                         onMouseEnter={(e) => handleSegmentHover(segment, e)}
                         onMouseLeave={handleSegmentLeave}
                         style={{
@@ -314,17 +317,19 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                           textAnchor={
                             segment.labelX > centerX ? "start" : "end"
                           }
-                          className='glass-text-xs glass-fill-white-opacity-80 glass-font-medium'
+                          className="glass-text-xs glass-fill-white-opacity-80 glass-font-medium"
                           style={{ fontSize: "var(--typography-caption-size)" }}
                         >
-                          {segment.label}
+                          <ContrastGuard>{segment.label}</ContrastGuard>
                           {showPercentages && (
                             <tspan
                               x={segment.labelX}
                               dy="14"
-                              className='glass-text-xs glass-fill-white/60'
+                              className="glass-text-xs glass-fill-white/60"
                             >
-                              {actualFormatPercentage(segment.percentage)}
+                              <ContrastGuard>
+                                {actualFormatPercentage(segment.percentage)}
+                              </ContrastGuard>
                             </tspan>
                           )}
                         </text>
@@ -340,24 +345,26 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                         cy={centerY}
                         r={innerRadius}
                         fill="var(--glass-bg-default)"
-                        stroke="rgba(var(--glass-color-white) / var(--glass-opacity-20))"
+                        stroke="color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
                         strokeWidth="1"
                       />
                       <text
                         x={centerX}
                         y={centerY - 5}
                         textAnchor="middle"
-                        className='glass-text-sm glass-fill-white-opacity-80 glass-font-medium'
+                        className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
                       >
-                        Total
+                        <ContrastGuard>Total</ContrastGuard>
                       </text>
                       <text
                         x={centerX}
                         y={centerY + 15}
                         textAnchor="middle"
-                        className='glass-text-lg glass-fill-white glass-font-semibold'
+                        className="glass-text-lg glass-fill-white glass-font-semibold"
                       >
-                        {actualFormatValue(processedData.total)}
+                        <ContrastGuard>
+                          {actualFormatValue(processedData.total)}
+                        </ContrastGuard>
                       </text>
                     </g>
                   )}
@@ -365,7 +372,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
 
                 {/* Tooltip */}
                 {hoveredSegment && (
-                  <Motion preset="fadeIn" className='glass-absolute glass-z-10'>
+                  <Motion preset="fadeIn" className="glass-absolute glass-z-10">
                     <div
                       className={cn(
                         "absolute glass-radius-xl glass-p-3 shadow-xl",
@@ -380,14 +387,16 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                             : "none",
                       }}
                     >
-                      <div className='glass-text-primary glass-text-sm'>
-                        <div className='glass-font-medium'>
-                          {hoveredSegment.label}
-                        </div>
-                        <div className='glass-text-primary-glass-opacity-80'>
-                          {actualFormatValue(hoveredSegment.value)} (
-                          {actualFormatPercentage(hoveredSegment.percentage)})
-                        </div>
+                      <div className="glass-text-primary glass-text-sm">
+                        <ContrastGuard>
+                          <div className="glass-font-medium">
+                            {hoveredSegment.label}
+                          </div>
+                          <div className="glass-text-primary-glass-opacity-80">
+                            {actualFormatValue(hoveredSegment.value)} (
+                            {actualFormatPercentage(hoveredSegment.percentage)})
+                          </div>
+                        </ContrastGuard>
                       </div>
                     </div>
                   </Motion>
@@ -408,7 +417,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                       preset="slideUp"
                       delay={item?.index * 50}
                       className={cn(
-                        "flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-200 glass-hover--translate-y-0-5",
+                        `flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-hover--translate-y-0-5`,
                         hoveredLegendIndex !== null &&
                           hoveredLegendIndex !== item?.index
                           ? "opacity-50"
@@ -418,15 +427,19 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                       onMouseLeave={() => setHoveredLegendIndex(null)}
                     >
                       <div
-                        className='glass-w-3 glass-h-3 glass-radius-md'
+                        className="glass-w-3 glass-h-3 glass-radius-md"
                         style={{ backgroundColor: item?.color }}
                       />
-                      <div className='glass-text-sm glass-text-primary-glass-opacity-80'>
-                        <span className='glass-font-medium'>{item?.label}</span>
-                        <span className='glass-ml-2 glass-text-primary-glass-opacity-60'>
-                          {actualFormatValue(item?.value)} (
-                          {actualFormatPercentage(item?.percentage)})
-                        </span>
+                      <div className="glass-text-sm glass-text-primary-glass-opacity-80">
+                        <ContrastGuard>
+                          <span className="glass-font-medium">
+                            {item?.label}
+                          </span>
+                          <span className="glass-ml-2 glass-text-primary-glass-opacity-60">
+                            {actualFormatValue(item?.value)} (
+                            {actualFormatPercentage(item?.percentage)})
+                          </span>
+                        </ContrastGuard>
                       </div>
                     </Motion>
                   ))}

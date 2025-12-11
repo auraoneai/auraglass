@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import {
   createMotionAwareInteractive,
@@ -8,6 +8,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { motion } from "framer-motion";
 import React, { forwardRef } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
+import { ANIMATION } from "../../tokens/designConstants";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface MotionAwareGlassProps
   extends Omit<
@@ -118,7 +121,7 @@ export const MotionAwareGlass = forwardRef<
             backgroundColor:
               '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
             borderColor: "var(--glass-bg-default)",
-            transition: { duration: 0.001 },
+            transition: { duration: ANIMATION.DURATION.instant / 1000 },
           },
         };
       }
@@ -129,11 +132,11 @@ export const MotionAwareGlass = forwardRef<
             '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
           borderColor: "var(--glass-bg-default)",
           y: -2,
-          transition: { duration: 0.2 },
+          transition: { duration: ANIMATION.DURATION.fast / 1000 },
         },
         tap: {
           y: -1,
-          transition: { duration: 0.1 },
+          transition: { duration: ANIMATION.DURATION.fast / 2000 },
         },
       };
     };
@@ -208,7 +211,9 @@ export const MotionAwareGlass = forwardRef<
 
         {/* Screen reader information for motion preference */}
         {prefersReducedMotion && (
-          <span className='glass-sr-only'>Motion reduced for accessibility</span>
+          <span className="glass-sr-only">
+            Motion reduced for accessibility
+          </span>
         )}
       </motion.div>
     );

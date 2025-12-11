@@ -7,6 +7,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassAvatarProps
   extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -81,8 +83,6 @@ export interface GlassAvatarFallbackProps {
 export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
       variant = "circle",
       size = "md",
       status,
@@ -151,11 +151,13 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     const fallbackContent =
       fallback ||
       (fallbackText ? (
-        <span className='glass-font-medium glass-text-primary-glass-opacity-80'>
-          {getInitials(fallbackText)}
-        </span>
+        <ContrastGuard>
+          <span className="glass-font-medium glass-text-primary-glass-opacity-80">
+            {getInitials(fallbackText)}
+          </span>
+        </ContrastGuard>
       ) : (
-        <div className='glass-w-4 glass-h-4 glass-surface-subtle/30 glass-radius-md' />
+        <div className="glass-w-4 glass-h-4 glass-surface-subtle/30 glass-radius-md" />
       ));
 
     // Convert numeric elevation to level string
@@ -171,7 +173,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     return (
       <div
         data-glass-component
-        className={cn('relative inline-block', className)}
+        className={cn("relative inline-block", className)}
         data-testid={dataTestId || "glassavatar"}
       >
         <OptimizedGlass
@@ -216,14 +218,14 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
               alt={alt || (ariaLabel ? "" : "Avatar image")}
               onError={handleError}
               onLoad={handleLoad}
-              className='glass-w-full glass-h-full glass-object-cover'
+              className="glass-w-full glass-h-full glass-object-cover"
               {...props}
             />
           )}
 
           {isLoading && !hasError && (
-            <div className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/20'>
-              <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full glass-animate-spin' />
+            <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/20">
+              <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full glass-animate-spin" />
             </div>
           )}
         </OptimizedGlass>
@@ -268,7 +270,7 @@ export const GlassAvatarGroup: React.FC<GlassAvatarGroupProps> = ({
   return (
     <div className={cn("flex items-center", spacingClasses[spacing])}>
       {childArray.slice(0, visibleCount).map((child, index) => (
-        <div key={index} className='glass-relative'>
+        <div key={index} className="glass-relative">
           {React.cloneElement(child as React.ReactElement, {
             size,
             elevation: "level2",
@@ -277,14 +279,16 @@ export const GlassAvatarGroup: React.FC<GlassAvatarGroupProps> = ({
       ))}
 
       {hasOverflow && (
-        <div className='glass-relative'>
+        <div className="glass-relative">
           <GlassAvatar
             size={size}
             elevation={2}
             fallback={
-              <span className='glass-font-medium glass-text-primary-glass-opacity-60 glass-text-xs'>
-                +{childArray.length - max}
-              </span>
+              <ContrastGuard>
+                <span className="glass-font-medium glass-text-primary-glass-opacity-60 glass-text-xs">
+                  +{childArray.length - max}
+                </span>
+              </ContrastGuard>
             }
           />
         </div>
@@ -313,7 +317,7 @@ export const GlassAvatarFallback: React.FC<GlassAvatarFallbackProps> = ({
   if (!showFallback) {
     return (
       <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-surface-dark/10">
-        <div className='glass-w-3 glass-h-3 glass-border glass-border-white/30 glass-border-t-white/60 glass-radius-full glass-animate-spin' />
+        <div className="glass-w-3 glass-h-3 glass-border glass-border-white/30 glass-border-t-white/60 glass-radius-full glass-animate-spin" />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   forwardRef,
@@ -25,6 +25,8 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface ColumnDef<T = any> {
   id?: string;
@@ -162,8 +164,6 @@ export interface GlassDataTableProps<T = any> extends ConsciousnessFeatures {
 export const GlassDataTable = <T = any,>(
   props: GlassDataTableProps<T> & { ref?: React.Ref<HTMLDivElement> }
 ) => {
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
-
   return <GlassDataTableInner {...props} />;
 };
 
@@ -207,7 +207,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       trackAchievements = false,
       achievementId,
       usageContext = "main",
-      'aria-label': ariaLabel,
+      "aria-label": ariaLabel,
       ...restProps
     },
     ref
@@ -271,7 +271,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       adaptTable();
 
       // Listen for biometric changes
-      const interval = setInterval(adaptTable, 5000);
+      const interval = setInterval(adaptTable, ANIMATION.DURATION.slower * 7);
       return () => clearInterval(interval);
     }, [biometricResponsive, biometricAdapter, initialPageSize]);
 
@@ -293,7 +293,10 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
         }
       };
 
-      const interval = setInterval(updatePredictions, 3000);
+      const interval = setInterval(
+        updatePredictions,
+        ANIMATION.DURATION.slower * 4
+      );
       updatePredictions(); // Initial update
 
       return () => clearInterval(interval);
@@ -544,16 +547,16 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
       );
 
     return (
-      <div 
-        data-glass-component 
-        ref={ref} 
+      <div
+        data-glass-component
+        ref={ref}
         className={cn("w-full", className)}
         aria-label={ariaLabel}
         {...restProps}
       >
         {/* Table header with search and actions */}
         {(searchable || actions || filterable) && (
-          <div className='glass-flex glass-items-center glass-justify-between glass-gap-4 glass-mb-4'>
+          <div className="glass-flex glass-items-center glass-justify-between glass-gap-4 glass-mb-4">
             <div className="glass-flex glass-items-center glass-gap-4">
               {searchable && (
                 <GlassInput
@@ -562,7 +565,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                   onChange={(e) => setSearchQuery(e.target.value)}
                   leftIcon={
                     <svg
-                      className='glass-w-4 glass-h-4'
+                      className="glass-w-4 glass-h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -576,7 +579,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                     </svg>
                   }
                   clearable
-                  className='glass-w-64'
+                  className="glass-w-64"
                 />
               )}
             </div>
@@ -599,11 +602,11 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
           animation="none"
           performanceMode="medium"
           className={cn(
-            "overflow-hidden transition-all duration-500",
+            `overflow-hidden transition-all duration-[${ANIMATION.DURATION.slow}ms]`,
             variant === "bordered" && "border border-border/20"
           )}
         >
-          <div className='glass-overflow-x-auto'>
+          <div className="glass-overflow-x-auto">
             <table className="glass-w-full">
               {/* Table header */}
               <thead
@@ -619,7 +622,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                         type="checkbox"
                         checked={isAllSelected}
                         onChange={(e) => handleSelectAll(e.target.checked)}
-                        className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
+                        className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
                       />
                     </th>
                   )}
@@ -635,7 +638,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       <th
                         key={columnId}
                         className={cn(
-                          "font-semibold text-foreground border-b border-border/10 transition-all duration-200",
+                          `font-semibold text-foreground border-b border-border/10 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                           cellPaddingClasses[validSize],
                           sizeClasses[validSize],
                           {
@@ -649,7 +652,9 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                         onClick={(e) => handleSort(columnId)}
                       >
                         <div className="glass-flex glass-items-center glass-gap-2">
-                          <span>{headerContent}</span>
+                          <ContrastGuard>
+                            <span>{headerContent}</span>
+                          </ContrastGuard>
 
                           {(column.sortable || sortable) && (
                             <div className="glass-flex glass-flex-col">
@@ -698,8 +703,12 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       )}
                     >
                       <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-py-8">
-                        <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
-                        <span className="glass-text-secondary">Loading...</span>
+                        <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin" />
+                        <ContrastGuard>
+                          <span className="glass-text-secondary">
+                            Loading...
+                          </span>
+                        </ContrastGuard>
                       </div>
                     </td>
                   </tr>
@@ -715,17 +724,21 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       {emptyState ? (
                         <div className="glass-flex glass-flex-col glass-items-center glass-gap-2">
                           {emptyState.icon}
-                          <div className='glass-font-medium'>
-                            {emptyState.message || emptyMessage}
-                          </div>
-                          {emptyState.description && (
-                            <div className="glass-text-sm glass-text-secondary">
-                              {emptyState.description}
+                          <ContrastGuard>
+                            <div className="glass-font-medium">
+                              {emptyState.message || emptyMessage}
                             </div>
+                          </ContrastGuard>
+                          {emptyState.description && (
+                            <ContrastGuard>
+                              <div className="glass-text-sm glass-text-secondary">
+                                {emptyState.description}
+                              </div>
+                            </ContrastGuard>
                           )}
                         </div>
                       ) : (
-                        emptyMessage
+                        <ContrastGuard>{emptyMessage}</ContrastGuard>
                       )}
                     </td>
                   </tr>
@@ -739,7 +752,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       <tr
                         key={rowId}
                         className={cn(
-                          "group transition-all duration-200 glass-radius-md",
+                          `group transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-radius-md`,
                           {
                             "bg-muted/5":
                               variant === "striped" && index % 2 === 1,
@@ -773,7 +786,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                               onChange={(e) =>
                                 handleRowSelection(rowId, e.target.checked)
                               }
-                              className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
+                              className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
                               onClick={(e) => e.stopPropagation()}
                             />
                           </td>
@@ -800,20 +813,22 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                                 }
                               )}
                             >
-                              {column.cell
-                                ? column.cell({ row, value })
-                                : cellRenderers &&
-                                  (cellRenderers[
-                                    column.id ||
-                                      (column.accessorKey as string) ||
-                                      ""
-                                  ]
-                                    ? cellRenderers[
-                                        column.id ||
-                                          (column.accessorKey as string) ||
-                                          ""
-                                      ]!(value, row as any)
-                                    : String(value))}
+                              <ContrastGuard>
+                                {column.cell
+                                  ? column.cell({ row, value })
+                                  : cellRenderers &&
+                                    (cellRenderers[
+                                      column.id ||
+                                        (column.accessorKey as string) ||
+                                        ""
+                                    ]
+                                      ? cellRenderers[
+                                          column.id ||
+                                            (column.accessorKey as string) ||
+                                            ""
+                                        ]!(value, row as any)
+                                      : String(value))}
+                              </ContrastGuard>
                             </td>
                           );
                         })}
@@ -838,9 +853,11 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
 
               <div className="glass-flex glass-items-center glass-gap-4">
                 <div className="glass-flex glass-items-center glass-gap-2">
-                  <span className="glass-text-sm glass-text-secondary">
-                    Rows per page:
-                  </span>
+                  <ContrastGuard>
+                    <span className="glass-text-sm glass-text-secondary">
+                      Rows per page:
+                    </span>
+                  </ContrastGuard>
                   <GlassSelect
                     value={pageSize}
                     onChange={(e) => {
@@ -873,9 +890,11 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                     aria-label="Previous page"
                   />
 
-                  <span className="glass-px-3 glass-py-1 glass-text-sm">
-                    {currentPage} of {totalPages}
-                  </span>
+                  <ContrastGuard>
+                    <span className="glass-px-3 glass-py-1 glass-text-sm">
+                      {currentPage} of {totalPages}
+                    </span>
+                  </ContrastGuard>
 
                   <IconButton
                     icon="›"

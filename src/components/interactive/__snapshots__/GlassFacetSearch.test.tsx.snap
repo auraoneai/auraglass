@@ -7,15 +7,15 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
   role="search"
 >
   <div
-    class="relative mb-4"
+    class="glass-relative glass-mb-4"
   >
     <div
-      class="relative glass-w-full pr-12"
+      class="relative glass-w-full glass-pr-12"
       data-glass-component="true"
       data-testid="glassinput"
     >
       <div
-        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-full pr-12"
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-full glass-pr-12"
         data-performance-mode="medium"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
@@ -24,7 +24,7 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-search w-4 h-4"
+            class="lucide lucide-search glass-w-4 glass-h-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -47,7 +47,7 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
         </div>
         <input
           aria-label="Search..."
-          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground disabled:cursor-not-allowed"
+          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
           id="glass-input-:rk:"
           placeholder="Search..."
           value=""
@@ -58,21 +58,21 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="absolute right-3 glass-top-1/2 -translate-y-1/2 glass-flex glass-items-center glass-gap-2"
+      class="glass-absolute glass-right-3 glass-top-1/2 glass--translate-y-1-2 glass-flex glass-items-center glass-gap-2"
     >
       <div
-        class="motion-primitive inline-block"
+        class="motion-primitive glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-label="Toggle filters"
           aria-pressed="true"
-          class="inline-flex items-center justify-center font-medium duration-300 ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press transition-colors"
+          class="inline-flex items-center justify-center font-medium duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press transition-colors"
           id="glass-button-:rl:"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-sliders-horizontal w-4 h-4"
+            class="lucide lucide-sliders-horizontal glass-w-4 glass-h-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -116,21 +116,21 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="mb-6 glass-border glass-border-white/20 glass-radius-lg overflow-hidden"
+    class="glass-mb-6 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden"
     style="opacity: 0; height: 0px;"
   >
     <div
       class="glass-p-4"
     >
       <div
-        class="glass-flex glass-items-center glass-justify-between mb-4"
+        class="glass-flex glass-items-center glass-justify-between glass-mb-4"
       >
         <h3
-          class="font-semibold text-primary glass-flex glass-items-center glass-gap-2"
+          class="glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-funnel w-4 h-4"
+            class="lucide lucide-funnel glass-w-4 glass-h-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -160,13 +160,13 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
       class="glass-flex glass-items-center glass-justify-between"
     >
       <h3
-        class="font-semibold text-primary"
+        class="glass-font-semibold glass-text-primary"
       >
         Results 
       </h3>
     </div>
     <div
-      class="text-center glass-py-8 text-primary/70"
+      class="glass-text-center glass-py-8 glass-text-primary-opacity-70"
       style="opacity: 0;"
     >
       Start typing to search...

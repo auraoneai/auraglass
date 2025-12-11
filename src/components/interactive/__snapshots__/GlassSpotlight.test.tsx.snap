@@ -6,7 +6,7 @@ exports[`GlassSpotlight matches snapshot 1`] = `
   data-glass-component="true"
 >
   <span
-    class="sr-only"
+    class="glass-sr-only"
   >
     Glass spotlight inactive
   </span>

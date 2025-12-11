@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useSettings } from '../../contexts/SettingsContext';
-import { createGlassStyle } from '../../core/mixins/glassMixins';
+import React from "react";
+import { useSettings } from "../../contexts/SettingsContext";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 type Option<T extends string | number> = {
   value: T;
@@ -10,49 +10,59 @@ type Option<T extends string | number> = {
   description?: string;
 };
 
-const themeModeOptions: Option<'light' | 'dark' | 'system'>[] = [
-  { value: 'system', label: 'System', description: 'Follow system appearance' },
-  { value: 'light', label: 'Light', description: 'Always use light theme' },
-  { value: 'dark', label: 'Dark', description: 'Always use dark theme' },
+const themeModeOptions: Option<"light" | "dark" | "system">[] = [
+  { value: "system", label: "System", description: "Follow system appearance" },
+  { value: "light", label: "Light", description: "Always use light theme" },
+  { value: "dark", label: "Dark", description: "Always use dark theme" },
 ];
 
-const glassIntensityOptions: Option<'subtle' | 'balanced' | 'strong'>[] = [
-  { value: 'subtle', label: 'Subtle' },
-  { value: 'balanced', label: 'Balanced' },
-  { value: 'strong', label: 'Strong' },
+const glassIntensityOptions: Option<"subtle" | "balanced" | "strong">[] = [
+  { value: "subtle", label: "Subtle" },
+  { value: "balanced", label: "Balanced" },
+  { value: "strong", label: "Strong" },
 ];
 
-const contrastModeOptions: Option<'normal' | 'high'>[] = [
-  { value: 'normal', label: 'Standard' },
-  { value: 'high', label: 'High contrast' },
+const contrastModeOptions: Option<"normal" | "high">[] = [
+  { value: "normal", label: "Standard" },
+  { value: "high", label: "High contrast" },
 ];
 
-const reducedMotionOptions: Option<'system' | 'on' | 'off'>[] = [
-  { value: 'system', label: 'System', description: 'Follow system motion preferences' },
-  { value: 'on', label: 'Reduce', description: 'Minimize animations and motion' },
-  { value: 'off', label: 'Full', description: 'Allow full motion effects' },
+const reducedMotionOptions: Option<"system" | "on" | "off">[] = [
+  {
+    value: "system",
+    label: "System",
+    description: "Follow system motion preferences",
+  },
+  {
+    value: "on",
+    label: "Reduce",
+    description: "Minimize animations and motion",
+  },
+  { value: "off", label: "Full", description: "Allow full motion effects" },
 ];
 
 const fontScaleOptions: Option<1 | 1.1 | 1.25 | 1.5>[] = [
-  { value: 1, label: '100%' },
-  { value: 1.1, label: '110%' },
-  { value: 1.25, label: '125%' },
-  { value: 1.5, label: '150%' },
+  { value: 1, label: "100%" },
+  { value: 1.1, label: "110%" },
+  { value: 1.25, label: "125%" },
+  { value: 1.5, label: "150%" },
 ];
 
-const focusStyleOptions: Option<'default' | 'strong'>[] = [
-  { value: 'default', label: 'Default' },
-  { value: 'strong', label: 'Strong', description: 'More prominent focus outlines' },
+const focusStyleOptions: Option<"default" | "strong">[] = [
+  { value: "default", label: "Default" },
+  {
+    value: "strong",
+    label: "Strong",
+    description: "More prominent focus outlines",
+  },
 ];
 
-const densityOptions: Option<'comfortable' | 'compact'>[] = [
-  { value: 'comfortable', label: 'Comfortable' },
-  { value: 'compact', label: 'Compact' },
+const densityOptions: Option<"comfortable" | "compact">[] = [
+  { value: "comfortable", label: "Comfortable" },
+  { value: "compact", label: "Compact" },
 ];
 
-const localeOptions: Option<string>[] = [
-  { value: 'en', label: 'English' },
-];
+const localeOptions: Option<string>[] = [{ value: "en", label: "English" }];
 
 export const SettingsPage: React.FC = () => {
   const { settings, updateSettings, resetSettings, isReady } = useSettings();
@@ -76,40 +86,47 @@ export const SettingsPage: React.FC = () => {
   return (
     <div
       aria-label="Application settings"
-      className='auraglass-settings-page'
+      className="auraglass-settings-page"
       style={{
-        padding: '2rem',
+        padding: "2rem",
         maxWidth: 960,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2rem',
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: "2rem",
       }}
     >
       <header>
         <h1
           style={{
-            fontSize: '1.75rem',
-            fontWeight: 600,
-            margin: 0,
+            ...{
+              fontSize: "1.75rem",
+              fontWeight: 600,
+              margin: 0,
+            },
           }}
         >
           Settings
         </h1>
         <p
           style={{
-            margin: '0.5rem 0 0',
-            color: 'var(--auraglass-text-muted, #8f9bb3)',
+            ...{
+              margin: "0.5rem 0 0",
+              color: "var(--auraglass-text-muted, #8f9bb3)",
+            },
           }}
         >
-          Customize appearance, motion, and accessibility for the Auraglass experience.
+          Customize appearance, motion, and accessibility for the Auraglass
+          experience.
         </p>
       </header>
 
       {!isReady && (
         <div
           aria-live="polite"
-          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
+          style={{
+            ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+          }}
         >
           Loading your preferences…
         </div>
@@ -121,30 +138,30 @@ export const SettingsPage: React.FC = () => {
           title="Theme & Appearance"
           description="Control color mode, glass intensity, contrast and density."
         />
-        <div className='auraglass-settings-glass-grid'>
+        <div className="auraglass-settings-glass-grid">
           <SelectGroup
             label="Theme mode"
             value={settings.themeMode}
             options={themeModeOptions}
-            onChange={handleChange('themeMode')}
+            onChange={handleChange("themeMode")}
           />
           <SelectGroup
             label="Glass intensity"
             value={settings.glassIntensity}
             options={glassIntensityOptions}
-            onChange={handleChange('glassIntensity')}
+            onChange={handleChange("glassIntensity")}
           />
           <SelectGroup
             label="Contrast mode"
             value={settings.contrastMode}
             options={contrastModeOptions}
-            onChange={handleChange('contrastMode')}
+            onChange={handleChange("contrastMode")}
           />
           <SelectGroup
             label="Interface density"
             value={settings.density}
             options={densityOptions}
-            onChange={handleChange('density')}
+            onChange={handleChange("density")}
           />
         </div>
       </section>
@@ -155,12 +172,12 @@ export const SettingsPage: React.FC = () => {
           title="Motion & Interaction"
           description="Tune motion to align with your comfort and system preferences."
         />
-        <div className='auraglass-settings-glass-grid'>
+        <div className="auraglass-settings-glass-grid">
           <SelectGroup
             label="Motion level"
             value={settings.reducedMotion}
             options={reducedMotionOptions}
-            onChange={handleChange('reducedMotion')}
+            onChange={handleChange("reducedMotion")}
           />
         </div>
       </section>
@@ -171,18 +188,18 @@ export const SettingsPage: React.FC = () => {
           title="Accessibility"
           description="Improve legibility and focus visibility."
         />
-        <div className='auraglass-settings-glass-grid'>
+        <div className="auraglass-settings-glass-grid">
           <SelectGroup
             label="Text size"
             value={settings.fontScale}
             options={fontScaleOptions}
-            onChange={handleChange('fontScale')}
+            onChange={handleChange("fontScale")}
           />
           <SelectGroup
             label="Focus style"
             value={settings.focusStyle}
             options={focusStyleOptions}
-            onChange={handleChange('focusStyle')}
+            onChange={handleChange("focusStyle")}
           />
         </div>
       </section>
@@ -193,12 +210,12 @@ export const SettingsPage: React.FC = () => {
           title="Language & locale"
           description="Used for localization-sensitive components."
         />
-        <div className='auraglass-settings-glass-grid'>
+        <div className="auraglass-settings-glass-grid">
           <SelectGroup
             label="Locale"
             value={settings.locale}
             options={localeOptions}
-            onChange={handleChange('locale')}
+            onChange={handleChange("locale")}
           />
         </div>
       </section>
@@ -209,44 +226,48 @@ export const SettingsPage: React.FC = () => {
           title="Experiments"
           description="Toggle experimental Auraglass capabilities."
         />
-        <div className='auraglass-settings-glass-grid'>
+        <div className="auraglass-settings-glass-grid">
           <ToggleRow
             label="Quantum glass effects"
             description="Enable experimental high-fidelity glass rendering."
             checked={!!settings.experiments?.quantumGlass}
-            onChange={() => handleExperimentToggle('quantumGlass')}
+            onChange={() => handleExperimentToggle("quantumGlass")}
           />
           <ToggleRow
             label="AR depth fields"
             description="Enable AR-inspired depth and parallax layers."
             checked={!!settings.experiments?.arDepth}
-            onChange={() => handleExperimentToggle('arDepth')}
+            onChange={() => handleExperimentToggle("arDepth")}
           />
         </div>
       </section>
 
       <div
         style={{
-          marginTop: '1rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          gap: '1rem',
-          flexWrap: 'wrap',
+          ...{
+            marginTop: "1rem",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
+            flexWrap: "wrap",
+          },
         }}
       >
         <button
           type="button"
           onClick={resetSettings}
-          className='auraglass-button-reset'
+          className="auraglass-button-reset"
           style={{
-            padding: '0.6rem 1.2rem',
-            borderRadius: '999px',
-            border: '1px solid rgba(148,163,253,0.45)',
-            background: 'transparent',
-            color: 'var(--auraglass-text, #e5e7eb)',
-            cursor: 'pointer',
-            // Use createGlassStyle() instead,
-            // Use createGlassStyle() instead,
+            ...{
+              padding: "0.6rem 1.2rem",
+              borderRadius: "999px",
+              border: "1px solid rgba(148,163,253,0.45)",
+              background: "transparent",
+              color: "var(--auraglass-text, #e5e7eb)",
+              cursor: "pointer",
+              // Use createGlassStyle() instead,
+              // Use createGlassStyle() instead,
+            },
           }}
         >
           Reset to defaults
@@ -254,9 +275,11 @@ export const SettingsPage: React.FC = () => {
         <div
           aria-hidden="true"
           style={{
-            fontSize: '0.8rem',
-            color: 'var(--auraglass-text-muted, #9ca3af)',
-            alignSelf: 'center',
+            ...{
+              fontSize: "0.8rem",
+              color: "var(--auraglass-text-muted, #9ca3af)",
+              alignSelf: "center",
+            },
           }}
         >
           Preferences are stored locally in your browser.
@@ -272,18 +295,26 @@ interface SectionHeaderProps {
   description?: string;
 }
 
-const SectionHeader: React.FC<SectionHeaderProps> = ({ id, title, description }) => (
+const SectionHeader: React.FC<SectionHeaderProps> = ({
+  id,
+  title,
+  description,
+}) => (
   <header
     style={{
-      marginBottom: '0.75rem',
+      ...{
+        marginBottom: "0.75rem",
+      },
     }}
   >
     <h2
       id={id}
       style={{
-        fontSize: '1.1rem',
-        margin: 0,
-        fontWeight: 500,
+        ...{
+          fontSize: "1.1rem",
+          margin: 0,
+          fontWeight: 500,
+        },
       }}
     >
       {title}
@@ -291,9 +322,11 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ id, title, description })
     {description && (
       <p
         style={{
-          margin: '0.25rem 0 0',
-          fontSize: '0.9rem',
-          color: 'var(--auraglass-text-muted, #9ca3af)',
+          ...{
+            margin: "0.25rem 0 0",
+            fontSize: "0.9rem",
+            color: "var(--auraglass-text-muted, #9ca3af)",
+          },
         }}
       >
         {description}
@@ -315,18 +348,20 @@ const SelectGroup = <T extends string | number>({
   options,
   onChange,
 }: SelectGroupProps<T>) => {
-  const id = `settings-${label.toLowerCase().replace(/\s+/g, '-')}`;
+  const id = `settings-${label.toLowerCase().replace(/\s+/g, "-")}`;
 
   return (
     <label
       htmlFor={id}
-      style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
+      style={{
+        ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+      }}
     >
       <span
         style={{
-          fontSize: '0.85rem',
+          fontSize: "0.85rem",
           fontWeight: 500,
-          color: 'var(--auraglass-text, #e5e7eb)',
+          color: "var(--auraglass-text, #e5e7eb)",
         }}
       >
         {label}
@@ -334,43 +369,47 @@ const SelectGroup = <T extends string | number>({
       <select
         id={id}
         value={value as any}
-        onChange={e => onChange(options.find(o => String(o.value) === e.target.value)!.value)}
+        onChange={(e) =>
+          onChange(
+            options.find((o) => String(o.value) === e.target.value)!.value
+          )
+        }
         style={{
-          marginTop: '0.25rem',
-          padding: '0.4rem 0.6rem',
-          borderRadius: '999px',
-          border: 'none',
-          outline: 'none',
-          fontSize: '0.85rem',
+          marginTop: "0.25rem",
+          padding: "0.4rem 0.6rem",
+          borderRadius: "999px",
+          border: "none",
+          outline: "none",
+          fontSize: "0.85rem",
           background:
             '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
-          color: 'var(--auraglass-text, #e5e7eb)',
-          boxShadow: '0 0 0 1px rgba(148,163,253,0.35)',
-          appearance: 'none',
-          WebkitAppearance: 'none',
+          color: "var(--auraglass-text, #e5e7eb)",
+          boxShadow: "0 0 0 1px rgba(148,163,253,0.35)",
+          appearance: "none",
+          WebkitAppearance: "none",
         }}
       >
-        {options.map(opt => (
+        {options.map((opt) => (
           <option
             key={String(opt.value)}
             value={opt.value as any}
             style={{
-              backgroundColor: '#020817',
-              color: '#e5e7eb',
+              backgroundColor: "#020817",
+              color: "#e5e7eb",
             }}
           >
             {opt.label}
           </option>
         ))}
       </select>
-      {options.find(o => o.value === value)?.description && (
+      {options.find((o) => o.value === value)?.description && (
         <span
           style={{
-            fontSize: '0.75rem',
-            color: 'var(--auraglass-text-muted, #9ca3af)',
+            fontSize: "0.75rem",
+            color: "var(--auraglass-text-muted, #9ca3af)",
           }}
         >
-          {options.find(o => o.value === value)?.description}
+          {options.find((o) => o.value === value)?.description}
         </span>
       )}
     </label>
@@ -390,11 +429,13 @@ const ToggleRow: React.FC<ToggleRowProps> = ({
   checked,
   onChange,
 }) => {
-  const id = `toggle-${label.toLowerCase().replace(/\s+/g, '-')}`;
+  const id = `toggle-${label.toLowerCase().replace(/\s+/g, "-")}`;
 
   return (
     <div
-      style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
+      style={{
+        ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+      }}
     >
       <button
         id={id}
@@ -403,40 +444,46 @@ const ToggleRow: React.FC<ToggleRowProps> = ({
         aria-checked={checked}
         onClick={onChange}
         style={{
-          width: 40,
-          height: 22,
-          borderRadius: 999,
-          border: '1px solid rgba(148,163,253,0.65)',
-          display: 'flex',
-          alignItems: 'center',
-          padding: 2,
-          cursor: 'pointer',
-          background: checked
-            ? 'linear-gradient(to right, rgba(129,140,248,0.9), rgba(79,70,229,0.95))'
-            : 'rgba(15,23,42,0.96)',
-          boxShadow: checked
-            ? '0 0 12px rgba(129,140,248,0.85)'
-            : '0 0 6px rgba(15,23,42,0.9)',
-          transition: 'all 160ms ease-out',
+          ...{
+            width: 40,
+            height: 22,
+            borderRadius: 999,
+            border: "1px solid rgba(148,163,253,0.65)",
+            display: "flex",
+            alignItems: "center",
+            padding: 2,
+            cursor: "pointer",
+            background: checked
+              ? "linear-gradient(to right, rgba(129,140,248,0.9), rgba(79,70,229,0.95))"
+              : "rgba(15,23,42,0.96)",
+            boxShadow: checked
+              ? "0 0 12px rgba(129,140,248,0.85)"
+              : "0 0 6px rgba(15,23,42,0.9)",
+            transition: "all 160ms ease-out",
+          },
         }}
       >
         <span
           style={{
-            width: 16,
-            height: 16,
-            borderRadius: '50%',
-            background: '#e5e7eb',
-            transform: checked ? 'translateX(14px)' : 'translateX(0px)',
-            transition: 'transform 160ms ease-out',
+            ...{
+              width: 16,
+              height: 16,
+              borderRadius: "50%",
+              background: "#e5e7eb",
+              transform: checked ? "translateX(14px)" : "translateX(0px)",
+              transition: "transform 160ms ease-out",
+            },
           }}
         />
       </button>
       <div>
         <div
           style={{
-            fontSize: '0.85rem',
-            fontWeight: 500,
-            color: 'var(--auraglass-text, #e5e7eb)',
+            ...{
+              fontSize: "0.85rem",
+              fontWeight: 500,
+              color: "var(--auraglass-text, #e5e7eb)",
+            },
           }}
         >
           {label}
@@ -444,8 +491,10 @@ const ToggleRow: React.FC<ToggleRowProps> = ({
         {description && (
           <div
             style={{
-              fontSize: '0.75rem',
-              color: 'var(--auraglass-text-muted, #9ca3af)',
+              ...{
+                fontSize: "0.75rem",
+                color: "var(--auraglass-text-muted, #9ca3af)",
+              },
             }}
           >
             {description}

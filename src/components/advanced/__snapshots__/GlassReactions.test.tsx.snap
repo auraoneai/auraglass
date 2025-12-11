@@ -2,17 +2,27 @@
 
 exports[`GlassReactions matches snapshot 1`] = `
 <div
+  aria-label="Interactive reactions area"
   class="relative"
+  role="region"
 >
   <div
-    class="absolute inset-0 pointer-events-none overflow-hidden"
+    class="glass-absolute glass-inset-0 glass-pointer-events-none glass-overflow-hidden"
   />
-  <div
-    class="absolute bottom-2 right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs opacity-50"
+  <span
+    class="contrast-guard"
+    data-contrast-level="AA"
+    data-glass-component="true"
   >
-    Press 1-
-    8
-     for quick reactions
-  </div>
+    <div
+      aria-label="Keyboard shortcuts hint"
+      class="glass-absolute glass-bottom-2 glass-right-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50"
+      role="status"
+    >
+      Press 1-
+      8
+       for quick reactions
+    </div>
+  </span>
 </div>
 `;

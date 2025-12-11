@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
 import { cn } from "../../lib/utilsComprehensive";
+import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { ANIMATION } from "../../tokens/designConstants";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import {
   createContext,
   ReactNode,
@@ -287,7 +290,9 @@ export function AIGlassThemeProvider({
 
       try {
         // Simulate AI processing delay
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) =>
+          setTimeout(resolve, ANIMATION.DURATION.slow)
+        );
 
         // Simple theme generation based on content analysis
         const contentLength = content.length;
@@ -317,7 +322,9 @@ export function AIGlassThemeProvider({
             borderRadius: hasKeywords ? "8px" : "16px",
           },
           animations: {
-            duration: performanceMode ? 0.1 : 0.5,
+            duration: performanceMode
+              ? ANIMATION.DURATION.fast / 1000
+              : ANIMATION.DURATION.slow / 1000,
             easing: "ease-out",
           },
           metadata: {

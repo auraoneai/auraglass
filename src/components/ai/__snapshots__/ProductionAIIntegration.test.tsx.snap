@@ -7,10 +7,10 @@ exports[`ProductionAIIntegration matches snapshot 1`] = `
   data-testid="productionaiintegration"
 >
   <div
-    class="text-center"
+    class="glass-text-center"
   >
     <div
-      class="animate-spin glass-radius-full h-12 w-12 glass-border-b-2 glass-border-blue glass-mx-auto mb-4"
+      class="glass-animate-spin glass-radius-full glass-h-12 glass-w-12 glass-border-b-2 glass-border-blue glass-mx-auto glass-mb-4"
     />
     <p
       class="glass-text-secondary"
