@@ -15,9 +15,8 @@ import React, {
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 import { detectDevice } from "../../utils/deviceCapabilities";
-import { ContrastGuard } from "../accessibility/ContrastGuard";
-import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { isBrowser, safeMatchMedia } from "../../utils/env";
 
 interface DeviceCapabilities {
   gpu: {
@@ -228,6 +227,7 @@ export function GlassProgressiveEnhancement({
   onTierChange,
   onCapabilitiesDetected,
 }: GlassProgressiveEnhancementProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [capabilities, setCapabilities] = useState<DeviceCapabilities | null>(
     null
   );
@@ -239,6 +239,7 @@ export function GlassProgressiveEnhancement({
     lastTime: number;
     fps: number;
   }>({ frameCount: 0, lastTime: 0, fps: 60 });
+  const performanceFrameRef = useRef<number | null>(null);
 
   // Detect device capabilities
   const detectCapabilities =
@@ -260,7 +261,7 @@ export function GlassProgressiveEnhancement({
   async function detectGPUCapabilities() {
     const device = detectDevice();
     // If no WebGL support, avoid creating any context
-    if (!device.capabilities.webgl) {
+    if (!isBrowser() || !device.capabilities.webgl) {
       return {
         renderer: "unknown",
         vendor: "unknown",
@@ -345,7 +346,8 @@ export function GlassProgressiveEnhancement({
 
   // CPU detection
   function detectCPUCapabilities() {
-    const cores = navigator.hardwareConcurrency || 4;
+    const cores =
+      typeof navigator === "undefined" ? 4 : navigator.hardwareConcurrency || 4;
 
     // Estimate performance based on cores and user agent
     let estimatedPerformance: "low" | "mid" | "high" = "mid";
@@ -360,7 +362,10 @@ export function GlassProgressiveEnhancement({
 
   // Memory detection
   function detectMemoryCapabilities() {
-    const deviceMemory = (navigator as any).deviceMemory;
+    const deviceMemory =
+      typeof navigator === "undefined"
+        ? undefined
+        : (navigator as any).deviceMemory;
 
     let estimatedTier: "low" | "mid" | "high" = "mid";
     if (deviceMemory) {
@@ -373,6 +378,15 @@ export function GlassProgressiveEnhancement({
 
   // Display detection
   function detectDisplayCapabilities() {
+    if (typeof window === "undefined") {
+      return {
+        pixelRatio: 1,
+        resolution: { width: 1024, height: 768 },
+        colorGamut: "srgb" as const,
+        hdr: false,
+      };
+    }
+
     const pixelRatio = window.devicePixelRatio || 1;
     const resolution = {
       width: window.screen.width,
@@ -381,14 +395,14 @@ export function GlassProgressiveEnhancement({
 
     // Detect color gamut support
     let colorGamut: "srgb" | "p3" | "rec2020" = "srgb";
-    if (window.matchMedia("(color-gamut: p3)").matches) {
+    if (safeMatchMedia("(color-gamut: p3)")?.matches) {
       colorGamut = "p3";
     }
-    if (window.matchMedia("(color-gamut: rec2020)").matches) {
+    if (safeMatchMedia("(color-gamut: rec2020)")?.matches) {
       colorGamut = "rec2020";
     }
 
-    const hdr = window.matchMedia("(dynamic-range: high)").matches;
+    const hdr = safeMatchMedia("(dynamic-range: high)")?.matches ?? false;
 
     return { pixelRatio, resolution, colorGamut, hdr };
   }
@@ -396,9 +410,11 @@ export function GlassProgressiveEnhancement({
   // Network detection
   function detectNetworkCapabilities() {
     const connection =
-      (navigator as any).connection ||
-      (navigator as any).mozConnection ||
-      (navigator as any).webkitConnection;
+      typeof navigator === "undefined"
+        ? undefined
+        : (navigator as any).connection ||
+          (navigator as any).mozConnection ||
+          (navigator as any).webkitConnection;
 
     return {
       effectiveType: connection?.effectiveType || "unknown",
@@ -409,7 +425,7 @@ export function GlassProgressiveEnhancement({
   // Battery detection
   async function detectBatteryCapabilities() {
     try {
-      if ("getBattery" in navigator) {
+      if (typeof navigator !== "undefined" && "getBattery" in navigator) {
         const battery = await (navigator as any).getBattery();
         return {
           level: battery.level,
@@ -426,10 +442,11 @@ export function GlassProgressiveEnhancement({
   // User preferences detection
   function detectUserPreferences() {
     return {
-      reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)")
-        .matches,
-      highContrast: window.matchMedia("(prefers-contrast: high)").matches,
-      forcedColors: window.matchMedia("(forced-colors: active)").matches,
+      reducedMotion:
+        safeMatchMedia("(prefers-reduced-motion: reduce)")?.matches ?? false,
+      highContrast:
+        safeMatchMedia("(prefers-contrast: high)")?.matches ?? false,
+      forcedColors: safeMatchMedia("(forced-colors: active)")?.matches ?? false,
     };
   }
 
@@ -533,9 +550,19 @@ export function GlassProgressiveEnhancement({
 
   // Performance monitoring
   const monitorFrameRate = useCallback(() => {
-    if (!monitorPerformance) return;
+    if (
+      !monitorPerformance ||
+      !isBrowser() ||
+      typeof requestAnimationFrame !== "function"
+    ) {
+      return () => undefined;
+    }
+
+    let cancelled = false;
 
     const monitor = () => {
+      if (cancelled) return;
+
       const now = performance.now();
       performanceMonitor.current.frameCount++;
 
@@ -564,17 +591,29 @@ export function GlassProgressiveEnhancement({
         performanceMonitor.current.lastTime = now;
       }
 
-      requestAnimationFrame(monitor);
+      performanceFrameRef.current = requestAnimationFrame(monitor);
     };
 
-    requestAnimationFrame(monitor);
-  }, [monitorPerformance, currentTier]);
+    performanceFrameRef.current = requestAnimationFrame(monitor);
+
+    return () => {
+      cancelled = true;
+      if (performanceFrameRef.current !== null) {
+        cancelAnimationFrame(performanceFrameRef.current);
+        performanceFrameRef.current = null;
+      }
+    };
+  }, [monitorPerformance, currentTier.level]);
 
   // Initialize capabilities detection
   useEffect(() => {
-    if (!autoDetect && !forcedTier) return;
+    if (!isBrowser()) return;
+    if (!autoDetect) return;
+    let active = true;
 
     detectCapabilities().then((caps) => {
+      if (!active) return;
+
       setCapabilities(caps);
       onCapabilitiesDetected?.(caps);
 
@@ -583,6 +622,10 @@ export function GlassProgressiveEnhancement({
         setCurrentTier(qualityTiers[optimalTier]);
       }
     });
+
+    return () => {
+      active = false;
+    };
   }, [
     autoDetect,
     forcedTier,
@@ -593,7 +636,7 @@ export function GlassProgressiveEnhancement({
 
   // Start performance monitoring
   useEffect(() => {
-    monitorFrameRate();
+    return monitorFrameRate();
   }, [monitorFrameRate]);
 
   // Notify tier changes
@@ -603,6 +646,8 @@ export function GlassProgressiveEnhancement({
 
   // Update CSS variables based on tier
   useEffect(() => {
+    if (!isBrowser()) return;
+
     const root = document.documentElement;
 
     root.style.setProperty(
@@ -636,6 +681,10 @@ export function GlassProgressiveEnhancement({
       ""
     );
     document.body.classList.add(`glass-tier-${currentTier.level}`);
+
+    return () => {
+      document.body.classList.remove(`glass-tier-${currentTier.level}`);
+    };
   }, [currentTier]);
 
   const updateTier = useCallback((tier: QualityTier["level"]) => {
@@ -650,7 +699,13 @@ export function GlassProgressiveEnhancement({
 
   return (
     <GlassQualityContext.Provider value={contextValue}>
-      <div className={cn("glass-progressive-enhancement", className)}>
+      <div
+        className={cn(
+          "glass-progressive-enhancement",
+          prefersReducedMotion && "glass-reduced-motion",
+          className
+        )}
+      >
         {children}
 
         {/* Quality indicator */}
@@ -696,11 +751,13 @@ export function EnhancedGlass({
   [key: string]: any;
 }) {
   const { tier } = useGlassQuality();
+  const prefersReducedMotion = useReducedMotion();
 
   // Adjust properties based on quality tier
   const effectiveBlur = Math.min(blur, tier.limits.maxBlur);
   const enableParticles = particles && tier.capabilities.particles;
-  const enableAnimation = animation && tier.capabilities.animations;
+  const enableAnimation =
+    animation && tier.capabilities.animations && !prefersReducedMotion;
   const enableWebGL = webgl && tier.capabilities.webgl;
   const enableBackdropFilter = tier.capabilities.backdropFilterEnabled;
 
@@ -710,6 +767,7 @@ export function EnhancedGlass({
         "relative",
         enableBackdropFilter && "OptimizedGlass intensity={0.2} glassBlur={6}",
         !enableBackdropFilter && "glass-surface-fallback",
+        prefersReducedMotion && "glass-reduced-motion",
         className
       )}
       animate={enableAnimation ? { scale: [1, 1.01, 1] } : undefined}
@@ -722,9 +780,9 @@ export function EnhancedGlass({
           : undefined
       }
       style={{
-        ...{
-          // Use createGlassStyle() instead,
-        },
+        ...({
+          "--glass-effective-blur": `${effectiveBlur}px`,
+        } as React.CSSProperties),
       }}
       {...props}
     >

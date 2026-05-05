@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassDynamicAtmosphere Component Tests
  *
@@ -11,20 +11,20 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassDynamicAtmosphere } from '@/components/backgrounds/GlassDynamicAtmosphere';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassDynamicAtmosphere } from "@/components/backgrounds/GlassDynamicAtmosphere";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassDynamicAtmosphere', () => {
+describe("GlassDynamicAtmosphere", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassDynamicAtmosphere />);
     expect(container).toBeInTheDocument();
   });
@@ -32,27 +32,22 @@ describe('GlassDynamicAtmosphere', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassDynamicAtmosphere />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -66,11 +61,13 @@ describe('GlassDynamicAtmosphere', () => {
       const { container } = render(<GlassDynamicAtmosphere />);
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -82,7 +79,7 @@ describe('GlassDynamicAtmosphere', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassDynamicAtmosphere
         className="custom-class"
@@ -90,16 +87,35 @@ describe('GlassDynamicAtmosphere', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassdynamicatmosphere"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassdynamicatmosphere"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
+  });
+
+  it("keeps particle placement stable across rerenders", () => {
+    const { container, rerender } = render(
+      <GlassDynamicAtmosphere type="particles" particleCount={4} />
+    );
+
+    const before = Array.from(
+      container.querySelectorAll('[class~="particle"]')
+    ).map((particle) => (particle as HTMLElement).getAttribute("style"));
+
+    rerender(<GlassDynamicAtmosphere type="particles" particleCount={4} />);
+
+    const after = Array.from(
+      container.querySelectorAll('[class~="particle"]')
+    ).map((particle) => (particle as HTMLElement).getAttribute("style"));
+
+    expect(after).toEqual(before);
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassDynamicAtmosphere />);
     expect(container.firstChild).toMatchSnapshot();
   });

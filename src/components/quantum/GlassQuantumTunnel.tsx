@@ -71,6 +71,14 @@ const calculateTunnelingProbability = (
   return Math.exp(-2 * kappa * barrierWidth);
 };
 
+const canvasColors = {
+  error: (alpha: number) => `rgba(239, 68, 68, ${alpha})`,
+  info: (alpha: number) => `rgba(14, 165, 233, ${alpha})`,
+  secondary: (alpha: number) => `rgba(168, 85, 247, ${alpha})`,
+  white: (alpha: number) => `rgba(255, 255, 255, ${alpha})`,
+  hover: "rgba(255, 255, 255, 0.22)",
+};
+
 export const GlassQuantumTunnel = forwardRef<
   HTMLDivElement,
   GlassQuantumTunnelProps
@@ -289,7 +297,7 @@ export const GlassQuantumTunnel = forwardRef<
       // Draw barriers
       if (showBarriers) {
         barriers.forEach((barrier: any) => {
-          ctx.fillStyle = `color-mix(in srgb, var(--glass-color-error) ${barrier.transparency * 100}%, transparent)`;
+          ctx.fillStyle = canvasColors.error(barrier.transparency);
           ctx.fillRect(
             barrier.position.x - barrier.width / 2,
             50,
@@ -298,8 +306,7 @@ export const GlassQuantumTunnel = forwardRef<
           );
 
           // Barrier label
-          ctx.fillStyle =
-            "color-mix(in srgb, var(--glass-white) var(--glass-opacity-80), transparent)";
+          ctx.fillStyle = canvasColors.white(0.8);
           ctx.font = "12px Arial";
           ctx.textAlign = "center";
           ctx.fillText(
@@ -314,8 +321,7 @@ export const GlassQuantumTunnel = forwardRef<
       if (showEnergyLevels) {
         quantumStates.forEach((state: any) => {
           const y = 200 - state.energy * 20;
-          ctx.strokeStyle =
-            "color-mix(in srgb, var(--glass-color-info) 60%, transparent)";
+          ctx.strokeStyle = canvasColors.info(0.6);
           ctx.lineWidth = 2;
           if (ctx.setLineDash) ctx.setLineDash([5, 5]);
           ctx.beginPath();
@@ -335,8 +341,8 @@ export const GlassQuantumTunnel = forwardRef<
           if (!state) return;
 
           ctx.strokeStyle = particle.tunneling
-            ? "color-mix(in srgb, var(--glass-color-secondary) 80%, transparent)"
-            : "color-mix(in srgb, var(--glass-color-info) 60%, transparent)";
+            ? canvasColors.secondary(0.8)
+            : canvasColors.info(0.6);
           ctx.lineWidth = 2;
 
           ctx.beginPath();
@@ -357,8 +363,8 @@ export const GlassQuantumTunnel = forwardRef<
 
           // Probability density
           ctx.fillStyle = particle.tunneling
-            ? "color-mix(in srgb, var(--glass-color-secondary) 20%, transparent)"
-            : "color-mix(in srgb, var(--glass-color-info) 20%, transparent)";
+            ? canvasColors.secondary(0.2)
+            : canvasColors.info(0.2);
           ctx.beginPath();
           ctx.moveTo(particle.x - 50, state.position.y);
           for (let x = -50; x <= 50; x += 2) {
@@ -393,14 +399,8 @@ export const GlassQuantumTunnel = forwardRef<
           particle.y,
           radius
         );
-        gradient.addColorStop(
-          0,
-          `color-mix(in srgb, var(--glass-white) ${alpha * 100}%, transparent)`
-        );
-        gradient.addColorStop(
-          1,
-          `color-mix(in srgb, var(--glass-color-info) ${alpha * 30}%, transparent)`
-        );
+        gradient.addColorStop(0, canvasColors.white(alpha));
+        gradient.addColorStop(1, canvasColors.info(alpha * 0.3));
         ctx.fillStyle = gradient;
         ctx.fill();
 
@@ -409,7 +409,7 @@ export const GlassQuantumTunnel = forwardRef<
           for (let i = 1; i <= 3; i++) {
             ctx.beginPath();
             ctx.arc(particle.x, particle.y, radius + i * 4, 0, 2 * Math.PI);
-            ctx.strokeStyle = `color-mix(in srgb, var(--glass-color-secondary) ${(0.3 / i) * 100}%, transparent)`;
+            ctx.strokeStyle = canvasColors.secondary(0.3 / i);
             ctx.lineWidth = 2;
             ctx.stroke();
           }
@@ -422,7 +422,7 @@ export const GlassQuantumTunnel = forwardRef<
           const targetState = quantumStates.find((s) => s.id === connectionId);
           if (!targetState) return;
 
-          ctx.strokeStyle = "var(--glass-bg-hover)";
+          ctx.strokeStyle = canvasColors.hover;
           ctx.lineWidth = 1;
           ctx.setLineDash([3, 3]);
           ctx.beginPath();

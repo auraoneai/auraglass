@@ -8,7 +8,7 @@ import {
   MapPin,
   Users,
 } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";
@@ -109,6 +109,19 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
     selectedDate || null
   );
+
+  useEffect(() => {
+    if (selectedDate) {
+      setSelectedDateState(selectedDate);
+      setCurrentDate(selectedDate);
+    }
+  }, [selectedDate]);
+
+  const startOfDay = (date: Date) => {
+    const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0);
+    return normalizedDate;
+  };
 
   // Get events for a specific date - OPTIMIZED with memoization
   const eventsByDate = useMemo(() => {
@@ -217,8 +230,9 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
 
   // Check if date is disabled
   const isDisabled = (date: Date) => {
-    if (minDate && date < minDate) return true;
-    if (maxDate && date > maxDate) return true;
+    const day = startOfDay(date);
+    if (minDate && day < startOfDay(minDate)) return true;
+    if (maxDate && day > startOfDay(maxDate)) return true;
     return false;
   };
 
@@ -252,7 +266,13 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   if (loading) {
     return (
       <GlassCard data-glass-component className={cn("glass-p-6", className)}>
-        <div className="glass-animate-pulse glass-gap-4">
+        <div
+          className={cn(
+            prefersReducedMotion
+              ? "glass-gap-4"
+              : "glass-animate-pulse glass-gap-4"
+          )}
+        >
           <div className="glass-flex glass-items-center glass-justify-between">
             <div className="glass-h-8 glass-surface-subtle/20 glass-radius-md glass-w-32 glass-contrast-guard"></div>
             <div className="glass-flex glass-gap-2">
@@ -282,13 +302,13 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
       >
         {/* Calendar Header */}
         <CardHeader className="glass-border-b glass-border-white/10">
-          <div className="glass-flex glass-items-center glass-justify-between">
-            <CardTitle className="glass-subheading glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2">
-              <CalendarIcon className="glass-w-6 glass-h-6" />
+          <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-flex-wrap">
+            <CardTitle className="glass-subheading glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2 glass-min-w-0">
+              <CalendarIcon className="glass-w-6 glass-h-6 glass-flex-shrink-0" />
               {monthData.monthName} {monthData.year}
             </CardTitle>
 
-            <div className="glass-flex glass-items-center glass-gap-2">
+            <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
               {/* Month navigation: glass morphism buttons */}
               <GlassButton
                 variant="tertiary"
@@ -389,9 +409,11 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                     onClick={(e) => handleDateClick(date)}
                     disabled={isDisabled(date)}
                     className={cn(
-                      "w-full h-full glass-radius-lg transition-all duration-200 glass-focus glass-accent-primary glass-touch-target glass-contrast-guard",
+                      "w-full h-full glass-radius-lg glass-focus glass-accent-primary glass-touch-target glass-contrast-guard",
                       "flex flex-col items-center justify-start glass-p-1",
-                      "hover:bg-white/10 focus:bg-white/15 focus:outline-none glass-hover-scale-105",
+                      prefersReducedMotion
+                        ? "transition-none hover:bg-white/10 focus:bg-white/15 focus:outline-none"
+                        : "transition-all duration-200 hover:bg-white/10 focus:bg-white/15 focus:outline-none glass-hover-scale-105",
                       "disabled:opacity-50 glass-disabled-cursor-not-allowed",
                       {
                         "glass-foundation-complete glass-glass-backdrop-blur-md bg-transparent border-white/40":

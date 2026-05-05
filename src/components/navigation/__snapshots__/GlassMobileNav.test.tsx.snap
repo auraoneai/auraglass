@@ -2,9 +2,13 @@
 
 exports[`GlassMobileNav matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high flex flex-col z-[101] transition-transform duration-300 ease-out fixed inset-y-0 left-0 w-80 max-w-[85vw] -translate-x-full"
+  aria-hidden="true"
+  aria-label="Mobile navigation"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high flex flex-col z-[101] max-h-[100dvh] motion-reduce:transition-none transition-transform duration-300 ease-out pointer-events-none fixed inset-y-0 left-0 w-80 max-w-[85vw] -translate-x-full"
   data-performance-mode="medium"
+  inert=""
   items=""
+  role="dialog"
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
@@ -20,14 +24,13 @@ exports[`GlassMobileNav matches snapshot 1`] = `
       <button
         aria-label="Close navigation"
         class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 glass-focus glass-touch-target"
-        id="glass-button-:rg:"
       >
         ×
       </button>
     </div>
   </div>
   <nav
-    class="glass-flex-1 glass-p-4 glass-overflow-y-auto"
+    class="glass-flex-1 glass-p-4 glass-overflow-y-auto glass-overscroll-contain"
   >
     <div
       class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"

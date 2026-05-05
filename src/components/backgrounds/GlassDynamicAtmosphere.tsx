@@ -5,6 +5,7 @@ import React, {
   useRef,
   useEffect,
   useCallback,
+  useMemo,
 } from "react";
 import { cn } from "@/lib/utils";
 
@@ -174,9 +175,9 @@ export const DynamicAtmosphere = forwardRef<
 >((props, ref) => {
   const {
     type = "subtle",
-    primaryColor = "#6366F1", // Primary (purple)
-    secondaryColor = "var(--glass-color-primary)", // Secondary (blue)
-    accentColor = "var(--glass-color-success)", // Accent (green)
+    primaryColor = "var(--glass-color-primary)",
+    secondaryColor = "var(--glass-color-secondary)",
+    accentColor = "var(--glass-color-accent)",
     intensity = 0.5,
     speed = 1,
     interactionMode = "none",
@@ -235,6 +236,27 @@ export const DynamicAtmosphere = forwardRef<
   const safeSpeed = Math.max(speed, 0.1);
   const baseAnimationDuration = `${30 / safeSpeed}s`;
   const particleAnimationDuration = `${15 / safeSpeed}s`;
+  const safeParticleCount = Math.min(
+    Math.max(0, Math.floor(particleCount)),
+    shouldReduceMotion ? 12 : 120
+  );
+  const particleLayout = useMemo(
+    () =>
+      Array.from({ length: safeParticleCount }, (_, index) => {
+        const seededValue = (salt: number) => {
+          const value = Math.sin(index * 9301 + salt * 49297) * 233280;
+          return value - Math.floor(value);
+        };
+
+        return {
+          size: seededValue(1) * 8 + 2,
+          positionX: seededValue(2) * 100,
+          positionY: seededValue(3) * 100,
+          delay: seededValue(4) * 5,
+        };
+      }),
+    [safeParticleCount]
+  );
 
   const containerStyle: React.CSSProperties & Record<string, string | number> =
     {
@@ -348,13 +370,8 @@ export const DynamicAtmosphere = forwardRef<
     if (type !== "particles") return null;
 
     return (
-      <div className={styles.particleContainer}>
-        {Array.from({ length: particleCount }).map((_, index) => {
-          const size = Math.random() * 8 + 2;
-          const positionX = Math.random() * 100;
-          const positionY = Math.random() * 100;
-          const delay = Math.random() * 5;
-
+      <div className={styles.particleContainer} aria-hidden="true">
+        {particleLayout.map(({ size, positionX, positionY, delay }, index) => {
           const particleStyle: React.CSSProperties &
             Record<string, string | number> = {
             backgroundColor: primaryColor,
@@ -389,7 +406,12 @@ export const DynamicAtmosphere = forwardRef<
   // Handle mouse movement interaction
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (interactionMode !== "mouse" || !containerRef.current) return;
+      if (
+        shouldReduceMotion ||
+        interactionMode !== "mouse" ||
+        !containerRef.current
+      )
+        return;
 
       const rect = containerRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
@@ -406,7 +428,14 @@ export const DynamicAtmosphere = forwardRef<
 
   // Handle scroll interaction
   const handleScroll = useCallback(() => {
-    if (interactionMode !== "scroll" || !containerRef.current) return;
+    if (
+      shouldReduceMotion ||
+      interactionMode !== "scroll" ||
+      !containerRef.current ||
+      typeof window === "undefined"
+    ) {
+      return;
+    }
 
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
@@ -426,12 +455,12 @@ export const DynamicAtmosphere = forwardRef<
 
   // Set up event listeners
   useEffect(() => {
-    if (shouldReduceMotion) return;
+    if (shouldReduceMotion || typeof window === "undefined") return;
 
     if (interactionMode === "mouse") {
-      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
     } else if (interactionMode === "scroll") {
-      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleScroll, { passive: true });
       // Initial calculation
       handleScroll();
     }
@@ -461,7 +490,11 @@ export const DynamicAtmosphere = forwardRef<
       style={{ ...(containerStyle || {}) }}
       {...rest}
     >
-      <div className={effectClasses} style={{ ...effectStyle }} />
+      <div
+        className={effectClasses}
+        style={{ ...effectStyle }}
+        aria-hidden="true"
+      />
       {renderParticles()}
     </div>
   );

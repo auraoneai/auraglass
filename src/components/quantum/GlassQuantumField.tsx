@@ -547,7 +547,7 @@ export const GlassQuantumField = forwardRef<
         quantumField.nodes.forEach((node: any) => {
           if (node.probability > 0.1) {
             const alpha = node.probability * 0.3;
-            ctx.fillStyle = `color-mix(in srgb, var(--glass-color-info) ${alpha * 100}%, transparent)`;
+            ctx.fillStyle = `rgba(14, 165, 233, ${alpha})`;
             ctx.fillRect(node.x - 2, node.y - 2, 4, 4);
           }
         });
@@ -556,7 +556,7 @@ export const GlassQuantumField = forwardRef<
       // Draw probability clouds
       if (showProbabilityClouds) {
         particles.forEach((particle: any) => {
-          const cloudRadius = particle.uncertainty.position * 40;
+          const cloudRadius = Math.max(1, particle.uncertainty.position * 40);
           const gradient = ctx.createRadialGradient(
             particle.x,
             particle.y,
@@ -569,10 +569,7 @@ export const GlassQuantumField = forwardRef<
           const probability =
             particle.waveFunction.real ** 2 +
             particle.waveFunction.imaginary ** 2;
-          gradient.addColorStop(
-            0,
-            `color-mix(in srgb, var(--glass-color-accent) ${probability * 30}%, transparent)`
-          );
+          gradient.addColorStop(0, `rgba(168, 85, 247, ${probability * 0.3})`);
           gradient.addColorStop(1, "transparent");
 
           ctx.fillStyle = gradient;
@@ -674,8 +671,7 @@ export const GlassQuantumField = forwardRef<
           if (entangledParticles.length === 2) {
             const [p1, p2] = entangledParticles;
 
-            ctx.strokeStyle =
-              "color-mix(in srgb, var(--glass-color-warning) 60%, transparent)";
+            ctx.strokeStyle = "rgba(251, 191, 36, 0.6)";
             ctx.lineWidth = 2;
             if (ctx.setLineDash) ctx.setLineDash([5, 5]);
 
@@ -695,7 +691,7 @@ export const GlassQuantumField = forwardRef<
         const alpha = Math.max(0, 1 - age);
         const radius = 30 + age * 20;
 
-        ctx.strokeStyle = `color-mix(in srgb, var(--glass-white) ${alpha * 100}%, transparent)`;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(event.x, event.y, radius, 0, Math.PI * 2);
@@ -705,7 +701,7 @@ export const GlassQuantumField = forwardRef<
       // Draw quantum info overlay
       if (showQuantumInfo) {
         ctx.save();
-        ctx.fillStyle = "var(--glass-text-secondary-dark)";
+        ctx.fillStyle = "rgba(15, 23, 42, 0.72)";
         ctx.fillRect(10, 10, 300, 180);
 
         ctx.fillStyle = "white";

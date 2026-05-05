@@ -6,7 +6,7 @@ exports[`ToggleButton matches snapshot 1`] = `
 >
   <button
     aria-pressed="false"
-    class="inline-flex items-center justify-center relative box-border outline-none m-0 select-none align-middle appearance-none no-underline font-medium glass-radius-md h-10 px-4 text-sm min-w-20 transition-all duration-200 ease-in-out border-2 bg-transparent text-default-400 border-default-300 hover:bg-default-500/10 cursor-pointer glass-focus glass-touch-target"
+    class="inline-flex items-center justify-center relative box-border outline-none m-0 select-none align-middle appearance-none no-underline font-medium glass-radius-md h-10 px-4 text-sm min-w-20 transition-all duration-200 ease-in-out border-2 bg-transparent glass-text-secondary border-gray-500 hover:bg-gray-600/10 cursor-pointer glass-focus glass-touch-target"
     id="glass-toggle-:r5:"
     type="button"
   >

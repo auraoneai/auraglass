@@ -459,12 +459,14 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
       {/* Icon */}
       {item?.icon && (
         <span className="glass-flex-shrink-0 glass-w-6 glass-h-6 glass-flex glass-items-center glass-justify-center glass-text-lg">
-          {React.cloneElement(item?.icon as React.ReactElement, {
-            className: cn(
-              (item?.icon as React.ReactElement).props?.className,
-              collapsed ? "w-6 h-6" : "w-5 h-5"
-            ),
-          })}
+          {React.isValidElement(item.icon)
+            ? React.cloneElement(item.icon as React.ReactElement<any>, {
+                className: cn(
+                  (item.icon as React.ReactElement<any>).props?.className,
+                  collapsed ? "w-6 h-6" : "w-5 h-5"
+                ),
+              })
+            : item.icon}
         </span>
       )}
 

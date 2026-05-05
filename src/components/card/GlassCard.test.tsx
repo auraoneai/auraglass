@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassCard Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassCard } from '@/components/card/GlassCard';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassCard } from "@/components/card/GlassCard";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassCard', () => {
+describe("GlassCard", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassCard />);
     expect(container).toBeInTheDocument();
   });
@@ -32,39 +32,49 @@ describe('GlassCard', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassCard />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <GlassCard
-        className="custom-class"
-        data-testid="glasscard"
-      />
+      <GlassCard className="custom-class" data-testid="glasscard" />
     );
 
-    const element = container.querySelector('[data-testid="glasscard"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscard"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
+  });
+
+  it("makes clickable cards keyboard actionable", async () => {
+    const user = userEvent.setup();
+    const handleClick = jest.fn();
+
+    render(
+      <GlassCard clickable onClick={handleClick}>
+        Open details
+      </GlassCard>
+    );
+
+    const card = screen.getByRole("button", { name: /open details/i });
+    card.focus();
+    await user.keyboard("{Enter}");
+    await user.keyboard(" ");
+
+    expect(handleClick).toHaveBeenCalledTimes(2);
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassCard />);
     expect(container.firstChild).toMatchSnapshot();
   });

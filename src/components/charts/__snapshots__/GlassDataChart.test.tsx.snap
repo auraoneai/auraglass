@@ -2,8 +2,10 @@
 
 exports[`GlassDataChart matches snapshot 1`] = `
 <div
+  aria-label="Data chart"
   class="container glass-data-chart"
-  style="padding: 20px; border-radius: var(--glass-radius-md); box-shadow: var(--aura-shadow-elevation-md); width: 100%; height: 400px;"
+  role="group"
+  style="border-radius: var(--glass-radius-md); box-shadow: var(--aura-shadow-elevation-md); --glass-data-chart-backdrop-filter: blur(var(--aura-glass-neutral-level1-backdrop-blur)); width: 100%; height: 400px;"
 >
   <svg
     height="0"
@@ -419,16 +421,34 @@ exports[`GlassDataChart matches snapshot 1`] = `
   <div
     class="wrapper"
   >
-    <canvas
-      aria-label="Data chart"
-      height="0"
-      role="img"
-      style="display: block; box-sizing: border-box; height: 0px; width: 0px;"
-      width="0"
-    />
+    <div
+      aria-live="polite"
+      class="emptyState"
+      role="status"
+    >
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+      >
+        <div
+          class="emptyStateTitle"
+        >
+          No chart data available
+        </div>
+      </span>
+      <span
+        class="contrast-guard"
+        data-contrast-level="AA"
+        data-glass-component="true"
+      >
+        <p
+          class="emptyStateDescription"
+        >
+          Add at least one dataset with points to render this chart.
+        </p>
+      </span>
+    </div>
   </div>
-  <div
-    class="legend legendTop"
-  />
 </div>
 `;

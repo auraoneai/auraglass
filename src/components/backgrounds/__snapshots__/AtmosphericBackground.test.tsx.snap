@@ -2,22 +2,23 @@
 
 exports[`AtmosphericBackground matches snapshot 1`] = `
 <div
-  aria-hidden="true"
   aria-label="Atmospheric background with static 4 color gradient"
   class="optimized-glass-surface glass-neutral-level2 glass-tier-medium glass-atmospheric-background container"
-  id="atmospheric-bg-:r7:"
+  id="atmospheric-bg-:r8:"
   role="img"
   style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 19px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
-  tabindex="-1"
 >
   <div
+    aria-hidden="true"
     class="gradientLayer reduceMotion"
     style="opacity: 0.7;"
   />
   <div
+    aria-hidden="true"
     class="atmosphericEffect reduceMotion"
   />
   <div
+    aria-hidden="true"
     class="blurLayer"
   />
   <div

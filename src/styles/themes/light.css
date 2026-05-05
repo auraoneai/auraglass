@@ -8,41 +8,83 @@
   --glass-bg-hover: rgba(var(--glass-color-white) / var(--glass-opacity-70));
   --glass-bg-active: rgba(var(--glass-color-white) / var(--glass-opacity-80));
   --glass-bg-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-40));
-  
+
   --glass-bg-subtle: rgba(var(--glass-color-white) / var(--glass-opacity-45));
   --glass-bg-strong: rgba(var(--glass-color-white) / var(--glass-opacity-90));
-  
+  --glass-backdrop-fallback-bg: rgba(
+    var(--glass-color-white) / var(--glass-opacity-95)
+  );
+  --glass-reduced-transparency-bg: rgba(
+    var(--glass-color-white) / var(--glass-opacity-95)
+  );
+
   /* === BORDER TOKENS === */
-  --glass-border-default: rgba(var(--glass-color-white) / var(--glass-opacity-70));
-  --glass-border-hover: rgba(var(--glass-color-white) / var(--glass-opacity-80));
-  --glass-border-active: rgba(var(--glass-color-white) / var(--glass-opacity-90));
-  --glass-border-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-30));
-  
-  --glass-border-subtle: rgba(var(--glass-color-white) / var(--glass-opacity-50));
-  --glass-border-strong: rgba(var(--glass-color-white) / var(--glass-opacity-95));
-  
+  --glass-border-default: rgba(
+    var(--glass-color-white) / var(--glass-opacity-70)
+  );
+  --glass-border-hover: rgba(
+    var(--glass-color-white) / var(--glass-opacity-80)
+  );
+  --glass-border-active: rgba(
+    var(--glass-color-white) / var(--glass-opacity-90)
+  );
+  --glass-border-disabled: rgba(
+    var(--glass-color-white) / var(--glass-opacity-30)
+  );
+
+  --glass-border-subtle: rgba(
+    var(--glass-color-white) / var(--glass-opacity-50)
+  );
+  --glass-border-strong: rgba(
+    var(--glass-color-white) / var(--glass-opacity-95)
+  );
+  --glass-backdrop-fallback-border: rgba(
+    var(--glass-color-black) / var(--glass-opacity-30)
+  );
+
   /* === TEXT TOKENS (WCAG AA on light backgrounds) === */
-  --glass-text-primary: rgba(var(--glass-color-black) / var(--glass-opacity-90));
-  --glass-text-secondary: rgba(var(--glass-color-black) / var(--glass-opacity-70));
-  --glass-text-tertiary: rgba(var(--glass-color-black) / var(--glass-opacity-60));
-  --glass-text-disabled: rgba(var(--glass-color-black) / var(--glass-opacity-40));
-  
+  --glass-text-primary: rgba(
+    var(--glass-color-black) / var(--glass-opacity-90)
+  );
+  --glass-text-secondary: rgba(
+    var(--glass-color-black) / var(--glass-opacity-70)
+  );
+  --glass-text-tertiary: rgba(
+    var(--glass-color-black) / var(--glass-opacity-60)
+  );
+  --glass-text-disabled: rgba(
+    var(--glass-color-black) / var(--glass-opacity-40)
+  );
+  --glass-backdrop-fallback-text: rgba(
+    var(--glass-color-black) / var(--glass-opacity-95)
+  );
+
   /* === FOCUS TOKENS === */
-  --glass-focus-color: hsl(var(--glass-color-primary) / var(--glass-opacity-60));
-  --glass-focus-offset-color: rgba(var(--glass-color-white) / var(--glass-opacity-100));
-  
+  --glass-focus-color: hsl(
+    var(--glass-color-primary) / var(--glass-opacity-60)
+  );
+  --glass-focus-offset-color: rgba(
+    var(--glass-color-white) / var(--glass-opacity-100)
+  );
+
   /* === SHADOW TOKENS === */
-  --glass-shadow-color: rgba(var(--glass-color-black) / var(--glass-opacity-15));
-  --glass-shadow-color-subtle: rgba(var(--glass-color-black) / var(--glass-opacity-10));
-  --glass-shadow-color-strong: rgba(var(--glass-color-black) / var(--glass-opacity-20));
-  
+  --glass-shadow-color: rgba(
+    var(--glass-color-black) / var(--glass-opacity-15)
+  );
+  --glass-shadow-color-subtle: rgba(
+    var(--glass-color-black) / var(--glass-opacity-10)
+  );
+  --glass-shadow-color-strong: rgba(
+    var(--glass-color-black) / var(--glass-opacity-20)
+  );
+
   --glass-shadow-xs: 0 1px 2px var(--glass-shadow-color-subtle);
   --glass-shadow-sm: 0 2px 4px var(--glass-shadow-color-subtle);
   --glass-shadow-md: 0 4px 12px var(--glass-shadow-color);
   --glass-shadow-lg: 0 8px 24px var(--glass-shadow-color);
   --glass-shadow-xl: 0 12px 36px var(--glass-shadow-color-strong);
   --glass-shadow-2xl: 0 16px 48px var(--glass-shadow-color-strong);
-  
+
   /* === ELEVATION OVERRIDES === */
   --glass-elev-1: 0 2px 8px var(--glass-shadow-color-subtle);
   --glass-elev-2: 0 4px 16px var(--glass-shadow-color);
@@ -50,70 +92,126 @@
   --glass-elev-4: 0 12px 32px var(--glass-shadow-color-strong);
   --glass-elev-5: 0 16px 40px var(--glass-shadow-color-strong);
   --glass-elev-6: 0 24px 56px var(--glass-shadow-color-strong);
-  
+
   /* === CONTROL TOKENS === */
   --glass-control-bg: rgba(var(--glass-color-white) / var(--glass-opacity-50));
-  --glass-control-bg-hover: rgba(var(--glass-color-white) / var(--glass-opacity-60));
-  --glass-control-bg-active: rgba(var(--glass-color-white) / var(--glass-opacity-70));
-  --glass-control-bg-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-30));
-  
-  --glass-control-border: rgba(var(--glass-color-black) / var(--glass-opacity-20));
-  --glass-control-border-hover: rgba(var(--glass-color-black) / var(--glass-opacity-30));
-  --glass-control-border-active: rgba(var(--glass-color-black) / var(--glass-opacity-40));
-  --glass-control-border-disabled: rgba(var(--glass-color-black) / var(--glass-opacity-10));
-  
+  --glass-control-bg-hover: rgba(
+    var(--glass-color-white) / var(--glass-opacity-60)
+  );
+  --glass-control-bg-active: rgba(
+    var(--glass-color-white) / var(--glass-opacity-70)
+  );
+  --glass-control-bg-disabled: rgba(
+    var(--glass-color-white) / var(--glass-opacity-30)
+  );
+
+  --glass-control-border: rgba(
+    var(--glass-color-black) / var(--glass-opacity-20)
+  );
+  --glass-control-border-hover: rgba(
+    var(--glass-color-black) / var(--glass-opacity-30)
+  );
+  --glass-control-border-active: rgba(
+    var(--glass-color-black) / var(--glass-opacity-40)
+  );
+  --glass-control-border-disabled: rgba(
+    var(--glass-color-black) / var(--glass-opacity-10)
+  );
+
   /* === ACCENT CONTRAST PAIRS === */
-  --glass-accent-primary-bg: hsl(var(--glass-color-primary) / var(--glass-opacity-15));
-  --glass-accent-primary-fg: hsl(var(--glass-color-primary) / var(--glass-opacity-90));
-  --glass-accent-primary-border: hsl(var(--glass-color-primary) / var(--glass-opacity-40));
-  
-  --glass-accent-success-bg: hsl(var(--glass-color-success) / var(--glass-opacity-15));
-  --glass-accent-success-fg: hsl(var(--glass-color-success) / var(--glass-opacity-90));
-  --glass-accent-success-border: hsl(var(--glass-color-success) / var(--glass-opacity-40));
-  
-  --glass-accent-warning-bg: hsl(var(--glass-color-warning) / var(--glass-opacity-15));
-  --glass-accent-warning-fg: hsl(var(--glass-color-warning) / var(--glass-opacity-90));
-  --glass-accent-warning-border: hsl(var(--glass-color-warning) / var(--glass-opacity-40));
-  
-  --glass-accent-danger-bg: hsl(var(--glass-color-danger) / var(--glass-opacity-15));
-  --glass-accent-danger-fg: hsl(var(--glass-color-danger) / var(--glass-opacity-90));
-  --glass-accent-danger-border: hsl(var(--glass-color-danger) / var(--glass-opacity-40));
-  
-  --glass-accent-info-bg: hsl(var(--glass-color-info) / var(--glass-opacity-15));
-  --glass-accent-info-fg: hsl(var(--glass-color-info) / var(--glass-opacity-90));
-  --glass-accent-info-border: hsl(var(--glass-color-info) / var(--glass-opacity-40));
-  
+  --glass-accent-primary-bg: hsl(
+    var(--glass-color-primary) / var(--glass-opacity-15)
+  );
+  --glass-accent-primary-fg: hsl(
+    var(--glass-color-primary) / var(--glass-opacity-90)
+  );
+  --glass-accent-primary-border: hsl(
+    var(--glass-color-primary) / var(--glass-opacity-40)
+  );
+
+  --glass-accent-success-bg: hsl(
+    var(--glass-color-success) / var(--glass-opacity-15)
+  );
+  --glass-accent-success-fg: hsl(
+    var(--glass-color-success) / var(--glass-opacity-90)
+  );
+  --glass-accent-success-border: hsl(
+    var(--glass-color-success) / var(--glass-opacity-40)
+  );
+
+  --glass-accent-warning-bg: hsl(
+    var(--glass-color-warning) / var(--glass-opacity-15)
+  );
+  --glass-accent-warning-fg: hsl(
+    var(--glass-color-warning) / var(--glass-opacity-90)
+  );
+  --glass-accent-warning-border: hsl(
+    var(--glass-color-warning) / var(--glass-opacity-40)
+  );
+
+  --glass-accent-danger-bg: hsl(
+    var(--glass-color-danger) / var(--glass-opacity-15)
+  );
+  --glass-accent-danger-fg: hsl(
+    var(--glass-color-danger) / var(--glass-opacity-90)
+  );
+  --glass-accent-danger-border: hsl(
+    var(--glass-color-danger) / var(--glass-opacity-40)
+  );
+
+  --glass-accent-info-bg: hsl(
+    var(--glass-color-info) / var(--glass-opacity-15)
+  );
+  --glass-accent-info-fg: hsl(
+    var(--glass-color-info) / var(--glass-opacity-90)
+  );
+  --glass-accent-info-border: hsl(
+    var(--glass-color-info) / var(--glass-opacity-40)
+  );
+
   /* === OVERLAY TOKENS === */
   --glass-overlay-bg: rgba(var(--glass-color-black) / var(--glass-opacity-50));
-  --glass-overlay-bg-subtle: rgba(var(--glass-color-black) / var(--glass-opacity-30));
-  --glass-overlay-bg-strong: rgba(var(--glass-color-black) / var(--glass-opacity-70));
-  
+  --glass-overlay-bg-subtle: rgba(
+    var(--glass-color-black) / var(--glass-opacity-30)
+  );
+  --glass-overlay-bg-strong: rgba(
+    var(--glass-color-black) / var(--glass-opacity-70)
+  );
+
   /* === BACKDROP ADJUSTMENTS === */
   --glass-backdrop-brightness: brightness(1.05);
   --glass-backdrop-contrast: contrast(0.95);
-  
+
   /* === GRADIENT OVERRIDES === */
-  --glass-gradient-default: linear-gradient(135deg,
+  --glass-gradient-default: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-60)) 0%,
     rgba(var(--glass-color-white) / var(--glass-opacity-40)) 50%,
-    rgba(var(--glass-color-white) / var(--glass-opacity-30)) 100%);
-    
-  --glass-gradient-subtle: linear-gradient(135deg,
+    rgba(var(--glass-color-white) / var(--glass-opacity-30)) 100%
+  );
+
+  --glass-gradient-subtle: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-45)) 0%,
     rgba(var(--glass-color-white) / var(--glass-opacity-30)) 50%,
-    rgba(var(--glass-color-white) / var(--glass-opacity-20)) 100%);
-    
-  --glass-gradient-strong: linear-gradient(135deg,
+    rgba(var(--glass-color-white) / var(--glass-opacity-20)) 100%
+  );
+
+  --glass-gradient-strong: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-80)) 0%,
     rgba(var(--glass-color-white) / var(--glass-opacity-60)) 50%,
-    rgba(var(--glass-color-white) / var(--glass-opacity-50)) 100%);
-    
+    rgba(var(--glass-color-white) / var(--glass-opacity-50)) 100%
+  );
+
   /* === SPECULAR & LIGHTING === */
-  --glass-specular-color: rgba(var(--glass-color-white) / var(--glass-opacity-60));
+  --glass-specular-color: rgba(
+    var(--glass-color-white) / var(--glass-opacity-60)
+  );
   --glass-specular-intensity: var(--glass-opacity-25);
   --glass-edge-color: rgba(var(--glass-color-white) / var(--glass-opacity-40));
   --glass-edge-blur: 12px;
-  
+
   /* === STATE INDICATORS === */
   --glass-state-hover-lift: -2px;
   --glass-state-active-press: 0px;

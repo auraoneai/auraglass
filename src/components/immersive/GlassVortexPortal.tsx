@@ -433,7 +433,7 @@ export const GlassVortexPortal = forwardRef<
       const centerY = height / 2;
 
       // Clear canvas
-      ctx.fillStyle = "color-mix(in srgb, var(--glass-black) 10%, transparent)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
       ctx.fillRect(0, 0, width, height);
 
       // Apply distortion effects
@@ -449,10 +449,7 @@ export const GlassVortexPortal = forwardRef<
             distortionRadius
           );
 
-          gradient.addColorStop(
-            0,
-            "color-mix(in srgb, var(--glass-white) 2%, transparent)"
-          );
+          gradient.addColorStop(0, "rgba(255, 255, 255, 0.02)");
           gradient.addColorStop(1, "transparent");
 
           ctx.fillStyle = gradient;
@@ -473,11 +470,11 @@ export const GlassVortexPortal = forwardRef<
 
         horizonGradient.addColorStop(
           0,
-          `color-mix(in srgb, rgb(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}) 80%, transparent)`
+          `rgba(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}, 0.8)`
         );
         horizonGradient.addColorStop(
           0.7,
-          `color-mix(in srgb, rgb(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}) 30%, transparent)`
+          `rgba(${currentColors.primary[0]}, ${currentColors.primary[1]}, ${currentColors.primary[2]}, 0.3)`
         );
         horizonGradient.addColorStop(1, "transparent");
 
@@ -504,15 +501,15 @@ export const GlassVortexPortal = forwardRef<
         );
         ringGradient.addColorStop(
           0,
-          `color-mix(in srgb, rgb(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}) 0%, transparent)`
+          `rgba(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}, 0)`
         );
         ringGradient.addColorStop(
           0.5,
-          `color-mix(in srgb, rgb(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}) ${ring.opacity * 100}%, transparent)`
+          `rgba(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}, ${ring.opacity})`
         );
         ringGradient.addColorStop(
           1,
-          `color-mix(in srgb, rgb(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}) 0%, transparent)`
+          `rgba(${ring.color[0]}, ${ring.color[1]}, ${ring.color[2]}, 0)`
         );
 
         ctx.strokeStyle = ringGradient;
@@ -572,7 +569,7 @@ export const GlassVortexPortal = forwardRef<
           currentRadius * 0.3
         );
 
-        voidGradient.addColorStop(0, "var(--glass-black)");
+        voidGradient.addColorStop(0, "rgba(0, 0, 0, 1)");
         voidGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
         ctx.fillStyle = voidGradient;

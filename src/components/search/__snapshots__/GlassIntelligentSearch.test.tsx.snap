@@ -2,7 +2,7 @@
 
 exports[`GlassIntelligentSearch matches snapshot 1`] = `
 <div
-  class="w-full max-w-4xl mx-auto"
+  class="w-full max-w-4xl mx-auto glass-min-w-0"
   data-glass-component="true"
 >
   <div
@@ -10,14 +10,15 @@ exports[`GlassIntelligentSearch matches snapshot 1`] = `
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="glass-flex glass-items-center glass-gap-3 glass-p-4"
+      class="glass-flex glass-flex-wrap glass-items-center glass-gap-3 glass-p-4"
     >
       <div
         class="glass-relative glass-flex-1"
       >
         <input
+          aria-busy="false"
           aria-label="Search input"
-          class="glass-w-full glass-pl-10 glass-pr-4 glass-py-3 glass-border glass-border-subtle glass-radius-lg glass-focus-ring-2 glass-focus-ring-blue-500 focus:glass-border-blue glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-w-full glass-min-w-0 glass-pl-10 glass-pr-4 glass-py-3 glass-border glass-border-subtle glass-radius-lg glass-focus-ring-2 glass-focus-ring-blue-500 focus:glass-border-blue glass-focus glass-touch-target glass-contrast-guard"
           placeholder="Search with natural language..."
           type="text"
           value=""
@@ -33,7 +34,7 @@ exports[`GlassIntelligentSearch matches snapshot 1`] = `
         </div>
       </div>
       <button
-        class="glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard glass-transition-colors"
       >
         Search
       </button>

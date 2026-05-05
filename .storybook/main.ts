@@ -32,6 +32,19 @@ const config: StorybookConfig = {
     const dedupe = new Set([...(config.resolve.dedupe || []), 'react', 'react-dom']);
     (config.resolve as any).dedupe = Array.from(dedupe);
 
+    config.define = {
+      ...(config.define || {}),
+      'process.env': {
+        NODE_ENV: 'development',
+        NEXT_PUBLIC_IMAGE_SERVICE_URL: '',
+        IMAGE_SERVICE_URL: '',
+        NEXT_PUBLIC_WEBSOCKET_SERVER_URL: '',
+        WEBSOCKET_SERVER_URL: '',
+        REACT_APP_WEBSOCKET_URL: '',
+        JEST_WORKER_ID: undefined,
+      },
+    };
+
     return config;
   },
 

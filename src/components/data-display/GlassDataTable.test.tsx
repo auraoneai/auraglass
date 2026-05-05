@@ -12,7 +12,7 @@
  */
 
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
 import { GlassDataTable } from "@/components/data-display/GlassDataTable";
@@ -69,6 +69,29 @@ describe("GlassDataTable", () => {
       container.firstChild;
 
     expect(element).toHaveClass("custom-class");
+  });
+
+  it("does not sort a column that explicitly opts out of sorting", () => {
+    render(
+      <GlassDataTable
+        columns={[
+          {
+            header: "Name",
+            accessorKey: "name",
+            sortable: false,
+          },
+        ]}
+        data={[{ name: "Bravo" }, { name: "Alpha" }]}
+        sortable
+        pagination={false}
+        searchable={false}
+      />
+    );
+
+    const header = screen.getByText("Name").closest("th");
+    fireEvent.click(screen.getByText("Name"));
+
+    expect(header).toHaveAttribute("aria-sort", "none");
   });
 
   /**

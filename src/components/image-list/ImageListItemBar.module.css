@@ -9,9 +9,17 @@
   color: var(--aura-color-global-text-primary);
   background: color-mix(
     in srgb,
-    var(--aura-color-glass-surface) 85%,
-    transparent
+    var(--aura-color-glass-surface) 88%,
+    rgba(var(--glass-color-black) / var(--glass-opacity-20))
   );
+  border-block: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 58%, transparent);
+  text-shadow: 0 1px 2px
+    color-mix(
+      in srgb,
+      rgba(var(--glass-color-black) / var(--glass-opacity-45)) 92%,
+      transparent
+    );
   transition: opacity var(--aura-motion-duration-normal)
     var(--aura-motion-easing-standard);
   pointer-events: auto;
@@ -36,8 +44,8 @@
 .glass {
   background: color-mix(
     in srgb,
-    var(--aura-color-glass-surface) 90%,
-    transparent
+    var(--aura-color-glass-surface) 92%,
+    rgba(var(--glass-color-black) / var(--glass-opacity-30))
   );
   border: 1px solid var(--aura-color-glass-border);
   backdrop-filter: blur(var(--aura-glass-neutral-level2-backdrop-blur));
@@ -61,6 +69,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--aura-color-global-text-primary);
 }
 
 .subtitle {
@@ -68,6 +77,11 @@
   font-size: 0.75rem;
   line-height: 1.2;
   opacity: 0.75;
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-primary) 82%,
+    transparent
+  );
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -97,4 +111,10 @@
 
 .noTransition {
   transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
 }

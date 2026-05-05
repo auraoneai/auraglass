@@ -167,7 +167,7 @@ export const ChartFilters: React.FC<ChartFiltersProps> = ({
           <feComponentTransfer>
             <feFuncA type="discrete" tableValues="0.05" />
           </feComponentTransfer>
-          <feComposite in2="SourceGraphic" operator="multiply" />
+          <feBlend in="SourceGraphic" mode="multiply" />
         </filter>
 
         {/* Frosted glass effect */}

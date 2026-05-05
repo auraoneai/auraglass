@@ -533,7 +533,7 @@ const ensureValidTheme = (themeInput: any): AuraChartTheme => {
 /**
  * Memoized helper function to transform Chart.js data format to chart data
  */
-const transformChartJsData = memo((chartJsData: any): any[] => {
+const transformChartJsData = (chartJsData: any): any[] => {
   if (
     !chartJsData ||
     !Array.isArray(chartJsData.datasets) ||
@@ -548,17 +548,36 @@ const transformChartJsData = memo((chartJsData: any): any[] => {
     name: dataset.label || `Dataset ${index + 1}`,
     color: dataset.borderColor || dataset.backgroundColor, // Use borderColor or backgroundColor as series color
     data: dataset.data?.map((value: number, pointIndex: number) => ({
-      // Use value directly if data is just numbers
-      // Use point object if data is {x, y} or similar (needs adjustment if x is not index)
-      // Assuming simple numeric data corresponding to labels for now
-      value: value,
+      x: chartJsData.labels?.[pointIndex] || pointIndex,
+      y: value,
+      value,
       label: chartJsData.labels?.[pointIndex] || `Point ${pointIndex + 1}`,
-      // Optionally include original point data if needed: ...point
     })),
-    // Add other potential ChartSeries properties if needed
-    // visible: dataset.hidden !== undefined ? !dataset.hidden : true,
   }));
-});
+};
+
+const normalizeSeriesData = (input: any): any[] => {
+  if (!Array.isArray(input)) return [];
+  if (input.length === 0) return [];
+
+  const first = input[0];
+  if (first && Array.isArray(first.data)) {
+    return input;
+  }
+
+  return [
+    {
+      id: "series-1",
+      name: "Series 1",
+      data: input.map((point: any, index: number) => ({
+        x: point?.x ?? point?.label ?? index,
+        y: Number(point?.y ?? point?.value ?? point ?? 0),
+        label: point?.label ?? String(point?.x ?? index + 1),
+        ...point,
+      })),
+    },
+  ];
+};
 
 // Memoized performance hook implementation with caching
 const performanceCache = {
@@ -887,8 +906,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
       if (isChartJsDataFormat) {
         return transformChartJsData(data);
       }
-      // If not Chart.js format, assume it's in the expected format
-      return data; // Pass data as-is
+      return normalizeSeriesData(data);
     }, [data, isChartJsDataFormat]);
 
     // Memoized handler functions for better performance
@@ -1133,8 +1151,8 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     // Memoized chart props to prevent unnecessary re-renders
     const commonProps = useMemo(
       () => ({
-        width: "100%",
-        height: "100%",
+        width: typeof width === "number" ? width : 640,
+        height: typeof height === "number" ? height : 320,
         glass,
         title: undefined,
         description: undefined,

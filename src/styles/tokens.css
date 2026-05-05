@@ -9,7 +9,7 @@
   --glass-color-warning: 38 92% 50%;
   --glass-color-danger: 0 84% 60%;
   --glass-color-info: 199 89% 48%;
-  
+
   /* === BLUR SCALE === */
   --glass-blur-none: 0px;
   --glass-blur-sm: 4px;
@@ -18,16 +18,16 @@
   --glass-blur-xl: 24px;
   --glass-blur-2xl: 32px;
   --glass-blur-3xl: 48px;
-  
+
   /* === ELEVATION TOKENS === */
   --glass-elev-0: none;
   --glass-elev-1: 0 2px 8px rgba(var(--glass-color-black) / 0.12);
   --glass-elev-2: 0 4px 16px rgba(var(--glass-color-black) / 0.16);
-  --glass-elev-3: 0 8px 24px rgba(var(--glass-color-black) / 0.20);
+  --glass-elev-3: 0 8px 24px rgba(var(--glass-color-black) / 0.2);
   --glass-elev-4: 0 12px 32px rgba(var(--glass-color-black) / 0.24);
   --glass-elev-5: 0 16px 40px rgba(var(--glass-color-black) / 0.28);
   --glass-elev-6: 0 24px 56px rgba(var(--glass-color-black) / 0.32);
-  
+
   /* === RADIUS SCALE === */
   --glass-radius-none: 0px;
   --glass-radius-sm: 8px;
@@ -36,35 +36,35 @@
   --glass-radius-xl: 20px;
   --glass-radius-2xl: 24px;
   --glass-radius-full: 9999px;
-  
+
   /* === SHADOW TOKENS === */
   --glass-shadow-xs: 0 1px 2px rgba(var(--glass-color-black) / 0.05);
   --glass-shadow-sm: 0 2px 4px rgba(var(--glass-color-black) / 0.08);
   --glass-shadow-md: 0 4px 12px rgba(var(--glass-color-black) / 0.12);
   --glass-shadow-lg: 0 8px 24px rgba(var(--glass-color-black) / 0.16);
-  --glass-shadow-xl: 0 12px 36px rgba(var(--glass-color-black) / 0.20);
+  --glass-shadow-xl: 0 12px 36px rgba(var(--glass-color-black) / 0.2);
   --glass-shadow-2xl: 0 16px 48px rgba(var(--glass-color-black) / 0.24);
   --glass-shadow-inner: inset 0 2px 4px rgba(var(--glass-color-black) / 0.06);
-  
+
   /* === OPACITY SCALE === */
   --glass-opacity-0: 0;
   --glass-opacity-5: 0.05;
-  --glass-opacity-10: 0.10;
+  --glass-opacity-10: 0.1;
   --glass-opacity-15: 0.15;
-  --glass-opacity-20: 0.20;
+  --glass-opacity-20: 0.2;
   --glass-opacity-25: 0.25;
-  --glass-opacity-30: 0.30;
+  --glass-opacity-30: 0.3;
   --glass-opacity-35: 0.35;
-  --glass-opacity-40: 0.40;
+  --glass-opacity-40: 0.4;
   --glass-opacity-45: 0.45;
-  --glass-opacity-50: 0.50;
-  --glass-opacity-60: 0.60;
-  --glass-opacity-70: 0.70;
-  --glass-opacity-80: 0.80;
-  --glass-opacity-90: 0.90;
+  --glass-opacity-50: 0.5;
+  --glass-opacity-60: 0.6;
+  --glass-opacity-70: 0.7;
+  --glass-opacity-80: 0.8;
+  --glass-opacity-90: 0.9;
   --glass-opacity-95: 0.95;
   --glass-opacity-100: 1;
-  
+
   /* === FOCUS TOKENS === */
   --glass-focus-width: 2px;
   --glass-focus-offset: 2px;
@@ -74,7 +74,7 @@
   --glass-focus-color-danger: hsl(var(--glass-color-danger) / 0.5);
   --glass-focus-color-info: hsl(var(--glass-color-info) / 0.5);
   --glass-focus-color-default: rgba(var(--glass-color-white) / 0.5);
-  
+
   /* === MOTION TOKENS === */
   --glass-motion-duration-instant: 50ms;
   --glass-motion-duration-fast: 150ms;
@@ -82,7 +82,7 @@
   --glass-motion-duration-slow: 350ms;
   --glass-motion-duration-slower: 450ms;
   --glass-motion-duration-slowest: 600ms;
-  
+
   --glass-motion-ease-linear: linear;
   --glass-motion-ease-in: cubic-bezier(0.4, 0, 1, 1);
   --glass-motion-ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -92,7 +92,7 @@
   --glass-motion-ease-decelerated: cubic-bezier(0, 0, 0, 1);
   --glass-motion-ease-accelerated: cubic-bezier(0.3, 0, 1, 1);
   --glass-motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  
+
   /* === SPACE TOKENS === */
   --glass-space-0: 0px;
   --glass-space-px: 1px;
@@ -129,7 +129,7 @@
   --glass-space-72: 18rem;
   --glass-space-80: 20rem;
   --glass-space-96: 24rem;
-  
+
   /* === BACKDROP FILTER TOKENS === */
   --glass-backdrop-blur: blur(var(--glass-blur-lg));
   --glass-backdrop-saturate: saturate(1.8);
@@ -139,25 +139,26 @@
   --glass-backdrop-invert: invert(0);
   --glass-backdrop-sepia: sepia(0);
   --glass-backdrop-grayscale: grayscale(0);
-  
+
   /* === COMPOSITE BACKDROP === */
-  --glass-filter-base: var(--glass-backdrop-saturate) var(--glass-backdrop-brightness) var(--glass-backdrop-contrast);
-  
+  --glass-filter-base: var(--glass-backdrop-saturate)
+    var(--glass-backdrop-brightness) var(--glass-backdrop-contrast);
+
   /* === TYPOGRAPHY SCALE (Fluid with clamp) === */
-  --glass-font-size-xs: clamp(0.72rem, 0.14vw + 0.70rem, 0.78rem);
-  --glass-font-size-sm: clamp(0.84rem, 0.18vw + 0.80rem, 0.92rem);
-  --glass-font-size-base: clamp(0.98rem, 0.22vw + 0.90rem, 1.06rem);
-  --glass-font-size-lg: clamp(1.10rem, 0.28vw + 1.00rem, 1.20rem);
-  --glass-font-size-xl: clamp(1.25rem, 0.36vw + 1.10rem, 1.40rem);
-  --glass-font-size-2xl: clamp(1.50rem, 0.56vw + 1.25rem, 1.80rem);
-  --glass-font-size-3xl: clamp(1.88rem, 0.78vw + 1.50rem, 2.25rem);
-  --glass-font-size-4xl: clamp(2.25rem, 1.10vw + 1.80rem, 2.75rem);
-  --glass-font-size-5xl: clamp(3.00rem, 1.60vw + 2.20rem, 3.50rem);
-  --glass-font-size-6xl: clamp(3.75rem, 2.20vw + 2.75rem, 4.50rem);
-  --glass-font-size-7xl: clamp(4.50rem, 2.80vw + 3.40rem, 5.50rem);
-  --glass-font-size-8xl: clamp(6.00rem, 4.00vw + 4.40rem, 7.00rem);
-  --glass-font-size-9xl: clamp(8.00rem, 5.50vw + 5.80rem, 9.50rem);
-  
+  --glass-font-size-xs: clamp(0.72rem, 0.14vw + 0.7rem, 0.78rem);
+  --glass-font-size-sm: clamp(0.84rem, 0.18vw + 0.8rem, 0.92rem);
+  --glass-font-size-base: clamp(0.98rem, 0.22vw + 0.9rem, 1.06rem);
+  --glass-font-size-lg: clamp(1.1rem, 0.28vw + 1rem, 1.2rem);
+  --glass-font-size-xl: clamp(1.25rem, 0.36vw + 1.1rem, 1.4rem);
+  --glass-font-size-2xl: clamp(1.5rem, 0.56vw + 1.25rem, 1.8rem);
+  --glass-font-size-3xl: clamp(1.88rem, 0.78vw + 1.5rem, 2.25rem);
+  --glass-font-size-4xl: clamp(2.25rem, 1.1vw + 1.8rem, 2.75rem);
+  --glass-font-size-5xl: clamp(3rem, 1.6vw + 2.2rem, 3.5rem);
+  --glass-font-size-6xl: clamp(3.75rem, 2.2vw + 2.75rem, 4.5rem);
+  --glass-font-size-7xl: clamp(4.5rem, 2.8vw + 3.4rem, 5.5rem);
+  --glass-font-size-8xl: clamp(6rem, 4vw + 4.4rem, 7rem);
+  --glass-font-size-9xl: clamp(8rem, 5.5vw + 5.8rem, 9.5rem);
+
   /* === LINE HEIGHT === */
   --glass-leading-none: 1;
   --glass-leading-tight: 1.25;
@@ -165,7 +166,7 @@
   --glass-leading-normal: 1.5;
   --glass-leading-relaxed: 1.625;
   --glass-leading-loose: 2;
-  
+
   /* === LETTER SPACING === */
   --glass-tracking-tighter: -0.05em;
   --glass-tracking-tight: -0.025em;
@@ -173,7 +174,7 @@
   --glass-tracking-wide: 0.025em;
   --glass-tracking-wider: 0.05em;
   --glass-tracking-widest: 0.1em;
-  
+
   /* === FONT WEIGHT === */
   --glass-font-thin: 100;
   --glass-font-extralight: 200;
@@ -184,7 +185,7 @@
   --glass-font-bold: 700;
   --glass-font-extrabold: 800;
   --glass-font-black: 900;
-  
+
   /* === Z-INDEX SCALE === */
   --glass-z-auto: auto;
   --glass-z-0: 0;
@@ -198,7 +199,7 @@
   --glass-z-80: 80;
   --glass-z-90: 90;
   --glass-z-100: 100;
-  
+
   /* === BREAKPOINTS (for reference in JS) === */
   --glass-screen-xs: 475px;
   --glass-screen-sm: 640px;
@@ -206,14 +207,14 @@
   --glass-screen-lg: 1024px;
   --glass-screen-xl: 1280px;
   --glass-screen-2xl: 1536px;
-  
+
   /* === ASPECT RATIOS === */
   --glass-aspect-auto: auto;
   --glass-aspect-square: 1 / 1;
   --glass-aspect-video: 16 / 9;
   --glass-aspect-photo: 4 / 3;
   --glass-aspect-cinema: 21 / 9;
-  
+
   /* === CONTAINER WIDTHS === */
   --glass-container-xs: 20rem;
   --glass-container-sm: 24rem;
@@ -227,67 +228,108 @@
   --glass-container-6xl: 72rem;
   --glass-container-7xl: 80rem;
   --glass-container-full: 100%;
-  
+
   /* === SEMANTIC ALIASES === */
   --glass-bg-default: rgba(var(--glass-color-white) / var(--glass-opacity-25));
   --glass-bg-hover: rgba(var(--glass-color-white) / var(--glass-opacity-30));
   --glass-bg-active: rgba(var(--glass-color-white) / var(--glass-opacity-35));
   --glass-bg-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-15));
-  
-  --glass-border-default: rgba(var(--glass-color-white) / var(--glass-opacity-40));
-  --glass-border-hover: rgba(var(--glass-color-white) / var(--glass-opacity-50));
-  --glass-border-active: rgba(var(--glass-color-white) / var(--glass-opacity-60));
-  --glass-border-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-20));
-  
-  --glass-text-primary: rgba(var(--glass-color-white) / var(--glass-opacity-95));
-  --glass-text-secondary: rgba(var(--glass-color-white) / var(--glass-opacity-80));
-  --glass-text-tertiary: rgba(var(--glass-color-white) / var(--glass-opacity-60));
-  --glass-text-disabled: rgba(var(--glass-color-white) / var(--glass-opacity-40));
-  
+  --glass-backdrop-fallback-bg: rgba(
+    var(--glass-color-black) / var(--glass-opacity-80)
+  );
+  --glass-reduced-transparency-bg: rgba(
+    var(--glass-color-black) / var(--glass-opacity-90)
+  );
+
+  --glass-border-default: rgba(
+    var(--glass-color-white) / var(--glass-opacity-40)
+  );
+  --glass-border-hover: rgba(
+    var(--glass-color-white) / var(--glass-opacity-50)
+  );
+  --glass-border-active: rgba(
+    var(--glass-color-white) / var(--glass-opacity-60)
+  );
+  --glass-border-disabled: rgba(
+    var(--glass-color-white) / var(--glass-opacity-20)
+  );
+  --glass-backdrop-fallback-border: rgba(
+    var(--glass-color-white) / var(--glass-opacity-55)
+  );
+
+  --glass-text-primary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-95)
+  );
+  --glass-text-secondary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-80)
+  );
+  --glass-text-tertiary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-60)
+  );
+  --glass-text-disabled: rgba(
+    var(--glass-color-white) / var(--glass-opacity-40)
+  );
+  --glass-backdrop-fallback-text: rgba(
+    var(--glass-color-white) / var(--glass-opacity-100)
+  );
+
   /* === SURFACE GRADIENTS === */
-  --glass-gradient-primary: linear-gradient(135deg, 
-    rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%, 
-    hsl(var(--glass-color-primary) / var(--glass-opacity-20)) 50%, 
-    hsl(var(--glass-color-primary) / var(--glass-opacity-10)) 100%);
-    
-  --glass-gradient-success: linear-gradient(135deg,
+  --glass-gradient-primary: linear-gradient(
+    135deg,
+    rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%,
+    hsl(var(--glass-color-primary) / var(--glass-opacity-20)) 50%,
+    hsl(var(--glass-color-primary) / var(--glass-opacity-10)) 100%
+  );
+
+  --glass-gradient-success: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%,
     hsl(var(--glass-color-success) / var(--glass-opacity-20)) 50%,
-    hsl(var(--glass-color-success) / var(--glass-opacity-10)) 100%);
-    
-  --glass-gradient-warning: linear-gradient(135deg,
+    hsl(var(--glass-color-success) / var(--glass-opacity-10)) 100%
+  );
+
+  --glass-gradient-warning: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%,
     hsl(var(--glass-color-warning) / var(--glass-opacity-20)) 50%,
-    hsl(var(--glass-color-warning) / var(--glass-opacity-10)) 100%);
-    
-  --glass-gradient-danger: linear-gradient(135deg,
+    hsl(var(--glass-color-warning) / var(--glass-opacity-10)) 100%
+  );
+
+  --glass-gradient-danger: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%,
     hsl(var(--glass-color-danger) / var(--glass-opacity-20)) 50%,
-    hsl(var(--glass-color-danger) / var(--glass-opacity-10)) 100%);
-    
-  --glass-gradient-info: linear-gradient(135deg,
+    hsl(var(--glass-color-danger) / var(--glass-opacity-10)) 100%
+  );
+
+  --glass-gradient-info: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%,
     hsl(var(--glass-color-info) / var(--glass-opacity-20)) 50%,
-    hsl(var(--glass-color-info) / var(--glass-opacity-10)) 100%);
-    
-  --glass-gradient-neutral: linear-gradient(135deg,
+    hsl(var(--glass-color-info) / var(--glass-opacity-10)) 100%
+  );
+
+  --glass-gradient-neutral: linear-gradient(
+    135deg,
     rgba(var(--glass-color-white) / var(--glass-opacity-25)) 0%,
     rgba(var(--glass-color-white) / var(--glass-opacity-15)) 50%,
-    rgba(var(--glass-color-white) / var(--glass-opacity-10)) 100%);
-    
+    rgba(var(--glass-color-white) / var(--glass-opacity-10)) 100%
+  );
+
   /* === NOISE & TEXTURE === */
   --glass-noise-svg: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
   --glass-noise-opacity: var(--glass-opacity-10);
-  
+
   /* === MINIMUM TOUCH TARGETS === */
   --glass-touch-target-min: 44px;
   --glass-touch-target-sm: 36px;
   --glass-touch-target-md: 44px;
   --glass-touch-target-lg: 48px;
-  
+
   /* === STATE TRANSITIONS === */
   --glass-transition-property: all;
   --glass-transition-duration: var(--glass-motion-duration-normal);
   --glass-transition-timing: var(--glass-motion-ease-standard);
-  --glass-transition: var(--glass-transition-property) var(--glass-transition-duration) var(--glass-transition-timing);
+  --glass-transition: var(--glass-transition-property)
+    var(--glass-transition-duration) var(--glass-transition-timing);
 }

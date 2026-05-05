@@ -24,6 +24,8 @@ import {
 } from "../advanced/GlassPredictiveEngine";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
+import { getSafeWindow } from "../../utils/env";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 import { ToggleButtonProps } from "./types";
 
@@ -56,6 +58,46 @@ const getVariantClasses = (
   color: string
 ) => {
   const baseClasses = "transition-all duration-200 ease-in-out";
+  const outlinedColorClasses: Record<
+    string,
+    { selected: string; unselected: string }
+  > = {
+    default: {
+      selected: "bg-gray-600 glass-text-primary border-gray-700",
+      unselected:
+        "bg-transparent glass-text-secondary border-gray-500 hover:bg-gray-600/10",
+    },
+    primary: {
+      selected: "bg-primary-500 glass-text-primary border-primary-600",
+      unselected:
+        "bg-transparent text-primary-400 border-primary-300 hover:bg-primary-500/10",
+    },
+    secondary: {
+      selected: "bg-secondary-500 glass-text-primary border-secondary-600",
+      unselected:
+        "bg-transparent text-secondary-400 border-secondary-300 hover:bg-secondary-500/10",
+    },
+    success: {
+      selected: "bg-success-500 glass-text-primary border-success-600",
+      unselected:
+        "bg-transparent text-success-400 border-success-300 hover:bg-success-500/10",
+    },
+    error: {
+      selected: "bg-danger-500 glass-text-primary border-danger-600",
+      unselected:
+        "bg-transparent text-danger-400 border-danger-300 hover:bg-danger-500/10",
+    },
+    warning: {
+      selected: "bg-warning-500 glass-text-primary border-warning-600",
+      unselected:
+        "bg-transparent text-warning-400 border-warning-300 hover:bg-warning-500/10",
+    },
+    info: {
+      selected: "bg-info-500 glass-text-primary border-info-600",
+      unselected:
+        "bg-transparent text-info-400 border-info-300 hover:bg-info-500/10",
+    },
+  };
 
   switch (variant) {
     case "primary":
@@ -72,14 +114,15 @@ const getVariantClasses = (
           ? "bg-secondary-500 glass-text-primary border-secondary-600 shadow-md"
           : "bg-transparent text-secondary-400 border-secondary-300 hover:bg-secondary-500/10"
       );
-    case "outlined":
+    case "outlined": {
+      const outlinedClasses =
+        outlinedColorClasses[color] || outlinedColorClasses.default;
       return cn(
         baseClasses,
         "border-2",
-        selected
-          ? `bg-${color}-500 glass-text-primary border-${color}-600`
-          : `bg-transparent text-${color}-400 border-${color}-300 hover:bg-${color}-500/10`
+        selected ? outlinedClasses.selected : outlinedClasses.unselected
       );
+    }
     default:
       return cn(
         baseClasses,
@@ -210,6 +253,7 @@ function ToggleButtonComponent(
   } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const prefersReducedMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
   const [clickCount, setClickCount] = useState(0);
 
@@ -277,16 +321,19 @@ function ToggleButtonComponent(
 
       // Record interaction for predictive learning
       if (recordInteraction) {
+        const safeWindow = getSafeWindow();
+        const viewportWidth = safeWindow?.innerWidth ?? 1024;
+        const viewportHeight = safeWindow?.innerHeight ?? 768;
         recordInteraction({
           type: "click",
           element: "toggle-button",
           context: {
-            viewport: { width: window.innerWidth, height: window.innerHeight },
+            viewport: { width: viewportWidth, height: viewportHeight },
             timeOfDay: new Date().getHours(),
             deviceType:
-              window.innerWidth < 768
+              viewportWidth < 768
                 ? "mobile"
-                : window.innerWidth < 1024
+                : viewportWidth < 1024
                   ? "tablet"
                   : "desktop",
           },
@@ -321,7 +368,7 @@ function ToggleButtonComponent(
     },
     [
       disabled,
-      interactionRecorder,
+      recordInteraction,
       spatialAudioEngine,
       audioFeedback,
       achievementTracker,
@@ -379,6 +426,7 @@ function ToggleButtonComponent(
     "select-none align-middle appearance-none no-underline",
     "font-medium leading-7",
     "glass-radius-md border",
+    prefersReducedMotion && "transition-none",
     // Size classes
     sizeClasses,
     // Variant classes
@@ -404,8 +452,8 @@ function ToggleButtonComponent(
       <Motion
         data-glass-component
         preset="scaleIn"
-        animateOnHover={true}
-        duration={0.2}
+        animateOnHover={!disabled && !prefersReducedMotion}
+        duration={prefersReducedMotion ? 0 : 0.2}
         className="glass-inline-glass-block"
       >
         <OptimizedGlass
@@ -456,8 +504,8 @@ function ToggleButtonComponent(
   return (
     <Motion
       preset="scaleIn"
-      animateOnHover={true}
-      duration={0.2}
+      animateOnHover={!disabled && !prefersReducedMotion}
+      duration={prefersReducedMotion ? 0 : 0.2}
       className="glass-inline-glass-block"
     >
       <button

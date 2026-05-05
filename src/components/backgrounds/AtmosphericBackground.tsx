@@ -58,6 +58,7 @@ const AtmosphericBackgroundComponent = (
   // Determine if motion should be reduced based on all preferences
   const shouldReduceMotion =
     respectMotionPreference && (prefersReducedMotion || motionPrefersReduced);
+  const isDecorative = React.Children.count(children) === 0;
 
   // State for mouse position
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
@@ -81,7 +82,9 @@ const AtmosphericBackgroundComponent = (
       setMousePosition({ x, y });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (typeof window === "undefined") return;
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -148,17 +151,28 @@ const AtmosphericBackgroundComponent = (
       )}
       style={{ ...(style || {}) }}
       id={componentId}
-      role="img"
-      aria-label={`Atmospheric background with ${animate && !shouldReduceMotion ? "animated" : "static"} ${gradientColors.length} color gradient`}
-      aria-hidden="true"
-      tabIndex={interactive ? 0 : -1}
+      role={isDecorative ? "img" : undefined}
+      aria-label={
+        isDecorative
+          ? `Atmospheric background with ${animate && !shouldReduceMotion ? "animated" : "static"} ${gradientColors.length} color gradient`
+          : undefined
+      }
+      tabIndex={interactive ? 0 : undefined}
       {...rest}
     >
-      <div className={gradientClasses} style={{ ...gradientStyle }} />
+      <div
+        className={gradientClasses}
+        style={{ ...gradientStyle }}
+        aria-hidden="true"
+      />
 
-      <div className={effectClasses} />
+      <div className={effectClasses} aria-hidden="true" />
 
-      <div className={styles.blurLayer} style={{ ...blurStyle }} />
+      <div
+        className={styles.blurLayer}
+        style={{ ...blurStyle }}
+        aria-hidden="true"
+      />
 
       <div className={styles.contentLayer}>{children}</div>
     </OptimizedGlass>

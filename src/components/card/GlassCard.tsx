@@ -89,6 +89,10 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       interactive,
       className,
       children,
+      onClick,
+      onKeyDown,
+      role,
+      tabIndex,
       ...props
     },
     ref
@@ -105,7 +109,9 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       default: "",
       outlined: "glass-focus glass-border-subtle",
       elevated: "",
-      interactive: `transition-all duration-[${ANIMATION.DURATION.fast}ms] hover:scale-[1.02] active:scale-[0.98]`,
+      interactive: prefersReducedMotion
+        ? "transition-none"
+        : `transition-all duration-[${ANIMATION.DURATION.fast}ms] hover:scale-[1.02] active:scale-[0.98]`,
       feature: "relative overflow-hidden",
       minimal: "glass-glass-backdrop-blur-md bg-transparent border-0",
       primary: "",
@@ -125,6 +131,22 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     };
 
     const isInteractive = interactive || hoverable || clickable;
+    const isActionable = clickable || typeof onClick === "function";
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event);
+
+      if (
+        event.defaultPrevented ||
+        disabled ||
+        !isActionable ||
+        (event.key !== "Enter" && event.key !== " ")
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>);
+    };
 
     const cardStyle = {
       "--liquid-glass-card-density": variant === "minimal" ? "0.8" : "0.92",
@@ -175,19 +197,38 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           {
             "opacity-50 pointer-events-none": disabled,
             "cursor-pointer": clickable && !disabled,
-            "glass-hover-scale-105 active:scale-95": hoverable && !disabled,
-            "animate-pulse": loading,
+            "glass-hover-scale-105 active:scale-95":
+              hoverable && !disabled && !prefersReducedMotion,
+            "transition-none": prefersReducedMotion,
+            "animate-pulse": loading && !prefersReducedMotion,
           },
           className
         )}
         style={{ ...cardStyle }}
+        role={role || (isActionable ? "button" : undefined)}
+        tabIndex={
+          tabIndex !== undefined
+            ? tabIndex
+            : isActionable && !disabled
+              ? 0
+              : undefined
+        }
+        aria-disabled={disabled || undefined}
+        aria-busy={loading || undefined}
+        onClick={disabled ? undefined : onClick}
+        onKeyDown={handleKeyDown}
         data-liquid-glass-card="true"
         data-card-variant={variant}
         data-card-size={size}
         {...props}
       >
         {loading && (
-          <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary glass-animate-glass-shimmer" />
+          <div
+            className={cn(
+              "glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white-opacity-10 glass-gradient-primary",
+              !prefersReducedMotion && "glass-animate-glass-shimmer"
+            )}
+          />
         )}
         {children}
       </LiquidGlassMaterial>
@@ -209,19 +250,34 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           variantClasses[variant],
           {
             // Sophisticated micro-interactions
-            "hover:scale-[1.008] hover:-translate-y-1": hoverable && !disabled,
+            "hover:scale-[1.008] hover:-translate-y-1":
+              hoverable && !disabled && !prefersReducedMotion,
             "hover:shadow-2xl hover:shadow-blue-500/10": hoverable && !disabled,
             // Enhanced click feedback
             "cursor-pointer": clickable && !disabled,
-            "active:scale-[0.995] active:translate-y-0": clickable && !disabled,
+            "active:scale-[0.995] active:translate-y-0":
+              clickable && !disabled && !prefersReducedMotion,
             "": clickable && !disabled, // Remove broken CSS class
             // Disabled state
             "opacity-50 pointer-events-none": disabled,
             // Loading state
-            "animate-pulse": loading,
+            "animate-pulse": loading && !prefersReducedMotion,
+            "transition-none": prefersReducedMotion,
           },
           className
         )}
+        role={role || (isActionable ? "button" : undefined)}
+        tabIndex={
+          tabIndex !== undefined
+            ? tabIndex
+            : isActionable && !disabled
+              ? 0
+              : undefined
+        }
+        aria-disabled={disabled || undefined}
+        aria-busy={loading || undefined}
+        onClick={disabled ? undefined : onClick}
+        onKeyDown={handleKeyDown}
         {...props}
       >
         {/* Advanced micro-interaction overlays */}

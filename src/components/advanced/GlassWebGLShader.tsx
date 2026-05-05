@@ -241,11 +241,14 @@ export function GlassWebGLShader({
   const animationRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0 });
   const [isSupported, setIsSupported] = useState(true);
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = animated && !prefersReducedMotion;
 
   // Initialize WebGL
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    setIsSupported(true);
 
     const gl =
       canvas.getContext("webgl") ||
@@ -291,21 +294,26 @@ export function GlassWebGLShader({
     // Set up texture
     setupTexture(gl as WebGLRenderingContext);
 
-    // Start render loop
-    if (animated) {
-      render();
-    }
+    render();
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      try {
+        const loseContext = gl.getExtension("WEBGL_lose_context");
+        loseContext?.loseContext();
+      } catch {}
+      glRef.current = null;
+      programRef.current = null;
     };
-  }, [variant, animated]);
+  }, [variant, shouldAnimate, intensity]);
 
   // Handle mouse interaction
   useEffect(() => {
-    if (!interactive) return;
+    if (!interactive || prefersReducedMotion || typeof window === "undefined") {
+      return;
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       const canvas = canvasRef.current;
@@ -318,9 +326,9 @@ export function GlassWebGLShader({
       };
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [interactive]);
+  }, [interactive, prefersReducedMotion]);
 
   // Create shader
   function createShader(
@@ -457,7 +465,7 @@ export function GlassWebGLShader({
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
     // Continue animation
-    if (animated) {
+    if (shouldAnimate && typeof requestAnimationFrame === "function") {
       animationRef.current = requestAnimationFrame(render);
     }
   }
@@ -470,6 +478,7 @@ export function GlassWebGLShader({
           "OptimizedGlass intensity={0.2} glassBlur={6} glass-p-4",
           className
         )}
+        role="status"
       >
         <p className="glass-text-secondary">WebGL not supported</p>
       </div>
@@ -483,9 +492,10 @@ export function GlassWebGLShader({
     >
       <canvas
         ref={canvasRef}
-        className="glass-absolute glass-inset-0 glass-w-full glass-h-full"
+        className="glass-absolute glass-inset-0 glass-w-full glass-h-full glass-pointer-events-none"
         width={800}
         height={600}
+        aria-hidden="true"
       />
     </div>
   );

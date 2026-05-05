@@ -296,9 +296,9 @@ exports[`ChartFilters matches snapshot 1`] = `
           type="discrete"
         />
       </fecomponenttransfer>
-      <fecomposite
-        in2="SourceGraphic"
-        operator="multiply"
+      <feblend
+        in="SourceGraphic"
+        mode="multiply"
       />
     </filter>
     <filter

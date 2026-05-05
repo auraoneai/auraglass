@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassInput Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassInput } from '@/components/input/GlassInput';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassInput } from "@/components/input/GlassInput";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassInput', () => {
+describe("GlassInput", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassInput />);
     expect(container).toBeInTheDocument();
   });
@@ -32,30 +32,31 @@ describe('GlassInput', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassInput />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Form component has proper labels and descriptions
    */
-  describe('ARIA Attributes', () => {
-    it('has proper form control role', () => {
+  describe("ARIA Attributes", () => {
+    it("has proper form control role", () => {
       render(<GlassInput id="test-input" />);
-      const element = screen.getByTestId('glassinput') || document.querySelector('#test-input');
+      const element =
+        screen.getByTestId("glassinput") ||
+        document.querySelector("#test-input");
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-label', () => {
+    it("supports aria-label", () => {
       render(<GlassInput aria-label="Test input" />);
       const element = screen.getByLabelText(/test input/i);
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-describedby for help text', () => {
+    it("supports aria-describedby for help text", () => {
       render(
         <>
           <GlassInput aria-describedby="help-text" />
@@ -67,60 +68,79 @@ describe('GlassInput', () => {
     });
   });
 
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
+  describe("Focus Management", () => {
+    it("can receive focus", async () => {
+      const user = userEvent.setup();
       render(<GlassInput />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      const element = document.querySelector("input");
 
       if (element) {
-        (element as HTMLElement).focus();
+        await user.click(element);
         expect(element).toHaveFocus();
       }
     });
 
-    it('shows visible focus indicator', () => {
+    it("shows visible focus indicator", async () => {
+      const user = userEvent.setup();
       const { container } = render(<GlassInput />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      const element = container.querySelector("input");
 
       if (element) {
-        (element as HTMLElement).focus();
+        await user.click(element);
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
+      <GlassInput className="custom-class" data-testid="glassinput" />
+    );
+
+    const element =
+      container.querySelector('[data-testid="glassinput"]') ||
+      container.firstChild;
+
+    expect(element).toHaveClass("custom-class");
+  });
+
+  it("uses onClear for clearable controlled input without requiring object refs", async () => {
+    const user = userEvent.setup();
+    const handleClear = jest.fn();
+    const functionRef = jest.fn();
+
+    render(
       <GlassInput
-        className="custom-class"
-        data-testid="glassinput"
+        aria-label="Search"
+        value="query"
+        onChange={jest.fn()}
+        clearable
+        onClear={handleClear}
+        ref={functionRef}
       />
     );
 
-    const element = container.querySelector('[data-testid="glassinput"]')
-      || container.firstChild;
+    await user.click(screen.getByRole("button", { name: /clear search/i }));
 
-    expect(element).toHaveClass('custom-class');
+    expect(handleClear).toHaveBeenCalledTimes(1);
+    expect(screen.getByLabelText("Search")).toHaveFocus();
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassInput />);
+  it("matches snapshot", () => {
+    const { container } = render(<GlassInput id="snapshot-input" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

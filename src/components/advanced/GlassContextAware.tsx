@@ -66,6 +66,58 @@ interface GlassContextAwareProps {
   onContextChange?: (context: EnvironmentContext & UsageContext) => void;
 }
 
+const getDeviceType = (): EnvironmentContext["device"]["type"] => {
+  if (typeof navigator === "undefined") return "desktop";
+  const ua = navigator.userAgent;
+  if (/mobile|android|iphone/i.test(ua)) return "mobile";
+  if (/tablet|ipad/i.test(ua)) return "tablet";
+  if (/tv|television/i.test(ua)) return "tv";
+  return "desktop";
+};
+
+const getDeviceContext = (): EnvironmentContext["device"] => {
+  if (typeof window === "undefined") {
+    return {
+      type: "desktop",
+      orientation: "landscape",
+      pixelRatio: 1,
+      refreshRate: 60,
+    };
+  }
+
+  return {
+    type: getDeviceType(),
+    orientation:
+      window.innerHeight > window.innerWidth ? "portrait" : "landscape",
+    pixelRatio: window.devicePixelRatio || 1,
+    refreshRate: 60,
+  };
+};
+
+const createDefaultEnvironmentContext = (): EnvironmentContext => {
+  const hour = new Date().getHours();
+
+  return {
+    lightLevel: 0.5,
+    colorTemperature: 6500,
+    ambientNoise: 0.3,
+    batteryLevel: 1,
+    networkSpeed: 10,
+    cpuUsage: 0.3,
+    memoryUsage: 0.4,
+    time: {
+      hour,
+      isWorkingHours: hour >= 9 && hour <= 17,
+      timeZone:
+        typeof Intl !== "undefined"
+          ? Intl.DateTimeFormat().resolvedOptions().timeZone
+          : "UTC",
+    },
+    location: { type: "unknown" },
+    device: getDeviceContext(),
+  };
+};
+
 export function GlassContextAware({
   children,
   className,
@@ -77,28 +129,7 @@ export function GlassContextAware({
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [environmentContext, setEnvironmentContext] =
-    useState<EnvironmentContext>({
-      lightLevel: 0.5,
-      colorTemperature: 6500,
-      ambientNoise: 0.3,
-      batteryLevel: 1,
-      networkSpeed: 10,
-      cpuUsage: 0.3,
-      memoryUsage: 0.4,
-      time: {
-        hour: new Date().getHours(),
-        isWorkingHours: isWorkingTime(),
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      },
-      location: { type: "unknown" },
-      device: {
-        type: detectDeviceType(),
-        orientation:
-          window.innerHeight > window.innerWidth ? "portrait" : "landscape",
-        pixelRatio: window.devicePixelRatio || 1,
-        refreshRate: 60,
-      },
-    });
+    useState<EnvironmentContext>(() => createDefaultEnvironmentContext());
 
   const [usageContext, setUsageContext] = useState<UsageContext>({
     focusMode: false,
@@ -138,16 +169,6 @@ export function GlassContextAware({
     damping: 20,
   });
 
-  // Detect device type
-  function detectDeviceType(): "mobile" | "tablet" | "desktop" | "tv" {
-    if (typeof window === "undefined") return "desktop";
-    const ua = navigator.userAgent;
-    if (/mobile|android|iphone/i.test(ua)) return "mobile";
-    if (/tablet|ipad/i.test(ua)) return "tablet";
-    if (/tv|television/i.test(ua)) return "tv";
-    return "desktop";
-  }
-
   // Check if current time is working hours
   function isWorkingTime(): boolean {
     const hour = new Date().getHours();
@@ -156,7 +177,13 @@ export function GlassContextAware({
 
   // Monitor environment context
   useEffect(() => {
+    let active = true;
+
     const updateEnvironmentContext = () => {
+      if (typeof window === "undefined" || typeof navigator === "undefined") {
+        return;
+      }
+
       const now = new Date();
 
       // Update time context
@@ -167,27 +194,10 @@ export function GlassContextAware({
       };
 
       // Update device context
-      const deviceContext = {
-        ...environmentContext.device,
-        orientation:
-          window.innerHeight > window.innerWidth
-            ? ("portrait" as const)
-            : ("landscape" as const),
-      };
+      const deviceContext = getDeviceContext();
 
       // Estimate light level based on time of day
       const lightLevel = calculateLightLevel(timeContext.hour);
-
-      // Get battery info if available
-      const getBatteryLevel = async () => {
-        if ("getBattery" in navigator) {
-          try {
-            const battery = await (navigator as any).getBattery();
-            return battery.level;
-          } catch {}
-        }
-        return 1;
-      };
 
       // Get network info if available
       const getNetworkSpeed = () => {
@@ -198,7 +208,9 @@ export function GlassContextAware({
         return 10;
       };
 
-      getBatteryLevel().then((batteryLevel) => {
+      const applyEnvironmentContext = (batteryLevel: number) => {
+        if (!active) return;
+
         setEnvironmentContext((prev: any) => ({
           ...prev,
           lightLevel,
@@ -208,7 +220,21 @@ export function GlassContextAware({
           device: deviceContext,
           colorTemperature: calculateColorTemperature(timeContext.hour),
         }));
-      });
+      };
+
+      if ("getBattery" in navigator) {
+        (navigator as any)
+          .getBattery()
+          .then((battery: { level?: number }) => {
+            applyEnvironmentContext(battery.level ?? 1);
+          })
+          .catch(() => {
+            applyEnvironmentContext(1);
+          });
+        return;
+      }
+
+      applyEnvironmentContext(1);
     };
 
     updateEnvironmentContext();
@@ -217,7 +243,10 @@ export function GlassContextAware({
       ANIMATION.DURATION.slower * 10
     ); // Update every minute
 
-    return () => clearInterval(interval);
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   // Calculate light level based on time
@@ -245,6 +274,8 @@ export function GlassContextAware({
 
   // Monitor usage patterns
   useEffect(() => {
+    if (typeof document === "undefined") return;
+
     let interactionCount = 0;
     let lastInteraction = Date.now();
     const sessionStart = Date.now();
@@ -277,12 +308,14 @@ export function GlassContextAware({
 
     // Track various interaction events
     const events = ["click", "keydown", "scroll", "mousemove", "touchstart"];
-    events.forEach((event: any) => {
-      document.addEventListener(event, trackInteraction);
+    events.forEach((event) => {
+      const options =
+        event === "keydown" ? undefined : ({ passive: true } as const);
+      document.addEventListener(event, trackInteraction, options);
     });
 
     return () => {
-      events.forEach((event: any) => {
+      events.forEach((event) => {
         document.removeEventListener(event, trackInteraction);
       });
     };
@@ -439,7 +472,7 @@ export function GlassContextAware({
       ref={containerRef}
       className={cn(
         "relative OptimizedGlass intensity={0.2} glassBlur={6}",
-        "transform-gpu will-change-transform",
+        !prefersReducedMotion && "transform-gpu will-change-transform",
         className
       )}
       style={{ ...adaptiveStyle }}

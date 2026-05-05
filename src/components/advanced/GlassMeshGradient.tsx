@@ -36,6 +36,30 @@ interface GlassMeshGradientProps {
   "aria-label"?: string;
 }
 
+const toCanvasRgba = (color: string, alpha: number) => {
+  if (color.startsWith("#")) {
+    const hex = color.replace("#", "");
+    const fullHex =
+      hex.length === 3
+        ? hex
+            .split("")
+            .map((part) => part + part)
+            .join("")
+        : hex;
+    const value = parseInt(fullHex.slice(0, 6), 16);
+    const red = (value >> 16) & 255;
+    const green = (value >> 8) & 255;
+    const blue = value & 255;
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  }
+
+  if (color.startsWith("rgb(")) {
+    return color.replace("rgb(", "rgba(").replace(")", `, ${alpha})`);
+  }
+
+  return `rgba(14, 165, 233, ${alpha})`;
+};
+
 export function GlassMeshGradient({
   className,
   colors = [
@@ -176,15 +200,9 @@ export function GlassMeshGradient({
       );
 
       const color = point.color;
-      gradient.addColorStop(
-        0,
-        `${color}${Math.floor(opacity * 255).toString(16)}`
-      );
-      gradient.addColorStop(
-        0.5,
-        `${color}${Math.floor(opacity * 0.5 * 255).toString(16)}`
-      );
-      gradient.addColorStop(1, `${color}00`);
+      gradient.addColorStop(0, toCanvasRgba(color, opacity));
+      gradient.addColorStop(0.5, toCanvasRgba(color, opacity * 0.5));
+      gradient.addColorStop(1, toCanvasRgba(color, 0));
 
       // Draw gradient
       ctx.fillStyle = gradient;

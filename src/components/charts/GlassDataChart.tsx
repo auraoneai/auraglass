@@ -15,7 +15,6 @@ import React, {
   memo,
   forwardRef,
 } from "react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "@/lib/utils";
 // Basic styled components replaced with CSS modules
@@ -41,9 +40,8 @@ import { Chart } from "react-chartjs-2";
 import { useAccessibilitySettings } from "../../hooks/useAccessibilitySettings";
 // import { glassGlow } from '../../core/mixins/glowEffects'; // unused
 // import { createThemeContext } from '../../core/themeContext'; // unused
-import { useGlassTheme } from "../../hooks/useGlassTheme";
 // import { useGalileoStateSpring, GalileoStateSpringOptions } from '../../hooks/useGalileoStateSpring'; // unused
-import { GlassTooltip, GlassTooltipContent } from "../modal/GlassTooltip";
+import { GlassTooltip } from "../modal/GlassTooltip";
 
 import {
   useQualityTier,
@@ -95,10 +93,7 @@ const convertToChartJsDatasetWithEffects = (
   };
 };
 
-import {
-  ContrastGuard,
-  TextWithContrast,
-} from "@/components/accessibility/ContrastGuard";
+import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { COLORS } from "../../tokens/designConstants";
 
@@ -263,6 +258,7 @@ interface GlassDataChartProps {
     clickEffect?: { scale: number; opacity: number };
   } | null;
   "aria-label"?: string;
+  "data-testid"?: string;
 }
 
 interface GlassDataChartRef {
@@ -285,7 +281,7 @@ const getContainerBackground = (variant?: string, color?: string) => {
     case "luminous":
       return "color-mix(in srgb, var(--aura-color-semantic-primary) 12%, color-mix(in srgb, var(--glass-white) 8%, transparent))";
     default:
-      return "color-mix(in srgb, var(--aura-color-glass-surface) 92%, transparent)";
+      return "color-mix(in srgb, var(--aura-color-glass-surface) 94%, color-mix(in srgb, rgb(12, 18, 32) 20%, transparent))";
   }
 };
 
@@ -352,16 +348,16 @@ const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(
         ref={ref}
         className={cn(chartStyles.container, className)}
         style={{
-          padding: "20px",
+          padding: "var(--aura-space-5)",
           borderRadius:
             typeof $borderRadius === "number"
               ? `${$borderRadius}px`
               : ($borderRadius ?? "var(--glass-radius-md)"),
           background,
-          // Use createGlassStyle() instead,
-          // Use createGlassStyle() instead,
+          color: "var(--aura-color-global-text-primary)",
           border: `1px solid ${$borderColor || "color-mix(in srgb, var(--aura-color-global-border-soft) 75%, transparent)"}`,
           boxShadow,
+          ["--glass-data-chart-backdrop-filter" as any]: blur,
           ...style,
         }}
         {...rest}
@@ -614,7 +610,11 @@ const pathAnimationPlugin: Plugin<ChartType> = {
                 path.animate(
                   [{ strokeDashoffset: pathLength }, { strokeDashoffset: 0 }],
                   {
-                    duration: ANIMATION.DURATION.slow / 1000,
+                    duration: window.matchMedia?.(
+                      "(prefers-reduced-motion: reduce)"
+                    ).matches
+                      ? 1
+                      : ANIMATION.DURATION.slow,
                     delay: datasetIndex * ANIMATION.DURATION.fast,
                     fill: "forwards",
                     easing: "ease-out",
@@ -650,9 +650,9 @@ if (defaults?.font) {
 }
 // Set colors safely
 defaults.color =
-  '${glassStyles.text?.secondary || "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"}';
+  "color-mix(in srgb, var(--aura-color-global-text-secondary) 85%, transparent)";
 defaults.borderColor =
-  '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
+  "color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent)";
 
 /**
  * Register required Chart.js components
@@ -786,8 +786,7 @@ const zoomControlsStyle = createGlassStyle({
 });
 
 const zoomLevelStyle = {
-  color:
-    '${glassStyles.text?.primary || "color-mix(in srgb, var(--glass-white) var(--glass-opacity-90), transparent)"}',
+  color: "var(--aura-color-global-text-primary)",
   fontSize: "var(--typography-caption-size)",
   padding: "0 8px",
   minWidth: "40px",
@@ -896,8 +895,10 @@ const GlassDataChartComponent = React.forwardRef<
       showYGrid: true,
       showXLabels: true,
       showYLabels: true,
-      axisColor: '${glassStyles.borderColor || "var(--glass-bg-hover)"}',
-      gridColor: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
+      axisColor:
+        "color-mix(in srgb, var(--aura-color-global-text-secondary) 85%, transparent)",
+      gridColor:
+        "color-mix(in srgb, var(--aura-color-global-border-soft) 55%, transparent)",
       gridStyle: "solid",
     },
     initialSelection,
@@ -936,6 +937,7 @@ const GlassDataChartComponent = React.forwardRef<
     useAdaptiveQuality = true,
     getElementPhysicsOptions,
     "aria-label": ariaLabel,
+    "data-testid": dataTestId,
   } = props;
 
   // Hooks
@@ -1192,6 +1194,14 @@ const GlassDataChartComponent = React.forwardRef<
     [convertedDatasets, chartLabels]
   );
 
+  const hasChartData = useMemo(
+    () =>
+      convertedDatasets.some(
+        (dataset: any) => Array.isArray(dataset.data) && dataset.data.length > 0
+      ),
+    [convertedDatasets]
+  );
+
   // Zoom in function
   const handleZoomIn = useCallback(() => {
     applyZoom(zoomLevel * 1.2);
@@ -1374,15 +1384,7 @@ const GlassDataChartComponent = React.forwardRef<
       // Format the value for the click handler
       if (!dataPoint || !dataset) return;
 
-      const formatType = dataPoint.formatType || dataset.formatType || "number";
-      const formatOptions = {
-        ...(dataset.formatOptions || {}),
-        ...(dataPoint.formatOptions || {}),
-      };
-
-      // We'll provide both raw and formatted value to the handler
       if (onDataPointClick) {
-        const formattedValue = formatValue(dataPoint.y);
         onDataPointClick(datasetIndex, dataIndex, dataPoint);
       }
     }
@@ -1465,11 +1467,19 @@ const GlassDataChartComponent = React.forwardRef<
 
           const dataPoint = dataset.data[dataIndex];
           if (!dataPoint) return;
+          const rect = containerRef.current?.getBoundingClientRect();
+          const tooltipX = rect
+            ? Math.max(8, Math.min(event.clientX - rect.left, rect.width - 8))
+            : event.clientX;
+          const tooltipY = rect
+            ? Math.max(8, Math.min(event.clientY - rect.top, rect.height - 8))
+            : event.clientY;
+
           setHoveredPoint({
             datasetIndex,
             dataIndex,
-            x: event.clientX,
-            y: event.clientY,
+            x: tooltipX,
+            y: tooltipY,
             value: {
               dataset: dataset.label,
               label: dataPoint.label || dataPoint.x,
@@ -1624,8 +1634,7 @@ const GlassDataChartComponent = React.forwardRef<
 
       if (subtitle) {
         exportContext.font = `${14 * devicePixelRatio}px Inter, sans-serif`;
-        exportContext.fillStyle =
-          '${glassStyles.text?.secondary || "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"}';
+        exportContext.fillStyle = "rgba(255, 255, 255, 0.76)";
         exportContext.fillText(
           subtitle,
           exportCanvas.width / 2,
@@ -1678,9 +1687,7 @@ const GlassDataChartComponent = React.forwardRef<
   // Combined ref callback for ChartJS instance
   const chartRefCallback = useCallback(
     (instance: any) => {
-      if (chartRef.current) {
-        chartRef.current = instance;
-      }
+      chartRef.current = instance;
       // Call the forwarded ref if it exists
       if (typeof ref === "function") {
         ref(instance);
@@ -1731,9 +1738,9 @@ const GlassDataChartComponent = React.forwardRef<
             },
           }
         : undefined,
-      animation: (animation?.physicsEnabled
+      animation: (animation?.physicsEnabled && !isReducedMotion
         ? {
-            duration: animation.duration || ANIMATION.DURATION.normal / 1000,
+            duration: animation.duration || ANIMATION.DURATION.normal,
             easing: (animation.easing || "easeOutQuart") as any,
             delay: 0,
             loop: false,
@@ -1791,6 +1798,9 @@ const GlassDataChartComponent = React.forwardRef<
       }
       $borderRadius={borderRadius}
       $borderColor={borderColor}
+      data-testid={dataTestId}
+      role="group"
+      aria-label={ariaLabel || (title ? `${title} chart` : "Data chart")}
     >
       {svgFilters}
       <ChartHeader>
@@ -1807,22 +1817,41 @@ const GlassDataChartComponent = React.forwardRef<
             $variant={glassVariant}
           />
         )}
-        <Chart
-          key={chartType} // Ensures re-render on type change
-          type={getChartJsType()}
-          data={chartData}
-          options={chartOptions}
-          plugins={chartPlugins} // Pass the memoized plugins array
-          ref={chartRefCallback} // Use the combined ref callback
-          onClick={handleDataPointClick}
-          onMouseMove={handleChartHover}
-          onMouseLeave={handleChartLeave}
-          aria-label={ariaLabel || (title ? `${title} chart` : "Data chart")}
-        />
+        {hasChartData || chartType === "kpi" ? (
+          <Chart
+            key={chartType} // Ensures re-render on type change
+            type={getChartJsType()}
+            data={chartData}
+            options={chartOptions}
+            plugins={chartPlugins} // Pass the memoized plugins array
+            ref={chartRefCallback} // Use the combined ref callback
+            onClick={handleDataPointClick}
+            onMouseMove={handleChartHover}
+            onMouseLeave={handleChartLeave}
+            aria-label={ariaLabel || (title ? `${title} chart` : "Data chart")}
+          />
+        ) : (
+          <div
+            className={chartStyles.emptyState}
+            role="status"
+            aria-live="polite"
+          >
+            <ContrastGuard>
+              <div className={chartStyles.emptyStateTitle}>
+                No chart data available
+              </div>
+            </ContrastGuard>
+            <ContrastGuard>
+              <p className={chartStyles.emptyStateDescription}>
+                Add at least one dataset with points to render this chart.
+              </p>
+            </ContrastGuard>
+          </div>
+        )}
       </ChartWrapper>
 
       {/* Optimized Legend Rendering */}
-      {legend.show && renderLegend()}
+      {legend.show && hasChartData && renderLegend()}
 
       {/* Custom SVG Tooltip (replacing the component tooltip) */}
       {interaction.tooltipStyle === "dynamic"

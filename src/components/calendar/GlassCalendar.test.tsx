@@ -65,4 +65,23 @@ describe("GlassCalendar", () => {
 
     expect(dateButtons.length).toBeGreaterThan(0);
   });
+
+  it("treats minDate and maxDate as whole-day bounds", () => {
+    const minDate = new Date(2026, 4, 4, 23, 59);
+    const maxDate = new Date(2026, 4, 4, 0, 1);
+
+    render(
+      <GlassCalendar
+        selectedDate={new Date(2026, 4, 4)}
+        minDate={minDate}
+        maxDate={maxDate}
+      />
+    );
+
+    const dateButton = screen.getByRole("button", {
+      name: /select date may 4, 2026/i,
+    });
+
+    expect(dateButton).not.toBeDisabled();
+  });
 });

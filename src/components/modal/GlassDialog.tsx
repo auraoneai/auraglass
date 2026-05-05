@@ -5,6 +5,7 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
+  useId,
   useRef,
   useState,
 } from "react";
@@ -107,11 +108,20 @@ export interface GlassDialogProps extends ConsciousnessFeatures {
    * Custom z-index
    */
   zIndex?: number;
+  style?: React.CSSProperties;
   className?: string;
   /**
    * Custom className for dialog content
    */
   contentClassName?: string;
+  /**
+   * Accessible label for the dialog when no title is rendered
+   */
+  "aria-label"?: string;
+  /**
+   * Custom data-testid attribute
+   */
+  "data-testid"?: string;
 }
 
 /**
@@ -140,8 +150,12 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
       backdropBlur = true,
       elevation = "modal",
       zIndex = 50,
+      style,
       className,
       contentClassName,
+      onClose,
+      "aria-label": ariaLabel,
+      "data-testid": dataTestId,
       // Consciousness features
       consciousness,
       predictive,
@@ -156,6 +170,13 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
     const [isVisible, setIsVisible] = useState(open);
     const dialogRef = useRef<HTMLDivElement>(null);
     const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+    const previousBodyOverflowRef = useRef<string | null>(null);
+    const generatedId = useId();
+    const prefersReducedMotion = useReducedMotion();
+    const titleId = title ? `${generatedId}-title` : undefined;
+    const descriptionId = description
+      ? `${generatedId}-description`
+      : undefined;
 
     // Consciousness state
     const [interactionCount, setInteractionCount] = useState(0);
@@ -214,19 +235,22 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
       const handleEscape = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
           onOpenChange?.(false);
+          onClose?.();
         }
       };
 
       document.addEventListener("keydown", handleEscape);
       return () => document.removeEventListener("keydown", handleEscape);
-    }, [closeOnEscape, open, onOpenChange]);
+    }, [closeOnEscape, open, onOpenChange, onClose]);
 
     // Handle body scroll lock
     useEffect(() => {
       if (modal && open) {
+        previousBodyOverflowRef.current = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         return () => {
-          document.body.style.overflow = "";
+          document.body.style.overflow = previousBodyOverflowRef.current || "";
+          previousBodyOverflowRef.current = null;
         };
       }
     }, [modal, open]);
@@ -264,11 +288,11 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         // Delay hiding to allow exit animation
         const timer = setTimeout(
           () => setIsVisible(false),
-          ANIMATION.DURATION.fast * 1.3
+          prefersReducedMotion ? 0 : ANIMATION.DURATION.fast * 1.3
         );
         return () => clearTimeout(timer);
       }
-    }, [open]);
+    }, [open, prefersReducedMotion]);
 
     // Consciousness effects
     // Dialog lifecycle tracking with spatial audio
@@ -451,13 +475,13 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
           }
 
           onOpenChange?.(false);
-          (props as any).onClose?.();
+          onClose?.();
         }
       },
       [
         closeOnBackdropClick,
         onOpenChange,
-        props,
+        onClose,
         consciousness,
         interactionRecorder,
         title,
@@ -485,10 +509,10 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
       }
 
       onOpenChange?.(false);
-      (props as any).onClose?.();
+      onClose?.();
     }, [
       onOpenChange,
-      props,
+      onClose,
       consciousness,
       interactionRecorder,
       title,
@@ -509,6 +533,8 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
 
     // Animation presets
     const getAnimationPreset = () => {
+      if (prefersReducedMotion) return "none";
+
       switch (animation) {
         case "fade":
           return "fadeIn";
@@ -531,7 +557,6 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         className={cn(
           "fixed inset-0 flex items-center justify-center",
           variant === "fullscreen" ? "glass-p-0" : "glass-p-4",
-          `z-${zIndex}`,
           consciousness && "consciousness-dialog-container",
           adaptive &&
             dialogInsights?.urgency === "high" &&
@@ -539,11 +564,14 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
           eyeTracking && "consciousness-eye-trackable",
           className
         )}
+        style={{ ...style, zIndex }}
+        data-testid={dataTestId}
         onClick={handleBackdropClick}
         role="dialog"
         aria-modal={modal}
-        aria-labelledby={title ? "dialog-title" : undefined}
-        aria-describedby={description ? "dialog-description" : undefined}
+        aria-label={ariaLabel || (title ? undefined : "Dialog")}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
         data-consciousness-dialog="true"
         data-consciousness-active={String(!!consciousness)}
         data-dialog-title={title?.toString()}
@@ -555,18 +583,23 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         {/* Backdrop */}
         <Motion
           preset="fadeIn"
-          duration={200}
+          duration={prefersReducedMotion ? 0 : 200}
           className={cn(
-            "absolute inset-0 bg-black/20",
+            "absolute inset-0 glass-surface-dark/50",
             backdropBlur && "glass-backdrop-blur-md"
           )}
+          style={{
+            backgroundColor:
+              "color-mix(in srgb, var(--glass-black) 40%, transparent)",
+          }}
+          aria-hidden="true"
         />
 
         {/* Dialog Content */}
         <Motion
           ref={dialogRef}
           preset={getAnimationPreset()}
-          duration={200}
+          duration={prefersReducedMotion ? 0 : 200}
           className={cn(
             "relative w-full",
             variant === "fullscreen" ? "h-full" : "glass-max-h-90vh",
@@ -617,7 +650,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                       <>
                         {title && (
                           <h2
-                            id="dialog-title"
+                            id={titleId}
                             className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                           >
                             {title}
@@ -625,7 +658,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         )}
                         {description && (
                           <p
-                            id="dialog-description"
+                            id={descriptionId}
                             className="glass-text-sm glass-text-secondary-foreground"
                           >
                             {description}
@@ -702,7 +735,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                       <>
                         {title && (
                           <h2
-                            id="dialog-title"
+                            id={titleId}
                             className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                           >
                             {title}
@@ -710,7 +743,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
                         )}
                         {description && (
                           <p
-                            id="dialog-description"
+                            id={descriptionId}
                             className="glass-text-sm glass-text-secondary"
                           >
                             {description}

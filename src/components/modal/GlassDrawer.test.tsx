@@ -21,6 +21,10 @@ import { GlassDrawer } from "@/components/modal/GlassDrawer";
 expect.extend(toHaveNoViolations);
 
 describe("GlassDrawer", () => {
+  afterEach(() => {
+    document.body.removeAttribute("style");
+  });
+
   /**
    * Smoke Test: Component renders without crashing
    */
@@ -97,6 +101,26 @@ describe("GlassDrawer", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("uses inline z-index so custom overlay layers are not purged", () => {
+    const { container } = render(<GlassDrawer zIndex={240} />);
+    const drawer = container.querySelector('[role="dialog"]') as HTMLElement;
+
+    expect(drawer).toHaveStyle({ zIndex: "240" });
+    expect(drawer.className).not.toContain("z-240");
+  });
+
+  it("preserves existing body overflow after close", () => {
+    document.body.style.overflow = "auto";
+
+    const { unmount } = render(<GlassDrawer />);
+
+    expect(document.body.style.overflow).toBe("hidden");
+
+    unmount();
+
+    expect(document.body.style.overflow).toBe("auto");
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */
@@ -107,6 +131,9 @@ describe("GlassDrawer", () => {
     // Remove dynamic data attributes for snapshot testing
     if (drawer) {
       drawer.removeAttribute("data-interaction-count");
+      drawer.querySelectorAll("[id]").forEach((element) => {
+        element.removeAttribute("id");
+      });
       const contentDiv = drawer.querySelector("[data-time-spent]");
       if (contentDiv) {
         contentDiv.removeAttribute("data-time-spent");

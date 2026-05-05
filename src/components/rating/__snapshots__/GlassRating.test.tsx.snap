@@ -14,10 +14,14 @@ exports[`GlassRating matches snapshot 1`] = `
     role="radiogroup"
   >
     <button
+      aria-checked="false"
       aria-label="1 star"
-      aria-pressed="false"
+      aria-posinset="1"
+      aria-setsize="5"
       class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
       data-glass-component="true"
+      role="radio"
+      tabindex="0"
       type="button"
     >
       <svg
@@ -39,10 +43,14 @@ exports[`GlassRating matches snapshot 1`] = `
       </svg>
     </button>
     <button
+      aria-checked="false"
       aria-label="2 stars"
-      aria-pressed="false"
+      aria-posinset="2"
+      aria-setsize="5"
       class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
       data-glass-component="true"
+      role="radio"
+      tabindex="-1"
       type="button"
     >
       <svg
@@ -64,10 +72,14 @@ exports[`GlassRating matches snapshot 1`] = `
       </svg>
     </button>
     <button
+      aria-checked="false"
       aria-label="3 stars"
-      aria-pressed="false"
+      aria-posinset="3"
+      aria-setsize="5"
       class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
       data-glass-component="true"
+      role="radio"
+      tabindex="-1"
       type="button"
     >
       <svg
@@ -89,10 +101,14 @@ exports[`GlassRating matches snapshot 1`] = `
       </svg>
     </button>
     <button
+      aria-checked="false"
       aria-label="4 stars"
-      aria-pressed="false"
+      aria-posinset="4"
+      aria-setsize="5"
       class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
       data-glass-component="true"
+      role="radio"
+      tabindex="-1"
       type="button"
     >
       <svg
@@ -114,10 +130,14 @@ exports[`GlassRating matches snapshot 1`] = `
       </svg>
     </button>
     <button
+      aria-checked="false"
       aria-label="5 stars"
-      aria-pressed="false"
+      aria-posinset="5"
+      aria-setsize="5"
       class="w-6 h-6 text-blue-500 transition-all duration-200 ease-out cursor-pointer hover:scale-110 active:scale-95 focus:outline-none glass-focus glass-touch-target glass-contrast-guard"
       data-glass-component="true"
+      role="radio"
+      tabindex="-1"
       type="button"
     >
       <svg

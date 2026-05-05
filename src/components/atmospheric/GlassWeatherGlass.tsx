@@ -156,8 +156,8 @@ export const GlassWeatherGlass = forwardRef<
       255, 255, 255,
     ]);
     const [backgroundGradient, setBackgroundGradient] = useState<string[]>([
-      "var(--glass-color-info)",
-      "var(--glass-color-info)",
+      "rgba(14, 165, 233, 0.78)",
+      "rgba(59, 130, 246, 0.52)",
     ]);
 
     // Weather color mappings
@@ -166,35 +166,35 @@ export const GlassWeatherGlass = forwardRef<
       { sky: [string, string]; glass: [number, number, number] }
     > = {
       clear: {
-        sky: ["var(--glass-color-info)", "var(--glass-color-info)"],
+        sky: ["rgba(14, 165, 233, 0.78)", "rgba(59, 130, 246, 0.52)"],
         glass: [255, 255, 255],
       },
       sunny: {
-        sky: ["var(--glass-color-warning)", "var(--glass-color-warning)"],
+        sky: ["rgba(251, 191, 36, 0.82)", "rgba(249, 115, 22, 0.5)"],
         glass: [255, 248, 220],
       },
       cloudy: {
-        sky: ["var(--glass-gray-500)", "var(--glass-gray-400)"],
+        sky: ["rgba(107, 114, 128, 0.72)", "rgba(156, 163, 175, 0.58)"],
         glass: [211, 211, 211],
       },
       rainy: {
-        sky: ["var(--glass-color-info)", "var(--glass-gray-600)"],
+        sky: ["rgba(14, 165, 233, 0.66)", "rgba(75, 85, 99, 0.64)"],
         glass: [70, 130, 180],
       },
       stormy: {
-        sky: ["var(--glass-gray-800)", "var(--glass-color-secondary)"],
+        sky: ["rgba(31, 41, 55, 0.88)", "rgba(168, 85, 247, 0.42)"],
         glass: [47, 79, 79],
       },
       snowy: {
-        sky: ["var(--glass-white)", "var(--glass-white)"],
+        sky: ["rgba(255, 255, 255, 0.9)", "rgba(226, 232, 240, 0.72)"],
         glass: [240, 248, 255],
       },
       foggy: {
-        sky: ["var(--glass-gray-400)", "var(--glass-gray-200)"],
+        sky: ["rgba(156, 163, 175, 0.68)", "rgba(229, 231, 235, 0.58)"],
         glass: [192, 192, 192],
       },
       windy: {
-        sky: ["var(--glass-color-info)", "var(--glass-color-secondary)"],
+        sky: ["rgba(14, 165, 233, 0.62)", "rgba(168, 85, 247, 0.44)"],
         glass: [176, 196, 222],
       },
     };
@@ -698,7 +698,7 @@ export const GlassWeatherGlass = forwardRef<
       // Weather info overlay
       if (showWeatherInfo) {
         ctx.save();
-        ctx.fillStyle = "var(--glass-text-secondary-dark)";
+        ctx.fillStyle = "rgba(15, 23, 42, 0.72)";
         ctx.fillRect(10, 10, 200, 120);
 
         ctx.fillStyle = "white";

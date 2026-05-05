@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassRating Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassRating } from '@/components/rating/GlassRating';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassRating } from "@/components/rating/GlassRating";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassRating', () => {
+describe("GlassRating", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassRating />);
     expect(container).toBeInTheDocument();
   });
@@ -32,30 +32,31 @@ describe('GlassRating', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassRating />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Form component has proper labels and descriptions
    */
-  describe('ARIA Attributes', () => {
-    it('has proper form control role', () => {
+  describe("ARIA Attributes", () => {
+    it("has proper form control role", () => {
       render(<GlassRating id="test-input" />);
-      const element = screen.getByTestId('glassrating') || document.querySelector('#test-input');
+      const element =
+        screen.getByTestId("glassrating") ||
+        document.querySelector("#test-input");
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-label', () => {
+    it("supports aria-label", () => {
       render(<GlassRating aria-label="Test input" />);
-      const element = screen.getByLabelText(/test input/i);
+      const element = screen.getByRole("radiogroup", { name: /test input/i });
       expect(element).toBeInTheDocument();
     });
 
-    it('supports aria-describedby for help text', () => {
+    it("supports aria-describedby for help text", () => {
       render(
         <>
           <GlassRating aria-describedby="help-text" />
@@ -67,14 +68,15 @@ describe('GlassRating', () => {
     });
   });
 
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
       render(<GlassRating />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -82,44 +84,70 @@ describe('GlassRating', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
+    it("shows visible focus indicator", () => {
       const { container } = render(<GlassRating />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <GlassRating
-        className="custom-class"
-        data-testid="glassrating"
-      />
+      <GlassRating className="custom-class" data-testid="glassrating" />
     );
 
-    const element = container.querySelector('[data-testid="glassrating"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassrating"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
+  });
+
+  it("exposes stars as radio options and supports half-value pointer clicks", async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn();
+
+    render(<GlassRating allowHalf onChange={handleChange} />);
+
+    const thirdStar = screen.getByRole("radio", { name: /3 stars/i });
+    jest.spyOn(thirdStar, "getBoundingClientRect").mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 24,
+      height: 24,
+      right: 24,
+      bottom: 24,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
+
+    await user.pointer({
+      keys: "[MouseLeft]",
+      target: thirdStar,
+      coords: { clientX: 4, clientY: 12 },
+    });
+
+    expect(handleChange).toHaveBeenCalledWith(2.5);
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassRating />);
     expect(container.firstChild).toMatchSnapshot();
   });

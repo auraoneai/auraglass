@@ -81,6 +81,16 @@ describe("GlassTextarea", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("keeps generated id stable across rerenders", () => {
+    const { rerender } = render(<GlassTextarea label="Notes" value="one" />);
+    const textarea = screen.getByLabelText("Notes");
+    const initialId = textarea.id;
+
+    rerender(<GlassTextarea label="Notes" value="two" />);
+
+    expect(screen.getByLabelText("Notes")).toHaveAttribute("id", initialId);
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

@@ -2,7 +2,7 @@
 // Removed circular imports - components import directly from source
 
 import { cn } from "../../lib/utilsComprehensive";
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useCallback, useRef, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
 import {
@@ -138,6 +138,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     ref
   ) => {
     const [isFocused, setIsFocused] = useState(false);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     // Generate unique IDs for accessibility
     const inputId = useA11yId("glass-input");
@@ -202,13 +203,36 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
       md: "w-4 h-4",
       lg: "w-5 h-5",
     };
+    const accessibleName =
+      label || props["aria-label"] || props.placeholder || "input";
+
+    const setInputRef = useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLInputElement | null>).current =
+            node;
+        }
+      },
+      [ref]
+    );
 
     const handleClear = () => {
+      if (disabled || loading) return;
+
+      if (inputRef.current) {
+        inputRef.current.value = "";
+        inputRef.current.focus();
+      }
+
       if (onClear) {
         onClear();
-      } else if (props?.onChange) {
+      } else if (props?.onChange && inputRef.current) {
         const event = {
-          target: { value: "" },
+          target: inputRef.current,
+          currentTarget: inputRef.current,
         } as React.ChangeEvent<HTMLInputElement>;
         props?.onChange(event);
       }
@@ -298,7 +322,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             )}
 
             <input
-              ref={ref}
+              ref={setInputRef}
               {...a11yProps}
               className={cn(
                 "flex-1 bg-transparent border-0 outline-none glass-pulse-ring",
@@ -364,14 +388,8 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 variant="ghost"
                 size="sm"
                 iconOnly
-                onClick={() => {
-                  if (ref && "current" in ref && ref.current) {
-                    ref.current.value = "";
-                    ref.current.focus();
-                    props?.onChange?.({ target: ref.current } as any);
-                  }
-                }}
-                aria-label={`Clear ${label || "input"}`}
+                onClick={handleClear}
+                aria-label={`Clear ${accessibleName}`}
                 className={cn(
                   "flex items-center justify-center glass-text-secondary hover:text-foreground transition-colors",
                   iconSize?.[size]
@@ -435,7 +453,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             )}
 
             <input
-              ref={ref}
+              ref={setInputRef}
               {...a11yProps}
               className={cn(
                 "flex-1 bg-transparent border-0 outline-none glass-pulse-ring",
@@ -493,7 +511,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                   variant="ghost"
                   size="sm"
                   iconOnly
-                  aria-label={`Clear ${label || "input"}`}
+                  aria-label={`Clear ${accessibleName}`}
                   className={cn(
                     "flex items-center justify-center glass-text-secondary hover:text-foreground transition-colors",
                     iconSize?.[size]

@@ -196,6 +196,13 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     const [mounted, setMounted] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
     const previousActiveElement = useRef<HTMLElement | null>(null);
+    const previousBodyStylesRef = useRef<{
+      position: string;
+      top: string;
+      width: string;
+      overflow: string;
+    } | null>(null);
+    const prefersReducedMotion = useReducedMotion();
 
     // Consciousness state
     const [interactionCount, setInteractionCount] = useState(0);
@@ -325,6 +332,12 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       if (open && lockScroll) {
         const scrollY = window.scrollY;
         const body = document.body;
+        previousBodyStylesRef.current = {
+          position: body.style.position,
+          top: body.style.top,
+          width: body.style.width,
+          overflow: body.style.overflow,
+        };
 
         body.style.position = "fixed";
         body.style.top = `-${scrollY}px`;
@@ -332,10 +345,12 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         body.style.overflow = "hidden";
 
         return () => {
-          body.style.position = "";
-          body.style.top = "";
-          body.style.width = "";
-          body.style.overflow = "";
+          const previousStyles = previousBodyStylesRef.current;
+          body.style.position = previousStyles?.position || "";
+          body.style.top = previousStyles?.top || "";
+          body.style.width = previousStyles?.width || "";
+          body.style.overflow = previousStyles?.overflow || "";
+          previousBodyStylesRef.current = null;
           // Only scroll in real browser, not jsdom
           if (typeof window !== "undefined" && window.scrollTo) {
             try {
@@ -666,6 +681,8 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     };
 
     const getAnimationPreset = () => {
+      if (prefersReducedMotion) return "none";
+
       switch (animation) {
         case "fade":
           return "fadeIn";
@@ -712,14 +729,21 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         {backdrop || (
           <Motion
             preset="fadeIn"
+            duration={prefersReducedMotion ? 0 : undefined}
             className="glass-absolute glass-inset-0 glass-surface-dark/50"
+            style={{
+              backgroundColor:
+                "color-mix(in srgb, var(--glass-black) 40%, transparent)",
+            }}
             onClick={handleBackdropClick}
+            aria-hidden="true"
           />
         )}
 
         {/* Modal content */}
         <Motion
           preset={getAnimationPreset()}
+          duration={prefersReducedMotion ? 0 : undefined}
           className={cn(
             "relative w-full",
             sizeClasses[size],

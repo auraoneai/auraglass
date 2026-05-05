@@ -1,11 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { OpenAIService } from "../../services/ai/openai-service";
-import { SemanticSearchService } from "../../services/ai/semantic-search-service";
-import { VisionService } from "../../services/ai/vision-service";
-import { CollaborationService } from "../../services/websocket/collaboration-service";
-import { AuthService } from "../../services/auth/auth-service";
 import { defaultAIConfig } from "../../services/ai/config";
 import * as Sentry from "@sentry/react";
 import { cn } from "../../lib/utilsComprehensive";
@@ -16,12 +11,20 @@ interface ProductionAIIntegrationProps
   extends React.HTMLAttributes<HTMLDivElement> {
   authToken?: string;
   userId?: string;
+  disableServiceInitialization?: boolean;
   "data-testid"?: string;
 }
 
 export const ProductionAIIntegration: React.FC<
   ProductionAIIntegrationProps
-> = ({ authToken, userId, className, "data-testid": dataTestId, ...props }) => {
+> = ({
+  authToken,
+  userId,
+  disableServiceInitialization = false,
+  className,
+  "data-testid": dataTestId,
+  ...props
+}) => {
   const prefersReducedMotion = useReducedMotion();
   const [isInitialized, setIsInitialized] = useState(false);
   const [formFields, setFormFields] = useState<any[]>([]);
@@ -31,11 +34,11 @@ export const ProductionAIIntegration: React.FC<
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const openAIService = useRef<OpenAIService>();
-  const searchService = useRef<SemanticSearchService>();
-  const visionService = useRef<VisionService>();
-  const collaborationService = useRef<CollaborationService>();
-  const authService = useRef<AuthService>();
+  const openAIService = useRef<any>();
+  const searchService = useRef<any>();
+  const visionService = useRef<any>();
+  const collaborationService = useRef<any>();
+  const authService = useRef<any>();
 
   useEffect(() => {
     initializeServices();
@@ -44,6 +47,25 @@ export const ProductionAIIntegration: React.FC<
   const initializeServices = async () => {
     try {
       setLoading(true);
+
+      if (disableServiceInitialization) {
+        setIsInitialized(true);
+        return;
+      }
+
+      const [
+        { OpenAIService },
+        { SemanticSearchService },
+        { VisionService },
+        { CollaborationService },
+        { AuthService },
+      ] = await Promise.all([
+        import("../../services/ai/openai-service"),
+        import("../../services/ai/semantic-search-service"),
+        import("../../services/ai/vision-service"),
+        import("../../services/websocket/collaboration-service"),
+        import("../../services/auth/auth-service"),
+      ]);
 
       openAIService.current = new OpenAIService(defaultAIConfig);
       searchService.current = new SemanticSearchService(defaultAIConfig);
@@ -59,11 +81,11 @@ export const ProductionAIIntegration: React.FC<
         );
         await collaborationService.current.connect();
 
-        collaborationService.current.on("user-joined", (user) => {
+        collaborationService.current.on("user-joined", (user: any) => {
           setCollaborators((prev: any) => [...prev, user]);
         });
 
-        collaborationService.current.on("user-left", (userId) => {
+        collaborationService.current.on("user-left", (userId: any) => {
           setCollaborators((prev: any) =>
             prev.filter((c: any) => c.userId !== userId)
           );
@@ -224,11 +246,11 @@ export const ProductionAIIntegration: React.FC<
     try {
       await collaborationService.current.joinRoom(roomId);
 
-      collaborationService.current.on("document-changed", (operation) => {
+      collaborationService.current.on("document-changed", (operation: any) => {
         console.log("Document changed:", operation);
       });
 
-      collaborationService.current.on("cursor-moved", (cursor) => {
+      collaborationService.current.on("cursor-moved", (cursor: any) => {
         console.log("Cursor moved:", cursor);
       });
 

@@ -10,6 +10,7 @@ exports[`GlassModal matches snapshot 1`] = `
   style="z-index: 50;"
 >
   <div
+    aria-hidden="true"
     class="motion-primitive glass-absolute glass-inset-0 glass-surface-dark/50"
   />
   <div
@@ -29,7 +30,6 @@ exports[`GlassModal matches snapshot 1`] = `
         aria-modal="true"
         class="optimized-glass-surface glass-neutral-level4 glass-tier-high w-full flex flex-col glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset focus:outline-none max-h-full overflow-hidden"
         data-performance-mode="medium"
-        id="glass-modal-:rc:"
         role="dialog"
         style="border-radius: 8px; box-shadow: 0px 16px 40px 0px rgba(0,0,0,0.3); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         tabindex="-1"
@@ -54,7 +54,6 @@ exports[`GlassModal matches snapshot 1`] = `
                   aria-label="Close modal"
                   class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                   data-consciousness-close="true"
-                  id="glass-button-:rd:"
                 >
                   <svg
                     class="glass-w-4 glass-h-4"

@@ -12,7 +12,7 @@
  */
 
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
 import { GlassProgressiveEnhancement } from "@/components/advanced/GlassProgressiveEnhancement";
@@ -25,7 +25,9 @@ describe("GlassProgressiveEnhancement", () => {
    * Smoke Test: Component renders without crashing
    */
   it("renders without crashing", () => {
-    const { container } = render(<GlassProgressiveEnhancement />);
+    const { container } = render(
+      <GlassProgressiveEnhancement autoDetect={false} />
+    );
     expect(container).toBeInTheDocument();
   });
 
@@ -33,7 +35,9 @@ describe("GlassProgressiveEnhancement", () => {
    * Accessibility Test: No axe violations
    */
   it("has no accessibility violations", async () => {
-    const { container } = render(<GlassProgressiveEnhancement />);
+    const { container } = render(
+      <GlassProgressiveEnhancement autoDetect={false} />
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -58,7 +62,9 @@ describe("GlassProgressiveEnhancement", () => {
         })),
       });
 
-      const { container } = render(<GlassProgressiveEnhancement />);
+      const { container } = render(
+        <GlassProgressiveEnhancement autoDetect={false} />
+      );
 
       // Check that animations are disabled or reduced
       const animatedElements = container.querySelectorAll(
@@ -82,6 +88,7 @@ describe("GlassProgressiveEnhancement", () => {
   it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassProgressiveEnhancement
+        autoDetect={false}
         className="custom-class"
         data-testid="glassprogressiveenhancement"
       />
@@ -97,10 +104,32 @@ describe("GlassProgressiveEnhancement", () => {
   /**
    * Debug Overlay: Renders quality/fps debug panel
    */
-  it("renders quality debug panel", () => {
-    render(<GlassProgressiveEnhancement />);
+  it("applies the current quality tier to the document body", () => {
+    render(
+      <GlassProgressiveEnhancement autoDetect={false} forcedTier="basic" />
+    );
 
-    const qualityText = screen.getByText(/Quality:/i);
-    expect(qualityText).toBeInTheDocument();
+    expect(document.body).toHaveClass("glass-tier-basic");
+  });
+
+  it("cancels the performance monitor frame on unmount", () => {
+    const requestSpy = jest
+      .spyOn(window, "requestAnimationFrame")
+      .mockReturnValue(42);
+    const cancelSpy = jest.spyOn(window, "cancelAnimationFrame");
+
+    const { unmount } = render(
+      <GlassProgressiveEnhancement autoDetect={false} monitorPerformance>
+        <div>content</div>
+      </GlassProgressiveEnhancement>
+    );
+
+    unmount();
+
+    expect(requestSpy).toHaveBeenCalled();
+    expect(cancelSpy).toHaveBeenCalledWith(42);
+
+    requestSpy.mockRestore();
+    cancelSpy.mockRestore();
   });
 });

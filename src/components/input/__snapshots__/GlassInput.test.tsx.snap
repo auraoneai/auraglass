@@ -14,7 +14,7 @@ exports[`GlassInput matches snapshot 1`] = `
     <input
       aria-label="Input field"
       class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
-      id="glass-input-:r8:"
+      id="snapshot-input"
     />
     <div
       class="glass-flex glass-items-center glass-gap-1"

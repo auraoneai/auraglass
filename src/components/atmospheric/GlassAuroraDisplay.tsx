@@ -507,14 +507,8 @@ export const GlassAuroraDisplay = forwardRef<
           height * 0.8,
           width
         );
-        glowGradient.addColorStop(
-          0,
-          `color-mix(in srgb, rgb(100, 200, 100) 10%, transparent)`
-        );
-        glowGradient.addColorStop(
-          1,
-          `color-mix(in srgb, rgb(100, 200, 100) 0%, transparent)`
-        );
+        glowGradient.addColorStop(0, "rgba(100, 200, 100, 0.1)");
+        glowGradient.addColorStop(1, "rgba(100, 200, 100, 0)");
 
         ctx.fillStyle = glowGradient;
         ctx.fillRect(0, 0, width, height);
@@ -589,18 +583,9 @@ export const GlassAuroraDisplay = forwardRef<
           (animationTime * 0.1 + 100) % width,
           0
         );
-        shimmerGradient.addColorStop(
-          0,
-          `color-mix(in srgb, var(--glass-white) 0%, transparent)`
-        );
-        shimmerGradient.addColorStop(
-          0.5,
-          `color-mix(in srgb, var(--glass-white) 80%, transparent)`
-        );
-        shimmerGradient.addColorStop(
-          1,
-          `color-mix(in srgb, var(--glass-white) 0%, transparent)`
-        );
+        shimmerGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        shimmerGradient.addColorStop(0.5, "rgba(255, 255, 255, 0.8)");
+        shimmerGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
         ctx.fillStyle = shimmerGradient;
         ctx.fill();
@@ -628,10 +613,10 @@ export const GlassAuroraDisplay = forwardRef<
       // Aurora info overlay
       if (showAuroraInfo) {
         ctx.save();
-        ctx.fillStyle = "var(--glass-text-secondary-dark)";
+        ctx.fillStyle = "rgba(15, 23, 42, 0.72)";
         ctx.fillRect(10, 10, 220, 160);
 
-        ctx.fillStyle = "var(--glass-text-primary)";
+        ctx.fillStyle = "rgba(248, 250, 252, 0.92)";
         ctx.font = "var(--typography-body-size) sans-serif";
         ctx.fillText(
           `Aurora Intensity: ${Math.round(currentIntensity * 100)}%`,

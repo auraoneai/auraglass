@@ -21,6 +21,10 @@ import { GlassMobileNav } from "@/components/navigation/GlassMobileNav";
 expect.extend(toHaveNoViolations);
 
 describe("GlassMobileNav", () => {
+  afterEach(() => {
+    document.body.removeAttribute("style");
+  });
+
   /**
    * Smoke Test: Component renders without crashing
    */
@@ -43,7 +47,7 @@ describe("GlassMobileNav", () => {
    */
   describe("ARIA Attributes", () => {
     it("has proper navigation role", () => {
-      render(<GlassMobileNav items={[]} />);
+      render(<GlassMobileNav items={[]} open />);
       const nav =
         screen.queryByRole("navigation") ||
         screen.queryByRole("menu") ||
@@ -59,6 +63,38 @@ describe("GlassMobileNav", () => {
       const element = container.querySelector('[aria-label="Main navigation"]');
       expect(element).toBeInTheDocument();
     });
+
+    it("hides closed navigation from focus and assistive tech", () => {
+      const { container } = render(<GlassMobileNav items={[]} />);
+      const dialog = container.querySelector('[role="dialog"]');
+
+      expect(dialog).toHaveAttribute("aria-hidden", "true");
+      expect(dialog).toHaveAttribute("inert", "");
+      expect(dialog).toHaveClass("pointer-events-none");
+    });
+  });
+
+  it("locks and restores body overflow while open", () => {
+    document.body.style.overflow = "auto";
+
+    const { unmount } = render(<GlassMobileNav items={[]} open />);
+
+    expect(document.body.style.overflow).toBe("hidden");
+
+    unmount();
+
+    expect(document.body.style.overflow).toBe("auto");
+  });
+
+  it("closes on Escape when open", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+
+    render(<GlassMobileNav items={[]} open onOpenChange={onOpenChange} />);
+
+    await user.keyboard("{Escape}");
+
+    expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
   /**
@@ -85,6 +121,10 @@ describe("GlassMobileNav", () => {
    */
   it("matches snapshot", () => {
     const { container } = render(<GlassMobileNav items={[]} />);
+    container.querySelectorAll("[id]").forEach((element) => {
+      element.removeAttribute("id");
+    });
+
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -21,6 +21,10 @@ import { GlassModal } from "@/components/modal/GlassModal";
 expect.extend(toHaveNoViolations);
 
 describe("GlassModal", () => {
+  afterEach(() => {
+    document.body.removeAttribute("style");
+  });
+
   /**
    * Smoke Test: Component renders without crashing
    */
@@ -55,14 +59,10 @@ describe("GlassModal", () => {
   describe("Focus Management", () => {
     it("can receive focus", () => {
       render(<GlassModal />);
-      const element =
-        document.querySelector("[tabindex]") ||
-        document.querySelector("button, a, input, select, textarea");
+      const element = screen.getByRole("button", { name: "Close modal" });
 
-      if (element) {
-        (element as HTMLElement).focus();
-        expect(element).toHaveFocus();
-      }
+      element.focus();
+      expect(element).toHaveFocus();
     });
 
     it("shows visible focus indicator", () => {
@@ -97,6 +97,21 @@ describe("GlassModal", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("preserves existing body scroll styles after close", () => {
+    document.body.style.position = "relative";
+    document.body.style.overflow = "auto";
+
+    const { unmount } = render(<GlassModal lockScroll />);
+
+    expect(document.body.style.position).toBe("fixed");
+    expect(document.body.style.overflow).toBe("hidden");
+
+    unmount();
+
+    expect(document.body.style.position).toBe("relative");
+    expect(document.body.style.overflow).toBe("auto");
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */
@@ -107,6 +122,9 @@ describe("GlassModal", () => {
     // Remove dynamic data attributes for snapshot testing
     if (modal) {
       modal.removeAttribute("data-interaction-count");
+      modal.querySelectorAll("[id]").forEach((element) => {
+        element.removeAttribute("id");
+      });
       const contentDiv = modal.querySelector("[data-time-spent]");
       if (contentDiv) {
         contentDiv.removeAttribute("data-time-spent");

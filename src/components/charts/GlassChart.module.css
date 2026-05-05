@@ -12,7 +12,7 @@
     color-mix(in srgb, var(--aura-color-global-border-soft) 85%, transparent);
   box-shadow: var(
     --glass-elev-chart-container,
-    0 18px 48px rgba(15, 23, 42, 0.24)
+    0 18px 48px rgba(var(--glass-color-black) / var(--glass-opacity-25))
   );
   backdrop-filter: blur(var(--aura-glass-neutral-level3-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--aura-glass-neutral-level3-backdrop-blur));
@@ -28,7 +28,7 @@
   transform: scale(1.02);
   box-shadow: var(
     --glass-elev-chart-container-focused,
-    0 28px 72px rgba(15, 23, 42, 0.32)
+    0 28px 72px rgba(var(--glass-color-black) / var(--glass-opacity-30))
   );
 }
 

@@ -182,6 +182,11 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
   ) => {
     const [isVisible, setIsVisible] = useState(open);
     const contentRef = useRef<HTMLDivElement>(null);
+    const previousBodyOverflowRef = useRef<string | null>(null);
+    const prefersReducedMotion = useReducedMotion();
+    const effectiveAnimationDuration = prefersReducedMotion
+      ? 0
+      : animationDuration;
 
     // Consciousness state
     const [interactionCount, setInteractionCount] = useState(0);
@@ -259,9 +264,11 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
     // Handle body scroll lock
     useEffect(() => {
       if (modal && open) {
+        previousBodyOverflowRef.current = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         return () => {
-          document.body.style.overflow = "";
+          document.body.style.overflow = previousBodyOverflowRef.current || "";
+          previousBodyOverflowRef.current = null;
         };
       }
     }, [modal, open]);
@@ -272,10 +279,13 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         setIsVisible(true);
       } else {
         // Delay hiding to allow exit animation
-        const timer = setTimeout(() => setIsVisible(false), animationDuration);
+        const timer = setTimeout(
+          () => setIsVisible(false),
+          effectiveAnimationDuration
+        );
         return () => clearTimeout(timer);
       }
-    }, [open, animationDuration]);
+    }, [open, effectiveAnimationDuration]);
 
     // Consciousness effects
     // Drawer opening/closing tracking with spatial audio
@@ -682,6 +692,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
 
     // Animation direction based on position
     const getAnimationPreset = () => {
+      if (prefersReducedMotion) return "none";
+
       switch (position) {
         case "top":
           return "slideDown";
@@ -720,7 +732,6 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         data-testid={dataTestId}
         className={cn(
           "fixed inset-0",
-          `z-${zIndex}`,
           consciousness && "consciousness-drawer-container",
           adaptive &&
             drawerInsights?.urgency === "high" &&
@@ -728,6 +739,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           eyeTracking && "consciousness-eye-trackable",
           className
         )}
+        style={{ zIndex }}
         role="dialog"
         aria-modal={modal}
         aria-label={ariaLabel || (title ? undefined : "Drawer")}
@@ -746,15 +758,19 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         {showOverlay && (
           <Motion
             preset="fadeIn"
-            duration={animationDuration}
+            duration={effectiveAnimationDuration}
             className={cn(
-              "absolute inset-0 bg-black/20 cursor-pointer",
+              "absolute inset-0 glass-surface-dark/50 cursor-pointer",
               backdropBlur && "glass-backdrop-blur-md",
               consciousness && "consciousness-drawer-backdrop",
               adaptive &&
                 drawerInsights?.urgency === "high" &&
                 "consciousness-urgent-backdrop"
             )}
+            style={{
+              backgroundColor:
+                "color-mix(in srgb, var(--glass-black) 40%, transparent)",
+            }}
             onClick={handleBackdropClick}
             data-consciousness-backdrop="true"
             data-drawer-backdrop-position={position}
@@ -764,7 +780,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         {/* Drawer Content */}
         <Motion
           preset={getAnimationPreset()}
-          duration={animationDuration}
+          duration={effectiveAnimationDuration}
           className={cn(
             "absolute flex flex-col",
             getPositionClasses(),

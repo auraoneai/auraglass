@@ -10,11 +10,21 @@
   );
   border: 1px solid
     color-mix(in srgb, var(--aura-color-global-border-soft) 80%, transparent);
+  color: var(--aura-color-global-text-primary);
+  backdrop-filter: var(
+    --glass-data-chart-backdrop-filter,
+    blur(var(--aura-glass-neutral-level2-backdrop-blur))
+  );
+  -webkit-backdrop-filter: var(
+    --glass-data-chart-backdrop-filter,
+    blur(var(--aura-glass-neutral-level2-backdrop-blur))
+  );
   box-shadow: var(
     --glass-elev-chart-data-container,
-    0 18px 48px rgba(15, 23, 42, 0.24)
+    0 18px 48px rgba(var(--glass-color-black) / var(--glass-opacity-25))
   );
   overflow: hidden;
+  isolation: isolate;
   transition:
     transform var(--aura-motion-duration-medium)
       var(--aura-motion-easing-standard),
@@ -34,6 +44,7 @@
   font-size: var(--aura-font-size-xl);
   font-weight: var(--aura-font-weight-semibold);
   color: var(--aura-color-global-text-primary);
+  overflow-wrap: anywhere;
 }
 
 .subtitle {
@@ -44,6 +55,7 @@
     var(--aura-color-global-text-secondary) 80%,
     transparent
   );
+  overflow-wrap: anywhere;
 }
 
 .wrapper {
@@ -51,6 +63,7 @@
   flex: 1;
   width: 100%;
   min-height: 240px;
+  min-width: 0;
 }
 
 .legend {
@@ -59,6 +72,7 @@
   gap: var(--aura-space-3);
   padding: var(--aura-space-3);
   margin-top: var(--aura-space-4);
+  min-width: 0;
 }
 
 .legendTop {
@@ -91,6 +105,7 @@
   display: flex;
   align-items: center;
   gap: var(--aura-space-2);
+  min-width: 0;
   cursor: pointer;
   transition: opacity var(--aura-motion-duration-fast)
     var(--aura-motion-easing-standard);
@@ -122,6 +137,8 @@
     var(--aura-color-global-text-secondary) 85%,
     transparent
   );
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -149,9 +166,9 @@
   padding: var(--aura-space-3) var(--aura-space-4);
   min-width: 120px;
   max-width: 280px;
-  white-space: nowrap;
+  white-space: normal;
   overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
   transition:
     transform var(--aura-motion-duration-fast)
       var(--aura-motion-easing-standard),
@@ -173,6 +190,7 @@
   align-items: center;
   gap: var(--aura-space-2);
   margin-top: var(--aura-space-1);
+  min-width: 0;
 }
 
 .tooltipLabel {
@@ -182,10 +200,73 @@
     var(--aura-color-global-text-secondary) 85%,
     transparent
   );
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .tooltipValue {
   font-size: var(--aura-font-size-sm);
   font-weight: var(--aura-font-weight-semibold);
   color: var(--aura-color-global-text-inverse);
+  overflow-wrap: anywhere;
+}
+
+.emptyState {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--aura-space-2);
+  padding: var(--aura-space-6);
+  text-align: center;
+  border-radius: var(--aura-radius-xl);
+  background: color-mix(
+    in srgb,
+    var(--aura-color-glass-overlay) 72%,
+    rgba(var(--glass-color-black) / var(--glass-opacity-25))
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--aura-color-global-border-soft) 68%, transparent);
+}
+
+.emptyStateTitle {
+  font-size: var(--aura-font-size-base);
+  font-weight: var(--aura-font-weight-semibold);
+  color: var(--aura-color-global-text-primary);
+}
+
+.emptyStateDescription {
+  max-width: 34rem;
+  margin: 0;
+  font-size: var(--aura-font-size-sm);
+  color: color-mix(
+    in srgb,
+    var(--aura-color-global-text-secondary) 88%,
+    transparent
+  );
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: var(--aura-space-4);
+  }
+
+  .legend {
+    gap: var(--aura-space-2);
+    padding-inline: 0;
+  }
+
+  .tooltip {
+    max-width: min(260px, calc(100vw - 32px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .legendItem,
+  .tooltip {
+    transition: none;
+  }
 }

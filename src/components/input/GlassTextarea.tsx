@@ -1,5 +1,11 @@
 "use client";
-import React, { forwardRef, useRef, useEffect } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+} from "react";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { AlertCircle } from "lucide-react";
@@ -71,10 +77,21 @@ export const GlassTextarea = forwardRef<
     },
     ref
   ) => {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const combinedRef = ref || textareaRef;
-    const textareaId =
-      id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+    const generatedId = useId();
+    const textareaId = id || `glass-textarea-${generatedId}`;
+    const setTextareaRef = useCallback(
+      (node: HTMLTextAreaElement | null) => {
+        textareaRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLTextAreaElement | null>).current =
+            node;
+        }
+      },
+      [ref]
+    );
 
     const currentLength = typeof value === "string" ? value?.length || 0 : 0;
 
@@ -129,13 +146,8 @@ export const GlassTextarea = forwardRef<
 
     // Auto-resize functionality
     useEffect(() => {
-      if (
-        autoResize &&
-        combinedRef &&
-        "current" in combinedRef &&
-        combinedRef.current
-      ) {
-        const textarea = combinedRef.current;
+      if (autoResize && textareaRef.current) {
+        const textarea = textareaRef.current;
         const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
         const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
         const paddingBottom = parseInt(
@@ -149,7 +161,7 @@ export const GlassTextarea = forwardRef<
 
         textarea.style.height = `${Math.min(Math.max(scrollHeight, minHeight), maxHeight)}px`;
       }
-    }, [value, autoResize, minRows, maxRows, combinedRef]);
+    }, [value, autoResize, minRows, maxRows]);
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       onChange?.(event);
@@ -190,7 +202,7 @@ export const GlassTextarea = forwardRef<
         {/* Textarea Container */}
         <div className="glass-relative">
           <textarea
-            ref={combinedRef}
+            ref={setTextareaRef}
             id={textareaId}
             rows={autoResize ? undefined : rows}
             value={value}

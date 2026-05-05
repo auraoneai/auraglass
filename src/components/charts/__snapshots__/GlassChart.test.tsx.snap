@@ -25,7 +25,7 @@ exports[`GlassChart matches snapshot 1`] = `
         class="motion-primitive glass-w-full"
       >
         <div
-          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset duration-[300ms] ease-out glass-p-4 transition-none overflow-hidden"
           data="[object Object]"
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
@@ -40,8 +40,8 @@ exports[`GlassChart matches snapshot 1`] = `
               >
                 <svg
                   class="glass-overflow-visible"
-                  height="100%"
-                  width="100%"
+                  height="400"
+                  width="640"
                 >
                   <g
                     class="glass-opacity-20"
@@ -51,9 +51,9 @@ exports[`GlassChart matches snapshot 1`] = `
                     stroke="currentColor"
                     stroke-width="1"
                     x1="60"
-                    x2="NaN"
-                    y1="NaN"
-                    y2="NaN"
+                    x2="580"
+                    y1="340"
+                    y2="340"
                   />
                   <line
                     class="glass-text-primary-glass-opacity-50"
@@ -62,7 +62,7 @@ exports[`GlassChart matches snapshot 1`] = `
                     x1="60"
                     x2="60"
                     y1="20"
-                    y2="NaN"
+                    y2="340"
                   />
                 </svg>
               </div>

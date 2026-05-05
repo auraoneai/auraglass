@@ -6,7 +6,8 @@ exports[`GlassWebGLShader matches snapshot 1`] = `
   style="background-color: transparent;"
 >
   <canvas
-    class="glass-absolute glass-inset-0 glass-w-full glass-h-full"
+    aria-hidden="true"
+    class="glass-absolute glass-inset-0 glass-w-full glass-h-full glass-pointer-events-none"
     height="600"
     width="800"
   />

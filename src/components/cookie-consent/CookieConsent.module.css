@@ -9,19 +9,23 @@
   max-width: 420px;
   box-sizing: border-box;
   background: var(--aura-color-glass-surface);
-  backdrop-filter: blur(
-    /* token-lint-ignore */
+  backdrop-filter: var(
+    --glass-cookie-backdrop-filter,
+    blur(
       calc(
         var(--aura-glass-neutral-level2-backdrop-blur) *
           var(--cookie-blur-scale)
       )
+    )
   );
-  -webkit-backdrop-filter: blur(
-    /* token-lint-ignore */
+  -webkit-backdrop-filter: var(
+    --glass-cookie-backdrop-filter,
+    blur(
       calc(
         var(--aura-glass-neutral-level2-backdrop-blur) *
           var(--cookie-blur-scale)
       )
+    )
   );
   border: 1px solid var(--aura-color-glass-border);
   box-shadow: var(--cookie-box-shadow);

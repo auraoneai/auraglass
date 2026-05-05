@@ -21,10 +21,7 @@ import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
 import { useEyeTracking } from "../advanced/GlassEyeTracking";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
-import {
-  ContrastGuard,
-  TextWithContrast,
-} from "@/components/accessibility/ContrastGuard";
+import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
@@ -221,7 +218,8 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
     const selectedRows = Array.isArray(incomingSelectedRows)
       ? incomingSelectedRows
       : [];
-    const tableRef = useRef<HTMLDivElement>(null);
+    const tableRef = useRef<HTMLDivElement | null>(null);
+    const prefersReducedMotion = useReducedMotion();
     const [columnUsage, setColumnUsage] = useState<Record<string, number>>({});
     const [predictedSortColumn, setPredictedSortColumn] = useState<
       string | null
@@ -246,6 +244,19 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(initialPageSize);
+    const activePageSize = biometricResponsive ? adaptivePageSize : pageSize;
+
+    const setContainerRef = useCallback(
+      (node: HTMLDivElement | null) => {
+        tableRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
 
     // Ensure size is always valid
     const validSize = size && ["sm", "md", "lg"].includes(size) ? size : "md";
@@ -427,11 +438,20 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
     const paginatedData = useMemo(() => {
       if (!pagination || !sortedData) return sortedData || [];
 
-      const startIndex = (currentPage - 1) * pageSize;
-      return sortedData.slice(startIndex, startIndex + pageSize);
-    }, [sortedData, currentPage, pageSize, pagination]);
+      const startIndex = (currentPage - 1) * activePageSize;
+      return sortedData.slice(startIndex, startIndex + activePageSize);
+    }, [sortedData, currentPage, activePageSize, pagination]);
 
-    const totalPages = Math.ceil(((sortedData || [])?.length || 0) / pageSize);
+    const totalPages = Math.max(
+      1,
+      Math.ceil(((sortedData || [])?.length || 0) / activePageSize)
+    );
+
+    useEffect(() => {
+      if (currentPage > totalPages) {
+        setCurrentPage(totalPages);
+      }
+    }, [currentPage, totalPages]);
 
     // Enhanced sorting with consciousness tracking
     const handleSort = useCallback(
@@ -549,15 +569,15 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
     return (
       <div
         data-glass-component
-        ref={ref}
+        ref={setContainerRef}
         className={cn("w-full", className)}
         aria-label={ariaLabel}
         {...restProps}
       >
         {/* Table header with search and actions */}
         {(searchable || actions || filterable) && (
-          <div className="glass-flex glass-items-center glass-justify-between glass-gap-4 glass-mb-4">
-            <div className="glass-flex glass-items-center glass-gap-4">
+          <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-mb-4">
+            <div className="glass-flex glass-min-w-0 glass-flex-1 glass-items-center glass-gap-3">
               {searchable && (
                 <GlassInput
                   placeholder={searchPlaceholder}
@@ -579,13 +599,13 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                     </svg>
                   }
                   clearable
-                  className="glass-w-64"
+                  className="glass-w-full sm:glass-w-64"
                 />
               )}
             </div>
 
             {actions && (
-              <div className="glass-flex glass-items-center glass-gap-2">
+              <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-2">
                 {actions}
               </div>
             )}
@@ -602,12 +622,22 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
           animation="none"
           performanceMode="medium"
           className={cn(
-            `overflow-hidden transition-all duration-[${ANIMATION.DURATION.slow}ms]`,
+            "glass-overflow-hidden glass-contrast-guard",
+            !prefersReducedMotion &&
+              `transition-all duration-[${ANIMATION.DURATION.slow}ms]`,
             variant === "bordered" && "border border-border/20"
           )}
         >
-          <div className="glass-overflow-x-auto">
-            <table className="glass-w-full">
+          <div className="glass-w-full glass-overflow-x-auto">
+            <table
+              className="glass-w-full"
+              style={{
+                minWidth:
+                  columns.length > 3
+                    ? `${Math.max(640, columns.length * 152)}px`
+                    : "100%",
+              }}
+            >
               {/* Table header */}
               <thead
                 className={cn(
@@ -629,6 +659,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
 
                   {(columns || []).map((column, index) => {
                     const columnId = column.id || `col-${index}`;
+                    const canSort = column.sortable ?? sortable;
                     const headerContent =
                       typeof column.header === "function"
                         ? column.header({ column })
@@ -637,30 +668,43 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                     return (
                       <th
                         key={columnId}
+                        scope="col"
+                        aria-sort={
+                          sortState?.id === columnId
+                            ? sortState.desc
+                              ? "descending"
+                              : "ascending"
+                            : "none"
+                        }
                         className={cn(
-                          `font-semibold text-foreground border-b border-border/10 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
+                          "font-semibold text-foreground border-b border-border/10",
+                          !prefersReducedMotion &&
+                            `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                           cellPaddingClasses[validSize],
                           sizeClasses[validSize],
                           {
                             "text-center": column.align === "center",
                             "text-right": column.align === "right",
                             "cursor-pointer hover:bg-muted/10 hover:text-foreground":
-                              column.sortable || sortable,
+                              canSort,
                           }
                         )}
                         style={{ width: column.width }}
-                        onClick={(e) => handleSort(columnId)}
+                        onClick={() => canSort && handleSort(columnId)}
                       >
-                        <div className="glass-flex glass-items-center glass-gap-2">
+                        <div className="glass-flex glass-items-center glass-gap-2 glass-min-w-0">
                           <ContrastGuard>
-                            <span>{headerContent}</span>
+                            <span className="glass-min-w-0 glass-break-words">
+                              {headerContent}
+                            </span>
                           </ContrastGuard>
 
-                          {(column.sortable || sortable) && (
+                          {canSort && (
                             <div className="glass-flex glass-flex-col">
                               <svg
                                 className={cn(
-                                  "w-3 h-3 -glass-mb-1 transition-colors",
+                                  "w-3 h-3 -glass-mb-1",
+                                  !prefersReducedMotion && "transition-colors",
                                   sortState?.id === columnId && !sortState.desc
                                     ? "text-primary"
                                     : "glass-text-secondary hover:text-foreground"
@@ -672,7 +716,8 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                               </svg>
                               <svg
                                 className={cn(
-                                  "w-3 h-3 rotate-180 transition-colors",
+                                  "w-3 h-3 rotate-180",
+                                  !prefersReducedMotion && "transition-colors",
                                   sortState?.id === columnId && sortState.desc
                                     ? "text-primary"
                                     : "glass-text-secondary hover:text-foreground"
@@ -702,8 +747,17 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                         cellPaddingClasses[validSize]
                       )}
                     >
-                      <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-py-8">
-                        <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin" />
+                      <div
+                        className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-py-8"
+                        role="status"
+                        aria-live="polite"
+                      >
+                        <div
+                          className={cn(
+                            "glass-w-4 glass-h-4 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full",
+                            !prefersReducedMotion && "glass-animate-spin"
+                          )}
+                        />
                         <ContrastGuard>
                           <span className="glass-text-secondary">
                             Loading...
@@ -717,7 +771,7 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                     <td
                       colSpan={columns.length + (selectable ? 1 : 0)}
                       className={cn(
-                        "text-center glass-text-secondary py-8",
+                        "text-center glass-text-secondary py-8 glass-break-words",
                         cellPaddingClasses[validSize]
                       )}
                     >
@@ -752,14 +806,18 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                       <tr
                         key={rowId}
                         className={cn(
-                          `group transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-radius-md`,
+                          "group glass-radius-md",
+                          !prefersReducedMotion &&
+                            `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                           {
                             "bg-muted/5":
                               variant === "striped" && index % 2 === 1,
                             "bg-primary/10 shadow-md shadow-primary/20 ring-1 ring-primary/20":
                               isSelected,
                             "hover:bg-muted/10 cursor-pointer hover:shadow-lg hover:shadow-primary/10 glass-hover--translate-y-0-5 hover:ring-1 hover:ring-white/10":
-                              onRowClick,
+                              onRowClick && !prefersReducedMotion,
+                            "hover:bg-muted/10 cursor-pointer hover:ring-1 hover:ring-white/10":
+                              onRowClick && prefersReducedMotion,
                             // Consciousness feature styles
                             "ring-1 ring-blue-400/20 bg-blue-400/5":
                               gazeResponsive &&
@@ -804,7 +862,8 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
                             <td
                               key={columnId}
                               className={cn(
-                                "border-b border-border/5 text-foreground/80 transition-colors group-hover:text-foreground",
+                                "border-b border-border/5 text-foreground/80 glass-align-top glass-break-words group-hover:text-foreground",
+                                !prefersReducedMotion && "transition-colors",
                                 cellPaddingClasses[validSize],
                                 sizeClasses[validSize],
                                 {
@@ -842,16 +901,22 @@ const GlassDataTableInner = forwardRef<HTMLDivElement, GlassDataTableProps>(
 
           {/* Pagination */}
           {pagination && !loading && (paginatedData || []).length > 0 && (
-            <div className="glass-flex glass-items-center glass-justify-between glass-px-4 glass-py-3 glass-border-t glass-border-glass-border/10 glass-surface-subtle">
+            <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-px-4 glass-py-3 glass-border-t glass-border-glass-border/10 glass-surface-subtle">
               <div className="glass-flex glass-items-center glass-gap-2">
-                <span className="glass-text-sm glass-text-secondary">
-                  Showing {(currentPage - 1) * pageSize + 1} to{" "}
-                  {Math.min(currentPage * pageSize, (sortedData || []).length)}{" "}
+                <span
+                  className="glass-text-sm glass-text-secondary"
+                  role="status"
+                >
+                  Showing {(currentPage - 1) * activePageSize + 1} to{" "}
+                  {Math.min(
+                    currentPage * activePageSize,
+                    (sortedData || []).length
+                  )}{" "}
                   of {(sortedData || []).length} results
                 </span>
               </div>
 
-              <div className="glass-flex glass-items-center glass-gap-4">
+              <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4">
                 <div className="glass-flex glass-items-center glass-gap-2">
                   <ContrastGuard>
                     <span className="glass-text-sm glass-text-secondary">

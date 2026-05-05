@@ -4,16 +4,17 @@ exports[`GlassDrawer matches snapshot 1`] = `
 <div
   aria-label="Drawer"
   aria-modal="true"
-  class="fixed inset-0 z-50"
+  class="fixed inset-0"
   data-consciousness-active="false"
   data-consciousness-drawer="true"
   data-drawer-position="right"
   data-drawer-size="md"
   data-glass-component="true"
   role="dialog"
+  style="z-index: 50;"
 >
   <div
-    class="motion-primitive absolute inset-0 bg-black/20 cursor-pointer glass-backdrop-blur-md"
+    class="motion-primitive absolute inset-0 glass-surface-dark/50 cursor-pointer glass-backdrop-blur-md"
     data-consciousness-backdrop="true"
     data-drawer-backdrop-position="right"
   />
@@ -41,7 +42,6 @@ exports[`GlassDrawer matches snapshot 1`] = `
             data-consciousness-close="true"
             data-magnet="true"
             data-performance-mode="ultra"
-            id="glass-button-:r6:"
             style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
             type="button"
           >

@@ -3,9 +3,10 @@
 exports[`GlassDynamicAtmosphere matches snapshot 1`] = `
 <div
   class="glass-dynamic-atmosphere container"
-  style="position: absolute; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; top: 0px; left: 0px; right: 0px; bottom: 0px; --atmosphere-bg: radial-gradient(circle at 50% 50%, color-mix(in srgb, #6366F1 20%, transparent), transparent 70%);"
+  style="position: absolute; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; top: 0px; left: 0px; right: 0px; bottom: 0px; --atmosphere-bg: radial-gradient(circle at 50% 50%, var(--glass-color-primary), transparent 70%);"
 >
   <div
+    aria-hidden="true"
     class="effect typeSubtle reduceMotion"
     style="opacity: 0.6499999999999999;"
   />
