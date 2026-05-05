@@ -2,6 +2,12 @@ import type { Preview } from '@storybook/react';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
 import { AnimationProvider } from '../src/contexts/AnimationContext';
 import { CursorGlow } from '../src/components/interactive/CursorGlow';
+import { AccessibilityProvider } from '../src/components/accessibility/AccessibilityProvider';
+import { ContrastGuard } from '../src/components/accessibility/ContrastGuard';
+import {
+  GlassFocusIndicators,
+  SkipLinks,
+} from '../src/components/accessibility';
 import '../src/styles/index.css';
 import {
   DEFAULT_PERSONA_ID,
@@ -135,12 +141,22 @@ const preview: Preview = {
       const personaId = (context.globals.persona || DEFAULT_PERSONA_ID) as PersonaId;
 
       return (
-        <AnimationProvider>
-          <ThemeProvider
-            forceColorMode="dark"
-            initialPersona={personaId}
-            persona={personaId}
-          >
+        <AccessibilityProvider
+          initialSettings={{
+            focusIndicators: true,
+            keyboardNavigation: true,
+            screenReaderOptimized: true,
+            highContrast: true,
+            reducedMotion: true,
+          }}
+          storageKey="aura-glass-storybook-accessibility-settings"
+        >
+          <AnimationProvider>
+            <ThemeProvider
+              forceColorMode="dark"
+              initialPersona={personaId}
+              persona={personaId}
+            >
         <div
           style={{
             padding: '20px',
@@ -148,6 +164,8 @@ const preview: Preview = {
             position: 'relative'
           }}
         >
+          <SkipLinks />
+          <GlassFocusIndicators />
           {/* Global pointer-following glow overlay */}
           <CursorGlow size={360} intensity={0.6} opacity={0.16} color="#ffffff" />
           {/* Add some background elements to showcase glass effects */}
@@ -195,12 +213,23 @@ const preview: Preview = {
               pointerEvents: 'none'
             }}
           />
-          <div style={{ position: 'relative', zIndex: 1 }}>
+          <ContrastGuard
+            as="main"
+            id="main-content"
+            role="main"
+            tabIndex={-1}
+            aria-label={`AuraGlass ${context.title} story certification surface`}
+            className="glass-contrast-guard"
+            level="AA"
+            minContrast={4.5}
+            style={{ position: 'relative', zIndex: 1, display: 'block' }}
+          >
             <Story />
-          </div>
+          </ContrastGuard>
         </div>
-          </ThemeProvider>
-        </AnimationProvider>
+            </ThemeProvider>
+          </AnimationProvider>
+        </AccessibilityProvider>
       );
     },
   ],

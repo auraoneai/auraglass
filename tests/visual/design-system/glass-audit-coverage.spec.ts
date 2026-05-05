@@ -105,6 +105,18 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     const coveredUnitTests = inventory.components.filter((component) =>
       hasDirectMatch(unitTestNames, component.name)
     ).length;
+    const coveredContrastGuard = inventory.components.filter(
+      (component) => component.hasContrastGuard
+    ).length;
+    const coveredAria = inventory.components.filter(
+      (component) => component.hasARIA
+    ).length;
+    const coveredFocusManagement = inventory.components.filter(
+      (component) => component.hasFocusManagement
+    ).length;
+    const coveredReducedMotion = inventory.components.filter(
+      (component) => component.hasReducedMotion
+    ).length;
     const certificationReport = readJson<{
       inventoryCount: number;
       screenshotCount: number;
@@ -149,6 +161,34 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     expect(coveredUnitTests).toBe(
       glassmorphismAuditCoverage.summary.directUnitTestCoverage.covered
     );
+    expect(coveredContrastGuard).toBe(inventory.components.length);
+    expect(coveredAria).toBe(inventory.components.length);
+    expect(coveredFocusManagement).toBe(inventory.components.length);
+    expect(coveredReducedMotion).toBe(inventory.components.length);
+    expect(
+      Object.values(glassmorphismAuditCoverage.categoryCoverage).reduce(
+        (total, coverage) => total + coverage.contrastGuard,
+        0
+      )
+    ).toBe(coveredContrastGuard);
+    expect(
+      Object.values(glassmorphismAuditCoverage.categoryCoverage).reduce(
+        (total, coverage) => total + coverage.aria,
+        0
+      )
+    ).toBe(coveredAria);
+    expect(
+      Object.values(glassmorphismAuditCoverage.categoryCoverage).reduce(
+        (total, coverage) => total + coverage.focus,
+        0
+      )
+    ).toBe(coveredFocusManagement);
+    expect(
+      Object.values(glassmorphismAuditCoverage.categoryCoverage).reduce(
+        (total, coverage) => total + coverage.reducedMotion,
+        0
+      )
+    ).toBe(coveredReducedMotion);
     expect(certificationReport.inventoryCount).toBe(
       glassmorphismAuditCoverage.summary.storybookVisualCertificationCoverage
         .total
@@ -210,9 +250,13 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     }
   });
 
-  test("owned audit story and visual suite expose glass coverage gaps", () => {
+  test("owned audit story and visual suite expose glass coverage state", () => {
     const story = fs.readFileSync(
       path.join(repoRoot, "src/stories/GlassAuditCoverage.stories.tsx"),
+      "utf8"
+    );
+    const preview = fs.readFileSync(
+      path.join(repoRoot, ".storybook/preview.tsx"),
       "utf8"
     );
     const visualSpecs = walk(path.join(repoRoot, "tests/visual"), (filePath) =>
@@ -227,6 +271,16 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     expect(story).toContain("generatedCertificationStoryCoverage");
     expect(story).toContain("missingStoryExamples");
     expect(story).toContain("priorityGaps");
+    expect(story).toContain("ContrastGuard");
+    expect(story).toContain("ARIA");
+    expect(story).toContain("Focus");
+    expect(story).toContain("Reduced Motion");
+    expect(preview).toContain("AccessibilityProvider");
+    expect(preview).toContain("ContrastGuard");
+    expect(preview).toContain("GlassFocusIndicators");
+    expect(preview).toContain("SkipLinks");
+    expect(preview).toContain('role="main"');
+    expect(preview).toContain("aria-label");
     expect(visualSpecs.length).toBeGreaterThanOrEqual(
       glassmorphismAuditCoverage.summary.visualSpecs + 1
     );
@@ -245,7 +299,20 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     await expect(page.getByRole("table")).toBeVisible();
     await expect(page.getByText("Direct Stories")).toBeVisible();
     await expect(page.getByText("Storybook Certified")).toBeVisible();
+    const summaryMetrics = page.getByLabel("Glass audit summary metrics");
+    await expect(
+      summaryMetrics.getByText("ContrastGuard", { exact: true })
+    ).toBeVisible();
+    await expect(summaryMetrics.getByText("ARIA", { exact: true })).toBeVisible();
+    await expect(
+      summaryMetrics.getByText("Focus", { exact: true })
+    ).toBeVisible();
+    await expect(
+      summaryMetrics.getByText("Reduced Motion", { exact: true })
+    ).toBeVisible();
     await expect(page.getByText("712 screenshots inspected")).toBeVisible();
-    await expect(page.getByText("Critical")).toBeVisible();
+    await expect(
+      summaryMetrics.getByText("100.0% inventory coverage")
+    ).toHaveCount(4);
   });
 });

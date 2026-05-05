@@ -89,6 +89,20 @@ const listStyle: React.CSSProperties = {
   lineHeight: 1.55,
 };
 
+const inventoryCoverage = (
+  key: "contrastGuard" | "aria" | "focus" | "reducedMotion"
+) => {
+  const covered = Object.values(glassmorphismAuditCoverage.categoryCoverage)
+    .map((coverage) => coverage[key])
+    .reduce((total, value) => total + value, 0);
+  const total = glassmorphismAuditCoverage.summary.inventoryComponents;
+
+  return {
+    value: `${covered}/${total}`,
+    detail: `${percent(covered, total)} inventory coverage`,
+  };
+};
+
 const metricCards = [
   {
     label: "Inventory",
@@ -118,6 +132,22 @@ const metricCards = [
     label: "Direct Docs",
     value: `${glassmorphismAuditCoverage.summary.directDocsCoverage.covered}/${glassmorphismAuditCoverage.summary.directDocsCoverage.total}`,
     detail: `${glassmorphismAuditCoverage.summary.directDocsCoverage.percent}% coverage`,
+  },
+  {
+    label: "ContrastGuard",
+    ...inventoryCoverage("contrastGuard"),
+  },
+  {
+    label: "ARIA",
+    ...inventoryCoverage("aria"),
+  },
+  {
+    label: "Focus",
+    ...inventoryCoverage("focus"),
+  },
+  {
+    label: "Reduced Motion",
+    ...inventoryCoverage("reducedMotion"),
   },
   {
     label: "Visual Specs",
@@ -209,7 +239,8 @@ const GlassAuditCoverage: React.FC = () => (
         <article
           key={gap.area}
           style={createGlassStyle({
-            intent: gap.severity === "Critical" ? "danger" : "warning",
+            intent:
+              (gap.severity as string) === "Critical" ? "danger" : "warning",
             elevation: "level2",
           })}
         >

@@ -204,7 +204,19 @@ const main = () => {
   );
 
   console.log("\nPriority gaps");
-  console.log("- Critical: Expand ContrastGuard coverage across translucent components.");
+  if (contrastGuardCoverage < components.length) {
+    console.log(
+      "- Critical: Expand ContrastGuard coverage across translucent components."
+    );
+  }
+  if (ariaCoverage < components.length) {
+    console.log("- High: Expand ARIA coverage across interactive components.");
+  }
+  if (focusCoverage < components.length) {
+    console.log(
+      "- High: Expand focus-management coverage across keyboard-interactive components."
+    );
+  }
   if (missingStories.length > 0) {
     console.log(
       "- High: Backfill direct component-owned stories for components currently covered by the generated certification story."
@@ -212,6 +224,16 @@ const main = () => {
   }
   if (missingDocs.length > 0) {
     console.log("- High: Add direct docs for components missing normalized matches.");
+  }
+  if (
+    contrastGuardCoverage === components.length &&
+    ariaCoverage === components.length &&
+    focusCoverage === components.length &&
+    reducedMotionCoverage === components.length
+  ) {
+    console.log(
+      "- None: ContrastGuard, ARIA, focus-management, and reduced-motion inventory coverage are complete."
+    );
   }
   console.log(
     "- Medium: Keep family-level visual specs aligned with the complete Storybook visual certification report."
