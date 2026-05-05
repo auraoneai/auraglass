@@ -5,8 +5,8 @@
  *
  * This script keeps the package-level `npm run audit:components` command usable
  * by checking the canonical inventory against direct docs, story, and test
- * coverage. It intentionally reports gaps without failing by default because
- * the current inventory contains known coverage debt tracked in
+ * coverage. It intentionally reports coverage and remaining glass quality debt
+ * without failing by default because remediation work is tracked in
  * src/reports/glassmorphismAuditCoverage.ts.
  */
 
@@ -205,19 +205,31 @@ const main = () => {
 
   console.log("\nPriority gaps");
   console.log("- Critical: Expand ContrastGuard coverage across translucent components.");
-  console.log(
-    "- High: Backfill direct component-owned stories for components currently covered by the generated certification story."
-  );
-  console.log("- High: Add direct docs for components missing normalized matches.");
+  if (missingStories.length > 0) {
+    console.log(
+      "- High: Backfill direct component-owned stories for components currently covered by the generated certification story."
+    );
+  }
+  if (missingDocs.length > 0) {
+    console.log("- High: Add direct docs for components missing normalized matches.");
+  }
   console.log(
     "- Medium: Keep family-level visual specs aligned with the complete Storybook visual certification report."
   );
 
   console.log("\nMissing direct component-owned story examples");
-  missingStories.forEach((name) => console.log(`- ${name}`));
+  if (missingStories.length === 0) {
+    console.log("- None");
+  } else {
+    missingStories.forEach((name) => console.log(`- ${name}`));
+  }
 
   console.log("\nMissing direct docs examples");
-  missingDocs.forEach((name) => console.log(`- ${name}`));
+  if (missingDocs.length === 0) {
+    console.log("- None");
+  } else {
+    missingDocs.forEach((name) => console.log(`- ${name}`));
+  }
 
   console.log("\nReusable audit prompt");
   console.log("- docs/prompts/glassmorphism-component-audit-master-prompt.md");

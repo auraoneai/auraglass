@@ -188,7 +188,9 @@ test.describe("Storybook visual certification report guardrails", () => {
     expect(report.generatedCertificationStoryCoverage.total).toBe(
       componentsMissingDirectStories.length
     );
-    expect(report.generatedCertificationStoryCoverage.percent).toBe(100);
+    expect(report.generatedCertificationStoryCoverage.percent).toBe(
+      componentsMissingDirectStories.length === 0 ? 0 : 100
+    );
     expect(report.selectedGeneratedStoryCount).toBe(
       selectedGeneratedEntries.length
     );

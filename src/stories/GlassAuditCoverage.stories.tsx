@@ -7,7 +7,7 @@ import {
 } from "../reports/glassmorphismAuditCoverage";
 
 const percent = (covered: number, total: number) =>
-  `${((covered / total) * 100).toFixed(1)}%`;
+  total === 0 ? "0.0%" : `${((covered / total) * 100).toFixed(1)}%`;
 
 const pageStyle: React.CSSProperties = {
   minHeight: "100vh",
@@ -108,7 +108,11 @@ const metricCards = [
   {
     label: "Generated Story",
     value: `${glassmorphismAuditCoverage.summary.generatedCertificationStoryCoverage.covered}/${glassmorphismAuditCoverage.summary.generatedCertificationStoryCoverage.total}`,
-    detail: "direct-story gap certified",
+    detail:
+      glassmorphismAuditCoverage.summary.generatedCertificationStoryCoverage
+        .total === 0
+        ? "no direct-story gaps"
+        : "direct-story gap certified",
   },
   {
     label: "Direct Docs",
@@ -225,9 +229,13 @@ const GlassAuditCoverage: React.FC = () => (
           Missing direct story examples
         </h2>
         <ul style={listStyle}>
-          {glassmorphismAuditCoverage.missingStoryExamples.map((name) => (
-            <li key={name}>{name}</li>
-          ))}
+          {glassmorphismAuditCoverage.missingStoryExamples.length === 0 ? (
+            <li>None</li>
+          ) : (
+            glassmorphismAuditCoverage.missingStoryExamples.map((name) => (
+              <li key={name}>{name}</li>
+            ))
+          )}
         </ul>
       </article>
       <article
@@ -237,9 +245,13 @@ const GlassAuditCoverage: React.FC = () => (
           Missing direct docs examples
         </h2>
         <ul style={listStyle}>
-          {glassmorphismAuditCoverage.missingDocsExamples.map((name) => (
-            <li key={name}>{name}</li>
-          ))}
+          {glassmorphismAuditCoverage.missingDocsExamples.length === 0 ? (
+            <li>None</li>
+          ) : (
+            glassmorphismAuditCoverage.missingDocsExamples.map((name) => (
+              <li key={name}>{name}</li>
+            ))
+          )}
         </ul>
       </article>
     </section>

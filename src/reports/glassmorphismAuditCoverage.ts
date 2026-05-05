@@ -49,9 +49,9 @@ export const glassmorphismAuditCoverage = {
   summary: {
     inventoryComponents: 356,
     directStoryCoverage: {
-      covered: 278,
+      covered: 356,
       total: 356,
-      percent: 78.1,
+      percent: 100,
     },
     storybookVisualCertificationCoverage: {
       covered: 356,
@@ -66,15 +66,15 @@ export const glassmorphismAuditCoverage = {
         "reports/glassmorphism-storybook-visual-certification.md",
     } satisfies GlassAuditCertificationCoverage,
     generatedCertificationStoryCoverage: {
-      covered: 78,
-      total: 78,
-      percent: 100,
+      covered: 0,
+      total: 0,
+      percent: 0,
       storyPath: "src/stories/GlassMissingInventoryCertification.stories.tsx",
     } satisfies GlassAuditGeneratedStoryCoverage,
     directDocsCoverage: {
-      covered: 213,
+      covered: 356,
       total: 356,
-      percent: 59.8,
+      percent: 100,
     },
     directUnitTestCoverage: {
       covered: 356,
@@ -88,9 +88,9 @@ export const glassmorphismAuditCoverage = {
   categoryCoverage: {
     misc: {
       total: 195,
-      stories: 130,
+      stories: 195,
       tests: 195,
-      docs: 100,
+      docs: 195,
       contrastGuard: 1,
       aria: 45,
       focus: 33,
@@ -98,9 +98,9 @@ export const glassmorphismAuditCoverage = {
     },
     "data-display": {
       total: 46,
-      stories: 39,
+      stories: 46,
       tests: 46,
-      docs: 34,
+      docs: 46,
       contrastGuard: 0,
       aria: 21,
       focus: 8,
@@ -110,7 +110,7 @@ export const glassmorphismAuditCoverage = {
       total: 10,
       stories: 10,
       tests: 10,
-      docs: 7,
+      docs: 10,
       contrastGuard: 0,
       aria: 6,
       focus: 1,
@@ -118,9 +118,9 @@ export const glassmorphismAuditCoverage = {
     },
     form: {
       total: 36,
-      stories: 32,
+      stories: 36,
       tests: 36,
-      docs: 30,
+      docs: 36,
       contrastGuard: 0,
       aria: 19,
       focus: 12,
@@ -130,7 +130,7 @@ export const glassmorphismAuditCoverage = {
       total: 18,
       stories: 18,
       tests: 18,
-      docs: 7,
+      docs: 18,
       contrastGuard: 0,
       aria: 6,
       focus: 3,
@@ -138,9 +138,9 @@ export const glassmorphismAuditCoverage = {
     },
     layout: {
       total: 21,
-      stories: 19,
+      stories: 21,
       tests: 21,
-      docs: 13,
+      docs: 21,
       contrastGuard: 0,
       aria: 16,
       focus: 2,
@@ -150,7 +150,7 @@ export const glassmorphismAuditCoverage = {
       total: 7,
       stories: 7,
       tests: 7,
-      docs: 6,
+      docs: 7,
       contrastGuard: 0,
       aria: 6,
       focus: 4,
@@ -160,37 +160,15 @@ export const glassmorphismAuditCoverage = {
       total: 23,
       stories: 23,
       tests: 23,
-      docs: 16,
+      docs: 23,
       contrastGuard: 0,
       aria: 18,
       focus: 9,
       reducedMotion: 23,
     },
   } satisfies Record<string, GlassAuditCategoryCoverage>,
-  missingStoryExamples: [
-    "ContrastGuard",
-    "GlassAutoComposer",
-    "GlassLiquidTransition",
-    "GlassMetaEngine",
-    "AIGlassThemeProvider",
-    "GlassTransitions",
-    "GlowingCard",
-    "GlassChip",
-    "GlassKanbanBoard",
-    "GlassActionSheet",
-  ],
-  missingDocsExamples: [
-    "GlassErrorBoundary",
-    "AccessibilityProvider",
-    "ContrastGuard",
-    "EnhancedGlassButton",
-    "ModularGlassDataChart",
-    "GlassTypingIndicator",
-    "GlassPageBuilder",
-    "GlassAvatar",
-    "GlassChartWidget",
-    "GlassConnectionStatus",
-  ],
+  missingStoryExamples: [],
+  missingDocsExamples: [],
   priorityGaps: [
     {
       severity: "Critical",
@@ -199,22 +177,6 @@ export const glassmorphismAuditCoverage = {
         "Only 1 of 356 inventory components is marked with ContrastGuard coverage in the source inventory.",
       recommendation:
         "Prioritize docs, stories, and visual tests that prove readable text over translucent surfaces before expanding component implementations.",
-    },
-    {
-      severity: "High",
-      area: "Direct Storybook coverage",
-      finding:
-        "78 inventory components do not have a direct normalized component-owned story match, but all 78 are covered by the generated certification story and the full 356-component Storybook visual certification pass.",
-      recommendation:
-        "Backfill component-owned stories for the certified components without removing the generated certification story or lowering the 356/356 visual pass requirement.",
-    },
-    {
-      severity: "High",
-      area: "Direct component docs coverage",
-      finding:
-        "143 inventory components do not have a direct normalized docs match, including accessibility primitives and several chart internals.",
-      recommendation:
-        "Document glass contract, accessibility contract, fallback behavior, and visual-test expectations for each uncovered component family.",
     },
     {
       severity: "Medium",

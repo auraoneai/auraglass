@@ -81,7 +81,7 @@ import * as GlassConnectionStatusModule from '../components/status/GlassConnecti
 import * as GlassDepthLayerModule from '../components/surfaces/GlassDepthLayer';
 import * as GlassAdvancedDataVizModule from '../components/visualization/GlassAdvancedDataViz';
 
-const missingComponentNames = [
+export const missingComponentNames = [
   'ContrastGuard',
   'GlassAutoComposer',
   'GlassContextAware',
@@ -162,7 +162,7 @@ const missingComponentNames = [
   'GlassAdvancedDataViz',
 ] as const;
 
-type MissingComponentName = (typeof missingComponentNames)[number];
+export type MissingComponentName = (typeof missingComponentNames)[number];
 
 const meta: Meta = {
   title: 'Certification/Missing Inventory Components',
@@ -440,7 +440,10 @@ const wrapWithRequiredProviders = (
     return Provider ? <Provider>{children}</Provider> : children;
   }
 
-  if (name === 'GlassAdvancedAudioPlayer') {
+  if (
+    name === 'GlassAdvancedAudioPlayer' ||
+    name === 'GlassAdvancedVideoPlayer'
+  ) {
     const Provider = componentRegistry.GlassMediaProvider?.GlassMediaProvider;
     return Provider ? <Provider>{children}</Provider> : children;
   }
@@ -508,7 +511,7 @@ const buildProps = (name: MissingComponentName) => ({
   onSubmit: noop,
 });
 
-const CertificationCase = ({ name }: { name: MissingComponentName }) => {
+export const CertificationCase = ({ name }: { name: MissingComponentName }) => {
   const Component = findComponent(name);
 
   if (!Component) {
