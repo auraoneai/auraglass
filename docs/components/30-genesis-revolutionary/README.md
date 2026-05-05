@@ -299,7 +299,7 @@ src/components/[component]/
 
 ## License
 
-These revolutionary components are part of the AuraGlass ecosystem and are licensed under the MIT License. See the main [LICENSE](../../LICENSE) file for details.
+These revolutionary components are part of the AuraGlass ecosystem and are licensed under the MIT License. See the main [LICENSE](../../../LICENSE) file for details.
 
 ---
 

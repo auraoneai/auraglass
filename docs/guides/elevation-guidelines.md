@@ -201,8 +201,8 @@ If updating existing components:
 
 ## Related Resources
 
-- [Design Tokens](../src/styles/tokens.css)
-- [Glass Utilities](../src/styles/glass.css)
+- [Design Tokens](../../src/styles/tokens.css)
+- [Glass Utilities](../../src/styles/glass.css)
 - [Component Standards](../guides/component-standards.md)
 - [Design System Enforcement](./design-system-enforcement.md)
 - [Button Spacing Guide](./button-spacing.md)

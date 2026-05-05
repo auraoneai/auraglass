@@ -622,10 +622,10 @@ function LazyModal({ open, ...props }) {
 
 ## Related Components
 
-- [GlassDialog](./glass-dialog.md) - Simple dialog component
-- [GlassDrawer](./glass-drawer.md) - Slide-in panel component
-- [GlassPopover](./glass-popover.md) - Lightweight overlay
-- [GlassBottomSheet](./glass-bottom-sheet.md) - Mobile bottom panel
+- [GlassDialog](../07-modal/glass-dialog.md) - Simple dialog component
+- [GlassDrawer](../07-modal/glass-drawer.md) - Slide-in panel component
+- [GlassPopover](../07-modal/glass-popover.md) - Lightweight overlay
+- [GlassBottomSheet](../07-modal/glass-bottom-sheet.md) - Mobile bottom panel
 
 ## Troubleshooting
 

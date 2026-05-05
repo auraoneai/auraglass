@@ -461,10 +461,10 @@ useEffect(() => {
 
 ## Related Components
 
-- [GlassNavigation](./glass-navigation.md) - Full navigation system
-- [GlassSidebar](./glass-sidebar.md) - Side navigation panel
-- [GlassBreadcrumb](./glass-breadcrumb.md) - Breadcrumb navigation
-- [GlassTabBar](./glass-tab-bar.md) - Tab navigation
+- [GlassNavigation](../06-navigation/glass-navigation.md) - Full navigation system
+- [GlassSidebar](../06-navigation/glass-sidebar.md) - Side navigation panel
+- [GlassBreadcrumb](../06-navigation/glass-breadcrumb.md) - Breadcrumb navigation
+- [GlassTabBar](../06-navigation/glass-tab-bar.md) - Tab navigation
 
 ## Troubleshooting
 

@@ -10,7 +10,7 @@ This directory contains comprehensive visual regression tests for the AuraGlass 
 - **100% visual quality** - All components display properly with correct glass effects
 - **Zero breaking changes** - All fixes were backward compatible
 
-These tests ensure ongoing visual quality and prevent future regressions. See [GLASSMORPHISM_AUDIT_REPORT.md](../../GLASSMORPHISM_AUDIT_REPORT.md) for complete audit details.
+These tests ensure ongoing visual quality and prevent future regressions. See [GLASSMORPHISM_AUDIT_REPORT.md](../../reports/glass_compliance_summary.md) for complete audit details.
 
 ## Test Categories
 
@@ -146,4 +146,4 @@ If glassmorphism effects aren't visible:
 3. Validate test background setup
 4. Confirm glass properties are applied
 
-See [VISUAL_TESTING_GUIDE.md](../../docs/VISUAL_TESTING_GUIDE.md) for detailed documentation.
+See [VISUAL_TESTING_GUIDE.md](../../docs/guides/visual-testing.md) for detailed documentation.

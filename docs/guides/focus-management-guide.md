@@ -456,9 +456,9 @@ When implementing focus management:
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [Keyboard Accessibility](https://webaim.org/techniques/keyboard/)
 - [Focus Management](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/)
-- [AuraGlass Focus Utils](/src/utils/focus.ts)
-- [AuraGlass Focus Hook](/src/hooks/extended/useGlassFocus.ts)
+- [AuraGlass Focus Utils](../../src/utils/focus.ts)
+- [AuraGlass Focus Hook](../../src/hooks/extended/useGlassFocus.ts)
 
 ---
 
-**Questions?** Check the [Focus Management Report](/reports/FOCUS_MANAGEMENT_SUMMARY.md) for implementation details.
+**Questions?** Check the [Focus Management Report](../../reports/FOCUS_MANAGEMENT_SUMMARY.md) for implementation details.

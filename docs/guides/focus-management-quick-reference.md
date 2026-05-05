@@ -160,10 +160,10 @@ const handleClose = () => {
 
 ## 🔗 Quick Links
 
-- [Full Guide](/docs/FOCUS_MANAGEMENT_GUIDE.md)
-- [Implementation Report](/reports/FOCUS_MANAGEMENT_SUMMARY.md)
-- [Focus Utils](/src/utils/focus.ts)
-- [Focus Hook](/src/hooks/extended/useGlassFocus.ts)
+- [Full Guide](./focus-management-guide.md)
+- [Implementation Report](../../reports/FOCUS_MANAGEMENT_SUMMARY.md)
+- [Focus Utils](../../src/utils/focus.ts)
+- [Focus Hook](../../src/hooks/extended/useGlassFocus.ts)
 
 ---
 
@@ -177,4 +177,4 @@ const handleClose = () => {
 
 ---
 
-**Need help?** Check the [full guide](/docs/FOCUS_MANAGEMENT_GUIDE.md) or [implementation summary](/reports/FOCUS_MANAGEMENT_SUMMARY.md).
+**Need help?** Check the [full guide](./focus-management-guide.md) or [implementation summary](../../reports/FOCUS_MANAGEMENT_SUMMARY.md).

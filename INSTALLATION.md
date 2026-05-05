@@ -1,169 +1,171 @@
-# AuraGlass v2.1.0 - Installation Guide
+# AuraGlass Installation Guide
 
-## 📦 Installation
+This guide matches AuraGlass 2.16.4. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, and a separate 3D entrypoint from the package export map.
 
-AuraGlass v2.1.0 ships lean by depending on your host app for core React, animation, analytics, and 3D libraries. Make sure these peer dependencies are installed before importing any AuraGlass components.
-
-### Quick Start
-
-**Step 1:** Install peer dependencies
-
-```bash
-npm install react react-dom react-hook-form react-chartjs-2 framer-motion lucide-react three @react-three/fiber
-npm install @sentry/react          # optional unless monitoring is enabled
-npm install @radix-ui/react-dropdown-menu @radix-ui/react-select @radix-ui/react-label @radix-ui/react-slot
-```
-
-**Step 2:** Install AuraGlass
+## Install
 
 ```bash
 npm install aura-glass
 ```
 
-### Complete Installation (with optional dependencies)
+Install the peer dependencies used by the components you import:
 
 ```bash
-# Required peer dependencies
-npm install react react-dom react-hook-form react-chartjs-2 framer-motion lucide-react three @react-three/fiber
-npm install @radix-ui/react-dropdown-menu @radix-ui/react-select @radix-ui/react-label @radix-ui/react-slot
-
-# Optional: monitoring + 3D helpers
+npm install react react-dom framer-motion lucide-react react-hook-form react-chartjs-2 chart.js
+npm install @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-select @radix-ui/react-slot
+npm install three @react-three/fiber @react-three/drei
 npm install @sentry/react
-npm install @react-three/drei       # recommended if using AR/3D components
-
-# Install AuraGlass
-npm install aura-glass
 ```
 
----
+If you do not use 3D, Radix-powered controls, forms, charts, or monitoring, your app may not need every peer at runtime. Keep the packages installed in application templates that exercise the full design system.
 
-## 🎯 Peer Dependencies Explained
+## Peer Dependency Matrix
 
-AuraGlass requires these peer dependencies to be installed in your project:
+| Package | Supported range | Notes |
+|---------|-----------------|-------|
+| `@radix-ui/react-dropdown-menu` | `^2.0.0` | Required when using APIs that depend on this peer. |
+| `@radix-ui/react-label` | `^2.0.0` | Required when using APIs that depend on this peer. |
+| `@radix-ui/react-select` | `^2.0.0` | Required when using APIs that depend on this peer. |
+| `@radix-ui/react-slot` | `^1.0.0` | Required when using APIs that depend on this peer. |
+| `@react-three/drei` | `^9.4.0` | Required when using APIs that depend on this peer. |
+| `@react-three/fiber` | `^9.4.0` | Required when using APIs that depend on this peer. |
+| `@sentry/react` | `^7.100.0` | Required when using APIs that depend on this peer. |
+| `framer-motion` | `>=10.0.0` | Required when using APIs that depend on this peer. |
+| `lucide-react` | `^0.400.0` | Required when using APIs that depend on this peer. |
+| `react` | `>=18.0.0` | Required when using APIs that depend on this peer. |
+| `react-chartjs-2` | `^5.0.0` | Required when using APIs that depend on this peer. |
+| `react-dom` | `>=18.0.0` | Required when using APIs that depend on this peer. |
+| `react-hook-form` | `^7.0.0` | Required when using APIs that depend on this peer. |
+| `three` | `^0.170.0` | Required when using APIs that depend on this peer. |
 
-| Package | Version | Required | Purpose |
-|---------|---------|----------|---------|
-| `react` | >=18.0.0 | ✅ | Core framework |
-| `react-dom` | >=18.0.0 | ✅ | React rendering |
-| `three` | ^0.150.0 or ^0.160.0 | ✅ | 3D graphics + shader surfaces |
-| `@react-three/fiber` | ^8.15.0 | ✅ | React ↔ Three bridge used across AR/3D components |
-| `framer-motion` | >=10.0.0 | ✅ | Animation + physics orchestration |
-| `react-hook-form` | ^7.0.0 | ✅ | Form engines, AI builders, validation flows |
-| `react-chartjs-2` | ^5.0.0 | ✅ | Chart + data visualization wrappers |
-| `lucide-react` | ^0.400.0 | ✅ | Iconography + glyph system |
-| `@sentry/react` | ^7.100.0 | ✅* | Production monitoring & error streaming (omit if unused) |
-| Radix primitives (`@radix-ui/react-dropdown-menu`, `@radix-ui/react-select`, `@radix-ui/react-label`, `@radix-ui/react-slot`) | ^2.x / ^1.x | ⚠️ Optional | Required only if you use Radix-powered menus, selects, or slots |
-| `@react-three/drei` | ^9.40.0 | ⚠️ Optional | 3D helpers for advanced scenes (recommended) |
+## Basic Setup
 
-> `@sentry/react` is only required if you turn on AuraGlass production monitoring. Install the Radix packages when you consume Radix-powered components (menus, selects, slots) exported by the design system.
+Import the stylesheet once from your app shell or root layout:
 
----
-
-## 🔄 Upgrading from v1.x
-
-### Breaking Changes in v2.1.0
-
-**Three.js packages are now peer dependencies**
-
-**Before (v1.x):**
-```bash
-npm install aura-glass
-# Everything bundled - easy but bloated (847KB bundle)
+```tsx
+import 'aura-glass/styles';
 ```
 
-**After (v2.1.0):**
-```bash
-# Install peer dependencies first
-npm install react react-dom three @react-three/fiber framer-motion
-# Then install AuraGlass (now only ~150KB)
-npm install aura-glass
+Use components from the root entrypoint:
+
+```tsx
+import { GlassButton, GlassCard, OptimizedGlass } from 'aura-glass';
+import 'aura-glass/styles';
+
+export function Example() {
+  return (
+    <OptimizedGlass elevation="level2" className="glass-p-6">
+      <GlassCard>
+        <h2>Glass surface</h2>
+        <GlassButton variant="primary">Continue</GlassButton>
+      </GlassCard>
+    </OptimizedGlass>
+  );
+}
 ```
 
-### Migration Steps
+## Token And Tailwind Setup
 
-1. **Uninstall old version:**
-   ```bash
-   npm uninstall aura-glass
-   ```
+```ts
+import auraTokens, { personas } from 'aura-glass/tokens';
 
-2. **Install peer dependencies:**
-   ```bash
-   npm install react react-dom react-hook-form react-chartjs-2 framer-motion lucide-react three @react-three/fiber
-   npm install @radix-ui/react-dropdown-menu @radix-ui/react-select @radix-ui/react-label @radix-ui/react-slot
-   npm install @sentry/react          # optional unless you enable monitoring
-   npm install @react-three/drei      # optional but recommended for 3D helpers
-   ```
+console.log(auraTokens.version);
+console.log(personas[0].metadata.displayName);
+```
 
-3. **Install v2.1.0:**
-   ```bash
-   npm install aura-glass@latest
-   ```
+```ts
+import type { Config } from 'tailwindcss';
+import theme from 'aura-glass/tokens/tailwind';
 
-4. **No code changes needed!** Your existing AuraGlass components will work as-is.
+export default {
+  content: ['./src/**/*.{ts,tsx}'],
+  theme,
+} satisfies Config;
+```
 
-### Benefits of v2.1.0
-
-✅ **80% smaller bundle** (847KB → ~150KB)
-✅ **Faster installs** (3 minutes → 20 seconds)
-✅ **No peer dependency conflicts**
-✅ **User controls Three.js version**
-✅ **Better tree-shaking**
-
----
-
-## 🐛 Troubleshooting
-
-### Error: "Cannot find module 'three'"
-
-**Solution:** Install peer dependencies
+After editing `src/theme/designMatrix.ts`, regenerate persona CSS and verify it:
 
 ```bash
-npm install three @react-three/fiber framer-motion
+npm run glass:generate-persona-css
+npm run glass:validate-persona-css
 ```
 
-### Error: "ERESOLVE could not resolve"
+## SSR Setup
 
-**Solution:** You're likely trying to install v1.x. Upgrade to v2.1.0:
+Use SSR-safe helpers when code can run outside the browser:
+
+```tsx
+import { AuraGlassSSRProvider } from 'aura-glass/ssr';
+
+export function Root({ children }: { children: React.ReactNode }) {
+  return <AuraGlassSSRProvider>{children}</AuraGlassSSRProvider>;
+}
+```
+
+Environment helpers are available from `aura-glass/utils/env` for browser guards and deterministic hydration utilities.
+
+## 3D And AR Setup
+
+3D and AR components are isolated under `aura-glass/three` so regular component imports do not force Three or React Three Fiber code into non-3D bundles.
+
+```tsx
+import { GlassButton } from 'aura-glass';
+import { GlassShatterEffects } from 'aura-glass/three';
+
+export function Hero3D() {
+  return (
+    <GlassShatterEffects>
+      <GlassButton variant="primary">Launch</GlassButton>
+    </GlassShatterEffects>
+  );
+}
+```
+
+## Local Development
 
 ```bash
-npm install aura-glass@latest
+npm install
+npm run storybook
+npm run typecheck
+npm run lint:check
+npm run audit:components
 ```
 
-If you're on v2.1.0 and still see this error, try:
+## Verification Commands
+
+- `npm run audit:components`: validates component inventory, docs, stories, tests, accessibility metadata, and certification coverage.
+- `npm run typecheck`: validates TypeScript.
+- `npm run lint:check`: validates lint rules.
+- `npm run lint:tokens`: validates token constraints.
+- `npm run lint:styles`: validates style constraints.
+- `npm run build`: builds the package outputs.
+- `npm run build-storybook`: builds Storybook.
+
+## Troubleshooting
+
+### Cannot resolve `aura-glass/styles`
+
+Use a bundler that honors `package.json` exports. If your legacy toolchain cannot, import the built CSS file from `aura-glass/dist/styles/index.css` after building or installing a package artifact that includes `dist`.
+
+### Cannot resolve Three or React Three Fiber
+
+Install the 3D peers if your app imports from `aura-glass/three`:
 
 ```bash
-npm install --legacy-peer-deps
+npm install three @react-three/fiber @react-three/drei
 ```
 
-### TypeScript Errors
+### React hook or renderer errors in 3D scenes
 
-If you see TypeScript errors about Three.js types:
+Keep React, React DOM, Three, and React Three Fiber versions aligned with the peer matrix. Non-3D apps should import from `aura-glass` only.
 
-```bash
-npm install --save-dev @types/three
-```
+### Persona CSS is stale
 
----
+Run `npm run glass:generate-persona-css` and commit the generated CSS after persona token changes.
 
-## 📚 Next Steps
+## Documentation
 
-After installation:
-
-1. **Read the Quick Start:** See `README.md` for basic usage
-2. **Explore Components:** Check the component catalog
-3. **Review Examples:** See example implementations in `/examples`
-4. **Join Community:** Get help and share feedback
-
----
-
-## 🆘 Support
-
-**Still having issues?**
-
-- Check our [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)
-- Review the [Troubleshooting Guide](./docs/troubleshooting.md)
-
----
-
-**Version:** 2.1.0
-**Last Updated:** November 7, 2025
+- Start with `README.md` for package architecture and API entrypoints.
+- Use `docs/README.md` for the full documentation map.
+- Use `docs/components/README.md` for the organized component index.
+- Use `reports/README.md` for certification and audit evidence.

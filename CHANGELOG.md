@@ -5,6 +5,14 @@ All notable changes to AuraGlass will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.16.4] - 2026-05-05
+
+### Documentation
+- Reorganized flat component Markdown pages into numbered `docs/components` sections.
+- Rebuilt the root README as the current technical package guide with certification evidence, entrypoints, architecture, verification, and documentation maps.
+- Updated `docs/README.md`, `docs/components/README.md`, `INSTALLATION.md`, and `reports/README.md` to reflect the current 356-component inventory and certification state.
+- Added a reports index that links the inventory, Storybook visual certification artifacts, screenshots, and audit reports from one place.
+
 ## [2.16.2] - 2025-11-15
 
 ### ✨ Added

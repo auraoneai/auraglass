@@ -353,7 +353,7 @@ function CustomGlassComponent({ children, ...glassProps }: CustomGlassProps) {
 ## Related Documentation
 
 - [Liquid Glass System Overview](./liquid-glass-system.md)
-- [GPU Acceleration Guide](./liquid-glass-gpu.md)
+- [GPU Acceleration Guide](../components/27-revolutionary-enhancements/liquid-glass-gpu.md)
 - [Accessibility Guidelines](../guides/accessibility.md)
 - [Performance Best Practices](./performance-optimization.md)
 

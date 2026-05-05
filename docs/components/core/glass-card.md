@@ -745,10 +745,10 @@ function MediaCard({ media }: { media: MediaItem }) {
 
 ## Related Components
 
-- [GlassContainer](./glass-container.md) - Layout container
-- [DimensionalGlass](./dimensional-glass.md) - Advanced 3D effects
-- [GlassPanel](./glass-panel.md) - Simple panel component
-- [GlassBox](./glass-box.md) - Flexible box container
+- [GlassContainer](../05-layout/glass-container.md) - Layout container
+- [DimensionalGlass](../16-surfaces-backgrounds/dimensional-glass.md) - Advanced 3D effects
+- [GlassPanel](../17-utilities/glass-panel.md) - Simple panel component
+- [GlassBox](../05-layout/glass-box.md) - Flexible box container
 
 ## Troubleshooting
 

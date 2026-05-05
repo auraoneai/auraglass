@@ -705,10 +705,10 @@ function AnimatedButtonGroup() {
 
 ## Related Components
 
-- [GlassFab](./glass-fab.md) - Floating action button
-- [GlassMagneticButton](./glass-magnetic-button.md) - Magnetic interaction effects
-- [GlassToggle](./glass-toggle.md) - Toggle button component
-- [GlassInput](./glass-input.md) - Input components with glass styling
+- [GlassFab](../13-buttons/glass-fab.md) - Floating action button
+- [GlassMagneticButton](../13-buttons/glass-magnetic-button.md) - Magnetic interaction effects
+- [GlassToggle](../09-form/glass-toggle.md) - Toggle button component
+- [GlassInput](../09-form/glass-input.md) - Input components with glass styling
 
 ## Troubleshooting
 
