@@ -97,6 +97,7 @@ scripts/*
 !scripts/build-workers.js
 !scripts/generate-glass-css-simple.js
 !scripts/generate-persona-css-runner.js
+!scripts/generate-persona-css.ts
 !scripts/glass-visual-test-generator.js
 !scripts/verify-glass-pipeline.js
 !scripts/visual-test-runner.js
